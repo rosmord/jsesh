@@ -93,6 +93,8 @@ export class EditorSession {
   private _separator = " ";
   private _error: string | undefined;
   private _options: EditorOptions = {};
+  /// Global setting: true (the default) if the Right arrow moves forward in the text, false if it moves backward.
+  rightArrowIsForward = true;
   private readonly undoStack: Snapshot[] = [];
   private readonly redoStack: Snapshot[] = [];
   private readonly listeners = new Set<(change: EditorChange) => void>();
@@ -413,10 +415,15 @@ export class EditorSession {
   // ---- Moving
 
   /// Handles the arrows, Home and End. Returns false for other keys.
+  ///
+  /// The arrows are logical, not geometric: whatever the direction or the
+  /// orientation of the text, Right moves forward and Left backward (swapped if
+  /// `rightArrowIsForward` is false). Up and Down are meant to go to the
+  /// previous and next line or column; the port doesn't navigate by lines yet,
+  /// so they do nothing.
   moveKey(key: string, extend: boolean): boolean {
-    const rtl = this.isRightToLeft;
-    const horizontal = { ArrowRight: rtl ? -1 : 1, ArrowLeft: rtl ? 1 : -1 };
-    const steps: Record<string, number> = this.isVertical ? { ArrowDown: 1, ArrowUp: -1, ...horizontal } : horizontal;
+    const forward = this.rightArrowIsForward ? 1 : -1;
+    const steps: Record<string, number> = { ArrowRight: forward, ArrowLeft: -forward };
     let target: number;
     if (key in steps) target = this._caret + steps[key];
     else if (key === "Home") target = 0;

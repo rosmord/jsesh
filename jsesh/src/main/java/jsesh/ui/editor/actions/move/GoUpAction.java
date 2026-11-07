@@ -54,10 +54,7 @@ public class GoUpAction extends EditorAction {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (editor.getTextOrientationAtCaret().isHorizontal())
-			editor.getWorkflow().cursorUp();
-		else
-			editor.getWorkflow().cursorPrevious();
+		editor.getWorkflow().cursorUp();
 
 	}
 

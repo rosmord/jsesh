@@ -2083,3 +2083,9 @@ Start of the TypeScript port (`jsesh-js/`, npm workspaces, Vite + Vitest). Goal:
 - **Compatibility break (same day):** `A,B` are now percents of the rule width (`{l0,100}` across the text, `{l10,90}` with 10 % on each side), instead of tab units. Clamped to 0–100 and ordered (`HRule.startFraction()`/`endFraction()`, mirrored in JS), so old files still draw a line inside the text, but not at the same place.
 - In right-to-left text (document or zone), the percents start from the right edge: `{l0,50}` goes from the right edge to the middle (`DefaultElementDrawer.visitHRule`, `svg.ts`).
 - Not handled: a rule placed after other elements on the same line (it takes what is left of the text width); rules in columns (one quadrat).
+
+## Logical arrow keys (2026-11-07, branch `simple-arrow-keys`)
+
+- The arrows are no longer geometric. Right = forward in the text, Left = backward, Up/Down = previous/next line (or column), whatever the direction (LTR/RTL), the orientation and the zones around the cursor. `JMDCEditorWorkflow.cursorHorizontally` and `zoneBoundaryTarget` are gone; `GoLeft/GoRight/GoUp/GoDownAction`, `MoveByWordAction` and `ExpandSelectionAction` use `cursorNext/cursorPrevious/cursorUp/cursorDown`.
+- One *global* user setting, `jsesh.ui.editor.ArrowKeyPreferences` (java.util.prefs, read at each key press), swaps Left and Right (Right = backward) for users used to right-to-left writing. Panel: "Other preferences" (labels `otherPrefs.arrowKeys.*`).
+- JS port: `EditorSession.moveKey` follows the same rule (`rightArrowIsForward`, default true). Up/Down still do nothing there (no line navigation yet).

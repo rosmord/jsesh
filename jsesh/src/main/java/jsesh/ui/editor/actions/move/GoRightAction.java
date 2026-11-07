@@ -35,15 +35,13 @@ package jsesh.ui.editor.actions.move;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.ui.editor.ArrowKeyPreferences;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
-/**
- * TODO describe type
- * 
- * @author rosmord
- * 
- */
+/// Right arrow: moves the cursor forward in the text (logical move, see [ArrowKeyPreferences]).
+///
+/// @author rosmord
 @SuppressWarnings("serial")
 public class GoRightAction extends EditorAction {
 
@@ -58,12 +56,10 @@ public class GoRightAction extends EditorAction {
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (editor.getTextOrientationAtCaret().isHorizontal()) {
-			editor.getWorkflow().cursorHorizontally(true, editor.getTextDirection());
-		} else if (editor.getTextDirectionAtCaret().isLeftToRight()) {
-			editor.getWorkflow().cursorDown();
+		if (ArrowKeyPreferences.isForward(true)) {
+			editor.getWorkflow().cursorNext();
 		} else {
-			editor.getWorkflow().cursorUp();
+			editor.getWorkflow().cursorPrevious();
 		}
 	}
 

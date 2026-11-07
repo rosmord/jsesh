@@ -550,6 +550,10 @@ instance-per-caller objects.
 model, writer, layout and drawing (to SVG), with the Java names. See `jsesh-js/README.md`
 and `jsesh-js/documentation/`.
 
+### Logical arrows (forward / backward)
+
+The arrow keys are *logical*: Right moves **forward** in the text and Left **backward**, whatever the text direction or orientation; Up and Down go to the previous and next line (or column). A global user preference (`jsesh.ui.editor.ArrowKeyPreferences`) swaps Right and Left. Home and End are logical too (start and end of the line).
+
 ### Modules
 
 `jsesh` (the library), `jseshAppli` (the application, entry point `jsesh.jhotdraw.Main`),

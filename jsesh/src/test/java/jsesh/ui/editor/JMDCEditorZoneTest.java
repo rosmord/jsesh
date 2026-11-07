@@ -107,43 +107,32 @@ class JMDCEditorZoneTest {
         assertEquals(TextDirection.RIGHT_TO_LEFT, w.getTextDirectionAtCaret(lr));
     }
 
-    /// `A1-%zone[dir=rl](B1-B2)-A2`: zone content gaps `(1,0,0)` (right edge of the
-    /// zone) to `(1,0,2)` (left edge); `(1)` is before the zone, `(2)` after it.
+    /// Arrows are logical: forward/backward in the text order, whatever the
+    /// direction of the zones. `A1-%zone[dir=rl](B1-B2)-A2`: zone content gaps
+    /// `(1,0,0)` to `(1,0,2)`; `(1)` is before the zone, `(2)` after it.
     @Test
-    void arrowsFollowTheScreenAtTheBoundariesOfAZoneWithAnotherDirection() throws Exception {
-        TextDirection lr = TextDirection.LEFT_TO_RIGHT;
+    void forwardAndBackwardIgnoreTheDirectionOfZones() throws Exception {
         JMDCEditorWorkflow w = workflow("A1-%zone[dir=rl](B1-B2)-A2");
-        // Right edge of the zone: right leaves it, to its right.
-        w.setCursor(pos(1, 0, 0));
-        w.cursorHorizontally(true, lr);
-        assertEquals(pos(2), w.getCaret().getInsertExactPosition());
-        // Left edge of the zone: left leaves it, to its left.
-        w.setCursor(pos(1, 0, 2));
-        w.cursorHorizontally(false, lr);
-        assertEquals(pos(1), w.getCaret().getInsertExactPosition());
-        // From after the zone, left enters it by its right edge.
-        w.setCursor(pos(2));
-        w.cursorHorizontally(false, lr);
-        assertEquals(pos(1, 0, 0), w.getCaret().getInsertExactPosition());
-        // From before the zone, right enters it by its left edge.
         w.setCursor(pos(1));
-        w.cursorHorizontally(true, lr);
-        assertEquals(pos(1, 0, 2), w.getCaret().getInsertExactPosition());
-        // Inside, right goes towards the right, that is backwards in the zone.
-        w.setCursor(pos(1, 0, 2));
-        w.cursorHorizontally(true, lr);
+        w.cursorNext();
+        assertEquals(pos(1, 0, 0), w.getCaret().getInsertExactPosition());
+        w.cursorNext();
         assertEquals(pos(1, 0, 1), w.getCaret().getInsertExactPosition());
+        w.cursorNext();
+        w.cursorNext();
+        assertEquals(pos(2), w.getCaret().getInsertExactPosition());
+        w.cursorPrevious();
+        assertEquals(pos(1, 0, 2), w.getCaret().getInsertExactPosition());
     }
 
     @Test
-    void arrowsAreUnchangedAtTheBoundariesOfAZoneWithTheSameDirection() throws Exception {
-        TextDirection lr = TextDirection.LEFT_TO_RIGHT;
+    void forwardAndBackwardInAZoneWithTheSameDirection() throws Exception {
         JMDCEditorWorkflow w = workflow("A1-%zone(B1-B2)-A2");
         w.setCursor(pos(1));
-        w.cursorHorizontally(true, lr);
+        w.cursorNext();
         assertEquals(pos(1, 0, 0), w.getCaret().getInsertExactPosition());
         w.setCursor(pos(1, 0, 2));
-        w.cursorHorizontally(true, lr);
+        w.cursorNext();
         assertEquals(pos(2), w.getCaret().getInsertExactPosition());
     }
 

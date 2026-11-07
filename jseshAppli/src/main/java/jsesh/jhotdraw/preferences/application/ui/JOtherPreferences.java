@@ -35,6 +35,8 @@ package jsesh.jhotdraw.preferences.application.ui;
 
 import java.util.Locale;
 
+import jsesh.ui.editor.ArrowKeyPreferences;
+
 import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import net.miginfocom.swing.MigLayout;
@@ -68,6 +70,7 @@ public class JOtherPreferences {
     private JPanel panel;
     private JFormattedTextField iconHeight;
     private JComboBox<LocaleItem> localeSelector;
+    private JComboBox<String> arrowKeys;
 
 
     public JOtherPreferences() {
@@ -84,6 +87,11 @@ public class JOtherPreferences {
         for (Locale locale : AVAILABLE_LOCALES) {
             localeSelector.addItem(new LocaleItem(locale));
         }
+        // Index 0: right arrow is forward; index 1: right arrow is backward.
+        arrowKeys = new JComboBox<>(new String[]{
+            JSeshMessages.getString("otherPrefs.arrowKeys.rightIsForward"),
+            JSeshMessages.getString("otherPrefs.arrowKeys.rightIsBackward")
+        });
     }
 
     private void layout() {
@@ -97,6 +105,9 @@ public class JOtherPreferences {
         panel.add(localeSelector, "span, grow, wrap");
         JLabel localeComment= new JLabel(JSeshMessages.getString("otherPrefs.locale.comment"));
         panel.add(localeComment, "span, grow, wrap");
+        helper.addLabel("otherPrefs.arrowKeys.label");
+        panel.add(arrowKeys, "span, grow, wrap");
+        panel.add(new JLabel(JSeshMessages.getString("otherPrefs.arrowKeys.comment")), "span, grow, wrap");
     }
 
     public JPanel getPanel() {
@@ -108,6 +119,7 @@ public class JOtherPreferences {
         ApplicationUIPreferences prefs = ApplicationUIPreferences.getFromPreferences();
         iconHeight.setValue(prefs.getIconHeight());
         localeSelector.setSelectedItem(new LocaleItem(prefs.getLocale()));
+        arrowKeys.setSelectedIndex(ArrowKeyPreferences.isRightArrowForward() ? 0 : 1);
     }
 
     void savePreferences() {
@@ -116,6 +128,7 @@ public class JOtherPreferences {
         LocaleItem selected = (LocaleItem) localeSelector.getSelectedItem();
         prefs.setLocale(selected == null ? null : selected.getLocale());
         prefs.savetoPreferences();
+        ArrowKeyPreferences.setRightArrowForward(arrowKeys.getSelectedIndex() == 0);
     }
 
     /**

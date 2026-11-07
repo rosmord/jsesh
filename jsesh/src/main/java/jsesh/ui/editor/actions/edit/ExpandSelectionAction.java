@@ -35,61 +35,36 @@ package jsesh.ui.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.ui.editor.ArrowKeyPreferences;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
-/**
- * @author S. Rosmorduc
- *
- */
+/// Extends the selection (Shift + arrow key).
+///
+/// The move is logical, as for the plain arrows (see [ArrowKeyPreferences]):
+/// left and right go backward or forward in the text, up and down go to the
+/// previous or next line (or column).
+///
+/// @author S. Rosmorduc
 @SuppressWarnings("serial")
-public class ExpandSelectionAction extends EditorAction  {
+public class ExpandSelectionAction extends EditorAction {
 
-	private int dir;
-	/**
-	 * Action that expand the selection in the direction dir.
-	 * @param editor : the editor.
-	 * @param dir : -1 for left, 1 for right ; -2 for up and -1 for down.
-	 */
+	private final int dir;
+
+	/// @param editor the editor.
+	/// @param dir -1 for left, 1 for right, -2 for up, 2 for down.
 	public ExpandSelectionAction(JMDCEditor editor, int dir) {
 		super(editor);
-		this.dir= dir;
+		this.dir = dir;
 		if (dir != 1 && dir != -1 && dir != -2 && dir != 2)
 			throw new RuntimeException("incorrect dir");
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		int actualDir= 0;
-		// Transform "dir" into the correct value.
-		if (editor.getTextDirectionAtCaret().isLeftToRight()) {
-			if (editor.getTextOrientationAtCaret().isHorizontal()) {
-					// dir is already correct.
-				actualDir= dir;
-			} else {
-				switch (dir) {
-				case 1: actualDir= 2; break;
-				case -1: actualDir= -2; break;
-				case 2: actualDir= 1; break;
-				case -2: actualDir= -1; break;
-				}
-			}
-		} else {
-			if (editor.getTextOrientationAtCaret().isHorizontal()) {
-				if (dir == 1 || dir == -1)
-					actualDir= -dir;
-				else 
-					actualDir= dir;
-			} else {
-				switch (dir) {
-				case 1: actualDir= -2; break;
-				case -1: actualDir= 2; break;
-				case 2: actualDir= 1; break;
-				case -2: actualDir= -1; break;
-				}
-			}
+		int actualDir = dir;
+		if (dir == 1 || dir == -1) {
+			actualDir = ArrowKeyPreferences.isForward(dir == 1) ? 1 : -1;
 		}
 		editor.getWorkflow().expandSelection(actualDir);
 	}

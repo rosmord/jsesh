@@ -59,6 +59,30 @@ describe("EditorSession possibility lists", () => {
     expect(s.state.mdc).toBe("n-A1-d");
   });
 
+  it("moves the cursor logically, whatever the direction of the text", () => {
+    for (const options of [{}, { textDirection: "RIGHT_TO_LEFT" }, { textOrientation: "VERTICAL" }] as const) {
+      const s = session();
+      s.setOptions(options);
+      s.setMdc("n-p-d");
+      s.moveCaret(1);
+      s.handleKey({ key: "ArrowRight" });
+      expect(s.state.caret).toBe(2);
+      s.handleKey({ key: "ArrowLeft" });
+      expect(s.state.caret).toBe(1);
+    }
+  });
+
+  it("swaps the horizontal arrows if the right arrow is backward", () => {
+    const s = session();
+    s.setMdc("n-p-d");
+    s.rightArrowIsForward = false;
+    s.moveCaret(1);
+    s.handleKey({ key: "ArrowRight" });
+    expect(s.state.caret).toBe(0);
+    s.handleKey({ key: "ArrowLeft" });
+    expect(s.state.caret).toBe(1);
+  });
+
   it("stops cycling when something else happens", () => {
     const s = session();
     type(s, "i ");
@@ -157,15 +181,6 @@ describe("EditorSession editing", () => {
     expect(s.state).toMatchObject({ caret: 2, selection: 2, selectionStart: 0, selectionEnd: 2 });
     s.handleKey({ key: "Delete" });
     expect(s.state.mdc).toBe("c");
-  });
-
-  it("reverses the arrows in right-to-left text", () => {
-    const s = new EditorSession();
-    s.setOptions({ textDirection: "RIGHT_TO_LEFT" });
-    s.setMdc("a-b-c");
-    s.handleKey({ key: "Home" });
-    s.handleKey({ key: "ArrowLeft" });
-    expect(s.state.caret).toBe(1);
   });
 
   it("groups the selection, makes cartouches and toggles red", () => {
