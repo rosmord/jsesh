@@ -11,7 +11,9 @@ package jsesh.model;
 ///
 /// The rule is drawn from `A` % to `B` % of the width of the text (the width of
 /// its view, computed by `jsesh.render.layout.Layout`): `{l0,100}` goes across
-/// the text, `{l10,90}` leaves 10 % of the width on each side.
+/// the text, `{l10,90}` leaves 10 % of the width on each side. Positions are
+/// counted from the start of the text: from the right edge in right-to-left
+/// text (`{l0,50}` is then the right half).
 public class HRule extends TopItem {
 	/**
 	 * 

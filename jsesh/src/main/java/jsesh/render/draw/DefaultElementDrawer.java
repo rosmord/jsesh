@@ -370,9 +370,17 @@ public class DefaultElementDrawer extends ElementDrawer {
             g.setStroke(jseshStyle.geometry().fineStroke());
         }
         // The view has the width of the text (see Layout#visitHRule); the
-        // positions of the rule are percents of it.
+        // positions of the rule are percents of it, from the start of the
+        // text: the right edge in right-to-left text.
         float width = currentView.getWidth();
-        g.draw(new Line2D.Double(h.startFraction() * width, 0, h.endFraction() * width, 0));
+        double start = h.startFraction();
+        double end = h.endFraction();
+        if (currentTextDirection == TextDirection.RIGHT_TO_LEFT) {
+            double mirroredStart = 1 - end;
+            end = 1 - start;
+            start = mirroredStart;
+        }
+        g.draw(new Line2D.Double(start * width, 0, end * width, 0));
     }
 
     /*

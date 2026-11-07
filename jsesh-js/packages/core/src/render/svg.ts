@@ -389,9 +389,12 @@ class ElementDrawer extends ModelElementAdapter {
     if (!this.postfix) return;
     const g = this.d.s.geometry;
     // The view has the width of the text (see Layout.visitHRule); the positions of the rule are
-    // percents of it.
+    // percents of it, from the start of the text: the right edge in right-to-left text.
     const w = this.view.width;
-    const d = new PathBuilder().line(h.startFraction() * w, 0, h.endFraction() * w, 0);
+    const rtl = (this.view.direction ?? this.d.s.options.textDirection) === "RIGHT_TO_LEFT";
+    const start = rtl ? 1 - h.endFraction() : h.startFraction();
+    const end = rtl ? 1 - h.startFraction() : h.endFraction();
+    const d = new PathBuilder().line(start * w, 0, end * w, 0);
     this.out += strokedPath(d, this.color, h.type === "L" ? g.wideLineWidth : g.fineLineWidth);
   }
 
