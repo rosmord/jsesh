@@ -718,6 +718,13 @@ public class LineLayout extends TopItemLayout {
         public void visitPageBreak(PageBreak b) {
             resetKerning();
             double dh = zone.getHeight();
+            if (paginated()) {
+                // Pages are not drawn as marks: the (empty) view of the break
+                // is still placed at the end of its line, so that the cursor
+                // and the scrolling can locate it (else it stays at 0,0, and
+                // the editor jumps to the top of the document).
+                zone.add(subView);
+            }
             // flush the current line.
             flushZone();
             endLogicalLine(b.getAlignment());

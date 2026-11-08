@@ -569,7 +569,7 @@ public class DefaultElementDrawer extends ElementDrawer {
             return;
         }
         JSeshStyle jseshStyle = getJSeshStyle();
-        if (! jseshStyle.options().paged()) {
+        if (!jseshStyle.options().paged() && !jseshStyle.geometry().page().isPaginated()) {
             g.setStroke(jseshStyle.geometry().fineStroke());
             g.draw(new Line2D.Float(-10000f, 0, 10000f, 0));
         }

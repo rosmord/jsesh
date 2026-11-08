@@ -33,7 +33,7 @@ import { drawCartouche } from "./cartouches.js";
 import { HieroglyphDrawer, type SignShape } from "./glyphs.js";
 import { parsePath, pathBounds, rotation, transformPath } from "./path.js";
 import { zoneStyle } from "./layout.js";
-import { cssFont, fontForScript, percentUnit, philologyWidth, type FontDescription, type JSeshStyle } from "./style.js";
+import { cssFont, fontForScript, isPaginated, percentUnit, philologyWidth, type FontDescription, type JSeshStyle } from "./style.js";
 import { escapeXml, filledPath, num, PathBuilder, strokedPath } from "./svg-writer.js";
 import { drawSpecialSymbol } from "./symbols.js";
 import { displayString, type TextMeasurer } from "./text.js";
@@ -400,7 +400,7 @@ class ElementDrawer extends ModelElementAdapter {
 
   /// A page break which doesn't start a new page is a line across the page.
   override visitPageBreak(_b: PageBreak): void {
-    if (!this.postfix || this.d.s.options.paged) return;
+    if (!this.postfix || this.d.s.options.paged || isPaginated(this.d.s.geometry.page)) return;
     this.out += strokedPath(new PathBuilder().line(-10000, 0, 10000, 0), this.color, this.d.s.geometry.fineLineWidth);
   }
 

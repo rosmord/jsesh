@@ -2298,6 +2298,8 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.kerning.reset();
     const g = this.style.geometry;
     const dh = this.zone.height;
+    // Paginated: the (empty) view of the break is placed at the end of its line.
+    if (isPaginated(g.page)) this.zone.add(this.subView);
     this.flushZone();
     this.endLogicalLine(b.alignment);
     this.previousAlignment = b.alignment;
