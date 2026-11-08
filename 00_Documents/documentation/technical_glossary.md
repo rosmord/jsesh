@@ -336,9 +336,31 @@ settings are the `DocumentPreferences`.
 
 The options of a zone are of two sorts (`ZoneParameters`): the *layout settings*, shared
 with the document (see below), and the settings proper to a zone: `scale`, `width`,
-`height`, `tabgap`, `separator`, `frame`. Lengths are percents of the *unit* of the
+`height`, `tabgap`, `separator`, `frame`, `fill`. Lengths are percents of the *unit* of the
 document. With `scale=N`, the content is laid out at full size and its view is scaled by
 N % (signs, gaps, lines and all); the lengths of the zone are then in its own quadrats.
+
+### Fill zone
+
+A zone with `%zone[fill=yes]` (`ZoneParameters.fill`, `fills(parentHorizontal)`): it
+stretches to take the free space of its line **in its parent**. Named by role, like the
+gaps: the axis is the one of the parent's lines (width in a parent in lines, height in a
+parent in columns), not of the zone's own text. Rules in
+[manuel-de-codage.md](manuel-de-codage.md) §10.2.
+
+- **Natural length**: the length of the zone along that axis before stretching, frame
+  included (`MDCView.getNaturalLength()`, NaN for other views; `isFilling()`).
+- Layout (two passes): the zone is first laid out at its natural size. At the end of the
+  layout of its parent, before the line alignment, `FillLayout` (used by `LineLayout` and
+  `ColumnLayout`) shares the free length of each line between its fill zones; `Layout.fillZone`
+  (the `ZoneFiller`) then **rebuilds the content of the zone** from the model, with
+  `ViewBuilder`'s sub-view builder (`Layout.setSubViewBuilder`), as if the zone had that
+  length as `width` (`JSeshRenderContext.forZone(p, forcedWidth, forcedHeight)`).
+- When the text is laid out again from the same views (the editor, after an edit),
+  `FillLayout.prepare` places the zone at its natural length first, so that the wrapping of
+  the lines doesn't depend on the previous fill.
+- Not to be confused with *fitting* ([lone sign fitting](#lone-sign-fitting)), nor with
+  the `.f`/`.h`/`.v` fillers of MacScribe (todo 0160).
 
 ### Layout settings
 

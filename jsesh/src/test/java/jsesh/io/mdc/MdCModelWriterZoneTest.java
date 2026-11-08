@@ -77,6 +77,35 @@ public class MdCModelWriterZoneTest {
     }
 
     @Test
+    public void fillIsReadAsYesOrNo() throws MDCSyntaxError {
+        assertTrue(zoneAt("%zone[fill=yes](A1)").getParameters().fill());
+        assertTrue(zoneAt("%zone[fill](A1)").getParameters().fill());
+        assertFalse(zoneAt("%zone[fill=no](A1)").getParameters().fill());
+        assertFalse(zoneAt("%zone[fill=maybe](A1)").getParameters().fill());
+        assertFalse(zoneAt("%zone(A1)").getParameters().fill());
+    }
+
+    @Test
+    public void fillIsWrittenOnlyWhenSet() throws MDCSyntaxError {
+        assertTrue(write(parse("%zone[fill=yes](A1)")).contains("fill=yes"));
+        assertFalse(write(parse("%zone[fill=no](A1)")).contains("fill"));
+    }
+
+    @Test
+    public void fillIsIgnoredWithAFixedSizeAlongTheLinesOfTheParent() throws MDCSyntaxError {
+        ZoneParameters withWidth = zoneAt("%zone[fill=yes,width=300](A1)").getParameters();
+        assertFalse(withWidth.fills(true));
+        assertTrue(withWidth.fills(false));
+        ZoneParameters withHeight = zoneAt("%zone[fill=yes,height=300](A1)").getParameters();
+        assertTrue(withHeight.fills(true));
+        assertFalse(withHeight.fills(false));
+    }
+
+    private Zone zoneAt(String mdc) throws MDCSyntaxError {
+        return assertInstanceOf(Zone.class, parse(mdc).getTopItemAt(0));
+    }
+
+    @Test
     public void everySharedSettingIsRead() throws MDCSyntaxError {
         Zone zone = assertInstanceOf(Zone.class, parse(
                 "%zone[columngap=40,columnquadratgap=10,signheight=80,cartouchelinewidth=8,textbaseline=30,"
@@ -119,6 +148,8 @@ public class MdCModelWriterZoneTest {
             "%zone[linegap=0](A1)",
             "%zone[quadratgap=25](A1)",
             "%zone[frame](A1)",
+            "%zone[fill=yes](A1)",
+            "%zone[layout=columns,fill=yes,frame](A1)-!-A1-A2",
             "%zone[quadratheight=150](A1!A2)",
             "%zone[layout=columns,quadratwidth=60](A1-A2)",
             "%zone[layout=columns,fitsigns=no](n-A1)",

@@ -81,6 +81,12 @@ export function isLayoutSettingName(name: string): name is LayoutSettingName {
   return LAYOUT_SETTINGS.some((s) => s.name === name);
 }
 
+/// Reads a yes/no value, as the values of the `FLAG` settings; undefined if invalid
+/// (port of `LayoutSetting.parseFlag`).
+export function parseFlag(text: string): boolean | undefined {
+  return parseLayoutSetting("fitsigns", text) as boolean | undefined;
+}
+
 /// Reads a value, as written in zone options or in a header; undefined if invalid.
 export function parseLayoutSetting(name: LayoutSettingName, text: string): unknown {
   const t = text.trim().toLowerCase();

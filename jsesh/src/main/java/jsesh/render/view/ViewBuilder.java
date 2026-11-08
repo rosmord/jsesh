@@ -52,7 +52,20 @@ public class ViewBuilder {
      */
     public ViewBuilder() {
         this.currentView = null;
-        this.layout = new Layout();
+        setLayout(new Layout());
+    }
+
+    /// Builds the view of an element and of its descendants in the middle of
+    /// a layout, with the layout in its current state (see
+    /// [Layout#setSubViewBuilder(java.util.function.Function)]).
+    private MDCView buildSubView(ModelElement elt) {
+        MDCView saved = currentView;
+        ViewBuilderAux visitor = new ViewBuilderAux(0, 0);
+        visitor.topLevel = false;
+        elt.accept(visitor);
+        MDCView result = currentView;
+        currentView = saved;
+        return result;
     }
 
     public MDCView buildView(ModelElement elt, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
@@ -201,5 +214,6 @@ public class ViewBuilder {
      */
     public void setLayout(Layout layout) {
         this.layout = layout;
+        layout.setSubViewBuilder(this::buildSubView);
     }
 }

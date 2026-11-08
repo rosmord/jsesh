@@ -246,6 +246,13 @@ final class ParserCases {
         "%zone(A1-%tab-B1-?400-C1)",
         "%zone(%tab-B1-!A1-%tab-C1)",
         "%zone(A1-%tab-+lsome text+s-!G17-%tab-+lother+s)",
+        // Zones which fill their line (fill=yes).
+        "%zone[fill=yes,layout=columns,frame](A1-A1)-!-A1-A1-A1-A1-A1",
+        "%zone[width=1000](A1-%zone[fill=yes](A1)-A1-![align=justify]-%zone[fill=yes,frame](A1)-%zone[fill=yes](B1))",
+        "%zone[width=1000](%zone[fill=yes,frame,scale=50](A1-![align=end]-A1-A1)-!-%zone[fill](%zone[fill=yes,frame](A1)-!-{l0,100}))",
+        "%zone[width=1000,dir=rl](A1-%zone[fill=yes,frame](A1)-A1-!-%zone[fill=yes,width=200](A1)-!-A1-%tab-%zone[fill=yes](A1))",
+        "%zone[layout=columns,height=1000](%zone[fill=yes,frame](A1)-A1-!-%zone[fill=yes,height=200](A1))",
+        "%zone[layout=columns](A1-A1-A1-A1-A1-!-%zone[fill=yes,frame](A1-B1))",
         // Lone low broad signs enlarged (or not) to the column width.
         "%zone[layout=columns](n-A1-n:t)",
         "%zone[layout=columns,fitsigns=no](n-A1-n:t)",

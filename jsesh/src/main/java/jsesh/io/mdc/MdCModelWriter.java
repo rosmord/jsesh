@@ -653,6 +653,9 @@ public class MdCModelWriter {
 			if (p.frame()) {
 				options.add("frame");
 			}
+			if (p.fill()) {
+				options.add("fill=yes");
+			}
 			write("%zone");
 			if (!options.isEmpty()) {
 				write("[" + String.join(",", options) + "]");

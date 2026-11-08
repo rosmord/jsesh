@@ -442,8 +442,21 @@ A zone holds anything a text holds, including line breaks and other zones. Zones
 | `quadratheight` | length | maximum height of quadrats |
 | `fitsigns` | `yes` or `no` | enlarge a low broad sign alone on a line of a quadrat (as a lone `n` in a column) to the quadrat width |
 | `frame` | no value | draws a frame around the zone |
+| `fill` | `yes` or `no` | the zone stretches to fill the free space of its line in its parent (see below) |
 
 Lengths are integers, in percent of the height of a quadrat: `width=1200` is twelve quadrats wide. An unset option is inherited from the enclosing zone, or from the document preferences for an outermost zone. There are three exceptions: without `width` or `height` the zone takes its natural size, and without `separator` there is no rule. Unknown options are ignored and are not saved.
+
+**`fill=yes`.** The zone stretches along the lines of its parent: its width if the parent (zone or text) is in lines, its height if it is in columns. It takes the free space of its line: alone on its line, the whole length; after or before other items, what they leave; several `fill` zones on one line share the free space equally. The length of the line is the one of the parent if it has one (the page, the width of the editor when it wraps lines, a zone with a `width`, or a `height` for columns), else the length of the longest line (or column) of the parent, as for the [alignment of lines](#101-lines-and-pages).
+
+```
+%zone[fill=yes,layout=columns,frame](A1-A2)-!-A1-A1-A1-A1-A1
+```
+
+draws a framed column as wide as the line below it. The stretched zone is laid out as if it had this length as `width` (or `height`): its own lines are aligned in it, its rules span it, and the `fill` zones it contains fill it in turn. Its height (its width, in columns) doesn't change.
+
+- `fill` wins over the alignment of the line: the line is full, so `justify`, `center` and `end` have nothing left to share, and the gaps stay natural.
+- It is ignored when the zone has a fixed size along the lines of its parent (`width` in a parent in lines, `height` in a parent in columns), in a line with `%tab`, and in lines whose alignment is ignored (main text when the editor wraps lines to its window; zones keep their alignment, and columns too).
+- A bare `fill` is read as `fill=yes`; `fill=no` is the default and is not written.
 
 ## 11. Forms accepted without effect
 

@@ -115,6 +115,14 @@ public enum LayoutSetting {
         return kind.format(value);
     }
 
+    /// Reads a yes/no value, as the values of the [Kind#FLAG] settings.
+    ///
+    /// @param text the value (`yes`, `no`, `true`, `false`, `1`, `0`).
+    /// @return the value, or empty if the text is not a valid flag.
+    public static Optional<Boolean> parseFlag(String text) {
+        return Optional.ofNullable((Boolean) Kind.FLAG.parse(text));
+    }
+
     /// The setting with a given name.
     ///
     /// @param name the name, as in zone options.

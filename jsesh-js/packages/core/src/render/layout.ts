@@ -43,6 +43,7 @@ import {
   Zone,
   ZoneContent,
   ZONE_UNSET,
+  zoneFills,
   zoneScaleFactor,
   type ZoneParameters,
 } from "../model/model.js";
@@ -123,6 +124,16 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
       currentView = result;
     }
   })();
+  // Builds the view of a part of the model in the middle of a layout, with the layout in its
+  // current state (see `Layout.setSubViewBuilder`).
+  layout.setSubViewBuilder((e) => {
+    const saved = currentView;
+    topLevel = false;
+    e.accept(builder);
+    const result = currentView!;
+    currentView = saved;
+    return result;
+  });
   element.accept(builder);
   return currentView!;
 }
@@ -140,15 +151,21 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
 ///
 /// The `scale` of a zone is not part of this style: the content is laid out at full size, and
 /// its view is scaled afterwards. So the lengths of the zone are in its own quadrats.
-export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
+///
+/// A zone which fills its line (`fill=yes`) is laid out as if it had the length computed by its
+/// parent as `width` (or `height`): `forcedWidth` and `forcedHeight` are then the size of its
+/// content, in layout units (before its scale), or NaN to use the settings.
+export function zoneStyle(parent: JSeshStyle, p: ZoneParameters, forcedWidth = NaN, forcedHeight = NaN): JSeshStyle {
   const unit = zoneLengthUnit(parent);
   const orientation = p.settings.layout ?? parent.options.textOrientation;
+  const width = !Number.isNaN(forcedWidth) ? f(forcedWidth) : p.width !== ZONE_UNSET ? f(p.width * unit) : 0;
+  const height = !Number.isNaN(forcedHeight) ? f(forcedHeight) : p.height !== ZONE_UNSET ? f(p.height * unit) : 0;
   const geometry: Partial<JSeshStyle["geometry"]> = {
     leftMargin: 0,
     topMargin: 0,
     page: NO_PAGE,
-    wrapWidth: orientation === "HORIZONTAL" && p.width !== ZONE_UNSET ? f(p.width * unit) : 0,
-    columnHeight: orientation !== "HORIZONTAL" && p.height !== ZONE_UNSET ? f(p.height * unit) : 0,
+    wrapWidth: orientation === "HORIZONTAL" ? width : 0,
+    columnHeight: orientation !== "HORIZONTAL" ? height : 0,
   };
   const base = withStyle(parent, {
     options: {
@@ -172,6 +189,13 @@ export function zoneFramePadding(style: JSeshStyle): number {
   return f(style.geometry.cartoucheMargin + style.geometry.cartoucheLineWidth);
 }
 
+/// The length of the content of a zone, before its scale, when the zone has a given outer length
+/// (frame included). `parentStyle` is the style of the parent of the zone.
+function forcedInnerLength(p: ZoneParameters, outerLength: number, parentStyle: JSeshStyle): number {
+  const padding = p.frame ? zoneFramePadding(parentStyle) : 0;
+  return f(Math.max(0, f(outerLength - 2 * padding)) / zoneScaleFactor(p));
+}
+
 /// Port of `Layout`: computes the size of a view, and the position and scale
 /// of its subviews (which are already laid out).
 class Layout {
@@ -188,6 +212,12 @@ class Layout {
   private readonly hieroglyphsDrawer: HieroglyphDrawer;
   private readonly measurer: TextMeasurer;
   private readonly aux = new LayoutAux(this);
+  /// The lengths given by their parents to the zones which fill their line, while they are laid
+  /// out again (see [fillZone]): the outer length (frame included) along the lines of the parent.
+  private readonly forcedLengths = new Map<Zone, number>();
+  /// Builds the view of a model element and of its descendants with this layout, in its current
+  /// state (see [setSubViewBuilder]).
+  private subViewBuilder: ((element: ModelElement) => MDCView) | undefined;
 
   constructor(context: LayoutContext) {
     this.style = context.style;
@@ -205,6 +235,18 @@ class Layout {
     view.model.accept(this.aux);
   }
 
+  /// Gives the layout a way to build the view of a part of the model, in the middle of a layout.
+  /// It is needed by the zones which fill their line: their content is built again once their
+  /// parent knows their length. Without it, they keep their natural size.
+  setSubViewBuilder(builder: (element: ModelElement) => MDCView): void {
+    this.subViewBuilder = builder;
+  }
+
+  /// The outer length given to a zone by its parent, while it is laid out again to fill its line.
+  forcedLength(zone: Zone): number | undefined {
+    return this.forcedLengths.get(zone);
+  }
+
   /// Called before the subviews are built.
   preLayoutHook(view: MDCView): void {
     if (view.model instanceof Cartouche) this.centerSigns = true;
@@ -212,9 +254,46 @@ class Layout {
     else if (view.model instanceof ZoneContent && view.model.parent instanceof Zone) {
       // The content of a zone, and everything in it, is laid out with the
       // zone's own settings, until postLayoutHook.
+      const zone = view.model.parent;
       this.savedZoneStyles.push(this.style);
-      this.setStyle(zoneStyle(this.style, view.model.parent.parameters));
+      const forced = this.forcedLengths.get(zone);
+      if (forced === undefined) {
+        this.setStyle(zoneStyle(this.style, zone.parameters));
+      } else {
+        // A zone which fills its line is laid out as if it had this length as width (or height).
+        const inner = forcedInnerLength(zone.parameters, forced, this.style);
+        this.setStyle(
+          this.currentTextOrientation === "HORIZONTAL"
+            ? zoneStyle(this.style, zone.parameters, inner, NaN)
+            : zoneStyle(this.style, zone.parameters, NaN, inner),
+        );
+      }
     }
+  }
+
+  /// Lays out again a zone which fills its line, at the length given by its parent (port of
+  /// `Layout.fillZone`): the content of the zone is built again, as if the zone had this length
+  /// as `width` (or `height`, in a parent in columns). It is called by the layout of the parent,
+  /// once all its lines are placed; the state of the layout is then the one in which the zone was
+  /// built. If `length` is not larger than its natural length, the zone gets back its natural size.
+  fillZone(zoneView: MDCView, length: number): void {
+    const zone = zoneView.model;
+    if (this.subViewBuilder === undefined || !(zone instanceof Zone)) return;
+    const natural = zoneView.naturalLength;
+    const stretched = length > natural + FILL_EPSILON;
+    const savedView = this.currentView;
+    const savedCenterSigns = this.centerSigns;
+    this.centerSigns = this.style.options.smallSignCentered;
+    if (stretched) this.forcedLengths.set(zone, f(length));
+    try {
+      zoneView.replaceSubView(0, this.subViewBuilder(zone.content));
+      this.layout(zoneView);
+    } finally {
+      this.forcedLengths.delete(zone);
+      this.currentView = savedView;
+      this.centerSigns = savedCenterSigns;
+    }
+    zoneView.naturalLength = natural;
   }
 
   /// Called once the view is laid out.
@@ -847,6 +926,14 @@ class LayoutAux extends ModelElementAdapter {
     const padding = p.frame ? zoneFramePadding(style) : 0;
     let width = p.width !== ZONE_UNSET ? f(p.width * unit) : content.width;
     let height = p.height !== ZONE_UNSET ? f(p.height * unit) : content.height;
+    const horizontalParent = this.l.orientation === "HORIZONTAL";
+    const forced = this.l.forcedLength(zone);
+    if (forced !== undefined) {
+      // Stretched by its parent, to fill its line.
+      const inner = forcedInnerLength(p, forced, style);
+      if (horizontalParent) width = inner;
+      else height = inner;
+    }
     if (zone.content.numberOfChildren === 0) {
       // An empty zone stays visible, and can be clicked into.
       width = Math.max(width, style.geometry.maxCadratHeight);
@@ -866,6 +953,8 @@ class LayoutAux extends ModelElementAdapter {
     content.position = { x: padding, y: padding };
     v.width = f(width + 2 * padding);
     v.height = f(height + 2 * padding);
+    if (!zoneFills(p, horizontalParent)) v.naturalLength = NaN;
+    else if (forced === undefined) v.naturalLength = horizontalParent ? v.width : v.height;
     if (this.l.orientation === "HORIZONTAL") {
       v.deltaBaseX = 0;
       v.deltaBaseY = -padding;
@@ -899,6 +988,12 @@ class LayoutAux extends ModelElementAdapter {
     if (v.model instanceof ZoneContent && v.model.parent instanceof Zone && parentStyle !== undefined) {
       topItemLayout.enableTabs(this.tabGap(v.model.parent.parameters, parentStyle, style));
     }
+    // Lines are not stretched when their alignment is ignored; columns always keep their alignment.
+    const layout = this.l;
+    topItemLayout.enableFill(
+      (zv, length) => layout.fillZone(zv, length),
+      this.l.orientation !== "HORIZONTAL" || !style.options.ignoreLineAlignment,
+    );
     let runIndex = 0;
     topItemLayout.startLayout();
     let i = 0;
@@ -1615,12 +1710,110 @@ function moveUnitTo(unit: MDCView[], pos: number, vertical: boolean): void {
   }
 }
 
+/// Port of `ZoneFiller`: lays out again a zone which fills its line at the length its parent
+/// gives it (its outer length along the lines of the parent, frame included). A length which is
+/// not larger than its natural length gives it back its natural size.
+type ZoneFiller = (zoneView: MDCView, length: number) => void;
+
+/// Lengths closer than this (in layout units) are the same.
+const FILL_EPSILON = 1e-2;
+
+/// Port of `FillLayout`: stretches the zones which fill their line (`%zone[fill=yes]`) in the
+/// lines (or columns) of a text or a zone. Shared by [LineLayout] and [ColumnLayout].
+///
+/// 1. Before a view is placed, [prepare] gives a fill zone its natural length: a zone stretched
+///    by a previous layout of the same views must not change where the lines are wrapped.
+/// 2. At the end of the layout, before the alignment of the lines, [fillLine] shares the free
+///    length of a line equally between its fill zones, and moves the views which follow them.
+///    The line is then full, so its alignment has nothing left to do.
+/// 3. [finish] gives back their natural size to the zones which had been stretched by a previous
+///    layout, and were not stretched this time.
+///
+/// Along the lines of the parent: x for lines, y for columns.
+class FillLayout {
+  /// The zones placed at their natural length by [prepare], with the length at which their
+  /// content is laid out.
+  private readonly laidOutLengths = new Map<MDCView, number>();
+
+  constructor(
+    private readonly vertical: boolean,
+    private readonly filler: ZoneFiller,
+    /// Are the zones stretched? When the alignment of the lines is ignored, they are not, but the
+    /// zones stretched by a previous layout must still get their natural size back.
+    readonly stretches: boolean,
+  ) {}
+
+  /// Gives a fill zone its natural length before it is placed in its line.
+  prepare(view: MDCView): void {
+    if (!view.isFilling) return;
+    const current = this.length(view);
+    if (Math.abs(current - view.naturalLength) > FILL_EPSILON) {
+      this.laidOutLengths.set(view, current);
+      this.setLength(view, view.naturalLength);
+    }
+  }
+
+  /// Shares the free length of a placed line (`free`: the length of the parent's line minus the
+  /// visible length of this one) between its fill zones. Returns true if the line has changed.
+  fillLine(line: LineAccumulator, free: number): boolean {
+    const views = line.getViews();
+    const count = views.filter((v) => v.isFilling).length;
+    if (count === 0) return false;
+    const share = Math.max(0, free) / count;
+    let growth = 0;
+    let changed = false;
+    for (const view of views) {
+      if (growth !== 0) this.move(view, growth);
+      if (!view.isFilling) continue;
+      const natural = view.naturalLength;
+      const target = share > FILL_EPSILON ? natural + share : natural;
+      const laidOut = this.laidOutLengths.get(view);
+      this.laidOutLengths.delete(view);
+      if (laidOut !== undefined && Math.abs(laidOut - target) <= FILL_EPSILON) {
+        // Already laid out at this length.
+        this.setLength(view, laidOut);
+      } else if (laidOut !== undefined || target > natural) {
+        this.filler(view, target);
+      }
+      const viewGrowth = this.length(view) - natural;
+      changed ||= viewGrowth !== 0;
+      growth += viewGrowth;
+    }
+    return changed;
+  }
+
+  /// Gives back their natural size to the zones placed at their natural length by [prepare] and
+  /// not stretched since.
+  finish(): void {
+    for (const view of this.laidOutLengths.keys()) this.filler(view, view.naturalLength);
+    this.laidOutLengths.clear();
+  }
+
+  private length(v: MDCView): number {
+    return this.vertical ? v.height : v.width;
+  }
+
+  private setLength(v: MDCView, length: number): void {
+    if (this.vertical) v.height = length;
+    else v.width = length;
+  }
+
+  private move(v: MDCView, delta: number): void {
+    if (this.vertical) v.position.y += delta;
+    else v.position.x += delta;
+  }
+}
+
 /// Port of `TopItemLayout`: places the top items of the text.
 interface TopItemLayout {
   startLayout(): void;
   /// Lays out the dynamic tabs (`%tab`) of the text, with this minimal space between a tab cell
   /// and the next tab stop. They are only laid out in zones; elsewhere, they are ignored.
   enableTabs(gap: number): void;
+  /// Stretches the zones which fill their line (`%zone[fill=yes]`): `filler` lays out a zone again
+  /// at the length it is given; with `stretch` false, the zones keep their natural size (when the
+  /// alignment of the lines is ignored).
+  enableFill(filler: ZoneFiller, stretch: boolean): void;
   layoutElement(subView: MDCView): void;
   layoutTextRun(run: TextRun, views: MDCView[]): void;
   endLayout(): void;
@@ -1745,6 +1938,8 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   private wrappedLogicalLine = false;
   /// The lines whose cells were placed by [TabLayout]: [alignLines] leaves them alone.
   private readonly tabbedLines = new Set<LineAccumulator>();
+  /// The stretching of the zones which fill their line, if any (see [enableFill]).
+  private fillLayout: FillLayout | undefined;
 
   constructor(
     private readonly documentView: MDCView,
@@ -1764,8 +1959,13 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     return this.tabGap >= 0;
   }
 
+  enableFill(filler: ZoneFiller, stretch: boolean): void {
+    this.fillLayout = new FillLayout(false, filler, stretch);
+  }
+
   layoutElement(subView: MDCView): void {
     this.subView = subView;
+    this.fillLayout?.prepare(subView);
     subView.position = { x: 0, y: 0 };
     subView.model.accept(this);
   }
@@ -1850,6 +2050,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.endLogicalLine(this.previousAlignment);
     this.fitRules();
     this.layoutTabs();
+    this.fillZones();
     if (!this.style.options.ignoreLineAlignment) this.alignLines();
     if (isPaginated(g.page)) {
       // The view covers all the pages.
@@ -1931,6 +2132,37 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
       const bounds = l.line.visibleBounds(l.top, l.height);
       if (bounds) this.documentArea.add(bounds);
     }
+  }
+
+  /// Stretches the zones which fill their line (see [FillLayout]): each line is filled up to the
+  /// width of the parent if it has one (a page, or a zone with a width), else up to the width of
+  /// the longest line. The lines with tabs are left alone.
+  private fillZones(): void {
+    const fill = this.fillLayout;
+    if (fill === undefined) return;
+    if (fill.stretches) {
+      const g = this.style.geometry;
+      const margin = g.leftMargin;
+      let width = 0;
+      if (isWrapping(g)) {
+        width = this.maxLineWidth();
+      } else {
+        for (const l of this.alignedLines) {
+          const bounds = l.line.visibleBounds(0, 0);
+          if (bounds) width = Math.max(width, bounds.maxX - margin);
+        }
+      }
+      for (const l of this.alignedLines) {
+        if (this.tabbedLines.has(l.line)) continue;
+        const bounds = l.line.visibleBounds(0, 0);
+        const used = bounds ? bounds.maxX - margin : 0;
+        if (fill.fillLine(l.line, width - used)) {
+          const filled = l.line.visibleBounds(l.top, l.height);
+          if (filled) this.documentArea.add(filled);
+        }
+      }
+    }
+    fill.finish();
   }
 
   /// Places the lines according to their alignment, in the width of the parent if it has one (a
@@ -2153,6 +2385,8 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   private tabGap = -1;
   /// The columns whose cells were placed by [TabLayout]: [alignColumns] leaves them alone.
   private readonly tabbedColumns = new Set<LineAccumulator>();
+  /// The stretching of the zones which fill their column, if any (see [enableFill]).
+  private fillLayout: FillLayout | undefined;
 
   constructor(
     private readonly documentView: MDCView,
@@ -2173,8 +2407,13 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     return this.tabGap >= 0;
   }
 
+  enableFill(filler: ZoneFiller, stretch: boolean): void {
+    this.fillLayout = new FillLayout(true, filler, stretch);
+  }
+
   layoutElement(subView: MDCView): void {
     this.subView = subView;
+    this.fillLayout?.prepare(subView);
     subView.model.accept(this);
   }
 
@@ -2195,6 +2434,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   endLayout(): void {
     if (!this.zone.isEmpty()) this.flushZone(this.previousAlignment);
     this.layoutTabs();
+    this.fillZones();
     this.alignColumns();
     this.documentArea.addPoint(this.documentArea.maxX + this.style.geometry.leftMargin, this.documentArea.minY);
   }
@@ -2245,6 +2485,33 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
       const bounds = c.column.visibleVerticalBounds(c.left, c.width);
       if (bounds) this.documentArea.add(bounds);
     }
+  }
+
+  /// Stretches the zones which fill their column (see [FillLayout]): each column is filled down to
+  /// the height of the parent if it has one (a page with a height, or a zone with a height), else
+  /// down to the height of the longest column. The columns with tabs are left alone.
+  private fillZones(): void {
+    const fill = this.fillLayout;
+    if (fill === undefined) return;
+    if (fill.stretches) {
+      let height = maxColumnHeight(this.style.geometry);
+      if (height <= 0) {
+        for (const c of this.placedColumns) {
+          const bounds = c.column.visibleVerticalBounds(0, 0);
+          if (bounds) height = Math.max(height, bounds.maxY - c.top);
+        }
+      }
+      for (const c of this.placedColumns) {
+        if (this.tabbedColumns.has(c.column)) continue;
+        const bounds = c.column.visibleVerticalBounds(0, 0);
+        const used = bounds ? bounds.maxY - c.top : 0;
+        if (fill.fillLine(c.column, height - used)) {
+          const filled = c.column.visibleVerticalBounds(c.left, c.width);
+          if (filled) this.documentArea.add(filled);
+        }
+      }
+    }
+    fill.finish();
   }
 
   /// Places the columns according to their alignment, in the height of the parent if it has one

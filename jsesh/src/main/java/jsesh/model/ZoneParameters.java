@@ -22,7 +22,7 @@ import jsesh.model.constants.TextOrientation;
 ///   one is inherited from the enclosing zone (or, for the outermost zones,
 ///   from the document preferences);
 /// - the settings which only make sense for a zone: its scale, its size, its
-///   tab gap, its separators and its frame.
+///   tab gap, its separators, its frame, and whether it fills its line.
 ///
 /// Lengths are in **percent of the unit** of the document (the height of a
 /// quadrat), as the `dw`/`dh` of [Insert]: `width=1200` is twelve quadrats
@@ -44,8 +44,14 @@ import jsesh.model.constants.TextOrientation;
 ///        zone in lines) or the columns (for a zone in columns), or [#UNSET]
 ///        for no rule.
 /// @param frame should a frame be drawn around the zone?
+/// @param fill should the zone stretch to fill the free space of its line, in
+///        its parent (`fill=yes`)? Its length along the lines of the parent
+///        (its width if the parent is in lines, its height if it is in
+///        columns) is then computed by the parent, and the zone is laid out as
+///        if it had that `width` (or `height`). Ignored when the zone has a
+///        fixed size along that axis.
 public record ZoneParameters(TextLayoutSettings settings, int scale,
-        int width, int height, int tabGap, int separator, boolean frame)
+        int width, int height, int tabGap, int separator, boolean frame, boolean fill)
         implements Serializable {
 
     /// The value of an unset length.
@@ -53,7 +59,7 @@ public record ZoneParameters(TextLayoutSettings settings, int scale,
 
     /// Everything inherited, natural size, no frame.
     public static final ZoneParameters DEFAULT = new ZoneParameters(TextLayoutSettings.INHERIT_ALL,
-            UNSET, UNSET, UNSET, UNSET, UNSET, false);
+            UNSET, UNSET, UNSET, UNSET, UNSET, false, false);
 
     private static final Comparator<ZoneParameters> ORDER = Comparator
             .comparing(ZoneParameters::settings)
@@ -62,7 +68,8 @@ public record ZoneParameters(TextLayoutSettings settings, int scale,
             .thenComparingInt(ZoneParameters::height)
             .thenComparingInt(ZoneParameters::tabGap)
             .thenComparingInt(ZoneParameters::separator)
-            .thenComparing(ZoneParameters::frame);
+            .thenComparing(ZoneParameters::frame)
+            .thenComparing(ZoneParameters::fill);
 
     /// Normalises the lengths: a scale, a size or a separator of 0 or less, or
     /// a negative gap, is [#UNSET]; a scale of 100 is [#UNSET] too.
@@ -91,7 +98,7 @@ public record ZoneParameters(TextLayoutSettings settings, int scale,
     }
 
     public ZoneParameters withSettings(TextLayoutSettings settings) {
-        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame, fill);
     }
 
     /// @param setting a shared layout setting.
@@ -110,27 +117,40 @@ public record ZoneParameters(TextLayoutSettings settings, int scale,
     }
 
     public ZoneParameters withScale(int scale) {
-        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame, fill);
     }
 
     public ZoneParameters withWidth(int width) {
-        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame, fill);
     }
 
     public ZoneParameters withHeight(int height) {
-        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame, fill);
     }
 
     public ZoneParameters withTabGap(int tabGap) {
-        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame, fill);
     }
 
     public ZoneParameters withSeparator(int separator) {
-        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame, fill);
     }
 
     public ZoneParameters withFrame(boolean frame) {
-        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame, fill);
+    }
+
+    public ZoneParameters withFill(boolean fill) {
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame, fill);
+    }
+
+    /// Does the zone fill its line, in a parent of a given orientation? Only
+    /// if `fill` is set and the zone has no fixed size along the lines of its
+    /// parent.
+    ///
+    /// @param parentHorizontal is the parent of the zone (zone or text) in lines?
+    public boolean fills(boolean parentHorizontal) {
+        return fill && (parentHorizontal ? width : height) == UNSET;
     }
 
     /// An arbitrary but consistent order, for [ModelElement#compareTo].

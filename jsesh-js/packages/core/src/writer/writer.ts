@@ -293,6 +293,7 @@ class ModelWriter implements ModelElementVisitor<void> {
     ];
     for (const [name, value] of lengths) if (value !== ZONE_UNSET) options.push(name + "=" + value);
     if (p.frame) options.push("frame");
+    if (p.fill) options.push("fill=yes");
     this.write("%zone");
     if (options.length > 0) this.write("[" + options.join(",") + "]");
     this.write("(");

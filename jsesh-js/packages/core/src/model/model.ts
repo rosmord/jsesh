@@ -1607,6 +1607,9 @@ export interface ZoneParameters {
   /// The thickness of the rules between the lines (or columns), or unset for no rule.
   readonly separator: number;
   readonly frame: boolean;
+  /// Does the zone stretch to fill the free space of its line, in its parent
+  /// (`fill=yes`)? See [zoneFills].
+  readonly fill: boolean;
 }
 
 /// Builds zone parameters, normalising the lengths: a scale, a size or a
@@ -1622,7 +1625,16 @@ export function zoneParameters(p: Partial<ZoneParameters> = {}): ZoneParameters 
     tabGap: nonNegative(p.tabGap),
     separator: positive(p.separator),
     frame: p.frame ?? false,
+    fill: p.fill ?? false,
   };
+}
+
+/// Does the zone fill its line, in a parent of a given orientation? Only if
+/// `fill` is set and the zone has no fixed size along the lines of its parent
+/// (its width if the parent is in lines, its height if it is in columns)
+/// (port of `ZoneParameters.fills`).
+export function zoneFills(p: ZoneParameters, parentHorizontal: boolean): boolean {
+  return p.fill && (parentHorizontal ? p.width : p.height) === ZONE_UNSET;
 }
 
 /// The scale of the content of a zone, as a factor (1 for none).

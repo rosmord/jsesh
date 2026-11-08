@@ -2103,3 +2103,10 @@ Start of the TypeScript port (`jsesh-js/`, npm workspaces, Vite + Vitest). Goal:
 - Toolbar selectors moved to `jsesh.jhotdraw.documentview.ArrowKeyControls` (one line in `JSeshViewComponent`, nothing left in `JSeshViewCore`); shown only for `LOGICAL_SWITCHABLE`. Labels grouped in one commented block of `labels*.properties`.
 - JS port: `EditorSession.arrowPolicy` (`LogicalArrowKeyPolicy`, the default, or `VisualArrowKeyPolicy`, in `arrows.ts`) replaces `arrowDirection`/`arrowOrientation`. Arrow tests in `test/arrows.test.ts`.
 - `.gitattributes`: the journal is merged with `merge=union` (append-only file).
+
+## Zones which fill their line (2026-11-08, todo 0156)
+
+- `%zone[fill=yes]`: the zone takes the free space of its line in its parent, along the parent's lines (width in lines, height in columns: named by role, like the gaps). Several fill zones on a line share it equally (TeX `\hfill`, CSS `flex-grow`). `fill` wins over `justify`/`center`/`end` (the line is full). Ignored with a fixed `width` (`height` in columns), in tabbed lines, and when line alignment is ignored (editor *Wrap Lines*). Cartouches: not done (and todo 0165 for size groups).
+- Two passes. The bottom-up layout knows the free space only at the end of the parent's layout (`FillLayout`, called from `LineLayout`/`ColumnLayout.endLayout` after the tabs, before the alignment). The zone's content is then **rebuilt from the model** (`Layout.fillZone`, through a sub-view builder given by `ViewBuilder`) as if the zone had that length as `width`. Rebuilding rather than re-laying existing views: correct by construction (rules, alignment, last tab cell, nested fill zones), at the cost of building fill zones twice.
+- `MDCView.naturalLength` keeps the natural size, so that the editor's `reLayout` after an edit (`MDCViewUpdater`) places the zone at its natural size before filling it again (`FillLayout.prepare`/`finish`); otherwise a previous fill would change where lines wrap.
+- Zone dialog: *Fill the line* checkbox (`zone.fill`). Mirrored in `jsesh-js` (`FillLayout`, `Layout.fillZone`, `zoneStyle` with forced lengths), with fixtures in `ParserCases`.

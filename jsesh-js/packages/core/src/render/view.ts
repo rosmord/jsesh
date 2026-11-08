@@ -110,6 +110,10 @@ export class MDCView {
   /// in the layout system of this view: y for lines, x for columns. Only set
   /// on the content of a zone, which may draw them.
   separators: number[] = [];
+  /// For the view of a zone which fills its line (`%zone[fill=yes]`): its length along the lines
+  /// of its parent before it was stretched (its natural length, frame included). NaN for other
+  /// views. The layout of the parent places the zone at this length, then stretches it.
+  private _naturalLength = NaN;
   private _parent: MDCView | null = null;
   private _next: MDCView | null = null;
   private _previous: MDCView | null = null;
@@ -124,6 +128,19 @@ export class MDCView {
 
   get width(): number {
     return this._width;
+  }
+
+  get naturalLength(): number {
+    return this._naturalLength;
+  }
+
+  set naturalLength(l: number) {
+    this._naturalLength = Number.isNaN(l) ? NaN : f(l);
+  }
+
+  /// Is this the view of a zone which fills its line?
+  get isFilling(): boolean {
+    return !Number.isNaN(this._naturalLength);
   }
 
   set width(w: number) {

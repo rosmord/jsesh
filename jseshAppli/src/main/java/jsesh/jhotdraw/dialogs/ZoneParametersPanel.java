@@ -92,6 +92,7 @@ public class ZoneParametersPanel extends JPanel {
     private final OptionalLength tabGap = new OptionalLength(10, 0, 1);
     private final OptionalLength separator = new OptionalLength(5, 1, 1);
     private final JCheckBox frame = new JCheckBox();
+    private final JCheckBox fill = new JCheckBox();
 
     public ZoneParametersPanel(ZoneParameters parameters) {
         super(new MigLayout("insets 0"));
@@ -110,6 +111,7 @@ public class ZoneParametersPanel extends JPanel {
         addRow(zoneSection, "zone.tabGap", tabGap.panel());
         addRow(zoneSection, "zone.separator", separator.panel());
         addRow(zoneSection, "zone.frame", frame);
+        addRow(zoneSection, "zone.fill", fill);
 
         JPanel layoutSection = FormLayoutHelper.section(labels.getLabel("zone.section.layout"));
         for (LayoutSetting setting : LayoutSetting.values()) {
@@ -173,6 +175,7 @@ public class ZoneParametersPanel extends JPanel {
         tabGap.set(p.tabGap());
         separator.set(p.separator());
         frame.setSelected(p.frame());
+        fill.setSelected(p.fill());
     }
 
     /// @return the settings chosen by the user.
@@ -188,6 +191,6 @@ public class ZoneParametersPanel extends JPanel {
             settings = settings.withFlag(e.getKey(), (Boolean) e.getValue().getSelectedItem());
         }
         return new ZoneParameters(settings, scale.get(), width.get(), height.get(), tabGap.get(),
-                separator.get(), frame.isSelected());
+                separator.get(), frame.isSelected(), fill.isSelected());
     }
 }

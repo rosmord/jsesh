@@ -8,8 +8,11 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 import jsesh.render.style.CartoucheSizeHelper;
 import jsesh.render.style.GeometrySpecification;
@@ -148,6 +151,27 @@ public class Layout {
 			TextDirection direction) {
 	}
 
+	/// The lengths given by their parents to the zones which fill their line,
+	/// while they are laid out again (see [#fillZone(MDCView, double)]): the
+	/// outer length (frame included) along the lines of the parent.
+	private final Map<Zone, Float> forcedLengths = new IdentityHashMap<>();
+
+	/// Builds the view of a model element and of its descendants with this
+	/// layout, in its current state (see [#setSubViewBuilder(Function)]).
+	private Function<ModelElement, MDCView> subViewBuilder;
+
+	/// Gives the layout a way to build the view of a part of the model, in the
+	/// middle of a layout. It is needed by the zones which fill their line:
+	/// their content is built again once their parent knows their length.
+	/// Without it, they keep their natural size.
+	///
+	/// @param subViewBuilder builds the view of an element and of its
+	///        descendants, calling the hooks and [#layout(MDCView)] of this
+	///        layout (see `jsesh.render.view.ViewBuilder`).
+	public void setSubViewBuilder(Function<ModelElement, MDCView> subViewBuilder) {
+		this.subViewBuilder = subViewBuilder;
+	}
+
 	/**
 	 * compute the view size (width and height). If the view has subviews, layout
 	 * should compute their position in the parent view and scale them if required.
@@ -202,7 +226,17 @@ public class Layout {
 			// The content of a zone, and everything in it, is laid out with the
 			// zone's own settings, until postLayoutHook.
 			savedZoneStates.push(new SavedZoneState(renderContext, currentTextOrientation, currentTextDirection));
-			renderContext = zoneRenderContext(renderContext, zone.getParameters());
+			Float forced = forcedLengths.get(zone);
+			if (forced == null) {
+				renderContext = zoneRenderContext(renderContext, zone.getParameters());
+			} else {
+				// A zone which fills its line is laid out as if it had this
+				// length as width (or height).
+				float inner = forcedInnerLength(zone.getParameters(), forced, renderContext.jseshStyle());
+				renderContext = currentTextOrientation.isHorizontal()
+						? renderContext.forZone(zone.getParameters(), inner, Float.NaN)
+						: renderContext.forZone(zone.getParameters(), Float.NaN, inner);
+			}
 			currentTextOrientation = renderContext.jseshStyle().options().textOrientation();
 			currentTextDirection = renderContext.jseshStyle().options().textDirection();
 		}
@@ -236,6 +270,50 @@ public class Layout {
 	/// the document (the height of a quadrat).
 	public static float zoneLengthUnit(JSeshStyle style) {
 		return style.geometry().percentUnit();
+	}
+
+	/// The length of the content of a zone, before its scale, when the zone
+	/// has a given outer length.
+	///
+	/// @param p the settings of the zone.
+	/// @param outerLength the length of the zone, frame included.
+	/// @param parentStyle the style of the parent of the zone.
+	private static float forcedInnerLength(ZoneParameters p, float outerLength, JSeshStyle parentStyle) {
+		float padding = p.frame() ? zoneFramePadding(parentStyle) : 0f;
+		return Math.max(0f, outerLength - 2 * padding) / p.scaleFactor();
+	}
+
+	/// Lays out again a zone which fills its line, at the length given by its
+	/// parent (see [ZoneFiller]): the content of the zone is built again, as
+	/// if the zone had this length as `width` (or `height`, in a parent in
+	/// columns). It is called by the layout of the parent, once all its lines
+	/// are placed. The state of the layout is then the one of the parent,
+	/// which is the state in which the zone was built.
+	///
+	/// @param zoneView the view of the zone.
+	/// @param length its new length, frame included; if it is not larger than
+	///        its natural length, the zone gets back its natural size.
+	private void fillZone(MDCView zoneView, double length) {
+		if (subViewBuilder == null || !(zoneView.getModel() instanceof Zone zone)) {
+			return;
+		}
+		float natural = zoneView.getNaturalLength();
+		boolean stretched = length > natural + FillLayout.EPSILON;
+		MDCView savedView = currentView;
+		boolean savedCenterSigns = centerSigns;
+		centerSigns = renderContext.jseshStyle().options().smallSignCentered();
+		if (stretched) {
+			forcedLengths.put(zone, (float) length);
+		}
+		try {
+			zoneView.replaceSubView(0, subViewBuilder.apply(zone.getContent()));
+			layout(zoneView);
+		} finally {
+			forcedLengths.remove(zone);
+			currentView = savedView;
+			centerSigns = savedCenterSigns;
+		}
+		zoneView.setNaturalLength(natural);
 	}
 
 	/// The space between the frame of a zone and its content, frame included.
@@ -1040,6 +1118,17 @@ public class Layout {
 			float padding = p.frame() ? zoneFramePadding(jseshStyle) : 0f;
 			float width = p.width() != ZoneParameters.UNSET ? p.width() * unit : content.getWidth();
 			float height = p.height() != ZoneParameters.UNSET ? p.height() * unit : content.getHeight();
+			boolean horizontalParent = currentTextOrientation.isHorizontal();
+			Float forced = forcedLengths.get(zone);
+			if (forced != null) {
+				// Stretched by its parent, to fill its line.
+				float inner = forcedInnerLength(p, forced, jseshStyle);
+				if (horizontalParent) {
+					width = inner;
+				} else {
+					height = inner;
+				}
+			}
 			if (zone.getContent().getNumberOfChildren() == 0) {
 				// An empty zone stays visible, and can be clicked into.
 				width = Math.max(width, jseshStyle.geometry().maxCadratHeight());
@@ -1058,6 +1147,11 @@ public class Layout {
 			content.getPosition().setLocation(padding, padding);
 			currentView.setWidth(width + 2 * padding);
 			currentView.setHeight(height + 2 * padding);
+			if (!p.fills(horizontalParent)) {
+				currentView.setNaturalLength(Float.NaN);
+			} else if (forced == null) {
+				currentView.setNaturalLength(horizontalParent ? currentView.getWidth() : currentView.getHeight());
+			}
 			if (currentTextOrientation.isHorizontal()) {
 				currentView.setDeltaBaseX(0);
 				currentView.setDeltaBaseY(-padding);
@@ -1096,6 +1190,10 @@ public class Layout {
 				topItemLayout.enableTabs(tabGap(zone.getParameters(), savedZoneStates.peek().renderContext().jseshStyle(),
 						jseshStyle));
 			}
+			// Lines are not stretched when their alignment is ignored; columns
+			// always keep their alignment.
+			topItemLayout.enableFill(Layout.this::fillZone,
+					!currentTextOrientation.isHorizontal() || !jseshStyle.options().ignoreLineAlignment());
 			int runIndex = 0;
 			topItemLayout.startLayout();
 			// Ok. Currently, even for long texts, the

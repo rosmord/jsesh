@@ -393,16 +393,22 @@ class AstModelBuilder implements AstVisitor {
 
     /// Reads the shared layout settings (`layout`, `dir`, `linegap`,
     /// `fitsigns`..., see [LayoutSetting]) and the settings proper to zones:
-    /// `scale`, `width`, `height`, `tabgap`, `separator` and `frame`. Unknown
+    /// `scale`, `width`, `height`, `tabgap`, `separator`, `frame` and `fill`
+    /// (`yes`/`no`). Unknown
     /// options and values are ignored.
     private static ZoneParameters zoneParameters(AstOptionList options) {
         TextLayoutSettings settings = TextLayoutSettings.INHERIT_ALL;
+        boolean fill = false;
         for (AstOption option : options.options()) {
             String text = switch (option.value()) {
                 case AstOptionValue.Int i -> Integer.toString(i.value());
                 case AstOptionValue.Text t -> t.value();
                 case AstOptionValue.Flag f -> null;
             };
+            if (option.name().equals("fill")) {
+                // A bare `fill` is read as `fill=yes`.
+                fill = text == null || LayoutSetting.parseFlag(text).orElse(false);
+            }
             Optional<LayoutSetting> setting = LayoutSetting.byName(option.name());
             if (text != null && setting.isPresent()) {
                 Optional<Object> value = setting.get().parse(text);
@@ -417,7 +423,8 @@ class AstModelBuilder implements AstVisitor {
                 options.getInt("height", ZoneParameters.UNSET),
                 options.getInt("tabgap", ZoneParameters.UNSET),
                 options.getInt("separator", ZoneParameters.UNSET),
-                options.hasOption("frame"));
+                options.hasOption("frame"),
+                fill);
     }
 
     @Override

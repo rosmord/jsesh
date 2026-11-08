@@ -44,6 +44,29 @@ abstract public class TopItemLayout {
     protected double tabGap() {
         return tabGap;
     }
+
+    /// The stretching of the zones which fill their line, or null if there is
+    /// none (see [#enableFill]).
+    private FillLayout fillLayout;
+
+    /// Stretches the zones which fill their line (`%zone[fill=yes]`).
+    ///
+    /// @param filler lays out a zone again at the length it is given.
+    /// @param stretch false if the zones keep their natural size (when the
+    ///        alignment of the lines is ignored).
+    public void enableFill(ZoneFiller filler, boolean stretch) {
+        this.fillLayout = new FillLayout(isVertical(), filler, stretch);
+    }
+
+    /// @return the stretching of the fill zones, or null if there is none.
+    protected FillLayout fillLayout() {
+        return fillLayout;
+    }
+
+    /// @return true if the text is laid out in columns.
+    protected boolean isVertical() {
+        return false;
+    }
     //TopItemLayoutPosition state;
     
     /**

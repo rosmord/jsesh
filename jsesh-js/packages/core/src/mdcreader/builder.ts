@@ -20,7 +20,7 @@ import type {
   CartoucheType as AstCartoucheType,
 } from "../parser/ast.js";
 import { hasOption, optionInt, optionString } from "../parser/ast.js";
-import { isLayoutSettingName, parseLayoutSetting, type TextLayoutSettings } from "../model/layout-settings.js";
+import { isLayoutSettingName, parseFlag, parseLayoutSetting, type TextLayoutSettings } from "../model/layout-settings.js";
 import { parseMdcAst, type MdcParserOptions } from "../parser/parser.js";
 import type { PhilologyKind, SignSubType } from "../parser/symbols.js";
 import {
@@ -296,10 +296,16 @@ function lineAlignmentOf(options: AstOptionList): LineAlignment {
 
 /// Reads the shared layout settings (`layout`, `dir`, `linegap`, `fitsigns`...,
 /// see `layout-settings.ts`) and the settings proper to zones: `scale`, `width`,
-/// `height`, `tabgap`, `separator` and `frame`. Unknown options and values are ignored.
+/// `height`, `tabgap`, `separator`, `frame` and `fill` (`yes`/`no`). Unknown options and
+/// values are ignored.
 function zoneParametersOf(options: AstOptionList): ZoneParameters {
   const settings: Record<string, unknown> = {};
+  let fill = false;
   for (const option of options.options) {
+    if (option.name === "fill") {
+      // A bare `fill` is read as `fill=yes`.
+      fill = option.value.nodeType === "Flag" || (parseFlag(String(option.value.value)) ?? false);
+    }
     if (option.value.nodeType === "Flag" || !isLayoutSettingName(option.name)) continue;
     const value = parseLayoutSetting(option.name, String(option.value.value));
     if (value !== undefined) settings[option.name] = value;
@@ -313,6 +319,7 @@ function zoneParametersOf(options: AstOptionList): ZoneParameters {
     tabGap: length("tabgap"),
     separator: length("separator"),
     frame: hasOption(options, "frame"),
+    fill,
   });
 }
 

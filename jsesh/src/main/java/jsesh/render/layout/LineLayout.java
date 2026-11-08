@@ -164,6 +164,9 @@ public class LineLayout extends TopItemLayout {
     @Override
     public void layoutElement(MDCView subView) {
         this.subView = subView;
+        if (fillLayout() != null) {
+            fillLayout().prepare(subView);
+        }
         subView.getPosition().setLocation(0, 0);
         subView.getModel().accept(aux);
         this.subView = null;
@@ -273,6 +276,7 @@ public class LineLayout extends TopItemLayout {
         endLogicalLine(previousAlignment);
         fitRules();
         layoutTabs();
+        fillZones();
         if (!jseshStyle.options().ignoreLineAlignment()) {
             alignLines();
         }
@@ -418,6 +422,45 @@ public class LineLayout extends TopItemLayout {
                 }
             }
         }
+    }
+
+    /// Stretches the zones which fill their line (see [FillLayout]): each line
+    /// is filled up to the width of the parent if it has one (a page, or a
+    /// zone with a width), else up to the width of the longest line. The
+    /// lines with tabs are left alone.
+    private void fillZones() {
+        FillLayout fill = fillLayout();
+        if (fill == null) {
+            return;
+        }
+        if (fill.stretches()) {
+            double margin = jseshStyle.geometry().leftMargin();
+            double width = 0;
+            if (jseshStyle.geometry().isWrapping()) {
+                width = maxLineWidth();
+            } else {
+                for (PlacedLine l : alignedLines) {
+                    Rectangle2D bounds = l.line().visibleBounds(0, 0);
+                    if (bounds != null) {
+                        width = Math.max(width, bounds.getMaxX() - margin);
+                    }
+                }
+            }
+            for (PlacedLine l : alignedLines) {
+                if (tabbedLines.contains(l.line())) {
+                    continue;
+                }
+                Rectangle2D bounds = l.line().visibleBounds(0, 0);
+                double used = bounds == null ? 0 : bounds.getMaxX() - margin;
+                if (fill.fillLine(l.line(), width - used)) {
+                    Rectangle2D filled = l.line().visibleBounds(l.top(), l.height());
+                    if (filled != null) {
+                        documentArea.add(filled);
+                    }
+                }
+            }
+        }
+        fill.finish();
     }
 
     /// Places the lines according to their alignment, in the width of the

@@ -95,13 +95,29 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphShapeRepositor
     /// @param p the settings of the zone.
     /// @return the context for the content of the zone.
     public JSeshRenderContext forZone(ZoneParameters p) {
+        return forZone(p, Float.NaN, Float.NaN);
+    }
+
+    /// The context in which the content of a zone is laid out, when its size
+    /// is not (only) given by its settings: a zone which fills its line (see
+    /// [ZoneParameters#fill()]) is laid out as if it had the length computed by
+    /// its parent as `width` (or `height`).
+    ///
+    /// @param p the settings of the zone.
+    /// @param forcedWidth the width of the content of the zone, in layout units
+    ///        (before its `scale`), or NaN to use the `width` of the settings.
+    /// @param forcedHeight the same for the height.
+    /// @return the context for the content of the zone.
+    public JSeshRenderContext forZone(ZoneParameters p, float forcedWidth, float forcedHeight) {
         float unit = jseshStyle.geometry().percentUnit();
         TextOrientation orientation = p.orientation() != null ? p.orientation()
                 : jseshStyle.options().textOrientation();
-        float wrapWidth = orientation.isHorizontal() && p.width() != ZoneParameters.UNSET ? p.width() * unit : 0f;
-        float columnHeight = !orientation.isHorizontal() && p.height() != ZoneParameters.UNSET
-                ? p.height() * unit
-                : 0f;
+        float width = !Float.isNaN(forcedWidth) ? forcedWidth
+                : p.width() != ZoneParameters.UNSET ? p.width() * unit : 0f;
+        float height = !Float.isNaN(forcedHeight) ? forcedHeight
+                : p.height() != ZoneParameters.UNSET ? p.height() * unit : 0f;
+        float wrapWidth = orientation.isHorizontal() ? width : 0f;
+        float columnHeight = !orientation.isHorizontal() ? height : 0f;
         return copy().jseshStyle(s -> {
             s.options(o -> o.paged(false).ignoreLineAlignment(false))
                     .geometry(g -> {

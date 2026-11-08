@@ -152,6 +152,11 @@ public class MDCView implements ViewBox {
 	/// on the content of a zone, which may draw them.
 	private double[] separators = new double[0];
 
+	/// For the view of a zone which fills its line (`%zone[fill=yes]`): its
+	/// length along the lines of its parent before it was stretched (its
+	/// *natural length*, frame included). NaN for other views.
+	private float naturalLength = java.lang.Float.NaN;
+
 	// **************************************************************************************************
 	// BASIC METHODS
 
@@ -592,6 +597,27 @@ public class MDCView implements ViewBox {
 	/// the layout system of this view; empty if the view has fewer than two.
 	public double[] getSeparators() {
 		return separators.clone();
+	}
+
+	/// @return the natural length of a zone which fills its line, or NaN if this
+	///         view is not one (see [#setNaturalLength(float)]).
+	public float getNaturalLength() {
+		return naturalLength;
+	}
+
+	/// Marks the view of a zone which fills its line, and records its length
+	/// before it is stretched by the layout of its parent. The layout of the
+	/// parent places the zone at this length, then stretches it again, so that
+	/// laying out the text again (after an edit) gives the same result.
+	///
+	/// @param naturalLength the natural length, frame included, or NaN.
+	public void setNaturalLength(float naturalLength) {
+		this.naturalLength = naturalLength;
+	}
+
+	/// @return true if this is the view of a zone which fills its line.
+	public boolean isFilling() {
+		return !java.lang.Float.isNaN(naturalLength);
 	}
 
 	public void setSeparators(double[] separators) {

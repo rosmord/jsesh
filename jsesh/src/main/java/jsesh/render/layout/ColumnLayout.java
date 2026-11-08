@@ -117,6 +117,9 @@ public class ColumnLayout extends TopItemLayout {
 	@Override
 	public void layoutElement(MDCView subView) {
 		this.subView = subView;
+		if (fillLayout() != null) {
+			fillLayout().prepare(subView);
+		}
 		subView.getModel().accept(aux);
 		this.subView = null;
 	}
@@ -149,6 +152,7 @@ public class ColumnLayout extends TopItemLayout {
 			flushZone(previousAlignment);
 		}
 		layoutTabs();
+		fillZones();
 		alignColumns();
 		// add a margin
 		documentArea.add(new Point2D.Double(documentArea.getMaxX()
@@ -240,6 +244,47 @@ public class ColumnLayout extends TopItemLayout {
 				}
 			}
 		}
+	}
+
+	@Override
+	protected boolean isVertical() {
+		return true;
+	}
+
+	/// Stretches the zones which fill their column (see [FillLayout]): each
+	/// column is filled down to the height of the parent if it has one (a page
+	/// with a height, or a zone with a height), else down to the height of the
+	/// longest column. The columns with tabs are left alone.
+	private void fillZones() {
+		FillLayout fill = fillLayout();
+		if (fill == null) {
+			return;
+		}
+		if (fill.stretches()) {
+			double height = jseshStyle.geometry().maxColumnHeight();
+			if (height <= 0) {
+				for (PlacedColumn c : placedColumns) {
+					Rectangle2D bounds = c.column().visibleVerticalBounds(0, 0);
+					if (bounds != null) {
+						height = Math.max(height, bounds.getMaxY() - c.top());
+					}
+				}
+			}
+			for (PlacedColumn c : placedColumns) {
+				if (tabbedColumns.contains(c.column())) {
+					continue;
+				}
+				Rectangle2D bounds = c.column().visibleVerticalBounds(0, 0);
+				double used = bounds == null ? 0 : bounds.getMaxY() - c.top();
+				if (fill.fillLine(c.column(), height - used)) {
+					Rectangle2D filled = c.column().visibleVerticalBounds(c.left(), c.width());
+					if (filled != null) {
+						documentArea.add(filled);
+					}
+				}
+			}
+		}
+		fill.finish();
 	}
 
 	/// Places the columns according to their alignment, in the height of the
