@@ -19,8 +19,8 @@ import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.PageTextPosition;
 
-/// Reads and writes [DocumentPreferences] as the properties of a document
-/// header (`++JSesh_name value +s`), and of the user's default preferences.
+/// Reads and writes [DocumentPreferences] as the properties of a document header.
+/// They wil appear as comments at the start of the document (`++JSesh_name value +s`).
 ///
 /// ## The current format (`JSesh_Info 2.0`)
 ///

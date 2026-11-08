@@ -151,9 +151,9 @@ right-to-left text is drawn mirrored, so a *start* line is on the right there.
 
 ### Logical line
 
-The text between two [hard breaks](#hard-line-break). When it is [soft-wrapped](#soft-wrap),
-it is drawn as several lines, which all get its alignment, except for `JUSTIFY`: the last one
-is always placed at the start (the end of a paragraph).
+A logical line is the text between two [hard breaks](#hard-line-break). When it is [soft-wrapped](#soft-wrap), it works as a paragraph in most word processors, and is drawn as several lines, with the same alignment. If the alignment is  `JUSTIFY`: the last line drawn is START aligned in practice.
+  
+When the text is not soft-wrapped, a logical line works as a single line or column, depending on the text orientation.
 
 ### Justification
 

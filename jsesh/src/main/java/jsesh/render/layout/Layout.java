@@ -14,7 +14,6 @@ import java.util.Optional;
 import jsesh.render.style.CartoucheSizeHelper;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.render.style.PageSpecification;
 import jsesh.glyphs.shape.HorizontalGravity;
 import jsesh.glyphs.shape.LigatureZone;
 import jsesh.glyphs.shape.VerticalGravity;
