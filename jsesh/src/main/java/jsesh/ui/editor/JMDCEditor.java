@@ -233,6 +233,11 @@ public class JMDCEditor extends JPanel implements Scrollable {
      */
     private final JMDCModelEditionListener mdcModelEditionListener;
 
+    /// How this editor interprets the arrow keys. Not part of the document, and
+    /// never changed automatically.
+    private ArrowKeyMode arrowKeyMode = new ArrowKeyMode(
+            ArrowKeyPreferences.getDefaultDirection(), TextOrientation.HORIZONTAL);
+
     /**
      * Listener for changes in the style reference.
      */
@@ -745,6 +750,38 @@ public class JMDCEditor extends JPanel implements Scrollable {
     /// document's).
     public TextDirection getTextDirectionAtCaret() {
         return getWorkflow().getTextDirectionAtCaret(getTextDirection());
+    }
+
+    /// Name of the property fired when [#setArrowKeyMode(ArrowKeyMode)] changes the mode.
+    public static final String ARROW_KEY_MODE_PROPERTY = "arrowKeyMode";
+
+    /// @return how this editor interprets the arrow keys.
+    public ArrowKeyMode getArrowKeyMode() {
+        return arrowKeyMode;
+    }
+
+    /// Sets how this editor interprets the arrow keys. Fires
+    /// [#ARROW_KEY_MODE_PROPERTY] if the mode changes.
+    ///
+    /// @param mode the new mode.
+    public void setArrowKeyMode(ArrowKeyMode mode) {
+        ArrowKeyMode old = this.arrowKeyMode;
+        this.arrowKeyMode = java.util.Objects.requireNonNull(mode);
+        firePropertyChange(ARROW_KEY_MODE_PROPERTY, old, mode);
+    }
+
+    /// Moves the caret as the given arrow key requires in the current
+    /// [ArrowKeyMode].
+    ///
+    /// @param key the arrow key.
+    public void moveByArrowKey(ArrowKeyMode.Key key) {
+        ArrowKeyMode.Command command = arrowKeyMode.resolve(key);
+        switch (command) {
+            case NEXT -> getWorkflow().cursorNext();
+            case PREVIOUS -> getWorkflow().cursorPrevious();
+            case NEXT_LINE -> getWorkflow().cursorDown();
+            case PREVIOUS_LINE -> getWorkflow().cursorUp();
+        }
     }
 
     public void invalidateView() {

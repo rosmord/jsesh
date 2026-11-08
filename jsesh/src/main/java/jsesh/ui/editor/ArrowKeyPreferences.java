@@ -9,21 +9,20 @@ package jsesh.ui.editor;
 
 import java.util.prefs.Preferences;
 
+import jsesh.model.constants.TextDirection;
 import jsesh.utils.preferences.JSeshPreferencesRoot;
 
-/// Global user setting for the horizontal arrow keys.
+/// Global user setting for the arrow keys: the direction a new editor starts with.
 ///
-/// The arrow keys are *logical*, not geometric: they don't depend on the
-/// direction or the orientation of the text. Up and Down always go to the
-/// previous and next line (or column). Left and Right move backward or forward
-/// in the text; by default Right is forward, and users who are used to
-/// right-to-left writing systems may want Right to be backward.
-///
-/// The setting is global (stored in the user preferences), and is read each time
-/// a key is used, so a change takes effect immediately.
+/// The arrow keys are *logical*: they don't depend on the direction or the
+/// orientation of the text (see [ArrowKeyMode]). Each editor has its own mode,
+/// which the user changes from the toolbar. This preference only gives the
+/// direction (left-to-right by default) used when an editor is created.
 public final class ArrowKeyPreferences {
 
-    private static final String RIGHT_ARROW_IS_FORWARD = "arrowKeys.rightIsForward";
+    private static final String DEFAULT_DIRECTION = "arrowKeys.defaultDirection";
+    /// Key used before the direction was stored: false meant right-to-left.
+    private static final String LEGACY_RIGHT_IS_FORWARD = "arrowKeys.rightIsForward";
 
     private ArrowKeyPreferences() {
     }
@@ -32,22 +31,23 @@ public final class ArrowKeyPreferences {
         return JSeshPreferencesRoot.getPreferences();
     }
 
-    /// @return true (the default) if the Right key moves forward and the Left
-    /// key backward; false for the opposite.
-    public static boolean isRightArrowForward() {
-        return preferences().getBoolean(RIGHT_ARROW_IS_FORWARD, true);
+    /// @return the direction new editors start with (left-to-right by default).
+    public static TextDirection getDefaultDirection() {
+        Preferences prefs = preferences();
+        String stored = prefs.get(DEFAULT_DIRECTION, null);
+        if (stored != null) {
+            try {
+                return TextDirection.valueOf(stored);
+            } catch (IllegalArgumentException e) {
+                return TextDirection.LEFT_TO_RIGHT;
+            }
+        }
+        return prefs.getBoolean(LEGACY_RIGHT_IS_FORWARD, true)
+                ? TextDirection.LEFT_TO_RIGHT : TextDirection.RIGHT_TO_LEFT;
     }
 
-    /// @param rightArrowForward true if Right should move forward.
-    public static void setRightArrowForward(boolean rightArrowForward) {
-        preferences().putBoolean(RIGHT_ARROW_IS_FORWARD, rightArrowForward);
-    }
-
-    /// Converts a horizontal arrow key into a direction in the text.
-    ///
-    /// @param rightKey true for the Right key, false for the Left key.
-    /// @return true if the key moves forward in the text.
-    public static boolean isForward(boolean rightKey) {
-        return rightKey == isRightArrowForward();
+    /// @param direction the direction new editors should start with.
+    public static void setDefaultDirection(TextDirection direction) {
+        preferences().put(DEFAULT_DIRECTION, direction.name());
     }
 }

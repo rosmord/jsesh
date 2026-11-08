@@ -38,6 +38,7 @@ package jsesh.ui.editor.actions.move;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.ui.editor.ArrowKeyMode;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
@@ -54,7 +55,7 @@ public class GoUpAction extends EditorAction {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		editor.getWorkflow().cursorUp();
+		editor.moveByArrowKey(ArrowKeyMode.Key.UP);
 
 	}
 

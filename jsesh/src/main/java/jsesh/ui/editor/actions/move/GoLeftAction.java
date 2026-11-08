@@ -35,11 +35,11 @@ package jsesh.ui.editor.actions.move;
 
 import java.awt.event.ActionEvent;
 
-import jsesh.ui.editor.ArrowKeyPreferences;
+import jsesh.ui.editor.ArrowKeyMode;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
-/// Left arrow: moves the cursor backward in the text (logical move, see [ArrowKeyPreferences]).
+/// Left arrow: moves the cursor according to the arrow key mode of the editor (logical move, see [ArrowKeyMode]).
 ///
 /// @author rosmord
 @SuppressWarnings("serial")
@@ -56,11 +56,7 @@ public class GoLeftAction extends EditorAction {
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (ArrowKeyPreferences.isForward(false)) {
-			editor.getWorkflow().cursorNext();
-		} else {
-			editor.getWorkflow().cursorPrevious();
-		}
+		editor.moveByArrowKey(ArrowKeyMode.Key.LEFT);
 	}
 
 }

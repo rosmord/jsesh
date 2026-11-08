@@ -35,6 +35,7 @@ package jsesh.jhotdraw.preferences.application.ui;
 
 import java.util.Locale;
 
+import jsesh.model.constants.TextDirection;
 import jsesh.ui.editor.ArrowKeyPreferences;
 
 import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
@@ -119,7 +120,7 @@ public class JOtherPreferences {
         ApplicationUIPreferences prefs = ApplicationUIPreferences.getFromPreferences();
         iconHeight.setValue(prefs.getIconHeight());
         localeSelector.setSelectedItem(new LocaleItem(prefs.getLocale()));
-        arrowKeys.setSelectedIndex(ArrowKeyPreferences.isRightArrowForward() ? 0 : 1);
+        arrowKeys.setSelectedIndex(ArrowKeyPreferences.getDefaultDirection().isLeftToRight() ? 0 : 1);
     }
 
     void savePreferences() {
@@ -128,7 +129,8 @@ public class JOtherPreferences {
         LocaleItem selected = (LocaleItem) localeSelector.getSelectedItem();
         prefs.setLocale(selected == null ? null : selected.getLocale());
         prefs.savetoPreferences();
-        ArrowKeyPreferences.setRightArrowForward(arrowKeys.getSelectedIndex() == 0);
+        ArrowKeyPreferences.setDefaultDirection(arrowKeys.getSelectedIndex() == 0
+                ? TextDirection.LEFT_TO_RIGHT : TextDirection.RIGHT_TO_LEFT);
     }
 
     /**

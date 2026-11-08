@@ -93,8 +93,11 @@ export class EditorSession {
   private _separator = " ";
   private _error: string | undefined;
   private _options: EditorOptions = {};
-  /// Global setting: true (the default) if the Right arrow moves forward in the text, false if it moves backward.
-  rightArrowIsForward = true;
+  /// How the arrows read the text (like the Java `ArrowKeyMode`): the direction ("ltr", the default, or "rtl") tells which
+  /// horizontal arrow goes forward; the orientation ("horizontal", the default, for lines, or "vertical" for columns) tells
+  /// whether Left/Right (lines) or Up/Down (columns) move in the text. Never changed automatically.
+  arrowDirection: "ltr" | "rtl" = "ltr";
+  arrowOrientation: "horizontal" | "vertical" = "horizontal";
   private readonly undoStack: Snapshot[] = [];
   private readonly redoStack: Snapshot[] = [];
   private readonly listeners = new Set<(change: EditorChange) => void>();
@@ -416,16 +419,18 @@ export class EditorSession {
 
   /// Handles the arrows, Home and End. Returns false for other keys.
   ///
-  /// The arrows are logical, not geometric: whatever the direction or the
-  /// orientation of the text, Right moves forward and Left backward (swapped if
-  /// `rightArrowIsForward` is false). Up and Down are meant to go to the
-  /// previous and next line or column; the port doesn't navigate by lines yet,
-  /// so they do nothing.
+  /// The arrows are logical: they follow `arrowDirection` and `arrowOrientation`, not the text. In "horizontal" mode,
+  /// Right and Left move in the text (Right forward if the direction is "ltr"); in "vertical" mode, Down and Up do.
+  /// The other arrows change line or column; the port doesn't navigate by lines yet, so they do nothing.
   moveKey(key: string, extend: boolean): boolean {
-    const forward = this.rightArrowIsForward ? 1 : -1;
-    const steps: Record<string, number> = { ArrowRight: forward, ArrowLeft: -forward };
+    const forward = this.arrowDirection === "ltr" ? 1 : -1;
+    const steps: Record<string, number> =
+      this.arrowOrientation === "horizontal"
+        ? { ArrowRight: forward, ArrowLeft: -forward }
+        : { ArrowDown: 1, ArrowUp: -1 };
     let target: number;
     if (key in steps) target = this._caret + steps[key];
+    else if (key.startsWith("Arrow")) return false;
     else if (key === "Home") target = 0;
     else if (key === "End") target = this._text.topItems.length;
     else return false;

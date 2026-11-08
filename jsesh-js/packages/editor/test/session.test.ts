@@ -75,11 +75,24 @@ describe("EditorSession possibility lists", () => {
   it("swaps the horizontal arrows if the right arrow is backward", () => {
     const s = session();
     s.setMdc("n-p-d");
-    s.rightArrowIsForward = false;
+    s.arrowDirection = "rtl";
     s.moveCaret(1);
     s.handleKey({ key: "ArrowRight" });
     expect(s.state.caret).toBe(0);
     s.handleKey({ key: "ArrowLeft" });
+    expect(s.state.caret).toBe(1);
+  });
+
+  it("uses Up and Down inside a column in column mode", () => {
+    const s = session();
+    s.setMdc("n-p-d");
+    s.arrowOrientation = "vertical";
+    s.moveCaret(1);
+    s.handleKey({ key: "ArrowDown" });
+    expect(s.state.caret).toBe(2);
+    s.handleKey({ key: "ArrowUp" });
+    expect(s.state.caret).toBe(1);
+    s.handleKey({ key: "ArrowRight" });
     expect(s.state.caret).toBe(1);
   });
 

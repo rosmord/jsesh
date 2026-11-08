@@ -2089,3 +2089,9 @@ Start of the TypeScript port (`jsesh-js/`, npm workspaces, Vite + Vitest). Goal:
 - The arrows are no longer geometric. Right = forward in the text, Left = backward, Up/Down = previous/next line (or column), whatever the direction (LTR/RTL), the orientation and the zones around the cursor. `JMDCEditorWorkflow.cursorHorizontally` and `zoneBoundaryTarget` are gone; `GoLeft/GoRight/GoUp/GoDownAction`, `MoveByWordAction` and `ExpandSelectionAction` use `cursorNext/cursorPrevious/cursorUp/cursorDown`.
 - One *global* user setting, `jsesh.ui.editor.ArrowKeyPreferences` (java.util.prefs, read at each key press), swaps Left and Right (Right = backward) for users used to right-to-left writing. Panel: "Other preferences" (labels `otherPrefs.arrowKeys.*`).
 - JS port: `EditorSession.moveKey` follows the same rule (`rightArrowIsForward`, default true). Up/Down still do nothing there (no line navigation yet).
+
+### Arrow key mode chosen in the toolbar (same day)
+
+- The global swap was too coarse: logical arrows are good at text boundaries but awkward inside R2L or columnar text. Each editor now has an `ArrowKeyMode` (direction LTR/RTL x orientation lines/columns, default LTR + lines), set by two combo boxes in the document toolbar (`JSeshViewComponent`, wired in `JSeshViewCore.changeArrowKeyMode`). It never follows the text automatically. `JMDCEditor.moveByArrowKey` applies it; `ExpandSelectionAction` and `MoveByWordAction` use it too (word moves: direction only).
+- `ArrowKeyPreferences` now only stores the default direction for new windows (key `arrowKeys.defaultDirection`; the former `arrowKeys.rightIsForward` is still read if the new key is absent).
+- JS port: `EditorSession.arrowDirection` / `arrowOrientation` replace `rightArrowIsForward`; the Vue toolbar has no selector yet, and changing line/column with the arrows is still unsupported.

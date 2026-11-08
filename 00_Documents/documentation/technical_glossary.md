@@ -552,7 +552,7 @@ and `jsesh-js/documentation/`.
 
 ### Logical arrows (forward / backward)
 
-The arrow keys are *logical*: Right moves **forward** in the text and Left **backward**, whatever the text direction or orientation; Up and Down go to the previous and next line (or column). A global user preference (`jsesh.ui.editor.ArrowKeyPreferences`) swaps Right and Left. Home and End are logical too (start and end of the line).
+The arrow keys are *logical*: they never depend on the text under the cursor. Each editor has an **arrow key mode** (`jsesh.ui.editor.ArrowKeyMode`: a *direction*, LTR or RTL, and an *orientation*, lines or columns), chosen by the user in the toolbar and never changed automatically. LTR + lines (the default): Right = forward, Left = backward, Down/Up = next/previous line. RTL swaps Left and Right. In columns mode, Down/Up move forward/backward in the column and Right/Left change column (side given by the direction). Word moves (Ctrl/Alt + Left/Right) follow the direction only. A global preference (`jsesh.ui.editor.ArrowKeyPreferences`) gives the direction new windows start with. Home and End are logical too (start and end of the line).
 
 ### Modules
 

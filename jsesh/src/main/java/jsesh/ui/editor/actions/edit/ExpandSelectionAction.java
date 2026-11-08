@@ -35,15 +35,14 @@ package jsesh.ui.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 
-import jsesh.ui.editor.ArrowKeyPreferences;
+import jsesh.ui.editor.ArrowKeyMode;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
 /// Extends the selection (Shift + arrow key).
 ///
-/// The move is logical, as for the plain arrows (see [ArrowKeyPreferences]):
-/// left and right go backward or forward in the text, up and down go to the
-/// previous or next line (or column).
+/// The move is logical, as for the plain arrows: the key is interpreted
+/// according to the arrow key mode of the editor (see [ArrowKeyMode]).
 ///
 /// @author S. Rosmorduc
 @SuppressWarnings("serial")
@@ -62,10 +61,12 @@ public class ExpandSelectionAction extends EditorAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int actualDir = dir;
-		if (dir == 1 || dir == -1) {
-			actualDir = ArrowKeyPreferences.isForward(dir == 1) ? 1 : -1;
-		}
-		editor.getWorkflow().expandSelection(actualDir);
+		ArrowKeyMode.Key key = switch (dir) {
+			case -1 -> ArrowKeyMode.Key.LEFT;
+			case 1 -> ArrowKeyMode.Key.RIGHT;
+			case -2 -> ArrowKeyMode.Key.UP;
+			default -> ArrowKeyMode.Key.DOWN;
+		};
+		editor.getWorkflow().expandSelection(editor.getArrowKeyMode().resolve(key).expandDirection());
 	}
 }
