@@ -35,11 +35,11 @@ package jsesh.ui.editor.actions.move;
 
 import java.awt.event.ActionEvent;
 
-import jsesh.ui.editor.ArrowKeyMode;
+import jsesh.ui.editor.arrows.ArrowKey;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
-/// Right arrow: moves the cursor according to the arrow key mode of the editor (logical move, see [ArrowKeyMode]).
+/// Right arrow: moves the cursor according to the arrow key policy of the editor (see [jsesh.ui.editor.arrows.ArrowKeyPolicy]).
 ///
 /// @author rosmord
 @SuppressWarnings("serial")
@@ -56,7 +56,7 @@ public class GoRightAction extends EditorAction {
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		editor.moveByArrowKey(ArrowKeyMode.Key.RIGHT);
+		editor.getArrowKeyPolicy().move(editor, ArrowKey.RIGHT);
 	}
 
 }

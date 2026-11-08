@@ -24,6 +24,12 @@ export {
   type KeyInput,
   type PossibilityProvider,
 } from "./session.js";
+export {
+  LogicalArrowKeyPolicy,
+  VisualArrowKeyPolicy,
+  type ArrowContext,
+  type ArrowKeyPolicy,
+} from "./arrows.js";
 export { EDITOR_VIEW_CSS, EditorView, type EditorViewOptions } from "./view.js";
 export { CARET_THICKNESS, caretArea, itemAreas, positionAt, type Area, type TextFlow } from "./geometry.js";
 

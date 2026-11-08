@@ -53,7 +53,6 @@ import javax.swing.event.DocumentListener;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
-import jsesh.ui.editor.ArrowKeyMode;
 import jsesh.defaults.HieroglyphResources;
 import jsesh.document.DocumentPreferences;
 import jsesh.document.MDCDocument;
@@ -175,23 +174,10 @@ public final class JSeshViewCore {
         viewComponent.getLineAlignmentComboBox().addActionListener(e -> changeLineAlignment());
         updateLineAlignmentComboBox();
 
-        // Arrow keys mode comboboxes (they never follow the text: the user chooses).
-        viewComponent.getArrowDirectionComboBox().setSelectedItem(getEditor().getArrowKeyMode().direction());
-        viewComponent.getArrowOrientationComboBox().setSelectedItem(getEditor().getArrowKeyMode().orientation());
-        viewComponent.getArrowDirectionComboBox().addActionListener(e -> changeArrowKeyMode());
-        viewComponent.getArrowOrientationComboBox().addActionListener(e -> changeArrowKeyMode());
-
         JPopupMenu hieroglyphicMenu = buildHieroglyphicMenus();
         JButton hieroglyphsButton = viewComponent.getHieroglyphsButton();
         hieroglyphsButton.setAction(new OpenHieroglyphicMenuAction(
                 hieroglyphsButton, hieroglyphicMenu));
-    }
-
-    private void changeArrowKeyMode() {
-        getEditor().setArrowKeyMode(new ArrowKeyMode(
-                (TextDirection) viewComponent.getArrowDirectionComboBox().getSelectedItem(),
-                (TextOrientation) viewComponent.getArrowOrientationComboBox().getSelectedItem()));
-        getEditor().requestFocusInWindow();
     }
 
     private void doZoom() {

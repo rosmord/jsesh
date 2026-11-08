@@ -350,7 +350,7 @@ The editor types like JSesh does: you type a **code**, then a **separator** whic
 | <kbd>!</kbd> | New line. |
 | <kbd>Backspace</kbd>, <kbd>Delete</kbd> | Erase. |
 | <kbd>Esc</kbd> | Forget the code being typed. |
-| <kbd>→</kbd>, <kbd>←</kbd>, <kbd>Home</kbd>, <kbd>End</kbd> | Move the cursor; with <kbd>Shift</kbd> (or shift-click), select. The arrows are *logical*: <kbd>→</kbd> moves forward in the text and <kbd>←</kbd> backward, whatever the direction or orientation of the text. Set `session.arrowDirection = "rtl"` to swap them, or `session.arrowOrientation = "vertical"` to use <kbd>↓</kbd>/<kbd>↑</kbd> inside a column instead. Changing line or column with the arrows is not supported yet, and the Vue toolbar has no selector for these two settings yet. |
+| <kbd>→</kbd>, <kbd>←</kbd>, <kbd>Home</kbd>, <kbd>End</kbd> | Move the cursor; with <kbd>Shift</kbd> (or shift-click), select. The arrows are *logical*: <kbd>→</kbd> moves forward in the text and <kbd>←</kbd> backward, whatever the direction or orientation of the text. Set `session.arrowPolicy = new LogicalArrowKeyPolicy("rtl")` to swap them, `new LogicalArrowKeyPolicy("ltr", "vertical")` to use <kbd>↓</kbd>/<kbd>↑</kbd> inside a column instead, or `new VisualArrowKeyPolicy()` for arrows which follow the screen (→ moves to the right, as in JSesh 9.0). Changing line or column with the arrows is not supported yet, and the Vue toolbar has no selector for these two settings yet. |
 | <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Z</kbd> | Undo; with <kbd>Shift</kbd>, redo. <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>A</kbd>: select all. |
 
 #### `<jsesh-editor>` reference

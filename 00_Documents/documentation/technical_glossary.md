@@ -550,9 +550,12 @@ instance-per-caller objects.
 model, writer, layout and drawing (to SVG), with the Java names. See `jsesh-js/README.md`
 and `jsesh-js/documentation/`.
 
-### Logical arrows (forward / backward)
+### Arrow key policy
 
-The arrow keys are *logical*: they never depend on the text under the cursor. Each editor has an **arrow key mode** (`jsesh.ui.editor.ArrowKeyMode`: a *direction*, LTR or RTL, and an *orientation*, lines or columns), chosen by the user in the toolbar and never changed automatically. LTR + lines (the default): Right = forward, Left = backward, Down/Up = next/previous line. RTL swaps Left and Right. In columns mode, Down/Up move forward/backward in the column and Right/Left change column (side given by the direction). Word moves (Ctrl/Alt + Left/Right) follow the direction only. A global preference (`jsesh.ui.editor.ArrowKeyPreferences`) gives the direction new windows start with. Home and End are logical too (start and end of the line).
+How an editor interprets the arrow keys (`jsesh.ui.editor.arrows.ArrowKeyPolicy`, one per editor, chosen in the preferences among `ArrowKeyPolicies`). The choice between policies is still open; all their code lives in `jsesh.ui.editor.arrows` (and `ArrowKeyControls` for the toolbar, `jsesh-js/packages/editor/src/arrows.ts` for the JS port), so one can be dropped without touching the rest of the editor.
+
+- **Visual arrows** (`VisualArrowKeyPolicy`): the arrows follow the screen. Right moves to the right: forward in left-to-right text, backward in right-to-left text, to the next column on the right in columns. At the boundary of a zone with another direction, the move follows what is seen on screen. Behaviour of JSesh up to 9.0.
+- **Logical arrows** (`LogicalArrowKeyPolicy`): the arrows never depend on the text under the cursor. They follow an **arrow key mode** (`ArrowKeyMode`: a *direction*, LTR or RTL, and an *orientation*, lines or columns), never changed automatically. LTR + lines (the default): Right = forward, Left = backward, Down/Up = next/previous line. RTL swaps Left and Right. In columns mode, Down/Up move forward/backward in the column and Right/Left change column (side given by the direction). Word moves (Ctrl/Alt + Left/Right) follow the direction only. The mode is either *fixed* (from the preferences) or *switchable* (two selectors in the document toolbar). Home and End are logical too (start and end of the line).
 
 ### Modules
 

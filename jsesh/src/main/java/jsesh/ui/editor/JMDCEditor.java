@@ -86,6 +86,8 @@ import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
+import jsesh.ui.editor.arrows.ArrowKeyPolicy;
+import jsesh.ui.editor.arrows.ArrowKeyPreferences;
 import jsesh.model.ListOfTopItems;
 import jsesh.model.MDCPosition;
 import jsesh.model.HieroglyphicText;
@@ -235,8 +237,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
 
     /// How this editor interprets the arrow keys. Not part of the document, and
     /// never changed automatically.
-    private ArrowKeyMode arrowKeyMode = new ArrowKeyMode(
-            ArrowKeyPreferences.getDefaultDirection(), TextOrientation.HORIZONTAL);
+    private ArrowKeyPolicy arrowKeyPolicy = ArrowKeyPreferences.createPolicy();
 
     /**
      * Listener for changes in the style reference.
@@ -752,36 +753,23 @@ public class JMDCEditor extends JPanel implements Scrollable {
         return getWorkflow().getTextDirectionAtCaret(getTextDirection());
     }
 
-    /// Name of the property fired when [#setArrowKeyMode(ArrowKeyMode)] changes the mode.
-    public static final String ARROW_KEY_MODE_PROPERTY = "arrowKeyMode";
+    /// Name of the property fired when [#setArrowKeyPolicy(ArrowKeyPolicy)]
+    /// changes the policy.
+    public static final String ARROW_KEY_POLICY_PROPERTY = "arrowKeyPolicy";
 
     /// @return how this editor interprets the arrow keys.
-    public ArrowKeyMode getArrowKeyMode() {
-        return arrowKeyMode;
+    public ArrowKeyPolicy getArrowKeyPolicy() {
+        return arrowKeyPolicy;
     }
 
     /// Sets how this editor interprets the arrow keys. Fires
-    /// [#ARROW_KEY_MODE_PROPERTY] if the mode changes.
+    /// [#ARROW_KEY_POLICY_PROPERTY] if the policy changes.
     ///
-    /// @param mode the new mode.
-    public void setArrowKeyMode(ArrowKeyMode mode) {
-        ArrowKeyMode old = this.arrowKeyMode;
-        this.arrowKeyMode = java.util.Objects.requireNonNull(mode);
-        firePropertyChange(ARROW_KEY_MODE_PROPERTY, old, mode);
-    }
-
-    /// Moves the caret as the given arrow key requires in the current
-    /// [ArrowKeyMode].
-    ///
-    /// @param key the arrow key.
-    public void moveByArrowKey(ArrowKeyMode.Key key) {
-        ArrowKeyMode.Command command = arrowKeyMode.resolve(key);
-        switch (command) {
-            case NEXT -> getWorkflow().cursorNext();
-            case PREVIOUS -> getWorkflow().cursorPrevious();
-            case NEXT_LINE -> getWorkflow().cursorDown();
-            case PREVIOUS_LINE -> getWorkflow().cursorUp();
-        }
+    /// @param policy the new policy.
+    public void setArrowKeyPolicy(ArrowKeyPolicy policy) {
+        ArrowKeyPolicy old = this.arrowKeyPolicy;
+        this.arrowKeyPolicy = java.util.Objects.requireNonNull(policy);
+        firePropertyChange(ARROW_KEY_POLICY_PROPERTY, old, policy);
     }
 
     public void invalidateView() {

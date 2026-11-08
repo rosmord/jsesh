@@ -5,7 +5,7 @@
  * This file is licensed under the CeCILL-C Free Software License, version 1.1.
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
-package jsesh.ui.editor;
+package jsesh.ui.editor.arrows;
 
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
@@ -28,11 +28,6 @@ import jsesh.model.constants.TextOrientation;
 /// @param orientation the text orientation the arrows are adapted to.
 public record ArrowKeyMode(TextDirection direction, TextOrientation orientation) {
 
-    /// The physical keys.
-    public enum Key {
-        LEFT, RIGHT, UP, DOWN
-    }
-
     /// What a key does, in logical terms.
     public enum Command {
         /// Next position in the text.
@@ -51,7 +46,7 @@ public record ArrowKeyMode(TextDirection direction, TextOrientation orientation)
         }
 
         /// @return the code used by
-        /// [JMDCEditorWorkflow#expandSelection(int)]: ±1 for one position, ±2
+        /// [jsesh.ui.editor.JMDCEditorWorkflow#expandSelection(int)]: ±1 for one position, ±2
         /// for one line.
         public int expandDirection() {
             return expandDirection;
@@ -89,7 +84,7 @@ public record ArrowKeyMode(TextDirection direction, TextOrientation orientation)
 
     /// @param key an arrow key.
     /// @return what this key does in this mode.
-    public Command resolve(Key key) {
+    public Command resolve(ArrowKey key) {
         boolean ltr = direction.isLeftToRight();
         return switch (key) {
             case RIGHT -> orientation.isHorizontal()

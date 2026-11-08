@@ -35,38 +35,30 @@ package jsesh.ui.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 
-import jsesh.ui.editor.ArrowKeyMode;
+import jsesh.ui.editor.arrows.ArrowKey;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
 /// Extends the selection (Shift + arrow key).
 ///
-/// The move is logical, as for the plain arrows: the key is interpreted
-/// according to the arrow key mode of the editor (see [ArrowKeyMode]).
+/// The key is interpreted by the arrow key policy of the editor (see
+/// [jsesh.ui.editor.arrows.ArrowKeyPolicy]).
 ///
 /// @author S. Rosmorduc
 @SuppressWarnings("serial")
 public class ExpandSelectionAction extends EditorAction {
 
-	private final int dir;
+	private final ArrowKey key;
 
 	/// @param editor the editor.
 	/// @param dir -1 for left, 1 for right, -2 for up, 2 for down.
 	public ExpandSelectionAction(JMDCEditor editor, int dir) {
 		super(editor);
-		this.dir = dir;
-		if (dir != 1 && dir != -1 && dir != -2 && dir != 2)
-			throw new RuntimeException("incorrect dir");
+		this.key = ArrowKey.fromDirectionCode(dir);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ArrowKeyMode.Key key = switch (dir) {
-			case -1 -> ArrowKeyMode.Key.LEFT;
-			case 1 -> ArrowKeyMode.Key.RIGHT;
-			case -2 -> ArrowKeyMode.Key.UP;
-			default -> ArrowKeyMode.Key.DOWN;
-		};
-		editor.getWorkflow().expandSelection(editor.getArrowKeyMode().resolve(key).expandDirection());
+		editor.getArrowKeyPolicy().extendSelection(editor, key);
 	}
 }

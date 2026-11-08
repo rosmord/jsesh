@@ -21,6 +21,7 @@ import {
   type StyleChanges,
   type TopItem,
 } from "@jsesh/core";
+import { LogicalArrowKeyPolicy, type ArrowKeyPolicy } from "./arrows.js";
 
 /// What the session needs to know about a key press. A DOM `KeyboardEvent` fits.
 export interface KeyInput {
@@ -93,11 +94,8 @@ export class EditorSession {
   private _separator = " ";
   private _error: string | undefined;
   private _options: EditorOptions = {};
-  /// How the arrows read the text (like the Java `ArrowKeyMode`): the direction ("ltr", the default, or "rtl") tells which
-  /// horizontal arrow goes forward; the orientation ("horizontal", the default, for lines, or "vertical" for columns) tells
-  /// whether Left/Right (lines) or Up/Down (columns) move in the text. Never changed automatically.
-  arrowDirection: "ltr" | "rtl" = "ltr";
-  arrowOrientation: "horizontal" | "vertical" = "horizontal";
+  /// How the arrow keys move the cursor (see `arrows.ts`). Never changed automatically.
+  arrowPolicy: ArrowKeyPolicy = new LogicalArrowKeyPolicy();
   private readonly undoStack: Snapshot[] = [];
   private readonly redoStack: Snapshot[] = [];
   private readonly listeners = new Set<(change: EditorChange) => void>();
@@ -417,19 +415,11 @@ export class EditorSession {
 
   // ---- Moving
 
-  /// Handles the arrows, Home and End. Returns false for other keys.
-  ///
-  /// The arrows are logical: they follow `arrowDirection` and `arrowOrientation`, not the text. In "horizontal" mode,
-  /// Right and Left move in the text (Right forward if the direction is "ltr"); in "vertical" mode, Down and Up do.
-  /// The other arrows change line or column; the port doesn't navigate by lines yet, so they do nothing.
+  /// Handles the arrows, Home and End. Returns false for other keys. The arrows are interpreted by `arrowPolicy`.
   moveKey(key: string, extend: boolean): boolean {
-    const forward = this.arrowDirection === "ltr" ? 1 : -1;
-    const steps: Record<string, number> =
-      this.arrowOrientation === "horizontal"
-        ? { ArrowRight: forward, ArrowLeft: -forward }
-        : { ArrowDown: 1, ArrowUp: -1 };
+    const step = key.startsWith("Arrow") ? this.arrowPolicy.step(key, this) : undefined;
     let target: number;
-    if (key in steps) target = this._caret + steps[key];
+    if (step !== undefined) target = this._caret + step;
     else if (key.startsWith("Arrow")) return false;
     else if (key === "Home") target = 0;
     else if (key === "End") target = this._text.topItems.length;

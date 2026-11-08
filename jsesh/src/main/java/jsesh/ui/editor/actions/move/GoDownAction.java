@@ -37,7 +37,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.Icon;
 
-import jsesh.ui.editor.ArrowKeyMode;
+import jsesh.ui.editor.arrows.ArrowKey;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
@@ -62,7 +62,7 @@ public class GoDownAction extends EditorAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		editor.moveByArrowKey(ArrowKeyMode.Key.DOWN);
+		editor.getArrowKeyPolicy().move(editor, ArrowKey.DOWN);
 
 	}
 

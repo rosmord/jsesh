@@ -53,8 +53,6 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
-import jsesh.model.constants.TextDirection;
-import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.JSeshStyle;
 import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.defaults.HieroglyphResources;
@@ -140,21 +138,6 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
     /// The label of [#lineAlignmentComboBox] ("Line:" or "Column:").
     private final JLabel lineAlignmentLabel = new JLabel();
 
-    /// Chooses how the arrow keys read the text: direction. Never changed
-    /// automatically.
-    private final JComboBox<TextDirection> arrowDirectionComboBox = new JComboBox<>(TextDirection.values());
-
-    /// Chooses how the arrow keys read the text: lines or columns.
-    private final JComboBox<TextOrientation> arrowOrientationComboBox = new JComboBox<>(TextOrientation.values());
-
-    public JComboBox<TextDirection> getArrowDirectionComboBox() {
-        return arrowDirectionComboBox;
-    }
-
-    public JComboBox<TextOrientation> getArrowOrientationComboBox() {
-        return arrowOrientationComboBox;
-    }
-
     public JSeshViewComponent(HieroglyphResources fontKit, JSeshStyle style) {
         // simple components.
         editor = new JMDCEditor(new HieroglyphicTextModel(), new JSeshStyleReference(style), fontKit);
@@ -199,36 +182,7 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
         top.add(lineAlignmentLabel);
         top.addSeparator(new Dimension(4, 0));
         top.add(lineAlignmentComboBox);
-        top.addSeparator(new Dimension(16, 0));
-        top.add(new JLabel(bundle.getLabel("arrowMode.direction.label")));
-        top.addSeparator(new Dimension(4, 0));
-        arrowDirectionComboBox.setFocusable(false);
-        arrowDirectionComboBox.setToolTipText(bundle.getLabel("arrowMode.direction.toolTipText"));
-        arrowDirectionComboBox.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                    boolean isSelected, boolean cellHasFocus) {
-                String key = ((TextDirection) value).isLeftToRight() ? "ltr" : "rtl";
-                return super.getListCellRendererComponent(list, bundle.getLabel("arrowMode.direction." + key),
-                        index, isSelected, cellHasFocus);
-            }
-        });
-        arrowDirectionComboBox.setMaximumSize(arrowDirectionComboBox.getPreferredSize());
-        top.add(arrowDirectionComboBox);
-        top.addSeparator(new Dimension(4, 0));
-        arrowOrientationComboBox.setFocusable(false);
-        arrowOrientationComboBox.setToolTipText(bundle.getLabel("arrowMode.orientation.toolTipText"));
-        arrowOrientationComboBox.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                    boolean isSelected, boolean cellHasFocus) {
-                String key = ((TextOrientation) value).isHorizontal() ? "horizontal" : "vertical";
-                return super.getListCellRendererComponent(list, bundle.getLabel("arrowMode.orientation." + key),
-                        index, isSelected, cellHasFocus);
-            }
-        });
-        arrowOrientationComboBox.setMaximumSize(arrowOrientationComboBox.getPreferredSize());
-        top.add(arrowOrientationComboBox);
+        top.add(new ArrowKeyControls(editor));
         top.add(Box.createHorizontalGlue());
         return top;
     }

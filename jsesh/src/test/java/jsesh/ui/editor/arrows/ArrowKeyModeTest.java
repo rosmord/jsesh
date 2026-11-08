@@ -5,12 +5,12 @@
  * This file is licensed under the CeCILL-C Free Software License, version 1.1.
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
-package jsesh.ui.editor;
+package jsesh.ui.editor.arrows;
 
-import static jsesh.ui.editor.ArrowKeyMode.Command.NEXT;
-import static jsesh.ui.editor.ArrowKeyMode.Command.NEXT_LINE;
-import static jsesh.ui.editor.ArrowKeyMode.Command.PREVIOUS;
-import static jsesh.ui.editor.ArrowKeyMode.Command.PREVIOUS_LINE;
+import static jsesh.ui.editor.arrows.ArrowKeyMode.Command.NEXT;
+import static jsesh.ui.editor.arrows.ArrowKeyMode.Command.NEXT_LINE;
+import static jsesh.ui.editor.arrows.ArrowKeyMode.Command.PREVIOUS;
+import static jsesh.ui.editor.arrows.ArrowKeyMode.Command.PREVIOUS_LINE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,18 +19,17 @@ import org.junit.jupiter.api.Test;
 
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
-import jsesh.ui.editor.ArrowKeyMode.Command;
-import jsesh.ui.editor.ArrowKeyMode.Key;
+import jsesh.ui.editor.arrows.ArrowKeyMode.Command;
 
 class ArrowKeyModeTest {
 
     private static void check(TextDirection d, TextOrientation o, Command right, Command left, Command down,
             Command up) {
         ArrowKeyMode mode = new ArrowKeyMode(d, o);
-        assertEquals(right, mode.resolve(Key.RIGHT), "right in " + mode);
-        assertEquals(left, mode.resolve(Key.LEFT), "left in " + mode);
-        assertEquals(down, mode.resolve(Key.DOWN), "down in " + mode);
-        assertEquals(up, mode.resolve(Key.UP), "up in " + mode);
+        assertEquals(right, mode.resolve(ArrowKey.RIGHT), "right in " + mode);
+        assertEquals(left, mode.resolve(ArrowKey.LEFT), "left in " + mode);
+        assertEquals(down, mode.resolve(ArrowKey.DOWN), "down in " + mode);
+        assertEquals(up, mode.resolve(ArrowKey.UP), "up in " + mode);
     }
 
     @Test

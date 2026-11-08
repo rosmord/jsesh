@@ -1,0 +1,2 @@
+# Append-only log: keep the additions of both sides instead of reporting a conflict.
+00_Documents/journal/DevelopperJournal.md merge=union

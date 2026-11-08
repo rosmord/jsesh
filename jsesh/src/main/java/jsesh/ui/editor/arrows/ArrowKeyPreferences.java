@@ -5,21 +5,24 @@
  * This file is licensed under the CeCILL-C Free Software License, version 1.1.
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
-package jsesh.ui.editor;
+package jsesh.ui.editor.arrows;
 
 import java.util.prefs.Preferences;
 
 import jsesh.model.constants.TextDirection;
 import jsesh.utils.preferences.JSeshPreferencesRoot;
 
-/// Global user setting for the arrow keys: the direction a new editor starts with.
+/// Global user settings for the arrow keys, used when an editor is created:
+/// which [ArrowKeyPolicies] it uses, and, for the logical policies, the
+/// direction it starts with (left-to-right by default).
 ///
-/// The arrow keys are *logical*: they don't depend on the direction or the
-/// orientation of the text (see [ArrowKeyMode]). Each editor has its own mode,
-/// which the user changes from the toolbar. This preference only gives the
-/// direction (left-to-right by default) used when an editor is created.
+/// Changing them doesn't affect the editors already open.
 public final class ArrowKeyPreferences {
 
+    /// The policy used if none is stored.
+    public static final ArrowKeyPolicies DEFAULT_POLICY = ArrowKeyPolicies.LOGICAL_SWITCHABLE;
+
+    private static final String POLICY = "arrowKeys.policy";
     private static final String DEFAULT_DIRECTION = "arrowKeys.defaultDirection";
     /// Key used before the direction was stored: false meant right-to-left.
     private static final String LEGACY_RIGHT_IS_FORWARD = "arrowKeys.rightIsForward";
@@ -29,6 +32,29 @@ public final class ArrowKeyPreferences {
 
     private static Preferences preferences() {
         return JSeshPreferencesRoot.getPreferences();
+    }
+
+    /// @return a new policy for an editor, as set in the preferences.
+    public static ArrowKeyPolicy createPolicy() {
+        return getPolicy().create(getDefaultDirection());
+    }
+
+    /// @return the kind of policy new editors use.
+    public static ArrowKeyPolicies getPolicy() {
+        String stored = preferences().get(POLICY, null);
+        if (stored != null) {
+            try {
+                return ArrowKeyPolicies.valueOf(stored);
+            } catch (IllegalArgumentException e) {
+                // Policy removed since it was stored.
+            }
+        }
+        return DEFAULT_POLICY;
+    }
+
+    /// @param policy the kind of policy new editors should use.
+    public static void setPolicy(ArrowKeyPolicies policy) {
+        preferences().put(POLICY, policy.name());
     }
 
     /// @return the direction new editors start with (left-to-right by default).

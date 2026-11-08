@@ -33,10 +33,12 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.preferences.application.ui;
 
+import java.awt.Component;
 import java.util.Locale;
 
 import jsesh.model.constants.TextDirection;
-import jsesh.ui.editor.ArrowKeyPreferences;
+import jsesh.ui.editor.arrows.ArrowKeyPolicies;
+import jsesh.ui.editor.arrows.ArrowKeyPreferences;
 
 import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
@@ -71,6 +73,7 @@ public class JOtherPreferences {
     private JPanel panel;
     private JFormattedTextField iconHeight;
     private JComboBox<LocaleItem> localeSelector;
+    private JComboBox<ArrowKeyPolicies> arrowKeyPolicy;
     private JComboBox<String> arrowKeys;
 
 
@@ -88,6 +91,16 @@ public class JOtherPreferences {
         for (Locale locale : AVAILABLE_LOCALES) {
             localeSelector.addItem(new LocaleItem(locale));
         }
+        arrowKeyPolicy = new JComboBox<>(ArrowKeyPolicies.values());
+        arrowKeyPolicy.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value,
+                    int index, boolean isSelected, boolean cellHasFocus) {
+                String text = value == null ? ""
+                        : JSeshMessages.getString("otherPrefs.arrowKeys.policy." + ((ArrowKeyPolicies) value).name());
+                return super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
+            }
+        });
         // Index 0: right arrow is forward; index 1: right arrow is backward.
         arrowKeys = new JComboBox<>(new String[]{
             JSeshMessages.getString("otherPrefs.arrowKeys.rightIsForward"),
@@ -106,6 +119,8 @@ public class JOtherPreferences {
         panel.add(localeSelector, "span, grow, wrap");
         JLabel localeComment= new JLabel(JSeshMessages.getString("otherPrefs.locale.comment"));
         panel.add(localeComment, "span, grow, wrap");
+        helper.addLabel("otherPrefs.arrowKeys.policy.label");
+        panel.add(arrowKeyPolicy, "span, grow, wrap");
         helper.addLabel("otherPrefs.arrowKeys.label");
         panel.add(arrowKeys, "span, grow, wrap");
         panel.add(new JLabel(JSeshMessages.getString("otherPrefs.arrowKeys.comment")), "span, grow, wrap");
@@ -120,6 +135,7 @@ public class JOtherPreferences {
         ApplicationUIPreferences prefs = ApplicationUIPreferences.getFromPreferences();
         iconHeight.setValue(prefs.getIconHeight());
         localeSelector.setSelectedItem(new LocaleItem(prefs.getLocale()));
+        arrowKeyPolicy.setSelectedItem(ArrowKeyPreferences.getPolicy());
         arrowKeys.setSelectedIndex(ArrowKeyPreferences.getDefaultDirection().isLeftToRight() ? 0 : 1);
     }
 
@@ -129,6 +145,7 @@ public class JOtherPreferences {
         LocaleItem selected = (LocaleItem) localeSelector.getSelectedItem();
         prefs.setLocale(selected == null ? null : selected.getLocale());
         prefs.savetoPreferences();
+        ArrowKeyPreferences.setPolicy((ArrowKeyPolicies) arrowKeyPolicy.getSelectedItem());
         ArrowKeyPreferences.setDefaultDirection(arrowKeys.getSelectedIndex() == 0
                 ? TextDirection.LEFT_TO_RIGHT : TextDirection.RIGHT_TO_LEFT);
     }
