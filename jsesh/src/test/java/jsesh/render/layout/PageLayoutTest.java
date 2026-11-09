@@ -92,7 +92,7 @@ public class PageLayoutTest {
         DocumentPreferences reread = DocumentHeaderCodec.fromHeader(DocumentHeaderCodec.toHeader(prefs));
         JSeshStyle back = DocumentPreferencesStyleConverter.applyDocumentPreferences(reread, JSeshStyle.DEFAULT);
         assertEquals(style.geometry().page(), back.geometry().page());
-        assertEquals(20f, back.geometry().leftMargin(), 1e-6);
+        assertEquals(20.0, back.geometry().leftMargin(), 1e-6);
         assertFalse(DocumentHeaderCodec.fromHeader(new java.util.HashMap<>()).hasPage());
     }
 

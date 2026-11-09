@@ -59,14 +59,14 @@ public record FontSpecification(
 	 * @param yodChoice how to encode yod?
 	 * @param gardinerQofUsed should we use pointed k for qof in +t...+s blocks ?
 	 * @param baseFont base font
-	 * @param superscriptRatio ratio from base font to superscript (e.g. 0.5f)
+	 * @param superscriptRatio ratio from base font to superscript (e.g. 0.5)
 	 * @param translitterationFont font to use for transliteration.
 	 */
 	public FontSpecification(boolean translitUnicode,
 		YODChoice yodChoice,
 		boolean gardinerQofUsed,
 		Font baseFont,
-		float superscriptRatio,
+		double superscriptRatio,
 		Font translitterationFont
 	) {
 			this(
@@ -74,7 +74,7 @@ public record FontSpecification(
 			baseFont,
 			baseFont.deriveFont(Font.BOLD),
 			baseFont.deriveFont(Font.ITALIC),
-			baseFont.deriveFont(baseFont.getSize()*superscriptRatio),
+			baseFont.deriveFont((float) (baseFont.getSize()*superscriptRatio)),
 			translitterationFont
 		);
 	}

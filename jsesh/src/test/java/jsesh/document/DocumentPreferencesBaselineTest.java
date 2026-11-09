@@ -34,11 +34,11 @@ public class DocumentPreferencesBaselineTest {
     @Test
     public void valueSurvivesStyleConversion() {
         JSeshStyle style = JSeshStyle.DEFAULT.copy()
-                .geometry(g -> g.alphabeticTextBaseline(6.25f))
+                .geometry(g -> g.alphabeticTextBaseline(6.25))
                 .build();
         DocumentPreferences prefs = DocumentPreferencesStyleConverter.toDocumentPreferences(style);
         DocumentPreferences reread = DocumentHeaderCodec.fromHeader(DocumentHeaderCodec.toHeader(prefs));
         JSeshStyle back = DocumentPreferencesStyleConverter.applyDocumentPreferences(reread, JSeshStyle.DEFAULT);
-        assertEquals(6.25f, back.geometry().alphabeticTextBaseline(), 1e-6);
+        assertEquals(6.25, back.geometry().alphabeticTextBaseline(), 1e-6);
     }
 }

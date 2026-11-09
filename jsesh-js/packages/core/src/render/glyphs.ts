@@ -11,7 +11,6 @@ import { parsePath, pathBounds, rotation, transformPath } from "./path.js";
 import type { JSeshStyle } from "./style.js";
 import { Rect } from "./view.js";
 
-const f = Math.fround;
 
 export type HorizontalGravity = "START" | "CENTER" | "END";
 export type VerticalGravity = "TOP" | "CENTER" | "BOTTOM";
@@ -84,14 +83,14 @@ export class HieroglyphDrawer {
   constructor(readonly provider: GlyphProvider) {
     const a1 = provider.size(provider.canonicalCode("A1"));
     if (a1 === undefined) throw new Error("The glyph provider has no A1 sign");
-    this.heightOfA1 = f(a1.height);
-    const w = f(a1.width);
+    this.heightOfA1 = a1.height;
+    const w = a1.width;
     const h = this.heightOfA1;
     this.shadingSizes = new Map([
-      ["/", new Rect(0, 0, f(w / 2), f(h / 2))],
+      ["/", new Rect(0, 0, w / 2, h / 2)],
       ["//", new Rect(0, 0, w, h)],
-      ["h/", new Rect(0, 0, w, f(h / 2))],
-      ["v/", new Rect(0, 0, f(w / 2), h)],
+      ["h/", new Rect(0, 0, w, h / 2)],
+      ["v/", new Rect(0, 0, w / 2, h)],
     ]);
   }
 
@@ -153,7 +152,7 @@ export class HieroglyphDrawer {
 
   /// The scale from font units to points, for a style.
   scaleFromFontToStyle(style: JSeshStyle): number {
-    return f(style.geometry.standardSignHeight / this.heightOfA1);
+    return style.geometry.standardSignHeight / this.heightOfA1;
   }
 }
 

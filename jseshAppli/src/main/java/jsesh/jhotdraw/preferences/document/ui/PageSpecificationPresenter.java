@@ -29,7 +29,7 @@ public class PageSpecificationPresenter {
 	/// The page proposed when the document has none: A4, 20 mm margins.
 	private static final PageSpecification DEFAULT_PAGE = new PageSpecification(
 			StandardPageSize.A4.width(), StandardPageSize.A4.height(),
-			56.69f, 56.69f, 56.69f, 56.69f);
+			56.69, 56.69, 56.69, 56.69);
 
 	private final JPageSpecificationEditor form = new JPageSpecificationEditor();
 	private final UnitMediator unitMediator = new UnitMediator();
@@ -172,8 +172,8 @@ public class PageSpecificationPresenter {
 	}
 
 	// Two decimals are enough, and keep the saved values readable.
-	private static float round(double points) {
-		return Math.round(points * 100) / 100f;
+	private static double round(double points) {
+		return Math.round(points * 100) / 100.0;
 	}
 
 	/// Checks the values of the dialog.

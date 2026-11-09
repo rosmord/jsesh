@@ -43,7 +43,7 @@ describe("layout settings in the header", () => {
     expect(g.columnQuadratSkip).toBe(7);
     expect(g.columnSkip).toBe(9.5);
     expect(g.smallSkip).toBe(1.5);
-    expect(g.cartoucheLineWidth).toBe(Math.fround(1.2));
+    expect(g.cartoucheLineWidth).toBe(1.2);
     expect(g.alphabeticTextBaseline).toBe(3);
     expect(g.smallBodyScaleLimit).toBe(10);
     expect(o.textOrientation).toBe("VERTICAL");

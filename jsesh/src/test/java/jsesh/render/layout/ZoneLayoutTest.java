@@ -37,7 +37,7 @@ public class ZoneLayoutTest {
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);
     private static final double EPSILON = 1e-3;
     private static final JSeshStyle STYLE = JSeshStyle.DEFAULT;
-    private static final float QUADRAT = STYLE.geometry().maxCadratHeight();
+    private static final double QUADRAT = STYLE.geometry().maxCadratHeight();
 
     private MDCView layout(String mdc) throws MDCSyntaxError {
         return layout(mdc, STYLE);
@@ -73,7 +73,7 @@ public class ZoneLayoutTest {
     public void aZoneHasTheNaturalSizeOfItsContent() throws MDCSyntaxError {
         MDCView plain = layout("A1-A1-A1");
         MDCView zone = layout("%zone(A1-A1-A1)").getSubView(0);
-        float margins = 2 * STYLE.geometry().leftMargin();
+        double margins = 2 * STYLE.geometry().leftMargin();
         assertEquals(plain.getWidth() - margins, zone.getWidth(), EPSILON);
         assertEquals(3, content(zone).getNumberOfSubviews());
         assertEquals(1, rows(content(zone)).size());
@@ -102,7 +102,7 @@ public class ZoneLayoutTest {
     public void aFrameAddsItsPadding() throws MDCSyntaxError {
         MDCView plain = layout("%zone(A1-A1)").getSubView(0);
         MDCView framed = layout("%zone[frame](A1-A1)").getSubView(0);
-        float padding = Layout.zoneFramePadding(STYLE);
+        double padding = Layout.zoneFramePadding(STYLE);
         assertEquals(plain.getWidth() + 2 * padding, framed.getWidth(), EPSILON);
         assertEquals(plain.getHeight() + 2 * padding, framed.getHeight(), EPSILON);
         assertEquals(padding, content(framed).getPosition().x, EPSILON);
@@ -269,7 +269,7 @@ public class ZoneLayoutTest {
         assertEquals(plain.getWidth() / 2, half.getWidth(), EPSILON);
         assertEquals(plain.getHeight() / 2, half.getHeight(), EPSILON);
         // The content is laid out at full size, and its view is scaled.
-        assertEquals(0.5f, content(half).getXScale(), EPSILON);
+        assertEquals(0.5, content(half).getXScale(), EPSILON);
         assertEquals(content(plain).getSubView(2).getPosition().x, content(half).getSubView(2).getPosition().x, EPSILON);
         // width=300 is three quadrats of the zone.
         MDCView fixed = layout("%zone[scale=50,width=300](A1)").getSubView(0);
@@ -278,7 +278,7 @@ public class ZoneLayoutTest {
 
     @Test
     public void theGapsAreNamedByRole() throws MDCSyntaxError {
-        float unit = STYLE.geometry().unit() / 100f;
+        double unit = STYLE.geometry().unit() / 100.0;
         // In columns: columngap between columns, columnquadratgap between quadrats.
         MDCView columns = content(layout("%zone[layout=columns,columngap=100,columnquadratgap=50](A1-A1!A1)").getSubView(0));
         List<Double> xs = columns(columns);

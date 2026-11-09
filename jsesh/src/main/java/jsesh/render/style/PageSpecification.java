@@ -20,16 +20,16 @@ import java.awt.geom.Rectangle2D;
 /// @param marginTop the top margin.
 /// @param marginBottom the bottom margin.
 public record PageSpecification(
-		float pageWidth,
-		float pageHeight,
-		float marginLeft,
-		float marginRight,
-		float marginTop,
-		float marginBottom) {
+		double pageWidth,
+		double pageHeight,
+		double marginLeft,
+		double marginRight,
+		double marginTop,
+		double marginBottom) {
 
 	/// The space between two pages when they are displayed one below the other,
 	/// in layout units.
-	public static final float PAGE_GAP = 24f;
+	public static final double PAGE_GAP = 24.0;
 
 	/// The absence of a page: the text is as large as it needs to be.
 	public static final PageSpecification NONE = new PageSpecification(0, 0, 0, 0, 0, 0);
@@ -55,7 +55,7 @@ public record PageSpecification(
 	/// The distance between the tops of two consecutive pages in the view.
 	///
 	/// @return the page height, plus [#PAGE_GAP].
-	public float pageStride() {
+	public double pageStride() {
 		return pageHeight + PAGE_GAP;
 	}
 
@@ -70,7 +70,7 @@ public record PageSpecification(
 	/// The width available for text, margins excluded.
 	///
 	/// @return the page width minus the left and right margins.
-	public float usableWidth() {
+	public double usableWidth() {
 		return pageWidth - marginLeft - marginRight;
 	}
 
@@ -78,7 +78,7 @@ public record PageSpecification(
 	///
 	/// @return the page height minus the top and bottom margins, or 0 if the page
 	/// height is not specified.
-	public float usableHeight() {
+	public double usableHeight() {
 		return pageHeight > 0 ? pageHeight - marginTop - marginBottom : 0;
 	}
 
@@ -86,7 +86,7 @@ public record PageSpecification(
 	///
 	/// @return the rectangle of the page, with origin (0, 0).
 	public Rectangle2D pageRectangle() {
-		return new Rectangle2D.Float(0, 0, pageWidth, pageHeight);
+		return new Rectangle2D.Double(0, 0, pageWidth, pageHeight);
 	}
 
 	/// The area where text is written.
@@ -94,7 +94,7 @@ public record PageSpecification(
 	/// @return the page rectangle minus the margins. If the page height is not
 	/// specified, the height of the result is 0.
 	public Rectangle2D usableRectangle() {
-		return new Rectangle2D.Float(marginLeft, marginTop, usableWidth(), usableHeight());
+		return new Rectangle2D.Double(marginLeft, marginTop, usableWidth(), usableHeight());
 	}
 
 	/// The same page, without height: lines still wrap at the usable width, but the
@@ -114,11 +114,11 @@ public record PageSpecification(
 	/// @return the scaled page.
 	public PageSpecification scaled(double scale) {
 		return new PageSpecification(
-				(float) (pageWidth * scale),
-				(float) (pageHeight * scale),
-				(float) (marginLeft * scale),
-				(float) (marginRight * scale),
-				(float) (marginTop * scale),
-				(float) (marginBottom * scale));
+				(pageWidth * scale),
+				(pageHeight * scale),
+				(marginLeft * scale),
+				(marginRight * scale),
+				(marginTop * scale),
+				(marginBottom * scale));
 	}
 }

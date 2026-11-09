@@ -123,7 +123,7 @@ public class LineAccumulator {
 	 */
 	public LineAccumulator(double minWidth, double minHeight) {
 		currentPoint = new Point2D.Double();
-		zoneArea = new Rectangle2D.Double(0f, 0f, minWidth, minHeight);
+		zoneArea = new Rectangle2D.Double(0.0, 0.0, minWidth, minHeight);
 		views = new ArrayList<MDCView>();
 	}
 
@@ -430,7 +430,7 @@ public class LineAccumulator {
 		double currentEnd = Double.NEGATIVE_INFINITY;
 		for (MDCView v : views) {
 			double length = v == columnEnd ? 0 : length(v, vertical);
-			if (length > 0f) {
+			if (length > 0.0) {
 				currentStart = Math.min(currentStart, coordinate(v, vertical));
 				currentEnd = Math.max(currentEnd, coordinate(v, vertical) + length);
 			}
@@ -448,7 +448,7 @@ public class LineAccumulator {
 		for (List<MDCView> unit : someUnits) {
 			for (MDCView v : unit) {
 				double length = length(v, vertical);
-				if (length > 0f) {
+				if (length > 0.0) {
 					currentStart = Math.min(currentStart, coordinate(v, vertical));
 					currentEnd = Math.max(currentEnd, coordinate(v, vertical) + length);
 				}

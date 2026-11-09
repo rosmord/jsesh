@@ -113,7 +113,7 @@ class TextGeometryTest {
     /// Wraps the lines of the editor (soft wrapping), narrow enough for two signs per row.
     private void wrapAfterTwoSigns() {
         MDCView probe = geometryView("A1-A1");
-        float width = (float) (probe.getWidth() + 1);
+        double width = (probe.getWidth() + 1);
         editor.setJSeshStyle(editor.getJSeshStyle().copy().geometry(g -> g.wrapWidth(width)).build());
     }
 

@@ -67,14 +67,14 @@ abstract class AbstractCartoucheDrawer {
              */
             int xSign = 1;
             int ySign = 1;
-            g.draw(new Line2D.Float(pa, pb));
-            g.draw(new Line2D.Float(pa, p1));
-            g.draw(new Line2D.Float(pb, p2));
+            g.draw(new Line2D.Double(pa, pb));
+            g.draw(new Line2D.Double(pa, p1));
+            g.draw(new Line2D.Double(pb, p2));
 
             // squareSize is either negative or positive :
             // it's positive for start of hut-sign, and negative for end.
             double squareSize = jseshStyle.geometry().hwtSquareSize()
-                    - jseshStyle.geometry().cartoucheLineWidth() / 2f;
+                    - jseshStyle.geometry().cartoucheLineWidth() / 2.0;
 
             if (currentTextOrientation.isHorizontal()) {
                 if (p1.getX() < pa.getX()) {
@@ -124,8 +124,8 @@ abstract class AbstractCartoucheDrawer {
                                 .getY()
                                 - squareSize * ySign);
                     }
-                    g.draw(new Line2D.Float(pca, pc));
-                    g.draw(new Line2D.Float(pc, pcb));
+                    g.draw(new Line2D.Double(pca, pc));
+                    g.draw(new Line2D.Double(pc, pcb));
                 }
                 break;
                 case THIRD: { // square on the pa-p1 side.
@@ -146,8 +146,8 @@ abstract class AbstractCartoucheDrawer {
                                 .getY()
                                 - squareSize * ySign);
                     }
-                    g.draw(new Line2D.Float(pca, pc));
-                    g.draw(new Line2D.Float(pc, pcb));
+                    g.draw(new Line2D.Double(pca, pc));
+                    g.draw(new Line2D.Double(pc, pcb));
                 }
                 break;
                 default:

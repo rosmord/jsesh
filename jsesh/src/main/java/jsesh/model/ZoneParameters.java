@@ -93,8 +93,8 @@ public record ZoneParameters(TextLayoutSettings settings, int scale,
     }
 
     /// @return the scale of the content, as a factor (1 for no scale).
-    public float scaleFactor() {
-        return scale == UNSET ? 1f : scale / 100f;
+    public double scaleFactor() {
+        return scale == UNSET ? 1.0 : scale / 100.0;
     }
 
     public ZoneParameters withSettings(TextLayoutSettings settings) {

@@ -40,7 +40,7 @@ public class ExportAsBitmapAction extends AbstractCoreViewAction {
 
 		boolean selectionOnly = v.getCaret().hasSelection();
 		if (bitmapExporter.askUser(selectionOnly) == JOptionPane.OK_OPTION) {
-			ExportData exportData = v.createExportData(2f);
+			ExportData exportData = v.createExportData(2.0);
 			if (selectionOnly) {
 				bitmapExporter.export(exportData);
 			} else {

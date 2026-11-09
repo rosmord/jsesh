@@ -155,7 +155,7 @@ public class Layout {
 	/// The lengths given by their parents to the zones which fill their line,
 	/// while they are laid out again (see [#fillZone(MDCView, double)]): the
 	/// outer length (frame included) along the lines of the parent.
-	private final Map<Zone, Float> forcedLengths = new IdentityHashMap<>();
+	private final Map<Zone, Double> forcedLengths = new IdentityHashMap<>();
 
 	/// Builds the view of a model element and of its descendants with this
 	/// layout, in its current state (see [#setSubViewBuilder(Function)]).
@@ -227,16 +227,16 @@ public class Layout {
 			// The content of a zone, and everything in it, is laid out with the
 			// zone's own settings, until postLayoutHook.
 			savedZoneStates.push(new SavedZoneState(renderContext, currentTextOrientation, currentTextDirection));
-			Float forced = forcedLengths.get(zone);
+			Double forced = forcedLengths.get(zone);
 			if (forced == null) {
 				renderContext = zoneRenderContext(renderContext, zone.getParameters());
 			} else {
 				// A zone which fills its line is laid out as if it had this
 				// length as width (or height).
-				float inner = forcedInnerLength(zone.getParameters(), forced, renderContext.jseshStyle());
+				double inner = forcedInnerLength(zone.getParameters(), forced, renderContext.jseshStyle());
 				renderContext = currentTextOrientation.isHorizontal()
-						? renderContext.forZone(zone.getParameters(), inner, Float.NaN)
-						: renderContext.forZone(zone.getParameters(), Float.NaN, inner);
+						? renderContext.forZone(zone.getParameters(), inner, Double.NaN)
+						: renderContext.forZone(zone.getParameters(), Double.NaN, inner);
 			}
 			currentTextOrientation = renderContext.jseshStyle().options().textOrientation();
 			currentTextDirection = renderContext.jseshStyle().options().textDirection();
@@ -269,7 +269,7 @@ public class Layout {
 
 	/// The unit of the lengths of [ZoneParameters]: one percent of the unit of
 	/// the document (the height of a quadrat).
-	public static float zoneLengthUnit(JSeshStyle style) {
+	public static double zoneLengthUnit(JSeshStyle style) {
 		return style.geometry().percentUnit();
 	}
 
@@ -279,9 +279,9 @@ public class Layout {
 	/// @param p the settings of the zone.
 	/// @param outerLength the length of the zone, frame included.
 	/// @param parentStyle the style of the parent of the zone.
-	private static float forcedInnerLength(ZoneParameters p, float outerLength, JSeshStyle parentStyle) {
-		float padding = p.frame() ? zoneFramePadding(parentStyle) : 0f;
-		return Math.max(0f, outerLength - 2 * padding) / p.scaleFactor();
+	private static double forcedInnerLength(ZoneParameters p, double outerLength, JSeshStyle parentStyle) {
+		double padding = p.frame() ? zoneFramePadding(parentStyle) : 0.0;
+		return Math.max(0.0, outerLength - 2 * padding) / p.scaleFactor();
 	}
 
 	/// Lays out again a zone which fills its line, at the length given by its
@@ -298,13 +298,13 @@ public class Layout {
 		if (subViewBuilder == null || !(zoneView.getModel() instanceof Zone zone)) {
 			return;
 		}
-		float natural = zoneView.getNaturalLength();
+		double natural = zoneView.getNaturalLength();
 		boolean stretched = length > natural + FillLayout.EPSILON;
 		MDCView savedView = currentView;
 		boolean savedCenterSigns = centerSigns;
 		centerSigns = renderContext.jseshStyle().options().smallSignCentered();
 		if (stretched) {
-			forcedLengths.put(zone, (float) length);
+			forcedLengths.put(zone, length);
 		}
 		try {
 			zoneView.replaceSubView(0, subViewBuilder.apply(zone.getContent()));
@@ -318,7 +318,7 @@ public class Layout {
 	}
 
 	/// The space between the frame of a zone and its content, frame included.
-	public static float zoneFramePadding(JSeshStyle style) {
+	public static double zoneFramePadding(JSeshStyle style) {
 		return style.geometry().cartoucheMargin() + style.geometry().cartoucheLineWidth();
 	}
 
@@ -410,7 +410,7 @@ public class Layout {
 		/// @param runs the runs of text among the subviews (not empty).
 		/// @param horizontal true for horizontal text orientation.
 		/// @param skip the space between two elements (not used inside runs).
-		private void layoutWithRuns(List<TextRun> runs, boolean horizontal, float skip) {
+		private void layoutWithRuns(List<TextRun> runs, boolean horizontal, double skip) {
 			boolean mirrored = !currentView.getDirection().isLeftToRight();
 			int n = currentView.getNumberOfSubviews();
 			// First pass: extent of all units.
@@ -440,11 +440,11 @@ public class Layout {
 			}
 			totalMain += skip * (units - 1);
 			if (horizontal) {
-				currentView.setWidth((float) totalMain);
-				currentView.setHeight((float) maxCross);
+				currentView.setWidth(totalMain);
+				currentView.setHeight(maxCross);
 			} else {
-				currentView.setWidth((float) maxCross);
-				currentView.setHeight((float) totalMain);
+				currentView.setWidth(maxCross);
+				currentView.setHeight(totalMain);
 			}
 			// Second pass: positions.
 			double pos = 0;
@@ -502,7 +502,7 @@ public class Layout {
 		/// Lays out a list of elements with kerning operators, one after another in the
 		/// text orientation. The result is the same as without them, except for the kerning.
 		private void layoutKernedList(boolean horizontal) {
-			float cross = horizontal ? currentView.getMaximalHeightOfSubView()
+			double cross = horizontal ? currentView.getMaximalHeightOfSubView()
 					: currentView.getMaximalWidthOfSubView();
 			for (MDCView sub : currentView.getSubViews()) {
 				sub.resetPos();
@@ -513,7 +513,7 @@ public class Layout {
 					sub.getPosition().x = (cross - sub.getWidth()) / 2;
 				}
 			}
-			float length = (float) packer(horizontal ? KerningAxis.HORIZONTAL : KerningAxis.VERTICAL)
+			double length = packer(horizontal ? KerningAxis.HORIZONTAL : KerningAxis.VERTICAL)
 					.pack(currentView);
 			currentView.setWidth(horizontal ? length : cross);
 			currentView.setHeight(horizontal ? cross : length);
@@ -561,14 +561,14 @@ public class Layout {
 
 			// the dimension along the principal axis of the cartouche (width for
 			// horizontal ones, height for vertical)
-			float longDim = 0;
+			double longDim = 0;
 			// the other dimension.
-			float smallDim = 2 * CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
+			double smallDim = 2 * CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
 
 			/**
 			 * cartouche inner part translation (reference and signs will be computed later)
 			 */
-			float dLong, dSmall;
+			double dLong, dSmall;
 			dSmall = CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
 
 			longDim += CartoucheSizeHelper.computeCartouchePartLength(jseshStyle, c.getType(), c.getStartPart());
@@ -593,7 +593,7 @@ public class Layout {
 					currentView.setWidth(subView.getWidth() + smallDim);
 				}
 
-				float innerMargin = (currentView.getWidth() - subView.getWidth()) / 2f;
+				double innerMargin = (currentView.getWidth() - subView.getWidth()) / 2.0;
 
 				// Position the cartouche's inner part :
 				subView.getPosition().setLocation(innerMargin, dLong);
@@ -625,10 +625,10 @@ public class Layout {
 			// TODO not to hieroglyphic codes !!!
 
 			for (int i = 0; i < 3; i++) {
-				float scale = computeScale();
-				final float scale1; // we need a final var for map argument.
+				double scale = computeScale();
+				final double scale1; // we need a final var for map argument.
 				if (ligature.getHieroglyph().getRelativeSize() != 100)
-					scale1 = scale * ligature.getHieroglyph().getFLoatScale();
+					scale1 = scale * ligature.getHieroglyph().getScaleFactor();
 				else
 					scale1 = scale;
 				Optional<LigatureZone> ligatureZone = hieroglyphsDrawer
@@ -696,12 +696,12 @@ public class Layout {
 			Rectangle2D insertedBox = new Rectangle2D.Double(0, 0, insertedView.getWidth(),
 					insertedView.getHeight());
 
-			insertedView.reScale((float) placement.scale());
+			insertedView.reScale(placement.scale());
 			Rectangle2D placed = placement.transform().createTransformedShape(insertedBox).getBounds2D();
 			// The whole group: the (possibly enlarged) frame and the inserted element.
 			Rectangle2D whole = frame.createUnion(placed);
-			float width = (float) whole.getWidth();
-			float height = (float) whole.getHeight();
+			double width = whole.getWidth();
+			double height = whole.getHeight();
 			currentView.setWidth(width);
 			currentView.setHeight(height);
 
@@ -722,7 +722,7 @@ public class Layout {
 			if (currentView.getNumberOfSubviews() != 0) {
 				if (jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL)) {
 					/* stick elements one after another */
-					float width = currentView.getSumOfSubViewsWidths();
+					double width = currentView.getSumOfSubViewsWidths();
 					width = width + jseshStyle.geometry().smallSkip() * (currentView.getNumberOfSubviews() - 1);
 					currentView.setWidth(width);
 					currentView.setHeight(currentView.getMaximalHeightOfSubView());
@@ -730,7 +730,7 @@ public class Layout {
 				} else {
 					/* vertical text orientation */
 					/* stick elements one on top of the other */
-					float height = currentView.getSumOfSubViewsHeights();
+					double height = currentView.getSumOfSubViewsHeights();
 					height = height + jseshStyle.geometry().smallSkip() * (currentView.getNumberOfSubviews() - 1);
 					currentView.setWidth(currentView.getMaximalWidthOfSubView());
 					currentView.setHeight(height);
@@ -743,7 +743,7 @@ public class Layout {
 		public void visitHBox(HBox b) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 
-			float h = currentView.getMaximalHeightOfSubView();
+			double h = currentView.getMaximalHeightOfSubView();
 
 			// First, enlarge high signs which stand alone. The
 			// idea, especially in vertical texts, is to deal with
@@ -772,7 +772,7 @@ public class Layout {
 					// explicitely scaled.
 					Hieroglyph hiero = group.getLoneSign();
 					if (hiero.getRelativeSize() == 100) {
-						float scale = h / subView.getHeight();
+						double scale = h / subView.getHeight();
 						subView.reScale(scale);
 					}
 				}
@@ -780,7 +780,7 @@ public class Layout {
 			}
 
 			// Compute the correct box dimensions
-			float w = currentView.getSumOfSubViewsWidths();
+			double w = currentView.getSumOfSubViewsWidths();
 			w += (currentView.getNumberOfSubviews() - 1) * jseshStyle.geometry().smallSkip();
 
 			currentView.setHeight(h);
@@ -800,7 +800,7 @@ public class Layout {
 					subView.getPosition().y = KerningPacker.kerningOf(subView).isPresent() ? h / 2
 							: h - subView.getHeight();
 				}
-				currentView.setWidth((float) packer(KerningAxis.HORIZONTAL).pack(currentView));
+				currentView.setWidth(packer(KerningAxis.HORIZONTAL).pack(currentView));
 			}
 		}
 
@@ -822,8 +822,8 @@ public class Layout {
 					// Temporary hack as proof of concept.
 					String smallText = h.getSmallText();
 					Dimension2D r = jseshStyle.fonts().superScriptDimensions(techRenderContext, smallText);
-					currentView.setHeight((float) r.getHeight());
-					currentView.setWidth((float) r.getWidth());
+					currentView.setHeight(r.getHeight());
+					currentView.setWidth(r.getWidth());
 				}
 					break;
 				case SymbolCodes.FULLSHADE:
@@ -833,16 +833,16 @@ public class Layout {
 					break;
 				case SymbolCodes.QUATERSHADE:
 				case SymbolCodes.HALFSPACE:
-					currentView.setWidth(geometry.maxCadratWidth() / 2.0f);
-					currentView.setHeight(geometry.maxCadratHeight() / 2.0f);
+					currentView.setWidth(geometry.maxCadratWidth() / 2.0);
+					currentView.setHeight(geometry.maxCadratHeight() / 2.0);
 					break;
 				case SymbolCodes.VERTICALSHADE:
-					currentView.setWidth(geometry.maxCadratWidth() / 2.0f);
+					currentView.setWidth(geometry.maxCadratWidth() / 2.0);
 					currentView.setHeight(geometry.maxCadratHeight());
 					break;
 				case SymbolCodes.HORIZONTALSHADE:
 					currentView.setWidth(geometry.maxCadratWidth());
-					currentView.setHeight(geometry.maxCadratHeight() / 2f);
+					currentView.setHeight(geometry.maxCadratHeight() / 2.0);
 					break;
 				case SymbolCodes.BEGINERASE:
 				case SymbolCodes.ENDERASE:
@@ -873,8 +873,8 @@ public class Layout {
 					}
 
 					Rectangle2D rect = hieroglyphsDrawer.getBBox(h.getCode(), h.getAngle(), fixed);
-					currentView.setWidth((float) rect.getWidth());
-					currentView.setHeight((float) rect.getHeight());
+					currentView.setWidth(rect.getWidth());
+					currentView.setHeight(rect.getHeight());
 				}
 					break;
 
@@ -887,22 +887,22 @@ public class Layout {
 						Rectangle2D s = hieroglyphsDrawer.getBBox(code, angle, true);
 
 						// Take the font size into account.
-						currentView.setHeight((float) (s.getHeight() * computeScale()));
-						currentView.setWidth((float) (s.getWidth() * computeScale()));
+						currentView.setHeight((s.getHeight() * computeScale()));
+						currentView.setWidth((s.getWidth() * computeScale()));
 					} else {
 						Dimension2D r = jseshStyle.fonts().superScriptDimensions(techRenderContext, code);
-						currentView.setHeight((float) r.getHeight());
-						currentView.setWidth((float) r.getWidth());
+						currentView.setHeight(r.getHeight());
+						currentView.setWidth(r.getWidth());
 					}
 				}
 					break;
 			}
 			if (h.getRelativeSize() != 100) {
 				/*
-				 * currentView.setWidth(currentView.getWidth() * h.getRelativeSize() / 100f);
-				 * currentView.setHeight(currentView.getHeight() * h.getRelativeSize() / 100f);
+				 * currentView.setWidth(currentView.getWidth() * h.getRelativeSize() / 100.0);
+				 * currentView.setHeight(currentView.getHeight() * h.getRelativeSize() / 100.0);
 				 */
-				currentView.reScale(h.getRelativeSize() / 100f);
+				currentView.reScale(h.getRelativeSize() / 100.0);
 			}
 
 		}
@@ -918,9 +918,9 @@ public class Layout {
 			// At least one quadrat wide, and as wide as the page or the zone
 			// if there is one. Without a width to fill, LineLayout widens the
 			// rule to the width of the text once all the lines are known.
-			float width = geometry.maxCadratWidth();
+			double width = geometry.maxCadratWidth();
 			if (currentTextOrientation.isHorizontal() && geometry.isWrapping()) {
-				width = Math.max(width, (float) geometry.maxLineWidth());
+				width = Math.max(width, geometry.maxLineWidth());
 			}
 			currentView.setWidth(width);
 			currentView.setHeight(jseshStyle.geometry().wideLineWidth());
@@ -942,15 +942,15 @@ public class Layout {
 
 				for (int k = 0; k < pos.size(); k++) {
 					MDCView subv = currentView.getSubView(k);
-					float x, y;
+					double x, y;
 					// So, the ligature coordinates suppose unscaled signs.
 					// We scale them...
-					float signScale = computeScale();
+					double signScale = computeScale();
 					ExplicitPosition posAtk = pos.get(k);
-					x = (float) (posAtk.getX() * signScale * getGroupUnitScale());
-					y = (float) (posAtk.getY() * signScale * getGroupUnitScale());
+					x = (posAtk.getX() * signScale * getGroupUnitScale());
+					y = (posAtk.getY() * signScale * getGroupUnitScale());
 					subv.resetPos();
-					subv.reScale(posAtk.getScale() / 100f);
+					subv.reScale(posAtk.getScale() / 100.0);
 
 					subv.getPosition().setLocation(x, y);
 
@@ -1015,7 +1015,7 @@ public class Layout {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			// The actual layout is done in HieroglyphicText, because we need a global
 			// view to decide LineBreak skips.
-			currentView.setWidth(0.0f);
+			currentView.setWidth(0.0);
 			currentView.setHeight(jseshStyle.geometry().maxCadratHeight());
 		}
 
@@ -1034,8 +1034,8 @@ public class Layout {
 			double wmax, hmax;
 			wmax = Math.max(currentView.getSubView(0).getWidth(), currentView.getSubView(1).getWidth());
 			hmax = Math.max(currentView.getSubView(0).getHeight(), currentView.getSubView(1).getHeight());
-			currentView.setWidth((float) wmax);
-			currentView.setHeight((float) hmax);
+			currentView.setWidth(wmax);
+			currentView.setHeight(hmax);
 			currentView.centerSubViewHorizontally();
 			currentView.centerSubViewsVertically();
 		}
@@ -1051,7 +1051,7 @@ public class Layout {
 			// visitDefault(p.getBasicItemList());
 			MDCView subView = currentView.getFirstSubView();
 
-			float margin = PhilologyHelper.philologyWidth(p.getType()) + jseshStyle.geometry().smallSkip();
+			double margin = PhilologyHelper.philologyWidth(p.getType()) + jseshStyle.geometry().smallSkip();
 
 			currentView.getFirstSubView().getPosition().setLocation(margin, 0);
 			currentView.setWidth(margin * 2 + subView.getWidth());
@@ -1070,8 +1070,8 @@ public class Layout {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			// Dimension2D dims = jseshStyle.getSuperScriptDimensions(s.getText());
 			Dimension2D dims = jseshStyle.fonts().superScriptDimensions(techRenderContext, s.getText());
-			currentView.setWidth((float) dims.getWidth());
-			currentView.setHeight((float) Math.max(jseshStyle.geometry().maxCadratHeight(),
+			currentView.setWidth(dims.getWidth());
+			currentView.setHeight(Math.max(jseshStyle.geometry().maxCadratHeight(),
 					dims.getHeight() + jseshStyle.geometry().smallSkip() * 2));
 		}
 
@@ -1092,7 +1092,7 @@ public class Layout {
 		@Override
 		public void visitRunningAnnotation(RunningAnnotation a) {
 			GeometrySpecification geometry = renderContext.jseshStyle().geometry();
-			float length = a.isFill() ? 0f : a.getPercent() * zoneLengthUnit(renderContext.jseshStyle());
+			double length = a.isFill() ? 0.0 : a.getPercent() * zoneLengthUnit(renderContext.jseshStyle());
 			if (currentTextOrientation.isHorizontal()) {
 				currentView.setWidth(length);
 				currentView.setHeight(geometry.maxCadratHeight());
@@ -1101,7 +1101,7 @@ public class Layout {
 				currentView.setHeight(length);
 			}
 			if (a.isFill()) {
-				currentView.setNaturalLength(0f);
+				currentView.setNaturalLength(0.0);
 			}
 		}
 
@@ -1135,15 +1135,15 @@ public class Layout {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			ZoneParameters p = zone.getParameters();
 			MDCView content = currentView.getFirstSubView();
-			float unit = zoneLengthUnit(jseshStyle);
-			float padding = p.frame() ? zoneFramePadding(jseshStyle) : 0f;
-			float width = p.width() != ZoneParameters.UNSET ? p.width() * unit : content.getWidth();
-			float height = p.height() != ZoneParameters.UNSET ? p.height() * unit : content.getHeight();
+			double unit = zoneLengthUnit(jseshStyle);
+			double padding = p.frame() ? zoneFramePadding(jseshStyle) : 0.0;
+			double width = p.width() != ZoneParameters.UNSET ? p.width() * unit : content.getWidth();
+			double height = p.height() != ZoneParameters.UNSET ? p.height() * unit : content.getHeight();
 			boolean horizontalParent = currentTextOrientation.isHorizontal();
-			Float forced = forcedLengths.get(zone);
+			Double forced = forcedLengths.get(zone);
 			if (forced != null) {
 				// Stretched by its parent, to fill its line.
-				float inner = forcedInnerLength(p, forced, jseshStyle);
+				double inner = forcedInnerLength(p, forced, jseshStyle);
 				if (horizontalParent) {
 					width = inner;
 				} else {
@@ -1169,7 +1169,7 @@ public class Layout {
 			currentView.setWidth(width + 2 * padding);
 			currentView.setHeight(height + 2 * padding);
 			if (!p.fills(horizontalParent)) {
-				currentView.setNaturalLength(Float.NaN);
+				currentView.setNaturalLength(Double.NaN);
 			} else if (forced == null) {
 				currentView.setNaturalLength(horizontalParent ? currentView.getWidth() : currentView.getHeight());
 			}
@@ -1242,8 +1242,8 @@ public class Layout {
 				// TODO : add here something to change the current layout if needed.
 			}
 			topItemLayout.endLayout();
-			currentView.setWidth((float) topItemLayout.getDocumentArea().getWidth());
-			currentView.setHeight((float) topItemLayout.getDocumentArea().getHeight());
+			currentView.setWidth(topItemLayout.getDocumentArea().getWidth());
+			currentView.setHeight(topItemLayout.getDocumentArea().getHeight());
 			currentView.setSeparators(topItemLayout.getSeparatorPositions());
 		}
 
@@ -1282,7 +1282,7 @@ public class Layout {
 		 * 
 		 * @return
 		 */
-		private float computeScale() {
+		private double computeScale() {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			return hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
 		}
@@ -1296,7 +1296,7 @@ public class Layout {
 		 */
 		class ViewVerticalEnlarger extends ModelElementAdapter {
 
-			float height;
+			double height;
 
 			MDCView view;
 
@@ -1304,7 +1304,7 @@ public class Layout {
 			 * @param subView
 			 * @param h
 			 */
-			public void enlarge(MDCView subView, float h) {
+			public void enlarge(MDCView subView, double h) {
 				height = h;
 				view = subView;
 				subView.getModel().accept(this);

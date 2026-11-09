@@ -30,20 +30,20 @@ public class DocumentPreferencesStyleConverter {
 	/// @return the matching document preferences.
 	public static DocumentPreferences toDocumentPreferences(JSeshStyle jseshStyle) {
 		GeometrySpecification g = jseshStyle.geometry();
-		double unit = decimal(g.unit());
+		double unit = g.unit();
 		return new DocumentPreferences()
 				.withUnit(unit)
 				.withSettings(LayoutSettingsApplier.settingsOf(jseshStyle, unit))
-				.withSmallBodyScaleLimit(decimal(g.smallBodyScaleLimit()))
+				.withSmallBodyScaleLimit(g.smallBodyScaleLimit())
 				.withUseLinesForShading(jseshStyle.painting().shadingStyle()
 						.equals(ShadingMode.LINE_HATCHING))
 				.withPage(
-						decimal(g.page().pageWidth()),
-						decimal(g.page().pageHeight()),
-						decimal(g.page().marginLeft()),
-						decimal(g.page().marginRight()),
-						decimal(g.page().marginTop()),
-						decimal(g.page().marginBottom()))
+						g.page().pageWidth(),
+						g.page().pageHeight(),
+						g.page().marginLeft(),
+						g.page().marginRight(),
+						g.page().marginTop(),
+						g.page().marginBottom())
 				.withPageTexts(
 						g.pageDecoration().numberPosition(),
 						g.pageDecoration().titlePosition(),
@@ -51,23 +51,17 @@ public class DocumentPreferencesStyleConverter {
 						g.pageDecoration().alternate());
 	}
 
-	/// The double with the decimal representation of a float, so that
-	/// 56.69f is saved as "56.69" and not as "56.689998626708984".
-	private static double decimal(float value) {
-		return Double.parseDouble(Float.toString(value));
-	}
-
 	private static PageSpecification pageOf(DocumentPreferences preferences) {
 		if (!preferences.hasPage()) {
 			return PageSpecification.NONE;
 		}
 		return new PageSpecification(
-				(float) preferences.pageWidth(),
-				(float) preferences.pageHeight(),
-				(float) preferences.marginLeft(),
-				(float) preferences.marginRight(),
-				(float) preferences.marginTop(),
-				(float) preferences.marginBottom());
+				preferences.pageWidth(),
+				preferences.pageHeight(),
+				preferences.marginLeft(),
+				preferences.marginRight(),
+				preferences.marginTop(),
+				preferences.marginBottom());
 	}
 
 	/// Applies document preferences on top of an existing style.
@@ -79,8 +73,8 @@ public class DocumentPreferencesStyleConverter {
 			DocumentPreferences preferences, JSeshStyle original) {
 		JSeshStyle.Builder builder = original.copy()
 				.geometry(g -> g
-						.unit((float) preferences.unit())
-						.smallBodyScaleLimit((float) preferences.smallBodyScaleLimit())
+						.unit(preferences.unit())
+						.smallBodyScaleLimit(preferences.smallBodyScaleLimit())
 						.page(pageOf(preferences))
 						.pageDecoration(new PageDecoration(
 								preferences.pageNumberPosition(),
@@ -90,8 +84,8 @@ public class DocumentPreferencesStyleConverter {
 				.geometry(g -> {
 					// With a page, the margins around the text are the page's.
 					if (preferences.hasPage()) {
-						g.leftMargin((float) preferences.marginLeft())
-								.topMargin((float) preferences.marginTop());
+						g.leftMargin(preferences.marginLeft())
+								.topMargin(preferences.marginTop());
 					}
 					return g;
 				})

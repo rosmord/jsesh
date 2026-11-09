@@ -91,43 +91,43 @@ import java.awt.BasicStroke;
  *                            {@link jsesh.model.LayoutSetting}).
  */
 public record GeometrySpecification(
-		float fineLineWidth, // 0.5f,
-		float wideLineWidth, // 3f,
-		float lineSkip, // 6f,
-		float columnSkip, // 10f
-		float tabUnitWidth, // 18f/ 200f,
-		float cartoucheLineWidth, // 1,
-		float cartoucheLoopLength, // 10,
-		float cartoucheMargin, // 2
-		float bastionDepth, // 3
-		float bastionLength, // 4
-		float hwtSmallMargin, // 3
-		float hwtSquareSize, // 10
-		float serekhDoorSize, // 20
-		float leftMargin, // 6
-		float topMargin, // 5
+		double fineLineWidth, // 0.5,
+		double wideLineWidth, // 3.0,
+		double lineSkip, // 6.0,
+		double columnSkip, // 10.0
+		double tabUnitWidth, // 18.0/ 200.0,
+		double cartoucheLineWidth, // 1,
+		double cartoucheLoopLength, // 10,
+		double cartoucheMargin, // 2
+		double bastionDepth, // 3
+		double bastionLength, // 4
+		double hwtSmallMargin, // 3
+		double hwtSquareSize, // 10
+		double serekhDoorSize, // 20
+		double leftMargin, // 6
+		double topMargin, // 5
 		PageSpecification page, // PageSpecification.NONE
 		PageDecoration pageDecoration, // PageDecoration.NONE
-		float maxCadratHeight, // 18f,
-		float maxCadratWidth, // 22f,
-		float smallSkip, // 2f,
-		float largeSignSizeRatio, // 0.8f,
-		float smallSignSizeRatio, // 0.4f,
-		float smallBodyScaleLimit, // 12f,
-		float standardSignHeight, // 18f
-		float alphabeticTextBaseline, // 4f
-		float wrapWidth, // 0f (no wrapping)
-		float columnHeight, // 0f (natural height)
-		float columnQuadratSkip, // 6f
-		float unit // 18f
+		double maxCadratHeight, // 18.0,
+		double maxCadratWidth, // 22.0,
+		double smallSkip, // 2.0,
+		double largeSignSizeRatio, // 0.8,
+		double smallSignSizeRatio, // 0.4,
+		double smallBodyScaleLimit, // 12.0,
+		double standardSignHeight, // 18.0
+		double alphabeticTextBaseline, // 4.0
+		double wrapWidth, // 0.0 (no wrapping)
+		double columnHeight, // 0.0 (natural height)
+		double columnQuadratSkip, // 6.0
+		double unit // 18.0
 ) {
 
 	public static final GeometrySpecification DEFAULT = new GeometrySpecification(
-			0.5f,
-			3f,
-			6f,
-			10f,
-			18f / 200f,
+			0.5,
+			3.0,
+			6.0,
+			10.0,
+			18.0 / 200.0,
 			1,
 			10,
 			2,
@@ -140,25 +140,25 @@ public record GeometrySpecification(
 			5,
 			PageSpecification.NONE,
 			PageDecoration.NONE,
-			18f,
-			22f,
-			2f,
-			0.8f,
-			0.4f,
-			12f,
-			18f,
-			4f,
-			0f,
-			0f,
-			6f,
-			18f);
+			18.0,
+			22.0,
+			2.0,
+			0.8,
+			0.4,
+			12.0,
+			18.0,
+			4.0,
+			0.0,
+			0.0,
+			6.0,
+			18.0);
 
 	/// The unit of the lengths of zones and of the document preferences: one
 	/// percent of [#unit()].
 	///
 	/// @return the length of 1 %, in points.
-	public float percentUnit() {
-		return unit / 100f;
+	public double percentUnit() {
+		return unit / 100.0;
 	}
 
 	/**
@@ -166,7 +166,7 @@ public record GeometrySpecification(
 	 * @return a stroke for fine lines.
 	 */
 	public Stroke fineStroke() {
-		return new BasicStroke(fineLineWidth);
+		return new BasicStroke((float) fineLineWidth);
 	}
 
 	/**
@@ -174,7 +174,7 @@ public record GeometrySpecification(
 	 * @return a stroke for wide lines.
 	 */
 	public Stroke wideStroke() {
-		return new BasicStroke(wideLineWidth);
+		return new BasicStroke((float) wideLineWidth);
 	}
 
 	/**
@@ -182,7 +182,7 @@ public record GeometrySpecification(
 	 * @return a stroke for cartouches.
 	 */
 	public Stroke cartoucheStroke() {
-		return new BasicStroke(cartoucheLineWidth);
+		return new BasicStroke((float) cartoucheLineWidth);
 	}
 
 	/// Is soft wrapping of lines active?
@@ -246,35 +246,35 @@ public record GeometrySpecification(
 
 	/** copy builder class */
 	public static class Builder {
-		private float fineLineWidth; // 0.5f,
-		private float wideLineWidth; // 3f,
-		private float lineSkip; // 6f,
-		private float columnSkip; // 10f
-		private float tabUnitWidth; // 18f/ 200f,
-		private float cartoucheLineWidth; // 1,
-		private float cartoucheLoopLength; // 10,
-		private float cartoucheMargin; // 2
-		private float bastionDepth; // 3
-		private float bastionLength; // 4
-		private float hwtSmallMargin; // 3
-		private float hwtSquareSize; // 10
-		private float serekhDoorSize; // 20
-		private float leftMargin; // 6
-		private float topMargin; // 5
+		private double fineLineWidth; // 0.5,
+		private double wideLineWidth; // 3.0,
+		private double lineSkip; // 6.0,
+		private double columnSkip; // 10.0
+		private double tabUnitWidth; // 18.0/ 200.0,
+		private double cartoucheLineWidth; // 1,
+		private double cartoucheLoopLength; // 10,
+		private double cartoucheMargin; // 2
+		private double bastionDepth; // 3
+		private double bastionLength; // 4
+		private double hwtSmallMargin; // 3
+		private double hwtSquareSize; // 10
+		private double serekhDoorSize; // 20
+		private double leftMargin; // 6
+		private double topMargin; // 5
 		private PageSpecification page; // NONE
 		private PageDecoration pageDecoration; // NONE
-		private float maxCadratHeight; // 18f,
-		private float maxCadratWidth; // 22f,
-		private float smallSkip; // 2f,
-		private float largeSignSizeRatio; // 0.8f,
-		private float smallSignSizeRatio; // 0.4f,
-		private float smallBodyScaleLimit; // 12f,
-		private float standardSignHeight; // 18f;
-		private float alphabeticTextBaseline; // 4f;
-		private float wrapWidth; // 0f;
-		private float columnHeight; // 0f;
-		private float columnQuadratSkip; // 6f;
-		private float unit; // 18f;
+		private double maxCadratHeight; // 18.0,
+		private double maxCadratWidth; // 22.0,
+		private double smallSkip; // 2.0,
+		private double largeSignSizeRatio; // 0.8,
+		private double smallSignSizeRatio; // 0.4,
+		private double smallBodyScaleLimit; // 12.0,
+		private double standardSignHeight; // 18.0;
+		private double alphabeticTextBaseline; // 4.0;
+		private double wrapWidth; // 0.0;
+		private double columnHeight; // 0.0;
+		private double columnQuadratSkip; // 6.0;
+		private double unit; // 18.0;
 
 		public Builder(GeometrySpecification specs) {
 			this.fineLineWidth = specs.fineLineWidth;
@@ -308,77 +308,77 @@ public record GeometrySpecification(
 			this.unit = specs.unit;
 		}
 
-		public Builder fineLineWidth(float fineLineWidth) {
+		public Builder fineLineWidth(double fineLineWidth) {
 			this.fineLineWidth = fineLineWidth;
 			return this;
 		}
 
-		public Builder wideLineWidth(float wideLineWidth) {
+		public Builder wideLineWidth(double wideLineWidth) {
 			this.wideLineWidth = wideLineWidth;
 			return this;
 		}
 
-		public Builder lineSkip(float lineSkip) {
+		public Builder lineSkip(double lineSkip) {
 			this.lineSkip = lineSkip;
 			return this;
 		}
 
-		public Builder columnSkip(float columnSkip) {
+		public Builder columnSkip(double columnSkip) {
 			this.columnSkip = columnSkip;
 			return this;
 		}
 
-		public Builder tabUnitWidth(float tabUnitWidth) {
+		public Builder tabUnitWidth(double tabUnitWidth) {
 			this.tabUnitWidth = tabUnitWidth;
 			return this;
 		}
 
-		public Builder cartoucheLineWidth(float cartoucheLineWidth) {
+		public Builder cartoucheLineWidth(double cartoucheLineWidth) {
 			this.cartoucheLineWidth = cartoucheLineWidth;
 			return this;
 		}
 
-		public Builder cartoucheLoopLength(float cartoucheLoopLength) {
+		public Builder cartoucheLoopLength(double cartoucheLoopLength) {
 			this.cartoucheLoopLength = cartoucheLoopLength;
 			return this;
 		}
 
-		public Builder cartoucheMargin(float cartoucheMargin) {
+		public Builder cartoucheMargin(double cartoucheMargin) {
 			this.cartoucheMargin = cartoucheMargin;
 			return this;
 		}
 
-		public Builder bastionDepth(float bastionDepth) {
+		public Builder bastionDepth(double bastionDepth) {
 			this.bastionDepth = bastionDepth;
 			return this;
 		}
 
-		public Builder bastionLength(float bastionLength) {
+		public Builder bastionLength(double bastionLength) {
 			this.bastionLength = bastionLength;
 			return this;
 		}
 
-		public Builder hwtSmallMargin(float hwtSmallMargin) {
+		public Builder hwtSmallMargin(double hwtSmallMargin) {
 			this.hwtSmallMargin = hwtSmallMargin;
 			return this;
 		}
 
-		public Builder hwtSquareSize(float hwtSquareSize) {
+		public Builder hwtSquareSize(double hwtSquareSize) {
 			this.hwtSquareSize = hwtSquareSize;
 			return this;
 		}
 
-		public Builder serekhDoorSize(float serekhDoorSize) {
+		public Builder serekhDoorSize(double serekhDoorSize) {
 			this.serekhDoorSize = serekhDoorSize;
 			return this;
 		}
 
-		public Builder leftMargin(float leftMargin) {
+		public Builder leftMargin(double leftMargin) {
 			this.leftMargin = leftMargin;
 			return this;
 		}
 
-		public Builder topMargin(float topMargin) {
+		public Builder topMargin(double topMargin) {
 			this.topMargin = topMargin;
 			return this;
 		}
@@ -402,66 +402,66 @@ public record GeometrySpecification(
 			return this;
 		}
 
-		public Builder maxCadratHeight(float maxCadratHeight) {
+		public Builder maxCadratHeight(double maxCadratHeight) {
 			this.maxCadratHeight = maxCadratHeight;
 			return this;
 		}
 
-		public Builder maxCadratWidth(float maxCadratWidth) {
+		public Builder maxCadratWidth(double maxCadratWidth) {
 			this.maxCadratWidth = maxCadratWidth;
 			return this;
 		}
 
-		public Builder smallSkip(float smallSkip) {
+		public Builder smallSkip(double smallSkip) {
 			this.smallSkip = smallSkip;
 			return this;
 		}
 
-		public Builder largeSignSizeRatio(float largeSignSizeRatio) {
+		public Builder largeSignSizeRatio(double largeSignSizeRatio) {
 			this.largeSignSizeRatio = largeSignSizeRatio;
 			return this;
 		}
 
-		public Builder smallSignSizeRatio(float smallSignSizeRatio) {
+		public Builder smallSignSizeRatio(double smallSignSizeRatio) {
 			this.smallSignSizeRatio = smallSignSizeRatio;
 			return this;
 		}
 
-		public Builder smallBodyScaleLimit(float smallBodyScaleLimit) {
+		public Builder smallBodyScaleLimit(double smallBodyScaleLimit) {
 			this.smallBodyScaleLimit = smallBodyScaleLimit;
 			return this;
 		}
 
-		public Builder standardSignHeight(float standardSignHeight) {
+		public Builder standardSignHeight(double standardSignHeight) {
 			this.standardSignHeight = standardSignHeight;
 			return this;
 		}
 
-		public Builder alphabeticTextBaseline(float alphabeticTextBaseline) {
+		public Builder alphabeticTextBaseline(double alphabeticTextBaseline) {
 			this.alphabeticTextBaseline = alphabeticTextBaseline;
 			return this;
 		}
 
-		public Builder wrapWidth(float wrapWidth) {
+		public Builder wrapWidth(double wrapWidth) {
 			this.wrapWidth = wrapWidth;
 			return this;
 		}
 
-		public Builder columnHeight(float columnHeight) {
+		public Builder columnHeight(double columnHeight) {
 			this.columnHeight = columnHeight;
 			return this;
 		}
 
 		/// @param columnQuadratSkip the space between two quadrats of a column.
 		/// @return this builder, for chaining.
-		public Builder columnQuadratSkip(float columnQuadratSkip) {
+		public Builder columnQuadratSkip(double columnQuadratSkip) {
 			this.columnQuadratSkip = columnQuadratSkip;
 			return this;
 		}
 
 		/// @param unit the reference length of the document, in points.
 		/// @return this builder, for chaining.
-		public Builder unit(float unit) {
+		public Builder unit(double unit) {
 			this.unit = unit;
 			return this;
 		}

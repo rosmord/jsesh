@@ -370,7 +370,7 @@ public class LineLayout extends TopItemLayout {
                 if (v.getModel() instanceof HRule) {
                     double fitted = width - (v.getPosition().x - margin);
                     if (fitted > v.getWidth()) {
-                        v.setWidth((float) fitted);
+                        v.setWidth(fitted);
                         changed = true;
                     }
                 }
@@ -569,7 +569,7 @@ public class LineLayout extends TopItemLayout {
         // nextViewPosition = documentView.getFirstSubViewPosition();
         resetView();
         documentView.setDirection(currentTextDirection);
-        insertionPoint.setLocation(0f, 0f);
+        insertionPoint.setLocation(0.0, 0.0);
         initZoneForPage();
     }
 
@@ -616,8 +616,8 @@ public class LineLayout extends TopItemLayout {
         GeometrySpecification pageLayout = jseshStyle.geometry();
 
         // Compute the margins we want.
-        float marginx = pageLayout.leftMargin();
-        float marginy = 0f;
+        double marginx = pageLayout.leftMargin();
+        double marginy = 0.0;
 
         if (addTopMargin) {
             marginy = pageLayout.topMargin();
@@ -692,7 +692,7 @@ public class LineLayout extends TopItemLayout {
             double verticalSkip = (zone.getHeight() + zone.getMinY() + jseshStyle.geometry()
                     .lineSkip());
             if (b.getSpacing() != 100) {
-                verticalSkip = verticalSkip * b.getSpacing() / 100f;
+                verticalSkip = verticalSkip * b.getSpacing() / 100.0;
             }
 
             // add the line break to the current line
@@ -739,10 +739,10 @@ public class LineLayout extends TopItemLayout {
                 // If the page break starts a new page, we won't draw anything.
 
                 // build a zone containing only the page break.
-                zone = new LineAccumulator(0f, 0f);
+                zone = new LineAccumulator(0.0, 0.0);
                 zoneOriginPosition.y += jseshStyle.geometry().lineSkip() + dh;
 
-                subView.setWidth(32f);
+                subView.setWidth(32.0);
                 subView.setHeight(jseshStyle.geometry().lineSkip());
                 zone.add(subView);
                 // We cheat : the subview's dimension is very large, but its width
@@ -777,7 +777,7 @@ public class LineLayout extends TopItemLayout {
                 zone.add(subView);
                 return;
             }
-            float pos = tab.getStopPos()
+            double pos = tab.getStopPos()
                     * jseshStyle.geometry().tabUnitWidth();
             zone.getCurrentPoint().setLocation(pos, 0);
             zone.add(subView);

@@ -34,11 +34,11 @@ public class RunningAnnotationLayoutTest {
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);
     private static final double EPSILON = 1e-2;
     private static final JSeshStyle STYLE = JSeshStyle.DEFAULT;
-    private static final float QUADRAT = STYLE.geometry().maxCadratHeight();
-    private static final float GAP = STYLE.geometry().smallSkip();
-    private static final float COLUMN_GAP = STYLE.geometry().columnQuadratSkip();
+    private static final double QUADRAT = STYLE.geometry().maxCadratHeight();
+    private static final double GAP = STYLE.geometry().smallSkip();
+    private static final double COLUMN_GAP = STYLE.geometry().columnQuadratSkip();
     /// The width of a zone of `width=1000`.
-    private static final float TEN = 10 * QUADRAT;
+    private static final double TEN = 10 * QUADRAT;
 
     private static JSeshRenderContext context(JSeshStyle style) {
         return new JSeshRenderContext(style, PredefinedFonts.buildAllEmbeddedFonts());
@@ -165,7 +165,7 @@ public class RunningAnnotationLayoutTest {
     public void layingOutAgainGivesTheSameResult() throws MDCSyntaxError {
         MDCView text = layout("A1-%haplography[size=fill]-A1!A1-A1-A1-A1-A1");
         MDCView a = text.getSubView(1);
-        float width = a.getWidth();
+        double width = a.getWidth();
         assertTrue(width > 2 * QUADRAT);
         double lastX = text.getSubView(2).getPosition().x;
         new ViewBuilder().reLayout(text, context(STYLE), tech());
@@ -177,7 +177,7 @@ public class RunningAnnotationLayoutTest {
     public void afterAnEditItShrinksBack() throws MDCSyntaxError {
         MDCView text = layout("A1-%haplography[size=fill]-A1!A1-A1-A1-A1-A1");
         MDCView a = text.getSubView(1);
-        float width = a.getWidth();
+        double width = a.getWidth();
         // Remove all the signs of the second line.
         text.remove(4, text.getNumberOfSubviews());
         new ViewBuilder().reLayout(text, context(STYLE), tech());
@@ -240,7 +240,7 @@ public class RunningAnnotationLayoutTest {
     public void withTabsLayingOutAgainGivesTheSameResult() throws MDCSyntaxError {
         MDCView text = layout("%zone[width=1000](A1-%haplography[size=fill]-%tab-B1-!G17-G17-G17-%tab-C1)");
         MDCView a = text.getSubView(0).getFirstSubView().getSubView(1);
-        float width = a.getWidth();
+        double width = a.getWidth();
         assertTrue(width > QUADRAT);
         new ViewBuilder().reLayout(text, context(STYLE), tech());
         assertEquals(width, a.getWidth(), EPSILON);

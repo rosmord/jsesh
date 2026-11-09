@@ -10,7 +10,7 @@ From this follow the working principles:
 
 - **Java is the reference.** A behaviour of the layout, the parser or the writer is right if Java does the same. When they differ, the Java code is probably right, and the fix is made in TypeScript, unless the Java is wrong, in which case it is fixed there first and the fixtures regenerated.
 - **The code follows the Java classes closely, names included.** `LineLayout`, `QuadratLayout`, `Zone`, `HieroglyphDrawer`, `ModelElementAdapter`... exist in both. Every file starts with a comment saying which Java class it ports. This is deliberate: it lets you compare both side by side, and port a Java change line by line. Don't "tidy up" the structure of a ported file without a strong reason.
-- **Java `float`s are reproduced.** Java computes sizes in `float` (32 bits), and a rounding difference can move a sign by a visible amount after a few operations. The layout therefore wraps its arithmetic in `Math.fround` (`const f = Math.fround;` at the top of the files). Leave these calls in place, and add them when you port new arithmetic.
+- **Java and TypeScript both compute in `double`.** The layout and drawing pipeline of Java uses `double` everywhere (it used to use `float`, and the port reproduced it with `Math.fround`: those calls are gone). The only `float`s left in Java are the glyph outlines (and the `float`-only APIs of Java2D and iText at the output boundary), and the glyph data is exported rounded (3 decimals for the outlines, 4 for the sizes), so view sizes can differ from the Java ones by about 1e-5: the tests compare with a relative tolerance of 1e-3.
 - **The fixtures are the specification.** The Java side exports its results (parse trees, written MdC, view trees), and the tests check that the TypeScript code gives the same ones. See [Testing](#7-testing).
 - **Not everything is ported.** The JS port covers parsing, the model, writing MdC, layout, SVG drawing, the sign database, and new editor and palette components. It does not port JSesh's search (`jseshSearch`), the other export formats (PDF, RTF...), pagination in pages, or the application. `<jsesh-field>` (a single-line editor) is planned but not written.
 
@@ -311,7 +311,7 @@ Remember:
 
 ### I changed something in the Java layout, drawing or parser
 
-1. Port the change, in the corresponding TypeScript file, keeping the Java structure. Mind `Math.fround`.
+1. Port the change, in the corresponding TypeScript file, keeping the Java structure.
 2. `./gradlew :jseshJsExport:exportAll`
 3. `npm test` — the failing cases tell you what differs. A layout difference names the view and the value.
 4. Look at `/compare/` for a visual check.
@@ -342,6 +342,6 @@ See [The glyph data](#the-glyph-data). Java exporter, TypeScript reader, `format
 - **Header** on every source file: the copyright and `SPDX-License-Identifier: CECILL-C` comment, as in the existing ones.
 - **Doc comments use `///` Markdown**, as the Java code does since JEP 467, with `[Name]` for links. A ported file starts with a comment naming its Java original.
 - **UTF-8** everywhere. Names of signs and transliteration use real Unicode letters.
-- **Comments say why**, especially where TypeScript differs from Java for a reason (`Math.fround`, `Rect.add` which "also works from an empty rectangle", the enum order in the lexer…).
+- **Comments say why**, especially where TypeScript differs from Java for a reason (`Rect.add` which "also works from an empty rectangle", the enum order in the lexer…).
 - **Formatting**: follow the file you are in (double quotes, two-space indent, long lines tolerated up to about 120 characters).
 - **Documentation travels with the code.** When you change a public function, update the user guide (and the customisation guide if it concerns the lower levels). The `///` comment at the top of each Web Component lists its attributes, events and CSS hooks: the guides repeat it, so change both.

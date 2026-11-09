@@ -95,7 +95,7 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphShapeRepositor
     /// @param p the settings of the zone.
     /// @return the context for the content of the zone.
     public JSeshRenderContext forZone(ZoneParameters p) {
-        return forZone(p, Float.NaN, Float.NaN);
+        return forZone(p, Double.NaN, Double.NaN);
     }
 
     /// The context in which the content of a zone is laid out, when its size
@@ -108,16 +108,16 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphShapeRepositor
     ///        (before its `scale`), or NaN to use the `width` of the settings.
     /// @param forcedHeight the same for the height.
     /// @return the context for the content of the zone.
-    public JSeshRenderContext forZone(ZoneParameters p, float forcedWidth, float forcedHeight) {
-        float unit = jseshStyle.geometry().percentUnit();
+    public JSeshRenderContext forZone(ZoneParameters p, double forcedWidth, double forcedHeight) {
+        double unit = jseshStyle.geometry().percentUnit();
         TextOrientation orientation = p.orientation() != null ? p.orientation()
                 : jseshStyle.options().textOrientation();
-        float width = !Float.isNaN(forcedWidth) ? forcedWidth
-                : p.width() != ZoneParameters.UNSET ? p.width() * unit : 0f;
-        float height = !Float.isNaN(forcedHeight) ? forcedHeight
-                : p.height() != ZoneParameters.UNSET ? p.height() * unit : 0f;
-        float wrapWidth = orientation.isHorizontal() ? width : 0f;
-        float columnHeight = !orientation.isHorizontal() ? height : 0f;
+        double width = !Double.isNaN(forcedWidth) ? forcedWidth
+                : p.width() != ZoneParameters.UNSET ? p.width() * unit : 0.0;
+        double height = !Double.isNaN(forcedHeight) ? forcedHeight
+                : p.height() != ZoneParameters.UNSET ? p.height() * unit : 0.0;
+        double wrapWidth = orientation.isHorizontal() ? width : 0.0;
+        double columnHeight = !orientation.isHorizontal() ? height : 0.0;
         return copy().jseshStyle(s -> {
             s.options(o -> o.paged(false).ignoreLineAlignment(false))
                     .geometry(g -> {

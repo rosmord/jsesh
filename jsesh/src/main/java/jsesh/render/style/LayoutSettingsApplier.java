@@ -26,15 +26,15 @@ public final class LayoutSettingsApplier {
 
     /// Converts a length, in percents of the unit, to points.
     ///
-    /// The result is rounded to 1e-4 point, so that the lengths of old
-    /// documents, converted from points to percents, come back to the same
-    /// floats.
+    /// The result is rounded to 1e-4 point, so that a length typed as a round
+    /// percent of the unit gives a round number of points (1.2, and not
+    /// 1.2000000000000002).
     ///
     /// @param unit the unit, in points.
     /// @param percent the length, in percents of the unit.
     /// @return the length, in points.
-    public static float points(double unit, double percent) {
-        return (float) (Math.round(unit * percent * 100) / 1e4);
+    public static double points(double unit, double percent) {
+        return (Math.round(unit * percent * 100) / 1e4);
     }
 
     /// Applies the settings which are set to a style.
@@ -53,7 +53,7 @@ public final class LayoutSettingsApplier {
                 case LIMIT_QUADRAT_WIDTH -> style.options(o -> o.limitQuadratWidthInLines((Boolean) value));
                 case CENTRE_SMALL_SIGNS -> style.options(o -> o.smallSignCentered((Boolean) value));
                 default -> {
-                    float p = points(unit, (Double) value);
+                    double p = points(unit, (Double) value);
                     style.geometry(g -> switch (e.getKey()) {
                         case QUADRAT_HEIGHT -> g.maxCadratHeight(p);
                         case QUADRAT_WIDTH -> g.maxCadratWidth(p);
@@ -104,9 +104,8 @@ public final class LayoutSettingsApplier {
         return result;
     }
 
-    /// The percent, from the decimal representation of the float (so that
-    /// 6f is 6 points, and not 6.000000238...).
-    private static double percent(float points, double unit) {
-        return Double.parseDouble(Float.toString(points)) / unit * 100;
+    /// The percent of the unit which corresponds to a length in points.
+    private static double percent(double points, double unit) {
+        return points / unit * 100;
     }
 }

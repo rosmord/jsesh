@@ -141,7 +141,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
 
     /// The wrapping width used for the current view (0 if the lines are not
     /// wrapped).
-    private float currentWrapWidth = 0;
+    private double currentWrapWidth = 0;
 
     /// Display options for the editor only (printing and exports never show them).
     private boolean showKerningMarks = false;
@@ -1258,7 +1258,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
             // A page fixes the width of the lines: it prevails over the component's.
             return getRenderContext();
         }
-        float wrapWidth = componentWrapWidth();
+        double wrapWidth = componentWrapWidth();
         if (wrapWidth <= 0) {
             return getRenderContext();
         }
@@ -1272,13 +1272,13 @@ public class JMDCEditor extends JPanel implements Scrollable {
     ///
     /// @return the width, or 0 if the lines are not wrapped to the component's width
     /// (or if the component has no size yet).
-    private float componentWrapWidth() {
+    private double componentWrapWidth() {
         if (!wrapToComponentWidth) {
             return 0;
         }
         Insets insets = getInsets();
         double pixels = getWidth() - insets.left - insets.right;
-        return pixels > 0 ? (float) Math.floor(pixels / scale) : 0;
+        return pixels > 0 ? Math.floor(pixels / scale) : 0;
     }
 
     /// Should the lines be wrapped to the width of this component?

@@ -98,6 +98,8 @@ function viewType(v: MDCView): string {
 }
 
 /// Compares a view tree with Java's. Returns the first difference, or null.
+///
+/// The tolerance (relative) absorbs the rounding of the exported glyph data (3 or 4 decimals).
 export function compareViews(actual: MDCView, expected: JavaView, path = "", tolerance = 1e-3): string | null {
   const here = `${path}/${expected.t}`;
   const type = viewType(actual);

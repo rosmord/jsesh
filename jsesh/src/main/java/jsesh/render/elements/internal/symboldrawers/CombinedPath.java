@@ -1,6 +1,6 @@
 package jsesh.render.elements.internal.symboldrawers;
 
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 
 /**
  * The combination of a path and a bounding path (often a bounding box).
@@ -9,17 +9,17 @@ import java.awt.geom.GeneralPath;
  */
 public class CombinedPath {
 	boolean actualPathUsed;
-	private GeneralPath actualPath;
-	private GeneralPath boundingPath;
+	private Path2D.Double actualPath;
+	private Path2D.Double boundingPath;
 	
-	public CombinedPath(GeneralPath actualPath, GeneralPath boundingPath) {
+	public CombinedPath(Path2D.Double actualPath, Path2D.Double boundingPath) {
 		super();
 		this.actualPath = actualPath;
 		this.boundingPath = boundingPath;
 		actualPathUsed= (actualPath == boundingPath);
 	}
 	
-	public CombinedPath(GeneralPath actualPath) {
+	public CombinedPath(Path2D.Double actualPath) {
 		super();
 		this.actualPath = actualPath;
 		this.boundingPath = actualPath;
@@ -27,10 +27,10 @@ public class CombinedPath {
 	}
 	
 	
-	public GeneralPath getActualPath() {
+	public Path2D.Double getActualPath() {
 		return actualPath;
 	}
-	public GeneralPath getBoundingPath() {
+	public Path2D.Double getBoundingPath() {
 		return boundingPath;
 	}
 	

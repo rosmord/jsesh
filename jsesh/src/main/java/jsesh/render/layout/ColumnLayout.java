@@ -325,10 +325,10 @@ public class ColumnLayout extends TopItemLayout {
 	private void flushZone(LineAlignment alignment) {
 		// Compute the start point relative position for this line
 		// RIght-to-left is :
-		// zoneStart.setValues((float) 0, RelativePosition.WEST,
-		// -(float) zone.getMinY(), RelativePosition.PREVIOUS);
-		// zoneStart.setValues((float) 0, RelativePosition.WEST,
-		// (float) zone.getHeight(), RelativePosition.PREVIOUS);
+		// zoneStart.setValues(0, RelativePosition.WEST,
+		// -zone.getMinY(), RelativePosition.PREVIOUS);
+		// zoneStart.setValues(0, RelativePosition.WEST,
+		// zone.getHeight(), RelativePosition.PREVIOUS);
 
 		// Normally, the zone upper left point is (0,0). It can change if the
 		// zone
@@ -372,7 +372,7 @@ public class ColumnLayout extends TopItemLayout {
 		/// @param alignment the alignment written on the break.
 		private void endColumn(LineAlignment alignment) {
 			resetKerning();
-			subView.setHeight(0.1f);
+			subView.setHeight(0.1);
 			subView.setWidth(jseshStyle.geometry().maxCadratWidth());
 			// Add a minimal line break height to the current zone
 			// (else empty lines would be 0 height)

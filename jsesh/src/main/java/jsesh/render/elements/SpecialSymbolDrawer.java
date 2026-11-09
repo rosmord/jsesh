@@ -6,7 +6,7 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.List;
@@ -73,8 +73,8 @@ class SpecialSymbolDrawer implements BasicSignDrawer {
 	@Override
 	public void draw(Graphics2D g2d, String code, int angle, ViewBox currentView, HieroglyphBodySize bodySize) {
 		Stroke oldStroke = g2d.getStroke();
-		float strokeWidth = ElementSizeConstants.PARENTHESIS_STROKE_WIDTH; // * currentView.getXScale();
-		g2d.setStroke(new BasicStroke(strokeWidth));
+		double strokeWidth = ElementSizeConstants.PARENTHESIS_STROKE_WIDTH; // * currentView.getXScale();
+		g2d.setStroke(new BasicStroke((float) strokeWidth));
 		specificDrawers.get(code).draw(g2d, angle, currentView, strokeWidth);
 		g2d.setStroke(oldStroke);
 	}
@@ -85,16 +85,16 @@ class SpecialSymbolDrawer implements BasicSignDrawer {
 		if (angle != 0 || fixed) {
 			result = new Rectangle2D.Double(0, 0, getBaseWidth(code), ElementSizeConstants.EDITOR_MARKUP_HEIGHT);
 			if (angle != 0) {
-				GeneralPath path = new GeneralPath(result);
+				Path2D.Double path = new Path2D.Double(result);
 				path.transform(AffineTransform.getRotateInstance(angle
-						* Math.PI / 180f));
+						* Math.PI / 180.0));
 				result = path.getBounds2D();
 			}
 		}
 		return result;
 	}
 
-	private float getBaseWidth(String code) {
+	private double getBaseWidth(String code) {
 		return specificDrawers.get(code).getBaseWidth();
 	}
 

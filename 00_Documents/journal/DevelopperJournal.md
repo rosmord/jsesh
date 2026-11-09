@@ -32,6 +32,18 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-11-09
+
+**The rendering pipeline now uses `double`** (it was half `float`, half `double`, with about a hundred narrowing casts).
+
+- Converted: `ViewBox`/`MDCView`, `GeometrySpecification`, `PageSpecification`, `StandardPageSize`, `Layout` and the other layouts, `JSeshRenderContext`, the cartouche and symbol drawers (`Path2D.Double` instead of `GeneralPath`), `DefaultElementDrawer`, the export drawers. `Float.NaN` sentinels became `Double.NaN`; `Hieroglyph.getFLoatScale()` is now `getScaleFactor()`.
+- Still `float`, on purpose: the glyph outlines (`SVGSignSource`, `BzrDefaultFontBuilder`, `TmlSignsImporter`, `ShapeChar`, stored in `GeneralPath`), and the `float`-only APIs at the output boundary (`BasicStroke`, `Graphics2D.drawString`, `Font.deriveFont`, `TextLayout`, iText). JVectClipboard needed no change.
+- The persistence workarounds for float noise (`Float.toString` in `DocumentPreferencesStyleConverter` and `LayoutSettingsApplier`) are gone. The rounding of page sizes (595.28) and of header values stays, for readability.
+- `jsesh-js`: all the `Math.fround` calls are removed; fixtures re-exported. Java and JS still differ by about 1e-5 on view sizes, mainly because the exported glyph data is rounded (3 decimals for outlines, 4 for sizes; the Java glyphs being `float` plays a smaller part): `compareViews` keeps its 1e-3 relative tolerance.
+- Old documents may be laid out with very slight differences (line breaks at the limit, kerning); this is accepted.
+- Clean-up: `ShapeChar` no longer narrows its (`double`) outline to `float` (`clone`, `getSignArea`, `fixShape`, `writeSVGPath`; `DoubleFormatter.outputNumbers` takes `double[]`); `f` suffixes removed from literals given to `double` parameters (`PDFExporter`, `SelectionExporter`, `LineAccumulator`, `PositionLocator`); dead `case Float` removed from the JS export `Json`. The glyph outlines kept by `ShapeChar` were already `Path2D.Double` (`fixShape` transforms them): measured 34 MB for all 6961 signs, so converting the loaders (`SVGSignSource`, `BzrDefaultFontBuilder`, `TmlSignsImporter`) would cost no retained memory; left as is, they only parse the source files.
+- Not tried in the running app.
+
 ## 2026-11-06
 
 **Dynamic tabs, step 1: syntax and model** (todo 0131, moved to `02_important`; the spec was reviewed and rewritten).

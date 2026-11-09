@@ -1,13 +1,13 @@
 package jsesh.render.elements.internal.symboldrawers;
 
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 
 public class OpenEditorAdditionSymbolDelegate extends AbstractSymbolDrawer {
 
-	protected CombinedPath buildShapeForDrawing(float width, float height) {
-		float centerY = height / 2f;
-		float halfStroke= strokeWidth/2f;
-		GeneralPath pol = new GeneralPath();
+	protected CombinedPath buildShapeForDrawing(double width, double height) {
+		double centerY = height / 2.0;
+		double halfStroke= strokeWidth/2.0;
+		Path2D.Double pol = new Path2D.Double();
 		
 		pol.moveTo(width-halfStroke, halfStroke);
 		pol.lineTo(halfStroke, centerY);
@@ -15,7 +15,7 @@ public class OpenEditorAdditionSymbolDelegate extends AbstractSymbolDrawer {
 		return new CombinedPath(pol);
 	}
 	
-	public float getBaseWidth() {
+	public double getBaseWidth() {
 		return 3;
 	}
 

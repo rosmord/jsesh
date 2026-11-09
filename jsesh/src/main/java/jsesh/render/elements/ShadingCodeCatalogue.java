@@ -20,15 +20,15 @@ class ShadingCodeCatalogue {
      * Those are not ecdotic symbols, but shading. We might use something else for
      * them.
      */
-    private Map<String, Rectangle2D.Float> shadingSizes;
+    private Map<String, Rectangle2D.Double> shadingSizes;
 
-    public ShadingCodeCatalogue(float a1Width, float a1Height) {
+    public ShadingCodeCatalogue(double a1Width, double a1Height) {
 
         shadingSizes = Map.of(
-                "/", new Rectangle2D.Float(0, 0, a1Width / 2f, a1Height / 2f),
-                "//", new Rectangle2D.Float(0, 0, a1Width, a1Height),
-                "h/", new Rectangle2D.Float(0, 0, a1Width, a1Height / 2f),
-                "v/", new Rectangle2D.Float(0, 0, a1Width / 2f, a1Height)
+                "/", new Rectangle2D.Double(0, 0, a1Width / 2.0, a1Height / 2.0),
+                "//", new Rectangle2D.Double(0, 0, a1Width, a1Height),
+                "h/", new Rectangle2D.Double(0, 0, a1Width, a1Height / 2.0),
+                "v/", new Rectangle2D.Double(0, 0, a1Width / 2.0, a1Height)
         );        
     }
 

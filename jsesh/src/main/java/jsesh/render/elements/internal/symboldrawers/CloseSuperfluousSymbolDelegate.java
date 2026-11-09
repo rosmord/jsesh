@@ -1,27 +1,27 @@
 package jsesh.render.elements.internal.symboldrawers;
 
 import java.awt.Graphics2D;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 
 import jsesh.render.view.ViewBox;
 
 public class CloseSuperfluousSymbolDelegate implements SymbolDrawerDelegate {
 
 	public void draw(Graphics2D g2d, int angle, ViewBox viewBox,
-			float strokeWidth) {
+			double strokeWidth) {
 		new SymbolTopDrawer().draw(g2d, angle, viewBox, strokeWidth);
 		new SymbolBottomDrawer().draw(g2d, angle, viewBox, strokeWidth);
 	}
 
-	public float getBaseWidth() {
+	public double getBaseWidth() {
 		return 3;
 	}
 
 	private static class SymbolTopDrawer extends AbstractSymbolDrawer {
-		protected CombinedPath buildShapeForDrawing(float width, float height) {
-			float centerY = height / 2f;
-			float halfStroke = strokeWidth / 2f;
-			GeneralPath pol = new GeneralPath();
+		protected CombinedPath buildShapeForDrawing(double width, double height) {
+			double centerY = height / 2.0;
+			double halfStroke = strokeWidth / 2.0;
+			Path2D.Double pol = new Path2D.Double();
 
 			pol.moveTo(halfStroke, halfStroke);
 			pol.curveTo(width - halfStroke, halfStroke, halfStroke, centerY,
@@ -33,10 +33,10 @@ public class CloseSuperfluousSymbolDelegate implements SymbolDrawerDelegate {
 
 	private static class SymbolBottomDrawer extends AbstractSymbolDrawer {
 
-		protected CombinedPath buildShapeForDrawing(float width, float height) {
-			float halfStroke = strokeWidth / 2f;
-			float centerY = height / 2f;
-			GeneralPath pol = new GeneralPath();
+		protected CombinedPath buildShapeForDrawing(double width, double height) {
+			double halfStroke = strokeWidth / 2.0;
+			double centerY = height / 2.0;
+			Path2D.Double pol = new Path2D.Double();
 
 			pol.moveTo(width - halfStroke, centerY);
 			pol.curveTo(halfStroke, centerY, width - halfStroke, height
@@ -48,10 +48,10 @@ public class CloseSuperfluousSymbolDelegate implements SymbolDrawerDelegate {
 
 	}
 	
-	private static GeneralPath buildMyPath(float width, float height, float strokeWidth) {
-		float halfStroke = strokeWidth / 2f;
-		float centerY = (height) / 2f;
-		GeneralPath pol = new GeneralPath();
+	private static Path2D.Double buildMyPath(double width, double height, double strokeWidth) {
+		double halfStroke = strokeWidth / 2.0;
+		double centerY = (height) / 2.0;
+		Path2D.Double pol = new Path2D.Double();
 
 		pol.moveTo(halfStroke, halfStroke);
 		pol.curveTo(width - halfStroke, halfStroke, halfStroke, centerY,

@@ -207,11 +207,11 @@ final class PositionLocator {
             leftToRight = !c.isRightToLeft();
         }
         if (horizontal) {
-            boolean firstHalf = local.getX() < x + subv.getWidth() / 2.0f;
+            boolean firstHalf = local.getX() < x + subv.getWidth() / 2.0;
             return firstHalf == leftToRight ? i : i + 1;
         }
         // Columns
-        return local.getY() < y + subv.getHeight() / 2.0f ? i : i + 1;
+        return local.getY() < y + subv.getHeight() / 2.0 ? i : i + 1;
     }
 
     /// The orientation of the text a view belongs to: inside a zone, it may

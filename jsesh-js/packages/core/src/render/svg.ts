@@ -42,7 +42,6 @@ import { drawSpecialSymbol } from "./symbols.js";
 import { displayString, type TextMeasurer } from "./text.js";
 import { Rect, type MDCView } from "./view.js";
 
-const f = Math.fround;
 
 /// The colour of the marks of dynamic tabs.
 const TAB_COLOR = "#1e64e6";
@@ -376,7 +375,7 @@ class ElementDrawer extends ModelElementAdapter {
   override visitKerning(kerning: Kerning): void {
     if (!this.postfix || !this.d.showKerningMarks) return;
     const style = this.d.s;
-    const half = f(style.geometry.maxCadratHeight / 6);
+    const half = style.geometry.maxCadratHeight / 6;
     const tip = half / 2;
     // Drawn for %hkern; coordinates are swapped for %vkern.
     const lines = [
@@ -524,7 +523,7 @@ class ElementDrawer extends ModelElementAdapter {
     if (content.separators.length === 0) return;
     // The positions are in the coordinates of the content, which a zone with a scale scales.
     const scale = zoneScaleFactor(zone.parameters);
-    const thickness = f(f(zone.parameters.separator * percentUnit(this.d.s.geometry)) * scale);
+    const thickness = (zone.parameters.separator * percentUnit(this.d.s.geometry)) * scale;
     const horizontal = content.orientation === null || content.orientation === "HORIZONTAL";
     const { x: x0, y: y0 } = content.position;
     const d = new PathBuilder();

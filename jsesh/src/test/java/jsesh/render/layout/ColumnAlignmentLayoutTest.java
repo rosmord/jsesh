@@ -34,7 +34,7 @@ public class ColumnAlignmentLayoutTest {
     private static final double EPSILON = 1e-3;
     private static final JSeshStyle STYLE = JSeshStyle.DEFAULT.copy()
             .options(o -> o.textOrientation(TextOrientation.VERTICAL)).build();
-    private static final float QUADRAT = STYLE.geometry().maxCadratHeight();
+    private static final double QUADRAT = STYLE.geometry().maxCadratHeight();
 
     /// A first column of five A1, against which the second column is aligned.
     private static final String FIRST_COLUMN = "A1-A1-A1-A1-A1-!";
@@ -131,8 +131,8 @@ public class ColumnAlignmentLayoutTest {
     @Test
     public void onAPageWithAHeightColumnsAreAlignedOnItsUsableHeight() throws MDCSyntaxError {
         JSeshStyle paged = STYLE.copy().geometry(g -> g
-                .page(new PageSpecification(200f, 120f, 10f, 30f, 8f, 8f))
-                .leftMargin(10f).topMargin(8f)).build();
+                .page(new PageSpecification(200.0, 120.0, 10.0, 30.0, 8.0, 8.0))
+                .leftMargin(10.0).topMargin(8.0)).build();
         MDCView text = layout("A1-![align=end]A1-![align=center]", paged);
         assertEquals(8 + 104, bottom(text, 0), EPSILON);
         assertEquals(8 + 52, (top(text, 2) + bottom(text, 2)) / 2, EPSILON);
@@ -141,8 +141,8 @@ public class ColumnAlignmentLayoutTest {
     @Test
     public void onAPageWithoutHeightColumnsAreAlignedOnTheLongestOne() throws MDCSyntaxError {
         JSeshStyle paged = STYLE.copy().geometry(g -> g
-                .page(new PageSpecification(200f, 0f, 10f, 30f, 8f, 8f))
-                .leftMargin(10f).topMargin(8f)).build();
+                .page(new PageSpecification(200.0, 0.0, 10.0, 30.0, 8.0, 8.0))
+                .leftMargin(10.0).topMargin(8.0)).build();
         MDCView text = layout(FIRST_COLUMN + "A1-![align=end]", paged);
         assertEquals(bottom(text, 4), bottom(text, SECOND), EPSILON);
     }

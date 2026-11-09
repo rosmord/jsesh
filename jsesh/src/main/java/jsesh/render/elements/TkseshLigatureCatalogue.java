@@ -80,8 +80,8 @@ class TkseshLigatureCatalogue {
             List<ExplicitPosition> positions = new ArrayList<>();
 			for (i = 0; i < pos.length; i += 4) {
 				// i : sign code
-				float x = Float.parseFloat(pos[i + 1]);
-				float y = Float.parseFloat(pos[i + 2]);
+				double x = Double.parseDouble(pos[i + 1]);
+				double y = Double.parseDouble(pos[i + 2]);
 				int scale = Integer.parseInt(pos[i + 3]);
                 positions.add(new ExplicitPosition(x, y, scale));
 			}

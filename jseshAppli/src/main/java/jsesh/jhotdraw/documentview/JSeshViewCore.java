@@ -612,7 +612,7 @@ public final class JSeshViewCore {
      * @return a new ExportData object, containing the data needed for exporting the
      *         selection.
      */
-    public ExportData createExportData(float scale) {
+    public ExportData createExportData(double scale) {
         return new ExportData(getRenderContext(), getCaret(),
                 getHieroglyphicText(), scale);
     }

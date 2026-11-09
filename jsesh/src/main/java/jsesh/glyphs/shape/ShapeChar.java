@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -59,7 +59,7 @@ public class ShapeChar implements Cloneable {
         try {
             result = (ShapeChar) super.clone();
             if (shape != null) {
-                result.shape = new GeneralPath(shape);
+                result.shape = new Path2D.Double(shape);
             }
             if (bbox != null) {
                 result.bbox = (Rectangle2D) bbox.clone();
@@ -140,7 +140,7 @@ public class ShapeChar implements Cloneable {
      * @param angle rotation angle for this glyph, in radians.
      */
     public void draw(Graphics2D g, double x, double y, double xscale,
-            double yscale, float angle) {
+            double yscale, double angle) {
         // AffineTransform tr;
         // tr= g.getTransform();
         Graphics2D tmpG = (Graphics2D) g.create();
@@ -174,9 +174,9 @@ public class ShapeChar implements Cloneable {
         Area s1 = new Area();
         Shape s = getTransformedShape(x, y, xscale, yscale, angle);
         PathIterator iter = s.getPathIterator(null);
-        GeneralPath current = null;
+        Path2D.Double current = null;
         while (!iter.isDone()) {
-            float coords[] = new float[6];
+            double coords[] = new double[6];
             int type = iter.currentSegment(coords);
             switch (type) {
                 case PathIterator.SEG_CLOSE:
@@ -195,7 +195,7 @@ public class ShapeChar implements Cloneable {
                     if (current != null) {
                         s1.add(new Area(current));
                     }
-                    current = new GeneralPath(iter.getWindingRule());
+                    current = new Path2D.Double(iter.getWindingRule());
                     current.moveTo(coords[0], coords[1]);
                     break;
                 case PathIterator.SEG_QUADTO:
@@ -219,8 +219,8 @@ public class ShapeChar implements Cloneable {
     private void fixShape() {
         // Just to be sure of the bounding box...
 
-        PathIterator it = new GeneralPath(shape).getPathIterator(null, 0.01);
-        GeneralPath p = new GeneralPath();
+        PathIterator it = new Path2D.Double(shape).getPathIterator(null, 0.01);
+        Path2D.Double p = new Path2D.Double();
         p.append(it, false);
         Rectangle2D r = p.getBounds2D();
         AffineTransform transform = AffineTransform.getTranslateInstance(-r
@@ -386,7 +386,7 @@ public class ShapeChar implements Cloneable {
         StringWriter outWriter = new StringWriter();
 
         while (!iter.isDone()) {
-            float coords[] = new float[6];
+            double coords[] = new double[6];
             int type = iter.currentSegment(coords);
             switch (type) {
                 case PathIterator.SEG_CLOSE:
@@ -445,7 +445,7 @@ public class ShapeChar implements Cloneable {
      * drawing.
      */
     public void flipHorizontally() {
-        Shape newShape = new AffineTransform(-1, 0, 0, 1, (float) getBbox()
+        Shape newShape = new AffineTransform(-1, 0, 0, 1, getBbox()
                 .getWidth(), 0).createTransformedShape(shape);
         if (zones != null) {
             double w = getBbox().getWidth();
@@ -472,7 +472,7 @@ public class ShapeChar implements Cloneable {
      * drawing.
      */
     public void flipVertically() {
-        Shape newShape = new AffineTransform(1, 0, 0, -1, 0, (float) getBbox()
+        Shape newShape = new AffineTransform(1, 0, 0, -1, 0, getBbox()
                 .getHeight()).createTransformedShape(shape);
         if (zones != null) {
             double h = getBbox().getHeight();

@@ -312,12 +312,12 @@ public class Hieroglyph extends InnerGroup {
     }
 
     /**
-     * Returns a float value of the sign scale, 1.0 being "no change" scale.
+     * Returns a double value of the sign scale, 1.0 being "no change" scale.
      *
      * @return
      */
-    public float getFLoatScale() {
-        return (float) (getRelativeSize() / 100.0);
+    public double getScaleFactor() {
+        return (getRelativeSize() / 100.0);
     }
 
     public void setReversed(boolean _reversed) {

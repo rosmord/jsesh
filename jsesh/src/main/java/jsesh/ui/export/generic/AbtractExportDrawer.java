@@ -37,7 +37,7 @@ import jsesh.render.view.ViewBuilder;
 public abstract class AbtractExportDrawer {
 
     private MDCView currentView;
-    private float scaledWidth, scaledHeight;
+    private double scaledWidth, scaledHeight;
     private double cadratHeight;
     private JSeshRenderContext renderContext;
     private JSeshTechRenderContext techRenderContext;
@@ -89,8 +89,8 @@ public abstract class AbtractExportDrawer {
         ViewDrawer drawer = new ViewDrawer();
         drawer.setShadeAfter(shadeAfter);
         // Compute the size
-        scaledWidth = (float) (currentView.getWidth() * scale);
-        scaledHeight = (float) (currentView.getHeight() * scale);
+        scaledWidth = (currentView.getWidth() * scale);
+        scaledHeight = (currentView.getHeight() * scale);
 
         Graphics2D g = buildGraphics();
 
@@ -151,14 +151,14 @@ public abstract class AbtractExportDrawer {
     /**
      * @return Returns the scaledHeight.
      */
-    public float getScaledHeight() {
+    public double getScaledHeight() {
         return scaledHeight;
     }
 
     /**
      * @return Returns the scaledWidth.
      */
-    public float getScaledWidth() {
+    public double getScaledWidth() {
         return scaledWidth;
     }
 

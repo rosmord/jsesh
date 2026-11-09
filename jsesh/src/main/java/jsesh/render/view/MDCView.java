@@ -2,7 +2,6 @@ package jsesh.render.view;
 
 import java.awt.Dimension;
 import java.awt.geom.*;
-import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +89,7 @@ public class MDCView implements ViewBox {
 	/**
 	 * Rotation angle of this model.
 	 */
-	private float angle;
+	private double angle;
 
 	/**
 	 * This view's displacement relative to the reference point.
@@ -145,7 +144,7 @@ public class MDCView implements ViewBox {
 	 * size of this view (seen from <em>outside</rm>).
 	 */
 
-	private float width, height;
+	private double width, height;
 
 	/// The positions of the rules between the lines (or the columns) of a text,
 	/// in the layout system of this view: y for lines, x for columns. Only set
@@ -155,14 +154,14 @@ public class MDCView implements ViewBox {
 	/// For the view of a zone which fills its line (`%zone[fill=yes]`): its
 	/// length along the lines of its parent before it was stretched (its
 	/// *natural length*, frame included). NaN for other views.
-	private float naturalLength = java.lang.Float.NaN;
+	private double naturalLength = Double.NaN;
 
 	// **************************************************************************************************
 	// BASIC METHODS
 
-	private float xScale;
+	private double xScale;
 
-	private float yScale;
+	private double yScale;
 
 	/**
 	 * Constructor for ContainerView.
@@ -171,11 +170,11 @@ public class MDCView implements ViewBox {
 	 */
 	public MDCView(ModelElement model) {
 		setModel(model);
-		xScale = 1.0F;
-		yScale = 1.0F;
-		angle = 0f;
-		height = 0f;
-		width = 0f;
+		xScale = 1.0;
+		yScale = 1.0;
+		angle = 0.0;
+		height = 0.0;
+		width = 0.0;
 		subViews = null;
 		// affineTransform = null;
 		position = new Point2D.Double();
@@ -239,7 +238,7 @@ public class MDCView implements ViewBox {
 	public void centerSubViewHorizontally() {
 		for (int i = 0; i < getNumberOfSubviews(); i++) {
 			MDCView sub = getSubView(i);
-			float space = (getInternalWidth() - sub.getWidth()) / 2.0f;
+			double space = (getInternalWidth() - sub.getWidth()) / 2.0;
 			sub.getPosition().x = space;
 		}
 	}
@@ -251,7 +250,7 @@ public class MDCView implements ViewBox {
 	public void centerSubViewsVertically() {
 		for (int i = 0; i < getNumberOfSubviews(); i++) {
 			MDCView sub = getSubView(i);
-			float space = (getInternalHeight() - sub.getHeight()) / 2.0f;
+			double space = (getInternalHeight() - sub.getHeight()) / 2.0;
 			sub.getPosition().y = space;
 		}
 	}
@@ -311,9 +310,9 @@ public class MDCView implements ViewBox {
 		if (getNumberOfSubviews() > 1) {
 			ViewIterator i = iterator();
 			// Compute the space needed for the subviews.
-			float minH = getSumOfSubViewsHeights();
+			double minH = getSumOfSubViewsHeights();
 			// Space left will be distributed :
-			float interSpace = (getInternalHeight() - minH)
+			double interSpace = (getInternalHeight() - minH)
 					/ (getNumberOfSubviews() - 1);
 
 			double y = 0;
@@ -336,8 +335,8 @@ public class MDCView implements ViewBox {
 		if (n > 1) {
 			// Compute the available space.
 			// Space left will be distributed :
-			float minW = getSumOfSubViewsWidths();
-			float interSpace = (getInternalWidth() - minW) / (n - 1);
+			double minW = getSumOfSubViewsWidths();
+			double interSpace = (getInternalWidth() - minW) / (n - 1);
 			ViewIterator i = iterator();
 			double x = 0;
 			while (i.hasNext()) {
@@ -360,8 +359,8 @@ public class MDCView implements ViewBox {
 	 *            if true, subviews will be translated.
 	 */
 	public void fitToSubViews(boolean doTranslate) {
-		width = 0f;
-		height = 0f;
+		width = 0.0;
+		height = 0.0;
 		Rectangle2D area = null;
 
 		if (getNumberOfSubviews() == 0) {
@@ -396,11 +395,11 @@ public class MDCView implements ViewBox {
 				subView.getPosition().x -= area.getMinX();
 				subView.getPosition().y -= area.getMinY();
 			}
-			width = (float) area.getWidth() * xScale;
-			height = (float) area.getHeight() * yScale;
+			width = area.getWidth() * xScale;
+			height = area.getHeight() * yScale;
 		} else {
-			width = (float) (area.getMaxX()) * xScale;
-			height = (float) (area.getMaxY()) * yScale;
+			width = (area.getMaxX()) * xScale;
+			height = (area.getMaxY()) * yScale;
 		}
 	}
 
@@ -420,9 +419,9 @@ public class MDCView implements ViewBox {
 	/**
 	 * Returns the angle.
 	 * 
-	 * @return float
+	 * @return double
 	 */
-	public float getAngle() {
+	public double getAngle() {
 		return angle;
 	}
 
@@ -477,9 +476,9 @@ public class MDCView implements ViewBox {
 	/**
 	 * Returns the view's actual height.
 	 * 
-	 * @return float
+	 * @return double
 	 */
-	public float getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
@@ -490,7 +489,7 @@ public class MDCView implements ViewBox {
 	 * 
 	 * @return the height of this view, from the point of view of its contents.
 	 */
-	public float getInternalHeight() {
+	public double getInternalHeight() {
 		return height / yScale;
 	}
 
@@ -501,7 +500,7 @@ public class MDCView implements ViewBox {
 	 * 
 	 * @return the width of this view, from the point of view of its contents.
 	 */
-	public float getInternalWidth() {
+	public double getInternalWidth() {
 		return width / xScale;
 	}
 
@@ -520,11 +519,11 @@ public class MDCView implements ViewBox {
 	/**
 	 * gets the highest subview's height.
 	 * 
-	 * @return float
+	 * @return double
 	 */
-	public float getMaximalHeightOfSubView() {
+	public double getMaximalHeightOfSubView() {
 		ViewIterator i;
-		float result = 0f;
+		double result = 0.0;
 		i = iterator();
 		while (i.hasNext()) {
 			MDCView subview = i.next();
@@ -537,11 +536,11 @@ public class MDCView implements ViewBox {
 	/**
 	 * gets the widest subview's width.
 	 * 
-	 * @return float
+	 * @return double
 	 */
-	public float getMaximalWidthOfSubView() {
+	public double getMaximalWidthOfSubView() {
 		ViewIterator i;
-		float result = 0f;
+		double result = 0.0;
 		i = iterator();
 		while (i.hasNext()) {
 			MDCView subview = i.next();
@@ -600,8 +599,8 @@ public class MDCView implements ViewBox {
 	}
 
 	/// @return the natural length of a zone which fills its line, or NaN if this
-	///         view is not one (see [#setNaturalLength(float)]).
-	public float getNaturalLength() {
+	///         view is not one (see [#setNaturalLength]).
+	public double getNaturalLength() {
 		return naturalLength;
 	}
 
@@ -611,13 +610,13 @@ public class MDCView implements ViewBox {
 	/// laying out the text again (after an edit) gives the same result.
 	///
 	/// @param naturalLength the natural length, frame included, or NaN.
-	public void setNaturalLength(float naturalLength) {
+	public void setNaturalLength(double naturalLength) {
 		this.naturalLength = naturalLength;
 	}
 
 	/// @return true if this is the view of a zone which fills its line.
 	public boolean isFilling() {
-		return !java.lang.Float.isNaN(naturalLength);
+		return !Double.isNaN(naturalLength);
 	}
 
 	public void setSeparators(double[] separators) {
@@ -661,11 +660,11 @@ public class MDCView implements ViewBox {
 	}
 
 	/**
-	 * @return float
+	 * @return double
 	 */
-	public float getSumOfSubViewsHeights() {
+	public double getSumOfSubViewsHeights() {
 		ViewIterator i;
-		float result = 0f;
+		double result = 0.0;
 		i = iterator();
 		while (i.hasNext()) {
 			MDCView subview = i.next();
@@ -675,11 +674,11 @@ public class MDCView implements ViewBox {
 	}
 
 	/**
-	 * @return float
+	 * @return double
 	 */
-	public float getSumOfSubViewsWidths() {
+	public double getSumOfSubViewsWidths() {
 		ViewIterator i;
-		float result = 0f;
+		double result = 0.0;
 		i = iterator();
 		while (i.hasNext()) {
 			MDCView subview = i.next();
@@ -691,27 +690,27 @@ public class MDCView implements ViewBox {
 	/**
 	 * Returns the width of the view.
 	 * 
-	 * @return float
+	 * @return double
 	 */
-	public float getWidth() {
+	public double getWidth() {
 		return width;
 	}
 
 	/**
 	 * Returns the xScale.
 	 * 
-	 * @return float
+	 * @return double
 	 */
-	public float getXScale() {
+	public double getXScale() {
 		return xScale;
 	}
 
 	/**
 	 * Returns the yScale.
 	 * 
-	 * @return float
+	 * @return double
 	 */
-	public float getYScale() {
+	public double getYScale() {
 		return yScale;
 	}
 
@@ -768,9 +767,9 @@ public class MDCView implements ViewBox {
 	 * @param scale
 	 *            The scale to set
 	 */
-	public void reScale(float scale) {
-		float oldXScale = xScale;
-		float oldYScale = yScale;
+	public void reScale(double scale) {
+		double oldXScale = xScale;
+		double oldYScale = yScale;
 		// affineTransform = null;
 		this.xScale = scale * oldXScale;
 		this.yScale = scale * oldYScale;
@@ -783,14 +782,14 @@ public class MDCView implements ViewBox {
 	 * modify the external position information.
 	 */
 	public void reset() {
-		setWidth(0f);
-		setHeight(0f);
+		setWidth(0.0);
+		setHeight(0.0);
 		setModel(model);
-		xScale = 1.0F;
-		yScale = 1.0F;
-		angle = 0f;
-		height = 0f;
-		width = 0f;
+		xScale = 1.0;
+		yScale = 1.0;
+		angle = 0.0;
+		height = 0.0;
+		width = 0.0;
 		xStretchable = false;
 		yStretchable = false;
 		// affineTransform = null;
@@ -813,11 +812,11 @@ public class MDCView implements ViewBox {
 	 *            the maximum height for this view element. 0 means no limit.
 	 * 
 	 */
-	public void scaleForMaxHeight(float maxHeight) {
-		if (maxHeight == 0f)
+	public void scaleForMaxHeight(double maxHeight) {
+		if (maxHeight == 0.0)
 			return;
 		if (getHeight() > maxHeight) {
-			float sc = maxHeight / getHeight();
+			double sc = maxHeight / getHeight();
 			reScale(sc);
 		}
 	}
@@ -830,11 +829,11 @@ public class MDCView implements ViewBox {
 	 *            the maximum width for this view element. 0 means no limit.
 	 * 
 	 */
-	public void scaleForMaxWidth(float maxWidth) {
-		if (maxWidth == 0f)
+	public void scaleForMaxWidth(double maxWidth) {
+		if (maxWidth == 0.0)
 			return;
 		if (getWidth() > maxWidth) {
-			float sc = maxWidth / getWidth();
+			double sc = maxWidth / getWidth();
 			reScale(sc);
 		}
 	}
@@ -846,7 +845,7 @@ public class MDCView implements ViewBox {
 	 *            : the maximum width allowed for the subviews
 	 */
 
-	public void scaleSubViewsToWidth(float maxWidth) {
+	public void scaleSubViewsToWidth(double maxWidth) {
 		ViewIterator i = iterator();
 		while (i.hasNext()) {
 			MDCView subView = i.next();
@@ -854,7 +853,7 @@ public class MDCView implements ViewBox {
 		}
 	}
 
-	public void scaleSubViewToHeight(float maxHeight) {
+	public void scaleSubViewToHeight(double maxHeight) {
 		ViewIterator i = iterator();
 		while (i.hasNext()) {
 			MDCView subView = i.next();
@@ -878,7 +877,7 @@ public class MDCView implements ViewBox {
 			zoneScaleW = wantedWidth / getWidth();
 		if (getHeight() != 0)
 			zoneScaleH = wantedHeight / getHeight();
-		xScale = yScale = (float) Math.min(zoneScaleH, zoneScaleW);
+		xScale = yScale = Math.min(zoneScaleH, zoneScaleW);
 		width = width * xScale;
 		height = height * yScale;
 	}
@@ -890,7 +889,7 @@ public class MDCView implements ViewBox {
 	 * @param w
 	 *            : the target width
 	 */
-	public void scaleToWidth(float w) {
+	public void scaleToWidth(double w) {
 		if (getInternalWidth() != 0) {
 			xScale = w / getInternalWidth();
 			width = w;
@@ -906,7 +905,7 @@ public class MDCView implements ViewBox {
 	 * @param angle
 	 *            The angle to set
 	 */
-	public void setAngle(float angle) {
+	public void setAngle(double angle) {
 		// affineTransform = null;
 		this.angle = angle;
 	}
@@ -957,7 +956,7 @@ public class MDCView implements ViewBox {
 	 * @param h
 	 *            The h to set
 	 */
-	public void setHeight(float h) {
+	public void setHeight(double h) {
 		this.height = h;
 	}
 
@@ -984,7 +983,7 @@ public class MDCView implements ViewBox {
 	 * possible.
 	 */
 	public void setSubViewsToHeight() {
-		float tmph = getInternalHeight();
+		double tmph = getInternalHeight();
 		for (ViewIterator it = iterator(); it.hasNext();) {
 			MDCView subv = it.next();
 			if (subv.getModel() instanceof SubCadrat) {
@@ -1003,7 +1002,7 @@ public class MDCView implements ViewBox {
 	 *            The width of this view.
 	 */
 
-	public void setWidth(float w) {
+	public void setWidth(double w) {
 		this.width = w;
 	}
 
@@ -1014,7 +1013,7 @@ public class MDCView implements ViewBox {
 	 * @param xScale
 	 *            The xScale to set
 	 */
-	public void setXScale(float xScale) {
+	public void setXScale(double xScale) {
 		// affineTransform = null;
 		this.xScale = xScale;
 	}
@@ -1026,7 +1025,7 @@ public class MDCView implements ViewBox {
 	 * @param yScale
 	 *            The yScale to set
 	 */
-	public void setYScale(float yScale) {
+	public void setYScale(double yScale) {
 		// affineTransform = null;
 		this.yScale = yScale;
 	}
@@ -1038,7 +1037,7 @@ public class MDCView implements ViewBox {
 	 *            change, and they don't fill the available space.
 	 */
 
-	public void stackTop(float skip) {
+	public void stackTop(double skip) {
 		ViewIterator i = iterator();
 		double y = 0;
 		while (i.hasNext()) {
@@ -1190,12 +1189,12 @@ public class MDCView implements ViewBox {
 	 */
 	public Dimension transformedDimensions(AffineTransform transform) {
 		// Compute the picture size.
-		Point2D topLeft = new Float();
-		Point2D bottomRight = new Float();
+		Point2D topLeft = new Point2D.Double();
+		Point2D bottomRight = new Point2D.Double();
 		Dimension viewDimension;
-		transform.transform(new Float(0, 0), topLeft);
+		transform.transform(new Point2D.Double(0, 0), topLeft);
 		transform.transform(
-				new Float(getWidth(), getHeight()), bottomRight);
+				new Point2D.Double(getWidth(), getHeight()), bottomRight);
 		int computedWidth = (int) Math.ceil(bottomRight.getX() - topLeft.getX());
 		int computedHeight = (int) Math.ceil(bottomRight.getY() - topLeft.getY());
 		viewDimension= new Dimension(computedWidth, computedHeight);

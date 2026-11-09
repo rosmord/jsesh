@@ -31,7 +31,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
      * How large a bastion is, relative to the wall's line width. Change this
      * to make the bastions deeper/shallower.
      */
-    private static final float BASTION_RADIUS_FACTOR = 1.5f;
+    private static final double BASTION_RADIUS_FACTOR = 1.5;
 
     /**
      * The empty wall space left between two neighbouring bastions, in units
@@ -39,7 +39,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
      * between two bastions"). Change this to make the bastions denser or
      * sparser.
      */
-    private static final float BASTION_GAP_FACTOR = 1f;
+    private static final double BASTION_GAP_FACTOR = 1.0;
 
     public CircularEnclosureDrawer(JSeshStyle jseshStyle, TextDirection currentTextDirection,
             TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
@@ -50,7 +50,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
     public void drawHorizontal(Cartouche cartouche) {
         GeometrySpecification geometry = jseshStyle.geometry();
         Stroke stroke = geometry.cartoucheStroke();
-        float w1, w2;
+        double w1, w2;
         // The kind of elements found left and right of the cartouche.
 
         CartouchePart leftElement, rightElement;
@@ -70,34 +70,34 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
                 cartouche.getType(), rightElement);
 
         // Half line width : allows to have a close bounding box.
-        float dy = geometry.cartoucheLineWidth() / 2f;
-        float dx = geometry.cartoucheLineWidth() / 2f;
+        double dy = geometry.cartoucheLineWidth() / 2.0;
+        double dx = geometry.cartoucheLineWidth() / 2.0;
 
-        Point2D.Float p1, p2, p3, p4;
+        Point2D.Double p1, p2, p3, p4;
 
-        p1 = new Point2D.Float(w1, dy);
-        p2 = new Point2D.Float(w1, currentView.getHeight() - dy);
-        p3 = new Point2D.Float(currentView.getWidth() - w2, +dy);
-        p4 = new Point2D.Float(currentView.getWidth() - w2, currentView
+        p1 = new Point2D.Double(w1, dy);
+        p2 = new Point2D.Double(w1, currentView.getHeight() - dy);
+        p3 = new Point2D.Double(currentView.getWidth() - w2, +dy);
+        p4 = new Point2D.Double(currentView.getWidth() - w2, currentView
                 .getHeight()
                 - dy);
 
         // The necessary skip to get a nice bezier curve for our cartouche
         // loops.
-        float loopSkip = geometry.cartoucheLoopLength() / 3;
+        double loopSkip = geometry.cartoucheLoopLength() / 3;
 
         // Reference point known to be "inside" the enclosure, used to tell
         // which way is outward when placing bastions along the round ends.
-        Point2D.Float center = new Point2D.Float(currentView.getWidth() / 2f, currentView.getHeight() / 2f);
+        Point2D.Double center = new Point2D.Double(currentView.getWidth() / 2.0, currentView.getHeight() / 2.0);
 
-        Path2D.Float outline = new Path2D.Float();
-        Point2D.Float leftC1 = null, leftC2 = null;
+        Path2D.Double outline = new Path2D.Double();
+        Point2D.Double leftC1 = null, leftC2 = null;
         // Start
         if (leftElement != CartouchePart.NONE) {
 
-            float p0x = dx;
-            leftC1 = new Point2D.Float(p0x - loopSkip, p1.y);
-            leftC2 = new Point2D.Float(p0x - loopSkip, p2.y);
+            double p0x = dx;
+            leftC1 = new Point2D.Double(p0x - loopSkip, p1.y);
+            leftC2 = new Point2D.Double(p0x - loopSkip, p2.y);
             outline.moveTo(p1.getX(), p1.getY());
             outline.curveTo(leftC1.x, leftC1.y, leftC2.x, leftC2.y, p2.getX(), p2.getY());
         }
@@ -108,13 +108,13 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         outline.moveTo(p2.getX(), p2.getY());
         outline.lineTo(p4.getX(), p4.getY());
 
-        Point2D.Float rightC1 = null, rightC2 = null;
+        Point2D.Double rightC1 = null, rightC2 = null;
         // End
         if (rightElement != CartouchePart.NONE) {
 
-            float p0x = -dx;
-            rightC1 = new Point2D.Float(currentView.getWidth() + loopSkip + p0x, p3.y);
-            rightC2 = new Point2D.Float(currentView.getWidth() + loopSkip + p0x, p4.y);
+            double p0x = -dx;
+            rightC1 = new Point2D.Double(currentView.getWidth() + loopSkip + p0x, p3.y);
+            rightC2 = new Point2D.Double(currentView.getWidth() + loopSkip + p0x, p4.y);
             outline.moveTo(p3.getX(), p3.getY());
             outline.curveTo(rightC1.x, rightC1.y, rightC2.x, rightC2.y, p4.getX(), p4.getY());
         }
@@ -139,7 +139,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
      * The radius (depth) of a bastion. Change {@link #BASTION_RADIUS_FACTOR}
      * to tune it.
      */
-    private float bastionRadius() {
+    private double bastionRadius() {
         return jseshStyle.geometry().cartoucheLineWidth() * BASTION_RADIUS_FACTOR;
     }
 
@@ -148,7 +148,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
      * bastions, given their radius. Change {@link #BASTION_GAP_FACTOR} to
      * tune how much open wall is left between two bastions.
      */
-    private float bastionSpacing(float radius) {
+    private double bastionSpacing(double radius) {
         return radius * (2 + BASTION_GAP_FACTOR);
     }
 
@@ -157,19 +157,19 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
      * bulging towards the (unit) outward normal (nx, ny), and adds each of
      * them to {@code area}.
      */
-    private void drawBastionRow(Area area, Point2D.Float start, Point2D.Float end, float nx, float ny) {
-        float length = (float) start.distance(end);
-        float radius = bastionRadius();
-        float spacing = bastionSpacing(radius);
-        int n = Math.round(length / spacing);
+    private void drawBastionRow(Area area, Point2D.Double start, Point2D.Double end, double nx, double ny) {
+        double length = start.distance(end);
+        double radius = bastionRadius();
+        double spacing = bastionSpacing(radius);
+        int n = (int) Math.round(length / spacing);
         if (n <= 0) {
             return;
         }
-        float actualSpacing = length / n;
-        float ux = (end.x - start.x) / length;
-        float uy = (end.y - start.y) / length;
+        double actualSpacing = length / n;
+        double ux = (end.x - start.x) / length;
+        double uy = (end.y - start.y) / length;
         for (int i = 0; i < n; i++) {
-            float t = actualSpacing * (i + 0.5f);
+            double t = actualSpacing * (i + 0.5);
             area.add(new Area(bastionShape(start.x + ux * t, start.y + uy * t, nx, ny)));
         }
     }
@@ -180,42 +180,42 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
      * (some point known to be inside the enclosure), and adds each of them
      * to {@code area}.
      */
-    private void drawBastionsAlongCubic(Area area, Point2D.Float p0, Point2D.Float c1, Point2D.Float c2,
-            Point2D.Float p3, Point2D.Float outwardReference) {
+    private void drawBastionsAlongCubic(Area area, Point2D.Double p0, Point2D.Double c1, Point2D.Double c2,
+            Point2D.Double p3, Point2D.Double outwardReference) {
         final int samples = 48;
-        Point2D.Float[] pts = new Point2D.Float[samples + 1];
-        float[] len = new float[samples + 1];
+        Point2D.Double[] pts = new Point2D.Double[samples + 1];
+        double[] len = new double[samples + 1];
         for (int i = 0; i <= samples; i++) {
-            pts[i] = cubicPoint(p0, c1, c2, p3, (float) i / samples);
-            len[i] = (i == 0) ? 0 : len[i - 1] + (float) pts[i - 1].distance(pts[i]);
+            pts[i] = cubicPoint(p0, c1, c2, p3, (double) i / samples);
+            len[i] = (i == 0) ? 0 : len[i - 1] + pts[i - 1].distance(pts[i]);
         }
 
-        float totalLength = len[samples];
-        float radius = bastionRadius();
-        float spacing = bastionSpacing(radius);
-        int n = Math.round(totalLength / spacing);
+        double totalLength = len[samples];
+        double radius = bastionRadius();
+        double spacing = bastionSpacing(radius);
+        int n = (int) Math.round(totalLength / spacing);
         if (n <= 0) {
             return;
         }
-        float actualSpacing = totalLength / n;
+        double actualSpacing = totalLength / n;
 
         int segment = 0;
         for (int i = 0; i < n; i++) {
-            float target = actualSpacing * (i + 0.5f);
+            double target = actualSpacing * (i + 0.5);
             while (segment < samples - 1 && len[segment + 1] < target) {
                 segment++;
             }
-            Point2D.Float a = pts[segment];
-            Point2D.Float b = pts[segment + 1];
-            float segLength = len[segment + 1] - len[segment];
-            float fraction = segLength <= 0 ? 0 : (target - len[segment]) / segLength;
-            float x = a.x + (b.x - a.x) * fraction;
-            float y = a.y + (b.y - a.y) * fraction;
+            Point2D.Double a = pts[segment];
+            Point2D.Double b = pts[segment + 1];
+            double segLength = len[segment + 1] - len[segment];
+            double fraction = segLength <= 0 ? 0 : (target - len[segment]) / segLength;
+            double x = a.x + (b.x - a.x) * fraction;
+            double y = a.y + (b.y - a.y) * fraction;
 
             // The chord a->b approximates the local tangent closely enough
             // for bastion placement (48 samples over one loop).
-            float tx = b.x - a.x, ty = b.y - a.y;
-            float tLen = (float) Math.hypot(tx, ty);
+            double tx = b.x - a.x, ty = b.y - a.y;
+            double tLen = Math.hypot(tx, ty);
             if (tLen == 0) {
                 continue;
             }
@@ -224,7 +224,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
 
             // Of the two perpendiculars to the tangent, keep the one
             // pointing away from the inside of the enclosure.
-            float nx = -ty, ny = tx;
+            double nx = -ty, ny = tx;
             if (nx * (x - outwardReference.x) + ny * (y - outwardReference.y) < 0) {
                 nx = -nx;
                 ny = -ny;
@@ -233,12 +233,12 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         }
     }
 
-    private static Point2D.Float cubicPoint(Point2D.Float p0, Point2D.Float c1, Point2D.Float c2, Point2D.Float p3,
-            float t) {
-        float u = 1 - t;
-        float x = u * u * u * p0.x + 3 * u * u * t * c1.x + 3 * u * t * t * c2.x + t * t * t * p3.x;
-        float y = u * u * u * p0.y + 3 * u * u * t * c1.y + 3 * u * t * t * c2.y + t * t * t * p3.y;
-        return new Point2D.Float(x, y);
+    private static Point2D.Double cubicPoint(Point2D.Double p0, Point2D.Double c1, Point2D.Double c2, Point2D.Double p3,
+            double t) {
+        double u = 1 - t;
+        double x = u * u * u * p0.x + 3 * u * u * t * c1.x + 3 * u * t * t * c2.x + t * t * t * p3.x;
+        double y = u * u * u * p0.y + 3 * u * u * t * c1.y + 3 * u * t * t * c2.y + t * t * t * p3.y;
+        return new Point2D.Double(x, y);
     }
 
     /**
@@ -252,31 +252,31 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
      * @param vx x coordinate of the (unit) orthogonal vector to the basis
      * @param vy y coordinate of the (unit) orthogonal vector to the basis
      */
-    private Shape bastionShape(float x, float y, float vx, float vy) {
-        float radius = bastionRadius();
-        float k = (float) (radius * CIRCLE_BEZIER_FACTOR);
-        float stem = radius / 4f;
+    private Shape bastionShape(double x, double y, double vx, double vy) {
+        double radius = bastionRadius();
+        double k = (radius * CIRCLE_BEZIER_FACTOR);
+        double stem = radius / 4.0;
 
         // (nx, ny) is v rotated by 90°, i.e. the direction of the flat
         // basis. Every point of the shape is then just x,y plus some
         // combination of v (towards the bulge) and v' (along the basis) -
         // no matrix/AffineTransform needed.
-        float nx = -vy;
-        float ny = vx;
+        double nx = -vy;
+        double ny = vx;
 
-        float a0x = x - radius * nx, a0y = y - radius * ny; // basis start
-        float a1x = x + radius * vx, a1y = y + radius * vy; // tip of the bulge
-        float a2x = x + radius * nx, a2y = y + radius * ny; // basis end
+        double a0x = x - radius * nx, a0y = y - radius * ny; // basis start
+        double a1x = x + radius * vx, a1y = y + radius * vy; // tip of the bulge
+        double a2x = x + radius * nx, a2y = y + radius * ny; // basis end
 
         // a0/a2 pushed back by `stem` along -v: the bottom corners of the
         // stem, meant to be buried in the wall so there's no visible gap.
-        float b0x = a0x - stem * vx, b0y = a0y - stem * vy;
-        float b2x = a2x - stem * vx, b2y = a2y - stem * vy;
+        double b0x = a0x - stem * vx, b0y = a0y - stem * vy;
+        double b2x = a2x - stem * vx, b2y = a2y - stem * vy;
 
-        float c1x = x + k * vx - radius * nx, c1y = y + k * vy - radius * ny;
-        float c2x = x + radius * vx - k * nx, c2y = y + radius * vy - k * ny;
-        float c3x = x + radius * vx + k * nx, c3y = y + radius * vy + k * ny;
-        float c4x = x + k * vx + radius * nx, c4y = y + k * vy + radius * ny;
+        double c1x = x + k * vx - radius * nx, c1y = y + k * vy - radius * ny;
+        double c2x = x + radius * vx - k * nx, c2y = y + radius * vy - k * ny;
+        double c3x = x + radius * vx + k * nx, c3y = y + radius * vy + k * ny;
+        double c4x = x + k * vx + radius * nx, c4y = y + k * vy + radius * ny;
 
         // Stem (b0 -> a0), half disc (a0 -> a1 -> a2, approximated with two
         // cubic bezier curves rather than Arc2D, for portability), stem
@@ -298,12 +298,12 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         GeometrySpecification geometry = jseshStyle.geometry();
         Stroke s = geometry.cartoucheStroke();
         /*
-         * float w1 = drawingSpecifications.getCartoucheStartWidth(cartouche.getType(),
-         * cartouche .getStartPart()); float w2 =
+         * double w1 = drawingSpecifications.getCartoucheStartWidth(cartouche.getType(),
+         * cartouche .getStartPart()); double w2 =
          * drawingSpecifications.getCartoucheEndWidth(cartouche.getType(), cartouche
          * .getEndPart());
          */
-        float w1, w2;
+        double w1, w2;
 
         // Compute vertical space before and after the cartouche's body :
         w1 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
@@ -312,8 +312,8 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
                 cartouche.getType(), cartouche.getEndPart());
 
         // Half line width : allows to have a close bounding box.
-        float dy = geometry.cartoucheLineWidth() / 2f;
-        float dx = geometry.cartoucheLineWidth() / 2f;
+        double dy = geometry.cartoucheLineWidth() / 2.0;
+        double dx = geometry.cartoucheLineWidth() / 2.0;
 
         // The respective limits of this cartouche's parts.
         //
@@ -324,32 +324,32 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         // p4 p3
         // |
         // w2|
-        Point2D.Float p1, p2, p3, p4;
+        Point2D.Double p1, p2, p3, p4;
 
-        p1 = new Point2D.Float(currentView.getWidth() - dx, w1);
-        p2 = new Point2D.Float(dx, w1);
-        p3 = new Point2D.Float(currentView.getWidth() - dx, currentView
+        p1 = new Point2D.Double(currentView.getWidth() - dx, w1);
+        p2 = new Point2D.Double(dx, w1);
+        p3 = new Point2D.Double(currentView.getWidth() - dx, currentView
                 .getHeight()
                 - dy - w2);
-        p4 = new Point2D.Float(dx, currentView.getHeight() - dy - w2);
+        p4 = new Point2D.Double(dx, currentView.getHeight() - dy - w2);
 
         // The necessary skip to get a nice bezier curve for our cartouche
         // loops.
-        float loopSkip = geometry.cartoucheLineWidth() / 3;
+        double loopSkip = geometry.cartoucheLineWidth() / 3;
 
         // Reference point known to be "inside" the enclosure, used to tell
         // which way is outward when placing bastions along the round ends.
-        Point2D.Float center = new Point2D.Float(currentView.getWidth() / 2f, currentView.getHeight() / 2f);
+        Point2D.Double center = new Point2D.Double(currentView.getWidth() / 2.0, currentView.getHeight() / 2.0);
 
-        Path2D.Float outline = new Path2D.Float();
-        Point2D.Float topC1 = null, topC2 = null;
+        Path2D.Double outline = new Path2D.Double();
+        Point2D.Double topC1 = null, topC2 = null;
         // Start
         if (cartouche.getStartPart() != CartouchePart.NONE) {
 
-            float p0x = dx;
+            double p0x = dx;
 
-            topC1 = new Point2D.Float(p1.x, p0x - loopSkip);
-            topC2 = new Point2D.Float(p2.x, p0x - loopSkip);
+            topC1 = new Point2D.Double(p1.x, p0x - loopSkip);
+            topC2 = new Point2D.Double(p2.x, p0x - loopSkip);
             outline.moveTo(p1.getX(), p1.getY());
             outline.curveTo(topC1.x, topC1.y, topC2.x, topC2.y, p2.getX(), p2.getY());
         }
@@ -360,14 +360,14 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         outline.moveTo(p2.getX(), p2.getY());
         outline.lineTo(p4.getX(), p4.getY());
 
-        Point2D.Float bottomC1 = null, bottomC2 = null;
+        Point2D.Double bottomC1 = null, bottomC2 = null;
         // End
         if (cartouche.getEndPart() != CartouchePart.NONE) {
 
-            float p0x = -dx;
+            double p0x = -dx;
 
-            bottomC1 = new Point2D.Float(p3.x, currentView.getHeight() + loopSkip + p0x);
-            bottomC2 = new Point2D.Float(p4.x, currentView.getHeight() + loopSkip + p0x);
+            bottomC1 = new Point2D.Double(p3.x, currentView.getHeight() + loopSkip + p0x);
+            bottomC2 = new Point2D.Double(p4.x, currentView.getHeight() + loopSkip + p0x);
             outline.moveTo(p3.getX(), p3.getY());
             outline.curveTo(bottomC1.x, bottomC1.y, bottomC2.x, bottomC2.y, p4.getX(), p4.getY());
         }

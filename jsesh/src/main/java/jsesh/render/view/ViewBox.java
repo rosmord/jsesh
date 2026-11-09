@@ -14,30 +14,30 @@ public interface ViewBox {
 
 	/**
 	 * Returns the height the box will have.
-	 * @return a float
+	 * @return a double
 	 */
-	float getHeight();
+	double getHeight();
 
 	/**
 	 * Returns the width the box will have.
-	 * @return a float
+	 * @return a double
 	 */
 
-	float getWidth();
+	double getWidth();
 
 	/**
 	 * Returns the xScale.
 	 * 
-	 * @return float
+	 * @return double
 	 */
-	public float getXScale();
+	public double getXScale();
 
 	/**
 	 * Returns the yScale.
 	 * 
-	 * @return float
+	 * @return double
 	 */
-	public float getYScale();
+	public double getYScale();
 
 	
 }

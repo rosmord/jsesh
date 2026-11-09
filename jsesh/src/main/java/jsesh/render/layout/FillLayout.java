@@ -54,7 +54,7 @@ final class FillLayout {
 
     /// The zones placed at their natural length by [#prepare(MDCView)], with
     /// the length at which their content is laid out.
-    private final Map<MDCView, Float> laidOutLengths = new IdentityHashMap<>();
+    private final Map<MDCView, Double> laidOutLengths = new IdentityHashMap<>();
 
     /// @param vertical true for columns, false for lines.
     /// @param filler lays out a zone again at a new length.
@@ -77,7 +77,7 @@ final class FillLayout {
         if (!view.isFilling()) {
             return;
         }
-        float current = length(view);
+        double current = length(view);
         if (Math.abs(current - view.getNaturalLength()) > EPSILON) {
             laidOutLengths.put(view, current);
             setLength(view, view.getNaturalLength());
@@ -95,7 +95,7 @@ final class FillLayout {
         if (view.getModel() instanceof Zone) {
             filler.fill(view, length);
         } else {
-            setLength(view, (float) length);
+            setLength(view, length);
         }
     }
 
@@ -160,7 +160,7 @@ final class FillLayout {
             if (filling.contains(view)) {
                 laidOutLengths.remove(view);
                 double target = view.getNaturalLength() + (share > EPSILON ? share : 0);
-                setLength(view, (float) target);
+                setLength(view, target);
                 growth += target - view.getNaturalLength();
             }
         }
@@ -189,7 +189,7 @@ final class FillLayout {
             if (view.isFilling()) {
                 double natural = view.getNaturalLength();
                 double target = share > EPSILON ? natural + share : natural;
-                Float laidOut = laidOutLengths.remove(view);
+                Double laidOut = laidOutLengths.remove(view);
                 if (laidOut != null && Math.abs(laidOut - target) <= EPSILON) {
                     // Already laid out at this length.
                     setLength(view, laidOut);
@@ -213,11 +213,11 @@ final class FillLayout {
         laidOutLengths.clear();
     }
 
-    private float length(MDCView v) {
+    private double length(MDCView v) {
         return vertical ? v.getHeight() : v.getWidth();
     }
 
-    private void setLength(MDCView v, float length) {
+    private void setLength(MDCView v, double length) {
         if (vertical) {
             v.setHeight(length);
         } else {

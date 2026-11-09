@@ -54,12 +54,12 @@ class PageSpecificationPresenterTest {
 		PageSpecification page = p.updatePreferences(JSeshStyle.DEFAULT).geometry().page();
 		assertEquals(StandardPageSize.A4.width(), page.pageWidth(), 0.01);
 		assertEquals(StandardPageSize.A4.height(), page.pageHeight(), 0.01);
-		assertEquals(56.69f, page.marginLeft(), 0.01);
+		assertEquals(56.69, page.marginLeft(), 0.01);
 	}
 
 	@Test
 	void existingPageIsRoundTripped() {
-		PageSpecification page = new PageSpecification(595.28f, 841.89f, 57, 40, 50, 60);
+		PageSpecification page = new PageSpecification(595.28, 841.89, 57, 40, 50, 60);
 		Access p = new Access();
 		p.loadPreferences(withPage(page));
 		assertTrue(p.form().getEnableBox().isSelected());
@@ -74,7 +74,7 @@ class PageSpecificationPresenterTest {
 
 	@Test
 	void unCheckingRemovesThePageAndRestoresMargins() {
-		PageSpecification page = new PageSpecification(595.28f, 841.89f, 57, 57, 57, 57);
+		PageSpecification page = new PageSpecification(595.28, 841.89, 57, 57, 57, 57);
 		JSeshStyle original = withPage(page).copy().geometry(g -> g.leftMargin(57).topMargin(57)).build();
 		Access p = new Access();
 		p.loadPreferences(original);
@@ -88,11 +88,11 @@ class PageSpecificationPresenterTest {
 	@Test
 	void choosingLandscapeSwapsDimensions() {
 		Access p = new Access();
-		p.loadPreferences(withPage(new PageSpecification(595.28f, 841.89f, 57, 57, 57, 57)));
+		p.loadPreferences(withPage(new PageSpecification(595.28, 841.89, 57, 57, 57, 57)));
 		p.form().getLandscapeButton().doClick();
 		PageSpecification page = p.updatePreferences(JSeshStyle.DEFAULT).geometry().page();
-		assertEquals(841.89f, page.pageWidth(), 0.01);
-		assertEquals(595.28f, page.pageHeight(), 0.01);
+		assertEquals(841.89, page.pageWidth(), 0.01);
+		assertEquals(595.28, page.pageHeight(), 0.01);
 		assertEquals(StandardPageSize.A4, ((SizeChoice) p.form().getSizeField().getSelectedItem()).size());
 	}
 
@@ -132,7 +132,7 @@ class PageSpecificationPresenterTest {
 
 	@Test
 	void pageNumberAndTitleAreEditedWithThePage() {
-		PageSpecification page = new PageSpecification(595.28f, 841.89f, 57, 57, 57, 57);
+		PageSpecification page = new PageSpecification(595.28, 841.89, 57, 57, 57, 57);
 		JSeshStyle original = JSeshStyle.DEFAULT.copy().geometry(g -> g.page(page)
 				.pageDecoration(new PageDecoration(PageTextPosition.BOTTOM_RIGHT, PageTextPosition.TOP_LEFT, "Old"))).build();
 		Access p = new Access();

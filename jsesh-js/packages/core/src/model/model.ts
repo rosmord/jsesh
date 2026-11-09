@@ -1705,7 +1705,7 @@ export function zoneFills(p: ZoneParameters, parentHorizontal: boolean): boolean
 
 /// The scale of the content of a zone, as a factor (1 for none).
 export function zoneScaleFactor(p: ZoneParameters): number {
-  return p.scale === ZONE_UNSET ? 1 : Math.fround(p.scale / 100);
+  return p.scale === ZONE_UNSET ? 1 : p.scale / 100;
 }
 
 /// Everything inherited, natural size, no frame.

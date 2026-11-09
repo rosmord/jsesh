@@ -83,10 +83,10 @@ final class LayoutExporter {
         result.put("y", v.getPosition().y);
         result.put("w", v.getWidth());
         result.put("h", v.getHeight());
-        if (v.getXScale() != 1f) {
+        if (v.getXScale() != 1.0) {
             result.put("sx", v.getXScale());
         }
-        if (v.getYScale() != 1f) {
+        if (v.getYScale() != 1.0) {
             result.put("sy", v.getYScale());
         }
         if (v.getDeltaBaseX() != 0) {

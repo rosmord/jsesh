@@ -36,11 +36,11 @@ public class TabLayoutTest {
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);
     private static final double EPSILON = 1e-3;
     private static final JSeshStyle STYLE = JSeshStyle.DEFAULT;
-    private static final float QUADRAT = STYLE.geometry().maxCadratHeight();
+    private static final double QUADRAT = STYLE.geometry().maxCadratHeight();
     /// The default tab gap, in lines: the space between quadrats.
-    private static final float GAP = STYLE.geometry().smallSkip();
+    private static final double GAP = STYLE.geometry().smallSkip();
     /// The default tab gap, in columns.
-    private static final float COLUMN_GAP = STYLE.geometry().columnQuadratSkip();
+    private static final double COLUMN_GAP = STYLE.geometry().columnQuadratSkip();
 
     private MDCView layout(String mdc) throws MDCSyntaxError {
         JSeshRenderContext context = new JSeshRenderContext(STYLE, PredefinedFonts.buildAllEmbeddedFonts());

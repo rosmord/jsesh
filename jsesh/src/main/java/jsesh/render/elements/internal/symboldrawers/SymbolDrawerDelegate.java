@@ -6,8 +6,8 @@ import jsesh.render.view.ViewBox;
 
 public interface SymbolDrawerDelegate {
 
-	public abstract void draw(Graphics2D g2d, int angle, ViewBox viewBox, float strokeWidth);
+	public abstract void draw(Graphics2D g2d, int angle, ViewBox viewBox, double strokeWidth);
 	
-	public float getBaseWidth();
+	public double getBaseWidth();
 
 }

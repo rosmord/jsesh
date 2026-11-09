@@ -195,7 +195,7 @@ public final class ExportGlyphData {
                 String[] pos = parts[1].strip().split(" ");
                 List<Object> positions = new ArrayList<>();
                 for (int i = 0; i < pos.length; i += 4) {
-                    positions.add(List.of(Float.parseFloat(pos[i + 1]), Float.parseFloat(pos[i + 2]),
+                    positions.add(List.of(Double.parseDouble(pos[i + 1]), Double.parseDouble(pos[i + 2]),
                             Integer.parseInt(pos[i + 3])));
                 }
                 map.put(codes, positions);

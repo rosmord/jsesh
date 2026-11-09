@@ -56,7 +56,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
     /**
      * The height of the A1 sign, used as a reference for scaling.
      */
-    private float heightOfA1 = 0;
+    private double heightOfA1 = 0;
 
     /**
      * The catalogue of predefined ligatures inherited from tksesh.
@@ -83,8 +83,8 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
         // so that, for instance, shading can be based on expected cadrat
         // dimensions.
         Rectangle2D specA1 = fontManager.get(ManuelDeCodage.getInstance().getA1Code()).getBbox();
-        float w = (float) specA1.getWidth();
-        float h = (float) specA1.getHeight();
+        double w = specA1.getWidth();
+        double h = specA1.getHeight();
         heightOfA1 = h;
         shadingCodeCatalogue = new ShadingCodeCatalogue(w,h);
 
@@ -109,7 +109,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
         }
         tmpG.scale(view.getXScale(), view.getYScale());
         if (glyph != null) {
-            glyph.draw(tmpG, 0, 0, 1.0, 1.0, (float) (angle * Math.PI / 180));
+            glyph.draw(tmpG, 0, 0, 1.0, 1.0, (angle * Math.PI / 180));
         } else {
             // If the glyph wasn't found, write its code.
             Rectangle2D r = tmpG.getFont().getStringBounds(code,
@@ -144,7 +144,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
         } else if (angle != 0) {
             Shape shape = getShape(code);
             AffineTransform rot = AffineTransform.getRotateInstance(angle
-                    * Math.PI / 180f);
+                    * Math.PI / 180.0);
             shape = rot.createTransformedShape(shape);
             result = shape.getBounds2D();
         }
@@ -226,7 +226,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
     }
 
     public double getGroupUnitLength() {
-        return getHeightOfA1() / 1000f; // Why was it 10000 ????????????
+        return getHeightOfA1() / 1000.0; // Why was it 10000 ????????????
     }
 
     @Override

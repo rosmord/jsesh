@@ -32,9 +32,9 @@ public class ZoneFillLayoutTest {
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);
     private static final double EPSILON = 1e-2;
     private static final JSeshStyle STYLE = JSeshStyle.DEFAULT;
-    private static final float QUADRAT = STYLE.geometry().maxCadratHeight();
+    private static final double QUADRAT = STYLE.geometry().maxCadratHeight();
     /// The width of a zone of `width=1000`.
-    private static final float TEN = 10 * QUADRAT;
+    private static final double TEN = 10 * QUADRAT;
 
     private static JSeshRenderContext context(JSeshStyle style) {
         return new JSeshRenderContext(style, PredefinedFonts.buildAllEmbeddedFonts());
@@ -162,7 +162,7 @@ public class ZoneFillLayoutTest {
         MDCView content = outer("%zone[width=1000](%zone[fill=yes,frame,scale=50](A1)!A1)");
         MDCView fill = content.getSubView(0);
         assertEquals(TEN, fill.getWidth(), EPSILON);
-        float padding = Layout.zoneFramePadding(STYLE);
+        double padding = Layout.zoneFramePadding(STYLE);
         // The inner area, scaled, fills the zone inside the frame.
         assertEquals(TEN - 2 * padding, fill.getFirstSubView().getWidth(), EPSILON);
     }
@@ -202,7 +202,7 @@ public class ZoneFillLayoutTest {
         String mdc = "%zone[fill=yes,frame](A1)!A1-A1-A1-A1-A1-%zone[fill=yes](A1)";
         MDCView text = layout(mdc);
         MDCView fill = text.getSubView(0);
-        float width = fill.getWidth();
+        double width = fill.getWidth();
         double lastX = text.getSubView(text.getNumberOfSubviews() - 1).getPosition().x;
         new ViewBuilder().reLayout(text, context(STYLE), tech());
         assertEquals(width, fill.getWidth(), EPSILON);
@@ -213,8 +213,8 @@ public class ZoneFillLayoutTest {
     public void afterAnEditTheZoneShrinksBack() throws MDCSyntaxError {
         MDCView text = layout("%zone[fill=yes](A1)!A1-A1-A1-A1-A1");
         MDCView fill = text.getSubView(0);
-        float natural = fill.getNaturalLength();
-        float width = fill.getWidth();
+        double natural = fill.getNaturalLength();
+        double width = fill.getWidth();
         // Remove all the signs of the second line.
         text.remove(2, text.getNumberOfSubviews());
         new ViewBuilder().reLayout(text, context(STYLE), tech());

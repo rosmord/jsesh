@@ -29,7 +29,7 @@ public class PDFDataSaver {
 
     private JSeshRenderContext renderContext;    
     private PDFExportPreferences pdfExportPreferences;
-    private float scale = 1.0f;
+    private double scale = 1.0;
 
     /**
      * Create a new {@link PDFDataSaver}.
@@ -60,11 +60,11 @@ public class PDFDataSaver {
      *
      * @param scale
      */
-    public void setScale(float scale) {
+    public void setScale(double scale) {
         this.scale = scale;
     }
 
-    public float getScale() {
+    public double getScale() {
         return scale;
     }
 
@@ -78,13 +78,13 @@ public class PDFDataSaver {
     public void writeSinglePagePDF(OutputStream out, HieroglyphicText topItemList)
             throws IOException {
         // Dirty code which needs to be cleaned up.
-        float margin = 1f;
+        double margin = 1.0;
         JSeshStyle myDrawingSpecification = 
             PDFExportHelper.ensureCMYKColorSpace(this.renderContext.jseshStyle())            
             .geometry(geom ->
                 geom
-                    .leftMargin(margin* 0.5f / scale)
-                    .topMargin(margin* 0.5f / scale)
+                    .leftMargin(margin * 0.5 / scale)
+                    .topMargin(margin * 0.5 / scale)
                     .withoutPagination()
             ).build()
             ;

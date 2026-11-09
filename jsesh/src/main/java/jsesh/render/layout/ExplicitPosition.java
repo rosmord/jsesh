@@ -12,9 +12,9 @@ package jsesh.render.layout;
  */
 public class ExplicitPosition {
 	
-	private float x,y, scale;
+	private double x,y, scale;
 	
-	public ExplicitPosition(float x, float y, float scale) {
+	public ExplicitPosition(double x, double y, double scale) {
 		this.x= x;
 		this.y= y;
 		this.scale= scale;
@@ -24,42 +24,42 @@ public class ExplicitPosition {
 	/**
 	 * @return the scale.
 	 */
-	public float getScale() {
+	public double getScale() {
 		return scale;
 	}
 
 	/**
 	 * @return x.
 	 */
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
 	/**
 	 * @return y.
 	 */
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
 	/**
 	 * @param f
 	 */
-	public void setScale(float f) {
+	public void setScale(double f) {
 		scale = f;
 	}
 
 	/**
 	 * @param f
 	 */
-	public void setX(float f) {
+	public void setX(double f) {
 		x = f;
 	}
 
 	/**
 	 * @param f
 	 */
-	public void setY(float f) {
+	public void setY(double f) {
 		y = f;
 	}
 

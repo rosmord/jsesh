@@ -8,7 +8,7 @@
 /// `ColumnLayout` and `LineAccumulator`, and of `jsesh.render.view.ViewBuilder`.
 ///
 /// The code follows Java closely (names included), so that the two can be
-/// compared view by view. `Math.fround` marks Java `float` computations.
+/// compared view by view.
 
 import type { KerningAxis, LineAlignment, TextDirection, TextOrientation } from "../model/constants.js";
 import { isHorizontalInsertion, isStartInsertion, isTopInsertion, isVerticalInsertion, SymbolCodes } from "../model/constants.js";
@@ -79,7 +79,6 @@ import { hasKerning, kerningOf, KerningPacker } from "./kerning-packer.js";
 import { displayString, TextRun, type TextMeasurer } from "./text.js";
 import { MDCView, Rect, type Point } from "./view.js";
 
-const f = Math.fround;
 
 /// Everything the layout needs.
 export interface LayoutContext {
@@ -159,8 +158,8 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
 export function zoneStyle(parent: JSeshStyle, p: ZoneParameters, forcedWidth = NaN, forcedHeight = NaN): JSeshStyle {
   const unit = zoneLengthUnit(parent);
   const orientation = p.settings.layout ?? parent.options.textOrientation;
-  const width = !Number.isNaN(forcedWidth) ? f(forcedWidth) : p.width !== ZONE_UNSET ? f(p.width * unit) : 0;
-  const height = !Number.isNaN(forcedHeight) ? f(forcedHeight) : p.height !== ZONE_UNSET ? f(p.height * unit) : 0;
+  const width = !Number.isNaN(forcedWidth) ? forcedWidth : p.width !== ZONE_UNSET ? (p.width * unit) : 0;
+  const height = !Number.isNaN(forcedHeight) ? forcedHeight : p.height !== ZONE_UNSET ? (p.height * unit) : 0;
   const geometry: Partial<JSeshStyle["geometry"]> = {
     leftMargin: 0,
     topMargin: 0,
@@ -187,14 +186,14 @@ export function zoneLengthUnit(style: JSeshStyle): number {
 
 /// The space between the frame of a zone and its content, frame included.
 export function zoneFramePadding(style: JSeshStyle): number {
-  return f(style.geometry.cartoucheMargin + style.geometry.cartoucheLineWidth);
+  return style.geometry.cartoucheMargin + style.geometry.cartoucheLineWidth;
 }
 
 /// The length of the content of a zone, before its scale, when the zone has a given outer length
 /// (frame included). `parentStyle` is the style of the parent of the zone.
 function forcedInnerLength(p: ZoneParameters, outerLength: number, parentStyle: JSeshStyle): number {
   const padding = p.frame ? zoneFramePadding(parentStyle) : 0;
-  return f(Math.max(0, f(outerLength - 2 * padding)) / zoneScaleFactor(p));
+  return Math.max(0, outerLength - 2 * padding) / zoneScaleFactor(p);
 }
 
 /// Port of `Layout`: computes the size of a view, and the position and scale
@@ -285,7 +284,7 @@ class Layout {
     const savedView = this.currentView;
     const savedCenterSigns = this.centerSigns;
     this.centerSigns = this.style.options.smallSignCentered;
-    if (stretched) this.forcedLengths.set(zone, f(length));
+    if (stretched) this.forcedLengths.set(zone, length);
     try {
       zoneView.replaceSubView(0, this.subViewBuilder(zone.content));
       this.layout(zoneView);
@@ -398,10 +397,10 @@ class LayoutAux extends ModelElementAdapter {
     v.width = m.advance;
     // The font's ascent and descent, so that all characters of a run share
     // the same box and baseline.
-    v.height = f(f(m.ascent) + f(m.descent));
+    v.height = m.ascent + m.descent;
     // The baseline is alphabeticTextBaseline above the quadrats' bottom line.
     const g = style.geometry;
-    v.deltaBaseY = f(f(g.maxCadratHeight - g.alphabeticTextBaseline) - f(m.ascent));
+    v.deltaBaseY = (g.maxCadratHeight - g.alphabeticTextBaseline) - m.ascent;
   }
 
   /// Comments are not displayed.
@@ -506,10 +505,10 @@ class LayoutAux extends ModelElementAdapter {
     for (const sub of v.subviews) {
       sub.resetPos();
       const kerning = kerningOf(sub) !== undefined;
-      if (horizontal) sub.position.y = kerning ? f(cross - sub.height) / 2 : 0;
-      else sub.position.x = f(cross - sub.width) / 2;
+      if (horizontal) sub.position.y = kerning ? (cross - sub.height) / 2 : 0;
+      else sub.position.x = (cross - sub.width) / 2;
     }
-    const length = f(this.l.packer(horizontal ? "HORIZONTAL" : "VERTICAL").pack(v));
+    const length = this.l.packer(horizontal ? "HORIZONTAL" : "VERTICAL").pack(v);
     v.width = horizontal ? length : cross;
     v.height = horizontal ? cross : length;
   }
@@ -526,24 +525,24 @@ class LayoutAux extends ModelElementAdapter {
     const subView = v.firstSubView;
     // Dimension along the main axis, and the other one.
     let longDim = 0;
-    const smallDim = f(2 * computeCartoucheSecondaryLength(style, c.type));
+    const smallDim = 2 * computeCartoucheSecondaryLength(style, c.type);
     const dSmall = computeCartoucheSecondaryLength(style, c.type);
-    longDim = f(longDim + computeCartouchePartLength(style, c.type, c.startPart));
+    longDim += computeCartouchePartLength(style, c.type, c.startPart);
     const dLong = longDim;
-    longDim = f(longDim + computeCartouchePartLength(style, c.type, c.endPart));
+    longDim += computeCartouchePartLength(style, c.type, c.endPart);
     const g = style.geometry;
     if (this.l.orientation === "HORIZONTAL") {
       v.width = subView.width + longDim;
-      v.height = Math.max(f(subView.height + smallDim), f(g.maxCadratHeight + smallDim));
+      v.height = Math.max(subView.height + smallDim, g.maxCadratHeight + smallDim);
       subView.position = { x: dLong, y: dSmall };
     } else {
       v.height = subView.height + longDim;
-      if (subView.width < f(g.maxCadratWidth + smallDim)) {
+      if (subView.width < (g.maxCadratWidth + smallDim)) {
         v.width = g.maxCadratWidth + smallDim;
       } else {
         v.width = subView.width + smallDim;
       }
-      const innerMargin = f(f(v.width - subView.width) / 2);
+      const innerMargin = (v.width - subView.width) / 2;
       subView.position = { x: innerMargin, y: dLong };
     }
     // Align the cartouche's content with the text.
@@ -563,7 +562,7 @@ class LayoutAux extends ModelElementAdapter {
     for (let i = 0; i < 3; i++) {
       const scale = this.l.computeScale();
       const scale1 =
-        ligature.hieroglyph.relativeSize !== 100 ? f(scale * f(ligature.hieroglyph.relativeSize / 100)) : scale;
+        ligature.hieroglyph.relativeSize !== 100 ? (scale * (ligature.hieroglyph.relativeSize / 100)) : scale;
       const z = this.l.drawer.getLigatureZone(i, ligature.hieroglyph.code);
       zones.push(z === undefined ? undefined : scaleZone(z, scale1));
     }
@@ -593,12 +592,12 @@ class LayoutAux extends ModelElementAdapter {
     if (v.numberOfSubviews !== 0) {
       if (style.options.textOrientation === "HORIZONTAL") {
         // Elements one after another.
-        v.width = f(v.sumOfSubViewsWidths + f(style.geometry.smallSkip * (v.numberOfSubviews - 1)));
+        v.width = v.sumOfSubViewsWidths + (style.geometry.smallSkip * (v.numberOfSubviews - 1));
         v.height = v.maximalHeightOfSubView;
         v.distributeHorizontally();
       } else {
         // Elements one on top of the other.
-        const height = f(v.sumOfSubViewsHeights + f(style.geometry.smallSkip * (v.numberOfSubviews - 1)));
+        const height = v.sumOfSubViewsHeights + (style.geometry.smallSkip * (v.numberOfSubviews - 1));
         v.width = v.maximalWidthOfSubView;
         v.height = height;
         v.distributeFromTopToBottom();
@@ -623,11 +622,11 @@ class LayoutAux extends ModelElementAdapter {
       if (shouldEnlarge) {
         // Only for signs which are not explicitly scaled.
         const hiero = group.getLoneSign();
-        if (hiero.relativeSize === 100) subView.reScale(f(h / subView.height));
+        if (hiero.relativeSize === 100) subView.reScale(h / subView.height);
       }
       new ViewVerticalEnlarger().enlarge(subView, h);
     }
-    const w = f(v.sumOfSubViewsWidths + f((v.numberOfSubviews - 1) * style.geometry.smallSkip));
+    const w = v.sumOfSubViewsWidths + ((v.numberOfSubviews - 1) * style.geometry.smallSkip);
     v.height = h;
     v.width = w;
     // The positions are set by the quadrat.
@@ -636,7 +635,7 @@ class LayoutAux extends ModelElementAdapter {
     // together. Elements are aligned on the bottom line, as in the cadrat.
     if (b.containsKerning()) {
       for (const subView of v.subviews) {
-        subView.position.y = kerningOf(subView) !== undefined ? h / 2 : f(h - subView.height);
+        subView.position.y = kerningOf(subView) !== undefined ? h / 2 : (h - subView.height);
       }
       v.width = this.l.packer("HORIZONTAL").pack(v);
     }
@@ -717,7 +716,7 @@ class LayoutAux extends ModelElementAdapter {
         break;
       }
     }
-    if (h.relativeSize !== 100) v.reScale(f(h.relativeSize / 100));
+    if (h.relativeSize !== 100) v.reScale(h.relativeSize / 100);
   }
 
   /// At least one quadrat wide, and as wide as the page or the zone if there is one. Without a
@@ -727,7 +726,7 @@ class LayoutAux extends ModelElementAdapter {
     const g = this.l.s.geometry;
     let width = g.maxCadratWidth;
     if (this.l.orientation === "HORIZONTAL" && isWrapping(g)) width = Math.max(width, maxLineWidth(g));
-    this.l.v.width = f(width);
+    this.l.v.width = width;
     this.l.v.height = this.l.s.geometry.wideLineWidth;
   }
 
@@ -736,7 +735,7 @@ class LayoutAux extends ModelElementAdapter {
   /// [FillLayout] (to the rest of its line, or of its tab cell).
   override visitRunningAnnotation(a: RunningAnnotation): void {
     const g = this.l.s.geometry;
-    const length = a.fill ? 0 : f(a.percent * zoneLengthUnit(this.l.s));
+    const length = a.fill ? 0 : (a.percent * zoneLengthUnit(this.l.s));
     if (this.l.orientation === "HORIZONTAL") {
       this.l.v.width = length;
       this.l.v.height = g.maxCadratHeight;
@@ -834,10 +833,10 @@ class LayoutAux extends ModelElementAdapter {
       pos.forEach((posAtk, k) => {
         const subv = v.getSubView(k);
         const signScale = this.l.computeScale();
-        const x = f(f(posAtk.x * signScale) * this.l.getGroupUnitScale());
-        const y = f(f(posAtk.y * signScale) * this.l.getGroupUnitScale());
+        const x = (posAtk.x * signScale) * this.l.getGroupUnitScale();
+        const y = (posAtk.y * signScale) * this.l.getGroupUnitScale();
         subv.resetPos();
-        subv.reScale(f(posAtk.scale / 100));
+        subv.reScale(posAtk.scale / 100);
         subv.position = { x, y };
       });
     } else if (l.numberOfChildren === 2) {
@@ -895,9 +894,9 @@ class LayoutAux extends ModelElementAdapter {
   override visitPhilology(p: Philology): void {
     const v = this.l.v;
     const subView = v.firstSubView;
-    const margin = f(philologyWidth(p.type) + this.l.s.geometry.smallSkip);
+    const margin = philologyWidth(p.type) + this.l.s.geometry.smallSkip;
     subView.position = { x: margin, y: 0 };
-    v.width = f(margin * 2) + subView.width;
+    v.width = (margin * 2) + subView.width;
     v.height = subView.height;
   }
 
@@ -941,8 +940,8 @@ class LayoutAux extends ModelElementAdapter {
     const content = v.firstSubView;
     const unit = zoneLengthUnit(style);
     const padding = p.frame ? zoneFramePadding(style) : 0;
-    let width = p.width !== ZONE_UNSET ? f(p.width * unit) : content.width;
-    let height = p.height !== ZONE_UNSET ? f(p.height * unit) : content.height;
+    let width = p.width !== ZONE_UNSET ? (p.width * unit) : content.width;
+    let height = p.height !== ZONE_UNSET ? (p.height * unit) : content.height;
     const horizontalParent = this.l.orientation === "HORIZONTAL";
     const forced = this.l.forcedLength(zone);
     if (forced !== undefined) {
@@ -968,8 +967,8 @@ class LayoutAux extends ModelElementAdapter {
     }
     content.resetPos();
     content.position = { x: padding, y: padding };
-    v.width = f(width + 2 * padding);
-    v.height = f(height + 2 * padding);
+    v.width = width + 2 * padding;
+    v.height = height + 2 * padding;
     if (!zoneFills(p, horizontalParent)) v.naturalLength = NaN;
     else if (forced === undefined) v.naturalLength = horizontalParent ? v.width : v.height;
     if (this.l.orientation === "HORIZONTAL") {
@@ -987,7 +986,7 @@ class LayoutAux extends ModelElementAdapter {
   /// `parentStyle` is the style of the enclosing zone or text (which gives the unit of the zone's
   /// lengths), `zoneStyle` the style of the content of the zone.
   private tabGap(p: ZoneParameters, parentStyle: JSeshStyle, zoneStyle: JSeshStyle): number {
-    if (p.tabGap !== ZONE_UNSET) return f(p.tabGap * zoneLengthUnit(parentStyle));
+    if (p.tabGap !== ZONE_UNSET) return p.tabGap * zoneLengthUnit(parentStyle);
     return this.l.orientation === "HORIZONTAL" ? zoneStyle.geometry.smallSkip : zoneStyle.geometry.columnQuadratSkip;
   }
 
@@ -1152,7 +1151,7 @@ class QuadratLayout {
     } else {
       // Height: the sum of the hboxes' heights, and the spaces between them.
       let h = currentView.sumOfSubViewsHeights;
-      h = f(h + f((currentView.numberOfSubviews - 1) * g.smallSkip));
+      h += ((currentView.numberOfSubviews - 1) * g.smallSkip);
       // In lines, a quadrat which is not high enough gets some space (if it's
       // too high, it will be scaled).
       if (honourMaxHeight && h < g.maxCadratHeight) h = g.maxCadratHeight;
@@ -1171,7 +1170,7 @@ class QuadratLayout {
       this.layoutLines(c, w);
     }
     const h = currentView.height;
-    if (honourMaxHeight && h > g.maxCadratHeight) currentView.reScale(f(g.maxCadratHeight / h));
+    if (honourMaxHeight && h > g.maxCadratHeight) currentView.reScale(g.maxCadratHeight / h);
   }
 
   /// Places the elements of each line of the quadrat, once its width is known (this makes the
@@ -1221,7 +1220,7 @@ class QuadratLayout {
 
     for (const sub of currentView.subviews) sub.position.x = 0;
     const packer = this.packer("VERTICAL");
-    let h = f(packer.pack(currentView));
+    let h = packer.pack(currentView);
     if (honourMaxHeight && h < g.maxCadratHeight) h = g.maxCadratHeight;
     currentView.height = h;
 
@@ -1250,7 +1249,7 @@ class QuadratLayout {
     const currentView = this.currentView;
     currentView.width = w;
     currentView.height = h;
-    for (const sub of currentView.subviews) sub.position = { x: f(w / 2), y: f(h / 2) };
+    for (const sub of currentView.subviews) sub.position = { x: (w / 2), y: (h / 2) };
   }
 
   private packer(axis: KerningAxis): KerningPacker {
@@ -1273,7 +1272,7 @@ class QuadratLayout {
         subSubView.internalWidth >= g.largeSignSizeRatio * heightOfA1 &&
         subSubView.internalHeight <= g.smallSignSizeRatio * heightOfA1
       ) {
-        subSubView.reScale(f(width / subSubView.width));
+        subSubView.reScale(width / subSubView.width);
         currentView.getSubView(k).fitToSubViews(true);
       }
     }
@@ -2187,7 +2186,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
       let changed = false;
       for (const v of l.line.getViews()) {
         if (!(v.model instanceof HRule)) continue;
-        const fitted = f(width - (v.position.x - g.leftMargin));
+        const fitted = width - (v.position.x - g.leftMargin);
         if (fitted > v.width) {
           v.width = fitted;
           changed = true;
@@ -2427,7 +2426,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
       this.zone.add(this.subView);
       return;
     }
-    const pos = f(tab.stopPos * this.style.geometry.tabUnitWidth);
+    const pos = tab.stopPos * this.style.geometry.tabUnitWidth;
     this.zone.currentPoint.x = pos;
     this.zone.currentPoint.y = 0;
     this.zone.add(this.subView);
@@ -2444,7 +2443,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   override visitDefault(_t: ModelElement): void {
     let dx = 0;
     // A view which fills has no width yet (a running annotation), but takes its gap.
-    if (this.subView.width !== 0 || this.subView.isFilling) dx = f(this.subView.width + this.style.geometry.smallSkip);
+    if (this.subView.width !== 0 || this.subView.isFilling) dx = this.subView.width + this.style.geometry.smallSkip;
     // A kerned element stays with the previous one: no wrapping before it.
     if (
       kerningOf(this.subView) === undefined &&

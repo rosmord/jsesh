@@ -20,9 +20,9 @@ public class CartoucheSizeHelper {
 	 *                   {@code type}.
 	 * @return a size.
 	 */
-	public static float computeCartouchePartLength(JSeshStyle jseshStyle, CartoucheType type, CartouchePart element) {
+	public static double computeCartouchePartLength(JSeshStyle jseshStyle, CartoucheType type, CartouchePart element) {
 		GeometrySpecification geometry = jseshStyle.geometry();
-		float result = 0;
+		double result = 0;
 		switch (type) {
 			case CARTOUCHE:
 				switch (element) {
@@ -101,8 +101,8 @@ public class CartoucheSizeHelper {
 	 * @return the length along the secondary axis of a cartouche from the
 	 *         cartouche external side to the text inside.
 	 */
-	public static float computeCartoucheSecondaryLength(JSeshStyle jseshStyle, CartoucheType type) {
-		float result = 0;
+	public static double computeCartoucheSecondaryLength(JSeshStyle jseshStyle, CartoucheType type) {
+		double result = 0;
 		GeometrySpecification geometry = jseshStyle.geometry();
 		switch (type) {
 			case CARTOUCHE:

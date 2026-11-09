@@ -33,7 +33,6 @@ final class Json {
             case Character c -> writeString(c.toString());
             case Boolean b -> out.append(b);
             case Double d -> writeDouble(d);
-            case Float f -> writeDouble(f.doubleValue());
             case Number n -> out.append(n);
             case Enum<?> e -> writeString(e.name());
             case Map<?, ?> map -> writeMap(map);

@@ -38,7 +38,7 @@ class HwtDrawer extends AbstractCartoucheDrawer {
     public void drawHorizontal(Cartouche cartouche) {
         GeometrySpecification geometry = jseshStyle.geometry();
         Stroke s = geometry.cartoucheStroke();
-        float w1, w2;
+        double w1, w2;
         // The kind of elements found left and right of the cartouche.
 
         CartouchePart leftElement, rightElement;
@@ -58,8 +58,8 @@ class HwtDrawer extends AbstractCartoucheDrawer {
                 cartouche.getType(), rightElement);
 
         // Half line width : allows to have a close bounding box.
-        float dy = geometry.cartoucheLineWidth() / 2f;
-        float dx = geometry.cartoucheLineWidth() / 2f;
+        double dy = geometry.cartoucheLineWidth() / 2.0;
+        double dx = geometry.cartoucheLineWidth() / 2.0;
 
         // The respective limits of this cartouche's parts.
         //
@@ -69,12 +69,12 @@ class HwtDrawer extends AbstractCartoucheDrawer {
         // <....>
         // w1 w2
         //
-        Point2D.Float p1, p2, p3, p4;
+        Point2D.Double p1, p2, p3, p4;
 
-        p1 = new Point2D.Float(w1, dy);
-        p2 = new Point2D.Float(w1, currentView.getHeight() - dy);
-        p3 = new Point2D.Float(currentView.getWidth() - w2, +dy);
-        p4 = new Point2D.Float(currentView.getWidth() - w2, currentView
+        p1 = new Point2D.Double(w1, dy);
+        p2 = new Point2D.Double(w1, currentView.getHeight() - dy);
+        p3 = new Point2D.Double(currentView.getWidth() - w2, +dy);
+        p4 = new Point2D.Double(currentView.getWidth() - w2, currentView
                 .getHeight()
                 - dy);
 
@@ -82,21 +82,21 @@ class HwtDrawer extends AbstractCartoucheDrawer {
         // Start
         if (leftElement != CartouchePart.NONE) {
 
-            Point2D pa = new Point2D.Float(dx, dy);
-            Point2D pb = new Point2D.Float(dx, currentView.getHeight() - dy);
+            Point2D pa = new Point2D.Double(dx, dy);
+            Point2D pb = new Point2D.Double(dx, currentView.getHeight() - dy);
             drawHutEnd(leftElement, pa, pb, p1, p2);
 
         }
         // Middle part.
 
-        g.draw(new Line2D.Float(p1, p3));
-        g.draw(new Line2D.Float(p2, p4));
+        g.draw(new Line2D.Double(p1, p3));
+        g.draw(new Line2D.Double(p2, p4));
 
         // End
         if (rightElement != CartouchePart.NONE) {
 
-            Point2D pa = new Point2D.Float(currentView.getWidth() - dx, dy);
-            Point2D pb = new Point2D.Float(currentView.getWidth() - dx,
+            Point2D pa = new Point2D.Double(currentView.getWidth() - dx, dy);
+            Point2D pb = new Point2D.Double(currentView.getWidth() - dx,
                     currentView.getHeight() - dy);
             drawHutEnd(rightElement, pa, pb, p3, p4);
         }
@@ -106,7 +106,7 @@ class HwtDrawer extends AbstractCartoucheDrawer {
     public void drawVertical(Cartouche cartouche) {
         GeometrySpecification geometry = jseshStyle.geometry();
         Stroke s = geometry.cartoucheStroke();
-        float w1, w2;
+        double w1, w2;
         // Compute vertical space before and after the cartouche's body :
         w1 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), cartouche.getStartPart());
@@ -114,38 +114,38 @@ class HwtDrawer extends AbstractCartoucheDrawer {
                 cartouche.getType(), cartouche.getEndPart());
 
         // Half line width : allows to have a close bounding box.
-        float dy = geometry.cartoucheLineWidth() / 2f;
-        float dx = geometry.cartoucheLineWidth() / 2f;
+        double dy = geometry.cartoucheLineWidth() / 2.0;
+        double dx = geometry.cartoucheLineWidth() / 2.0;
 
-        Point2D.Float p1, p2, p3, p4;
+        Point2D.Double p1, p2, p3, p4;
 
-        p1 = new Point2D.Float(currentView.getWidth() - dx, w1);
-        p2 = new Point2D.Float(dx, w1);
-        p3 = new Point2D.Float(currentView.getWidth() - dx, currentView
+        p1 = new Point2D.Double(currentView.getWidth() - dx, w1);
+        p2 = new Point2D.Double(dx, w1);
+        p3 = new Point2D.Double(currentView.getWidth() - dx, currentView
                 .getHeight()
                 - dy - w2);
-        p4 = new Point2D.Float(dx, currentView.getHeight() - dy - w2);
+        p4 = new Point2D.Double(dx, currentView.getHeight() - dy - w2);
 
        
         g.setStroke(s);
         // Start
         if (cartouche.getStartPart() != CartouchePart.NONE) {
 
-            Point2D pa = new Point2D.Float(currentView.getWidth() - dx, dy);
-            Point2D pb = new Point2D.Float(dx, dy);
+            Point2D pa = new Point2D.Double(currentView.getWidth() - dx, dy);
+            Point2D pb = new Point2D.Double(dx, dy);
             drawHutEnd(cartouche.getStartPart(), pa, pb, p1, p2);
 
         }
         // Middle part.
 
-        g.draw(new Line2D.Float(p1, p3));
-        g.draw(new Line2D.Float(p2, p4));
+        g.draw(new Line2D.Double(p1, p3));
+        g.draw(new Line2D.Double(p2, p4));
 
         // End
         if (cartouche.getEndPart() != CartouchePart.NONE) {
 
-            Point2D pb = new Point2D.Float(dx, currentView.getHeight() - dy);
-            Point2D pa = new Point2D.Float(currentView.getWidth() - dx,
+            Point2D pb = new Point2D.Double(dx, currentView.getHeight() - dy);
+            Point2D pa = new Point2D.Double(currentView.getWidth() - dx,
                     currentView.getHeight() - dy);
             drawHutEnd(cartouche.getEndPart(), pa, pb, p3, p4);
         }

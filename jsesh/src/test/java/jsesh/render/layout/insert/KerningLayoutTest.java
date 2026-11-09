@@ -145,8 +145,8 @@ public class KerningLayoutTest {
     public void hkernInAGroupNarrowsIt() throws MDCSyntaxError {
         for (TextDirection direction : TextDirection.values()) {
             JSeshRenderContext context = renderContext(TextOrientation.HORIZONTAL, direction);
-            float plain = layout("w*D58", context).getSubView(0).getSubView(0).getWidth();
-            float kerned = layout("w*%hkern*D58", context).getSubView(0).getSubView(0).getWidth();
+            double plain = layout("w*D58", context).getSubView(0).getSubView(0).getWidth();
+            double kerned = layout("w*%hkern*D58", context).getSubView(0).getSubView(0).getWidth();
             assertTrue(kerned < plain - 1, plain + " -> " + kerned);
         }
     }

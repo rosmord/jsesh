@@ -1,13 +1,13 @@
 package jsesh.render.elements.internal.symboldrawers;
 
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 
 public class CloseErasedSymbolDelegate extends AbstractSymbolDrawer {
 
 	// done
-	protected CombinedPath buildShapeForDrawing(float width, float height) {
-		GeneralPath pol = new GeneralPath();
-		float halfStroke= strokeWidth/2f;
+	protected CombinedPath buildShapeForDrawing(double width, double height) {
+		Path2D.Double pol = new Path2D.Double();
+		double halfStroke= strokeWidth/2.0;
 		pol.moveTo(halfStroke, halfStroke);
 		pol.lineTo(width-halfStroke, halfStroke);
 		pol.lineTo(width-halfStroke, height-halfStroke);

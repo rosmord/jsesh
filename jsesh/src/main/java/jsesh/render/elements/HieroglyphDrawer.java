@@ -90,9 +90,9 @@ public class HieroglyphDrawer  {
 	 * @param style the style for which the scale should be computed.
 	 * @return the scale to apply to the current font to get the expected size of signs according to the given style.
 	 */
-	public float scaleFromFontToStyle(JSeshStyle style) {
-		float a1Height = style.geometry().standardSignHeight();
-		return (float) (a1Height / getHeightOfA1());
+	public double scaleFromFontToStyle(JSeshStyle style) {
+		double a1Height = style.geometry().standardSignHeight();
+		return (a1Height / getHeightOfA1());
 	}
 
 }

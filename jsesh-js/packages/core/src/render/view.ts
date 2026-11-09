@@ -9,14 +9,10 @@
 /// pointing down. Its scale is its *inner* scale, used for its subviews. The
 /// layout always places subviews from left to right; a right-to-left view is
 /// mirrored when drawn ([MDCView.layoutToDrawing]).
-///
-/// Java stores sizes and scales as `float`: they are rounded with
-/// `Math.fround` here, so that the results match Java's.
 
 import type { TextDirection, TextOrientation } from "../model/constants.js";
 import { SubCadrat, type ModelElement } from "../model/model.js";
 
-const f = Math.fround;
 
 export interface Point {
   x: number;
@@ -135,7 +131,7 @@ export class MDCView {
   }
 
   set naturalLength(l: number) {
-    this._naturalLength = Number.isNaN(l) ? NaN : f(l);
+    this._naturalLength = Number.isNaN(l) ? NaN : l;
   }
 
   /// Is this the view of a zone which fills its line?
@@ -144,7 +140,7 @@ export class MDCView {
   }
 
   set width(w: number) {
-    this._width = f(w);
+    this._width = w;
   }
 
   get height(): number {
@@ -152,7 +148,7 @@ export class MDCView {
   }
 
   set height(h: number) {
-    this._height = f(h);
+    this._height = h;
   }
 
   get xScale(): number {
@@ -160,7 +156,7 @@ export class MDCView {
   }
 
   set xScale(s: number) {
-    this._xScale = f(s);
+    this._xScale = s;
   }
 
   get yScale(): number {
@@ -168,7 +164,7 @@ export class MDCView {
   }
 
   set yScale(s: number) {
-    this._yScale = f(s);
+    this._yScale = s;
   }
 
   get angle(): number {
@@ -176,7 +172,7 @@ export class MDCView {
   }
 
   set angle(a: number) {
-    this._angle = f(a);
+    this._angle = a;
   }
 
   get parent(): MDCView | null {
@@ -263,23 +259,23 @@ export class MDCView {
 
   /// The width of this view, from the point of view of its contents.
   get internalWidth(): number {
-    return f(this._width / this._xScale);
+    return this._width / this._xScale;
   }
 
   /// The height of this view, from the point of view of its contents.
   get internalHeight(): number {
-    return f(this._height / this._yScale);
+    return this._height / this._yScale;
   }
 
   centerSubViewHorizontally(): void {
     for (const sub of this.subViews) {
-      sub.position.x = f((this.internalWidth - sub.width) / 2);
+      sub.position.x = (this.internalWidth - sub.width) / 2;
     }
   }
 
   centerSubViewsVertically(): void {
     for (const sub of this.subViews) {
-      sub.position.y = f((this.internalHeight - sub.height) / 2);
+      sub.position.y = (this.internalHeight - sub.height) / 2;
     }
   }
 
@@ -287,11 +283,11 @@ export class MDCView {
   distributeFromTopToBottom(): void {
     if (this.subViews.length > 1) {
       const minH = this.sumOfSubViewsHeights;
-      const interSpace = f((this.internalHeight - minH) / (this.subViews.length - 1));
+      const interSpace = (this.internalHeight - minH) / (this.subViews.length - 1);
       let y = 0;
       for (const v of this.subViews) {
         v.position.y = y;
-        y += f(v.height + interSpace);
+        y += v.height + interSpace;
       }
     }
   }
@@ -301,12 +297,12 @@ export class MDCView {
     const n = this.subViews.length;
     if (n > 1) {
       const minW = this.sumOfSubViewsWidths;
-      const interSpace = f((this.internalWidth - minW) / (n - 1));
+      const interSpace = (this.internalWidth - minW) / (n - 1);
       let x = 0;
       for (const v of this.subViews) {
         v.resetPos();
         v.position.x = x;
-        x += f(v.width + interSpace);
+        x += v.width + interSpace;
       }
     }
   }
@@ -328,11 +324,11 @@ export class MDCView {
         sub.position.x -= area!.minX;
         sub.position.y -= area!.minY;
       }
-      this.width = f(area!.width) * this._xScale;
-      this.height = f(area!.height) * this._yScale;
+      this.width = area!.width * this._xScale;
+      this.height = area!.height * this._yScale;
     } else {
-      this.width = f(area!.maxX) * this._xScale;
-      this.height = f(area!.maxY) * this._yScale;
+      this.width = area!.maxX * this._xScale;
+      this.height = area!.maxY * this._yScale;
     }
   }
 
@@ -350,13 +346,13 @@ export class MDCView {
 
   get sumOfSubViewsHeights(): number {
     let result = 0;
-    for (const v of this.subViews) result = f(result + v.height);
+    for (const v of this.subViews) result += v.height;
     return result;
   }
 
   get sumOfSubViewsWidths(): number {
     let result = 0;
-    for (const v of this.subViews) result = f(result + v.width);
+    for (const v of this.subViews) result += v.width;
     return result;
   }
 
@@ -377,7 +373,6 @@ export class MDCView {
 
   /// Multiplies the inner scale by `scale`; the view's size changes too.
   reScale(scale: number): void {
-    scale = f(scale);
     this.xScale = scale * this._xScale;
     this.yScale = scale * this._yScale;
     this.width = this._width * scale;
@@ -403,13 +398,13 @@ export class MDCView {
   /// Scales the view down if it's higher than `maxHeight` (0: no limit).
   scaleForMaxHeight(maxHeight: number): void {
     if (maxHeight === 0) return;
-    if (this.height > maxHeight) this.reScale(f(maxHeight / this.height));
+    if (this.height > maxHeight) this.reScale(maxHeight / this.height);
   }
 
   /// Scales the view down if it's wider than `maxWidth` (0: no limit).
   scaleForMaxWidth(maxWidth: number): void {
     if (maxWidth === 0) return;
-    if (this.width > maxWidth) this.reScale(f(maxWidth / this.width));
+    if (this.width > maxWidth) this.reScale(maxWidth / this.width);
   }
 
   /// Uniformly scales the view so that it fits the dimensions. Does nothing
@@ -420,7 +415,7 @@ export class MDCView {
     let zoneScaleH = 1;
     if (this.width !== 0) zoneScaleW = wantedWidth / this.width;
     if (this.height !== 0) zoneScaleH = wantedHeight / this.height;
-    const s = f(Math.min(zoneScaleH, zoneScaleW));
+    const s = Math.min(zoneScaleH, zoneScaleW);
     this._xScale = s;
     this._yScale = s;
     this.width = this._width * s;
@@ -457,7 +452,7 @@ export class MDCView {
     for (const v of this.subViews) {
       v.resetPos();
       v.position.y = y;
-      y += f(v.height + skip);
+      y += v.height + skip;
     }
     this.fitToSubViews(true);
   }
@@ -466,13 +461,13 @@ export class MDCView {
     for (const v of this.subViews) {
       switch (side) {
         case "BOTTOM":
-          v.position.y = f(this.internalHeight - v.height);
+          v.position.y = this.internalHeight - v.height;
           break;
         case "TOP":
           v.position.y = 0;
           break;
         case "END":
-          v.position.x = f(this.width - v.width);
+          v.position.x = this.width - v.width;
           break;
         default:
           v.position.x = 0;

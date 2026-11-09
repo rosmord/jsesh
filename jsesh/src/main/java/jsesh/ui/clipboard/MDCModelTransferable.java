@@ -173,9 +173,9 @@ public class MDCModelTransferable implements Transferable {
     private ByteArrayInputStream getPDFData() throws IOException {
        
         // Target Cadrat height, in points.
-        float targetHeight = rtfPreferences.cadratHeight();
-        float maxCadratHeight = jseshRenderContext.jseshStyle().geometry().maxCadratHeight();        
-        float scale = targetHeight / maxCadratHeight;
+        double targetHeight = rtfPreferences.cadratHeight();
+        double maxCadratHeight = jseshRenderContext.jseshStyle().geometry().maxCadratHeight();        
+        double scale = targetHeight / maxCadratHeight;
         PDFDataSaver pdfDataSaver = new PDFDataSaver(jseshRenderContext);
         pdfDataSaver.setScale(scale);
         return pdfDataSaver.createPDFContent(text);

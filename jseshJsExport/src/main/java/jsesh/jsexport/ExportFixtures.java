@@ -50,7 +50,7 @@ public final class ExportFixtures {
     private static final Map<String, JSeshStyle> LAYOUT_VARIANTS = new LinkedHashMap<>();
 
     /// The wrapping width of the "wrapped" variants, in layout units.
-    private static final float WRAP_WIDTH = 150f;
+    private static final double WRAP_WIDTH = 150.0;
 
     static {
         JSeshStyle base = JSeshStyle.DEFAULT;
@@ -68,12 +68,12 @@ public final class ExportFixtures {
                 .options(o -> o.ignoreLineAlignment(true)).build());
         // A page, with different left and right margins (also used by the JavaScript tests).
         LAYOUT_VARIANTS.put("paged", base.copy().geometry(g -> g
-                .page(new jsesh.render.style.PageSpecification(200f, 0f, 10f, 30f, 8f, 8f))
-                .leftMargin(10f).topMargin(8f)).build());
+                .page(new jsesh.render.style.PageSpecification(200.0, 0.0, 10.0, 30.0, 8.0, 8.0))
+                .leftMargin(10.0).topMargin(8.0)).build());
         // A page with a height: the text is cut into pages (also used by the JavaScript tests).
         LAYOUT_VARIANTS.put("paginated", base.copy().geometry(g -> g
-                .page(new jsesh.render.style.PageSpecification(200f, 120f, 10f, 30f, 8f, 8f))
-                .leftMargin(10f).topMargin(8f)).build());
+                .page(new jsesh.render.style.PageSpecification(200.0, 120.0, 10.0, 30.0, 8.0, 8.0))
+                .leftMargin(10.0).topMargin(8.0)).build());
     }
 
     public static void main(String[] args) throws IOException {

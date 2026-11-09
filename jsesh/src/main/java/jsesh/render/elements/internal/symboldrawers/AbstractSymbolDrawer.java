@@ -2,7 +2,7 @@ package jsesh.render.elements.internal.symboldrawers;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.render.elements.ElementSizeConstants;
@@ -13,7 +13,7 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 	/**
 	 * The size of the pencil stroke.
 	 */
-	protected float strokeWidth;
+	protected double strokeWidth;
 
 	/**
 	 * Base class for symbol drawer, with optionnal initial translation.
@@ -22,11 +22,11 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 		super();
 	}
 
-	protected abstract CombinedPath buildShapeForDrawing(float width,
-			float height);
+	protected abstract CombinedPath buildShapeForDrawing(double width,
+			double height);
 
 	public final void draw(Graphics2D g2d, int angle, ViewBox viewBox,
-			float strokeWidth) {
+			double strokeWidth) {
 		// The problem with strokes : if we want a reasonable rendering,
 		// strokes should be somehow scale independant (well, not that
 		// completely).
@@ -34,7 +34,7 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 		if (angle == 0) {
 			CombinedPath combinedPath= buildShapeForDrawing(viewBox.getWidth(),
 					viewBox.getHeight() );
-			GeneralPath pol = combinedPath.getActualPath();
+			Path2D.Double pol = combinedPath.getActualPath();
 			g2d.fill(g2d.getStroke().createStrokedShape(pol));
 			//g2d.draw(pol);
 		} else {
@@ -62,17 +62,17 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 					ElementSizeConstants.EDITOR_MARKUP_HEIGHT
 							* viewBox.getYScale());
 			
-			GeneralPath pol = combinedPath.getActualPath();
+			Path2D.Double pol = combinedPath.getActualPath();
 			
 			// rotate the actual path.
-			pol.transform(AffineTransform.getRotateInstance((float) (angle
+			pol.transform(AffineTransform.getRotateInstance((angle
 					* Math.PI / 180)));
 			
-			GeneralPath boundingPath= combinedPath.getBoundingPath();
+			Path2D.Double boundingPath= combinedPath.getBoundingPath();
 			// rotate the bounding path if it is not the same as the actual path.
 			// (if it is the same, it has already been rotated).
 			if (! combinedPath.actualPathUsed) {
-				boundingPath.transform(AffineTransform.getRotateInstance((float) (angle
+				boundingPath.transform(AffineTransform.getRotateInstance((angle
 						* Math.PI / 180)));
 			}
 
@@ -80,7 +80,7 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 			// Bounds should be computed on the basis of a special "bounding box" path,
 			// to account for instance for the white space on [?
 			Rectangle2D bounds = boundingPath.getBounds2D();
-			float halfStroke= strokeWidth/2f;
+			double halfStroke= strokeWidth/2.0;
 			pol.transform(AffineTransform.getTranslateInstance(-bounds
 					.getMinX()+ halfStroke, -bounds.getMinY()+ halfStroke));
 
@@ -89,7 +89,7 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 		}
 	}
 
-	public float getBaseWidth() {
+	public double getBaseWidth() {
 		return 3;
 	}
 	
@@ -99,8 +99,8 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 	 * @param height
 	 * @return
 	 */
-	protected static GeneralPath buildRectangle(float width, float height) {
-		GeneralPath boundingPath= new GeneralPath();
+	protected static Path2D.Double buildRectangle(double width, double height) {
+		Path2D.Double boundingPath= new Path2D.Double();
 		boundingPath.moveTo(0, 0);
 		boundingPath.lineTo(width, 0);
 		boundingPath.lineTo(width, height);

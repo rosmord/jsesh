@@ -230,7 +230,7 @@ public class ViewDrawer {
                 tmpg.setStroke(new BasicStroke(0.4f));
                 tmpg.draw(new Line2D.Double(0, v.getHeight(), v.getWidth(), 0));
             } else if (v.getModel() instanceof HieroglyphicText) {
-                tmpg.setStroke(new BasicStroke(1f));
+                tmpg.setStroke(new BasicStroke(1.0f));
                 tmpg.setColor(Color.MAGENTA);
 
             } else {
@@ -245,7 +245,7 @@ public class ViewDrawer {
         } else {
             tmpg.setColor(Color.ORANGE);
             tmpg.setStroke(new BasicStroke(0.3f, BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND, (float) 0.5));
+                    BasicStroke.JOIN_ROUND, 0.5f));
             tmpg.draw(new Line2D.Double(0, 0, v.getWidth(), v.getHeight()));
             tmpg
                     .draw(new Rectangle2D.Double(0, 0, v.getWidth(), v
@@ -270,8 +270,8 @@ public class ViewDrawer {
             int a = selectionCaret.getMinPosition().getIndex();
             int b = selectionCaret.getMaxPosition().getIndex();
             if (a <= i && i < b) {
-                float w = v.getWidth();
-                float h = v.getHeight();
+                double w = v.getWidth();
+                double h = v.getHeight();
 
                 // h and w are OK, but the inter-cadrat space is not filled.
                 if (jseshStyles.options().textOrientation().isHorizontal()) {

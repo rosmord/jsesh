@@ -17,8 +17,8 @@ public enum StandardPageSize {
 	private static final double TOLERANCE = 0.6;
 
 	private final String label;
-	private final float width;
-	private final float height;
+	private final double width;
+	private final double height;
 
 	StandardPageSize(String label, double widthInMm, double heightInMm) {
 		this.label = label;
@@ -27,17 +27,17 @@ public enum StandardPageSize {
 	}
 
 	// Rounded to two decimals, so that saved values stay readable (595.28).
-	private static float toUnits(double mm) {
-		return Math.round(mm * 72 / 25.4 * 100) / 100f;
+	private static double toUnits(double mm) {
+		return Math.round(mm * 72 / 25.4 * 100) / 100.0;
 	}
 
 	/// @return the width in portrait orientation, in layout units.
-	public float width() {
+	public double width() {
 		return width;
 	}
 
 	/// @return the height in portrait orientation, in layout units.
-	public float height() {
+	public double height() {
 		return height;
 	}
 

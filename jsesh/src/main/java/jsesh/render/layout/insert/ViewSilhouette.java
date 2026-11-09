@@ -41,13 +41,13 @@ import jsesh.render.view.MDCView;
 public final class ViewSilhouette {
 
     private final HieroglyphDrawer hieroglyphDrawer;
-    private final float baseSignScale;
+    private final double baseSignScale;
     private final TextDirection textDirection;
 
     /// @param hieroglyphDrawer used to find the shape of signs.
     /// @param baseSignScale the scale from the font to the style.
     /// @param textDirection the direction of the text: signs are mirrored in right-to-left text.
-    public ViewSilhouette(HieroglyphDrawer hieroglyphDrawer, float baseSignScale, TextDirection textDirection) {
+    public ViewSilhouette(HieroglyphDrawer hieroglyphDrawer, double baseSignScale, TextDirection textDirection) {
         this.hieroglyphDrawer = hieroglyphDrawer;
         this.baseSignScale = baseSignScale;
         this.textDirection = textDirection;
@@ -104,7 +104,7 @@ public final class ViewSilhouette {
     private void collectSign(Hieroglyph h, MDCView view, AffineTransform toRoot, List<Shape> result) {
         // The same rule as DefaultElementDrawer.drawSign.
         boolean reversed = h.isReversed() ^ textDirection.equals(TextDirection.RIGHT_TO_LEFT);
-        Shape glyph = ShapeHelper.transformShape(0, 0, 1, 1, (float) (h.getAngle() * Math.PI / 180),
+        Shape glyph = ShapeHelper.transformShape(0, 0, 1, 1, (h.getAngle() * Math.PI / 180),
                 hieroglyphDrawer.getShape(h.getCode()));
         AffineTransform transform = new AffineTransform(toRoot);
         transform.concatenate(SignPlacement.glyphToView(reversed, view.getWidth(), baseSignScale, view.getXScale(),

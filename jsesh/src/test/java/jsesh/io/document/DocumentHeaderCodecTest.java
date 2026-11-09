@@ -59,18 +59,18 @@ public class DocumentHeaderCodecTest {
         JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(prefs, JSeshStyle.DEFAULT);
         GeometrySpecification g = style.geometry();
         LayoutOptions o = style.options();
-        assertEquals(24f, g.maxCadratHeight());
-        assertEquals(30f, g.maxCadratWidth());
-        assertEquals(20f, g.standardSignHeight());
-        assertEquals(7f, g.lineSkip());
+        assertEquals(24.0, g.maxCadratHeight());
+        assertEquals(30.0, g.maxCadratWidth());
+        assertEquals(20.0, g.standardSignHeight());
+        assertEquals(7.0, g.lineSkip());
         // The old line skip was also the space between the quadrats of a column.
-        assertEquals(7f, g.columnQuadratSkip());
-        assertEquals(9.5f, g.columnSkip());
-        assertEquals(1.5f, g.smallSkip());
-        assertEquals(1.2f, g.cartoucheLineWidth());
-        assertEquals(3f, g.alphabeticTextBaseline());
-        assertEquals(10f, g.smallBodyScaleLimit());
-        assertEquals(24f, g.unit());
+        assertEquals(7.0, g.columnQuadratSkip());
+        assertEquals(9.5, g.columnSkip());
+        assertEquals(1.5, g.smallSkip());
+        assertEquals(1.2, g.cartoucheLineWidth());
+        assertEquals(3.0, g.alphabeticTextBaseline());
+        assertEquals(10.0, g.smallBodyScaleLimit());
+        assertEquals(24.0, g.unit());
         assertEquals(TextOrientation.VERTICAL, o.textOrientation());
         assertEquals(TextDirection.RIGHT_TO_LEFT, o.textDirection());
         assertTrue(o.smallSignCentered());
@@ -95,15 +95,15 @@ public class DocumentHeaderCodecTest {
         JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(
                 DocumentHeaderCodec.fromHeader(new HashMap<>()), JSeshStyle.DEFAULT);
         GeometrySpecification g = style.geometry();
-        assertEquals(18f, g.maxCadratHeight());
-        assertEquals(22f, g.maxCadratWidth());
-        assertEquals(18f, g.standardSignHeight());
-        assertEquals(6f, g.lineSkip());
-        assertEquals(6f, g.columnQuadratSkip());
-        assertEquals(8f, g.columnSkip());
-        assertEquals(2f, g.smallSkip());
-        assertEquals(1f, g.cartoucheLineWidth());
-        assertEquals(4f, g.alphabeticTextBaseline());
+        assertEquals(18.0, g.maxCadratHeight());
+        assertEquals(22.0, g.maxCadratWidth());
+        assertEquals(18.0, g.standardSignHeight());
+        assertEquals(6.0, g.lineSkip());
+        assertEquals(6.0, g.columnQuadratSkip());
+        assertEquals(8.0, g.columnSkip());
+        assertEquals(2.0, g.smallSkip());
+        assertEquals(1.0, g.cartoucheLineWidth());
+        assertEquals(4.0, g.alphabeticTextBaseline());
         assertTrue(style.options().fitLoneSigns());
         assertTrue(style.options().limitQuadratWidthInLines());
     }
@@ -115,8 +115,8 @@ public class DocumentHeaderCodecTest {
         map.put("JSesh_max_quadrantHeight", "36.0");
         JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(
                 DocumentHeaderCodec.fromHeader(map), JSeshStyle.DEFAULT);
-        assertEquals(8f, style.geometry().columnSkip());
-        assertEquals(36f, style.geometry().maxCadratHeight());
+        assertEquals(8.0, style.geometry().columnSkip());
+        assertEquals(36.0, style.geometry().maxCadratHeight());
     }
 
     @Test
@@ -174,23 +174,23 @@ public class DocumentHeaderCodecTest {
     public void changingTheUnitScalesEveryLength() {
         DocumentPreferences prefs = new DocumentPreferences().withUnit(36);
         JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(prefs, JSeshStyle.DEFAULT);
-        assertEquals(36f, style.geometry().maxCadratHeight());
-        assertEquals(44f, style.geometry().maxCadratWidth());
-        assertEquals(12f, style.geometry().lineSkip());
-        assertEquals(4f, style.geometry().smallSkip());
-        assertEquals(36f, style.geometry().standardSignHeight());
+        assertEquals(36.0, style.geometry().maxCadratHeight());
+        assertEquals(44.0, style.geometry().maxCadratWidth());
+        assertEquals(12.0, style.geometry().lineSkip());
+        assertEquals(4.0, style.geometry().smallSkip());
+        assertEquals(36.0, style.geometry().standardSignHeight());
     }
 
     @Test
     public void aStyleSurvivesTheHeader() {
         JSeshStyle style = JSeshStyle.DEFAULT.copy()
-                .geometry(g -> g.lineSkip(6.5f).columnQuadratSkip(3f).maxCadratWidth(25f))
+                .geometry(g -> g.lineSkip(6.5).columnQuadratSkip(3.0).maxCadratWidth(25.0))
                 .build();
         DocumentPreferences prefs = DocumentPreferencesStyleConverter.toDocumentPreferences(style);
         JSeshStyle back = DocumentPreferencesStyleConverter.applyDocumentPreferences(
                 DocumentHeaderCodec.fromHeader(DocumentHeaderCodec.toHeader(prefs)), JSeshStyle.DEFAULT);
-        assertEquals(6.5f, back.geometry().lineSkip());
-        assertEquals(3f, back.geometry().columnQuadratSkip());
-        assertEquals(25f, back.geometry().maxCadratWidth());
+        assertEquals(6.5, back.geometry().lineSkip());
+        assertEquals(3.0, back.geometry().columnQuadratSkip());
+        assertEquals(25.0, back.geometry().maxCadratWidth());
     }
 }

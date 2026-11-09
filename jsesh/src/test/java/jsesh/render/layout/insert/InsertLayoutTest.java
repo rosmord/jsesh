@@ -183,7 +183,7 @@ public class InsertLayoutTest {
         JSeshRenderContext context = renderContext(TextDirection.LEFT_TO_RIGHT);
         MDCView insert = findInsert(layout("%insert[dir=c](O1,n:t:n:t)", context));
         assertNotNull(insert);
-        assertTrue(insert.getSubView(1).getXScale() < 1.0f);
+        assertTrue(insert.getSubView(1).getXScale() < 1.0);
         assertEquals(insert.getSubView(1).getXScale(), insert.getSubView(1).getYScale(), 1e-6);
     }
 

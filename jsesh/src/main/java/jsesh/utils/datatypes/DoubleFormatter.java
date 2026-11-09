@@ -24,14 +24,14 @@ public class DoubleFormatter {
 	}
 
 	/**
-	 * Writes a space separated list of floats.
+	 * Writes a space separated list of numbers.
 	 * The elements are a part of an array.
 	 * @param out
-	 * @param t an array of float
+	 * @param t an array of numbers
 	 * @param length the number of elements to write.
 	 * @throws IOException
 	 */
-	public void outputNumbers(Writer out, float[] t, int length)
+	public void outputNumbers(Writer out, double[] t, int length)
 			throws IOException {
 		for (int i = 0; i < length; i++) {
 			writeTo(out, t[i]);

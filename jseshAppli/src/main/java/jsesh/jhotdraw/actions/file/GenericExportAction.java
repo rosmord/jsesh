@@ -43,7 +43,7 @@ public class GenericExportAction extends AbstractCoreViewAction {
             exporter.setDirectory(getCurrentDirectory());
             exporter.setOriginalDocumentFile(getURI());
             if (exporter.askUser(getActiveView().getComponent()) == FileOperationResult.OK) {
-                ExportData exportData = v.createExportData(1.0f);
+                ExportData exportData = v.createExportData(1.0);
                 exporter.export(exportData);
                 setCurrentDirectory(exporter.getDirectory());
             }

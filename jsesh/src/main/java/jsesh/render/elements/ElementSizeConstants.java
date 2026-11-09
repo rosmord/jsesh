@@ -5,8 +5,8 @@ package jsesh.render.elements;
  */
 public class ElementSizeConstants {
 
-    public static final float PARENTHESIS_STROKE_WIDTH = 0.75f;
-    public static final float EDITOR_MARKUP_SMALL_HEIGHT = 2f;
-    public static final float EDITOR_MARKUP_HEIGHT = 18f;
+    public static final double PARENTHESIS_STROKE_WIDTH = 0.75;
+    public static final double EDITOR_MARKUP_SMALL_HEIGHT = 2.0;
+    public static final double EDITOR_MARKUP_HEIGHT = 18.0;
     
 }

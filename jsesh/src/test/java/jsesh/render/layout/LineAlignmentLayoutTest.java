@@ -34,7 +34,7 @@ public class LineAlignmentLayoutTest {
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);
     private static final double EPSILON = 1e-3;
     private static final JSeshStyle STYLE = JSeshStyle.DEFAULT;
-    private static final float QUADRAT = STYLE.geometry().maxCadratHeight();
+    private static final double QUADRAT = STYLE.geometry().maxCadratHeight();
 
     /// A first line of five A1, against which the second line is aligned.
     private static final String FIRST_LINE = "A1-A1-A1-A1-A1-!";
@@ -134,8 +134,8 @@ public class LineAlignmentLayoutTest {
     @Test
     public void onAPageLinesAreAlignedOnItsUsableWidth() throws MDCSyntaxError {
         JSeshStyle paged = STYLE.copy().geometry(g -> g
-                .page(new PageSpecification(200f, 0f, 10f, 30f, 8f, 8f))
-                .leftMargin(10f).topMargin(8f)).build();
+                .page(new PageSpecification(200.0, 0.0, 10.0, 30.0, 8.0, 8.0))
+                .leftMargin(10.0).topMargin(8.0)).build();
         MDCView text = layout("A1-![align=end]A1-![align=center]", paged);
         assertEquals(170, right(text, 0), EPSILON);
         assertEquals(90, (left(text, 2) + right(text, 2)) / 2, EPSILON);
@@ -144,7 +144,7 @@ public class LineAlignmentLayoutTest {
     @Test
     public void softWrappedLinesAreEachCentred() throws MDCSyntaxError {
         String mdc = "A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-![align=center]";
-        float wrapWidth = 5 * QUADRAT;
+        double wrapWidth = 5 * QUADRAT;
         JSeshStyle wrapped = STYLE.copy().geometry(g -> g.wrapWidth(wrapWidth)).build();
         MDCView text = layout(mdc, wrapped);
         double margin = STYLE.geometry().leftMargin();

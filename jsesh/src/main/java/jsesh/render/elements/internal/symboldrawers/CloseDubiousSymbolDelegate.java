@@ -1,15 +1,15 @@
 package jsesh.render.elements.internal.symboldrawers;
 
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 
 public class CloseDubiousSymbolDelegate extends AbstractSymbolDrawer {
 	
 	// done
-	protected CombinedPath buildShapeForDrawing(float width, float height) {
-		GeneralPath pol = new GeneralPath();
-		pol.moveTo(strokeWidth/2f, strokeWidth/2f);
-		pol.lineTo(width-strokeWidth/2f, strokeWidth/2f);
-		pol.lineTo(width-strokeWidth/2f, height / 2);
+	protected CombinedPath buildShapeForDrawing(double width, double height) {
+		Path2D.Double pol = new Path2D.Double();
+		pol.moveTo(strokeWidth/2.0, strokeWidth/2.0);
+		pol.lineTo(width-strokeWidth/2.0, strokeWidth/2.0);
+		pol.lineTo(width-strokeWidth/2.0, height / 2);
 		return new CombinedPath(pol);
 	}
 

@@ -42,7 +42,7 @@ public class SVGExporter extends AbstractGraphicalExporter {
     @Override
     public void export(ExportData exportData) {
         try {
-            float standardHeight = exportData.getRenderContext().jseshStyle()
+            double standardHeight = exportData.getRenderContext().jseshStyle()
                     .geometry().standardSignHeight();
             exportData.setScale(CADRAT_HEIGHT / standardHeight);
             SelectionExporter selectionExporter = new SelectionExporter(

@@ -46,7 +46,7 @@ public final class Kerner {
     /// @param hieroglyphDrawer used to find the shape of signs.
     /// @param baseSignScale the scale from the font to the style.
     /// @param textDirection the direction of the text.
-    public Kerner(HieroglyphDrawer hieroglyphDrawer, float baseSignScale, TextDirection textDirection) {
+    public Kerner(HieroglyphDrawer hieroglyphDrawer, double baseSignScale, TextDirection textDirection) {
         this.silhouette = new ViewSilhouette(hieroglyphDrawer, baseSignScale, textDirection);
         this.rightToLeft = TextDirection.RIGHT_TO_LEFT.equals(textDirection);
     }

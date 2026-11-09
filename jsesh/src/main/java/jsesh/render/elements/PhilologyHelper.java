@@ -9,12 +9,12 @@ public class PhilologyHelper {
      * @param philologyType
      * @return
      */
-    public static float philologyWidth(int philologyType) {
+    public static double philologyWidth(int philologyType) {
         // IMPORTANT : this is a hack. The closing codes are twice as large as the opening ones.        
         if (philologyType >= 100) {
             philologyType = philologyType / 2;
         }
-        float width = 0;
+        double width = 0;
         switch (philologyType) {
             case SymbolCodes.EDITORADDITION:
             case SymbolCodes.EDITORSUPERFLUOUS:

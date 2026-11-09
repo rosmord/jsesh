@@ -96,7 +96,7 @@ public class QuadratLayout {
 			honourMaxWidth = false;
 		}
 
-		float maxWidth = jseshStyle.geometry().maxCadratWidth();
+		double maxWidth = jseshStyle.geometry().maxCadratWidth();
 
 		// First, we make sure that no hbox is too wide.
 		// Except when there is only one hbox ; in this case,
@@ -129,7 +129,7 @@ public class QuadratLayout {
 		// Streched cadrats
 		// Scale lines so that they fit the limits.
 		if (wide) {
-			float maxw;
+			double maxw;
 			if (honourMaxWidth)
 				maxw = maxWidth;
 			else
@@ -144,7 +144,7 @@ public class QuadratLayout {
 			// but scale wide lone signs so that they will fill their line.
 			// This is useful in columns, because you want, for instance, a
 			// "n" alone on a line to fill the whole line.
-			float width = currentView.getMaximalWidthOfSubView();
+			double width = currentView.getMaximalWidthOfSubView();
 			if (honourMaxWidth && (!embedded) && width < maxWidth) {
 				width = maxWidth;
 			}
@@ -160,7 +160,7 @@ public class QuadratLayout {
 			// CADRAT HEIGHT
 			// A cadrat is a list of horizontal boxes.
 			// Its height is basically the sum of the heights of these boxes.
-			float h = currentView.getSumOfSubViewsHeights();
+			double h = currentView.getSumOfSubViewsHeights();
 			// add the interline spaces
 			h += (currentView.getNumberOfSubviews() - 1)
 					* jseshStyle.geometry().smallSkip();
@@ -180,7 +180,7 @@ public class QuadratLayout {
 			// We now proceed to the actual cadrat's width (after fixing the
 			// height).
 			// Compute "natural" width
-			float w = currentView.getMaximalWidthOfSubView();
+			double w = currentView.getMaximalWidthOfSubView();
 
 			if (honourMaxWidth && (!embedded) && w < maxWidth) {
 				w = maxWidth;
@@ -201,14 +201,14 @@ public class QuadratLayout {
 			layoutLines(c, w);
 		}
 		// Now, if needed, we scale the cadrat :
-		float h = currentView.getHeight();
+		double h = currentView.getHeight();
 		if (honourMaxHeight && h > jseshStyle.geometry().maxCadratHeight()) {
 			currentView.reScale(jseshStyle.geometry().maxCadratHeight() / h);
 		}
 	}
 
 	/// Places the elements of each line of the quadrat, once its width is known.
-	private void layoutLines(Cadrat c, float w) {
+	private void layoutLines(Cadrat c, double w) {
 		for (int k = 0; k < currentView.getNumberOfSubviews(); k++) {
 			MDCView sub = currentView.getSubView(k);
 			if (sub.getWidth() < w) {
@@ -241,8 +241,8 @@ public class QuadratLayout {
 	/// Such lines take no room. A `%vkern` line kerns the lines around it, which then
 	/// move together; they are only known once the content of the lines is placed.
 	private void layoutWithKerningLines(Cadrat c, boolean honourMaxWidth, boolean honourMaxHeight,
-			boolean embedded, float maxWidth) {
-		float w = currentView.getMaximalWidthOfSubView();
+			boolean embedded, double maxWidth) {
+		double w = currentView.getMaximalWidthOfSubView();
 		if (honourMaxWidth && (!embedded) && w < maxWidth) {
 			w = maxWidth;
 		}
@@ -253,7 +253,7 @@ public class QuadratLayout {
 			sub.getPosition().x = 0;
 		}
 		KerningPacker packer = packer(KerningAxis.VERTICAL);
-		float h = (float) packer.pack(currentView);
+		double h = packer.pack(currentView);
 		if (honourMaxHeight && h < jseshStyle.geometry().maxCadratHeight()) {
 			h = jseshStyle.geometry().maxCadratHeight();
 		}
@@ -274,7 +274,7 @@ public class QuadratLayout {
 	/// It takes no room along the text, but at the top level it gets the size of a quadrat
 	/// across it, so that kerning marks can be drawn in the middle of the line.
 	private void layoutKerningOnly(Cadrat c) {
-		float w = 0, h = 0;
+		double w = 0, h = 0;
 		if (!c.isEmbedded()) {
 			if (currentTextOrientation.isHorizontal()) {
 				h = jseshStyle.geometry().maxCadratHeight();
@@ -293,7 +293,7 @@ public class QuadratLayout {
 		return new KerningPacker(kerner, axis, jseshStyle.geometry().smallSkip());
 	}
 
-	private void fitLoneSignsToColumnWidth(Cadrat c, float width) {
+	private void fitLoneSignsToColumnWidth(Cadrat c, double width) {
 		for (int k = 0; k < currentView.getNumberOfSubviews(); k++) {
 			// If there is only one element in the HBox...
 			if (currentView.getSubView(k).getSubViews().size() == 1) {

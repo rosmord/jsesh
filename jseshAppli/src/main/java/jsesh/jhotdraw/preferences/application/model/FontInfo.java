@@ -286,7 +286,7 @@ public class FontInfo {
      * @param drawingSpecification
      */
     public FontSpecification toFontSpecification() {
-        return new FontSpecification(translitUnicode, yodChoice, true, baseFont, 5f/12f, transliterationFont);
+        return new FontSpecification(translitUnicode, yodChoice, true, baseFont, 5.0/12.0, transliterationFont);
     }
 
     /**

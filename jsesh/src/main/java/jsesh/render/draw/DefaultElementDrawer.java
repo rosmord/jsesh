@@ -244,7 +244,7 @@ public class DefaultElementDrawer extends ElementDrawer {
             // The other codes are dealt with by the HieroglyphsDrawer.
             case SymbolCodes.REDPOINT: {
                 Graphics2D tempG = (Graphics2D) g.create();
-                float scale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
+                double scale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
                 tempG.setColor(jseshStyle.painting().redColor());
                 tempG.scale(scale, scale);
                 hieroglyphsDrawer.draw(tempG, h.getCode(), 0, currentView, HieroglyphBodySize.STANDARD);
@@ -258,7 +258,7 @@ public class DefaultElementDrawer extends ElementDrawer {
             case SymbolCodes.VERTICALSHADE:
             case SymbolCodes.HORIZONTALSHADE:
             case SymbolCodes.QUATERSHADE: {
-                Rectangle2D.Float r = new Rectangle2D.Float(0, 0, currentView
+                Rectangle2D.Double r = new Rectangle2D.Double(0, 0, currentView
                         .getWidth(), currentView.getHeight());
                 Area area = new Area(r);
                 shadeArea(area);
@@ -286,7 +286,7 @@ public class DefaultElementDrawer extends ElementDrawer {
                 break;
             default:
                 // Ok, now the baseSignScale stuff should not be there...                
-                float baseSignScale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
+                double baseSignScale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
                 drawSign(h, baseSignScale);
                 break;
 
@@ -304,7 +304,7 @@ public class DefaultElementDrawer extends ElementDrawer {
      * @param baseSignScale a basic scale to apply to the original sign. This
      *                      could be considered as a font size, in a way.
      */
-    private void drawSign(Hieroglyph h, float baseSignScale) {
+    private void drawSign(Hieroglyph h, double baseSignScale) {
         JSeshStyle jseshStyle = getJSeshStyle();
 
         Graphics2D tmpG = (Graphics2D) g.create();
@@ -375,7 +375,7 @@ public class DefaultElementDrawer extends ElementDrawer {
         // The view has the width of the text (see Layout#visitHRule); the
         // positions of the rule are percents of it, from the start of the
         // text: the right edge in right-to-left text.
-        float width = currentView.getWidth();
+        double width = currentView.getWidth();
         double start = h.startFraction();
         double end = h.endFraction();
         if (currentTextDirection == TextDirection.RIGHT_TO_LEFT) {
@@ -401,16 +401,16 @@ public class DefaultElementDrawer extends ElementDrawer {
             return;
         }
         JSeshStyle jseshStyle = getJSeshStyle();
-        float half = jseshStyle.geometry().maxCadratHeight() / 6f;
-        float tip = half / 2f;
+        double half = jseshStyle.geometry().maxCadratHeight() / 6.0;
+        double tip = half / 2.0;
         // Drawn for %hkern; coordinates are swapped for %vkern.
-        float[][] lines = {
+        double[][] lines = {
                 { 0, -half, 0, half },
                 { -2 * tip, -tip / 2, -tip / 2, 0 }, { -tip / 2, 0, -2 * tip, tip / 2 },
                 { 2 * tip, -tip / 2, tip / 2, 0 }, { tip / 2, 0, 2 * tip, tip / 2 } };
         boolean horizontal = kerning.getAxis() == KerningAxis.HORIZONTAL;
-        Path2D.Float mark = new Path2D.Float();
-        for (float[] l : lines) {
+        Path2D.Double mark = new Path2D.Double();
+        for (double[] l : lines) {
             if (horizontal) {
                 mark.moveTo(l[0], l[1]);
                 mark.lineTo(l[2], l[3]);
@@ -435,22 +435,22 @@ public class DefaultElementDrawer extends ElementDrawer {
             return;
         }
         JSeshStyle jseshStyle = getJSeshStyle();
-        float unit = jseshStyle.geometry().maxCadratHeight() / 12f;
+        double unit = jseshStyle.geometry().maxCadratHeight() / 12.0;
         boolean horizontal = currentTextOrientation.isHorizontal();
         // In horizontal text, the view is as high as a quadrat, and has no width.
         // In vertical text, it is as wide as a quadrat, and (almost) has no height.
-        float cross = (horizontal ? currentView.getHeight() : currentView.getWidth()) / 2f;
+        double cross = (horizontal ? currentView.getHeight() : currentView.getWidth()) / 2.0;
         // Direction of the text. For vertical text, the mark is the horizontal one, transposed.
-        float dir = (horizontal && currentTextDirection == TextDirection.RIGHT_TO_LEFT) ? -1f : 1f;
-        float x = 3 * unit * dir;
+        double dir = (horizontal && currentTextDirection == TextDirection.RIGHT_TO_LEFT) ? -1.0 : 1.0;
+        double x = 3 * unit * dir;
         // The return arrow: down the first stroke, back along the second, with the head at the end.
-        float[][] lines = {
+        double[][] lines = {
                 { x, cross - 2 * unit, x, cross },
                 { x, cross, 0, cross },
                 { 0, cross, unit * dir, cross - unit },
                 { 0, cross, unit * dir, cross + unit } };
-        Path2D.Float mark = new Path2D.Float();
-        for (float[] l : lines) {
+        Path2D.Double mark = new Path2D.Double();
+        for (double[] l : lines) {
             if (horizontal) {
                 mark.moveTo(l[0], l[1]);
                 mark.lineTo(l[2], l[3]);
@@ -475,13 +475,13 @@ public class DefaultElementDrawer extends ElementDrawer {
         }
         JSeshStyle jseshStyle = getJSeshStyle();
         boolean horizontal = currentTextOrientation.isHorizontal();
-        float quadrat = jseshStyle.geometry().maxCadratHeight();
-        float length = horizontal ? quadrat : jseshStyle.geometry().maxCadratWidth();
+        double quadrat = jseshStyle.geometry().maxCadratHeight();
+        double length = horizontal ? quadrat : jseshStyle.geometry().maxCadratWidth();
         g.setColor(TAB_COLOR);
         g.setStroke(jseshStyle.geometry().fineStroke());
-        Path2D.Float mark = new Path2D.Float();
-        float flag = quadrat / 8f;
-        float dir = (horizontal && currentTextDirection == TextDirection.RIGHT_TO_LEFT) ? -1f : 1f;
+        Path2D.Double mark = new Path2D.Double();
+        double flag = quadrat / 8.0;
+        double dir = (horizontal && currentTextDirection == TextDirection.RIGHT_TO_LEFT) ? -1.0 : 1.0;
         if (horizontal) {
             mark.moveTo(0, 0);
             mark.lineTo(0, length);
@@ -496,16 +496,16 @@ public class DefaultElementDrawer extends ElementDrawer {
         g.draw(mark);
         String label = Integer.toString(TabLine.stopIndexOf(tab));
         Font previousFont = g.getFont();
-        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 1).deriveFont(quadrat / 4f));
-        float labelWidth = (float) g.getFontMetrics().getStringBounds(label, g).getWidth();
-        float ascent = g.getFontMetrics().getAscent();
-        float descent = g.getFontMetrics().getDescent();
+        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 1).deriveFont((float) (quadrat / 4.0)));
+        double labelWidth = g.getFontMetrics().getStringBounds(label, g).getWidth();
+        double ascent = g.getFontMetrics().getAscent();
+        double descent = g.getFontMetrics().getDescent();
         // The index is outside the line (or column), so that the signs don't hide it.
         if (horizontal) {
-            float x = dir > 0 ? 0 : -labelWidth;
-            g.drawString(label, x, -descent);
+            double x = dir > 0 ? 0 : -labelWidth;
+            g.drawString(label, (float) x, (float) -descent);
         } else {
-            g.drawString(label, -labelWidth - flag / 4f, ascent);
+            g.drawString(label, (float) (-labelWidth - flag / 4.0), (float) ascent);
         }
         g.setFont(previousFont);
     }
@@ -520,29 +520,29 @@ public class DefaultElementDrawer extends ElementDrawer {
         }
         JSeshStyle jseshStyle = getJSeshStyle();
         boolean horizontal = currentTextOrientation.isHorizontal();
-        float length = horizontal ? currentView.getWidth() : currentView.getHeight();
-        float across = (horizontal ? currentView.getHeight() : currentView.getWidth()) / 2f;
+        double length = horizontal ? currentView.getWidth() : currentView.getHeight();
+        double across = (horizontal ? currentView.getHeight() : currentView.getWidth()) / 2.0;
         if (length <= 0) {
             return;
         }
-        float lineWidth = jseshStyle.geometry().fineLineWidth();
+        double lineWidth = jseshStyle.geometry().fineLineWidth();
         // Coordinates are (along, across); swapped for columns.
-        Path2D.Float line = new Path2D.Float();
+        Path2D.Double line = new Path2D.Double();
         if (annotation.getKind() == RunningAnnotationKind.HAPLOGRAPHY) {
-            float head = Math.min(jseshStyle.geometry().maxCadratHeight() / 5f, length / 2f);
+            double head = Math.min(jseshStyle.geometry().maxCadratHeight() / 5.0, length / 2.0);
             g.setStroke(jseshStyle.geometry().fineStroke());
             line.moveTo(0, across);
             line.lineTo(length, across);
-            line.moveTo(head, across - head / 2f);
+            line.moveTo(head, across - head / 2.0);
             line.lineTo(0, across);
-            line.lineTo(head, across + head / 2f);
-            line.moveTo(length - head, across - head / 2f);
+            line.lineTo(head, across + head / 2.0);
+            line.moveTo(length - head, across - head / 2.0);
             line.lineTo(length, across);
-            line.lineTo(length - head, across + head / 2f);
+            line.lineTo(length - head, across + head / 2.0);
         } else {
-            float dash = Math.max(lineWidth * 4f, jseshStyle.geometry().maxCadratHeight() / 20f);
-            g.setStroke(new BasicStroke(lineWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10f,
-                    new float[] { dash, dash }, 0f));
+            double dash = Math.max(lineWidth * 4.0, jseshStyle.geometry().maxCadratHeight() / 20.0);
+            g.setStroke(new BasicStroke((float) lineWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f,
+                    new float[] { (float) dash, (float) dash }, 0.0f));
             line.moveTo(0, across);
             line.lineTo(length, across);
         }
@@ -564,20 +564,20 @@ public class DefaultElementDrawer extends ElementDrawer {
         }
         JSeshStyle jseshStyle = getJSeshStyle();
         if (zone.getParameters().frame()) {
-            float lineWidth = jseshStyle.geometry().cartoucheLineWidth();
-            g.setStroke(new BasicStroke(lineWidth));
-            g.draw(new Rectangle2D.Float(lineWidth / 2f, lineWidth / 2f,
+            double lineWidth = jseshStyle.geometry().cartoucheLineWidth();
+            g.setStroke(new BasicStroke((float) lineWidth));
+            g.draw(new Rectangle2D.Double(lineWidth / 2.0, lineWidth / 2.0,
                     currentView.getWidth() - lineWidth, currentView.getHeight() - lineWidth));
         }
         if (zone.getParameters().separator() != ZoneParameters.UNSET) {
             drawSeparators(zone, jseshStyle);
         }
         if (isShowZoneLimits()) {
-            float dash = jseshStyle.geometry().maxCadratHeight() / 6f;
+            double dash = jseshStyle.geometry().maxCadratHeight() / 6.0;
             g.setColor(jseshStyle.painting().cursorColor());
-            g.setStroke(new BasicStroke(jseshStyle.geometry().fineLineWidth(), BasicStroke.CAP_BUTT,
-                    BasicStroke.JOIN_MITER, 10f, new float[] { dash, dash }, 0f));
-            g.draw(new Rectangle2D.Float(0, 0, currentView.getWidth(), currentView.getHeight()));
+            g.setStroke(new BasicStroke((float) jseshStyle.geometry().fineLineWidth(), BasicStroke.CAP_BUTT,
+                    BasicStroke.JOIN_MITER, 10.0f, new float[] { (float) dash, (float) dash }, 0.0f));
+            g.draw(new Rectangle2D.Double(0, 0, currentView.getWidth(), currentView.getHeight()));
         }
     }
 
@@ -591,12 +591,12 @@ public class DefaultElementDrawer extends ElementDrawer {
         }
         // The positions are in the coordinates of the content, which a zone
         // with a scale scales.
-        float scale = zone.getParameters().scaleFactor();
-        float thickness = zone.getParameters().separator() * jseshStyle.geometry().percentUnit() * scale;
+        double scale = zone.getParameters().scaleFactor();
+        double thickness = zone.getParameters().separator() * jseshStyle.geometry().percentUnit() * scale;
         boolean horizontal = content.getOrientation() == null || content.getOrientation().isHorizontal();
         double x0 = content.getPosition().x;
         double y0 = content.getPosition().y;
-        g.setStroke(new BasicStroke(thickness));
+        g.setStroke(new BasicStroke((float) thickness));
         for (double pos : positions) {
             if (horizontal) {
                 g.draw(new Line2D.Double(x0, y0 + pos * scale, x0 + content.getWidth(), y0 + pos * scale));
@@ -616,7 +616,7 @@ public class DefaultElementDrawer extends ElementDrawer {
         JSeshStyle jseshStyle = getJSeshStyle();
         if (!jseshStyle.options().paged() && !jseshStyle.geometry().page().isPaginated()) {
             g.setStroke(jseshStyle.geometry().fineStroke());
-            g.draw(new Line2D.Float(-10000f, 0, 10000f, 0));
+            g.draw(new Line2D.Double(-10000.0, 0, 10000.0, 0));
         }
     }
 
@@ -640,7 +640,7 @@ public class DefaultElementDrawer extends ElementDrawer {
         }
     }
 
-    private void drawBracket(int code, float x, float y) {
+    private void drawBracket(int code, double x, double y) {
         JSeshStyle jseshStyle = getJSeshStyle();        
         Font f = jseshStyle.fonts().getFont(ScriptCode.LATIN);
 
@@ -681,10 +681,10 @@ public class DefaultElementDrawer extends ElementDrawer {
         g.drawString(text, 0, g.getFontMetrics().getAscent());
         g.setStroke(jseshStyle.geometry().fineStroke());
         g
-                .draw(new Line2D.Float((float) dims.getWidth() / 2.0f,
-                        (float) dims.getHeight()
+                .draw(new Line2D.Double(dims.getWidth() / 2.0,
+                        dims.getHeight()
                                 + jseshStyle.geometry().smallSkip(),
-                        (float) dims.getWidth() / 2.0f, currentView
+                        dims.getWidth() / 2.0, currentView
                                 .getInternalHeight()));
 
     }
@@ -780,7 +780,7 @@ public class DefaultElementDrawer extends ElementDrawer {
                     && currentView.nextIsHorizontallyAdjacent()) {
                 // Shade the inter-cadrat space
                 r.x = currentView.getWidth();
-                r.y = 0f;
+                r.y = 0.0;
                 r.height = currentView.getHeight();
 
                 // The width : we need to express it in the current system.

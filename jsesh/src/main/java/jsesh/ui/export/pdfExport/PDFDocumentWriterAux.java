@@ -38,10 +38,10 @@ public class PDFDocumentWriterAux {
 	 * @param comment a PDF comment.
 	 */
 	public PDFDocumentWriterAux(PDFExportPreferences prefs, OutputStream out,
-			float docWidth, float docHeight, String comment) {
+			double docWidth, double docHeight, String comment) {
 		this.pdfExportPreferences = prefs;
-		this.width= docWidth;
-		this.height= docHeight;
+		this.width = (float) docWidth; // iText works with floats.
+		this.height = (float) docHeight;
 		this.document = new Document();
 		// Font stuff...
 		// BaseFont bf= null;
@@ -68,7 +68,7 @@ public class PDFDocumentWriterAux {
 				new DefaultFontMapper.BaseFontParameters(
 						"/jseshResources/fonts/MDCTranslitLC.ttf"));
 		
-		document.setPageSize(new Rectangle(docWidth, docHeight));
+		document.setPageSize(new Rectangle(width, height));
 
 		try {
 			pdfWriter = PdfWriter.getInstance(document, out);

@@ -19,7 +19,6 @@ import {
   type TextOrientation,
 } from "../model/constants.js";
 
-const f = Math.fround;
 
 /// Port of `GeometrySpecification` (without the page format).
 export interface GeometrySpecification {
@@ -106,25 +105,25 @@ export function isPaginated(page: PageSpecification | undefined): boolean {
   return (
     page !== undefined &&
     isPageDefined(page) &&
-    f(page.pageHeight - page.marginTop - page.marginBottom) > 0 &&
+    (page.pageHeight - page.marginTop - page.marginBottom) > 0 &&
     page.pageHeight > 0
   );
 }
 
 /// The distance between the tops of two consecutive stacked pages (`PageSpecification.pageStride`).
 export function pageStride(page: PageSpecification): number {
-  return f(page.pageHeight + PAGE_GAP);
+  return page.pageHeight + PAGE_GAP;
 }
 
 /// The width available for text, margins excluded (`PageSpecification.usableWidth`).
 export function usableWidth(page: PageSpecification): number {
-  return f(page.pageWidth - page.marginLeft - page.marginRight);
+  return page.pageWidth - page.marginLeft - page.marginRight;
 }
 
 /// The height available for text, margins excluded, or 0 if the page has no height
 /// (`PageSpecification.usableHeight`).
 export function usableHeight(page: PageSpecification): number {
-  return page.pageHeight > 0 ? f(page.pageHeight - page.marginTop - page.marginBottom) : 0;
+  return page.pageHeight > 0 ? (page.pageHeight - page.marginTop - page.marginBottom) : 0;
 }
 
 /// Is a page defined (`PageSpecification.isDefined`)?
@@ -147,7 +146,7 @@ export function maxLineWidth(geometry: GeometrySpecification): number {
 /// sides; 0 if none is imposed (the columns are then aligned on the longest one).
 export function maxColumnHeight(geometry: GeometrySpecification): number {
   if (isPageDefined(geometry.page) && usableHeight(geometry.page) > 0) return usableHeight(geometry.page);
-  return geometry.columnHeight > 0 ? Math.max(0, f(geometry.columnHeight - 2 * geometry.topMargin)) : 0;
+  return geometry.columnHeight > 0 ? Math.max(0, geometry.columnHeight - 2 * geometry.topMargin) : 0;
 }
 
 export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<GeometrySpecification>({
@@ -155,7 +154,7 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   wideLineWidth: 3,
   lineSkip: 6,
   columnSkip: 10,
-  tabUnitWidth: f(18 / 200),
+  tabUnitWidth: (18 / 200),
   cartoucheLineWidth: 1,
   cartoucheLoopLength: 10,
   cartoucheMargin: 2,
@@ -169,8 +168,8 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   maxCadratHeight: 18,
   maxCadratWidth: 22,
   smallSkip: 2,
-  largeSignSizeRatio: f(0.8),
-  smallSignSizeRatio: f(0.4),
+  largeSignSizeRatio: 0.8,
+  smallSignSizeRatio: 0.4,
   smallBodyScaleLimit: 12,
   standardSignHeight: 18,
   alphabeticTextBaseline: 4,
@@ -183,7 +182,7 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
 
 /// One percent of the unit of the document (`GeometrySpecification.percentUnit`).
 export function percentUnit(geometry: GeometrySpecification): number {
-  return f(geometry.unit / 100);
+  return geometry.unit / 100;
 }
 
 /// Port of `LayoutOptions`.
@@ -332,19 +331,19 @@ export function withStyle(style: JSeshStyle, changes: StyleChanges): JSeshStyle 
 function pageOf(preferences: DocumentPreferences): PageSpecification {
   if (!(preferences.pageWidth > 0)) return NO_PAGE;
   return {
-    pageWidth: f(preferences.pageWidth),
-    pageHeight: f(preferences.pageHeight),
-    marginLeft: f(preferences.marginLeft),
-    marginRight: f(preferences.marginRight),
-    marginTop: f(preferences.marginTop),
-    marginBottom: f(preferences.marginBottom),
+    pageWidth: preferences.pageWidth,
+    pageHeight: preferences.pageHeight,
+    marginLeft: preferences.marginLeft,
+    marginRight: preferences.marginRight,
+    marginTop: preferences.marginTop,
+    marginBottom: preferences.marginBottom,
   };
 }
 
 /// A length in percents of the unit, in points (`LayoutSettingsApplier.points`), rounded to
-/// 1e-4 point so that old documents, converted from points, come back to the same floats.
+/// 1e-4 point so that a length typed as a round percent of the unit gives a round number of points.
 export function settingPoints(unit: number, percent: number): number {
-  return f(Math.round(unit * percent * 100) / 1e4);
+  return Math.round(unit * percent * 100) / 1e4;
 }
 
 /// The changes made to a style by layout settings (`LayoutSettingsApplier.apply`): the
@@ -381,12 +380,12 @@ export function layoutSettingsChanges(settings: TextLayoutSettings, unit: number
 export function applyDocumentPreferences(preferences: DocumentPreferences, original: JSeshStyle): JSeshStyle {
   const base = withStyle(original, {
     geometry: {
-      unit: f(preferences.unit),
-      smallBodyScaleLimit: f(preferences.smallBodyScaleLimit),
+      unit: preferences.unit,
+      smallBodyScaleLimit: preferences.smallBodyScaleLimit,
       page: pageOf(preferences),
       // With a page, the margins around the text are the page's.
       ...(preferences.pageWidth > 0
-        ? { leftMargin: f(preferences.marginLeft), topMargin: f(preferences.marginTop) }
+        ? { leftMargin: preferences.marginLeft, topMargin: preferences.marginTop }
         : {}),
     },
     painting: { shadingStyle: preferences.useLinesForShading ? "LINE_HATCHING" : "GRAY_SHADING" },
@@ -406,7 +405,7 @@ export function computeCartouchePartLength(style: JSeshStyle, type: CartoucheTyp
         case 1:
           return g.cartoucheLoopLength;
         case 2:
-          return f(g.cartoucheLoopLength + g.cartoucheLineWidth);
+          return g.cartoucheLoopLength + g.cartoucheLineWidth;
         default:
           throw new Error("bad value for element " + part);
       }
@@ -423,24 +422,24 @@ export function computeCartouchePartLength(style: JSeshStyle, type: CartoucheTyp
     case "SEREKH":
       switch (part) {
         case 1:
-          return f(g.hwtSmallMargin + g.cartoucheLineWidth);
+          return g.hwtSmallMargin + g.cartoucheLineWidth;
         case 2:
-          return f(f(g.hwtSmallMargin + g.cartoucheLineWidth) + g.serekhDoorSize);
+          return (g.hwtSmallMargin + g.cartoucheLineWidth) + g.serekhDoorSize;
         default:
           return 0;
       }
     case "HWT":
       switch (part) {
         case 1:
-          return f(g.hwtSmallMargin + g.cartoucheLineWidth);
+          return g.hwtSmallMargin + g.cartoucheLineWidth;
         case 2:
         case 3:
-          return f(f(g.hwtSmallMargin + g.cartoucheLineWidth) + g.hwtSquareSize);
+          return (g.hwtSmallMargin + g.cartoucheLineWidth) + g.hwtSquareSize;
         default:
           return 0;
       }
     case "CASTLE":
-      return part !== 0 ? f(f(g.hwtSmallMargin + g.bastionDepth) + g.cartoucheLineWidth) : 0;
+      return part !== 0 ? ((g.hwtSmallMargin + g.bastionDepth) + g.cartoucheLineWidth) : 0;
   }
 }
 
@@ -448,8 +447,8 @@ export function computeCartouchePartLength(style: JSeshStyle, type: CartoucheTyp
 /// its content (`CartoucheSizeHelper.computeCartoucheSecondaryLength`).
 export function computeCartoucheSecondaryLength(style: JSeshStyle, type: CartoucheType): number {
   const g = style.geometry;
-  const result = f(g.cartoucheMargin + g.cartoucheLineWidth);
-  return type === "CASTLE" ? f(result + g.bastionDepth) : result;
+  const result = g.cartoucheMargin + g.cartoucheLineWidth;
+  return type === "CASTLE" ? (result + g.bastionDepth) : result;
 }
 
 /// Width of a philological bracket (`PhilologyHelper.philologyWidth`).

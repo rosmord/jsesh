@@ -139,7 +139,7 @@ public class LigatureZone implements Cloneable {
      * @param scale scale of the sign.
      * @return a scaled version of the zone.
      */
-    public LigatureZone scale(float scale) {
+    public LigatureZone scale(double scale) {
         LigatureZone scaledCopy = (LigatureZone) clone();
         scaledCopy.box = new Rectangle2D.Double(
                 getMinX() * scale, getMinY() * scale, 

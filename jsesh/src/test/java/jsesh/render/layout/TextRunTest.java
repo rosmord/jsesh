@@ -166,7 +166,7 @@ public class TextRunTest {
 
     // Baseline of alphabetic text.
 
-    private MDCView layoutWithBaseline(String mdc, float baseline) throws MDCSyntaxError {
+    private MDCView layoutWithBaseline(String mdc, double baseline) throws MDCSyntaxError {
         JSeshStyle style = JSeshStyle.DEFAULT.copy()
                 .geometry(g -> g.alphabeticTextBaseline(baseline))
                 .build();
@@ -182,7 +182,7 @@ public class TextRunTest {
 
     @Test
     public void baselineIsMeasuredFromTheQuadratsBottom() throws MDCSyntaxError {
-        MDCView view = layoutWithBaseline("A1-+la+s", 0f);
+        MDCView view = layoutWithBaseline("A1-+la+s", 0.0);
         Font font = JSeshStyle.DEFAULT.fonts().getFont(jsesh.model.constants.ScriptCode.LATIN);
         double ascent = new java.awt.font.TextLayout("a", font, FRC).getAscent();
         assertEquals(JSeshStyle.DEFAULT.geometry().maxCadratHeight(), letterY(view) + ascent, EPSILON);
@@ -190,8 +190,8 @@ public class TextRunTest {
 
     @Test
     public void baselineMovesTheTextUp() throws MDCSyntaxError {
-        double y0 = letterY(layoutWithBaseline("A1-+la+s", 0f));
-        double y10 = letterY(layoutWithBaseline("A1-+la+s", 10f));
+        double y0 = letterY(layoutWithBaseline("A1-+la+s", 0.0));
+        double y10 = letterY(layoutWithBaseline("A1-+la+s", 10.0));
         assertEquals(10, y0 - y10, EPSILON);
     }
 }

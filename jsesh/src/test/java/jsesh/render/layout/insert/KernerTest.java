@@ -27,14 +27,14 @@ public class KernerTest {
 
     private static MDCView box(double x, double y, double width, double height) {
         MDCView v = new MDCView(new HBox());
-        v.setWidth((float) width);
-        v.setHeight((float) height);
+        v.setWidth(width);
+        v.setHeight(height);
         v.getPosition().setLocation(x, y);
         return v;
     }
 
     private static Kerner kerner(TextDirection direction) {
-        return new Kerner(null, 1f, direction);
+        return new Kerner(null, 1.0, direction);
     }
 
     @ParameterizedTest

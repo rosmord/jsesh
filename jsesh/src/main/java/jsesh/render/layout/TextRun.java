@@ -155,7 +155,7 @@ public record TextRun(int start, int end, double[] offsets, double[] widths, dou
             }
             TextRun run = measure(i, end, fonts.getFont(first.getScript()), pieces, frc);
             for (int k = i; k < end; k++) {
-                parent.getSubView(k).setWidth((float) run.widths()[k - i]);
+                parent.getSubView(k).setWidth(run.widths()[k - i]);
             }
             runs.add(run);
             i = end;

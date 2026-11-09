@@ -129,7 +129,7 @@ public final class TextGeometry {
         // views i-1 and i (if they exist).
 
         int index = position.getIndex();
-        Rectangle2D result = new Rectangle2D.Float(0, 0, geometry.smallSkip(),
+        Rectangle2D result = new Rectangle2D.Double(0, 0, geometry.smallSkip(),
                 geometry.maxCadratHeight());
 
         // non empty view :
@@ -137,9 +137,9 @@ public final class TextGeometry {
             boolean previousIsBreak = false;
             boolean nextIsBreak = false;
 
-            Rectangle2D previousRectangle = new Rectangle2D.Float(0, 0, geometry
+            Rectangle2D previousRectangle = new Rectangle2D.Double(0, 0, geometry
                     .smallSkip(), geometry.maxCadratHeight());
-            Rectangle2D nextRectangle = new Rectangle2D.Float(0, v.getHeight()
+            Rectangle2D nextRectangle = new Rectangle2D.Double(0, v.getHeight()
                     - geometry.maxCadratHeight(), geometry.smallSkip(),
                     geometry
                             .maxCadratHeight());

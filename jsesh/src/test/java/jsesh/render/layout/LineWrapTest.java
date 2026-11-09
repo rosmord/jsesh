@@ -25,7 +25,7 @@ public class LineWrapTest {
     private static final double EPSILON = 1e-3;
     private static final String LONG_LINE = "A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-A1";
 
-    private MDCView layout(String mdc, float wrapWidth) throws MDCSyntaxError {
+    private MDCView layout(String mdc, double wrapWidth) throws MDCSyntaxError {
         JSeshStyle style = JSeshStyle.DEFAULT.copy()
                 .geometry(g -> g.wrapWidth(wrapWidth)).build();
         JSeshRenderContext context = new JSeshRenderContext(style, PredefinedFonts.buildAllEmbeddedFonts());
@@ -49,7 +49,7 @@ public class LineWrapTest {
     @Test
     public void longLinesAreWrappedAndFitTheWidth() throws MDCSyntaxError {
         MDCView unwrapped = layout(LONG_LINE, 0);
-        float width = (float) (unwrapped.getWidth() / 3);
+        double width = (unwrapped.getWidth() / 3);
         MDCView text = layout(LONG_LINE, width);
         assertTrue(rows(text).size() >= 3, "rows: " + rows(text));
         assertTrue(text.getWidth() <= width + EPSILON, text.getWidth() + " > " + width);
@@ -78,7 +78,7 @@ public class LineWrapTest {
         String mdc = LONG_LINE + "-w-%hkern-D58-" + LONG_LINE;
         MDCView unwrapped = layout(mdc, 0);
         int kerned = LONG_LINE.split("-").length + 2; // index of D58
-        for (float width = 20; width < unwrapped.getWidth(); width += 7) {
+        for (double width = 20; width < unwrapped.getWidth(); width += 7) {
             MDCView text = layout(mdc, width);
             assertEquals(text.getSubView(kerned - 1).getPosition().y, text.getSubView(kerned).getPosition().y,
                     EPSILON, "width " + width);
@@ -88,7 +88,7 @@ public class LineWrapTest {
     @Test
     public void justifiedWrappedLinesAreJustifiedToTheWrappingWidthButParagraphEndsAreNot() throws MDCSyntaxError {
         MDCView unwrapped = layout(LONG_LINE, 0);
-        float width = (float) (unwrapped.getWidth() / 3);
+        double width = (unwrapped.getWidth() / 3);
         MDCView plain = layout(LONG_LINE + "!A1-A1!", width);
         MDCView justified = layout(LONG_LINE + "![align=justify]A1-A1!", width);
         // The last sign of the wrapped line.
@@ -108,7 +108,7 @@ public class LineWrapTest {
     @Test
     public void alphabeticTextIsCutAtSpacesAndPunctuation() throws MDCSyntaxError {
         MDCView unwrapped = layout(SENTENCE, 0);
-        float width = (float) (unwrapped.getWidth() / 3);
+        double width = (unwrapped.getWidth() / 3);
         MDCView text = layout(SENTENCE, width);
         assertTrue(rows(text).size() >= 3, "rows: " + rows(text));
         for (int i = 0; i + 1 < text.getNumberOfSubviews(); i++) {
@@ -124,7 +124,7 @@ public class LineWrapTest {
     public void aWordWhichIsTooLongIsCutAnywhere() throws MDCSyntaxError {
         String mdc = "+lsupercalifragilisticexpialidocious+s";
         MDCView unwrapped = layout(mdc, 0);
-        float width = (float) (unwrapped.getWidth() / 3);
+        double width = (unwrapped.getWidth() / 3);
         MDCView text = layout(mdc, width);
         assertTrue(rows(text).size() >= 3, "rows: " + rows(text));
         assertTrue(text.getWidth() <= width + EPSILON, text.getWidth() + " > " + width);
@@ -133,7 +133,7 @@ public class LineWrapTest {
     @Test
     public void wrappedTextKeepsItsReadingOrderInBothDirections() throws MDCSyntaxError {
         MDCView unwrapped = layout(SENTENCE, 0);
-        float width = (float) (unwrapped.getWidth() / 3);
+        double width = (unwrapped.getWidth() / 3);
         MDCView text = layout(SENTENCE, width);
         for (int i = 1; i < text.getNumberOfSubviews(); i++) {
             MDCView previous = text.getSubView(i - 1);

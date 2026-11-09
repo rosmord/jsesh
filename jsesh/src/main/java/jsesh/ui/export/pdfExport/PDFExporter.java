@@ -122,8 +122,8 @@ public class PDFExporter {
                     ? renderContext.jseshStyle()
                     : renderContext.jseshStyle().copy()
                             .geometry(g -> g
-                                    .leftMargin(32f)
-                                    .topMargin(32f))
+                                    .leftMargin(32.0)
+                                    .topMargin(32.0))
                             .build();
 
             renderContext = new JSeshRenderContext(actualStyle, renderContext.hieroglyphShapeRepository());
@@ -134,7 +134,7 @@ public class PDFExporter {
             // A paginated document gives the size of the PDF pages.
             PageSpecification documentPage = actualStyle.geometry().page();
             Rectangle pdfPageSize = documentPage.isPaginated()
-                    ? new Rectangle(documentPage.pageWidth(), documentPage.pageHeight())
+                    ? new Rectangle((float) documentPage.pageWidth(), (float) documentPage.pageHeight())
                     : pdfExportPreferences.getPageRectangle();
 
             PDFGraphics2DFactory graphicFactory = new PDFGraphics2DFactory(
@@ -264,10 +264,10 @@ public class PDFExporter {
             boolean hadPage = jseshStyle.geometry().hasPage();
             return PDFExportHelper.ensureCMYKColorSpace(jseshStyle)
                     .geometry(g -> {
-                        g.leftMargin(0.1f);
+                        g.leftMargin(0.1);
                         if (hadPage) {
                             // The page's top margin would be added to each item.
-                            g.topMargin(0f);
+                            g.topMargin(0.0);
                         }
                         // iText does the page layout: items are drawn one by one.
                         return g.page(PageSpecification.NONE);
@@ -374,14 +374,14 @@ public class PDFExporter {
             float x1;
             float x2;
 
-            x1 = h.getStartPos() * geom.tabUnitWidth();
-            x2 = h.getEndPos() * geom.tabUnitWidth();
+            x1 = (float) (h.getStartPos() * geom.tabUnitWidth());
+            x2 = (float) (h.getEndPos() * geom.tabUnitWidth());
 
             float y = writer.getVerticalPosition(false);
             if (h.getType() == 'l') {
-                cb.setLineWidth(geom.fineLineWidth());
+                cb.setLineWidth((float) geom.fineLineWidth());
             } else {
-                cb.setLineWidth(geom.wideLineWidth());
+                cb.setLineWidth((float) geom.wideLineWidth());
             }
             cb.moveTo(x1, y);
             cb.lineTo(x2, y);
@@ -504,8 +504,8 @@ public class PDFExporter {
             }
 
             currentParagraph = new Paragraph();
-            currentParagraph.setIndentationLeft(t.getStopPos()
-                    * geom.tabUnitWidth());
+            currentParagraph.setIndentationLeft((float) (t.getStopPos()
+                    * geom.tabUnitWidth()));
         }
 
         /**
@@ -521,7 +521,7 @@ public class PDFExporter {
             var geom = renderContext.jseshStyle().geometry();
             if (currentParagraph != null) {
                 try {
-                    float space = geom.lineSkip();
+                    float space = (float) geom.lineSkip();
                     // if (currentParagraph.getMultipliedLeading() < space)
                     // currentParagraph.setLeading(space);
                     // currentParagraph.setLeading(0,1);
@@ -600,7 +600,7 @@ public class PDFExporter {
                     deltay = view.getFirstSubView().getDeltaBaseY() * scale;
                 }
                 templateInfo.dx = 0;
-                templateInfo.dy = -6f + deltay;
+                templateInfo.dy = -6.0 + deltay;
                 templateInfo.template
                         .setLeading((float) (view.getHeight() * scale));
                 imageCache.put(elt, templateInfo);

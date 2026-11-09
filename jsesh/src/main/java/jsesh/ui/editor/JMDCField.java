@@ -42,7 +42,7 @@ public class JMDCField extends JMDCEditor {
 
     private Dimension preferedSize;
     // Drawing margin to move.
-    private float drawingHorizontalOrigin = 0;
+    private double drawingHorizontalOrigin = 0;
 
     private static final int DEFAULT_MARGIN = 5;
    
@@ -150,9 +150,9 @@ public class JMDCField extends JMDCEditor {
         double lastX = drawingHorizontalOrigin + getWidth();
 
         if (r.getMinX() < drawingHorizontalOrigin) {
-            drawingHorizontalOrigin = (float) (r.getMinX() - 2f);
+            drawingHorizontalOrigin = (r.getMinX() - 2.0);
         } else if (r.getMaxX() > lastX) {
-            drawingHorizontalOrigin = (float) (r.getMaxX() - getWidth());
+            drawingHorizontalOrigin = (r.getMaxX() - getWidth());
         }
         g2d.translate(-drawingHorizontalOrigin, 0);
         g2d.scale(getScale(), getScale());
@@ -202,7 +202,7 @@ public class JMDCField extends JMDCEditor {
         return style.copy().geometry(g -> g.maxCadratHeight(textHeight)
                 .unit(textHeight)
                 .standardSignHeight(textHeight)
-                .maxCadratWidth(textHeight * 1.1f)
+                .maxCadratWidth(textHeight * 1.1)
                 .topMargin(margin)
                 .leftMargin(margin)                
                 .lineSkip(0)).build();

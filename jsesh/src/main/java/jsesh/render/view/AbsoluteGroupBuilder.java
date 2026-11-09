@@ -66,9 +66,9 @@ public class AbsoluteGroupBuilder {
 		/**
 		 * Current view origin position.
 		 */
-		float origx, origy;
+		double origx, origy;
 
-		float scale;
+		double scale;
 
 		//double sizeofA1;
 		
@@ -120,9 +120,9 @@ public class AbsoluteGroupBuilder {
 			for (int i = 0; i < v.getNumberOfSubviews(); i++) {
 				MDCView subv = v.getSubView(i);
 				// Save position before entering the subview.
-				float oldScale = scale;
-				float oldx = origx;
-				float oldy = origy;
+				double oldScale = scale;
+				double oldx = origx;
+				double oldy = origy;
 				origx += subv.getPosition().x * scale;
 				origy += subv.getPosition().y * scale;
 				// Process subview
