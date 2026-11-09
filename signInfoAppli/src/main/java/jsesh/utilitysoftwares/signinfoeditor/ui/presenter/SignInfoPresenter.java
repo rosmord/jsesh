@@ -41,7 +41,7 @@ import jsesh.glyphs.resources.EmbeddedGlyphsPathResources;
 import jsesh.glyphs.signdata.SignDescriptionConstants;
 import jsesh.glyphs.signdata.SignValueType;
 import jsesh.glyphs.signdata.SignVariantType;
-import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.glyphs.signpicture.HieroglyphIconBuilder;
 import jsesh.glyphs.signpicture.PictureDimension;
 import jsesh.signcodes.CanonicalCode;
 import jsesh.signcodes.GardinerCode;
@@ -194,7 +194,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     /**
      * The builder used to create icons for the hieroglyphs.
      */
-    private final HieroglyphPictureBuilder pictureBuilder;
+    private final HieroglyphIconBuilder pictureBuilder;
 
     /**
      * Listener for changes in the model.
@@ -218,7 +218,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
      * 
      * @param signInfoModel global model for set of sign information.
      */
-    public SignInfoPresenter(SignInfoModelFactory signInfoModelFactory, HieroglyphPictureBuilder pictureBuilder) {
+    public SignInfoPresenter(SignInfoModelFactory signInfoModelFactory, HieroglyphIconBuilder pictureBuilder) {
 
         this.signInfoModelFactory = signInfoModelFactory;
         this.pictureBuilder = pictureBuilder;
@@ -433,7 +433,6 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
             view.getSignCodeField().setText(code);
             JLabel signIconLabel = view.getSignGlyphLabel();
             // update sign display
-            // HieroglyphPictureBuilder.createHieroglyphIcon(code,
             CanonicalCode canonicalCode = ManuelDeCodage.getInstance()
                     .getCanonicalCode(code);
             pictureBuilder.drawIconInLabel(signIconLabel, canonicalCode, LABEL_PADDING);

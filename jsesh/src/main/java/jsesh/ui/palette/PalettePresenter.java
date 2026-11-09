@@ -56,7 +56,7 @@ import jsesh.glyphs.signdata.HieroglyphFamily;
 import jsesh.glyphs.signdata.PossibilitiesList;
 import jsesh.glyphs.signdata.Possibility;
 import jsesh.glyphs.signdata.SignDescriptionConstants;
-import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.glyphs.signpicture.HieroglyphIconBuilder;
 import jsesh.signcodes.CanonicalCode;
 import jsesh.signcodes.GardinerCode;
 import jsesh.signcodes.ManuelDeCodage;
@@ -875,10 +875,10 @@ public class PalettePresenter {
             iconLabel.setIcon(null);
             infoView.setText("");
         } else {
-            HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager,
+            HieroglyphIconBuilder hieroglyphIconBuilder = new HieroglyphIconBuilder(hieroglyphicFontManager,
                     simplePalette);
             CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
-            hieroglyphPictureBuilder.drawIconInLabel(iconLabel, canonicalCode, 4);
+            hieroglyphIconBuilder.drawIconInLabel(iconLabel, canonicalCode, 4);
             List<String> values = hieroglyphsDatabase.getValuesFor(code);
             if (values == null) {
                 values = new ArrayList<>();

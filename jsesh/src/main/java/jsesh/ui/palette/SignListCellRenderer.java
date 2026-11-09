@@ -9,7 +9,7 @@ import org.qenherkhopeshef.swingUtils.lists.DataListItem;
 import org.qenherkhopeshef.swingUtils.lists.LabelListItem;
 
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
-import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.glyphs.signpicture.HieroglyphIconBuilder;
 import jsesh.glyphs.signpicture.IconRenderOptions;
 import jsesh.glyphs.signpicture.PictureDimension;
 import jsesh.signcodes.CanonicalCode;
@@ -60,13 +60,13 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 		} else {
 			setText("");
 		}
-		HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager,
+		HieroglyphIconBuilder hieroglyphIconBuilder = new HieroglyphIconBuilder(hieroglyphicFontManager,
 				parent);
 		IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
 				.fit(true)
 				.dimension(getIconSize()).padding(border).build();
 		CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);				
-		setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(canonicalCode, renderOptions));
+		setIcon(hieroglyphIconBuilder.createHieroglyphIcon(canonicalCode, renderOptions));
 	}
 
 	// TODO : unify the computation of icon size aspect ratio.

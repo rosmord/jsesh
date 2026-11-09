@@ -37,7 +37,7 @@ import java.awt.Component;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.glyphs.signpicture.HieroglyphIconBuilder;
 import jsesh.glyphs.signpicture.IconRenderOptions;
 import jsesh.glyphs.signpicture.PictureDimension;
 import jsesh.signcodes.CanonicalCode;
@@ -54,7 +54,7 @@ public class SignTableCellRenderer extends DefaultTableCellRenderer {
 
 	private PictureDimension bitmapSize;
 	private int bitmapBorder;
-	private HieroglyphPictureBuilder pictureBuilder;
+	private HieroglyphIconBuilder pictureBuilder;
 
 	
 	/**
@@ -63,7 +63,7 @@ public class SignTableCellRenderer extends DefaultTableCellRenderer {
 	 * @param bitmapBorder
 	 */
 	public SignTableCellRenderer(PictureDimension bitmapSize, int bitmapBorder,
-			HieroglyphPictureBuilder pictureBuilder) {
+			HieroglyphIconBuilder pictureBuilder) {
 		this.pictureBuilder = pictureBuilder;
 		this.bitmapSize = bitmapSize;
 		this.bitmapBorder = bitmapBorder;

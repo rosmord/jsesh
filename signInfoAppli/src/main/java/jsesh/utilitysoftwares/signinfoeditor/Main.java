@@ -51,7 +51,7 @@ import org.qenherkhopeshef.guiFramework.PropertyHolder;
 import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
 
 import jsesh.glossary.GlossaryManager;
-import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.glyphs.signpicture.HieroglyphIconBuilder;
 import jsesh.defaults.HieroglyphDatabaseFactory;
 import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.HieroglyphResourcesBuilder;
@@ -109,7 +109,7 @@ public class Main implements PropertyHolder {
 					new SignInfoModel(hieroglyphResources);
 						
 
-			HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(
+			HieroglyphIconBuilder pictureBuilder = new HieroglyphIconBuilder(
 					hieroglyphResources.hieroglyphShapeRepository(), mainFrame);
 
 			signInfoPresenter = new SignInfoPresenter(signInfoModelFactory, pictureBuilder);

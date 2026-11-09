@@ -196,7 +196,7 @@ on `glyphs`, reversing the arrow. No interface indirection was needed.
 **Render/glyphs → Swing utilities.** `ShapeHelper`, `GraphicsUtils` and
 `GeometryHelper` sat in `jsesh.swing.utils` but are pure `java.awt.geom`
 mathematics with no Swing involvement. They forced `ShapeChar`,
-`HieroglyphPictureBuilder`, `SpecialSymbolDrawer` and `MDCDrawingFacade` to
+`HieroglyphIconBuilder`, `SpecialSymbolDrawer` and `MDCDrawingFacade` to
 import a UI package. Moved to `jsesh.platform.graphics`.
 
 **Core → editor, in `MDCDocument`.** This one changed behaviour, and is the

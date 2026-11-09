@@ -53,7 +53,7 @@ import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.glyphs.signpicture.HieroglyphIconBuilder;
 import jsesh.glyphs.signpicture.IconRenderOptions;
 import jsesh.signcodes.CanonicalCode;
 import jsesh.signcodes.ManuelDeCodage;
@@ -94,7 +94,7 @@ public class HieroglyphicMenu extends JMenu {
 
 	private final IconRenderOptions iconRenderOptions;
 
-	public HieroglyphicMenu(String title, String family, int ncols, HieroglyphPictureBuilder pictureBuilder) {
+	public HieroglyphicMenu(String title, String family, int ncols, HieroglyphIconBuilder pictureBuilder) {
 		super(title);
 		this.ncols = ncols;
 		this.family = family;
@@ -147,7 +147,7 @@ public class HieroglyphicMenu extends JMenu {
 
 	}
 
-	private void fillMenu(HieroglyphPictureBuilder pictureBuilder) {
+	private void fillMenu(HieroglyphIconBuilder pictureBuilder) {
 
 		if (menuFilled)
 			return;
@@ -201,12 +201,12 @@ public class HieroglyphicMenu extends JMenu {
 		 * @param code
 		 * 
 		 */
-		public HieroglyphAction(String code, HieroglyphPictureBuilder pictureBuilder) {
+		public HieroglyphAction(String code, HieroglyphIconBuilder pictureBuilder) {
 			super(code, buildIt(pictureBuilder, code, iconRenderOptions));
 			this.code = code;
 		}
 
-		private static final Icon buildIt(HieroglyphPictureBuilder pictureBuilder, String code, IconRenderOptions iconRenderOptions) {
+		private static final Icon buildIt(HieroglyphIconBuilder pictureBuilder, String code, IconRenderOptions iconRenderOptions) {
 			CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
 			return pictureBuilder.createHieroglyphIcon(canonicalCode, iconRenderOptions);
 		}

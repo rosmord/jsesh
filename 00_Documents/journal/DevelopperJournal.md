@@ -32,7 +32,10 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+
 ## 2026-11-09
+
+- renamed HieroglyphPictureBuilder to HieroglyphIconBuilder
 
 **The rendering pipeline now uses `double`** (it was half `float`, half `double`, with about a hundred narrowing casts).
 

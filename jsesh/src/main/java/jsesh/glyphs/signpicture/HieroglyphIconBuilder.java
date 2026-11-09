@@ -68,7 +68,7 @@ import jsesh.utils.swing.GraphicsUtils;
  * @author rosmord
  * 
  */
-public class HieroglyphPictureBuilder {
+public class HieroglyphIconBuilder {
 
 	/**
 	 * A component which can be used to build compatible images.
@@ -93,7 +93,7 @@ public class HieroglyphPictureBuilder {
 	 *                           if none is known. May speed up display if correctly
 	 *                           set.
 	 */
-	public HieroglyphPictureBuilder(HieroglyphShapeRepository shapeRepository, Component referenceComponent) {
+	public HieroglyphIconBuilder(HieroglyphShapeRepository shapeRepository, Component referenceComponent) {
 		this.shapeRepository = shapeRepository;
 		ShapeChar a1 = shapeRepository.get(ManuelDeCodage.getInstance()
 				.getA1Code());

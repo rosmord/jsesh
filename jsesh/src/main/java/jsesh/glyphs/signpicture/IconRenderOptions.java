@@ -1,7 +1,7 @@
 package jsesh.glyphs.signpicture;
 
 /**
- * Rendering options for {@link HieroglyphPictureBuilder}.
+ * Rendering options for {@link HieroglyphIconBuilder}.
  * 
  * <p>Note about <code>fit</code> : Normally, the 
  * height of the sign is scaled to fit the height of the <code>PictureDimension</code>.

@@ -65,7 +65,7 @@ import jsesh.ui.editor.InputMode;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.MDCModelEditionAdapter;
 import jsesh.glyphs.signdata.HieroglyphFamily;
-import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.glyphs.signpicture.HieroglyphIconBuilder;
 import jsesh.ui.export.generic.ExportData;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
@@ -455,7 +455,7 @@ public final class JSeshViewCore {
     private JPopupMenu buildHieroglyphicMenus() {
         HieroglyphicMenuMediator mediator = new HieroglyphicMenuMediator();
         List<HieroglyphFamily> families = hieroglyphResources.database().getFamilies();
-        HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(hieroglyphResources.hieroglyphShapeRepository(), viewComponent);
+        HieroglyphIconBuilder pictureBuilder = new HieroglyphIconBuilder(hieroglyphResources.hieroglyphShapeRepository(), viewComponent);
 
         JPopupMenu hieroglyphs = new JPopupMenu();
 
