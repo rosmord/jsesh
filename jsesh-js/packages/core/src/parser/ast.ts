@@ -30,6 +30,8 @@ export type InsertDirection =
   | "BOTTOM_END"
   | "CENTER";
 
+export type RunningAnnotationKind = "HAPLOGRAPHY" | "LACUNA";
+
 export type AstOptionValue =
   | { nodeType: "Flag" }
   | { nodeType: "Text"; value: string }
@@ -222,6 +224,16 @@ export interface AstHRule {
   endPos: number;
 }
 
+/// A running annotation: `%haplography[size=200]` or `%lacuna[size=fill]`. The legacy forms
+/// `^-..-..-^` and `?-..-..-?` give the same node, with a `size` option computed from the number
+/// of dots.
+export interface AstRunningAnnotation {
+  nodeType: "RunningAnnotation";
+  kind: RunningAnnotationKind;
+  /// The raw options given between brackets (empty if none).
+  options: AstOptionList;
+}
+
 export interface AstZone {
   nodeType: "Zone";
   options: AstOptionList;
@@ -236,7 +248,8 @@ export type AstTopItem =
   | AstAbsoluteTab
   | AstTab
   | AstHRule
-  | AstZone;
+  | AstZone
+  | AstRunningAnnotation;
 
 export interface AstTopItemList {
   nodeType: "TopItemList";

@@ -108,7 +108,7 @@ flowchart LR
 | `render/glyphs.ts` | `GlyphProvider` and `HieroglyphDrawer`: sizes, zones, shapes. | `jsesh.render.elements.HieroglyphDrawer` |
 | `render/text.ts`, `measurers.ts` | Alphabetic text: `TextMeasurer`, runs, transliteration. | `jsesh.render.layout.TextRun`, … |
 | `render/style.ts` | `JSeshStyle` and its four parts. | `jsesh.render.style` |
-| `render/svg.ts`, `cartouches.ts`, `symbols.ts`, `path.ts`, `svg-writer.ts` | Drawing the view tree as SVG. | `jsesh.render.draw.ViewDrawer`, `DefaultElementDrawer`, `SpecialSymbolDrawer` |
+| `render/svg.ts`, `cartouches.ts`, `symbols.ts`, `path.ts`, `svg-writer.ts` | Drawing the view tree as SVG (including running annotations, and the optional marks of kerning operators and tabs). | `jsesh.render.draw.ViewDrawer`, `DefaultElementDrawer`, `SpecialSymbolDrawer` |
 | `render/render.ts` | The convenient entry points: `layOutText`, `drawLaidOutText`, `renderToSvg`. | – |
 
 ### Things to know about each step
@@ -280,9 +280,11 @@ npm test
 | `core/test/wrap.test.ts` | Soft line wrapping (`geometry.wrapWidth`): lines wrap, a wide element stays alone on its line, and a `%zone` wraps at its own width (never at the text's). Complements the `wrapped` variants of `layout.test.ts`. |
 | `core/test/insert.test.ts` | `%insert`: model and writer round trip, `ShapeMask`, `InsertionFitter` on synthetic shapes, and the layout with real signs (the inserted group never touches the main sign, in both directions), and `target=2` laying out as the swapped `target=1`. Ported from the Java unit tests. |
 | `core/test/kerning.test.ts` | `%hkern`/`%vkern`: the model, kerning ignored in the wrong context, kerning stable and mirrored in right-to-left text, marks drawn only on request. Ported from the Java unit tests (`KerningLayoutTest`). |
+| `core/test/running-annotation.test.ts` | `%haplography`/`%lacuna`: lexer (legacy forms), AST, model, writer, layout (fixed size, `size=fill` in lines, columns, tab cells), SVG drawing, and the tab marks of `showTabs`. Ported from `RunningAnnotationMdcTest`, `RunningAnnotationLayoutTest` and `RunningAnnotationDrawingTest`; the view trees are also compared with Java's through the cases of `ParserCases`. |
+| `core/test/tab-line.test.ts` | `TabLine`: stop indexes, moving a tab. Ported from the Java `TabLine`. |
 | `core/test/render.test.ts` | The SVG is well formed and has no `NaN`, for every snippet and file. This is a sanity test, not a comparison. |
 | `glyphs/test` | The sign database. |
-| `editor/test/session.test.ts`, `palette/test/controller.test.ts` | The headless cores: typing, grouping, undo, selection; families, tags, search, history. Written by hand, no fixtures. |
+| `editor/test/session.test.ts`, `palette/test/controller.test.ts` | The headless cores: typing, grouping, undo, selection, the tab commands; families, tags, search, history. Written by hand, no fixtures. |
 
 Remember:
 

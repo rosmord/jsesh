@@ -8,6 +8,7 @@
 package jsesh.parser;
 import jsesh.sharedvocabulary.InsertionDirection;
 import jsesh.sharedvocabulary.KerningAxis;
+import jsesh.sharedvocabulary.RunningAnnotationKind;
 
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.AMP;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.BEGIN_CARTOUCHE;
@@ -24,11 +25,13 @@ import static jsesh.parser.lexer.symbols.MdcSymbolCode.END_PHIL;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.EOF;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.EQUAL;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.GRAMMAR;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.HAPLOGRAPHY;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.HIEROGLYPH;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.IDENTIFIER;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.HKERN;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.INSERT;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.INTEGER;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.LACUNA;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.LIG_AFTER;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.LIG_BEFORE;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.LPAREN;
@@ -82,6 +85,7 @@ import jsesh.parser.ast.AstStartHieroglyphicText;
 import jsesh.parser.ast.AstSubCadrat;
 import jsesh.parser.ast.AstSuperscript;
 import jsesh.parser.ast.AstAbsoluteTab;
+import jsesh.parser.ast.AstRunningAnnotation;
 import jsesh.parser.ast.AstTab;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
@@ -262,6 +266,7 @@ public class MDCParser {
      * topitem ::= cadrat optShading | TOGGLE | STARTHIEROGLYPHS | TEXT | TEXTSUPER
      *           | LINEEND optionList? | PAGEEND optionList? | TABSTOP
      *           | HRULE | zone | TAB optionList?
+     *           | (HAPLOGRAPHY | LACUNA) optionList?
      * </pre>
      * 
      * The final optSeparator is the one consumed by the last loop iteration,
@@ -324,6 +329,12 @@ public class MDCParser {
                     advance();
                     item = new AstTab(parseOptOptionList());
                     break;
+                case HAPLOGRAPHY:
+                    item = parseRunningAnnotation(RunningAnnotationKind.HAPLOGRAPHY);
+                    break;
+                case LACUNA:
+                    item = parseRunningAnnotation(RunningAnnotationKind.LACUNA);
+                    break;
                 default:
                     if (atCadratStart()) {
                         item = parseCadratWithShading();
@@ -337,6 +348,24 @@ public class MDCParser {
             items.add(item);
         }
         return items;
+    }
+
+    /// `%haplography[...]`, `%lacuna[...]`, or the legacy `^-..-^` and `?-..-?`.
+    ///
+    /// The lexer gives the size of a legacy form as the value of its symbol,
+    /// which is then turned into the option `size=N`, as if it had been written
+    /// `%haplography[size=N]` (and no option list is read after it).
+    ///
+    /// ```
+    /// runningAnnotation ::= (HAPLOGRAPHY | LACUNA) optionList?
+    /// ```
+    private AstRunningAnnotation parseRunningAnnotation(RunningAnnotationKind kind) throws MDCSyntaxError {
+        Object size = token.value();
+        advance();
+        if (size instanceof Integer n) {
+            return new AstRunningAnnotation(kind, AstOptionList.of(AstOption.of("size", n.intValue())));
+        }
+        return new AstRunningAnnotation(kind, parseOptOptionList());
     }
 
     /// ```

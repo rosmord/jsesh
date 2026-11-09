@@ -28,6 +28,8 @@ export interface EditorViewOptions {
   glyphsUrl?: string;
   /// Show kerning operators (`%hkern`, `%vkern`) as marks (false by default).
   showKerningMarks?: boolean;
+  /// Show the dynamic tabs (`%tab`) as marks, with the index of their stop (false by default).
+  showTabs?: boolean;
   /// Wrap the lines to the width of the surface (false by default).
   wrapLines?: boolean;
   /// Called when the text can't be drawn (the glyph data can't be loaded...). By default, the error is logged.
@@ -52,6 +54,7 @@ export class EditorView {
   private style: StyleChanges | undefined;
   private readonly glyphsUrl: string | undefined;
   private _showKerningMarks: boolean;
+  private _showTabs: boolean;
   private _wrapLines: boolean;
   /// The width of the surface at the last layout, to ignore resizes which don't change it.
   private laidOutWidth = 0;
@@ -86,6 +89,7 @@ export class EditorView {
     this.style = options.style;
     this.glyphsUrl = options.glyphsUrl;
     this._showKerningMarks = options.showKerningMarks ?? false;
+    this._showTabs = options.showTabs ?? false;
     this._wrapLines = options.wrapLines ?? false;
     this.onError = options.onError ?? ((error) => console.error("jsesh editor:", error));
     if (getComputedStyle(surface).position === "static") surface.style.position = "relative";
@@ -127,6 +131,19 @@ export class EditorView {
   set showKerningMarks(show: boolean) {
     if (show === this._showKerningMarks) return;
     this._showKerningMarks = show;
+    // The marks don't change the layout.
+    if (this.laidOut !== undefined) this.draw(this.laidOut);
+  }
+
+  /// Show the dynamic tabs (`%tab`) as blue marks, with the index of their stop. Only the editor
+  /// shows them.
+  get showTabs(): boolean {
+    return this._showTabs;
+  }
+
+  set showTabs(show: boolean) {
+    if (show === this._showTabs) return;
+    this._showTabs = show;
     // The marks don't change the layout.
     if (this.laidOut !== undefined) this.draw(this.laidOut);
   }
@@ -226,6 +243,7 @@ export class EditorView {
       cadratHeight: this._cadratHeight,
       idPrefix: this.idPrefix,
       showKerningMarks: this._showKerningMarks,
+      showTabs: this._showTabs,
     });
     this._areas = itemAreas(laidOut, this._cadratHeight);
     this.drawCaret();

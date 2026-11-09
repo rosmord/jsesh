@@ -108,6 +108,11 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.INSERT, literal("%insert"))
                 .rule(MdcTokenType.HKERN, literal("%hkern"))
                 .rule(MdcTokenType.VKERN, literal("%vkern"))
+                .rule(MdcTokenType.HAPLOGRAPHY, literal("%haplography"))
+                .rule(MdcTokenType.LACUNA, literal("%lacuna"))
+                // Longer than the one-character toggles "^" and "?", so they win on length.
+                .rule(MdcTokenType.RUNNING_HAPLOGRAPHY, runningLine('^'))
+                .rule(MdcTokenType.RUNNING_LACUNA, runningLine('?'))
                 .rule(MdcTokenType.START_HIEROGLYPHS, literal("+s"))
                 .rule(MdcTokenType.TEXT_SUPER, superscript())
                 .rule(MdcTokenType.WORD_END_CANDIDATE, TRUESPACE)
@@ -207,6 +212,14 @@ public final class MdcLexicon {
     /// `"{" type {INTEGER} "," {INTEGER} "}"`
     private static Expression hrule(char type) {
         return sequence(character('{'), character(type), INTEGER, character(','), INTEGER, character('}'));
+    }
+
+    /// `mark "-" dots ("-" dots)* "-" mark`, where `dots` is `"."` or `".."`: the legacy
+    /// running variant (`mark` is `^`) or running lacuna (`mark` is `?`), as in `^-..-..-^`.
+    private static Expression runningLine(char mark) {
+        Expression dots = union(literal(".."), character('.'));
+        return sequence(character(mark), character('-'), dots,
+                repeat(sequence(character('-'), dots)), character('-'), character(mark));
     }
 
     /// `"+"[a-rt-z+](\+|[^+]|"+"[^a-z+])*`

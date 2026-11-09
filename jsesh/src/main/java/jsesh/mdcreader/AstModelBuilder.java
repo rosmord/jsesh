@@ -30,6 +30,7 @@ import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.AbsoluteTab;
+import jsesh.model.RunningAnnotation;
 import jsesh.model.Tab;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemState;
@@ -74,6 +75,7 @@ import jsesh.parser.ast.AstStartHieroglyphicText;
 import jsesh.parser.ast.AstSubCadrat;
 import jsesh.parser.ast.AstSuperscript;
 import jsesh.parser.ast.AstAbsoluteTab;
+import jsesh.parser.ast.AstRunningAnnotation;
 import jsesh.parser.ast.AstTab;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
@@ -350,6 +352,18 @@ class AstModelBuilder implements AstVisitor {
     public void visitTab(AstTab node) {
         push(new Tab(node.options().getInt("n", Tab.AUTO),
                 lineAlignment(node.options())));
+    }
+
+    /// Reads `size`: `fill`, or a length in percents of a quadrat. A missing
+    /// or invalid size is one quadrat.
+    @Override
+    public void visitRunningAnnotation(AstRunningAnnotation node) {
+        if ("fill".equals(node.options().getString("size", ""))) {
+            push(RunningAnnotation.filling(node.kind()));
+        } else {
+            push(new RunningAnnotation(node.kind(),
+                    node.options().getInt("size", RunningAnnotation.DEFAULT_PERCENT)));
+        }
     }
 
     @Override

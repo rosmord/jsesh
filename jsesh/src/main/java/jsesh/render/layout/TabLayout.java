@@ -24,7 +24,9 @@ import jsesh.sharedvocabulary.LineAlignment;
 ///    doesn't push anything.
 /// 2. each cell is moved, as a block, to its interval: from its start stop to
 ///    its end stop minus the gap; for the last cell of a line, from its start
-///    stop to the end of the table (see [#apply]).
+///    stop to the end of the table (see [#apply]). The running annotations
+///    which fill (`%haplography[size=fill]`) then take the rest of the
+///    interval ([FillLayout#fillCell]).
 ///
 /// Positions are along the x axis for lines, the y axis for columns, and are
 /// always computed from the start of the line (layout coordinates are left
@@ -43,11 +45,23 @@ final class TabLayout {
     private final boolean vertical;
     private final double gap;
 
+    /// Stretches the running annotations which fill their cell, or null.
+    private final FillLayout fill;
+
     /// @param vertical true for columns.
     /// @param gap the minimal space between a cell and the next tab stop.
     TabLayout(boolean vertical, double gap) {
+        this(vertical, gap, null);
+    }
+
+    /// @param vertical true for columns.
+    /// @param gap the minimal space between a cell and the next tab stop.
+    /// @param fill makes the running annotations with `size=fill` fill their
+    ///        cell; null to leave them at their natural (null) length.
+    TabLayout(boolean vertical, double gap, FillLayout fill) {
         this.vertical = vertical;
         this.gap = gap;
+        this.fill = fill;
     }
 
     /// Computes the tab stops of the lines and places their cells.
@@ -87,7 +101,10 @@ final class TabLayout {
                 double cellEnd = c.isLast() ? end : tabPos[c.endTab()] - gap;
                 double length = Math.max(cellEnd - start, size(c));
                 LineAlignment alignment = c.isLast() ? l.lastCellAlignment() : c.alignment();
-                LineAccumulator.placeUnits(c.units(), alignment, l.origin() + start, length, vertical);
+                // A cell with an annotation which fills is full: no alignment needed.
+                if (fill == null || !fill.fillCell(c.units(), l.origin() + start, length)) {
+                    LineAccumulator.placeUnits(c.units(), alignment, l.origin() + start, length, vertical);
+                }
             }
             l.line().placeTabViews(l.origin(), tabPos, vertical);
         }

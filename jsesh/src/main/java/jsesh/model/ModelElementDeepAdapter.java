@@ -196,6 +196,11 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 		visitTopItem(t);
 	}
 
+	@Override
+	public void visitRunningAnnotation(RunningAnnotation a) {
+		visitTopItem(a);
+	}
+
 	/* (non-Javadoc)
 	 * @see jsesh.model.ModelElementVisitor#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 	 */

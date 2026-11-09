@@ -266,6 +266,17 @@ export function lineAlignmentFromMdc(name: string): LineAlignment {
   return "START";
 }
 
+/// The two sorts of *running annotation* (`jsesh.sharedvocabulary.RunningAnnotationKind`): a line
+/// drawn along the text to mark a stretch of it. A running variant (haplography) is a solid line
+/// with an arrow at each end, a running lacuna a dashed line.
+export type RunningAnnotationKind = "HAPLOGRAPHY" | "LACUNA";
+
+/// The name of the construct in the Manuel de Codage, without the `%`.
+export const RUNNING_ANNOTATION_CODES: Record<RunningAnnotationKind, string> = {
+  HAPLOGRAPHY: "haplography",
+  LACUNA: "lacuna",
+};
+
 /// The axis of a kerning operator (`jsesh.model.constants.KerningAxis`).
 ///
 /// A kerning operator only acts in a context of the same axis: `%hkern` between the elements of

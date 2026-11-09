@@ -34,6 +34,10 @@ enum TokenType {
   INSERT,
   HKERN,
   VKERN,
+  HAPLOGRAPHY,
+  LACUNA,
+  RUNNING_HAPLOGRAPHY,
+  RUNNING_LACUNA,
   START_HIEROGLYPHS,
   TEXT_SUPER,
   WORD_END_CANDIDATE,
@@ -175,6 +179,12 @@ const alphabeticText: Matcher = (src, pos) => {
   return i - pos;
 };
 
+/// `mark "-" dots ("-" dots)* "-" mark`, where `dots` is `"."` or `".."`: the legacy running variant
+/// (`mark` is `^`) or running lacuna (`mark` is `?`), as in `^-..-..-^`.
+function runningLine(mark: string): Matcher {
+  return re(`\\${mark}-\\.{1,2}(?:-\\.{1,2})*-\\${mark}`);
+}
+
 const TRUESPACE = "[ \\t\\n\\r_]";
 const ESPSO = "[ \\t\\n\\r_-]*";
 
@@ -191,6 +201,11 @@ const INITIAL_RULES: Rule[] = [
   { type: TokenType.INSERT, match: lit("%insert") },
   { type: TokenType.HKERN, match: lit("%hkern") },
   { type: TokenType.VKERN, match: lit("%vkern") },
+  { type: TokenType.HAPLOGRAPHY, match: lit("%haplography") },
+  { type: TokenType.LACUNA, match: lit("%lacuna") },
+  // Longer than the one-character toggles "^" and "?", so they win on length.
+  { type: TokenType.RUNNING_HAPLOGRAPHY, match: runningLine("^") },
+  { type: TokenType.RUNNING_LACUNA, match: runningLine("?") },
   { type: TokenType.START_HIEROGLYPHS, match: lit("+s") },
   // A backslash escapes the next character ("\-" is a hyphen, "\\" a backslash), so that
   // "|a\\-" is the superscript "a\". The alternatives are exclusive: no backtracking ambiguity.
@@ -387,6 +402,14 @@ export class MdcLexer {
         return emit(MdcSymbolCode.HKERN);
       case TokenType.VKERN:
         return emit(MdcSymbolCode.VKERN);
+      case TokenType.HAPLOGRAPHY:
+        return emit(MdcSymbolCode.HAPLOGRAPHY);
+      case TokenType.LACUNA:
+        return emit(MdcSymbolCode.LACUNA);
+      case TokenType.RUNNING_HAPLOGRAPHY:
+        return emit(MdcSymbolCode.HAPLOGRAPHY, runningLineSize(text));
+      case TokenType.RUNNING_LACUNA:
+        return emit(MdcSymbolCode.LACUNA, runningLineSize(text));
       case TokenType.START_HIEROGLYPHS:
         return emit(MdcSymbolCode.START_HIEROGLYPHS);
       case TokenType.TEXT_SUPER:
@@ -540,6 +563,12 @@ export class MdcLexer {
 
 function digit(c: string): number {
   return c.charCodeAt(0) - 48;
+}
+
+/// The size of a legacy running line such as `^-..-..-^`: each dot is half a quadrat, so `n` dots
+/// give `n * 50` percents.
+function runningLineSize(text: string): number {
+  return [...text].filter((c) => c === ".").length * 50;
 }
 
 /// `buildHRule`: parses `"{" type start "," end "}"`.

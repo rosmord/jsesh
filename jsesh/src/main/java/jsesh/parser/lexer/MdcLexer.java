@@ -121,6 +121,10 @@ public final class MdcLexer {
             case INSERT -> emit(MdcSymbolCode.INSERT, null, text, start);
             case HKERN -> emit(MdcSymbolCode.HKERN, null, text, start);
             case VKERN -> emit(MdcSymbolCode.VKERN, null, text, start);
+            case HAPLOGRAPHY -> emit(MdcSymbolCode.HAPLOGRAPHY, null, text, start);
+            case LACUNA -> emit(MdcSymbolCode.LACUNA, null, text, start);
+            case RUNNING_HAPLOGRAPHY -> emit(MdcSymbolCode.HAPLOGRAPHY, runningLineSize(text), text, start);
+            case RUNNING_LACUNA -> emit(MdcSymbolCode.LACUNA, runningLineSize(text), text, start);
             case START_HIEROGLYPHS -> emit(MdcSymbolCode.START_HIEROGLYPHS, null, text, start);
             case TEXT_SUPER -> emit(MdcSymbolCode.TEXT_SUPER, text.substring(1), text, start);
             case WORD_END_CANDIDATE ->
@@ -225,6 +229,13 @@ public final class MdcLexer {
     }
 
     /// `buildHRule`: parses `"{" type start "," end "}"`.
+    /// The size of a legacy running line such as `^-..-..-^`: each dot is half a
+    /// quadrat, so `n` dots give `n * 50` percents.
+    private static Integer runningLineSize(String text) {
+        int dots = (int) text.chars().filter(c -> c == '.').count();
+        return dots * 50;
+    }
+
     private static HRule parseHRule(char type, String text) {
         int commaIndex = text.indexOf(',');
         int start = Integer.parseInt(text.substring(2, commaIndex));

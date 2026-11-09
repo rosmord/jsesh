@@ -25,6 +25,7 @@ public interface ModelElementVisitor {
 	void visitSuperScript(Superscript s);
 	void visitAbsoluteTab(AbsoluteTab t);
 	void visitTab(Tab t);
+	void visitRunningAnnotation(RunningAnnotation a);
 	void visitHieroglyphicText(HieroglyphicText t);
 	void visitLineBreak(LineBreak b);
 	void visitPageBreak(PageBreak b);

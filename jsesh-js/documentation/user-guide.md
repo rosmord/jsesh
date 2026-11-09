@@ -20,6 +20,7 @@ You don't need to know much of MdC to follow this documentation. A text is a str
 | `a&b` | `a` and `b` as a ligature | `&` makes a ligature. |
 | `%insert[dir=bs](D36,n:t)` | `n:t` tucked into the free space of `D36` | `%insert` fits a group inside the free space of a sign, whatever its shape. `dir` says where: `s`, `e` (start, end), `t`, `b` (top, bottom), `ts`, `bs`, `te`, `be` (corners) or `c` (center). `dw` and `dh` make room, in percent of the inserted group. The first argument is the target, the sign the group is inserted into; `target=2` makes the second one the target instead, so that the arguments stay in reading order: `%insert[dir=bs,target=2](n:t,D36)` is the same drawing as `%insert[dir=bs](D36,n:t)`. `dir`, `dw` and `dh` always apply to the target. |
 | `G17-%hkern-G1`, `p:%vkern:q` | the groups moved closer | `%hkern` and `%vkern` kern the groups on each side, so that their signs are about one inter-sign space apart where they are closest. `%hkern` works between the elements of a horizontal group (`p*%hkern*q`) and between quadrats in lines; `%vkern` between the lines of a quadrat and between quadrats in columns. Elsewhere, they are ignored. |
+| `A1-%haplography[size=200]-B1`, `A1-%lacuna[size=fill]-B1` | a line along the text | A *running annotation*: a solid line with an arrow head at each end (`%haplography`), or a dashed line (`%lacuna`), vertical in columns. `size` is a length in percent of a quadrat, or `fill`: the line then takes the rest of its line of text, or of its tab cell if the line has `%tab`. The old forms `^-..-..-^` and `?-..-..-?` (each dot is half a quadrat) are read as these. |
 | `!` | new line | |
 | `![align=center]` | new line, the line before it centred | The alignment of a line is written on the `!` which ends it: `start` (the default), `end`, `center` or `justify`. *Start* and *end* follow the direction of the text (in right-to-left text, *start* is on the right). Lines are aligned on the width of the page or of the zone if it has one, else on the longest line. A justified line is always stretched, except for the last part of a line wrapped by the layout. The last line, if it has no `!`, takes the alignment of the line before it. `!![align=...]` does the same for a page break. In columns, the same option aligns the column which the `!` ends (`start` is the top), on the height of the page or of the zone if it has one, else on the longest column. |
 
@@ -355,7 +356,7 @@ The editor types like JSesh does: you type a **code**, then a **separator** whic
 
 #### `<jsesh-editor>` reference
 
-**Attributes:** `mdc` (initial text; overrides the content), `cadrat-height` (height of a quadrat in pixels, 45 by default), `direction` (`ltr` or `rtl`), `orientation` (`horizontal` or `vertical`), `glyphs-url`, `show-kerning-marks` (shows `%hkern` and `%vkern` as marks, as a word processor shows paragraph marks; also the `showKerningMarks` property), `wrap-lines` (wraps the lines of horizontal text to the width of the editor, and follows its resizing; also the `wrapLines` property). The `jseshStyle` property takes any style change, as for `<jsesh-text>`.
+**Attributes:** `mdc` (initial text; overrides the content), `cadrat-height` (height of a quadrat in pixels, 45 by default), `direction` (`ltr` or `rtl`), `orientation` (`horizontal` or `vertical`), `glyphs-url`, `show-kerning-marks` (shows `%hkern` and `%vkern` as marks, as a word processor shows paragraph marks; also the `showKerningMarks` property), `show-tabs` (shows the dynamic tabs `%tab` as blue marks with the index of their stop; also the `showTabs` property), `wrap-lines` (wraps the lines of horizontal text to the width of the editor, and follows its resizing; also the `wrapLines` property). The `jseshStyle` property takes any style change, as for `<jsesh-text>`.
 
 **Properties and methods:**
 
@@ -366,6 +367,9 @@ The editor types like JSesh does: you type a **code**, then a **separator** whic
 | `insertSign(code)` | Insert a sign at the cursor, as if typed. |
 | `insertMdc(mdc)` | Insert MdC text at the cursor (replacing the selection). |
 | `group(separator)`, `cartouche()`, `toggleRed()` | Operate on the selection (or on what is before the cursor). |
+| `insertTab()` | Insert a dynamic tab (`%tab`) at the cursor. |
+| `moveTabToNextStop()`, `moveTabToPreviousStop()` | Move the tab near the cursor (the first one of the selection, else the one before the cursor, else the one after) to another tab stop. Return `false` if there is no such tab, or if it can't move back. |
+| `setTabAlignment(alignment)` | Set the alignment (`"START"`, `"CENTER"`, `"END"`, `"JUSTIFY"`) of the cell before that tab. Returns `false` if there is no such tab. |
 | `undo()`, `redo()` | |
 | `document()` | The text as a JSesh document (the content of a `.gly` file, with header). |
 | `cadratHeight` | Height of a quadrat, in pixels. |

@@ -10,6 +10,7 @@
 /// applies to its subviews. Coordinates are in points.
 
 import { ShadingCode, SymbolCodes } from "../model/constants.js";
+import { TabLine } from "../model/tab-line.js";
 import {
   AlphabeticCharacter,
   Cadrat,
@@ -21,7 +22,9 @@ import {
   ModelElementAdapter,
   PageBreak,
   Philology,
+  RunningAnnotation,
   Superscript,
+  Tab,
   TopItem,
   TopItemState,
   Zone,
@@ -40,6 +43,9 @@ import { displayString, type TextMeasurer } from "./text.js";
 import { Rect, type MDCView } from "./view.js";
 
 const f = Math.fround;
+
+/// The colour of the marks of dynamic tabs.
+const TAB_COLOR = "#1e64e6";
 
 export interface DrawContext {
   style: JSeshStyle;
@@ -62,6 +68,9 @@ export interface SvgOptions {
   /// Draw kerning operators as marks (as paragraph marks in a word processor). Meant for
   /// editors; false by default.
   showKerningMarks?: boolean;
+  /// Draw dynamic tabs (`%tab`) as marks: a blue line across the text at the tab stop, with the
+  /// index of the stop. Meant for editors; false by default.
+  showTabs?: boolean;
 }
 
 /// Draws a view tree (usually of a whole text) as an SVG document.
@@ -70,7 +79,7 @@ export function drawSvg(view: MDCView, context: DrawContext, options: SvgOptions
   const width = Math.ceil(view.width) + 2;
   const height = Math.ceil(view.height) + 2;
   const prefix = options.idPrefix ?? "jsesh";
-  const drawer = new SvgViewDrawer(context, prefix, options.showKerningMarks ?? false);
+  const drawer = new SvgViewDrawer(context, prefix, options.showKerningMarks ?? false, options.showTabs ?? false);
   const content = drawer.draw(view);
   const title = options.title === undefined ? "" : `<title>${escapeXml(options.title)}</title>`;
   const role = options.title === undefined ? ' aria-hidden="true"' : ' role="img"';
@@ -111,6 +120,7 @@ class SvgViewDrawer {
     context: DrawContext,
     private readonly prefix: string,
     readonly showKerningMarks: boolean,
+    readonly showTabs: boolean = false,
   ) {
     this.style = context.style;
     this.drawer = context.drawer;
@@ -396,6 +406,63 @@ class ElementDrawer extends ModelElementAdapter {
     const end = rtl ? 1 - h.startFraction() : h.endFraction();
     const d = new PathBuilder().line(start * w, 0, end * w, 0);
     this.out += strokedPath(d, this.color, h.type === "L" ? g.wideLineWidth : g.fineLineWidth);
+  }
+
+  /// Draws a running annotation: a line along the text, across the middle of its view. An
+  /// haplography has an arrow head at each end, and a lacuna is dashed. In columns, the line is
+  /// vertical.
+  override visitRunningAnnotation(a: RunningAnnotation): void {
+    if (!this.postfix) return;
+    const g = this.d.s.geometry;
+    const horizontal = (this.view.orientation ?? this.d.s.options.textOrientation) === "HORIZONTAL";
+    const length = horizontal ? this.view.width : this.view.height;
+    const across = (horizontal ? this.view.height : this.view.width) / 2;
+    if (length <= 0) return;
+    // Coordinates are (along, across); swapped for columns.
+    const point = (along: number, cross: number): [number, number] => (horizontal ? [along, cross] : [cross, along]);
+    const d = new PathBuilder();
+    const line = (a1: number, c1: number, a2: number, c2: number) => d.line(...point(a1, c1), ...point(a2, c2));
+    if (a.kind === "HAPLOGRAPHY") {
+      const head = Math.min(g.maxCadratHeight / 5, length / 2);
+      line(0, across, length, across);
+      d.moveTo(...point(head, across - head / 2)).lineTo(...point(0, across)).lineTo(...point(head, across + head / 2));
+      d.moveTo(...point(length - head, across - head / 2))
+        .lineTo(...point(length, across))
+        .lineTo(...point(length - head, across + head / 2));
+      this.out += strokedPath(d, this.color, g.fineLineWidth);
+    } else {
+      const dash = Math.max(g.fineLineWidth * 4, g.maxCadratHeight / 20);
+      line(0, across, length, across);
+      this.out +=
+        `<path d="${d}" fill="none" stroke="${this.color}" stroke-width="${num(g.fineLineWidth)}" ` +
+        `stroke-dasharray="${num(dash)} ${num(dash)}" stroke-miterlimit="10"/>`;
+    }
+  }
+
+  /// Dynamic tabs are invisible, unless tabs are shown. The mark is a blue line across the line
+  /// (or column) at the tab stop, with a small flag towards the text which follows, and the stop
+  /// index just above the line (or on the left of the column), where the signs don't hide it.
+  override visitTab(tab: Tab): void {
+    if (!this.postfix || !this.d.showTabs) return;
+    const style = this.d.s;
+    const g = style.geometry;
+    const horizontal = (this.view.orientation ?? style.options.textOrientation) === "HORIZONTAL";
+    const quadrat = g.maxCadratHeight;
+    const length = horizontal ? quadrat : g.maxCadratWidth;
+    const flag = quadrat / 8;
+    const rtl = horizontal && (this.view.direction ?? style.options.textDirection) === "RIGHT_TO_LEFT";
+    const dir = rtl ? -1 : 1;
+    const d = new PathBuilder();
+    if (horizontal) d.line(0, 0, 0, length).line(0, 0, flag * dir, 0);
+    else d.line(0, 0, length, 0).line(0, 0, 0, flag);
+    const color = TAB_COLOR;
+    this.out += strokedPath(d, color, g.fineLineWidth);
+    const size = quadrat / 4;
+    const font = `font:${escapeXml(cssFont({ family: "sans-serif", size }))}`;
+    const label = escapeXml(String(TabLine.stopIndexOf(tab)));
+    // The index is outside the line (or column), so that the signs don't hide it.
+    const [x, y, anchor] = horizontal ? [0, -size * 0.2, dir > 0 ? "start" : "end"] : [-flag / 4, size * 0.8, "end"];
+    this.out += `<text x="${num(x)}" y="${num(y)}" fill="${color}" text-anchor="${anchor}" style="${font}">${label}</text>`;
   }
 
   /// A page break which doesn't start a new page is a line across the page.

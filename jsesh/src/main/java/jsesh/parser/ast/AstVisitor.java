@@ -54,6 +54,8 @@ public interface AstVisitor {
 
     void visitTab(AstTab node);
 
+    void visitRunningAnnotation(AstRunningAnnotation node);
+
     void visitSuperscript(AstSuperscript node);
 
     void visitToggle(AstToggle node);

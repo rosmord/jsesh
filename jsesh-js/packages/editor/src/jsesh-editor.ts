@@ -17,7 +17,8 @@
 /// Attributes: `mdc`, `cadrat-height` (height of a quadrat in pixels, 45 by
 /// default), `direction` (`ltr` or `rtl`), `orientation` (`horizontal` or
 /// `vertical`), `glyphs-url`, `show-kerning-marks` (a boolean attribute: show the
-/// kerning operators `%hkern` and `%vkern` as marks), `wrap-lines` (a boolean
+/// kerning operators `%hkern` and `%vkern` as marks), `show-tabs` (a boolean attribute: show the
+/// dynamic tabs `%tab` as blue marks, with the index of their stop), `wrap-lines` (a boolean
 /// attribute: wrap the lines of horizontal text to the width of the editor, and
 /// follow its resizing). The `jseshStyle` property
 /// takes any style change.
@@ -44,7 +45,7 @@
 /// which is available as the `session` property: use it to build your own
 /// toolbar.
 
-import type { StyleChanges } from "@jsesh/core";
+import type { LineAlignment, StyleChanges } from "@jsesh/core";
 import { resolveGlyphsUrl } from "@jsesh/elements";
 import { loadSignDatabase } from "@jsesh/glyphs";
 import { EDITOR_VIEW_CSS, EditorView } from "./view.js";
@@ -76,6 +77,7 @@ export class JSeshEditorElement extends HTMLElement {
     "orientation",
     "glyphs-url",
     "show-kerning-marks",
+    "show-tabs",
     "wrap-lines",
   ];
 
@@ -138,6 +140,15 @@ export class JSeshEditorElement extends HTMLElement {
     this.toggleAttribute("show-kerning-marks", show);
   }
 
+  /// Show dynamic tabs as marks (the `show-tabs` attribute).
+  get showTabs(): boolean {
+    return this.hasAttribute("show-tabs");
+  }
+
+  set showTabs(show: boolean) {
+    this.toggleAttribute("show-tabs", show);
+  }
+
   /// Wrap lines to the width of the editor (the `wrap-lines` attribute).
   get wrapLines(): boolean {
     return this.hasAttribute("wrap-lines");
@@ -183,6 +194,28 @@ export class JSeshEditorElement extends HTMLElement {
     this.session.toggleRed();
   }
 
+  /// Inserts a dynamic tab (`%tab`) at the cursor.
+  insertTab(): void {
+    this.session.insertTab();
+  }
+
+  /// Moves the tab near the cursor to the next tab stop. Returns false if there is no such tab.
+  moveTabToNextStop(): boolean {
+    return this.session.moveTabToNextStop();
+  }
+
+  /// Moves the tab near the cursor to the previous tab stop. Returns false if there is no such
+  /// tab, or if it can't move back.
+  moveTabToPreviousStop(): boolean {
+    return this.session.moveTabToPreviousStop();
+  }
+
+  /// Sets the alignment of the cell before the tab near the cursor (`START`, `CENTER`, `END` or
+  /// `JUSTIFY`). Returns false if there is no such tab.
+  setTabAlignment(alignment: LineAlignment): boolean {
+    return this.session.setTabAlignment(alignment);
+  }
+
   undo(): void {
     this.session.undo();
   }
@@ -210,6 +243,7 @@ export class JSeshEditorElement extends HTMLElement {
       style: this._style,
       glyphsUrl: this.getAttribute("glyphs-url") ?? undefined,
       showKerningMarks: this.showKerningMarks,
+      showTabs: this.showTabs,
       wrapLines: this.wrapLines,
       onError: (error) => this.dispatchEvent(new CustomEvent("jsesh-error", { detail: error })),
     });
@@ -254,6 +288,9 @@ export class JSeshEditorElement extends HTMLElement {
         break;
       case "show-kerning-marks":
         if (this.view !== undefined) this.view.showKerningMarks = value !== null;
+        break;
+      case "show-tabs":
+        if (this.view !== undefined) this.view.showTabs = value !== null;
         break;
       case "wrap-lines":
         if (this.view !== undefined) this.view.wrapLines = value !== null;

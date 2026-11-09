@@ -25,6 +25,7 @@ import {
   type HieroglyphicText,
   type Hieroglyph,
   HRule,
+  RunningAnnotation,
   type Insert,
   type Kerning,
   type Ligature,
@@ -728,6 +729,22 @@ class LayoutAux extends ModelElementAdapter {
     if (this.l.orientation === "HORIZONTAL" && isWrapping(g)) width = Math.max(width, maxLineWidth(g));
     this.l.v.width = f(width);
     this.l.v.height = this.l.s.geometry.wideLineWidth;
+  }
+
+  /// A running annotation is a line along the text: `percent` % of a quadrat long, and one
+  /// quadrat across. With `size=fill` its natural length is 0, and it is stretched by
+  /// [FillLayout] (to the rest of its line, or of its tab cell).
+  override visitRunningAnnotation(a: RunningAnnotation): void {
+    const g = this.l.s.geometry;
+    const length = a.fill ? 0 : f(a.percent * zoneLengthUnit(this.l.s));
+    if (this.l.orientation === "HORIZONTAL") {
+      this.l.v.width = length;
+      this.l.v.height = g.maxCadratHeight;
+    } else {
+      this.l.v.width = g.maxCadratWidth;
+      this.l.v.height = length;
+    }
+    if (a.fill) this.l.v.naturalLength = 0;
   }
 
   /// Layout of an insertion: the inserted group is fitted into the free space of the main sign,
@@ -1634,7 +1651,9 @@ interface TabbedLine {
 ///    pushes it to its start, plus its size, plus the tab gap. A stop is never before the
 ///    previous one. An empty cell doesn't push anything.
 /// 2. each cell is moved, as a block, to its interval: from its start stop to its end stop minus
-///    the gap; for the last cell of a line, from its start stop to the end of the table.
+///    the gap; for the last cell of a line, from its start stop to the end of the table. The
+///    running annotations which fill (`%haplography[size=fill]`) then take the rest of the
+///    interval ([FillLayout.fillCell]).
 ///
 /// Positions are along the x axis for lines, the y axis for columns, and are always computed from
 /// the start of the line.
@@ -1644,6 +1663,8 @@ class TabLayout {
   constructor(
     private readonly vertical: boolean,
     private readonly gap: number,
+    /// Makes the running annotations which fill take the rest of their cell, if given.
+    private readonly fill?: FillLayout,
   ) {}
 
   /// Computes the tab stops of the lines and places their cells.
@@ -1670,7 +1691,10 @@ class TabLayout {
         const cellEnd = isLast ? end : tabPos[c.endTab]! - this.gap;
         const length = Math.max(cellEnd - start, this.size(c));
         const alignment = isLast ? l.lastCellAlignment : c.alignment;
-        placeUnits(c.units, alignment, l.origin + start, length, this.vertical);
+        // A cell with an annotation which fills is full: no alignment needed.
+        if (this.fill === undefined || !this.fill.fillCell(c.units, l.origin + start, length)) {
+          placeUnits(c.units, alignment, l.origin + start, length, this.vertical);
+        }
       }
       l.line.placeTabViews(l.origin, tabPos, this.vertical);
     });
@@ -1721,6 +1745,10 @@ const FILL_EPSILON = 1e-2;
 /// Port of `FillLayout`: stretches the zones which fill their line (`%zone[fill=yes]`) in the
 /// lines (or columns) of a text or a zone. Shared by [LineLayout] and [ColumnLayout].
 ///
+/// The running annotations with `size=fill` (see [RunningAnnotation]) are filling views too: they
+/// are simply made longer, as they have no content to lay out again. Unlike zones, they are also
+/// stretched in the lines with tabs: [fillCell] makes them fill their tab cell.
+///
 /// 1. Before a view is placed, [prepare] gives a fill zone its natural length: a zone stretched
 ///    by a previous layout of the same views must not change where the lines are wrapped.
 /// 2. At the end of the layout, before the alignment of the lines, [fillLine] shares the free
@@ -1743,6 +1771,69 @@ class FillLayout {
     readonly stretches: boolean,
   ) {}
 
+  /// Is the view a running annotation which fills (`size=fill`)?
+  private static isFillingAnnotation(view: MDCView): boolean {
+    return view.isFilling && view.model instanceof RunningAnnotation;
+  }
+
+  /// Gives a filling view a new length: a zone is laid out again, an annotation is simply made
+  /// longer.
+  private resize(view: MDCView, length: number): void {
+    if (view.model instanceof Zone) this.filler(view, length);
+    else this.setLength(view, length);
+  }
+
+  /// How far the end of the filling views goes beyond the visible content of the line. A zone is
+  /// visible, so this is never positive for it. An annotation has no length before it is
+  /// stretched, so it is invisible, and the space before it (a gap) has to be taken from what it
+  /// can fill.
+  private overhang(line: LineAccumulator): number {
+    const bounds = this.vertical ? line.visibleVerticalBounds(0, 0) : line.visibleBounds(0, 0);
+    if (bounds === null) return 0;
+    const visibleEnd = this.vertical ? bounds.maxY : bounds.maxX;
+    let overhang = 0;
+    for (const view of line.getViews()) {
+      if (FillLayout.isFillingAnnotation(view)) {
+        const start = this.vertical ? view.position.y : view.position.x;
+        overhang = Math.max(overhang, start + view.naturalLength - visibleEnd);
+      }
+    }
+    return overhang;
+  }
+
+  /// Makes the running annotations which fill (`size=fill`) take the rest of a tab cell, and
+  /// moves the views which follow them. The cell is first moved to its start; the free length is
+  /// then what is left up to its end, shared equally between the annotations. Zones which fill
+  /// are left alone (they are ignored in the lines with tabs).
+  ///
+  /// `units` are the units of the cell, as the line accumulator holds them; `start` is where the
+  /// cell starts, in the coordinates of the line; `length` the length of the cell. Returns true
+  /// if the cell has an annotation which fills (so that it has been placed, and needs no
+  /// alignment).
+  fillCell(units: MDCView[][], start: number, length: number): boolean {
+    if (!this.stretches) return false;
+    const views = units.flat();
+    const filling = views.filter((v) => FillLayout.isFillingAnnotation(v));
+    if (filling.length === 0) return false;
+    let first = Infinity;
+    for (const view of views) first = Math.min(first, this.coordinate(view));
+    for (const view of views) this.move(view, start - first);
+    let end = -Infinity;
+    for (const view of views) end = Math.max(end, this.coordinate(view) + this.length(view));
+    const share = Math.max(0, start + length - end) / filling.length;
+    let growth = 0;
+    for (const view of views) {
+      if (growth !== 0) this.move(view, growth);
+      if (filling.includes(view)) {
+        this.laidOutLengths.delete(view);
+        const target = view.naturalLength + (share > FILL_EPSILON ? share : 0);
+        this.setLength(view, target);
+        growth += target - view.naturalLength;
+      }
+    }
+    return true;
+  }
+
   /// Gives a fill zone its natural length before it is placed in its line.
   prepare(view: MDCView): void {
     if (!view.isFilling) return;
@@ -1759,7 +1850,7 @@ class FillLayout {
     const views = line.getViews();
     const count = views.filter((v) => v.isFilling).length;
     if (count === 0) return false;
-    const share = Math.max(0, free) / count;
+    const share = Math.max(0, free - this.overhang(line)) / count;
     let growth = 0;
     let changed = false;
     for (const view of views) {
@@ -1773,7 +1864,7 @@ class FillLayout {
         // Already laid out at this length.
         this.setLength(view, laidOut);
       } else if (laidOut !== undefined || target > natural) {
-        this.filler(view, target);
+        this.resize(view, target);
       }
       const viewGrowth = this.length(view) - natural;
       changed ||= viewGrowth !== 0;
@@ -1785,12 +1876,16 @@ class FillLayout {
   /// Gives back their natural size to the zones placed at their natural length by [prepare] and
   /// not stretched since.
   finish(): void {
-    for (const view of this.laidOutLengths.keys()) this.filler(view, view.naturalLength);
+    for (const view of this.laidOutLengths.keys()) this.resize(view, view.naturalLength);
     this.laidOutLengths.clear();
   }
 
   private length(v: MDCView): number {
     return this.vertical ? v.height : v.width;
+  }
+
+  private coordinate(v: MDCView): number {
+    return this.vertical ? v.position.y : v.position.x;
   }
 
   private setLength(v: MDCView, length: number): void {
@@ -2126,7 +2221,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     });
     if (lines.length === 0) return;
     const available = isWrapping(g) ? this.maxLineWidth() : 0;
-    new TabLayout(false, this.tabGap).apply(lines, available, untabbedWidth);
+    new TabLayout(false, this.tabGap, this.fillLayout).apply(lines, available, untabbedWidth);
     for (const l of this.alignedLines) {
       if (!this.tabbedLines.has(l.line)) continue;
       const bounds = l.line.visibleBounds(l.top, l.height);
@@ -2348,7 +2443,8 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
 
   override visitDefault(_t: ModelElement): void {
     let dx = 0;
-    if (this.subView.width !== 0) dx = f(this.subView.width + this.style.geometry.smallSkip);
+    // A view which fills has no width yet (a running annotation), but takes its gap.
+    if (this.subView.width !== 0 || this.subView.isFilling) dx = f(this.subView.width + this.style.geometry.smallSkip);
     // A kerned element stays with the previous one: no wrapping before it.
     if (
       kerningOf(this.subView) === undefined &&
@@ -2481,7 +2577,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
       }
     });
     if (columns.length === 0) return;
-    new TabLayout(true, this.tabGap).apply(columns, maxColumnHeight(this.style.geometry), untabbedHeight);
+    new TabLayout(true, this.tabGap, this.fillLayout).apply(columns, maxColumnHeight(this.style.geometry), untabbedHeight);
     for (const c of this.placedColumns) {
       if (!this.tabbedColumns.has(c.column)) continue;
       const bounds = c.column.visibleVerticalBounds(c.left, c.width);
@@ -2590,7 +2686,10 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
 
   override visitDefault(_t: ModelElement): void {
     if (!this.kerning.add(this.zone, this.subView)) return;
-    if (this.subView.height !== 0) this.zone.moveCurrentPoint(0, this.subView.height + this.style.geometry.columnQuadratSkip);
+    // A view which fills has no height yet (a running annotation), but takes its gap.
+    if (this.subView.height !== 0 || this.subView.isFilling) {
+      this.zone.moveCurrentPoint(0, this.subView.height + this.style.geometry.columnQuadratSkip);
+    }
   }
 }
 

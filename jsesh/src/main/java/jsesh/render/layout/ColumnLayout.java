@@ -235,7 +235,7 @@ public class ColumnLayout extends TopItemLayout {
 		if (columns.isEmpty()) {
 			return;
 		}
-		new TabLayout(true, tabGap()).apply(columns, jseshStyle.geometry().maxColumnHeight(), untabbedHeight);
+		new TabLayout(true, tabGap(), fillLayout()).apply(columns, jseshStyle.geometry().maxColumnHeight(), untabbedHeight);
 		for (PlacedColumn c : placedColumns) {
 			if (tabbedColumns.contains(c.column())) {
 				Rectangle2D bounds = c.column().visibleVerticalBounds(c.left(), c.width());
@@ -476,7 +476,8 @@ public class ColumnLayout extends TopItemLayout {
 			// Compute the position of the following view.
 			// prepare a small skip after v, if necessary
 			// the skip is "integrated" in v,
-			if (subView.getHeight() != 0) {
+			// A view which fills has no height yet (a running annotation), but takes its gap.
+			if (subView.getHeight() != 0 || subView.isFilling()) {
 				zone.moveCurrentPoint(0, subView.getHeight()
 						+ jseshStyle.geometry().columnQuadratSkip());
 			}

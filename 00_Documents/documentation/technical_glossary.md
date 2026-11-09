@@ -28,7 +28,7 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   wrap in zone
 - [Text and model](#text-and-model): quadrat, hbox, inner group, ligature, insert,
   overwrite, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
-  column), zone, layout settings, unit, document header, scope, position, range,
+  column), running annotation, zone, layout settings, unit, document header, scope, position, range,
   mark, caret granularity, alphabetic text, superscript
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
 - [Signs and fonts](#signs-and-fonts): Gardiner code, phonetic code, shape repository,
@@ -317,14 +317,26 @@ skipped.
 
 Laid out only in zones (`TabLayout`, called by `LineLayout` and `ColumnLayout` at the end of
 the layout, before line alignment); ignored in the main text, and after the first soft
-wrap of a logical line. Not yet in the JS port. `TabLine` gives the stop index of a tab in
+wrap of a logical line. Also in the JS port. `TabLine` gives the stop index of a tab in
 the model, and moves a tab to another stop (editor: Text > Tabs; View > Show Tabs). Spec and progress in todo 0131. Not to be
 confused with the absolute tab `?N`.
+
+### Running annotation (haplography, lacuna)
+
+`RunningAnnotation` (`%haplography[size=200]`, `%lacuna[size=fill]`, kind
+`RunningAnnotationKind`): a line drawn along the text (vertical in columns) to mark a stretch
+of it. An *haplography* (running variant) has an arrow at each end; a *lacuna* (running
+lacuna) is dashed. A `TopItem`, one quadrat across. `size` is a length in percent of a
+quadrat, or `fill`: it then takes the rest of its line, or of its **tab cell** if the line has
+tabs (`FillLayout.fillCell`, called by `TabLayout`), without pushing the tab stop. Read from the
+legacy `^-..-..-^` and `?-..-..-?` (each dot is half a quadrat). Not a *fill zone*: that one is
+ignored in tabbed lines. Rules in [manuel-de-codage.md](manuel-de-codage.md) §10.3.
 
 ### Top item
 
 `TopItem`: an item of the text itself, between two `-`: a quadrat, a cartouche, a line or
-page break, a zone, an absolute tab, a tab, a superscript, a rule, a comment.
+page break, a zone, an absolute tab, a tab, a running annotation, a superscript, a rule, a
+comment.
 
 ### Zone
 
@@ -359,6 +371,7 @@ parent in columns), not of the zone's own text. Rules in
 - When the text is laid out again from the same views (the editor, after an edit),
   `FillLayout.prepare` places the zone at its natural length first, so that the wrapping of
   the lines doesn't depend on the previous fill.
+- A running annotation with `size=fill` is a filling view too ([running annotation](#running-annotation-haplography-lacuna)): `FillLayout` just makes it longer (no content to build again).
 - Not to be confused with *fitting* ([lone sign fitting](#lone-sign-fitting)), nor with
   the `.f`/`.h`/`.v` fillers of MacScribe (todo 0160).
 

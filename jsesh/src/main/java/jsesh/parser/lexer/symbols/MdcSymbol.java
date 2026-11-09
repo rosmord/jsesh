@@ -15,6 +15,8 @@ import java.util.Objects;
 /// produce which code, and the per-code javadoc below for the value's type:
 ///  - [MdcSymbolCode#LINE_END], [MdcSymbolCode#ABSOLUTE_TAB], [MdcSymbolCode#INTEGER] - [Integer]
 ///  - [MdcSymbolCode#HRULE] - [HRule]
+///  - [MdcSymbolCode#HAPLOGRAPHY], [MdcSymbolCode#LACUNA] - [Integer] (the size in percents of a
+///    quadrat) for the legacy `^-..-^` and `?-..-?` forms, `null` for `%haplography` and `%lacuna`
 ///  - [MdcSymbolCode#BEGIN_OLD_CARTOUCHE] - [OldCartoucheStart]
 ///  - [MdcSymbolCode#BEGIN_CARTOUCHE], [MdcSymbolCode#END_CARTOUCHE] - [Cartouche]
 ///  - [MdcSymbolCode#BEGIN_PHIL], [MdcSymbolCode#END_PHIL] - [PhilologyKind]

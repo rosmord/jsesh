@@ -81,6 +81,7 @@ import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.help.JSeshTutorialsAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.EditZoneAction;
+import jsesh.jhotdraw.actions.text.InsertRunningAnnotationAction;
 import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
 import jsesh.jhotdraw.actions.view.ToggleKerningMarksAction;
 import jsesh.jhotdraw.actions.view.ToggleLineBreakMarksAction;
@@ -158,6 +159,10 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                                 JSeshApplicationActionsID.INSERT_VERTICAL_KERNING);
                 insertMenu.addSeparator();
                 insertMenu.add(buildTabMenu(app, view));
+                insertMenu.addSeparator();
+
+                addToMenu(insertMenu, app, view, InsertRunningAnnotationAction.HAPLOGRAPHY_ID);
+                addToMenu(insertMenu, app, view, InsertRunningAnnotationAction.LACUNA_ID);
                 insertMenu.addSeparator();
 
                 insertMenu.add(map.get(InsertNextLineNumberAction.ID));

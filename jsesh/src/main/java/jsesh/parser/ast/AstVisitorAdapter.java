@@ -116,6 +116,11 @@ public class AstVisitorAdapter implements AstVisitor {
     }
 
     @Override
+    public void visitRunningAnnotation(AstRunningAnnotation node) {
+        visitDefault(node);
+    }
+
+    @Override
     public void visitSuperscript(AstSuperscript node) {
         visitDefault(node);
     }

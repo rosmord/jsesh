@@ -45,6 +45,14 @@ enum MdcTokenType {
     HKERN,
     /// `"%vkern"`
     VKERN,
+    /// `"%haplography"`
+    HAPLOGRAPHY,
+    /// `"%lacuna"`
+    LACUNA,
+    /// Legacy `"^-"{DOTS}("-"{DOTS})*"-^"`, where `{DOTS}` is `"."` or `".."`: a running variant.
+    RUNNING_HAPLOGRAPHY,
+    /// Legacy `"?-"{DOTS}("-"{DOTS})*"-?"`: a running lacuna.
+    RUNNING_LACUNA,
     /// `"+s"`
     START_HIEROGLYPHS,
     /// `"|"([^-]|"\-")*` (the redundant `'\\'` alternative is dropped, see [MdcLexicon])

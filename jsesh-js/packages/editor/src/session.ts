@@ -16,12 +16,15 @@ import {
   DEFAULT_DOCUMENT_PREFERENCES,
   HieroglyphicText,
   parseMdc,
+  Tab,
   toMdc,
   writeMdcDocument,
+  type LineAlignment,
   type StyleChanges,
   type TopItem,
 } from "@jsesh/core";
 import { LogicalArrowKeyPolicy, type ArrowKeyPolicy } from "./arrows.js";
+import { editTabLine, moveTabChange, type TabLineChange } from "./tabs.js";
 
 /// What the session needs to know about a key press. A DOM `KeyboardEvent` fits.
 export interface KeyInput {
@@ -242,6 +245,66 @@ export class EditorSession {
     const red = !items[0].isRed;
     for (const item of items) item.state.isRed = red;
     this.changed();
+  }
+
+  // ---- Dynamic tabs (`%tab`)
+  //
+  // Tabs are laid out in zones only; in the top-level text they are read, saved and ignored. The
+  // commands work on the top-level items, which is where the cursor is.
+
+  /// Inserts a dynamic tab (`%tab`) at the cursor (replacing the selection).
+  insertTab(): void {
+    if (this._code !== "") this.acceptSeparator(" ");
+    this.saveForUndo();
+    this.replaceSelection([new Tab()]);
+    this.clearCode();
+    this.changed();
+  }
+
+  /// Moves the tab near the cursor to the next tab stop: the following tabs of the line move
+  /// forward too if needed. The tab is the first one in the selection, or else the one just
+  /// before the cursor, or else the one just after it. Returns false if there is no such tab.
+  moveTabToNextStop(): boolean {
+    return this.changeTabLine(moveTabChange(1));
+  }
+
+  /// Moves the tab near the cursor to the previous tab stop (see `moveTabToNextStop`). Returns
+  /// false if there is no tab near the cursor, or if it can't move back (it would reach the stop
+  /// of the previous tab, or stop 0).
+  moveTabToPreviousStop(): boolean {
+    return this.changeTabLine(moveTabChange(-1));
+  }
+
+  /// Sets the alignment of the cell before the tab near the cursor (the tab is found as for
+  /// `moveTabToNextStop`). Returns false if there is no tab near the cursor, or if it already
+  /// has this alignment.
+  setTabAlignment(alignment: LineAlignment): boolean {
+    return this.changeTabLine((line, position) => {
+      const tab = line[position] as Tab;
+      if (tab.alignment === alignment) return undefined;
+      const result = [...line];
+      result[position] = tab.withAlignment(alignment);
+      return result;
+    });
+  }
+
+  /// Applies a change to the line of the tab near the cursor. The change is undone in one step,
+  /// and the cursor and the selection stay. Returns false if nothing was changed.
+  private changeTabLine(change: TabLineChange): boolean {
+    if (this._code !== "") this.acceptSeparator(" ");
+    const edit = editTabLine(this._text.topItems, this._caret, this._mark, change);
+    if (edit === undefined) return false;
+    const line = this._text.topItems.slice(edit.start, edit.end);
+    this.saveForUndo();
+    // The items which are the same objects stay where they are.
+    edit.items.forEach((item, i) => {
+      if (item === line[i]) return;
+      this._text.removeItems(edit.start + i, edit.start + i + 1);
+      this._text.insertItemsAt(edit.start + i, [item]);
+    });
+    this._separator = " ";
+    this.changed();
+    return true;
   }
 
   undo(): void {

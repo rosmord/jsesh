@@ -219,3 +219,70 @@ describe("geometry", () => {
     expect(caretArea([], 0, flow, 20, 6)).toMatchObject({ x: 6, y: 6, height: 20 });
   });
 });
+
+describe("EditorSession dynamic tabs", () => {
+  const session = (mdc: string, caret?: number) => {
+    const s = new EditorSession();
+    s.setMdc(mdc, { undoable: false });
+    if (caret !== undefined) s.moveCaret(caret);
+    return s;
+  };
+
+  it("inserts a tab at the cursor", () => {
+    const s = session("A1-B1", 1);
+    s.insertTab();
+    expect(s.state.mdc).toBe("A1-%tab-B1");
+    expect(s.state.caret).toBe(2);
+    s.undo();
+    expect(s.state.mdc).toBe("A1-B1");
+  });
+
+  it("moves the tab before the cursor to the next stop, in one undoable step", () => {
+    const s = session("A1-%tab-B1", 2);
+    expect(s.moveTabToNextStop()).toBe(true);
+    expect(s.state.mdc).toBe("A1-%tab[n=2]-B1");
+    // The cursor stays.
+    expect(s.state.caret).toBe(2);
+    s.undo();
+    expect(s.state.mdc).toBe("A1-%tab-B1");
+  });
+
+  it("finds the tab just after the cursor, or the first one in the selection", () => {
+    const after = session("A1-%tab-B1", 1);
+    expect(after.moveTabToNextStop()).toBe(true);
+    expect(after.state.mdc).toBe("A1-%tab[n=2]-B1");
+    const selected = session("%tab-A1-%tab-B1", 4);
+    selected.handleKey({ key: "ArrowLeft", shiftKey: true });
+    selected.handleKey({ key: "ArrowLeft", shiftKey: true });
+    selected.handleKey({ key: "ArrowLeft", shiftKey: true });
+    selected.handleKey({ key: "ArrowLeft", shiftKey: true });
+    expect(selected.moveTabToNextStop()).toBe(true);
+    // The first tab of the selection is the one moved.
+    expect(selected.state.mdc).toBe("%tab[n=2]-A1-%tab-B1");
+  });
+
+  it("only works on the line of the tab", () => {
+    const s = session("%tab-A1-!%tab-B1", 1);
+    expect(s.moveTabToNextStop()).toBe(true);
+    expect(s.state.mdc).toBe("%tab[n=2]-A1-!\n%tab-B1");
+  });
+
+  it("does nothing, and says so, without a tab near the cursor, or if the tab can't move", () => {
+    const s = session("A1-B1-%tab", 1);
+    expect(s.moveTabToNextStop()).toBe(false);
+    expect(s.state.canUndo).toBe(false);
+    const first = session("%tab-A1", 1);
+    expect(first.moveTabToPreviousStop()).toBe(false);
+    expect(first.state.canUndo).toBe(false);
+  });
+
+  it("sets the alignment of the cell before the tab", () => {
+    const s = session("A1-%tab-B1", 2);
+    expect(s.setTabAlignment("END")).toBe(true);
+    expect(s.state.mdc).toBe("A1-%tab[align=end]-B1");
+    // Already so: nothing changes.
+    expect(s.setTabAlignment("END")).toBe(false);
+    expect(s.setTabAlignment("START")).toBe(true);
+    expect(s.state.mdc).toBe("A1-%tab-B1");
+  });
+});

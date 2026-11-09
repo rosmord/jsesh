@@ -51,6 +51,7 @@ import jsesh.model.ShadingCode;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.AbsoluteTab;
+import jsesh.model.RunningAnnotation;
 import jsesh.model.Tab;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
@@ -476,6 +477,13 @@ public class MdCModelWriter {
 			if (!options.isEmpty()) {
 				write("[" + String.join(",", options) + "]");
 			}
+		}
+
+		/// Writes `%haplography[size=200]` or `%lacuna[size=fill]`. The size is
+		/// always written, to be explicit.
+		@Override
+		public void visitRunningAnnotation(RunningAnnotation a) {
+			write("%" + a.getKind().mdcName() + "[size=" + (a.isFill() ? "fill" : a.getPercent()) + "]");
 		}
 
 		/**

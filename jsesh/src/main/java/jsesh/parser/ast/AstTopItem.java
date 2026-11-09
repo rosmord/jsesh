@@ -12,12 +12,12 @@ package jsesh.parser.ast;
 ///
 /// Top items are the basic items (see [AstBasicItem]), plus the constructs
 /// which only make sense at top level: superscripts, line and page breaks,
-/// tabulations, horizontal rules and zones.
+/// tabulations, horizontal rules, running annotations and zones.
 ///
 /// Sealed, so a consumer can exhaustively `switch` over the items of a list.
 ///
 /// @author rosmord
 public sealed interface AstTopItem extends AstNode
         permits AstBasicItem, AstSuperscript, AstLineBreak, AstPageBreak, AstAbsoluteTab,
-        AstTab, AstHRule, AstZone {
+        AstTab, AstHRule, AstZone, AstRunningAnnotation {
 }

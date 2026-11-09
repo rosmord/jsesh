@@ -143,6 +143,11 @@ public class ModelElementAdapter implements ModelElementVisitor {
 		visitDefault(t);
 	}
 
+	@Override
+	public void visitRunningAnnotation(RunningAnnotation a) {
+		visitDefault(a);
+	}
+
 	/**
 	 * @see jsesh.model.ModelElementVisitor#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 	 */

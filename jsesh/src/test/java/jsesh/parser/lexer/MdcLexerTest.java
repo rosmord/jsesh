@@ -348,4 +348,75 @@ class MdcLexerTest {
         assertEquals(List.of(MdcSymbolCode.TOGGLE), codesOf("^"));
     }
 
+
+    // ---- Running annotations ----
+
+    @Test
+    void runningAnnotationKeywordsWinOverGenericSignCode() {
+        assertEquals(List.of(MdcSymbolCode.HAPLOGRAPHY), codesOf("%haplography"));
+        assertEquals(List.of(MdcSymbolCode.LACUNA), codesOf("%lacuna"));
+        assertEquals(null, scanAll("%haplography").get(0).value());
+        // "@" is for user signs: it is not a prefix of the keywords.
+        assertEquals(List.of(MdcSymbolCode.HIEROGLYPH), codesOf("@haplography"));
+    }
+
+    @Test
+    void legacyRunningVariantIsOneSymbolWithItsSize() {
+        List<MdcSymbol> symbols = scanAll("^-..-..-^");
+
+        assertEquals(1, symbols.size());
+        assertEquals(MdcSymbolCode.HAPLOGRAPHY, symbols.get(0).code());
+        assertEquals(200, symbols.get(0).value());
+        assertEquals("^-..-..-^", symbols.get(0).text());
+    }
+
+    @Test
+    void legacyRunningLacunaIsOneSymbolWithItsSize() {
+        List<MdcSymbol> symbols = scanAll("?-..-..-..-?");
+
+        assertEquals(1, symbols.size());
+        assertEquals(MdcSymbolCode.LACUNA, symbols.get(0).code());
+        assertEquals(300, symbols.get(0).value());
+    }
+
+    @Test
+    void eachDotIsHalfAQuadrat() {
+        assertEquals(50, scanAll("^-.-^").get(0).value());
+        assertEquals(100, scanAll("?-..-?").get(0).value());
+        assertEquals(150, scanAll("?-.-..-?").get(0).value());
+        assertEquals(150, scanAll("^-..-.-^").get(0).value());
+    }
+
+    @Test
+    void legacyRunningLinesAreSeparatedFromTheirNeighbours() {
+        assertEquals(List.of(MdcSymbolCode.HIEROGLYPH, MdcSymbolCode.SEPARATOR, MdcSymbolCode.HAPLOGRAPHY,
+                MdcSymbolCode.SEPARATOR, MdcSymbolCode.HIEROGLYPH), codesOf("A1-^-..-..-^-B1"));
+    }
+
+    @Test
+    void otherUsesOfTheMarksAreUnchanged() {
+        assertEquals(List.of(MdcSymbolCode.TOGGLE), codesOf("^"));
+        assertEquals(List.of(MdcSymbolCode.TOGGLE), codesOf("?"));
+        assertEquals(List.of(MdcSymbolCode.ABSOLUTE_TAB), codesOf("?10"));
+        // The opening and the closing marks must be the same.
+        assertEquals(MdcSymbolCode.TOGGLE, codesOf("^-..-?").get(0));
+        // No closing mark, or no dots: no running line.
+        assertEquals(MdcSymbolCode.TOGGLE, codesOf("^-..-").get(0));
+        assertEquals(MdcSymbolCode.TOGGLE, codesOf("^-A1-^").get(0));
+        assertEquals(MdcSymbolCode.TOGGLE, codesOf("^--^").get(0));
+    }
+
+    @Test
+    void dubiousPhilologyMarksWinOverARunningLacuna() {
+        List<MdcSymbolCode> codes = codesOf("[?-..-..-?]");
+        assertEquals(MdcSymbolCode.BEGIN_PHIL, codes.get(0));
+        assertEquals(MdcSymbolCode.END_PHIL, codes.get(codes.size() - 1));
+        assertTrue(!codes.contains(MdcSymbolCode.LACUNA));
+    }
+
+    @Test
+    void dubiousPhilologyMarksAreStillRead() {
+        assertEquals(MdcSymbolCode.BEGIN_PHIL, codesOf("[?-A1-?]").get(0));
+        assertEquals(MdcSymbolCode.END_PHIL, codesOf("[?-A1-?]").get(codesOf("[?-A1-?]").size() - 1));
+    }
 }

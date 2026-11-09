@@ -49,6 +49,7 @@ import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.AbsoluteTab;
+import jsesh.model.RunningAnnotation;
 import jsesh.model.Tab;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.Zone;
@@ -1082,6 +1083,26 @@ public class Layout {
 		@Override
 		public void visitTab(Tab t) {
 			// Empty method: tabs are handled when laying out the top items.
+		}
+
+		/// A running annotation is a line along the text: `percent` % of a
+		/// quadrat long, and one quadrat across. With `size=fill` its natural
+		/// length is 0, and it is stretched by [FillLayout] (to the rest of its
+		/// line, or of its tab cell).
+		@Override
+		public void visitRunningAnnotation(RunningAnnotation a) {
+			GeometrySpecification geometry = renderContext.jseshStyle().geometry();
+			float length = a.isFill() ? 0f : a.getPercent() * zoneLengthUnit(renderContext.jseshStyle());
+			if (currentTextOrientation.isHorizontal()) {
+				currentView.setWidth(length);
+				currentView.setHeight(geometry.maxCadratHeight());
+			} else {
+				currentView.setWidth(geometry.maxCadratWidth());
+				currentView.setHeight(length);
+			}
+			if (a.isFill()) {
+				currentView.setNaturalLength(0f);
+			}
 		}
 
 		/**

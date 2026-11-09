@@ -458,6 +458,33 @@ draws a framed column as wide as the line below it. The stretched zone is laid o
 - It is ignored when the zone has a fixed size along the lines of its parent (`width` in a parent in lines, `height` in a parent in columns), in a line with `%tab`, and in lines whose alignment is ignored (main text when the editor wraps lines to its window; zones keep their alignment, and columns too).
 - A bare `fill` is read as `fill=yes`; `fill=no` is the default and is not written.
 
+### 10.3. Running annotations
+
+`%haplography[size=...]` and `%lacuna[size=...]` draw a line along the text, to mark a stretch of it: a *running variant* (haplography) and a *running lacuna*.
+
+```
+A1-%haplography[size=200]-B1       a line two quadrats long between two signs
+A1-%lacuna[size=fill]-B1           a dashed line up to the end of the line
+A1-^-..-..-^-B1                    the same as %haplography[size=200] (legacy form)
+```
+
+| Form | Drawing |
+|---|---|
+| `%haplography` | solid line with an arrow head at each end |
+| `%lacuna` | dashed line, without arrows |
+
+The line is horizontal in text written in lines, vertical in columns. Both are top-level items, between two `-`, and take room in the line like a sign (one quadrat across).
+
+`size` is either a length, in percent of a quadrat (`size=200` is two quadrats long), or `fill`. A missing, zero or unreadable size is `100`. The option is always written.
+
+**`size=fill`.** The annotation has no length of its own, and takes the free length around it:
+
+- in a line without `%tab`, the rest of the line, as a [`fill` zone](#102-zones) does: after or before other items, what they leave; several of them share the free length equally. The length of the line is the one of the parent if it has one, else the one of the longest line;
+- in a line with `%tab`, the rest of its **tab cell**: up to the next tab stop, minus the `tabgap`; in the last cell of the line, up to the end of the table. It does not push the stop: the stop is computed from the other items of the cell. This differs from `%zone[fill=yes]`, which is ignored in a line with `%tab`;
+- it keeps its natural length (none) in lines whose alignment is ignored (main text when the editor wraps lines to its window), as the fill zones do.
+
+The old forms `^-..-..-^` and `?-..-..-?` are read as these annotations, see [§15.8](#158-running-variant-and-running-lacuna).
+
 ## 11. Forms accepted without effect
 
 These forms are not legacy, but they do nothing yet.
@@ -505,6 +532,7 @@ Each header line is `++`, a property name starting with `JSesh_`, a value, and `
 | Superscript | `\|...-`, with `\` and `-` escaped |
 | End of line, of page | `!` or `!=N%`, or `!!`, then `[align=...]` unless the line is aligned at the start, followed by a line break |
 | Zone | `%zone[...](...)`, with only the options which are set |
+| Running annotation | `%haplography[size=N]`, `%lacuna[size=N]`, with `size=fill` for a filling one; the size is always written |
 
 Toggles are closed before each line break, page break and zone, and at the end of the text, then reopened if needed. This comes from HieroTeX compatibility. The closing toggle at the end of a text follows the last item directly, as in `$r-A1$b-`.
 
@@ -616,7 +644,18 @@ The `%zone` option `tabgap=N` gives the minimal space between a tab cell and the
 | `??` | `LINE_LACUNA` | none |
 | `^` | `OMIT` | none |
 
-These tokens are accepted, but they do not reach the model. **They are lost when the text is saved.**
+These tokens are accepted, but they do not reach the model. **They are lost when the text is saved.** The exception is the running forms of [§15.8](#158-running-variant-and-running-lacuna).
+
+### 15.8. Running variant and running lacuna
+
+| Form | Reading |
+|---|---|
+| `^-..-..-^` | `%haplography[size=200]` |
+| `?-..-..-?` | `%lacuna[size=200]` |
+
+The form is a mark (`^` or `?`), `-`, one or more dots items (`.` or `..`) separated by `-`, `-`, and **the same mark** again. Each dot is half a quadrat: with *n* dots the size is *n* × 50 %. So `^-..-..-^` (4 dots) is two quadrats long, and `?-.-?` half a quadrat. The text is read as one symbol by the lexer, and is written as the `%` form ([§10.3](#103-running-annotations)).
+
+Anything else is read as before: `^-..-?` is a dropped toggle, two spaces' worth of nothing, and a dropped toggle again.
 
 ### 15.8. Transliteration encoding
 
@@ -714,9 +753,14 @@ Initial state, by function. The name on the right is the symbol given to the par
 "["                                        OPEN_BRACE   enters PROPERTIES
 "{{"                                       DOUBLE_LEFT_CURLY   enters PROPERTIES
 
+-- Legacy running lines: HAPLOGRAPHY or LACUNA, valued with the size
+"^-" dots {"-" dots} "-^"                  HAPLOGRAPHY   (dots = "." | "..", size = 50 per dot)
+"?-" dots {"-" dots} "-?"                  LACUNA
+
 -- Keywords
 "%zone"  "%quadrat"  "%insert"             ZONE  QUADRAT  INSERT
 "%tab"                                     TAB
+"%haplography"  "%lacuna"                  HAPLOGRAPHY  LACUNA
 "%hkern" "%vkern"                          HKERN  VKERN
 
 -- Sign operators
@@ -843,7 +887,8 @@ topitem  ::= shadedCadrat
            | TEXT | TEXT_SUPER | START_HIEROGLYPHS
            | TOGGLE
            | LINE_END [optionList] | PAGE_END [optionList]
-           | ABSOLUTE_TAB | TAB [optionList] | HRULE ;
+           | ABSOLUTE_TAB | TAB [optionList] | HRULE
+           | (HAPLOGRAPHY | LACUNA) [optionList] ;
 ```
 
 The option list of a line or page break (see [§19.2](#192-zones-and-options)) only knows `align` (§10.1).
@@ -964,6 +1009,8 @@ position   ::= DOUBLE_LEFT_CURLY INTEGER COMMA INTEGER COMMA INTEGER DOUBLE_RIGH
 
 **`%tab`.** The option list is optional. `n` and `align` are read by `AstModelBuilder`; an `n` of 0 or less, or an unknown alignment, gives the default value. Other options are ignored.
 
+**`%haplography` and `%lacuna`.** The option list is optional. `size` is `fill`, or an integer of 1 or more; anything else gives 100. Other options are ignored. A legacy `^-..-^` has no option list: the lexer gives the size as the value of the symbol, and the parser makes it the option `size=N`.
+
 **`%zone`.** Options are read by `AstModelBuilder`. Unknown options and unknown values of `layout` and `dir` are ignored. A size, quadrat size or separator of 0 is unset.
 
 **Cartouches.** The type comes from the start token alone. The end token only gives the end part, and plain `>` gives 2. For old-style starts, the end token gives nothing at all: the part letter sets both ends.
@@ -1002,6 +1049,8 @@ All of these were checked against the parser.
 | `A1\R90#-B1` | Toggle, not shading: the previous symbol is a modifier. | `A1\R90#1234-B1` |
 | `v/A1`, `h/` | `v/` and `h/` are shade signs, even if `v` or `h` was meant as a sign. | `v-/`, `h-/` |
 | `??10` | Toggle `??`, then the sign `10`. `?10` is an absolute tab. | |
+| `^-..-?`, `?-..-^`, `^-..-` | Not a running line: the marks must be the same, and the form complete. Toggles which are dropped, and spaces. | `^-..-^` |
+| `[?-..-..-?]` | `[?` and `?]` (dubious philology) win over `?`: the content is two spaces. | `?-..-..-?`, outside the brackets |
 | `$c` | Toggle `$`, then the sign `c`. | `$r-c` |
 | `A1!=150` | Line break, then the sign `150` marked as grammatical: the `%` is required. | `A1-!=150%` |
 | `+Lfoo+s` | Syntax error: the script letter must be lowercase. | `+lfoo+s` |

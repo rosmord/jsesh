@@ -23,6 +23,10 @@ public enum MdcSymbolCode {
     INSERT,
     HKERN,
     VKERN,
+    /// `%haplography`, or the legacy `^-..-^` (the value is then its size, an [Integer]).
+    HAPLOGRAPHY,
+    /// `%lacuna`, or the legacy `?-..-?` (the value is then its size, an [Integer]).
+    LACUNA,
     START_HIEROGLYPHS,
     TEXT_SUPER,
     WORD_END,

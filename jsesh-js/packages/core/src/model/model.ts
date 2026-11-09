@@ -13,7 +13,7 @@
 ///        │                        ├─ InnerGroup: Hieroglyph, Ligature, AbsoluteGroup,
 ///        │                        │   Overwrite, Insert, Kerning, SubCadrat, Cartouche, Philology
 ///        │                        └─ ComplexLigature
-///        ├─ Superscript, LineBreak, PageBreak, AbsoluteTab, Tab, HRule
+///        ├─ Superscript, LineBreak, PageBreak, AbsoluteTab, Tab, HRule, RunningAnnotation
 ///        └─ Zone └─ ZoneContent └─ TopItem (nested zones too)
 /// ```
 ///
@@ -31,6 +31,7 @@ import {
   type InsertionDirection,
   type KerningAxis,
   type LineAlignment,
+  type RunningAnnotationKind,
   type ScriptCode,
   type TextDirection,
   type TextOrientation,
@@ -73,6 +74,7 @@ export interface ModelElementVisitor<R = void> {
   visitAbsoluteTab(e: AbsoluteTab): R;
   visitTab(e: Tab): R;
   visitHRule(e: HRule): R;
+  visitRunningAnnotation(e: RunningAnnotation): R;
   visitZone(e: Zone): R;
   visitZoneContent(e: ZoneContent): R;
 }
@@ -151,6 +153,9 @@ export class ModelElementAdapter implements ModelElementVisitor<void> {
     this.visitDefault(e);
   }
   visitHRule(e: HRule): void {
+    this.visitDefault(e);
+  }
+  visitRunningAnnotation(e: RunningAnnotation): void {
     this.visitDefault(e);
   }
   visitZone(e: Zone): void {
@@ -1536,6 +1541,20 @@ export class Tab extends TopItem {
     return this.index !== TAB_AUTO;
   }
 
+  /// A copy (state included) with another index ([TAB_AUTO] for none).
+  withIndex(index: number): Tab {
+    const copy = new Tab(index, this.alignment);
+    this.copyStateTo(copy);
+    return copy;
+  }
+
+  /// A copy (state included) with another alignment.
+  withAlignment(alignment: LineAlignment): Tab {
+    const copy = new Tab(this.index, alignment);
+    this.copyStateTo(copy);
+    return copy;
+  }
+
   accept<R>(v: ModelElementVisitor<R>): R {
     return v.visitTab(this);
   }
@@ -1578,6 +1597,53 @@ export class HRule extends TopItem {
 
   deepCopy(): HRule {
     const copy = new HRule(this.type, this.startPos, this.endPos);
+    this.copyStateTo(copy);
+    return copy;
+  }
+}
+
+/// A running annotation, `%haplography[size=200]` or `%lacuna[size=fill]` (port of
+/// `jsesh.model.RunningAnnotation`): a line drawn along the text (horizontal in lines, vertical in
+/// columns) to mark a stretch of it.
+///
+/// - an *haplography* (running variant) is a solid line with an arrow at each end;
+/// - a *lacuna* (running lacuna) is a dashed line, without arrows.
+///
+/// The old forms `^-..-..-^` and `?-..-..-?` are read as these elements.
+///
+/// The **size** is either a length, in percents of a quadrat (`size=200` is two quadrats long),
+/// or `fill`: the annotation then takes the rest of its tab cell, or of its line if there are no
+/// tabs (see `FillLayout`).
+export class RunningAnnotation extends TopItem {
+  /// The size used when none, or an invalid one, is given: one quadrat.
+  static readonly DEFAULT_PERCENT = 100;
+
+  /// The length in percents of a quadrat (≥ 1). Meaningless if [fill].
+  readonly percent: number;
+
+  /// @param percent the length, in percents of a quadrat. A value which is not positive is
+  ///        replaced by [DEFAULT_PERCENT].
+  constructor(
+    readonly kind: RunningAnnotationKind,
+    percent: number = RunningAnnotation.DEFAULT_PERCENT,
+    /// True for `size=fill`.
+    readonly fill = false,
+  ) {
+    super();
+    this.percent = percent > 0 ? percent : RunningAnnotation.DEFAULT_PERCENT;
+  }
+
+  /// A running annotation which fills its tab cell (or its line).
+  static filling(kind: RunningAnnotationKind): RunningAnnotation {
+    return new RunningAnnotation(kind, RunningAnnotation.DEFAULT_PERCENT, true);
+  }
+
+  accept<R>(v: ModelElementVisitor<R>): R {
+    return v.visitRunningAnnotation(this);
+  }
+
+  deepCopy(): RunningAnnotation {
+    const copy = new RunningAnnotation(this.kind, this.percent, this.fill);
     this.copyStateTo(copy);
     return copy;
   }

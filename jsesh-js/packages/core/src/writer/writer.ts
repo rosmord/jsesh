@@ -14,6 +14,7 @@ import {
   KERNING_AXIS_CODES,
   LINE_ALIGNMENT_CODES,
   openCodeForPhilology,
+  RUNNING_ANNOTATION_CODES,
   shadingToString,
   type LineAlignment,
 } from "../model/constants.js";
@@ -47,6 +48,7 @@ import {
   type Superscript,
   type AbsoluteTab,
   type Tab,
+  type RunningAnnotation,
   type ZoneContent,
 } from "../model/model.js";
 
@@ -245,6 +247,12 @@ class ModelWriter implements ModelElementVisitor<void> {
     if (t.alignment !== "START") options.push("align=" + LINE_ALIGNMENT_CODES[t.alignment]);
     this.write("%tab");
     if (options.length > 0) this.write("[" + options.join(",") + "]");
+  }
+
+  /// Writes `%haplography[size=200]` or `%lacuna[size=fill]`. The size is always written, to be
+  /// explicit.
+  visitRunningAnnotation(a: RunningAnnotation): void {
+    this.write(`%${RUNNING_ANNOTATION_CODES[a.kind]}[size=${a.fill ? "fill" : a.percent}]`);
   }
 
   visitHieroglyphicText(t: HieroglyphicText): void {

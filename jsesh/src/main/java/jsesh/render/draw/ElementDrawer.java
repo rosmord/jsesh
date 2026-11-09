@@ -29,6 +29,7 @@ import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.AbsoluteTab;
+import jsesh.model.RunningAnnotation;
 import jsesh.model.Tab;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
@@ -354,6 +355,11 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	@Override
 	public void visitTab(Tab t) {
 		// Nothing to draw (yet: the tabs will be shown when "view tabs" is on).
+	}
+
+	@Override
+	public void visitRunningAnnotation(RunningAnnotation a) {
+		// Nothing to draw by default.
 	}
 	
 	/**

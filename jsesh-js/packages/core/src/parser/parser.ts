@@ -29,12 +29,14 @@ import type {
   AstOption,
   AstOptionList,
   AstPhilology,
+  AstRunningAnnotation,
   AstSubCadrat,
   AstTopItem,
   AstZone,
   CartouchePart,
   CartoucheType,
   InsertDirection,
+  RunningAnnotationKind,
   WordEnding,
 } from "./ast.js";
 import { optionInt, optionString, optionsWithout } from "./ast.js";
@@ -218,7 +220,7 @@ export class MdcParser {
   /// topitems ::= ε | topitems optSeparator topitem
   /// topitem ::= cadrat optShading | TOGGLE | STARTHIEROGLYPHS | TEXT | TEXTSUPER
   ///           | LINEEND optionList? | PAGEEND optionList? | ABSOLUTETAB | TAB optionList?
-  ///           | HRULE | zone
+  ///           | HRULE | zone | (HAPLOGRAPHY | LACUNA) optionList?
   /// ```
   private parseTopItems(): AstTopItem[] {
     const items: AstTopItem[] = [];
@@ -270,6 +272,12 @@ export class MdcParser {
           this.advance();
           item = { nodeType: "Tab", options: this.parseOptOptionList() };
           break;
+        case S.HAPLOGRAPHY:
+          item = this.parseRunningAnnotation("HAPLOGRAPHY");
+          break;
+        case S.LACUNA:
+          item = this.parseRunningAnnotation("LACUNA");
+          break;
         default:
           item = this.atCadratStart() ? this.parseCadratWithShading() : null;
       }
@@ -277,6 +285,26 @@ export class MdcParser {
       items.push(item);
     }
     return items;
+  }
+
+  /// `%haplography[...]`, `%lacuna[...]`, or the legacy `^-..-^` and `?-..-?`.
+  ///
+  /// The lexer gives the size of a legacy form as the value of its symbol, which is then turned
+  /// into the option `size=N`, as if it had been written `%haplography[size=N]` (and no option
+  /// list is read after it).
+  ///
+  /// `runningAnnotation ::= (HAPLOGRAPHY | LACUNA) optionList?`
+  private parseRunningAnnotation(kind: RunningAnnotationKind): AstRunningAnnotation {
+    const size = this.token.value;
+    this.advance();
+    if (typeof size === "number") {
+      return {
+        nodeType: "RunningAnnotation",
+        kind,
+        options: { nodeType: "OptionList", options: [{ nodeType: "Option", name: "size", value: { nodeType: "Int", value: size } }] },
+      };
+    }
+    return { nodeType: "RunningAnnotation", kind, options: this.parseOptOptionList() };
   }
 
   /// `optSeparator ::= ε | SEPARATOR`

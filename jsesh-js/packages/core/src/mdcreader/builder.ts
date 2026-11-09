@@ -59,6 +59,7 @@ import {
   Tab,
   TopItem,
   TopItemState,
+  RunningAnnotation,
   Zone,
   ZoneContent,
   ZONE_UNSET,
@@ -161,6 +162,13 @@ class AstModelBuilder {
         return [new Tab(optionInt(item.options, "n", TAB_AUTO), lineAlignmentOf(item.options))];
       case "HRule":
         return [new HRule(item.lineType, item.startPos, item.endPos)];
+      case "RunningAnnotation":
+        // `size=fill`, or a length in percents of a quadrat. A missing or invalid size is one quadrat.
+        return [
+          optionString(item.options, "size", "") === "fill"
+            ? RunningAnnotation.filling(item.kind)
+            : new RunningAnnotation(item.kind, optionInt(item.options, "size", RunningAnnotation.DEFAULT_PERCENT)),
+        ];
       case "Zone":
         return [new Zone(zoneParametersOf(item.options), new ZoneContent(this.buildTopItems(item.list)))];
       default:

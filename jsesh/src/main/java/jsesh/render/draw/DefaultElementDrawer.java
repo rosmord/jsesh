@@ -13,6 +13,7 @@ import java.awt.font.TextLayout;
 import java.text.AttributedString;
 import java.text.Bidi;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
@@ -22,6 +23,7 @@ import java.awt.geom.Rectangle2D;
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.ShadingMode;
 import jsesh.sharedvocabulary.KerningAxis;
+import jsesh.sharedvocabulary.RunningAnnotationKind;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.ScriptCode;
 import jsesh.model.constants.SymbolCodes;
@@ -40,6 +42,7 @@ import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.ShadingCode;
 import jsesh.model.Superscript;
+import jsesh.model.RunningAnnotation;
 import jsesh.model.Tab;
 import jsesh.model.TabLine;
 import jsesh.model.TopItemState;
@@ -505,6 +508,48 @@ public class DefaultElementDrawer extends ElementDrawer {
             g.drawString(label, -labelWidth - flag / 4f, ascent);
         }
         g.setFont(previousFont);
+    }
+
+    /// Draws a running annotation: a line along the text, across the middle of
+    /// its view. An haplography has an arrow head at each end, and a lacuna is
+    /// dashed. In columns, the line is vertical.
+    @Override
+    public void visitRunningAnnotation(RunningAnnotation annotation) {
+        if (!postfix) {
+            return;
+        }
+        JSeshStyle jseshStyle = getJSeshStyle();
+        boolean horizontal = currentTextOrientation.isHorizontal();
+        float length = horizontal ? currentView.getWidth() : currentView.getHeight();
+        float across = (horizontal ? currentView.getHeight() : currentView.getWidth()) / 2f;
+        if (length <= 0) {
+            return;
+        }
+        float lineWidth = jseshStyle.geometry().fineLineWidth();
+        // Coordinates are (along, across); swapped for columns.
+        Path2D.Float line = new Path2D.Float();
+        if (annotation.getKind() == RunningAnnotationKind.HAPLOGRAPHY) {
+            float head = Math.min(jseshStyle.geometry().maxCadratHeight() / 5f, length / 2f);
+            g.setStroke(jseshStyle.geometry().fineStroke());
+            line.moveTo(0, across);
+            line.lineTo(length, across);
+            line.moveTo(head, across - head / 2f);
+            line.lineTo(0, across);
+            line.lineTo(head, across + head / 2f);
+            line.moveTo(length - head, across - head / 2f);
+            line.lineTo(length, across);
+            line.lineTo(length - head, across + head / 2f);
+        } else {
+            float dash = Math.max(lineWidth * 4f, jseshStyle.geometry().maxCadratHeight() / 20f);
+            g.setStroke(new BasicStroke(lineWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10f,
+                    new float[] { dash, dash }, 0f));
+            line.moveTo(0, across);
+            line.lineTo(length, across);
+        }
+        if (!horizontal) {
+            line.transform(new AffineTransform(0, 1, 1, 0, 0, 0));
+        }
+        g.draw(line);
     }
 
     /// The colour of the marks of dynamic tabs.

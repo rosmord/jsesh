@@ -16,6 +16,10 @@ export enum MdcSymbolCode {
   INSERT = "INSERT",
   HKERN = "HKERN",
   VKERN = "VKERN",
+  /// `%haplography`, or the legacy `^-..-^` (the value is then its size, a number).
+  HAPLOGRAPHY = "HAPLOGRAPHY",
+  /// `%lacuna`, or the legacy `?-..-?` (the value is then its size, a number).
+  LACUNA = "LACUNA",
   START_HIEROGLYPHS = "START_HIEROGLYPHS",
   TEXT_SUPER = "TEXT_SUPER",
   WORD_END = "WORD_END",

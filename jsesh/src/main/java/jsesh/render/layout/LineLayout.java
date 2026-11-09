@@ -413,7 +413,7 @@ public class LineLayout extends TopItemLayout {
             return;
         }
         double available = jseshStyle.geometry().isWrapping() ? maxLineWidth() : 0;
-        new TabLayout(false, tabGap()).apply(lines, available, untabbedWidth);
+        new TabLayout(false, tabGap(), fillLayout()).apply(lines, available, untabbedWidth);
         for (PlacedLine l : alignedLines) {
             if (tabbedLines.contains(l.line())) {
                 Rectangle2D bounds = l.line().visibleBounds(l.top(), l.height());
@@ -813,7 +813,8 @@ public class LineLayout extends TopItemLayout {
             // prepare a small skip after v, if necessary
             // the skip is "integrated" in v,
 
-            if (subView.getWidth() != 0) {
+            // A view which fills has no width yet (a running annotation), but takes its gap.
+            if (subView.getWidth() != 0 || subView.isFilling()) {
                 dx = subView.getWidth() + jseshStyle.geometry().smallSkip();
             }
             Optional<KerningAxis> kerning = KerningPacker.kerningOf(subView);
