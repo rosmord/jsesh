@@ -12,6 +12,9 @@ Each todo lives in its own file, in the sub-folder matching its status:
 | [03_longterm](./03_longterm)   | Larger, long-term or strategic items                       |
 | [04_maybe](./04_maybe)         | Possible evolutions, which may or may not be implemented (some may contradict one another) |
 
+
+Ideally, placing a todo in `00_wip` means that we intend to include it in the next release.
+
 ## Conventions
 
 - Each todo is a single markdown file named `todoYYYYMMDD-NNNN.md`, where
