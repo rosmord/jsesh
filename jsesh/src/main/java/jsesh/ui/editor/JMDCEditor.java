@@ -95,7 +95,7 @@ import jsesh.ui.editor.arrows.ArrowKeyPreferences;
 import jsesh.model.ListOfTopItems;
 import jsesh.model.MDCPosition;
 import jsesh.model.HieroglyphicText;
-import jsesh.glyphs.signdata.Possibility;
+import jsesh.glyphs.possibilities.Possibility;
 import jsesh.io.mdc.MdcTextHelper;
 import jsesh.render.layout.insert.InsertionRanker;
 import jsesh.sharedvocabulary.InsertionDirection;

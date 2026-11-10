@@ -9,9 +9,9 @@ package jsesh.document.embeddedsigns;
 
 import java.util.Objects;
 
-import jsesh.glyphs.signdata.PossibilitiesList;
-import jsesh.glyphs.signdata.Possibility;
-import jsesh.glyphs.signdata.PossibilityRepository;
+import jsesh.glyphs.possibilities.PossibilitiesList;
+import jsesh.glyphs.possibilities.Possibility;
+import jsesh.glyphs.possibilities.PossibilityRepository;
 import jsesh.signcodes.ManuelDeCodage;
 
 /// Adds a document's embedded signs to the possibility lists of another
@@ -25,6 +25,9 @@ import jsesh.signcodes.ManuelDeCodage;
 ///
 /// When the user types an embedded sign code (`sign1`), it is proposed too.
 /// The lists are recomputed at each call (documents have few such signs).
+///
+/// This is a decorator rather than an independent source, as its proposals
+/// depend on what the base repository proposes.
 public final class EmbeddedSignPossibilityRepository implements PossibilityRepository {
 
     private final PossibilityRepository base;
@@ -45,17 +48,23 @@ public final class EmbeddedSignPossibilityRepository implements PossibilityRepos
         if (list.isEmpty()) {
             return baseList;
         }
-        PossibilitiesList result = baseList == null ? new PossibilitiesList(code) : new PossibilitiesList(baseList);
+        PossibilitiesList result = baseList;
         if (list.contains(code)) {
-            result.addSign(code);
+            result = withSign(result, code);
         }
         ManuelDeCodage mdc = ManuelDeCodage.getInstance();
+        // Checked against the list being built: a variant of an embedded sign
+        // already proposed is proposed too.
         for (EmbeddedSign sign : list.asList()) {
             if (sign.hasVariantOf() && proposes(result, code, sign.variantOf(), mdc)) {
-                result.addSign(sign.code());
+                result = withSign(result, sign.code());
             }
         }
         return result;
+    }
+
+    private static PossibilitiesList withSign(PossibilitiesList list, String signCode) {
+        return PossibilitiesList.builder(list.code()).addAll(list).addSign(signCode).build();
     }
 
     private static boolean proposes(PossibilitiesList list, String typed, String variantOf, ManuelDeCodage mdc) {

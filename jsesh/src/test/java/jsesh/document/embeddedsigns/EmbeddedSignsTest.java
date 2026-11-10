@@ -25,9 +25,9 @@ import org.junit.jupiter.api.Test;
 
 import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.glyphs.signdata.PossibilitiesList;
-import jsesh.glyphs.signdata.Possibility;
-import jsesh.glyphs.signdata.PossibilityRepository;
+import jsesh.glyphs.possibilities.PossibilitiesList;
+import jsesh.glyphs.possibilities.Possibility;
+import jsesh.glyphs.possibilities.PossibilityRepository;
 import jsesh.signcodes.ManuelDeCodage;
 
 /// The embedded signs of a document: list, shapes, possibilities.
@@ -154,13 +154,13 @@ public class EmbeddedSignsTest {
     public void possibilitiesProposeVariants() {
         // A base repository: Y5 for "mn", the code itself for Gardiner codes.
         PossibilityRepository base = code -> {
-            PossibilitiesList l = new PossibilitiesList(code);
+            PossibilitiesList.Builder l = PossibilitiesList.builder(code);
             if (code.equals("mn")) {
                 l.addSign("Y5");
             } else if (code.matches("[A-Z][0-9]+")) {
                 l.addSign(code);
             }
-            return l;
+            return l.build();
         };
         EmbeddedSignList list = new EmbeddedSignList();
         EmbeddedSignShapeRepository repo = new EmbeddedSignShapeRepository(list);

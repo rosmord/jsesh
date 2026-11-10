@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -53,8 +54,6 @@ import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.glyphs.shape.ShapeChar;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.HieroglyphFamily;
-import jsesh.glyphs.signdata.PossibilitiesList;
-import jsesh.glyphs.signdata.Possibility;
 import jsesh.glyphs.signdata.SignDescriptionConstants;
 import jsesh.glyphs.signpicture.HieroglyphIconBuilder;
 import jsesh.signcodes.CanonicalCode;
@@ -497,29 +496,20 @@ public class PalettePresenter {
         String trl = simplePalette.getTransliterationFilterField().getText().trim();
         if ("".equals(trl))
             return;
-        PossibilitiesList l;
+        LinkedHashSet<String> codes = new LinkedHashSet<>();
         // If it looks like a code...
         if (trl.matches("[a-zA-Z].*[0-9].*")) {
-            l = hieroglyphsDatabase.getSuitableSignsForCode(trl).add(
-                    hieroglyphsDatabase.getCodesStartingWith(trl));
-
+            codes.addAll(hieroglyphsDatabase.getSuitableSignsForCode(trl));
+            codes.addAll(hieroglyphsDatabase.getCodesStartingWith(trl));
         } else {
-            l = hieroglyphsDatabase.getPossibilityFor(trl,
-                    SignDescriptionConstants.PALETTE);
+            codes.addAll(hieroglyphsDatabase.getPossibilityFor(trl,
+                    SignDescriptionConstants.PALETTE));
         }
         // We only want Gardiner codes in our list (or similar stuff).
-        Iterator<Possibility> it;
-        if (l != null) {
-            it = l.asList().iterator();
-        } else {
-            it = Collections.<Possibility>emptyList().iterator();
-        }
         ArrayList<String> content = new ArrayList<>();
-        while (it.hasNext()) {
-            Possibility c = it.next();
-            if (c.isSingleSign()
-                    && GardinerCode.isWellFormedGardinerCode(c.getCode())) {
-                content.add(c.getCode());
+        for (String code : codes) {
+            if (GardinerCode.isWellFormedGardinerCode(code)) {
+                content.add(code);
             }
         }
         selectNoFamily();

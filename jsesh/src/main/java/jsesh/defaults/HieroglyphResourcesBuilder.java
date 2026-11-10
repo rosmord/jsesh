@@ -6,14 +6,16 @@ import java.util.logging.Logger;
 
 import jsesh.glossary.Glossary;
 import jsesh.glossary.GlossaryManager;
-import jsesh.glossary.PossibilityRepositoryFromGlossary;
+import jsesh.glossary.GlossaryPossibilities;
 import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.DirectoryHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.glyphs.fonts.ResourcesHieroglyphicShapeRepository;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
-import jsesh.glyphs.signdata.PossibilityRepository;
+import jsesh.glyphs.possibilities.CompositePossibilityRepository;
+import jsesh.glyphs.possibilities.PossibilityRepository;
+import jsesh.glyphs.possibilities.SignDatabasePossibilities;
 import jsesh.utils.io.DirectoryReference;
 
 /**
@@ -167,7 +169,10 @@ public class HieroglyphResourcesBuilder {
             database = HieroglyphDatabaseFactory.buildPlainDefault(shapes);
         }
 
-        PossibilityRepository possibilities = new PossibilityRepositoryFromGlossary(database, glossary);
+        // The signs come first, then the glossary words.
+        PossibilityRepository possibilities = new CompositePossibilityRepository(
+                new SignDatabasePossibilities(database),
+                new GlossaryPossibilities(glossary));
         return new HieroglyphResources(shapes, database, possibilities);
     }
 

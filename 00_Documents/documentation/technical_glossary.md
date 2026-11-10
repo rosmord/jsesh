@@ -32,7 +32,7 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   mark, caret granularity, alphabetic text, superscript
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
 - [Signs and fonts](#signs-and-fonts): embedded sign, Gardiner code, phonetic code, shape
-  repository, hieroglyph database, glossary, hieroglyph resources
+  repository, hieroglyph database, glossary, hieroglyph resources, possibility list
 - [Rendering](#rendering): style, render context, layout unit, view, layout, lone sign
   fitting, text geometry, device
 - [Editor and user interface](#editor-and-user-interface): document, text model, workflow,
@@ -510,6 +510,19 @@ Two unrelated things:
 `HieroglyphResources`: a record bundling a shape repository, a database and the
 possibility repository (completion). Build it with `HieroglyphResourcesBuilder`
 (`buildFull`, or `buildFullFromUserPreferences` for "use it like JSesh itself").
+
+### Possibility list, possibility repository
+
+What is proposed when the user types a code: `m` → `m`, G17, Aa15...; `a1` → A1 and its
+variants; glossary words (`jsesh.glyphs.possibilities`). A `PossibilitiesList` is
+**immutable**: the possibility currently selected (cycled with the space key) is kept by
+the editor (`PossibilitiesHandler`), which also remembers the last choice for each code
+(typing `iw` again proposes the sign chosen last time in this editor). The choice is
+forgotten when the list for the code changes (e.g. an embedded sign is added). A `PossibilityRepository` gives the list for a code; independent *sources*
+(`SignDatabasePossibilities`, `GlossaryPossibilities`) are merged by order of preference
+with `CompositePossibilityRepository` (`combine`); a source whose proposals depend on what
+the others propose is a *decorator* (`EmbeddedSignPossibilityRepository`). Not to be
+confused with the palette search, which asks the hieroglyph database directly.
 
 ### Shape repository
 

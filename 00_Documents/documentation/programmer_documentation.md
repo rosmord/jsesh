@@ -498,8 +498,8 @@ HieroglyphDatabase db = resources.database();
 List<String> values      = db.getValuesFor("G17");          // phonetic values of a sign
 String description        = db.getDescriptionFor("A1");
 Collection<SignVariant> v = db.getVariants("N35");
-PossibilitiesList byValue = db.getPossibilityFor("mn", null); // signs for a phonetic value
-PossibilitiesList byCode  = db.getCodesStartingWith("G1");    // code completion
+List<String> byValue      = db.getPossibilityFor("mn", SignDescriptionConstants.KEYBOARD); // signs for a phonetic value
+List<String> byCode       = db.getCodesStartingWith("G1");    // code completion
 Collection<String> tagged = db.getSignsWithTagInFamily("tall", "A");
 ```
 
@@ -510,6 +510,20 @@ Highlights of the interface:
   and the transitive-closure default `getTransitiveVariants(...)`.
 - Search / completion: `getPossibilityFor`, `getCodesStartingWith`,
   `getSuitableSignsForCode`, `getSignsContaining`, `getSignsIn`.
+
+These return plain sign codes. What the editor proposes when a code is typed (signs,
+glossary words, the document's embedded signs) is a `PossibilitiesList`, given by the
+`PossibilityRepository` of the resources (`jsesh.glyphs.possibilities`). To propose
+candidates from another source, implement `PossibilityRepository` and combine it with the
+others in a `CompositePossibilityRepository`:
+
+```java
+PossibilityRepository possibilities = new CompositePossibilityRepository(
+        new SignDatabasePossibilities(db),
+        new GlossaryPossibilities(glossary),
+        myOwnSource);
+PossibilitiesList forM = possibilities.getPossibilityListFor("m"); // immutable, never null
+```
 
 The Gardiner code system itself (parsing `A1`, `G17`, phantom codes…) lives in
 `jsesh.glyphs.data.coremdc` (`GardinerCode`, `ManuelDeCodage`).
@@ -588,7 +602,7 @@ readable examples of model visitors.
 ## 15. Resources, fonts and the sign database — how to build them
 
 "Resources" bundle the three things rendering and querying need: the sign **shapes** (fonts), the sign **database** (metadata), and the **possibilities** (completion). You can access them with `jsesh.defaults.HieroglyphResourcesBuilder`, which returns a `HieroglyphResources` record containg
-(`shapes()`, `database()`, `possibilities()`).
+(`hieroglyphShapeRepository()`, `database()`, `possibilityRepository()`).
 
 You can use simple factory methods for usual cases, or build a completely custom object.
 

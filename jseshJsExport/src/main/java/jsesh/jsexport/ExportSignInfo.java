@@ -21,7 +21,6 @@ import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.HieroglyphFamily;
-import jsesh.glyphs.signdata.Possibility;
 import jsesh.glyphs.signdata.SignDescriptionConstants;
 import jsesh.glyphs.signdata.SignVariant;
 import jsesh.signcodes.GardinerCode;
@@ -45,8 +44,8 @@ import jsesh.signcodes.ManuelDeCodage;
 ///   `PALETTE`);
 /// - `keyboard`: for each value typed at the keyboard, the signs a
 ///   possibility list cycles through ([HieroglyphDatabase#getPossibilityFor(String, String)]
-///   with `KEYBOARD`, as `PossibilityRepositoryFromGlossary` does without
-///   glossary);
+///   with `KEYBOARD`, as `SignDatabasePossibilities` does for a
+///   transliteration);
 /// - `tallNarrow`, `lowBroad`, `lowNarrow`: Gardiner's lists of sign shapes.
 public final class ExportSignInfo {
 
@@ -111,13 +110,9 @@ public final class ExportSignInfo {
     /// Gardiner code (as `PalettePresenter.selectFromTransliterationOrCode`).
     private static List<String> paletteSignsFor(HieroglyphDatabase database, String value) {
         List<String> result = new ArrayList<>();
-        var possibilities = database.getPossibilityFor(value, SignDescriptionConstants.PALETTE);
-        if (possibilities != null) {
-            for (Possibility p : possibilities.asList()) {
-                if (p.isSingleSign() && GardinerCode.isWellFormedGardinerCode(p.getCode())
-                        && !result.contains(p.getCode())) {
-                    result.add(p.getCode());
-                }
+        for (String code : database.getPossibilityFor(value, SignDescriptionConstants.PALETTE)) {
+            if (GardinerCode.isWellFormedGardinerCode(code) && !result.contains(code)) {
+                result.add(code);
             }
         }
         return result;
@@ -125,16 +120,7 @@ public final class ExportSignInfo {
 
     /// The single signs a possibility list offers for a value typed at the keyboard, in order.
     private static List<String> keyboardSignsFor(HieroglyphDatabase database, String value) {
-        List<String> result = new ArrayList<>();
-        var possibilities = database.getPossibilityFor(value, SignDescriptionConstants.KEYBOARD);
-        if (possibilities != null) {
-            for (Possibility p : possibilities.asList()) {
-                if (p.isSingleSign() && !result.contains(p.getCode())) {
-                    result.add(p.getCode());
-                }
-            }
-        }
-        return result;
+        return database.getPossibilityFor(value, SignDescriptionConstants.KEYBOARD);
     }
 
     private static List<String> sorted(Collection<String> codes) {

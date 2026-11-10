@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -66,7 +67,8 @@ public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
      */
     private final ManuelDeCodage manuelDeCodageManager;
     private final HashMap<String, ArrayList<String>> signsValues;
-    private final HashMap<String, PossibilitiesList> possibilitiesLists;
+    /// The signs for each (normalized) value, in insertion order. Filled only by [#addValue(String, String)].
+    private final HashMap<String, LinkedHashSet<String>> signsForValue;
 
     /**
      * When this boolean is true, all new information comes from the standard
@@ -90,7 +92,7 @@ public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
         this.manuelDeCodageManager = ManuelDeCodage.getInstance();
         this.fontManager = hieroglyphCodesSource;        
         signsValues = new HashMap<>();
-        possibilitiesLists = new HashMap<>();
+        signsForValue = new HashMap<>();
         fillFamilyList();
     }
 
@@ -185,48 +187,40 @@ public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
         }
         // Now add the actual data
         signsValues.get(gardinerCode).add(value);
-        PossibilitiesList list = getOrCreatePossibilityList(value);
-        list.addSign(gardinerCode);
+        // Values are indexed without hyphens.
+        String normalizedValue = StringUtils.removeHyphens(value);
+        signsForValue.computeIfAbsent(normalizedValue, this::initialSignsForValue).add(gardinerCode);
     }
 
-    private PossibilitiesList getOrCreatePossibilityList(final String translitteration) {
-        // PossibilityLists can't work for values with hyphens.
-        // Normalize the value.
-        String normalizedValue = StringUtils.removeHyphens(translitteration);
-        // If there is no sign list for this value, create one
-        if (!possibilitiesLists.containsKey(normalizedValue)) {
-            PossibilitiesList l = new PossibilitiesList(normalizedValue);
-            // Ensure the "official" manuel de codage value comes first.
-            if (manuelDeCodageManager.isKnownCode(normalizedValue)) {
-                // For readability, we want to have the "official" phonetic code
-                // available.
-                l.addSign(normalizedValue);
-            }
-            possibilitiesLists.put(normalizedValue, l);
+    /// The signs proposed for a value before any sign is registered for it:
+    /// the value itself if it is an "official" Manuel de Codage code, so that
+    /// it comes first.
+    private LinkedHashSet<String> initialSignsForValue(String normalizedValue) {
+        LinkedHashSet<String> signs = new LinkedHashSet<>();
+        if (manuelDeCodageManager.isKnownCode(normalizedValue)) {
+            signs.add(normalizedValue);
         }
-        return possibilitiesLists.get(normalizedValue);
+        return signs;
     }
 
-    /**
-     * Returns all possible signs for a given value.
-     *
-     * @param phoneticValue the translitteration of the sign in MdC (can also be
-     * a number)
-     * @param level one of the values in SignDescriptionConstants corresponding
-     * to the scope of the value (PALETTE, KEYBOARD, INFORMATIVE). Should now be
-     * an enum.
-     * @return a PossibilitiesList, or null if the value corresponds to nothing.
-     * @see HieroglyphDatabase#getPossibilityFor(String, String)
-     */
+    /// Returns all possible signs for a given value.
+    ///
+    /// Doesn't change the database.
+    ///
+    /// @param transliteration the transliteration of the sign in MdC (can also be
+    /// a number)
+    /// @param level one of the values in SignDescriptionConstants corresponding
+    /// to the scope of the value (PALETTE, KEYBOARD, INFORMATIVE). Should now be
+    /// an enum.
+    /// @return the sign codes (immutable, possibly empty).
+    /// @see HieroglyphDatabase#getPossibilityFor(String, String)
     @Override
-    public PossibilitiesList getPossibilityFor(String transliteration,
+    public List<String> getPossibilityFor(String transliteration,
             String level) {
-        PossibilitiesList result;
         String filteredValue = StringUtils.removeHyphens(transliteration);
         // Keyboard access...
-
-        result = new PossibilitiesList(
-                getOrCreatePossibilityList(filteredValue));
+        LinkedHashSet<String> result = new LinkedHashSet<>(
+                signsForValue.getOrDefault(filteredValue, initialSignsForValue(filteredValue)));
 
         // Palette or informative access is not currently indexed ,
         // so we look at each registered sign. It's still reasonable.
@@ -244,24 +238,23 @@ public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
                         if (SignDescriptionConstants.PALETTE.equals(level)) {
                             if (SignDescriptionConstants.PALETTE.equals(trl
                                     .getUse())) {
-                                result.addSign(info.getCode());
+                                result.add(info.getCode());
                             }
                         } else if (!SignDescriptionConstants.KEYBOARD
                                 .equals(trl.getUse())) {
-                            result.addSign(info.getCode());
+                            result.add(info.getCode());
                         }
                     }
                 }
             }
         }
 
-        return (PossibilitiesList) result;
+        return List.copyOf(result);
     }
 
     @Override
-    public PossibilitiesList getCodesStartingWith(String code) {
+    public List<String> getCodesStartingWith(String code) {
         // Temporary system...
-        PossibilitiesList p = new PossibilitiesList(code);
         String protectedCode = code.replaceAll("(\\W)", "\\\\$1");
         Pattern pattern = Pattern
                 .compile("^(US[0-9]+)?" + protectedCode + ".*");
@@ -274,18 +267,15 @@ public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
                 }
             }
         }
-        for (String signCode : codes) {
-            p.addSign(signCode);
-        }
-        return p;
+        return List.copyOf(codes);
     }
 
     /**
      * @see HieroglyphDatabase#getSuitableSignsForCode(String)
      */
     @Override
-    public PossibilitiesList getSuitableSignsForCode(String code) {
-        PossibilitiesList p = new PossibilitiesList(code);
+    public List<String> getSuitableSignsForCode(String code) {
+        LinkedHashSet<String> result = new LinkedHashSet<>();
         String protectedCode = code.replaceAll("(\\W)", "\\\\$1");
         Pattern pattern = Pattern.compile("^(US[0-9]+)?" + protectedCode
                 + "[a-zA-Z]*$", Pattern.CASE_INSENSITIVE);
@@ -295,16 +285,14 @@ public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
             if (GardinerCode.isWellFormedGardinerCode(signCode)) {
                 // The exact code should come first, if possible.
                 if (signCode.equalsIgnoreCase(code)) {
-                    p.addSign(signCode);
+                    result.add(signCode);
                 } else if (pattern.matcher(signCode).matches()) {
                     codes.add(signCode);
                 }
             }
         }
-        for (String signCode : codes) {
-            p.addSign(signCode);
-        }
-        return p;
+        result.addAll(codes);
+        return List.copyOf(result);
     }
 
     /**

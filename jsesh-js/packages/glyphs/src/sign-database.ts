@@ -159,7 +159,7 @@ export class SignDatabase {
   }
 
   /// The signs a user typing `code` can cycle through, as the editor's
-  /// possibility lists do (`PossibilityRepositoryFromGlossary`, without
+  /// possibility lists do (`SignDatabasePossibilities`, without
   /// glossary): for a Gardiner code (any case), the signs it may designate
   /// ([getSuitableSignsForCode]); otherwise, the signs having `code` as a
   /// keyboard value, the official Manuel de Codage code first. If there is

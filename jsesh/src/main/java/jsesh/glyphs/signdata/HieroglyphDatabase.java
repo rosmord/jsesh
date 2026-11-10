@@ -76,9 +76,9 @@ public interface HieroglyphDatabase {
      * @see SignDescriptionConstants#PALETTE
      * @see SignDescriptionConstants#INFORMATIVE
      *
-     * @return
+     * @return the codes of the signs, the preferred one first (immutable, never null).
      */
-    PossibilitiesList getPossibilityFor(String phoneticValue, String level);
+    List<String> getPossibilityFor(String phoneticValue, String level);
 
     /**
      * Gets all signs which contain this one in their drawing.
@@ -179,9 +179,9 @@ public interface HieroglyphDatabase {
      * Return all codes which start with a given string.
      *
      * @param code
-     * @return
+     * @return the sign codes, sorted (immutable, never null).
      */
-    PossibilitiesList getCodesStartingWith(String code);
+    List<String> getCodesStartingWith(String code);
 
     /**
      * Get the all the codes which might match a "generic gardiner code".
@@ -204,8 +204,8 @@ public interface HieroglyphDatabase {
      * input/output facility.
      *
      * @param code the code typed by the user.
-     * @return a "possibility list", a navigable set of possible choices.
+     * @return the sign codes, the exact code first (immutable, never null).
      */
-    PossibilitiesList getSuitableSignsForCode(String code);
+    List<String> getSuitableSignsForCode(String code);
 
 }

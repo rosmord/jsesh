@@ -2,7 +2,7 @@ package jsesh.defaults;
 
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
-import jsesh.glyphs.signdata.PossibilityRepository;
+import jsesh.glyphs.possibilities.PossibilityRepository;
 
 /**
  * A repository giving coordinated access to hieroglyphic fonts resources, including automated completion.

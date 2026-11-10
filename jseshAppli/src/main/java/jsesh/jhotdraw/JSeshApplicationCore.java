@@ -55,7 +55,7 @@ import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
-import jsesh.glyphs.signdata.PossibilityRepository;
+import jsesh.glyphs.possibilities.PossibilityRepository;
 import jsesh.jhotdraw.constants.ExportType;
 import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
 import jsesh.jhotdraw.documentview.JSeshViewCore;
