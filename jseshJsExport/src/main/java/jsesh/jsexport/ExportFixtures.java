@@ -17,6 +17,10 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 import jsesh.document.MDCDocument;
+import jsesh.document.embeddedsigns.EmbeddedSignShapeRepository;
+import jsesh.document.embeddedsigns.EmbeddedSignShapes;
+import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
+import jsesh.io.document.MDCDocumentWriter;
 import jsesh.io.document.DocumentHeaderCodec;
 import jsesh.io.document.JSeshInfoReader;
 import jsesh.io.document.MDCDocumentReader;
@@ -43,7 +47,9 @@ import jsesh.render.style.JSeshStyle;
 /// - `layout-cases.json`: for each snippet, the view tree built by the layout
 ///   in several styles ([#LAYOUT_VARIANTS]), see [LayoutExporter];
 /// - `layout/<name>.json`: the view tree of each corpus file, laid out with
-///   its own document preferences.
+///   its own document preferences;
+/// - `embedded-signs.json`: a document with signs stored in its header
+///   (`SIGN1`...), its source and its view tree in some styles.
 public final class ExportFixtures {
 
     /// The styles used to lay out the snippets.
@@ -117,6 +123,8 @@ public final class ExportFixtures {
         }
         Files.writeString(outputDir.resolve("corpus").resolve("index.json"), Json.toJson(names),
                 StandardCharsets.UTF_8);
+        Files.writeString(outputDir.resolve("embedded-signs.json"), Json.toJson(exportEmbeddedSigns()),
+                StandardCharsets.UTF_8);
         System.out.println("Exported " + cases.size() + " cases and " + names.size() + " corpus files to " + outputDir);
     }
 
@@ -162,6 +170,52 @@ public final class ExportFixtures {
         JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(
                 document.getDocumentPreferences(), JSeshStyle.DEFAULT);
         return new LayoutExporter(style).export(document.getHieroglyphicText());
+    }
+
+    /// The text of the embedded signs fixture: plain signs, groups and
+    /// ligatures using the ligature zones of the signs.
+    private static final String EMBEDDED_SIGNS_TEXT = "SIGN1-A1:SIGN2-SIGN1*SIGN2-SIGN1&&A1-w&&&SIGN2-G17";
+
+    /// Two user drawings, 1800 units high as in the user sign folder: a
+    /// triangle and a narrow sign with a hole.
+    private static final String[] EMBEDDED_SIGNS_SVG = {
+            "<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='1800'>"
+                    + "<path d='M 0 1800 L 800 0 L 1600 1800 Z'/></svg>",
+            "<svg xmlns='http://www.w3.org/2000/svg' width='500' height='1200'>"
+                    + "<path d='M 0 0 L 500 0 L 500 1200 L 0 1200 Z M 100 100 L 100 1100 L 400 1100 L 400 100 Z'/>"
+                    + "</svg>" };
+
+    /// A document with embedded signs, laid out by Java with the signs of its
+    /// header in front of the standard fonts.
+    private static Map<String, Object> exportEmbeddedSigns() throws IOException {
+        MDCDocument document = new MDCDocument();
+        for (String svg : EMBEDDED_SIGNS_SVG) {
+            String normalized = EmbeddedSignShapes.normalizeSvg(
+                    new java.io.ByteArrayInputStream(svg.getBytes(StandardCharsets.UTF_8)), "fixture.svg");
+            document.getEmbeddedSigns().add(normalized, "A1", "Fixture sign");
+        }
+        try {
+            document.setHieroglyphicText(new MDCParserModelGenerator().parse(EMBEDDED_SIGNS_TEXT));
+        } catch (Exception e) {
+            throw new IOException(e);
+        }
+        String source = new MDCDocumentWriter().toMdC(document);
+
+        CompositeHieroglyphShapeRepository fonts = new CompositeHieroglyphShapeRepository();
+        fonts.addRepository(new EmbeddedSignShapeRepository(document.getEmbeddedSigns()));
+        fonts.addRepository(LayoutExporter.standardFonts());
+        JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(
+                document.getDocumentPreferences(), JSeshStyle.DEFAULT);
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("source", source);
+        Map<String, Object> variants = new LinkedHashMap<>();
+        for (String name : List.of("default", "columnsRtl", "retrograde")) {
+            JSeshStyle variant = name.equals("default") ? style : LAYOUT_VARIANTS.get(name);
+            variants.put(name, new LayoutExporter(variant, fonts).export(document.getHieroglyphicText()));
+        }
+        result.put("variants", variants);
+        return result;
     }
 
     private static List<Object> lex(String mdc) {

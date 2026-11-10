@@ -139,7 +139,7 @@ public class PDFExporter {
 
             PDFGraphics2DFactory graphicFactory = new PDFGraphics2DFactory(
                     pdfExportPreferences, PDFExportHelper.buildCommentText(
-                            actualStyle, model), pdfPageSize);
+                            actualStyle, renderContext.hieroglyphShapeRepository(), model), pdfPageSize);
 
             SelectionExporter selectionExporter = new SelectionExporter(
                     exportData, graphicFactory);
@@ -154,6 +154,7 @@ public class PDFExporter {
                 // once and for all for this class, and to get them when needed.
                 String mdcText = PDFExportHelper.buildCommentText(
                         renderContext.jseshStyle(),
+                        renderContext.hieroglyphShapeRepository(),
                         model);
                 IPDFExporterAux visitor = new IPDFExporterAux(mdcText, renderContext);
 

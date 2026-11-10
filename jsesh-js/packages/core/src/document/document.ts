@@ -9,6 +9,7 @@
 import { parseMdc } from "../mdcreader/builder.js";
 import { AlphabeticCharacter, HieroglyphicText, LineBreak } from "../model/model.js";
 import { toMdc } from "../writer/writer.js";
+import { embeddedSignsFromMap, embeddedSignsToMap, type EmbeddedSigns } from "./embedded-signs.js";
 import { stripJSeshHeader, writeJSeshHeader } from "./header.js";
 import {
   DEFAULT_DOCUMENT_PREFERENCES,
@@ -20,6 +21,8 @@ import {
 export interface MdcDocument {
   preferences: DocumentPreferences;
   text: HieroglyphicText;
+  /// The signs stored in the document (`SIGN1`...), if it has ever had any.
+  embeddedSigns?: EmbeddedSigns;
 }
 
 export interface ReadDocumentOptions {
@@ -51,10 +54,17 @@ export function readMdcDocument(source: string, options: ReadDocumentOptions = {
       }
     }
   }
-  return { preferences, text };
+  const embeddedSigns = embeddedSignsFromMap(properties);
+  return embeddedSigns.maxId > 0 ? { preferences, text, embeddedSigns } : { preferences, text };
 }
 
 /// Writes a JSesh document, with its header.
 export function writeMdcDocument(document: MdcDocument): string {
-  return writeJSeshHeader(documentPreferencesToMap(document.preferences)) + toMdc(document.text);
+  const properties = documentPreferencesToMap(document.preferences);
+  if (document.embeddedSigns !== undefined) {
+    // Written after the preferences, sorted, as Java does.
+    const signs = embeddedSignsToMap(document.embeddedSigns);
+    for (const key of Object.keys(signs).sort()) properties[key] = signs[key]!;
+  }
+  return writeJSeshHeader(properties) + toMdc(document.text);
 }

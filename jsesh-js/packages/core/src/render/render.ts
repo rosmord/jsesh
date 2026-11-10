@@ -9,6 +9,7 @@ import { readMdcDocument } from "../document/document.js";
 import { stripJSeshHeader } from "../document/header.js";
 import type { HieroglyphicText } from "../model/model.js";
 import { signCodes } from "./codes.js";
+import { withEmbeddedSigns } from "./embedded-glyphs.js";
 import { HieroglyphDrawer, type GlyphProvider } from "./glyphs.js";
 import { buildView } from "./layout.js";
 import { ApproximateTextMeasurer, CanvasTextMeasurer } from "./measurers.js";
@@ -57,12 +58,18 @@ function isFullStyle(style: JSeshStyle | StyleChanges): style is JSeshStyle {
 }
 
 /// Reads a text (MdC, with an optional JSesh header) and computes its style.
-function prepare(source: string | HieroglyphicText, options: RenderOptions): { text: HieroglyphicText; style: JSeshStyle } {
+/// The signs embedded in the header (`SIGN1`...) are added to the glyphs.
+function prepare(
+  source: string | HieroglyphicText,
+  options: RenderOptions,
+): { text: HieroglyphicText; style: JSeshStyle; glyphs: GlyphProvider } {
   let text: HieroglyphicText;
   let style: JSeshStyle = DEFAULT_STYLE;
+  let glyphs = options.glyphs;
   if (typeof source === "string") {
     const document = readMdcDocument(source);
     text = document.text;
+    glyphs = withEmbeddedSigns(glyphs, document.embeddedSigns);
     if (Object.keys(stripJSeshHeader(source).properties).length > 0) {
       style = applyDocumentPreferences(document.preferences, style);
     }
@@ -72,25 +79,30 @@ function prepare(source: string | HieroglyphicText, options: RenderOptions): { t
   if (options.style !== undefined) {
     style = isFullStyle(options.style) ? options.style : withStyle(style, options.style);
   }
-  return { text, style };
+  return { text, style, glyphs };
 }
 
 /// Lays out a text. The shapes of rotated signs must be loaded (see
 /// [layOutText]).
 export function layOutTextSync(source: string | HieroglyphicText, options: RenderOptions): LaidOutText {
-  const { text, style } = prepare(source, options);
-  return layOutPrepared(text, style, options);
+  const { text, style, glyphs } = prepare(source, options);
+  return layOutPrepared(text, style, glyphs, options);
 }
 
 /// Loads the shapes of the signs of a text, and lays it out.
 export async function layOutText(source: string | HieroglyphicText, options: RenderOptions): Promise<LaidOutText> {
-  const { text, style } = prepare(source, options);
-  await options.glyphs.loadShapes(signCodes(text, options.glyphs));
-  return layOutPrepared(text, style, options);
+  const { text, style, glyphs } = prepare(source, options);
+  await glyphs.loadShapes(signCodes(text, glyphs));
+  return layOutPrepared(text, style, glyphs, options);
 }
 
-function layOutPrepared(text: HieroglyphicText, style: JSeshStyle, options: RenderOptions): LaidOutText {
-  const drawer = new HieroglyphDrawer(options.glyphs);
+function layOutPrepared(
+  text: HieroglyphicText,
+  style: JSeshStyle,
+  glyphs: GlyphProvider,
+  options: RenderOptions,
+): LaidOutText {
+  const drawer = new HieroglyphDrawer(glyphs);
   const measurer = options.measurer ?? getDefaultMeasurer();
   const view = buildView(text, { style, drawer, measurer });
   return { text, style, view, drawer, measurer };

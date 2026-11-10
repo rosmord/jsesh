@@ -30,6 +30,7 @@ public class JSeshInfoReader {
 			propertyMap.put(property, valueOf(line, tab));
 		}
 		document.setDocumentPreferences(DocumentHeaderCodec.fromHeader(propertyMap));
+		document.setEmbeddedSigns(EmbeddedSignsHeaderCodec.fromHeader(propertyMap));
 	}
 
 	

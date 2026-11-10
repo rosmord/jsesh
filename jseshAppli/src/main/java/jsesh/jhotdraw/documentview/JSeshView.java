@@ -137,6 +137,7 @@ public class JSeshView extends AbstractView {
         setLayout(new BorderLayout());
         add(viewCore.getViewComponent(), BorderLayout.CENTER);
         viewCore.setOwner(viewModelListener);
+        viewCore.setEmbeddedSignsObserver(this::updateViewData);
         initActions();
     }
 
@@ -145,7 +146,13 @@ public class JSeshView extends AbstractView {
      */
     private void updateViewData() {
         setHasUnsavedChanges(!getEditor().getHieroglyphicTextModel()
-                .isClean());
+                .isClean() || viewCore.isEmbeddedSignsModified());
+    }
+
+    @Override
+    public void markChangesAsSaved() {
+        viewCore.markEmbeddedSignsSaved();
+        super.markChangesAsSaved();
     }
 
     @Override
@@ -202,6 +209,7 @@ public class JSeshView extends AbstractView {
         // The document model might be disposable, it would be cleaner.
         // anyway:
         viewCore.getEditor().clearText();
+        viewCore.dispose();
         super.dispose();
     }
 
@@ -240,6 +248,7 @@ public class JSeshView extends AbstractView {
         try {
             SwingUtilities.invokeAndWait(() -> {
                 getEditor().clearText();
+                viewCore.clearEmbeddedSigns();
                 setHasUnsavedChanges(false);
             });
         } catch (RuntimeException | InterruptedException | InvocationTargetException e) {

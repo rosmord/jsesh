@@ -98,7 +98,10 @@ import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.generic.ViewOpenerWorker;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.help.JSeshTutorialsAction;
+import jsesh.jhotdraw.actions.text.AddEmbeddedSignAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
+import jsesh.jhotdraw.actions.text.EmbeddedSignsAction;
+import jsesh.jhotdraw.actions.file.ExportEmbeddedSignsAction;
 import jsesh.jhotdraw.actions.text.EditZoneAction;
 import jsesh.jhotdraw.actions.text.InsertRunningAnnotationAction;
 import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
@@ -334,6 +337,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
             }
 
             map.put(EditGroupAction.ID, new EditGroupAction(a, v));
+            map.put(EmbeddedSignsAction.ID, new EmbeddedSignsAction(a, v));
+            map.put(AddEmbeddedSignAction.ID, new AddEmbeddedSignAction(a, v));
+            map.put(ExportEmbeddedSignsAction.ID, new ExportEmbeddedSignsAction(a, v));
             map.put(InsertZoneWithOptionsAction.ID, new InsertZoneWithOptionsAction(a, v));
             map.put(InsertRunningAnnotationAction.HAPLOGRAPHY_ID,
                     InsertRunningAnnotationAction.haplography(a, v));

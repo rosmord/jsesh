@@ -57,6 +57,11 @@ import jsesh.defaults.HieroglyphResources;
 import jsesh.document.DocumentPreferences;
 import jsesh.document.MDCDocument;
 import jsesh.document.MdCSearchQuery;
+import jsesh.document.embeddedsigns.EmbeddedSignList;
+import jsesh.document.embeddedsigns.EmbeddedSignListChangedEvent;
+import jsesh.document.embeddedsigns.EmbeddedSignPossibilityRepository;
+import jsesh.document.embeddedsigns.EmbeddedSignShapeRepository;
+import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.document.caret.MDCCaret;
 import jsesh.document.events.TextEvent;
 import jsesh.jhotdraw.actions.BundleHelper;
@@ -111,6 +116,26 @@ public final class JSeshViewCore {
 
     private HieroglyphResources hieroglyphResources;
 
+    /// The shapes of the signs embedded in the current document; first part of
+    /// [#viewShapes].
+    private final EmbeddedSignShapeRepository embeddedSignShapes = new EmbeddedSignShapeRepository();
+
+    /// The shapes used by this view: the embedded signs, then the global ones.
+    private final CompositeHieroglyphShapeRepository viewShapes = new CompositeHieroglyphShapeRepository();
+
+    /// Have the embedded signs changed since the document was loaded or saved?
+    private boolean embeddedSignsModified = false;
+
+    /// Called when the embedded signs change (the owner view updates its
+    /// "unsaved changes" state).
+    private Runnable embeddedSignsObserver = () -> {
+    };
+
+    private final ObservableEventListener<EmbeddedSignListChangedEvent> embeddedSignsListener = e -> {
+        embeddedSignsModified = true;
+        embeddedSignsObserver.run();
+    };
+
     /**
      * The document we are working on.
      */
@@ -144,6 +169,12 @@ public final class JSeshViewCore {
      * @param style   the style of the new document.
      */
     public JSeshViewCore(HieroglyphResources hieroglyphResources, JSeshStyle style, MDCIconFactory iconFactory) {
+        // The view draws and proposes the signs of its document before the global ones.
+        viewShapes.addRepository(embeddedSignShapes);
+        viewShapes.addRepository(hieroglyphResources.hieroglyphShapeRepository());
+        hieroglyphResources = new HieroglyphResources(viewShapes, hieroglyphResources.database(),
+                new EmbeddedSignPossibilityRepository(hieroglyphResources.possibilityRepository(),
+                        embeddedSignShapes));
         this.hieroglyphResources = hieroglyphResources;
         this.iconFactory = iconFactory;
         viewComponent = new JSeshViewComponent<ZoomInfo>(hieroglyphResources, style);
@@ -233,9 +264,13 @@ public final class JSeshViewCore {
     public final void setCurrentDocument(MDCDocument newDocument) {
         if (mdcDocument != null) {
             mdcDocument.getHieroglyphicTextModel().removeListener(delegatingObserver);
+            mdcDocument.getEmbeddedSigns().removeListener(embeddedSignsListener);
         }
         mdcDocument = newDocument;
         mdcDocument.getHieroglyphicTextModel().addListener(delegatingObserver);
+        mdcDocument.getEmbeddedSigns().addListener(embeddedSignsListener);
+        embeddedSignsModified = false;
+        embeddedSignShapes.bind(mdcDocument.getEmbeddedSigns());
         DocumentPreferences prefs = mdcDocument.getDocumentPreferences();
         JSeshStyle newStyle = JSeshStyleHelper.applyDocumentPreferences(prefs, getEditor().getJSeshStyle());
         getEditor().setJSeshStyle(newStyle);
@@ -541,6 +576,46 @@ public final class JSeshViewCore {
      */
     public void setOwner(ObservableEventListener<TextEvent> observer) {
         this.owner = observer;
+    }
+
+    /// The signs embedded in the current document.
+    public EmbeddedSignList getEmbeddedSigns() {
+        return mdcDocument.getEmbeddedSigns();
+    }
+
+    /// Removes all embedded signs, starting again from `SIGN1` (for a cleared view).
+    public void clearEmbeddedSigns() {
+        mdcDocument.getEmbeddedSigns().removeListener(embeddedSignsListener);
+        mdcDocument.setEmbeddedSigns(new EmbeddedSignList());
+        mdcDocument.getEmbeddedSigns().addListener(embeddedSignsListener);
+        embeddedSignShapes.bind(mdcDocument.getEmbeddedSigns());
+        embeddedSignsModified = false;
+    }
+
+    /// Have the embedded signs changed since the document was loaded or saved?
+    public boolean isEmbeddedSignsModified() {
+        return embeddedSignsModified;
+    }
+
+    /// Records that the embedded signs have been saved.
+    public void markEmbeddedSignsSaved() {
+        embeddedSignsModified = false;
+    }
+
+    /// Sets the code called when the embedded signs change.
+    public void setEmbeddedSignsObserver(Runnable observer) {
+        this.embeddedSignsObserver = observer == null ? () -> {
+        } : observer;
+    }
+
+    /// The fonts and sign data of this view, embedded signs included.
+    public HieroglyphResources getHieroglyphResources() {
+        return hieroglyphResources;
+    }
+
+    /// Releases the links between this view and the shared resources.
+    public void dispose() {
+        viewShapes.detach();
     }
 
     public void doSearch(MdCSearchQuery query) {

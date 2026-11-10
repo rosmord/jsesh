@@ -16,6 +16,7 @@ import jsesh.utils.io.FileUtils;
 import jsesh.utils.io.SystemUtils;
 import jsesh.document.DocumentPreferences;
 import jsesh.document.MDCDocument;
+import jsesh.document.embeddedsigns.EmbeddedSignList;
 import jsesh.model.HieroglyphicText;
 
 /**
@@ -127,6 +128,24 @@ public class MDCDocumentWriter {
 		return toMdC(document);
 	}
 
+	/// Renders a bare text as MdC, with the given preferences and embedded signs
+	/// in the header.
+	///
+	/// As [#toMdC(HieroglyphicText, DocumentPreferences)], for texts which may
+	/// use signs embedded in their document (`SIGN1`...).
+	///
+	/// @param text           the text to render.
+	/// @param preferences    the preferences to write in the header.
+	/// @param embeddedSigns  the embedded signs to write in the header.
+	/// @return the text in MdC format, header included.
+	public String toMdC(HieroglyphicText text, DocumentPreferences preferences, EmbeddedSignList embeddedSigns) {
+		MDCDocument document = new MDCDocument();
+		document.setHieroglyphicText(text);
+		document.setDocumentPreferences(preferences);
+		document.setEmbeddedSigns(embeddedSigns);
+		return toMdC(document);
+	}
+
 	/**
 	 * Normalizes the document so that it can be saved.
 	 *
@@ -138,9 +157,11 @@ public class MDCDocumentWriter {
 	public void prepareForSaving(MDCDocument document) {
 		String correctExtension;
 		// Ensure there is an encoding !
-		// A page can only be saved in the header of the JSESH1 dialect.
+		// A page and embedded signs can only be saved in the header of the
+		// JSESH1 dialect.
 		if (!document.isPhilologyIsSign()
-				&& !document.getDocumentPreferences().hasPage()) {
+				&& !document.getDocumentPreferences().hasPage()
+				&& document.getEmbeddedSigns().getMaxId() == 0) {
 			document.setEncoding("iso-8859-1");
 			correctExtension = "hie";
 		} else {
@@ -162,6 +183,10 @@ public class MDCDocumentWriter {
 			Map<String, String> map = DocumentHeaderCodec.toHeader(document.getDocumentPreferences());
 			for (String key : map.keySet()) {
 				writeEntry(f, key, map.get(key));
+			}
+			Map<String, String> signs = EmbeddedSignsHeaderCodec.toHeader(document.getEmbeddedSigns());
+			for (String key : signs.keySet()) {
+				writeEntry(f, key, signs.get(key));
 			}
 		}
 	}

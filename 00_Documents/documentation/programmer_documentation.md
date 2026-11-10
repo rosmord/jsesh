@@ -25,7 +25,8 @@ The `jsesh` module is a **library**: it has no `main`. The end-user application 
 - [8. Use case: read and write `.gly` documents](#8-use-case-read-and-write-gly-documents)
   - [8.1. Loading](#81-loading)
   - [8.2. Saving to MdC](#82-saving-to-mdc)
-  - [8.3. Document preferences: one unit, and the settings shared with zones](#83-document-preferences-one-unit-and-the-settings-shared-with-zones)
+  - [8.3. Embedded signs (`SIGN1`, `SIGN2`…)](#83-embedded-signs-sign1-sign2)
+  - [8.4. Document preferences: one unit, and the settings shared with zones](#84-document-preferences-one-unit-and-the-settings-shared-with-zones)
 - [9. Use case: turn a model back into MdC text](#9-use-case-turn-a-model-back-into-mdc-text)
 - [10. Use case: embed the interactive editor in a Swing app](#10-use-case-embed-the-interactive-editor-in-a-swing-app)
 - [11. Use case: query the sign database](#11-use-case-query-the-sign-database)
@@ -336,8 +337,42 @@ document in place** — it forces the modern JSesh dialect, UTF-8 encoding, and 
 - `write(doc, OutputStream)` / `write(doc, Writer)` — flush but do not close the stream (it stays the caller's).
 - `toMdC(doc)` — returns the full document (header included) as a `String`.
 - `toMdC(HieroglyphicText, DocumentPreferences)` — convenience when you have a bare text and preferences but no real document.
+- `toMdC(HieroglyphicText, DocumentPreferences, EmbeddedSignList)` — the same, with the embedded signs the text uses (§8.3).
 
-### 8.3. Document preferences: one unit, and the settings shared with zones
+A document with embedded signs is always saved as `.gly` (they live in the header).
+
+### 8.3. Embedded signs (`SIGN1`, `SIGN2`…)
+
+A document can carry its own signs, drawn by the user as SVG: they are in
+`doc.getEmbeddedSigns()` (an `EmbeddedSignList`, package
+`jsesh.document.embeddedsigns`), saved in the header, and used in the text as
+`SIGN1`, `SIGN2`…
+
+```java
+EmbeddedSignList signs = doc.getEmbeddedSigns();
+String svg = EmbeddedSignShapes.normalizeSvg(in, "my-sign.svg"); // throws IOException if unreadable
+EmbeddedSign sign = signs.add(svg, "A1", "a seated man, late form"); // "SIGN1"
+```
+
+The global resources don't know these signs. To draw them and propose them
+when typing, layer the document's signs over the resources:
+
+```java
+EmbeddedSignShapeRepository docShapes = new EmbeddedSignShapeRepository(doc.getEmbeddedSigns());
+CompositeHieroglyphShapeRepository shapes = new CompositeHieroglyphShapeRepository();
+shapes.addRepository(docShapes);                       // the document's signs first
+shapes.addRepository(resources.hieroglyphShapeRepository());
+HieroglyphResources docResources = new HieroglyphResources(shapes, resources.database(),
+        new EmbeddedSignPossibilityRepository(resources.possibilityRepository(), docShapes));
+```
+
+`docShapes.bind(otherList)` switches to another document. Call
+`shapes.detach()` when the view is closed, so that the long-lived global
+repository doesn't keep it alive. The exporters find the signs through the
+render context (`EmbeddedSignShapeRepository.find`) and write the ones used in
+the MdC they embed. Changes to the list are observable, but not undoable.
+
+### 8.4. Document preferences: one unit, and the settings shared with zones
 
 `DocumentPreferences` (immutable record) describes the layout of the text by:
 

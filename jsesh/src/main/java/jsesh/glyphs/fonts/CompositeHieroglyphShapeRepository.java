@@ -46,6 +46,21 @@ public class CompositeHieroglyphShapeRepository implements HieroglyphShapeReposi
 		eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());
 	}
 
+	/// Stops listening to the repositories.
+	///
+	/// For a short-lived composite (one per document view, say) built over
+	/// long-lived repositories, which would otherwise keep it alive.
+	public void detach() {
+		for (HieroglyphShapeRepository m : managers) {
+			m.removeListener(childListener);
+		}
+	}
+
+	/// The repositories, in search order.
+	public List<HieroglyphShapeRepository> getRepositories() {
+		return Collections.unmodifiableList(managers);
+	}
+
 	@Override
 	public void addListener(ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> listener) {
 		eventSupport.addListener(listener);

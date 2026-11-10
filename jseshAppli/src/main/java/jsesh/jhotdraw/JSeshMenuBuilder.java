@@ -79,7 +79,10 @@ import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.format.*;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.help.JSeshTutorialsAction;
+import jsesh.jhotdraw.actions.text.AddEmbeddedSignAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
+import jsesh.jhotdraw.actions.text.EmbeddedSignsAction;
+import jsesh.jhotdraw.actions.file.ExportEmbeddedSignsAction;
 import jsesh.jhotdraw.actions.text.EditZoneAction;
 import jsesh.jhotdraw.actions.text.InsertRunningAnnotationAction;
 import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
@@ -193,6 +196,9 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 textMenu.add(buildCartoucheMenu(app, view));
                 textMenu.add(buildEcdoticMenu(app, view));
                 textMenu.add(map.get(AddToGlossaryAction.ID));
+                textMenu.addSeparator();
+                addToMenu(textMenu, app, view, AddEmbeddedSignAction.ID);
+                addToMenu(textMenu, app, view, EmbeddedSignsAction.ID);
                 return textMenu;
         }
 
@@ -282,6 +288,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 addToMenu(exportMenu, app, jSeshView, ExportAsPDFAction.ID);
                 addToMenu(exportMenu, app, jSeshView, ExportAsRTFAction.ID);
                 addToMenu(exportMenu, app, jSeshView, ExportAsHTMLAction.ID);
+                addToMenu(exportMenu, app, jSeshView, ExportEmbeddedSignsAction.ID);
                 addToMenu(exportMenu, app, jSeshView, QuickPDFExportAction.ID);
                 addToMenu(exportMenu, app, jSeshView,
                                 QuickPDFSelectExportFolderAction.ID);

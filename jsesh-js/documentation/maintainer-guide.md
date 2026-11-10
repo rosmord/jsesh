@@ -100,12 +100,13 @@ flowchart LR
 | `model/model.ts`, `constants.ts` | The document model. | `jsesh.model` |
 | `model/layout-settings.ts` | The layout settings shared by document headers and zone options (`linegap`, `fitsigns`…), their names, values and defaults. Their correspondence with the style is `layoutSettingsChanges` in `render/style.ts`. | `jsesh.model.LayoutSetting`, `TextLayoutSettings`, `jsesh.render.style.LayoutSettingsApplier` |
 | `writer/writer.ts` | Writes a model back as MdC (`toMdc`). | `jsesh.io.mdc.MdCModelWriter` |
-| `document/` | Whole `.gly` documents: header, preferences (one unit, the layout settings in percents of it; old headers converted). | `jsesh.io.document`, `DocumentHeaderCodec`, `DocumentPreferences` |
+| `document/` | Whole `.gly` documents: header, preferences (one unit, the layout settings in percents of it; old headers converted), embedded signs (`embedded-signs.ts`: `SIGN1`..., base64 SVG in the header). | `jsesh.io.document`, `DocumentHeaderCodec`, `DocumentPreferences`, `EmbeddedSignsHeaderCodec`, `EmbeddedSignList` |
 | `render/layout.ts` | Computes sizes and positions: `buildView`. About 1,100 lines, the heart of the port. | `jsesh.render.layout.*`, `ViewBuilder` |
 | `render/insert/` | `%insert`: `ShapeMask` (a coarse raster of outlines), `InsertionFitter` (where, and how large, the inserted group goes) and `ViewSilhouette` (the outlines of a laid-out view). The layout calls them in `visitInsert`. Raster, scales and candidate positions are the same as Java's, so the results match. `Kerner` computes how far `%hkern`/`%vkern` move a group back, from band profiles of the same silhouettes. | `jsesh.render.layout.insert.*` |
 | `render/kerning-packer.ts` | Places sub views along an axis, honouring kerning operators (kerned elements form rigid blocks). Used by the layout of horizontal groups, quadrats with `%vkern` lines and basic item lists; top-level kerning is in `LineLayout`/`ColumnLayout` (`TopLevelKerning`). | `jsesh.render.layout.KerningPacker` |
 | `render/view.ts` | The view tree, `MDCView`, `Rect`. | `jsesh.render.view.MDCView` |
 | `render/glyphs.ts` | `GlyphProvider` and `HieroglyphDrawer`: sizes, zones, shapes. | `jsesh.render.elements.HieroglyphDrawer` |
+| `render/embedded-glyphs.ts` | `EmbeddedSignGlyphProvider`: a `GlyphProvider` answering for a document's `SIGN1`... from their normalized SVG (size = the `svg` width and height, zones = the `zone1`-`zone3` rects, which Java always writes), over another provider. `renderToSvg`/`layOutText` add it when the source is a document with such signs. | `EmbeddedSignShapeRepository` in a `CompositeHieroglyphShapeRepository` |
 | `render/text.ts`, `measurers.ts` | Alphabetic text: `TextMeasurer`, runs, transliteration. | `jsesh.render.layout.TextRun`, … |
 | `render/style.ts` | `JSeshStyle` and its four parts. | `jsesh.render.style` |
 | `render/svg.ts`, `cartouches.ts`, `symbols.ts`, `path.ts`, `svg-writer.ts` | Drawing the view tree as SVG (including running annotations, and the optional marks of kerning operators and tabs). | `jsesh.render.draw.ViewDrawer`, `DefaultElementDrawer`, `SpecialSymbolDrawer` |
@@ -282,6 +283,7 @@ npm test
 | `core/test/kerning.test.ts` | `%hkern`/`%vkern`: the model, kerning ignored in the wrong context, kerning stable and mirrored in right-to-left text, marks drawn only on request. Ported from the Java unit tests (`KerningLayoutTest`). |
 | `core/test/running-annotation.test.ts` | `%haplography`/`%lacuna`: lexer (legacy forms), AST, model, writer, layout (fixed size, `size=fill` in lines, columns, tab cells), SVG drawing, and the tab marks of `showTabs`. Ported from `RunningAnnotationMdcTest`, `RunningAnnotationLayoutTest` and `RunningAnnotationDrawingTest`; the view trees are also compared with Java's through the cases of `ParserCases`. |
 | `core/test/tab-line.test.ts` | `TabLine`: stop indexes, moving a tab. Ported from the Java `TabLine`. |
+| `core/test/embedded-signs.test.ts` | Signs embedded in a document: header codec, SVG reading, and the document of `embedded-signs.json` (written by `ExportFixtures`), read, written back and laid out against Java in three styles. |
 | `core/test/render.test.ts` | The SVG is well formed and has no `NaN`, for every snippet and file. This is a sanity test, not a comparison. |
 | `glyphs/test` | The sign database. |
 | `editor/test/session.test.ts`, `palette/test/controller.test.ts` | The headless cores: typing, grouping, undo, selection, the tab commands; families, tags, search, history. Written by hand, no fixtures. |

@@ -31,8 +31,8 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   column), running annotation, retrograde writing, quadrat direction, zone, layout settings, unit, document header, scope, position, range,
   mark, caret granularity, alphabetic text, superscript
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
-- [Signs and fonts](#signs-and-fonts): Gardiner code, phonetic code, shape repository,
-  hieroglyph database, glossary, hieroglyph resources
+- [Signs and fonts](#signs-and-fonts): embedded sign, Gardiner code, phonetic code, shape
+  repository, hieroglyph database, glossary, hieroglyph resources
 - [Rendering](#rendering): style, render context, layout unit, view, layout, lone sign
   fitting, text geometry, device
 - [Editor and user interface](#editor-and-user-interface): document, text model, workflow,
@@ -440,7 +440,8 @@ The `++JSesh_xxx value +s` lines at the start of a `.gly` file, read and written
 without `JSesh_unit` is an old one (all lengths in points, `JSesh_line_skip`...), converted
 without loss; the old keys are also written for older versions of JSesh
 (`DocumentHeaderCodec.WRITE_LEGACY_KEYS`). The user's default preferences use the same
-format.
+format. The [embedded signs](#embedded-sign-text-specific-sign) are header properties too
+(`EmbeddedSignsHeaderCodec`), but they live in `MDCDocument`, not in the preferences.
 
 ---
 
@@ -471,6 +472,16 @@ The JFlex and CUP generated versions are retired.
 ---
 
 ## Signs and fonts
+
+### Embedded sign (text-specific sign)
+
+A sign drawn by the user and stored **in one document**, not in the user's sign folder:
+`SIGN1`, `SIGN2`... (*document*). `EmbeddedSignList`, owned by `MDCDocument` (not by
+`DocumentPreferences`); saved in the header as base64 SVG (`EmbeddedSignsHeaderCodec`).
+Numbers are never reused (`JSesh_max_embedded_sign_id`). A sign may be a *variant of* a
+Gardiner code, and is then proposed in that code's possibility list
+(`EmbeddedSignPossibilityRepository`). Not a *user sign* (`US1A1`...), which belongs to
+the user's sign folder and is shared by all documents.
 
 ### Gardiner code and phonetic code
 

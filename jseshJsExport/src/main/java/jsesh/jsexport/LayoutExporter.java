@@ -52,19 +52,34 @@ final class LayoutExporter {
 
     private final JSeshStyle style;
 
-    private final HieroglyphDrawer drawer = new HieroglyphDrawer(FONTS);
+    private final HieroglyphShapeRepository fonts;
+
+    private final HieroglyphDrawer drawer;
 
     private final List<Object> measures = new ArrayList<>();
 
     private final java.util.Set<String> measured = new java.util.HashSet<>();
 
     LayoutExporter(JSeshStyle style) {
+        this(style, FONTS);
+    }
+
+    /// An exporter drawing the signs from `fonts` (for documents with
+    /// embedded signs).
+    LayoutExporter(JSeshStyle style, HieroglyphShapeRepository fonts) {
         this.style = style;
+        this.fonts = fonts;
+        this.drawer = new HieroglyphDrawer(fonts);
+    }
+
+    /// The standard fonts, as used by default.
+    static HieroglyphShapeRepository standardFonts() {
+        return FONTS;
     }
 
     /// Lays out `text` and returns `{view, measures}`.
     Map<String, Object> export(HieroglyphicText text) {
-        MDCView view = new ViewBuilder().buildView(text, new JSeshRenderContext(style, FONTS), TECH);
+        MDCView view = new ViewBuilder().buildView(text, new JSeshRenderContext(style, fonts), TECH);
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("view", exportView(view));
         result.put("measures", measures);

@@ -20,6 +20,7 @@ import jsesh.ui.export.macpict.EmbeddableMacPictSimpleDrawer;
 import jsesh.ui.export.wmf.EmbeddableWMFSimpleDrawer;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
+import jsesh.document.embeddedsigns.EmbeddedSignShapeRepository;
 import jsesh.io.document.MDCDocumentWriter;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.constants.ScriptCode;
@@ -191,7 +192,8 @@ public class RTFExporter {
     private String buildMdCForExport(HieroglyphicText t) {
         return new MDCDocumentWriter().toMdC(t,
                 DocumentPreferencesStyleConverter.toDocumentPreferences(
-                        renderContext.jseshStyle()));
+                        renderContext.jseshStyle()),
+                EmbeddedSignShapeRepository.usedIn(t, renderContext.hieroglyphShapeRepository()));
     }
 
     private String buildMdCForExport(TopItem t) {

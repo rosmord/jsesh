@@ -3,6 +3,7 @@ package jsesh.document;
 import java.io.File;
 import java.io.Reader;
 
+import jsesh.document.embeddedsigns.EmbeddedSignList;
 import jsesh.model.constants.Dialect;
 import jsesh.model.HieroglyphicText;
 import jsesh.parser.MDCSyntaxError;
@@ -23,6 +24,7 @@ public class MDCDocument {
 	private Dialect dialect = Dialect.JSESH;
 	private DocumentPreferences documentPreferences = new DocumentPreferences();
 	private HieroglyphicTextModel hieroglyphicTextModel = new HieroglyphicTextModel();
+	private EmbeddedSignList embeddedSigns = new EmbeddedSignList();
 
 	public MDCDocument() {
 		hieroglyphicTextModel.setPhilologyIsSign(true);
@@ -109,6 +111,18 @@ public class MDCDocument {
 			throw new NullPointerException(
 					"DocumentPreferences must not be null");
 		this.documentPreferences = newDocumentPreferences;
+	}
+
+	/// The signs drawn by the user and stored in this document (`SIGN1`...).
+	public EmbeddedSignList getEmbeddedSigns() {
+		return embeddedSigns;
+	}
+
+	/// Replaces the embedded signs of this document.
+	public void setEmbeddedSigns(EmbeddedSignList embeddedSigns) {
+		if (embeddedSigns == null)
+			throw new NullPointerException("EmbeddedSignList must not be null");
+		this.embeddedSigns = embeddedSigns;
 	}
 
 }

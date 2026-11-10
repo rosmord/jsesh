@@ -98,7 +98,7 @@ public class PDFDataSaver {
                 pdfExportPreferences, out, margin + scale * view.getWidth(),
                 margin + scale * view.getHeight(),
                 PDFExportHelper.buildCommentText(myDrawingSpecification,
-                        topItemList));
+                        renderContext.hieroglyphShapeRepository(), topItemList));
 
         documentWriterAux.open();
 
