@@ -10,7 +10,9 @@ package jsesh.document.embeddedsigns;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.TreeMap;
@@ -140,6 +142,40 @@ public final class EmbeddedSignList {
         }
         result.raiseMaxId(maxId);
         return result;
+    }
+
+    /// Plans the addition of signs coming from another document, for
+    /// instance with pasted text. Changes nothing (see [EmbeddedSignImport]).
+    ///
+    /// - A sign whose SVG is the same, byte for byte, as a sign of this list
+    ///   takes the code of that sign (its own "variant of" and description
+    ///   are dropped). The sign with the same code is preferred, so copying
+    ///   and pasting in one document changes nothing.
+    /// - The other signs get new codes, after [#getMaxId()], and keep their
+    ///   "variant of" and description. Incoming signs with the same SVG share
+    ///   one new sign.
+    public EmbeddedSignImport planImport(Collection<EmbeddedSign> incoming) {
+        Map<String, String> renaming = new LinkedHashMap<>();
+        List<EmbeddedSign> added = new ArrayList<>();
+        int next = maxId;
+        for (EmbeddedSign s : incoming) {
+            byte[] svg = s.svg();
+            Optional<EmbeddedSign> same = get(s.code()).filter(t -> t.hasSameSvg(svg))
+                    .or(() -> signs.values().stream().filter(t -> t.hasSameSvg(svg)).findFirst())
+                    .or(() -> added.stream().filter(t -> t.hasSameSvg(svg)).findFirst());
+            String code;
+            if (same.isPresent()) {
+                code = same.get().code();
+            } else {
+                next++;
+                code = CODE_PREFIX + next;
+                added.add(new EmbeddedSign(code, svg, s.variantOf(), s.description()));
+            }
+            if (!code.equals(s.code())) {
+                renaming.put(s.code(), code);
+            }
+        }
+        return new EmbeddedSignImport(this, maxId, renaming, added);
     }
 
     /// The signs, by increasing number.

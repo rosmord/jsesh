@@ -60,6 +60,7 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -74,6 +75,9 @@ import javax.swing.SwingUtilities;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
+import jsesh.document.embeddedsigns.EmbeddedSignImport;
+import jsesh.document.embeddedsigns.EmbeddedSignShapeRepository;
+import jsesh.ui.clipboard.JSeshFragment;
 import jsesh.ui.clipboard.JSeshPasteFlavors;
 import jsesh.ui.clipboard.MDCModelTransferable;
 import jsesh.render.style.GeometrySpecification;
@@ -840,6 +844,14 @@ public class JMDCEditor extends JPanel implements Scrollable {
      * switch to paste plain text as Manuel de Codage code later.
      *
      * <p>
+     * Text which uses signs embedded in its document ({@code sign1}...) comes
+     * with these signs ({@link JSeshFragment}). They are added to the signs of
+     * this editor's document (if its shape repository has them, see
+     * {@link EmbeddedSignShapeRepository#find}), and the codes of the pasted
+     * text are renumbered to match. A sign whose SVG is already in the
+     * document is not added twice.
+     *
+     * <p>
      * Other project : we should also support html in a basic way.
      */
     public void paste() {
@@ -848,7 +860,9 @@ public class JMDCEditor extends JPanel implements Scrollable {
         try {
             Transferable t = clipboard.getContents(this);
             if (t != null) {
-                if (t.isDataFlavorSupported(JSeshPasteFlavors.ListOfTopItemsFlavor)) {
+                if (t.isDataFlavorSupported(JSeshPasteFlavors.JSeshFragmentFlavor)) {
+                    pasteFragment((JSeshFragment) t.getTransferData(JSeshPasteFlavors.JSeshFragmentFlavor));
+                } else if (t.isDataFlavorSupported(JSeshPasteFlavors.ListOfTopItemsFlavor)) {
                     ListOfTopItems l = (ListOfTopItems) t
                             .getTransferData(JSeshPasteFlavors.ListOfTopItemsFlavor);
                     workflow.insertElements(l);
@@ -866,6 +880,18 @@ public class JMDCEditor extends JPanel implements Scrollable {
             exception.printStackTrace();
         }
 
+    }
+
+    /// Pastes text with its embedded signs. The signs are added only if the
+    /// text could be inserted. Without embedded signs in this editor, the
+    /// codes are pasted as they are.
+    private void pasteFragment(JSeshFragment fragment) {
+        Optional<EmbeddedSignImport> plan = EmbeddedSignShapeRepository
+                .find(getRenderContext().hieroglyphShapeRepository())
+                .map(fragment::adaptTo);
+        if (workflow.insertElements(fragment.items())) {
+            plan.ifPresent(EmbeddedSignImport::commit);
+        }
     }
 
     /**

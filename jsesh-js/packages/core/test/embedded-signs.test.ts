@@ -69,14 +69,14 @@ const VARIANTS: Record<string, JSeshStyle> = {
 };
 
 describe.skipIf(!available)("embedded signs, against Java", () => {
-  it("reads the document written by Java, and writes the same signs", async () => {
+  it("reads the document written by Java, and writes the same signs", () => {
     const document = readMdcDocument(fixture!.source, { failFast: true });
     expect(document.embeddedSigns?.maxId).toBe(2);
     const signs = document.embeddedSigns!.signs;
     expect(signs.map((s) => s.code)).toEqual(["sign1", "sign2"]);
     // The original SVG files are kept, byte for byte.
-    expect(new TextDecoder().decode(await embeddedSignSvg(signs[0]!))).toMatch(/^<svg xmlns=.*width='1600'/);
-    const rendering = await embeddedSignRendering(signs[0]!);
+    expect(new TextDecoder().decode(embeddedSignSvg(signs[0]!))).toMatch(/^<svg xmlns=.*width='1600'/);
+    const rendering = embeddedSignRendering(signs[0]!);
     expect(rendering.h).toBeCloseTo(18);
     expect(rendering.zones).toHaveLength(3);
     const signLines = (text: string) => text.split("\n").filter((l) => /^\+\+JSesh_(embedded_sign_|max_embedded)/.test(l));
@@ -95,5 +95,22 @@ describe.skipIf(!available)("embedded signs, against Java", () => {
       measurer: new ReplayMeasurer(java.measures),
     });
     expect(compareViews(view, java.view)).toBeNull();
+  });
+
+  it("knows the embedded signs without loading shapes", () => {
+    const document = readMdcDocument(fixture!.source, { failFast: true });
+    const provider = withEmbeddedSigns(nodeGlyphProvider(), document.embeddedSigns);
+    expect(provider.size("sign1")?.height).toBeCloseTo(18);
+    expect(provider.shape("sign1")?.d).toMatch(/^M /);
+    expect(provider.ligatureZone("sign1", 0)).toBeDefined();
+  });
+
+  it("treats an unreadable sign as unknown", () => {
+    const provider = withEmbeddedSigns(nodeGlyphProvider(), {
+      maxId: 1,
+      signs: [{ code: "sign1", description: "", svg: "PHN2Zy8+", rendering: "e30@" }],
+    });
+    expect(provider.size("sign1")).toBeUndefined();
+    expect(provider.shape("sign1")).toBeUndefined();
   });
 });

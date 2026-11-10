@@ -175,6 +175,72 @@ public class EmbeddedSignsTest {
         assertEquals(List.of("G17"), codes(possibilities.getPossibilityListFor("G17")));
     }
 
+    private static final byte[] SVG_A = "<svg id='a'/>".getBytes(StandardCharsets.UTF_8);
+    private static final byte[] SVG_B = "<svg id='b'/>".getBytes(StandardCharsets.UTF_8);
+
+    @Test
+    public void importIntoTheSameListChangesNothing() {
+        EmbeddedSignList list = new EmbeddedSignList();
+        list.add(SVG_A, "A1", null);
+        list.add(SVG_B, null, null);
+        EmbeddedSignImport plan = list.planImport(list.asList());
+        assertTrue(plan.renaming().isEmpty());
+        assertTrue(plan.addedSigns().isEmpty());
+        plan.commit();
+        assertEquals(2, list.size());
+        assertEquals(2, list.getMaxId());
+    }
+
+    @Test
+    public void importReusesSameSvgAndNumbersTheOthers() {
+        EmbeddedSignList source = new EmbeddedSignList();
+        source.add(SVG_A, "A1", "a");           // sign1
+        source.add(SVG_B, null, "b");           // sign2
+        source.add(SVG_B.clone(), null, "b2");  // sign3, same drawing as sign2
+
+        EmbeddedSignList target = new EmbeddedSignList();
+        target.add(SVG_B, "G17", "mine");       // sign1
+        target.add(DATA, null, null);
+        target.add(DATA, null, null);
+        target.remove("sign2");
+        target.remove("sign3");                 // maxId stays 3
+
+        EmbeddedSignImport plan = target.planImport(source.asList());
+        assertEquals(java.util.Map.of("sign1", "sign4", "sign2", "sign1", "sign3", "sign1"), plan.renaming());
+        assertEquals(1, plan.addedSigns().size());
+        assertFalse(target.contains("sign4")); // nothing done yet
+
+        plan.commit();
+        EmbeddedSign added = target.get("sign4").orElseThrow();
+        assertArrayEquals(SVG_A, added.svg());
+        assertEquals("A1", added.variantOf());
+        assertEquals("a", added.description());
+        assertEquals("mine", target.get("sign1").orElseThrow().description()); // the target's own data is kept
+        assertEquals(4, target.getMaxId());
+    }
+
+    @Test
+    public void incomingSignsWithTheSameSvgShareOneNewSign() {
+        EmbeddedSignList source = new EmbeddedSignList();
+        source.add(SVG_A, null, null);
+        source.add(SVG_A.clone(), null, null);
+        EmbeddedSignList target = new EmbeddedSignList();
+        target.add(SVG_B, null, null);
+        EmbeddedSignImport plan = target.planImport(source.asList());
+        assertEquals(java.util.Map.of("sign1", "sign2"), plan.renaming()); // sign2 keeps its name
+        assertEquals(1, plan.addedSigns().size());
+    }
+
+    @Test
+    public void commitRefusesAListChangedSincePlanning() {
+        EmbeddedSignList source = new EmbeddedSignList();
+        source.add(SVG_A, null, null);
+        EmbeddedSignList target = new EmbeddedSignList();
+        EmbeddedSignImport plan = target.planImport(source.asList());
+        target.add(SVG_B, null, null);
+        assertThrows(IllegalStateException.class, plan::commit);
+    }
+
     private static List<String> codes(PossibilitiesList l) {
         return l.asList().stream().map(Possibility::getCode).collect(Collectors.toList());
     }

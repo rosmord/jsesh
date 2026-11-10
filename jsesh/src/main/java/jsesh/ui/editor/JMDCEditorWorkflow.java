@@ -1625,9 +1625,9 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     @SuppressWarnings("unchecked")
-    public void insertElements(List elements) {
+    public boolean insertElements(List elements) {
         possibilitiesHandler.clear();
-        scope().insertElementsAt(caret.getLocalInsertPosition(),
+        return scope().insertElementsAt(caret.getLocalInsertPosition(),
                 (List<TopItem>) elements);
     }
 

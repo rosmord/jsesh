@@ -13,14 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.GZIPInputStream;
 
 import org.junit.jupiter.api.Test;
 
@@ -47,10 +44,8 @@ public class EmbeddedSignsHeaderCodecTest {
         return list;
     }
 
-    private static String gunzip(String base64) throws IOException {
-        try (GZIPInputStream in = new GZIPInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(base64)))) {
-            return new String(in.readAllBytes(), StandardCharsets.UTF_8);
-        }
+    private static String unbase64(String base64) {
+        return new String(Base64.getDecoder().decode(base64), StandardCharsets.UTF_8);
     }
 
     @Test
@@ -74,13 +69,14 @@ public class EmbeddedSignsHeaderCodecTest {
     }
 
     @Test
-    public void theRenderingDataIsWrittenToo() throws IOException {
+    public void theFieldsAreBase64Only() {
         String value = EmbeddedSignsHeaderCodec.toHeader(sampleList()).get("JSesh_embedded_sign_sign1");
         String[] parts = value.split(" ");
         assertEquals(5, parts.length);
         assertEquals("A1", parts[0]);
         assertEquals("v0", parts[1]);
-        assertTrue(gunzip(parts[4]).startsWith("{\"w\":10,\"h\":18,\"d\":\"M 0 0 "));
+        assertArrayEquals(SVG, Base64.getDecoder().decode(parts[3]));
+        assertTrue(unbase64(parts[4]).startsWith("{\"w\":10,\"h\":18,\"d\":\"M 0 0 "));
     }
 
     @Test
@@ -93,7 +89,7 @@ public class EmbeddedSignsHeaderCodecTest {
         String good = EmbeddedSignsHeaderCodec.toHeader(sampleList()).get("JSesh_embedded_sign_sign2");
         Map<String, String> header = new HashMap<>();
         header.put("JSesh_embedded_sign_sign1", "A1 v0 -");
-        header.put("JSesh_embedded_sign_sign3", "- v0 - PHN2Zy8+ PHN2Zy8+"); // not gzipped
+        header.put("JSesh_embedded_sign_sign3", "- v0 - PHN2Zy8@ PHN2Zy8+"); // not base64
         header.put("JSesh_embedded_sign_sign4", good.replace(" v0 ", " v1 ")); // unknown version
         header.put("JSesh_embedded_sign_sign5", good.replace(" v0 ", " ")); // no version
         header.put("JSesh_embedded_sign_FOO", good);

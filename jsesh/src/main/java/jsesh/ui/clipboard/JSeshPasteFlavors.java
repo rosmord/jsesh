@@ -25,6 +25,12 @@ public class JSeshPasteFlavors {
 
     public static final DataFlavor RTFFlavor = new DataFlavor("text/rtf", null);
 
+    /// Copied text with the embedded signs it uses ([JSeshFragment]).
+    /// Offered instead of [#ListOfTopItemsFlavor] when the text uses
+    /// embedded signs.
+    public static final DataFlavor JSeshFragmentFlavor = new DataFlavor(
+            JSeshFragment.class, null);
+
    
 
 }

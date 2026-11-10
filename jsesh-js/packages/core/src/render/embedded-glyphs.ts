@@ -59,13 +59,14 @@ function toGlyph(r: EmbeddedSignRendering): EmbeddedGlyph {
 /// A provider for the embedded signs of a document, over `base` for the
 /// others.
 ///
-/// The data of a sign is compressed: like the shapes of `base`, it is only
-/// available after [loadShapes] (its size and zones too). Until then, the
-/// sign is unknown.
+/// The data of a sign is decoded the first time it is needed, synchronously:
+/// unlike the shapes of `base`, embedded signs don't need [loadShapes], so
+/// `layOutTextSync` draws them too. A sign whose data can't be decoded is
+/// unknown (with a warning).
 export class EmbeddedSignGlyphProvider implements GlyphProvider {
   private readonly signs = new Map<string, EmbeddedSign>();
-  private readonly glyphs = new Map<string, EmbeddedGlyph>();
-  private readonly pending = new Map<string, Promise<void>>();
+  /// Decoded signs; `null` for a sign which couldn't be decoded.
+  private readonly glyphs = new Map<string, EmbeddedGlyph | null>();
 
   constructor(
     private readonly base: GlyphProvider,
@@ -74,18 +75,33 @@ export class EmbeddedSignGlyphProvider implements GlyphProvider {
     for (const s of signs) this.signs.set(s.code, s);
   }
 
+  /// The decoded sign, or `undefined` if it is unreadable.
+  private glyph(code: string): EmbeddedGlyph | undefined {
+    let g = this.glyphs.get(code);
+    if (g === undefined) {
+      try {
+        g = toGlyph(embeddedSignRendering(this.signs.get(code)!));
+      } catch (error: unknown) {
+        console.warn(`Unreadable embedded sign ${code}`, error);
+        g = null;
+      }
+      this.glyphs.set(code, g);
+    }
+    return g ?? undefined;
+  }
+
   canonicalCode(code: string): string {
     return this.signs.has(code) ? code : this.base.canonicalCode(code);
   }
 
   size(code: string): { width: number; height: number } | undefined {
     if (!this.signs.has(code)) return this.base.size(code);
-    const g = this.glyphs.get(code);
+    const g = this.glyph(code);
     return g === undefined ? undefined : { width: g.width, height: g.height };
   }
 
   ligatureZone(code: string, i: number): LigatureZone | undefined {
-    return this.signs.has(code) ? this.glyphs.get(code)?.zones[i] : this.base.ligatureZone(code, i);
+    return this.signs.has(code) ? this.glyph(code)?.zones[i] : this.base.ligatureZone(code, i);
   }
 
   ligaturePositions(codes: readonly string[]): readonly ExplicitPosition[] | undefined {
@@ -93,37 +109,11 @@ export class EmbeddedSignGlyphProvider implements GlyphProvider {
   }
 
   shape(code: string): SignShape | undefined {
-    return this.signs.has(code) ? this.glyphs.get(code)?.shape : this.base.shape(code);
+    return this.signs.has(code) ? this.glyph(code)?.shape : this.base.shape(code);
   }
 
   async loadShapes(codes: Iterable<string>): Promise<void> {
-    const others: string[] = [];
-    const waits: Promise<void>[] = [];
-    for (const code of codes) {
-      const sign = this.signs.get(code);
-      if (sign === undefined) {
-        others.push(code);
-        continue;
-      }
-      if (this.glyphs.has(code)) continue;
-      let p = this.pending.get(code);
-      if (p === undefined) {
-        p = embeddedSignRendering(sign).then(
-          (r) => {
-            this.glyphs.set(code, toGlyph(r));
-            this.pending.delete(code);
-          },
-          (error: unknown) => {
-            this.pending.delete(code);
-            console.warn(`Unreadable embedded sign ${code}`, error);
-          },
-        );
-        this.pending.set(code, p);
-      }
-      waits.push(p);
-    }
-    waits.push(this.base.loadShapes(others));
-    await Promise.all(waits);
+    await this.base.loadShapes([...codes].filter((c) => !this.signs.has(c)));
   }
 }
 

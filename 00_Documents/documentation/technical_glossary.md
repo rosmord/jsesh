@@ -477,7 +477,7 @@ The JFlex and CUP generated versions are retired.
 
 A sign drawn by the user and stored **in one document**, not in the user's sign folder:
 `sign1`, `sign2`... (*document*). `EmbeddedSignList`, owned by `MDCDocument` (not by
-`DocumentPreferences`); saved in the header as the user's SVG file, gzipped, with a
+`DocumentPreferences`); saved in the header as the user's SVG file, base64-encoded, with a
 rendering cache for the JS port (`EmbeddedSignsHeaderCodec`; format in
 [embedded_signs.md](embedded_signs.md)).
 Numbers are never reused (`JSesh_max_embedded_sign_id`). A sign may be a *variant of* a

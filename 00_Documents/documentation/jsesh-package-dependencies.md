@@ -161,6 +161,8 @@ flowchart TD
     clip -->|4| export
     clip -->|3| model
     clip -->|1| io
+    %% 2026-11-10: copy/paste of embedded signs (JSeshFragment, MDCModelTransferable).
+    clip -->|5| doc
     export -->|47| render
     export -->|35| model
     export -->|15| utils
@@ -171,7 +173,7 @@ flowchart TD
     export -->|1| glyphs
     editor -->|67| model
     editor -->|27| render
-    editor -->|14| doc
+    editor -->|17| doc
     editor -->|7| glyphs
     editor -->|6| clip
     editor -->|5| utils

@@ -13,10 +13,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
 
+import jsesh.document.embeddedsigns.EmbeddedSign;
+import jsesh.document.embeddedsigns.EmbeddedSignShapeRepository;
 import jsesh.render.style.JSeshStyle;
 import jsesh.ui.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.ui.export.pdfExport.PDFDataSaver;
@@ -57,6 +60,9 @@ public class MDCModelTransferable implements Transferable {
 
     private final DataFlavor dataFlavors[];
 
+    /// The embedded signs the text uses (`sign1`...).
+    private final List<EmbeddedSign> embeddedSigns;
+
     private boolean unicodeText = false;
     private boolean unicodeFormatControls = false;
 
@@ -70,6 +76,10 @@ public class MDCModelTransferable implements Transferable {
      * @param mdcClipboardPreferences
      * @param rtfExportPreferences
      * @param renderContext
+     *
+     * If the text uses signs embedded in its document (found through the
+     * shape repository of the render context), {@link JSeshPasteFlavors#JSeshFragmentFlavor}
+     * replaces {@link JSeshPasteFlavors#ListOfTopItemsFlavor} in the flavors.
      */
     public MDCModelTransferable(DataFlavor[] dataFlavors, HieroglyphicText list,
             RTFExportPreferences rtfExportPreferences,
@@ -79,7 +89,13 @@ public class MDCModelTransferable implements Transferable {
         maxBitmapHeight = 2000;
         this.rtfPreferences = rtfExportPreferences;
         this.jseshRenderContext = renderContext;
-        this.dataFlavors = dataFlavors;
+        this.embeddedSigns = EmbeddedSignShapeRepository
+                .usedIn(list, renderContext.hieroglyphShapeRepository()).asList();
+        this.dataFlavors = embeddedSigns.isEmpty() ? dataFlavors
+                : Arrays.stream(dataFlavors)
+                        .map(f -> JSeshPasteFlavors.ListOfTopItemsFlavor.equals(f)
+                                ? JSeshPasteFlavors.JSeshFragmentFlavor : f)
+                        .toArray(DataFlavor[]::new);
     }
 
     /**
@@ -131,8 +147,10 @@ public class MDCModelTransferable implements Transferable {
             result = getRtfData();
         } else if (DataFlavor.stringFlavor.equals(flavor)) {
             return getStringData();
-        } else if (JSeshPasteFlavors.ListOfTopItemsFlavor.equals(flavor)) {
+        } else if (JSeshPasteFlavors.ListOfTopItemsFlavor.equals(flavor) && embeddedSigns.isEmpty()) {
             return getItemListData();
+        } else if (JSeshPasteFlavors.JSeshFragmentFlavor.equals(flavor) && !embeddedSigns.isEmpty()) {
+            return new JSeshFragment(getItemListData(), embeddedSigns);
         } else if (DataFlavor.imageFlavor.equals(flavor)) {
             result = getImageData();
         } else if (JSeshPasteFlavors.MACPictFlavor.equals(flavor)) {

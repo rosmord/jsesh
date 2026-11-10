@@ -7,10 +7,6 @@
  */
 package jsesh.io.document;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
@@ -18,8 +14,6 @@ import java.util.OptionalInt;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import jsesh.document.embeddedsigns.EmbeddedSign;
 import jsesh.document.embeddedsigns.EmbeddedSignList;
@@ -39,11 +33,10 @@ import jsesh.model.constants.JSeshInfoConstants;
 ///   reading, as JSesh doesn't know how its other fields are written;
 /// - `description` is the description in UTF-8, base64-encoded, or `-` if
 ///   it is empty;
-/// - `svg` is the user's SVG file, gzipped and base64-encoded: the
-///   reference;
+/// - `svg` is the user's SVG file, base64-encoded (not compressed, so that
+///   it stays easy to recover): the reference;
 /// - `rendering` is [EmbeddedSignShapes#renderingData] (size, outline and
-///   ligature zones as JSesh reads them from the SVG), gzipped and
-///   base64-encoded. It is written for the JavaScript port, which can't read
+///   ligature zones as JSesh reads them from the SVG), base64-encoded. It is written for the JavaScript port, which can't read
 ///   arbitrary SVG; JSesh recomputes it at each writing and ignores it when
 ///   reading.
 ///
@@ -113,7 +106,7 @@ public final class EmbeddedSignsHeaderCodec {
         String description = sign.description().isEmpty() ? NONE : encode(sign.description());
         byte[] svg = sign.svg();
         byte[] rendering = EmbeddedSignShapes.renderingData(sign.code(), svg).getBytes(StandardCharsets.UTF_8);
-        return variantOf + " " + FORMAT_VERSION + " " + description + " " + gzip(svg) + " " + gzip(rendering);
+        return variantOf + " " + FORMAT_VERSION + " " + description + " " + base64(svg) + " " + base64(rendering);
     }
 
     private static EmbeddedSign decodeSign(String code, String value) {
@@ -132,32 +125,23 @@ public final class EmbeddedSignsHeaderCodec {
         String variantOf = NONE.equals(parts[0]) ? null : parts[0];
         String description = NONE.equals(parts[2]) ? "" : decode(parts[2]);
         // parts[4], the rendering data, is recomputed from the SVG.
-        return new EmbeddedSign(code, gunzip(parts[3]), variantOf, description);
+        return new EmbeddedSign(code, unbase64(parts[3]), variantOf, description);
     }
 
-    private static String gzip(byte[] data) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try (GZIPOutputStream gz = new GZIPOutputStream(out)) {
-            gz.write(data);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e); // Can't happen on a byte array.
-        }
-        return Base64.getEncoder().encodeToString(out.toByteArray());
+    private static String base64(byte[] data) {
+        return Base64.getEncoder().encodeToString(data);
     }
 
-    private static byte[] gunzip(String base64) {
-        try (GZIPInputStream in = new GZIPInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(base64)))) {
-            return in.readAllBytes();
-        } catch (IOException e) {
-            throw new IllegalArgumentException("bad compressed data", e);
-        }
+    /// @throws IllegalArgumentException if `text` is not valid base64.
+    private static byte[] unbase64(String text) {
+        return Base64.getDecoder().decode(text);
     }
 
     private static String encode(String text) {
-        return Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8));
+        return base64(text.getBytes(StandardCharsets.UTF_8));
     }
 
-    private static String decode(String base64) {
-        return new String(Base64.getDecoder().decode(base64), StandardCharsets.UTF_8);
+    private static String decode(String text) {
+        return new String(unbase64(text), StandardCharsets.UTF_8);
     }
 }

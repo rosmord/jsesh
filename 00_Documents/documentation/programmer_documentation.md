@@ -374,6 +374,26 @@ repository doesn't keep it alive. The exporters find the signs through the
 render context (`EmbeddedSignShapeRepository.find`) and write the ones used in
 the MdC they embed. Changes to the list are observable, but not undoable.
 
+**Copy and paste.** `JMDCEditor.copy()` puts on the clipboard a `ListOfTopItems`
+when the selection uses no embedded sign, and otherwise a `JSeshFragment`
+(`jsesh.ui.clipboard`: the items and the signs they use,
+`JSeshPasteFlavors.JSeshFragmentFlavor`), instead of the `ListOfTopItems`.
+`JMDCEditor.paste()` adds the signs to the document of the target editor, found
+through its render context. To do the same without an editor:
+
+```java
+EmbeddedSignImport plan = fragment.adaptTo(targetDoc.getEmbeddedSigns()); // renames the codes of fragment.items()
+boolean inserted = ...;   // insert fragment.items() in the target text
+if (inserted) {
+    plan.commit();        // only add the signs if the text went in
+}
+```
+
+`EmbeddedSignList.planImport(signs)` gives the plan without the fragment:
+same SVG → same sign; otherwise new numbers (see
+[embedded_signs.md](embedded_signs.md), §7). `jsesh.model.tools.SignCodeRenamer`
+renames codes in any model elements.
+
 ### 8.4. Document preferences: one unit, and the settings shared with zones
 
 `DocumentPreferences` (immutable record) describes the layout of the text by:

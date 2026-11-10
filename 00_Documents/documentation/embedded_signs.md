@@ -63,8 +63,8 @@ As for any header line, the value is the text between the first space and the fi
 | 1 | variant of | A Gardiner code (`A1`, `Y5`), written as is | `-` |
 | 2 | format version | The version of the storage format of the sign: `v0` | (never empty) |
 | 3 | description | The description in UTF-8, base64-encoded | `-` |
-| 4 | SVG | The user's SVG file, gzipped, then base64-encoded | (never empty) |
-| 5 | rendering data | A JSON object in UTF-8 (§5), gzipped, then base64-encoded | (never empty) |
+| 4 | SVG | The user's SVG file, base64-encoded | (never empty) |
+| 5 | rendering data | A JSON object in UTF-8 (§5), base64-encoded | (never empty) |
 
 **Format version.** The fields after the version depend on it. This document describes version `v0`, the only one so far. A later version may change, add or remove the following fields; it will keep the first two. A reader must check the version and skip a sign whose version it doesn't know. JSesh does so, with a warning.
 
@@ -72,7 +72,7 @@ As for any header line, the value is the text between the first space and the fi
 
 The lines come in the alphabetical order of their property names, after the document preferences. A reader should not depend on this order.
 
-**Encodings.** Base64 is the standard alphabet (`A–Z a–z 0–9 + /`), with `=` padding and without line breaks (RFC 4648, §4). Gzip is a plain gzip stream (RFC 1952), as written by `java.util.zip.GZIPOutputStream`. The values may contain `+`: this is no problem, since only the final ` +s`, with its space, ends the line.
+**Encodings.** Base64 is the standard alphabet (`A–Z a–z 0–9 + /`), with `=` padding and without line breaks (RFC 4648, §4). The data is not compressed: decoding the base64 gives the SVG file or the JSON text directly (on the command line, `base64 -d`). The values may contain `+`: this is no problem, since only the final ` +s`, with its space, ends the line.
 
 ## 4. Decoding a sign, step by step
 
@@ -81,11 +81,11 @@ The lines come in the alphabetical order of their property names, after the docu
 3. Split the value on spaces. Field 2 must be `v0`; if it is not, skip the sign (§3). There must then be exactly five fields.
 4. Field 1: `-` means "no variant", anything else is a Gardiner code.
 5. Field 3: `-` means an empty description. Otherwise, decode it from base64 and read the bytes as UTF-8.
-6. Field 4: decode it from base64, then gunzip it. The result is the bytes of the SVG file. Keep them as **bytes**: the file may declare another encoding than UTF-8 in its XML declaration (`<?xml … encoding='ISO-8859-1'?>`), and an XML parser handles that.
-7. Field 5: decode it from base64, gunzip it, read it as UTF-8, and parse it as JSON (§5).
+6. Field 4: decode it from base64. The result is the bytes of the SVG file. Keep them as **bytes**: the file may declare another encoding than UTF-8 in its XML declaration (`<?xml … encoding='ISO-8859-1'?>`), and an XML parser handles that.
+7. Field 5: decode it from base64, read it as UTF-8, and parse it as JSON (§5).
 8. Read `JSesh_max_embedded_sign_id` as an integer. If it is missing or smaller than the highest sign number, use that number.
 
-JSesh skips a malformed line (wrong code, unknown format version, wrong number of fields, bad base64 or gzip data) and logs a warning. The other signs are still read.
+JSesh skips a malformed line (wrong code, unknown format version, wrong number of fields, bad base64 data) and logs a warning. The other signs are still read.
 
 JSesh itself doesn't read field 5. It recomputes the rendering data from the SVG each time it writes a document.
 
@@ -148,12 +148,20 @@ A program which writes JSesh documents should:
 
 JSesh saves a document with embedded signs in the `.gly` format, whatever its other options are, because only that format has a header.
 
+**Moving text to another document.** Codes only make sense in their own document: `sign1` in one document and `sign1` in another are usually different drawings. When JSesh pastes text copied from another document, it brings the signs the text uses with it:
+
+- a sign whose SVG is the same, byte for byte, as a sign of the target document takes that sign's code. The target's "variant of" and description are kept;
+- the other signs are added to the target with new numbers (`max + 1`, `max + 2`…), keeping their "variant of" and description;
+- the codes of the pasted text are renamed to match. The renaming is simultaneous: if `sign1` becomes `sign2` and `sign2` becomes `sign1`, the two codes are swapped.
+
+Copying and pasting inside one document therefore changes no code. A program which merges JSesh texts should follow the same rules.
+
 ## 8. Example code
 
 **Python**, reading the signs of a `.gly` file:
 
 ```python
-import base64, gzip, json, re
+import base64, json, re
 
 def embedded_signs(gly_text):
     signs, max_id = {}, 0
@@ -175,24 +183,22 @@ def embedded_signs(gly_text):
             signs[code] = {
                 "variantOf": None if variant == "-" else variant,
                 "description": "" if description == "-" else base64.b64decode(description).decode("utf-8"),
-                "svg": gzip.decompress(base64.b64decode(svg)),          # bytes
-                "rendering": json.loads(gzip.decompress(base64.b64decode(rendering))),
+                "svg": base64.b64decode(svg),                          # bytes
+                "rendering": json.loads(base64.b64decode(rendering)),
             }
             max_id = max(max_id, int(code[4:]))
     return signs, max_id
 ```
 
-**JavaScript** (browser or Node 18+), decompressing one field:
+**JavaScript** (browser or Node 16+), decoding one field:
 
 ```js
-async function gunzipBase64(text) {
-  const bytes = Uint8Array.from(atob(text), (c) => c.charCodeAt(0));
-  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
-  return new Uint8Array(await new Response(stream).arrayBuffer());
+function base64ToBytes(text) {
+  return Uint8Array.from(atob(text), (c) => c.charCodeAt(0));
 }
 
-const rendering = JSON.parse(new TextDecoder().decode(await gunzipBase64(fields[4])));
+const rendering = JSON.parse(new TextDecoder().decode(base64ToBytes(fields[4])));
 // <path d={rendering.d} fill="black"/>, in a box of rendering.w × rendering.h
 ```
 
-With the JavaScript port, `readMdcDocument` reads the signs (`document.embeddedSigns`), and `renderToSvg` draws them. The data is decompressed only when the signs are drawn (`embeddedSignSvg` and `embeddedSignRendering` give the decoded fields).
+With the JavaScript port, `readMdcDocument` reads the signs (`document.embeddedSigns`), and `renderToSvg`, `layOutText` and `layOutTextSync` draw them. The data is decoded only when the signs are drawn (`embeddedSignSvg` and `embeddedSignRendering` give the decoded fields).

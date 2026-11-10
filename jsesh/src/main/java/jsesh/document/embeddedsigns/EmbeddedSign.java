@@ -7,6 +7,7 @@
  */
 package jsesh.document.embeddedsigns;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -24,7 +25,9 @@ import java.util.Objects;
 ///                    When set, the sign is proposed in the possibility list of
 ///                    that code.
 /// @param description a free description; never `null`, possibly empty.
-public record EmbeddedSign(String code, byte[] svg, String variantOf, String description) {
+///
+/// Serializable, to travel on the clipboard with copied text.
+public record EmbeddedSign(String code, byte[] svg, String variantOf, String description) implements Serializable {
 
     public EmbeddedSign {
         Objects.requireNonNull(code, "code");

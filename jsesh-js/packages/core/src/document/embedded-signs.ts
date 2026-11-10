@@ -10,11 +10,11 @@
 /// In the header, each sign is a property
 /// `JSesh_embedded_sign_sign1 <variantOf|-> v0 <base64(description)|-> <svg> <rendering>`,
 /// where `v0` is the version of the storage format of the sign (a sign in
-/// another version is skipped), and `JSesh_max_embedded_sign_id` is the highest number ever used. `svg`
-/// (the user's file) and `rendering` (its size, outline and ligature zones,
-/// computed by JSesh) are gzipped, then base64-encoded. They are kept as
-/// they are, and decompressed only when needed ([embeddedSignSvg],
-/// [embeddedSignRendering]), which is asynchronous.
+/// another version is skipped), and `JSesh_max_embedded_sign_id` is the
+/// highest number ever used. `svg` (the user's file) and `rendering` (its
+/// size, outline and ligature zones, computed by JSesh) are base64-encoded,
+/// not compressed. They are kept as they are, and decoded only when needed
+/// ([embeddedSignSvg], [embeddedSignRendering]).
 
 /// One embedded sign.
 export interface EmbeddedSign {
@@ -24,10 +24,10 @@ export interface EmbeddedSign {
   variantOf?: string;
   /// A description, possibly empty.
   description: string;
-  /// The user's SVG file, gzipped and base64-encoded, as in the header.
+  /// The user's SVG file, base64-encoded, as in the header.
   svg: string;
   /// The drawing as JSesh reads it ([EmbeddedSignRendering] as JSON),
-  /// gzipped and base64-encoded, as in the header.
+  /// base64-encoded, as in the header.
   rendering: string;
 }
 
@@ -70,7 +70,8 @@ export function isEmbeddedSignCode(code: string): boolean {
 }
 
 /// Reads the embedded signs from header properties. Malformed signs, and
-/// signs in an unknown format version, are skipped (with a warning). The compressed data is not checked.
+/// signs in an unknown format version, are skipped (with a warning). The
+/// encoded data is not checked.
 export function embeddedSignsFromMap(properties: Record<string, string>): EmbeddedSigns {
   const byId = new Map<number, EmbeddedSign>();
   let maxId = 0;
@@ -117,13 +118,13 @@ export function nextEmbeddedSignCode(signs: EmbeddedSigns): string {
 }
 
 /// The user's SVG file of a sign, byte for byte.
-export function embeddedSignSvg(sign: EmbeddedSign): Promise<Uint8Array> {
-  return gunzip(sign.svg);
+export function embeddedSignSvg(sign: EmbeddedSign): Uint8Array {
+  return base64ToBytes(sign.svg);
 }
 
 /// The drawing of a sign, as JSesh reads it from its SVG.
-export async function embeddedSignRendering(sign: EmbeddedSign): Promise<EmbeddedSignRendering> {
-  return JSON.parse(new TextDecoder().decode(await gunzip(sign.rendering))) as EmbeddedSignRendering;
+export function embeddedSignRendering(sign: EmbeddedSign): EmbeddedSignRendering {
+  return JSON.parse(decodeText(sign.rendering)) as EmbeddedSignRendering;
 }
 
 function base64ToBytes(text: string): Uint8Array {
@@ -141,9 +142,4 @@ function encodeText(text: string): string {
   let binary = "";
   for (const b of new TextEncoder().encode(text)) binary += String.fromCharCode(b);
   return btoa(binary);
-}
-
-async function gunzip(base64: string): Promise<Uint8Array> {
-  const stream = new Blob([base64ToBytes(base64) as BlobPart]).stream().pipeThrough(new DecompressionStream("gzip"));
-  return new Uint8Array(await new Response(stream).arrayBuffer());
 }

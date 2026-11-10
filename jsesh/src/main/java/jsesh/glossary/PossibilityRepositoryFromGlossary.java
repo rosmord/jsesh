@@ -91,9 +91,9 @@ public class PossibilityRepositoryFromGlossary implements PossibilityRepository 
 
 			PossibilitiesList result = new PossibilitiesList(possibilities);
 
-			if (result.isEmpty() && fromGlossary.isEmpty()) {
-				possibilities.addSign(code);
-			}
+			//if (result.isEmpty() && fromGlossary.isEmpty()) {
+			//	possibilities.addSign(code);
+			//}
 
 			for (GlossaryEntry e : fromGlossary) {
 				result.addMdCText(e.getMdc());
