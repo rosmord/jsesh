@@ -196,9 +196,6 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 textMenu.add(buildCartoucheMenu(app, view));
                 textMenu.add(buildEcdoticMenu(app, view));
                 textMenu.add(map.get(AddToGlossaryAction.ID));
-                textMenu.addSeparator();
-                addToMenu(textMenu, app, view, AddEmbeddedSignAction.ID);
-                addToMenu(textMenu, app, view, EmbeddedSignsAction.ID);
                 return textMenu;
         }
 
@@ -309,6 +306,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 }
                 fileMenu.addSeparator();
                 addToMenu(fileMenu, app, jSeshView, ImportNewSignAction.ID);
+                addToMenu(fileMenu, app, jSeshView, AddEmbeddedSignAction.ID);
+                addToMenu(fileMenu, app, jSeshView, EmbeddedSignsAction.ID);
                 fileMenu.addSeparator(); // maybe not.
                 addToMenu(fileMenu, app, jSeshView, ExportTextLibraryAction.ID);
 
