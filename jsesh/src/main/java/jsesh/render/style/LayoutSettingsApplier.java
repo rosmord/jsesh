@@ -50,7 +50,8 @@ public final class LayoutSettingsApplier {
                 case LAYOUT -> style.options(o -> o.textOrientation((TextOrientation) value));
                 case DIRECTION -> style.options(o -> o.textDirection((TextDirection) value));
                 case FIT_SIGNS -> style.options(o -> o.fitLoneSigns((Boolean) value));
-                case LIMIT_QUADRAT_WIDTH -> style.options(o -> o.limitQuadratWidthInLines((Boolean) value));
+                case HONOUR_MAX_QUADRAT_WIDTH -> style.options(o -> o.honourMaxQuadratWidthInLines((Boolean) value));
+                case UNIFORM_QUADRAT_SCALING -> style.options(o -> o.uniformQuadratScaling((Boolean) value));
                 case CENTRE_SMALL_SIGNS -> style.options(o -> o.smallSignCentered((Boolean) value));
                 default -> {
                     double p = points(unit, (Double) value);
@@ -87,7 +88,8 @@ public final class LayoutSettingsApplier {
                 case LAYOUT -> o.textOrientation();
                 case DIRECTION -> o.textDirection();
                 case FIT_SIGNS -> o.fitLoneSigns();
-                case LIMIT_QUADRAT_WIDTH -> o.limitQuadratWidthInLines();
+                case HONOUR_MAX_QUADRAT_WIDTH -> o.honourMaxQuadratWidthInLines();
+                case UNIFORM_QUADRAT_SCALING -> o.uniformQuadratScaling();
                 case CENTRE_SMALL_SIGNS -> o.smallSignCentered();
                 case QUADRAT_HEIGHT -> percent(g.maxCadratHeight(), unit);
                 case QUADRAT_WIDTH -> percent(g.maxCadratWidth(), unit);

@@ -569,7 +569,7 @@ doc.preferences;                          // what the header said (or the defaul
 writeMdcDocument(doc);                    // header + MdC, ready to be saved as a .gly file
 ```
 
-The layout part of the preferences is one **unit**, the height of a quadrat in points (`doc.preferences.unit`, 18 by default), and the **layout settings** (`doc.preferences.settings`), with the same names as the options of `%zone[...]`: `layout`, `dir`, `quadratheight`, `quadratwidth`, `signheight`, `linegap`, `columngap`, `quadratgap`, `columnquadratgap`, `cartouchelinewidth`, `textbaseline` (lengths in percents of the unit) and `fitsigns`, `limitquadratwidth`, `centresmallsigns` (booleans). Changing the unit scales the whole text:
+The layout part of the preferences is one **unit**, the height of a quadrat in points (`doc.preferences.unit`, 18 by default), and the **layout settings** (`doc.preferences.settings`), with the same names as the options of `%zone[...]`: `layout`, `dir`, `quadratheight`, `quadratwidth`, `signheight`, `linegap`, `columngap`, `quadratgap`, `columnquadratgap`, `cartouchelinewidth`, `textbaseline` (lengths in percents of the unit) and `fitsigns`, `honourmaxquadratwidth`, `uniformquadratscaling`, `centresmallsigns` (booleans). Changing the unit scales the whole text:
 
 ```js
 const larger = { ...doc.preferences, unit: 36 };

@@ -191,8 +191,11 @@ export interface LayoutOptions {
   textOrientation: TextOrientation;
   paged: boolean;
   smallSignCentered: boolean;
-  /// In horizontal text, scale quadrats down to the maximal quadrat width.
-  limitQuadratWidthInLines: boolean;
+  /// In horizontal text, scale quadrats down to the maximal quadrat width (columns always do).
+  honourMaxQuadratWidthInLines: boolean;
+  /// Scale a quadrat which is too large as a whole, with a single scale (instead of scaling each
+  /// of its lines to the maximal width, then the quadrat to the maximal height).
+  uniformQuadratScaling: boolean;
   /// Lay out every line at the start, whatever the alignment written on its line break. Used
   /// when the lines are wrapped to the width of an editor (not WYSIWYG). The content of a zone,
   /// which has its own width, is not concerned; nor are columns, which are never wrapped.
@@ -207,7 +210,8 @@ export const DEFAULT_LAYOUT_OPTIONS: Readonly<LayoutOptions> = Object.freeze<Lay
   textOrientation: "HORIZONTAL",
   paged: false,
   smallSignCentered: false,
-  limitQuadratWidthInLines: false,
+  honourMaxQuadratWidthInLines: true,
+  uniformQuadratScaling: false,
   ignoreLineAlignment: false,
   fitLoneSigns: true,
 });
@@ -355,7 +359,8 @@ export function layoutSettingsChanges(settings: TextLayoutSettings, unit: number
   if (settings.layout !== undefined) options.textOrientation = settings.layout;
   if (settings.dir !== undefined) options.textDirection = settings.dir;
   if (settings.fitsigns !== undefined) options.fitLoneSigns = settings.fitsigns;
-  if (settings.limitquadratwidth !== undefined) options.limitQuadratWidthInLines = settings.limitquadratwidth;
+  if (settings.honourmaxquadratwidth !== undefined) options.honourMaxQuadratWidthInLines = settings.honourmaxquadratwidth;
+  if (settings.uniformquadratscaling !== undefined) options.uniformQuadratScaling = settings.uniformquadratscaling;
   if (settings.centresmallsigns !== undefined) options.smallSignCentered = settings.centresmallsigns;
   const lengths: [number | undefined, keyof GeometrySpecification][] = [
     [settings.quadratheight, "maxCadratHeight"],

@@ -36,6 +36,11 @@ const VARIANTS: Record<string, JSeshStyle> = {
   columns: withStyle(DEFAULT_STYLE, { options: { textOrientation: "VERTICAL" } }),
   columnsRtl: withStyle(DEFAULT_STYLE, { options: { textOrientation: "VERTICAL", textDirection: "RIGHT_TO_LEFT" } }),
   centered: withStyle(DEFAULT_STYLE, { options: { smallSignCentered: true } }),
+  uniformScaling: withStyle(DEFAULT_STYLE, { options: { uniformQuadratScaling: true } }),
+  columnsUniformScaling: withStyle(DEFAULT_STYLE, {
+    options: { textOrientation: "VERTICAL", uniformQuadratScaling: true },
+  }),
+  noWidthLimit: withStyle(DEFAULT_STYLE, { options: { honourMaxQuadratWidthInLines: false } }),
   wrapped: withStyle(DEFAULT_STYLE, { geometry: { wrapWidth: WRAP_WIDTH } }),
   wrappedIgnoringAlignment: withStyle(DEFAULT_STYLE, {
     geometry: { wrapWidth: WRAP_WIDTH },

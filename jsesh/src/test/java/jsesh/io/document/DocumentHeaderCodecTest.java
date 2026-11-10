@@ -74,7 +74,7 @@ public class DocumentHeaderCodecTest {
         assertEquals(TextOrientation.VERTICAL, o.textOrientation());
         assertEquals(TextDirection.RIGHT_TO_LEFT, o.textDirection());
         assertTrue(o.smallSignCentered());
-        assertFalse(o.limitQuadratWidthInLines());
+        assertFalse(o.honourMaxQuadratWidthInLines());
         assertFalse(o.fitLoneSigns());
         assertEquals(ShadingMode.LINE_HATCHING, style.painting().shadingStyle());
     }
@@ -105,7 +105,8 @@ public class DocumentHeaderCodecTest {
         assertEquals(1.0, g.cartoucheLineWidth());
         assertEquals(4.0, g.alphabeticTextBaseline());
         assertTrue(style.options().fitLoneSigns());
-        assertTrue(style.options().limitQuadratWidthInLines());
+        assertTrue(style.options().honourMaxQuadratWidthInLines());
+        assertFalse(style.options().uniformQuadratScaling());
     }
 
     @Test

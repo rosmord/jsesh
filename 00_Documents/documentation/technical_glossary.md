@@ -396,7 +396,8 @@ layout of a text, with the **same names and values** in zone options
 | `cartouchelinewidth` | % | 5.56 | line of cartouches and zone frames |
 | `textbaseline` | % | 22.22 | baseline of alphabetic text above the quadrats' bottom |
 | `fitsigns` | `yes`/`no` | yes | [lone sign fitting](#lone-sign-fitting) |
-| `limitquadratwidth` | `yes`/`no` | yes | in lines, scale quadrats down to `quadratwidth` |
+| `honourmaxquadratwidth` | `yes`/`no` | yes | in lines, scale quadrats down to `quadratwidth` (see [quadrat scaling](#quadrat-scaling)) |
+| `uniformquadratscaling` | `yes`/`no` | no | scale a too large quadrat as a whole, with a single scale (see [quadrat scaling](#quadrat-scaling)) |
 | `centresmallsigns` | `yes`/`no` | no | centre small signs |
 
 The gaps are named by **role**, never by axis: `linegap` is always between lines, even in a
@@ -505,12 +506,31 @@ The unit of `GeometrySpecification`: by default, the height of an A1 sign is **1
 `Layout`, `LineLayout`, `ColumnLayout`: compute the positions and sizes of the views. They
 do **not** create views (that is `ViewBuilder`'s job). Short-lived objects.
 
+### Quadrat scaling
+
+A quadrat which is too large is scaled down (`QuadratLayout`). Two independent options say
+when and how (`LayoutOptions`; layout settings `honourmaxquadratwidth` and
+`uniformquadratscaling`, document header `JSesh_honourmaxquadratwidth` and
+`JSesh_uniformquadratscaling`, per zone `%zone[honourmaxquadratwidth=no,...]`):
+
+- **honour max quadrat width** (`honourMaxQuadratWidthInLines`, on by default): in lines,
+  whether the width of a quadrat is limited to `quadratwidth`. Columns always limit it. A
+  quadrat with a single line of signs (a "flat" quadrat) and a *wide* quadrat are never
+  scaled for their width in lines. The height is always limited in lines (to `quadratheight`).
+- **uniform quadrat scaling** (`uniformQuadratScaling`, off by default): *how* a quadrat is
+  scaled down when its width is limited. Off: each line of the quadrat (each hbox) is first
+  scaled to the maximal width, then the quadrat is scaled to the maximal height if needed, so
+  the lines of a quadrat may end with different scales. On: the quadrat is built at its
+  natural size, then scaled as a whole with the smallest scale which fits both limits (the
+  height limit is ignored in columns). With no width limit, the height limit alone applies,
+  and it is always uniform: the option has no effect then.
+
 ### Lone sign fitting
 
 In a quadrat, a low broad sign (as `n`, `N35`) alone on its line, at its normal size, is
 enlarged to the width of the quadrat (`QuadratLayout.fitLoneSignsToColumnWidth`). It shows
 in columns, where a lone `n` fills the column. Not to be confused with the *wide* quadrats
-of `%insert` or with `limitQuadratWidthInLines` (which scales quadrats *down*). Option
+of `%insert` or with `honourMaxQuadratWidthInLines` (which scales quadrats *down*). Option
 `LayoutOptions.fitLoneSigns` (layout setting `fitsigns`: document header `JSesh_fitsigns`,
 `yes` by default), overridden per zone with `%zone[fitsigns=yes|no]`.
 

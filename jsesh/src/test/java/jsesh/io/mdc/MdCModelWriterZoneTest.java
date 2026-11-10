@@ -109,14 +109,14 @@ public class MdCModelWriterZoneTest {
     public void everySharedSettingIsRead() throws MDCSyntaxError {
         Zone zone = assertInstanceOf(Zone.class, parse(
                 "%zone[columngap=40,columnquadratgap=10,signheight=80,cartouchelinewidth=8,textbaseline=30,"
-                        + "limitquadratwidth=no,centresmallsigns=yes,scale=50](A1)").getTopItemAt(0));
+                        + "honourmaxquadratwidth=no,centresmallsigns=yes,scale=50](A1)").getTopItemAt(0));
         ZoneParameters p = zone.getParameters();
         assertEquals(40.0, p.settings().length(LayoutSetting.COLUMN_GAP));
         assertEquals(10.0, p.settings().length(LayoutSetting.COLUMN_QUADRAT_GAP));
         assertEquals(80.0, p.settings().length(LayoutSetting.SIGN_HEIGHT));
         assertEquals(8.0, p.settings().length(LayoutSetting.CARTOUCHE_LINE_WIDTH));
         assertEquals(30.0, p.settings().length(LayoutSetting.TEXT_BASELINE));
-        assertEquals(Boolean.FALSE, p.settings().flag(LayoutSetting.LIMIT_QUADRAT_WIDTH));
+        assertEquals(Boolean.FALSE, p.settings().flag(LayoutSetting.HONOUR_MAX_QUADRAT_WIDTH));
         assertEquals(Boolean.TRUE, p.settings().flag(LayoutSetting.CENTRE_SMALL_SIGNS));
         assertEquals(50, p.scale());
     }
@@ -157,7 +157,7 @@ public class MdCModelWriterZoneTest {
             "%zone[scale=50](A1-A2)",
             "%zone[layout=columns,columngap=50,columnquadratgap=10](A1!A2)",
             "%zone[signheight=70,cartouchelinewidth=10,textbaseline=20](<-A1->)",
-            "%zone[limitquadratwidth=no,centresmallsigns=yes](A1)",
+            "%zone[honourmaxquadratwidth=no,centresmallsigns=yes](A1)",
             "%zone[tabgap=30](A1-%tab-A2)",
             "%zone[separator=5](A1!A2)",
             "%zone[layout=columns,separator=3](A1!A2)",

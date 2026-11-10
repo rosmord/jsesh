@@ -75,7 +75,7 @@ public final class DocumentHeaderCodec {
         LEGACY_KEYS.put(LayoutSetting.CARTOUCHE_LINE_WIDTH, JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH);
         LEGACY_KEYS.put(LayoutSetting.TEXT_BASELINE, JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE);
         LEGACY_KEYS.put(LayoutSetting.FIT_SIGNS, JSeshInfoConstants.JSESH_FIT_LONE_SIGNS);
-        LEGACY_KEYS.put(LayoutSetting.LIMIT_QUADRAT_WIDTH, JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES);
+        LEGACY_KEYS.put(LayoutSetting.HONOUR_MAX_QUADRAT_WIDTH, JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES);
         LEGACY_KEYS.put(LayoutSetting.CENTRE_SMALL_SIGNS, JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED);
     }
 
@@ -102,7 +102,8 @@ public final class DocumentHeaderCodec {
         TextLayoutSettings settings = TextLayoutSettings.INHERIT_ALL;
         for (LayoutSetting setting : LayoutSetting.values()) {
             Object value = read(setting, map.get(headerKey(setting)));
-            if (value == null && legacy) {
+            // Settings introduced after the legacy format have no legacy key.
+            if (value == null && legacy && LEGACY_KEYS.containsKey(setting)) {
                 value = readLegacy(setting, map.get(LEGACY_KEYS.get(setting)), unit);
             }
             settings = settings.with(setting, value);
@@ -173,6 +174,9 @@ public final class DocumentHeaderCodec {
     private static void putLegacyKeys(DocumentPreferences p, Map<String, String> result) {
         for (LayoutSetting setting : LayoutSetting.values()) {
             String key = LEGACY_KEYS.get(setting);
+            if (key == null) {
+                continue; // A setting which is more recent than the old format.
+            }
             if (setting == LayoutSetting.COLUMN_QUADRAT_GAP) {
                 continue; // The old format has a single line skip, the line gap's.
             }

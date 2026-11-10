@@ -64,9 +64,13 @@ public enum LayoutSetting {
     /// column) enlarged to the quadrat width ("scale to column width")?
     FIT_SIGNS("fitsigns", Kind.FLAG, Boolean.TRUE),
     /// In lines, are quadrats scaled down to the maximal quadrat width?
-    /// (Columns always limit the width of their quadrats.) `yes` keeps the
-    /// historical layout.
-    LIMIT_QUADRAT_WIDTH("limitquadratwidth", Kind.FLAG, Boolean.TRUE),
+    /// (Columns always limit the width of their quadrats.)
+    HONOUR_MAX_QUADRAT_WIDTH("honourmaxquadratwidth", Kind.FLAG, Boolean.TRUE),
+    /// When a quadrat is scaled down, is it scaled as a whole, with a single
+    /// scale (`yes`)? Otherwise (`no`), each line of the quadrat is first scaled
+    /// down to the maximal quadrat width, then the quadrat is scaled down to the
+    /// maximal quadrat height if needed.
+    UNIFORM_QUADRAT_SCALING("uniformquadratscaling", Kind.FLAG, Boolean.FALSE),
     /// Are small signs centred in their quadrat?
     CENTRE_SMALL_SIGNS("centresmallsigns", Kind.FLAG, Boolean.FALSE);
 

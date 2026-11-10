@@ -117,13 +117,28 @@ public class QuadratLayout {
 
 		// In horizontal text, the width limit is optional. In columns, it always applies.
 		boolean limitWidthOfHBoxes = !currentTextOrientation.isHorizontal()
-				|| jseshStyle.options().limitQuadratWidthInLines();
-		if (honourMaxWidth
-				|| (limitWidthOfHBoxes && lineCount != 1 && !wide)) {
+				|| jseshStyle.options().honourMaxQuadratWidthInLines();
+		boolean limitWidth = honourMaxWidth
+				|| (limitWidthOfHBoxes && lineCount != 1 && !wide);
+
+		// With uniform scaling, the quadrat is built at its natural size, then scaled
+		// as a whole at the end. Otherwise, each hbox is scaled to the maximal width
+		// now, and the quadrat is scaled to the maximal height at the end.
+		boolean uniform = limitWidth && jseshStyle.options().uniformQuadratScaling();
+
+		if (limitWidth && !uniform) {
 			i = currentView.iterator();
 			while (i.hasNext()) {
 				i.next().scaleForMaxWidth(maxWidth);
 			}
+		}
+
+		// The width which a quadrat fills when it should be as wide as possible.
+		// In uniform mode, it is the natural width if the quadrat is too wide: the
+		// final scale will bring it back to maxWidth.
+		double fullWidth = maxWidth;
+		if (uniform) {
+			fullWidth = Math.max(maxWidth, currentView.getMaximalWidthOfSubView());
 		}
 
 		// Streched cadrats
@@ -131,7 +146,7 @@ public class QuadratLayout {
 		if (wide) {
 			double maxw;
 			if (honourMaxWidth)
-				maxw = maxWidth;
+				maxw = fullWidth;
 			else
 				maxw = currentView.getMaximalWidthOfSubView();
 			for (int k = 0; k < currentView.getNumberOfSubviews(); k++) {
@@ -145,8 +160,8 @@ public class QuadratLayout {
 			// This is useful in columns, because you want, for instance, a
 			// "n" alone on a line to fill the whole line.
 			double width = currentView.getMaximalWidthOfSubView();
-			if (honourMaxWidth && (!embedded) && width < maxWidth) {
-				width = maxWidth;
+			if (honourMaxWidth && (!embedded) && width < fullWidth) {
+				width = fullWidth;
 			}
 
 			if (jseshStyle.options().fitLoneSigns()) {
@@ -154,8 +169,10 @@ public class QuadratLayout {
 			}
 		}
 
+		double uniformScale = 1;
 		if (kerningLines) {
-			layoutWithKerningLines(c, honourMaxWidth, honourMaxHeight, embedded, maxWidth);
+			uniformScale = layoutWithKerningLines(c, honourMaxWidth, honourMaxHeight, embedded, fullWidth, maxWidth,
+					uniform);
 		} else {
 			// CADRAT HEIGHT
 			// A cadrat is a list of horizontal boxes.
@@ -165,14 +182,20 @@ public class QuadratLayout {
 			h += (currentView.getNumberOfSubviews() - 1)
 					* jseshStyle.geometry().smallSkip();
 
+			if (uniform) {
+				uniformScale = uniformScale(currentView.getMaximalWidthOfSubView(), h, honourMaxHeight, maxWidth);
+			}
+
 			// If the cadrat is not high enough, we add some space to set its height
 			// (if it's too large, it will be scaled anyway).
 			// Note :
 			// This should be done in a number of cases :
 			// a) generally in line composition
 
-			if ((honourMaxHeight) && h < jseshStyle.geometry().maxCadratHeight())
-				h = jseshStyle.geometry().maxCadratHeight();
+			// (With uniform scaling, this is the height before scaling.)
+			double minHeight = jseshStyle.geometry().maxCadratHeight() / uniformScale;
+			if ((honourMaxHeight) && h < minHeight)
+				h = minHeight;
 
 			currentView.setHeight(h);
 
@@ -182,8 +205,8 @@ public class QuadratLayout {
 			// Compute "natural" width
 			double w = currentView.getMaximalWidthOfSubView();
 
-			if (honourMaxWidth && (!embedded) && w < maxWidth) {
-				w = maxWidth;
+			if (honourMaxWidth && (!embedded) && w < fullWidth) {
+				w = fullWidth;
 			}
 
 			currentView.setWidth(w);
@@ -201,10 +224,36 @@ public class QuadratLayout {
 			layoutLines(c, w);
 		}
 		// Now, if needed, we scale the cadrat :
-		double h = currentView.getHeight();
-		if (honourMaxHeight && h > jseshStyle.geometry().maxCadratHeight()) {
-			currentView.reScale(jseshStyle.geometry().maxCadratHeight() / h);
+		if (uniform) {
+			if (uniformScale < 1) {
+				currentView.reScale(uniformScale);
+			}
+		} else {
+			double h = currentView.getHeight();
+			if (honourMaxHeight && h > jseshStyle.geometry().maxCadratHeight()) {
+				currentView.reScale(jseshStyle.geometry().maxCadratHeight() / h);
+			}
 		}
+	}
+
+	/// The scale which brings a quadrat as a whole within the maximal width, and
+	/// within the maximal height if it applies.
+	///
+	/// @param width the natural width of the quadrat.
+	/// @param height the natural height of the quadrat.
+	/// @param honourMaxHeight whether the height is limited.
+	/// @param maxWidth the maximal width.
+	/// @return a scale, at most 1.
+	private double uniformScale(double width, double height, boolean honourMaxHeight, double maxWidth) {
+		double scale = 1;
+		if (width > maxWidth) {
+			scale = maxWidth / width;
+		}
+		double maxHeight = jseshStyle.geometry().maxCadratHeight();
+		if (honourMaxHeight && height > maxHeight) {
+			scale = Math.min(scale, maxHeight / height);
+		}
+		return scale;
 	}
 
 	/// Places the elements of each line of the quadrat, once its width is known.
@@ -240,11 +289,18 @@ public class QuadratLayout {
 	///
 	/// Such lines take no room. A `%vkern` line kerns the lines around it, which then
 	/// move together; they are only known once the content of the lines is placed.
-	private void layoutWithKerningLines(Cadrat c, boolean honourMaxWidth, boolean honourMaxHeight,
-			boolean embedded, double maxWidth) {
-		double w = currentView.getMaximalWidthOfSubView();
-		if (honourMaxWidth && (!embedded) && w < maxWidth) {
-			w = maxWidth;
+	///
+	/// @param fullWidth the width a quadrat fills when it should be as wide as possible.
+	/// @param maxWidth the maximal width of a quadrat.
+	/// @param uniform whether the quadrat is scaled as a whole by the caller.
+	/// @return the scale the caller should apply to the whole quadrat if `uniform`
+	/// (`1` otherwise).
+	private double layoutWithKerningLines(Cadrat c, boolean honourMaxWidth, boolean honourMaxHeight,
+			boolean embedded, double fullWidth, double maxWidth, boolean uniform) {
+		double naturalWidth = currentView.getMaximalWidthOfSubView();
+		double w = naturalWidth;
+		if (honourMaxWidth && (!embedded) && w < fullWidth) {
+			w = fullWidth;
 		}
 		currentView.setWidth(w);
 		layoutLines(c, w);
@@ -254,8 +310,13 @@ public class QuadratLayout {
 		}
 		KerningPacker packer = packer(KerningAxis.VERTICAL);
 		double h = packer.pack(currentView);
-		if (honourMaxHeight && h < jseshStyle.geometry().maxCadratHeight()) {
-			h = jseshStyle.geometry().maxCadratHeight();
+		double scale = 1;
+		if (uniform) {
+			scale = uniformScale(naturalWidth, h, honourMaxHeight, maxWidth);
+		}
+		double minHeight = jseshStyle.geometry().maxCadratHeight() / scale;
+		if (honourMaxHeight && h < minHeight) {
+			h = minHeight;
 		}
 		currentView.setHeight(h);
 
@@ -267,6 +328,7 @@ public class QuadratLayout {
 			double free = currentView.getInternalHeight() - packer.blockLength(currentView, block);
 			packer.moveBlockTo(currentView, block, centerSigns ? free / 2 : free);
 		}
+		return scale;
 	}
 
 	/// Lays out a quadrat made only of kerning operators, as in `p-%hkern-q`.

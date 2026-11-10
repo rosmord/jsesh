@@ -82,7 +82,7 @@ const SMALL_BODY_LIMIT = "JSesh_smallbodylimit";
 const SHADING = "JSesh_shading";
 
 /// The old property of each setting, in points for lengths.
-const LEGACY_KEYS: Record<LayoutSettingName, string> = {
+const LEGACY_KEYS: Partial<Record<LayoutSettingName, string>> = {
   layout: "JSesh_page_orientation",
   dir: "JSesh_page_direction",
   quadratheight: "JSesh_max_quadrantHeight",
@@ -96,7 +96,7 @@ const LEGACY_KEYS: Record<LayoutSettingName, string> = {
   cartouchelinewidth: "JSesh_cartouche_line_width",
   textbaseline: "JSesh_alphabetic_text_baseline",
   fitsigns: "JSesh_fit_lone_signs",
-  limitquadratwidth: "JSesh_limit_quadrat_width_in_lines",
+  honourmaxquadratwidth: "JSesh_limit_quadrat_width_in_lines",
   centresmallsigns: "JSesh_small_sign_centered",
 };
 
@@ -134,7 +134,9 @@ export function documentPreferencesFromMap(map: Record<string, string>): Documen
   for (const s of LAYOUT_SETTINGS) {
     const text = map[headerKey(s.name)];
     let value = text === undefined ? undefined : parseLayoutSetting(s.name, text);
-    if (value === undefined && legacy) value = readLegacy(s.name, map[LEGACY_KEYS[s.name]], unit);
+    // The settings which are more recent than the old format have no old property.
+    const legacyKey = LEGACY_KEYS[s.name];
+    if (value === undefined && legacy && legacyKey !== undefined) value = readLegacy(s.name, map[legacyKey], unit);
     settings[s.name] = value ?? DOCUMENT_DEFAULT_SETTINGS[s.name];
   }
   const shading = map[SHADING];
@@ -186,8 +188,10 @@ function putLegacyKeys(p: DocumentPreferences, result: Record<string, string>): 
   for (const s of LAYOUT_SETTINGS) {
     // The old format has a single line skip, the line gap's.
     if (s.name === "columnquadratgap") continue;
+    const legacyKey = LEGACY_KEYS[s.name];
+    if (legacyKey === undefined) continue; // More recent than the old format.
     const value = p.settings[s.name];
-    result[LEGACY_KEYS[s.name]] =
+    result[legacyKey] =
       s.kind === "LENGTH" ? javaDoubleToString(Math.round(preferencePoints(p, s.name) * 1e6) / 1e6) : String(value);
   }
   result["JSesh_small_body_scale_limit"] = javaDoubleToString(p.smallBodyScaleLimit);

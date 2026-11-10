@@ -61,6 +61,12 @@ public final class ExportFixtures {
         LAYOUT_VARIANTS.put("columnsRtl", base.copy().options(o -> o.textOrientation(TextOrientation.VERTICAL)
                 .textDirection(TextDirection.RIGHT_TO_LEFT)).build());
         LAYOUT_VARIANTS.put("centered", base.copy().options(o -> o.smallSignCentered(true)).build());
+        // Quadrats which are too large are scaled as a whole, in lines and in columns.
+        LAYOUT_VARIANTS.put("uniformScaling", base.copy().options(o -> o.uniformQuadratScaling(true)).build());
+        LAYOUT_VARIANTS.put("columnsUniformScaling", base.copy().options(o -> o
+                .textOrientation(TextOrientation.VERTICAL).uniformQuadratScaling(true)).build());
+        // The width of the quadrats is not limited in lines.
+        LAYOUT_VARIANTS.put("noWidthLimit", base.copy().options(o -> o.honourMaxQuadratWidthInLines(false)).build());
         // Soft wrapping (the width is also used by the JavaScript tests).
         LAYOUT_VARIANTS.put("wrapped", base.copy().geometry(g -> g.wrapWidth(WRAP_WIDTH)).build());
         // Wrapping to the width of an editor: the alignment of the lines is ignored.

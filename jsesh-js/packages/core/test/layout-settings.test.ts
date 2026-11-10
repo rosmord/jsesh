@@ -49,7 +49,7 @@ describe("layout settings in the header", () => {
     expect(o.textOrientation).toBe("VERTICAL");
     expect(o.textDirection).toBe("RIGHT_TO_LEFT");
     expect(o.smallSignCentered).toBe(true);
-    expect(o.limitQuadratWidthInLines).toBe(false);
+    expect(o.honourMaxQuadratWidthInLines).toBe(false);
     expect(o.fitLoneSigns).toBe(false);
   });
 

@@ -1129,13 +1129,21 @@ class QuadratLayout {
     const kerningLines = lineCount !== c.numberOfHBoxes;
     // In horizontal text, the width limit is optional. In columns, it always applies.
     const limitWidthOfHBoxes =
-      this.currentTextOrientation !== "HORIZONTAL" || this.style.options.limitQuadratWidthInLines;
-    if (honourMaxWidth || (limitWidthOfHBoxes && lineCount !== 1 && !wide)) {
+      this.currentTextOrientation !== "HORIZONTAL" || this.style.options.honourMaxQuadratWidthInLines;
+    const limitWidth = honourMaxWidth || (limitWidthOfHBoxes && lineCount !== 1 && !wide);
+    // With uniform scaling, the quadrat is built at its natural size, then scaled as a whole at
+    // the end. Otherwise, each hbox is scaled to the maximal width now, and the quadrat is scaled
+    // to the maximal height at the end.
+    const uniform = limitWidth && this.style.options.uniformQuadratScaling;
+    if (limitWidth && !uniform) {
       for (const sub of currentView.subviews) sub.scaleForMaxWidth(maxWidth);
     }
+    // The width which a quadrat fills when it should be as wide as possible. In uniform mode, it
+    // is the natural width if the quadrat is too wide: the final scale brings it back to maxWidth.
+    const fullWidth = uniform ? Math.max(maxWidth, currentView.maximalWidthOfSubView) : maxWidth;
     if (wide) {
       // Stretched quadrats.
-      const maxw = honourMaxWidth ? maxWidth : currentView.maximalWidthOfSubView;
+      const maxw = honourMaxWidth ? fullWidth : currentView.maximalWidthOfSubView;
       for (let k = 0; k < currentView.numberOfSubviews; k++) {
         if (c.getHBox(k).isWide()) currentView.getSubView(k).scaleToWidth(maxw);
       }
@@ -1143,22 +1151,26 @@ class QuadratLayout {
       // Keep the width, but scale wide lone signs so that they fill their
       // line (for instance, a lone "n" in a column).
       let width = currentView.maximalWidthOfSubView;
-      if (honourMaxWidth && !embedded && width < maxWidth) width = maxWidth;
+      if (honourMaxWidth && !embedded && width < fullWidth) width = fullWidth;
       if (this.style.options.fitLoneSigns) this.fitLoneSignsToColumnWidth(c, width);
     }
+    let uniformScale = 1;
     if (kerningLines) {
-      this.layoutWithKerningLines(c, honourMaxWidth, honourMaxHeight, embedded, maxWidth);
+      uniformScale = this.layoutWithKerningLines(c, honourMaxWidth, honourMaxHeight, embedded, fullWidth, maxWidth, uniform);
     } else {
       // Height: the sum of the hboxes' heights, and the spaces between them.
       let h = currentView.sumOfSubViewsHeights;
       h += ((currentView.numberOfSubviews - 1) * g.smallSkip);
+      if (uniform) uniformScale = this.uniformScale(currentView.maximalWidthOfSubView, h, honourMaxHeight, maxWidth);
       // In lines, a quadrat which is not high enough gets some space (if it's
       // too high, it will be scaled).
-      if (honourMaxHeight && h < g.maxCadratHeight) h = g.maxCadratHeight;
+      // (With uniform scaling, this is the height before scaling.)
+      const minHeight = g.maxCadratHeight / uniformScale;
+      if (honourMaxHeight && h < minHeight) h = minHeight;
       currentView.height = h;
       // Width.
       let w = currentView.maximalWidthOfSubView;
-      if (honourMaxWidth && !embedded && w < maxWidth) w = maxWidth;
+      if (honourMaxWidth && !embedded && w < fullWidth) w = fullWidth;
       currentView.width = w;
       if (currentView.numberOfSubviews > 1) {
         currentView.distributeFromTopToBottom();
@@ -1169,8 +1181,22 @@ class QuadratLayout {
       }
       this.layoutLines(c, w);
     }
-    const h = currentView.height;
-    if (honourMaxHeight && h > g.maxCadratHeight) currentView.reScale(g.maxCadratHeight / h);
+    if (uniform) {
+      if (uniformScale < 1) currentView.reScale(uniformScale);
+    } else {
+      const h = currentView.height;
+      if (honourMaxHeight && h > g.maxCadratHeight) currentView.reScale(g.maxCadratHeight / h);
+    }
+  }
+
+  /// The scale which brings a quadrat as a whole within the maximal width, and within the maximal
+  /// height if it applies (at most 1).
+  private uniformScale(width: number, height: number, honourMaxHeight: boolean, maxWidth: number): number {
+    let scale = 1;
+    if (width > maxWidth) scale = maxWidth / width;
+    const maxHeight = this.style.geometry.maxCadratHeight;
+    if (honourMaxHeight && height > maxHeight) scale = Math.min(scale, maxHeight / height);
+    return scale;
   }
 
   /// Places the elements of each line of the quadrat, once its width is known (this makes the
@@ -1204,24 +1230,33 @@ class QuadratLayout {
   ///
   /// Such lines take no room. A `%vkern` line kerns the lines around it, which then move
   /// together; they are only known once the content of the lines is placed.
+  ///
+  /// `fullWidth` is the width a quadrat fills when it should be as wide as possible, `maxWidth` its
+  /// maximal width. Returns the scale the caller should apply to the whole quadrat if `uniform`
+  /// (1 otherwise).
   private layoutWithKerningLines(
     c: Cadrat,
     honourMaxWidth: boolean,
     honourMaxHeight: boolean,
     embedded: boolean,
+    fullWidth: number,
     maxWidth: number,
-  ): void {
+    uniform: boolean,
+  ): number {
     const currentView = this.currentView;
     const g = this.style.geometry;
-    let w = currentView.maximalWidthOfSubView;
-    if (honourMaxWidth && !embedded && w < maxWidth) w = maxWidth;
+    const naturalWidth = currentView.maximalWidthOfSubView;
+    let w = naturalWidth;
+    if (honourMaxWidth && !embedded && w < fullWidth) w = fullWidth;
     currentView.width = w;
     this.layoutLines(c, w);
 
     for (const sub of currentView.subviews) sub.position.x = 0;
     const packer = this.packer("VERTICAL");
     let h = packer.pack(currentView);
-    if (honourMaxHeight && h < g.maxCadratHeight) h = g.maxCadratHeight;
+    const scale = uniform ? this.uniformScale(naturalWidth, h, honourMaxHeight, maxWidth) : 1;
+    const minHeight = g.maxCadratHeight / scale;
+    if (honourMaxHeight && h < minHeight) h = minHeight;
     currentView.height = h;
 
     const blocks = packer.blocks(currentView);
@@ -1232,6 +1267,7 @@ class QuadratLayout {
       const free = currentView.internalHeight - packer.blockLength(currentView, block);
       packer.moveBlockTo(currentView, block, this.centerSigns ? free / 2 : free);
     }
+    return scale;
   }
 
   /// Lays out a quadrat made only of kerning operators, as in `p-%hkern-q`.
