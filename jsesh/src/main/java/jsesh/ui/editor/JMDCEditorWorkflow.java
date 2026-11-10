@@ -1671,6 +1671,11 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     public void insertPageBreak() {
+        if (!linesScope().isRoot()) {
+            // In a zone, a page break makes no sense: add a simple line break.
+            insertNewLine();
+            return;
+        }
         possibilitiesHandler.clear();
         acceptSeparator(' ');
         scope().insertElementAt(caret.getLocalInsertPosition(),

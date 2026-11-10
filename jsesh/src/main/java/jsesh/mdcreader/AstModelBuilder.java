@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import jsesh.model.AbsoluteGroup;
+import jsesh.model.AbsoluteTab;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.BasicItem;
 import jsesh.model.BasicItemList;
@@ -19,6 +20,7 @@ import jsesh.model.HorizontalListElement;
 import jsesh.model.InnerGroup;
 import jsesh.model.Insert;
 import jsesh.model.Kerning;
+import jsesh.model.LayoutSetting;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
 import jsesh.model.MdcComment;
@@ -27,25 +29,21 @@ import jsesh.model.ModifiersList;
 import jsesh.model.Overwrite;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
+import jsesh.model.RunningAnnotation;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
-import jsesh.model.AbsoluteTab;
-import jsesh.model.RunningAnnotation;
 import jsesh.model.Tab;
+import jsesh.model.TextLayoutSettings;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemState;
 import jsesh.model.Zone;
 import jsesh.model.ZoneContent;
 import jsesh.model.ZoneParameters;
-import jsesh.model.LayoutSetting;
-import jsesh.model.TextLayoutSettings;
 import jsesh.model.constants.Dialect;
-import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.model.constants.SymbolCodes;
-import jsesh.model.constants.TextDirection;
-import jsesh.model.constants.TextOrientation;
 import jsesh.model.constants.ToggleType;
 import jsesh.parser.ast.AstAbsoluteGroup;
+import jsesh.parser.ast.AstAbsoluteTab;
 import jsesh.parser.ast.AstAlphabeticText;
 import jsesh.parser.ast.AstBasicItem;
 import jsesh.parser.ast.AstBasicItemList;
@@ -60,22 +58,21 @@ import jsesh.parser.ast.AstHorizontalListElement;
 import jsesh.parser.ast.AstInnerGroup;
 import jsesh.parser.ast.AstInsert;
 import jsesh.parser.ast.AstKerning;
-import jsesh.parser.ast.AstOption;
-import jsesh.parser.ast.AstOptionValue;
 import jsesh.parser.ast.AstLigature;
 import jsesh.parser.ast.AstLineBreak;
 import jsesh.parser.ast.AstModifier;
 import jsesh.parser.ast.AstModifierList;
 import jsesh.parser.ast.AstNode;
+import jsesh.parser.ast.AstOption;
 import jsesh.parser.ast.AstOptionList;
+import jsesh.parser.ast.AstOptionValue;
 import jsesh.parser.ast.AstOverwrite;
 import jsesh.parser.ast.AstPageBreak;
 import jsesh.parser.ast.AstPhilology;
+import jsesh.parser.ast.AstRunningAnnotation;
 import jsesh.parser.ast.AstStartHieroglyphicText;
 import jsesh.parser.ast.AstSubCadrat;
 import jsesh.parser.ast.AstSuperscript;
-import jsesh.parser.ast.AstAbsoluteTab;
-import jsesh.parser.ast.AstRunningAnnotation;
 import jsesh.parser.ast.AstTab;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
@@ -84,6 +81,7 @@ import jsesh.parser.ast.AstVisitor;
 import jsesh.parser.ast.AstZone;
 import jsesh.parser.lexer.symbols.PhilologyKind;
 import jsesh.parser.lexer.symbols.SignSubType;
+import jsesh.sharedvocabulary.LineAlignment;
 
 /// An AstVisitor which knows how to build a [HieroglyphicText] model from an [AstDocument] AST.
 /// @author rosmord
@@ -142,6 +140,9 @@ class AstModelBuilder implements AstVisitor {
         list.addAll(buildTopItems(node));
         push(list);
     }
+
+    /// How many zones enclose the item being built (0 outside any zone).
+    private int zoneDepth = 0;
 
     /// Builds the items of a text or of a zone, giving each one the current
     /// red/shaded state.
@@ -332,7 +333,12 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitPageBreak(AstPageBreak node) {
-        push(new PageBreak(lineAlignment(node.options())));
+        if (zoneDepth > 0) {
+            // In a zone, a page break is read as a simple line break (`-!`).
+            push(new LineBreak(lineAlignment(node.options())));
+        } else {
+            push(new PageBreak(lineAlignment(node.options())));
+        }
     }
 
     /// The alignment given by the `align` option of a line or page break, or of
@@ -401,7 +407,13 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitZone(AstZone node) {
-        ZoneContent content = new ZoneContent(buildTopItems(node.list()));
+        zoneDepth++;
+        ZoneContent content;
+        try {
+            content = new ZoneContent(buildTopItems(node.list()));
+        } finally {
+            zoneDepth--;
+        }
         push(new Zone(zoneParameters(node.options()), content));
     }
 

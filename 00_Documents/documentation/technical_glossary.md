@@ -54,7 +54,7 @@ An explicit end of line (`!` in MdC; end of column in vertical text). It is a
 exported and copied. Compare with [soft wrap](#soft-wrap).
 
 The *end of page* (`!!`) is the same kind of thing: `PageBreak`. In a zone, a page break is
-laid out as a line break. Both implement `LineEnd`: they carry the
+read as a line break (`!`) when parsing MdC, and the editor inserts a line break instead. Both implement `LineEnd`: they carry the
 [alignment](#line-alignment) of the line they end.
 
 ### Soft wrap

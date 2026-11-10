@@ -128,9 +128,11 @@ public class MdCModelWriterZoneTest {
     }
 
     @Test
-    public void pageBreaksAreKeptInZones() throws MDCSyntaxError {
+    public void pageBreaksInZonesAreReadAsLineBreaks() throws MDCSyntaxError {
         Zone zone = assertInstanceOf(Zone.class, parse("%zone(A1-!!-A2)").getTopItemAt(0));
-        assertInstanceOf(PageBreak.class, zone.getContent().getItemAt(1));
+        assertInstanceOf(jsesh.model.LineBreak.class, zone.getContent().getItemAt(1));
+        // outside zones, they stay page breaks.
+        assertInstanceOf(PageBreak.class, parse("A1-!!-A2").getTopItemAt(1));
     }
 
     @ParameterizedTest
