@@ -33,6 +33,7 @@ export interface TextLayoutSettings {
   readonly honourmaxquadratwidth?: boolean;
   readonly uniformquadratscaling?: boolean;
   readonly centresmallsigns?: boolean;
+  readonly retrograde?: boolean;
 }
 
 export type LayoutSettingName = keyof TextLayoutSettings;
@@ -61,6 +62,7 @@ export const LAYOUT_SETTINGS: readonly { name: LayoutSettingName; kind: LayoutSe
   { name: "honourmaxquadratwidth", kind: "FLAG", documentDefault: true },
   { name: "uniformquadratscaling", kind: "FLAG", documentDefault: false },
   { name: "centresmallsigns", kind: "FLAG", documentDefault: false },
+  { name: "retrograde", kind: "FLAG", documentDefault: false },
 ];
 
 /// Lengths are kept with six decimals, as they are written.

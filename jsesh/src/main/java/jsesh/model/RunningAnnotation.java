@@ -123,4 +123,10 @@ public class RunningAnnotation extends TopItem {
     public String toString() {
         return "(%" + kind.mdcName() + " " + (fill ? "fill" : percent) + ")";
     }
+
+    /// It structures the line, and keeps the direction of the text.
+    @Override
+    public boolean followsQuadratDirection() {
+        return false;
+    }
 }

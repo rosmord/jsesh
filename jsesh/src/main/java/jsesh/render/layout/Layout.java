@@ -66,80 +66,59 @@ import jsesh.render.elements.PhilologyHelper;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewIterator;
 
-/**
- * Instances of this class are responsible for computing the position and
- * dimensions of view elements.
- * 
- * Not a long-lived object. Throw after usage.
- * 
- * <b> This class should probably not be part of the visible API of JSesh</b>
- * 
- * <p>
- * A layout can change a view's width and height and it can also change the
- * subview positions and scales.
- * <p>
- * <b> Important </b> - note that layout does just that -- layout -- and does in
- * no way create view elements. MDCView element creation is the task of
- * ViewBuilder.
- * 
- * 
- * <p>
- * Note that layout is not supposed to be called recursively. The
- * recursion is done through ViewBuilder.
- * 
- * <p>
- * When layout is called on a view, the following conditions can be
- * supposed to be fullfilled :
- * <ul>
- * <it> the subview for the current view exist. <it> layout has been
- * already called on these subviews.
- * </ul>
- * 
- * <p>
- * The visitor you write should do the following :
- * <ul>
- * <it> compute and set currentView's dimensions (using the subviews and
- * the associated element) ; <it> setting the scale and position of
- * subviews. <it> it is possible to change the scale of currentview.
- * </ul>
- * <p>
- * However, the position of the currentview is supposed to be set from
- * its parentview, so don't change it.
- * 
- * @see Layout
- * @see SimpleLayout
- * @see jsesh.render.view.ViewBuilder
- * @see jsesh.render.layout.SimpleLayout (c) Serge Rosmorduc
- * @author Serge Rosmorduc
- *
- */
+/// Instances of this class are responsible for computing the position and
+/// dimensions of view elements.
+///
+/// Not a long-lived object. Throw after usage.
+///
+/// **This class should probably not be part of the visible API of JSesh.**
+///
+/// A layout can change a view's width and height and it can also change the
+/// subview positions and scales.
+///
+/// **Important**: layout does just that -- layout -- and does in no way create
+/// view elements. [MDCView] element creation is the task of
+/// [jsesh.render.view.ViewBuilder].
+///
+/// Note that layout is not supposed to be called recursively. The recursion is
+/// done through [jsesh.render.view.ViewBuilder].
+///
+/// When layout is called on a view, the following conditions can be supposed
+/// to be fulfilled:
+///
+/// - the subviews for the current view exist;
+/// - layout has already been called on these subviews.
+///
+/// The visitor you write should do the following:
+///
+/// - compute and set the current view's dimensions (using the subviews and the
+///   associated element);
+/// - set the scale and position of the subviews;
+/// - it is possible to change the scale of the current view.
+///
+/// However, the position of the current view is supposed to be set from its
+/// parent view, so don't change it.
+///
+/// @author Serge Rosmorduc
 public class Layout {
 
-	/**
-	 * The view which is currently built.
-	 */
+	/// The view which is currently built.
 	private MDCView currentView;
 
 	private JSeshRenderContext renderContext = null;
 	private JSeshTechRenderContext techRenderContext;
 	private HieroglyphDrawer hieroglyphsDrawer;
 
-	/**
-	 * If true, small signs are currently centered. This variable may change during
-	 * layout (for instance, become true in cartouches).
-	 */
+	/// If true, small signs are currently centered. This variable may change during
+	/// layout (for instance, become true in cartouches).
 	private boolean centerSigns = false;
 
-	/**
-	 * Current text orientation : columns or lines. This variable may change during
-	 * layout.
-	 */
+	/// Current text orientation : columns or lines. This variable may change during
+	/// layout.
 
 	private TextOrientation currentTextOrientation;
 
-	/**
-	 * Current text direction. This variable may change during layout.
-	 */
+	/// Current text direction. This variable may change during layout.
 	private TextDirection currentTextDirection;
 
 	private boolean inAbsoluteGroup = false;
@@ -173,19 +152,15 @@ public class Layout {
 		this.subViewBuilder = subViewBuilder;
 	}
 
-	/**
-	 * compute the view size (width and height). If the view has subviews, layout
-	 * should compute their position in the parent view and scale them if required.
-	 * Note that layout is <em>not</em> a recursive function : when a view is built,
-	 * its subviews have already been processed by another call to layout. The
-	 * embedded variable is used to specify that this view corresponds to an element
-	 * that doesn't appears on the upper levels of the text. For instance, it will
-	 * be true for a cadrat, but false when this cadrat is embedded within another
-	 * cadrat. In fact that's the main use of this variable, as spacing can be quite
-	 * different (specially in columns).
-	 * 
-	 * @param view
-	 */
+	/// compute the view size (width and height). If the view has subviews, layout
+	/// should compute their position in the parent view and scale them if required.
+	/// Note that layout is *not* a recursive function : when a view is built,
+	/// its subviews have already been processed by another call to layout. The
+	/// embedded variable is used to specify that this view corresponds to an element
+	/// that doesn't appears on the upper levels of the text. For instance, it will
+	/// be true for a cadrat, but false when this cadrat is embedded within another
+	/// cadrat. In fact that's the main use of this variable, as spacing can be quite
+	/// different (specially in columns).
 	final public void layout(MDCView view) {
 		currentView = view;
 		commonLayoutHook();
@@ -204,19 +179,14 @@ public class Layout {
 		this.centerSigns = centerSigns;
 	}
 
-	/**
-	 * This method is called before anything is done on the view. Most notably, it's
-	 * called before the subviews are built. It might be used when the layout of the
-	 * internal elements depends on their container.
-	 * <p>
-	 * It can also be used for things which should be done to all views.
-	 * <p>
-	 * Currently, its main actual use is to change the sign centering preferences
-	 * when laying out a cadrat.
-	 * <p>
-	 * 
-	 * @param view
-	 */
+	/// This method is called before anything is done on the view. Most notably, it's
+	/// called before the subviews are built. It might be used when the layout of the
+	/// internal elements depends on their container.
+	///
+	/// It can also be used for things which should be done to all views.
+	///
+	/// Currently, its main actual use is to change the sign centering preferences
+	/// when laying out a cadrat.
 	public void preLayoutHook(MDCView view) {
 		if (view.getModel() instanceof Cartouche) {
 			centerSigns = true;
@@ -243,11 +213,7 @@ public class Layout {
 		}
 	}
 
-	/**
-	 * Called after layout, for cleanup of code from preLayoutHook.
-	 * 
-	 * @param result
-	 */
+	/// Called after layout, for cleanup of code from preLayoutHook.
 	public void postLayoutHook(MDCView result) {
 		if (result.getModel() instanceof ZoneContent && !savedZoneStates.isEmpty()) {
 			SavedZoneState saved = savedZoneStates.pop();
@@ -322,24 +288,26 @@ public class Layout {
 		return style.geometry().cartoucheMargin() + style.geometry().cartoucheLineWidth();
 	}
 
-	/**
-	 * Method called just before specific layout visitor methods.
-	 * <p>
-	 * Use for code that should be called on all views. Note that this code is
-	 * called <em>after</em> the subviews are built and laid out.
-	 *
-	 */
+	/// Method called just before specific layout visitor methods.
+	///
+	/// Use for code that should be called on all views. Note that this code is
+	/// called *after* the subviews are built and laid out.
 	void commonLayoutHook() {
-		currentView.setDirection(currentTextDirection);
+		// The two directions differ in retrograde writing.
+		currentView.setDirection(currentView.getModel().followsQuadratDirection() ? currentQuadratDirection()
+				: currentTextDirection);
 		currentView.setOrientation(currentTextOrientation);
 	}
 
-	/**
-	 * Reset the internal state of the Layout before working on a new text chunk.
-	 * 
-	 * @param renderContext the current specifications for layout.
-	 *
-	 */
+	/// The direction in which the content of the quadrats is laid out and drawn
+	/// (see [jsesh.render.style.LayoutOptions#quadratDirection()]).
+	private TextDirection currentQuadratDirection() {
+		return renderContext.jseshStyle().options().quadratDirection();
+	}
+
+	/// Reset the internal state of the Layout before working on a new text chunk.
+	///
+	/// @param renderContext the current specifications for layout.
 	public void reset(JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
 		this.renderContext = renderContext;
 		this.techRenderContext = techRenderContext;
@@ -350,10 +318,7 @@ public class Layout {
 		centerSigns = jseshStyle.options().smallSignCentered();
 	}
 
-	/**
-	 * Called when the complete model has been processed.
-	 *
-	 */
+	/// Called when the complete model has been processed.
 	public void cleanup() {
 		renderContext = null;
 	}
@@ -519,24 +484,21 @@ public class Layout {
 			currentView.setHeight(horizontal ? cross : length);
 		}
 
-		/**
-		 * lay out a quadrat. This method is way too long.
-		 *
-		 * This method is currently quite complex, as the ultimate quadrat shape
-		 * depends on its environment.
-		 * <p>
-		 * besides, many parts have been added when they were needed.
-		 *
-		 * TODO : re-interpret this method as a modular list of layout processes. (or
-		 * something like that).
-		 *
-		 * NOTE : It appears that "lone" elements on a line, on a cadrat, lone lines,
-		 * etc... tend to deserve specific processing. We might consider this when we
-		 * refactor the code.
-		 *
-		 * @param c
-		 * @see jsesh.model.ModelElementVisitor#visitCadrat(jsesh.model.Cadrat)
-		 */
+		/// lay out a quadrat. This method is way too long.
+		///
+		/// This method is currently quite complex, as the ultimate quadrat shape
+		/// depends on its environment.
+		///
+		/// besides, many parts have been added when they were needed.
+		///
+		/// TODO : re-interpret this method as a modular list of layout processes. (or
+		/// something like that).
+		///
+		/// NOTE : It appears that "lone" elements on a line, on a cadrat, lone lines,
+		/// etc... tend to deserve specific processing. We might consider this when we
+		/// refactor the code.
+		///
+		/// @see jsesh.model.ModelElementVisitor#visitCadrat(jsesh.model.Cadrat)
 		@Override
 		public void visitCadrat(Cadrat c) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
@@ -544,14 +506,10 @@ public class Layout {
 					c);
 		}
 
-		/**
-		 * Lay out a cartouche. Lay out its internal parts, and also provide space for
-		 * the cartouche frame.
-		 * <p>
-		 * Remember that a cartouche contains only one subview.
-		 *
-		 * @param c
-		 */
+		/// Lay out a cartouche. Lay out its internal parts, and also provide space for
+		/// the cartouche frame.
+		///
+		/// Remember that a cartouche contains only one subview.
 		@Override
 		public void visitCartouche(Cartouche c) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
@@ -565,9 +523,7 @@ public class Layout {
 			// the other dimension.
 			double smallDim = 2 * CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
 
-			/**
-			 * cartouche inner part translation (reference and signs will be computed later)
-			 */
+			/// cartouche inner part translation (reference and signs will be computed later)
 			double dLong, dSmall;
 			dSmall = CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
 
@@ -671,14 +627,12 @@ public class Layout {
 			currentView.fitToSubViews(true);
 		}
 
-		/**
-		 * Layout of an insertion: the inserted group is fitted into the free space of
-		 * the main sign, according to the actual shapes of both.
-		 * <p>
-		 * The fit is computed in <em>drawing</em> coordinates, as the signs are drawn
-		 * (this matters for right-to-left text, where views are mirrored). The sub
-		 * views' positions are then converted to layout coordinates.
-		 */
+		/// Layout of an insertion: the inserted group is fitted into the free space of
+		/// the main sign, according to the actual shapes of both.
+		///
+		/// The fit is computed in *drawing* coordinates, as the signs are drawn
+		/// (this matters for right-to-left text, where views are mirrored). The sub
+		/// views' positions are then converted to layout coordinates.
 		@Override
 		public void visitInsert(Insert insert) {
 			// The sub views are in reading order, and the target may be either of them.
@@ -1105,12 +1059,9 @@ public class Layout {
 			}
 		}
 
-		/**
-		 * Layout the top item list.
-		 *
-		 * @param t the list of items to lay out.
-		 *
-		 */
+		/// Layout the top item list.
+		///
+		/// @param t the list of items to lay out.
 		@Override
 		public void visitHieroglyphicText(HieroglyphicText t) {
 			// monoliticVisitHieroglyphicText(t);
@@ -1263,7 +1214,7 @@ public class Layout {
 		}
 
 		private Kerner kerner() {
-			return new Kerner(hieroglyphsDrawer, computeScale(), currentTextDirection);
+			return new Kerner(hieroglyphsDrawer, computeScale(), currentQuadratDirection());
 		}
 
 		private KerningPacker packer(KerningAxis axis) {
@@ -1277,33 +1228,20 @@ public class Layout {
 					* computeScale();
 		}
 
-		/**
-		 * Compute the scale from the "font" space to the current drawing space.
-		 * 
-		 * @return
-		 */
+		/// Compute the scale from the "font" space to the current drawing space.
 		private double computeScale() {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			return hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
 		}
 
-		/**
-		 * Auxiliary expert, able to enlarge view vertically. This is used in an hbox,
-		 * to set subcadrats to the hbox's height.
-		 *
-		 * @author rosmord
-		 *
-		 */
+		/// Auxiliary expert, able to enlarge view vertically. This is used in an hbox,
+		/// to set subcadrats to the hbox's height.
 		class ViewVerticalEnlarger extends ModelElementAdapter {
 
 			double height;
 
 			MDCView view;
 
-			/**
-			 * @param subView
-			 * @param h
-			 */
 			public void enlarge(MDCView subView, double h) {
 				height = h;
 				view = subView;
@@ -1338,11 +1276,11 @@ public class Layout {
 		}
 	}
 
-	/**
-	 * Place a subview in a ligature zone. The subview is scaled to fit the zone, and
-	 * @param z
-	 * @param subView
-	 */
+	/// Place a subview in a ligature zone. The subview is scaled to fit the zone,
+	/// then positioned according to the zone's gravity.
+	///
+	/// @param z       the zone.
+	/// @param subView the view to place.
 	private void placeView(LigatureZone z, MDCView subView) {
 		// z.placeView(subview);
 		subView.scaleToFitDimensions(z.getWidth(), z.getHeight());

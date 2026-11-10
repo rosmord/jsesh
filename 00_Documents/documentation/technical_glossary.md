@@ -28,7 +28,7 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   wrap in zone
 - [Text and model](#text-and-model): quadrat, hbox, inner group, ligature, insert,
   overwrite, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
-  column), running annotation, zone, layout settings, unit, document header, scope, position, range,
+  column), running annotation, retrograde writing, quadrat direction, zone, layout settings, unit, document header, scope, position, range,
   mark, caret granularity, alphabetic text, superscript
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
 - [Signs and fonts](#signs-and-fonts): Gardiner code, phonetic code, shape repository,
@@ -286,6 +286,25 @@ Likewise, a sub-quadrat which only adds parentheses is flattened: `x*(a*b)` is `
 row: its rows replace that row). Shaded sub-quadrats and ones with kerning operators are kept.
 The model may keep the nested form while editing (`a:(b:c)` before adding `*t`); the flattening
 happens when reading and writing MdC. See `Cadrat.withoutUselessSubCadrats()`.
+
+### Retrograde writing
+
+Layout setting `retrograde` (document, or zone with yes/no/inherit; default no). All the
+signs are mirrored, as if they carried `\`, **and so is the content of every quadrat**
+(`A1*B1` is drawn `B1*A1`, each sign facing the other way). The order of the quadrats along the
+line does not change: it follows `dir` (`lr`/`rl`), which is independent. A `\` in a
+retrograde text mirrors the sign back. Implemented by giving the quadrat-level views the
+*quadrat direction* (`LayoutOptions.quadratDirection()`: the text direction, reversed when
+retrograde), while the elements which structure the line (zones and their content, tabs, rules,
+running annotations, breaks) keep the text direction. Each model element says which one it
+follows: `ModelElement.followsQuadratDirection()`.
+
+### Quadrat direction
+
+The direction in which the content of a quadrat (and of a cartouche) is laid out and drawn,
+as opposed to the *text direction*, which orders the quadrats along the line. They differ only
+in retrograde writing (see above). Not to be confused with the direction of a zone
+(`%zone[dir=rl]`), which is a text direction.
 
 ### Scope (text scope)
 

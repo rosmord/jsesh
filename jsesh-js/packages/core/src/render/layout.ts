@@ -29,17 +29,17 @@ import {
   type Insert,
   type Kerning,
   type Ligature,
-  type LineBreak,
+  LineBreak,
   type MdcComment,
   type ModelElement,
   type Modifier,
   type ModifiersList,
   type Overwrite,
-  type PageBreak,
+  PageBreak,
   type Philology,
   type SubCadrat,
   type Superscript,
-  type AbsoluteTab,
+  AbsoluteTab,
   Tab,
   Zone,
   ZoneContent,
@@ -72,6 +72,7 @@ import {
   pageStride,
   percentUnit,
   philologyWidth,
+  quadratDirection,
   withStyle,
   type JSeshStyle,
 } from "./style.js";
@@ -230,7 +231,10 @@ class Layout {
 
   layout(view: MDCView): void {
     this.currentView = view;
-    view.direction = this.currentTextDirection;
+    // The two directions differ in retrograde writing.
+    view.direction = view.model.followsQuadratDirection()
+      ? quadratDirection(this.style.options)
+      : this.currentTextDirection;
     view.orientation = this.currentTextOrientation;
     view.model.accept(this.aux);
   }
@@ -362,7 +366,7 @@ class Layout {
   }
 
   kerner(): Kerner {
-    return new Kerner(this.hieroglyphsDrawer, this.computeScale(), this.currentTextDirection);
+    return new Kerner(this.hieroglyphsDrawer, this.computeScale(), quadratDirection(this.style.options));
   }
 
   packer(axis: KerningAxis): KerningPacker {

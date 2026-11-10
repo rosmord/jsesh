@@ -87,4 +87,10 @@ public class Zone extends TopItem {
     public boolean isNavigable() {
         return true;
     }
+
+    /// It structures the line, and keeps the direction of the text.
+    @Override
+    public boolean followsQuadratDirection() {
+        return false;
+    }
 }

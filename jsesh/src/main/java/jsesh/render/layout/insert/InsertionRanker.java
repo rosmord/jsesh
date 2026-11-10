@@ -92,7 +92,7 @@ public final class InsertionRanker {
         MDCView firstView = builder.buildView(first, renderContext, techRenderContext);
         MDCView secondView = builder.buildView(second, renderContext, techRenderContext);
 
-        TextDirection textDirection = renderContext.jseshStyle().options().textDirection();
+        TextDirection textDirection = renderContext.jseshStyle().options().quadratDirection();
         HieroglyphDrawer drawer = new HieroglyphDrawer(renderContext.hieroglyphShapeRepository());
         ViewSilhouette silhouette = new ViewSilhouette(drawer,
                 drawer.scaleFromFontToStyle(renderContext.jseshStyle()), textDirection);

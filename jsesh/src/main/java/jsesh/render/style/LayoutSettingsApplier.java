@@ -53,6 +53,7 @@ public final class LayoutSettingsApplier {
                 case HONOUR_MAX_QUADRAT_WIDTH -> style.options(o -> o.honourMaxQuadratWidthInLines((Boolean) value));
                 case UNIFORM_QUADRAT_SCALING -> style.options(o -> o.uniformQuadratScaling((Boolean) value));
                 case CENTRE_SMALL_SIGNS -> style.options(o -> o.smallSignCentered((Boolean) value));
+                case RETROGRADE -> style.options(o -> o.retrograde((Boolean) value));
                 default -> {
                     double p = points(unit, (Double) value);
                     style.geometry(g -> switch (e.getKey()) {
@@ -91,6 +92,7 @@ public final class LayoutSettingsApplier {
                 case HONOUR_MAX_QUADRAT_WIDTH -> o.honourMaxQuadratWidthInLines();
                 case UNIFORM_QUADRAT_SCALING -> o.uniformQuadratScaling();
                 case CENTRE_SMALL_SIGNS -> o.smallSignCentered();
+                case RETROGRADE -> o.retrograde();
                 case QUADRAT_HEIGHT -> percent(g.maxCadratHeight(), unit);
                 case QUADRAT_WIDTH -> percent(g.maxCadratWidth(), unit);
                 case SIGN_HEIGHT -> percent(g.standardSignHeight(), unit);

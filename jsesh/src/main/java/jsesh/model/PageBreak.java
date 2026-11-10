@@ -71,4 +71,10 @@ public class PageBreak extends TopItem implements LineEnd {
     protected boolean equalsIgnoreIdAux(ModelElement other) {
         return alignment == ((PageBreak) other).alignment;
     }
+
+    /// It structures the line, and keeps the direction of the text.
+    @Override
+    public boolean followsQuadratDirection() {
+        return false;
+    }
 }

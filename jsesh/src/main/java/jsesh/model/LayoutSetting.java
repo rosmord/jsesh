@@ -72,7 +72,11 @@ public enum LayoutSetting {
     /// maximal quadrat height if needed.
     UNIFORM_QUADRAT_SCALING("uniformquadratscaling", Kind.FLAG, Boolean.FALSE),
     /// Are small signs centred in their quadrat?
-    CENTRE_SMALL_SIGNS("centresmallsigns", Kind.FLAG, Boolean.FALSE);
+    CENTRE_SMALL_SIGNS("centresmallsigns", Kind.FLAG, Boolean.FALSE),
+    /// Retrograde writing: are the signs, and the content of each quadrat,
+    /// mirrored? The order of the quadrats along the line is not changed (see
+    /// `DIRECTION`). A sign marked with `\` is mirrored back.
+    RETROGRADE("retrograde", Kind.FLAG, Boolean.FALSE);
 
     /// The unit of the default lengths, in points.
     public static final double DEFAULT_UNIT = 18;

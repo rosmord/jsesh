@@ -32,6 +32,19 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-11-10
+
+- replaced the single option for scaling in quadrat by two options.
+
+- **Retrograde writing** (new layout setting `retrograde`: document, or zone with `yes`/`no`/inherit; default no).
+
+  - All the signs are mirrored, as if they carried `\`, **and so is the content of every quadrat** (`A1*B1` is drawn `B1*A1`). The order of the quadrats along the line is unchanged: it still follows `dir`, which is independent. A `\` in a retrograde text mirrors the sign back.
+  - `LayoutOptions` gets a `retrograde` flag and `quadratDirection()` (the text direction, reversed when retrograde). `Layout.commonLayoutHook` gives the *quadrat direction* to the views whose model element says `followsQuadratDirection()` (new `ModelElement` predicate, true by default), while zones and their content, tabs, rules, running annotations and breaks override it to false and keep the text direction. The kerner and `InsertionRanker` use the quadrat direction too.
+    - The predicate replaced a list of `instanceof` (a variable called `structural`) in `Layout` and in the JS port. Names discussed: "content direction" and "text direction" were not clear enough, and "local direction" clashes with the direction of a zone (`%zone[dir=rl]`), which is a text direction.
+  - New `LayoutSetting.RETROGRADE` (`LayoutSettingsApplier` updated), with labels in `labels.properties` / `labels_fr.properties`. New test `RetrogradeLayoutTest`.
+  - `jsesh-js`: same option (`layout-settings.ts`, `style.ts` with `quadratDirection`, `model.ts` with `followsQuadratDirection()`, `layout.ts`); two new layout variants (`retrograde`, `retrogradeRtl`) and two parser cases (`%zone[retrograde=yes](...)`, `%zone[retrograde=no](...)`) added to the fixtures export.
+  - Glossary: new entry "Retrograde writing".
+
 
 ## 2026-11-09
 

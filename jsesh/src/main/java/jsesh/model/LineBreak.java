@@ -113,4 +113,9 @@ public class LineBreak extends TopItem implements LineEnd {
         return this.spacing == otherBreak.spacing && this.alignment == otherBreak.alignment;
     }
 
+    /// It structures the line, and keeps the direction of the text.
+    @Override
+    public boolean followsQuadratDirection() {
+        return false;
+    }
 }

@@ -457,6 +457,19 @@ public abstract class ModelElement implements ModelElementObserver,
         return false;
     }
 
+    /// Does this element follow the direction inside the quadrats, rather than
+    /// the order of the quadrats along the line? The two differ in retrograde
+    /// writing, where the content of every quadrat is mirrored (see
+    /// [jsesh.render.style.LayoutOptions#quadratDirection()]).
+    ///
+    /// @return true by default (quadrats, cartouches and what they contain);
+    ///         false for the elements which structure the line (zones and their
+    ///         content, tabs, rules, running annotations, breaks), which keep the
+    ///         direction of the text (of their zone, if any).
+    public boolean followsQuadratDirection() {
+        return true;
+    }
+
     /// Is a gap of this element a place where the cursor may stand? This is
     /// the one definition of a stop, used by [PositionNavigator].
     ///

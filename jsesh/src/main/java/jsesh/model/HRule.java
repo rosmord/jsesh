@@ -163,6 +163,10 @@ public class HRule extends TopItem {
             return this.type== rule.type && this.startPos== rule.startPos
                     && this.endPos== rule.endPos;
     }
-        
-        
+
+	/// It structures the line, and keeps the direction of the text.
+	@Override
+	public boolean followsQuadratDirection() {
+		return false;
+	}
 }

@@ -130,4 +130,10 @@ public class Tab extends TopItem {
     public String toString() {
         return "(%tab " + index + " " + alignment + ")";
     }
+
+    /// It structures the line, and keeps the direction of the text.
+    @Override
+    public boolean followsQuadratDirection() {
+        return false;
+    }
 }

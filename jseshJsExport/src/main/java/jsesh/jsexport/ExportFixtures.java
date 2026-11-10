@@ -60,6 +60,10 @@ public final class ExportFixtures {
                 base.copy().options(o -> o.textOrientation(TextOrientation.VERTICAL)).build());
         LAYOUT_VARIANTS.put("columnsRtl", base.copy().options(o -> o.textOrientation(TextOrientation.VERTICAL)
                 .textDirection(TextDirection.RIGHT_TO_LEFT)).build());
+        // Retrograde writing: the content of the quadrats is mirrored, not their order.
+        LAYOUT_VARIANTS.put("retrograde", base.copy().options(o -> o.retrograde(true)).build());
+        LAYOUT_VARIANTS.put("retrogradeRtl", base.copy().options(o -> o.retrograde(true)
+                .textDirection(TextDirection.RIGHT_TO_LEFT)).build());
         LAYOUT_VARIANTS.put("centered", base.copy().options(o -> o.smallSignCentered(true)).build());
         // Quadrats which are too large are scaled as a whole, in lines and in columns.
         LAYOUT_VARIANTS.put("uniformScaling", base.copy().options(o -> o.uniformQuadratScaling(true)).build());

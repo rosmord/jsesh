@@ -98,4 +98,10 @@ public class ZoneContent extends EmbeddedModelElement implements ItemSequence {
     public boolean edgeGapsAreStops() {
         return true;
     }
+
+    /// It structures the line, and keeps the direction of the text.
+    @Override
+    public boolean followsQuadratDirection() {
+        return false;
+    }
 }

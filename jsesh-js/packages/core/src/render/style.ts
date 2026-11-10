@@ -203,6 +203,16 @@ export interface LayoutOptions {
   /// Enlarge a low broad sign alone on a line of a quadrat (as a lone `n` in a column) to the
   /// quadrat width. A zone can override it (`fitsigns=yes|no`).
   fitLoneSigns: boolean;
+  /// Retrograde writing: the signs and the content of each quadrat are mirrored. The order of
+  /// the quadrats along the line is not (see [quadratDirection]).
+  retrograde: boolean;
+}
+
+/// The direction in which the content of a quadrat is laid out and drawn: the direction of the
+/// text, reversed in retrograde writing (port of `LayoutOptions.quadratDirection`).
+export function quadratDirection(options: LayoutOptions): TextDirection {
+  if (!options.retrograde) return options.textDirection;
+  return options.textDirection === "LEFT_TO_RIGHT" ? "RIGHT_TO_LEFT" : "LEFT_TO_RIGHT";
 }
 
 export const DEFAULT_LAYOUT_OPTIONS: Readonly<LayoutOptions> = Object.freeze<LayoutOptions>({
@@ -214,6 +224,7 @@ export const DEFAULT_LAYOUT_OPTIONS: Readonly<LayoutOptions> = Object.freeze<Lay
   uniformQuadratScaling: false,
   ignoreLineAlignment: false,
   fitLoneSigns: true,
+  retrograde: false,
 });
 
 export type ShadingMode = "GRAY_SHADING" | "LINE_HATCHING";
@@ -362,6 +373,7 @@ export function layoutSettingsChanges(settings: TextLayoutSettings, unit: number
   if (settings.honourmaxquadratwidth !== undefined) options.honourMaxQuadratWidthInLines = settings.honourmaxquadratwidth;
   if (settings.uniformquadratscaling !== undefined) options.uniformQuadratScaling = settings.uniformquadratscaling;
   if (settings.centresmallsigns !== undefined) options.smallSignCentered = settings.centresmallsigns;
+  if (settings.retrograde !== undefined) options.retrograde = settings.retrograde;
   const lengths: [number | undefined, keyof GeometrySpecification][] = [
     [settings.quadratheight, "maxCadratHeight"],
     [settings.quadratwidth, "maxCadratWidth"],

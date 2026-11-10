@@ -66,4 +66,10 @@ public class AbsoluteTab extends TopItem {
 	protected boolean equalsIgnoreIdAux(ModelElement other) {
 		return stopPos == ((AbsoluteTab) other).stopPos;
 	}
+
+	/// It structures the line, and keeps the direction of the text.
+	@Override
+	public boolean followsQuadratDirection() {
+		return false;
+	}
 }

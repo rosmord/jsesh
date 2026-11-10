@@ -31,6 +31,10 @@ import jsesh.model.constants.TextOrientation;
 /// mostly visible in columns, where it fills the column width. `true` by
 /// default; a zone can override it (`fitsigns=yes|no`, see
 /// [jsesh.model.ZoneParameters]).
+///
+/// `retrograde`: retrograde writing. The signs and the content of each quadrat
+/// are mirrored; the order of the quadrats along the line is not (see
+/// [#quadratDirection()]).
 public record LayoutOptions(
         TextDirection textDirection,
         TextOrientation textOrientation,
@@ -39,8 +43,24 @@ public record LayoutOptions(
         boolean honourMaxQuadratWidthInLines,
         boolean uniformQuadratScaling,
         boolean ignoreLineAlignment,
-        boolean fitLoneSigns
+        boolean fitLoneSigns,
+        boolean retrograde
 ) {
+
+    /// The direction in which the content of a quadrat is laid out and drawn.
+    ///
+    /// It is the direction of the text, reversed in retrograde writing. The
+    /// order of the quadrats along a line always follows [#textDirection()].
+    /// Which elements follow which direction is decided by
+    /// [jsesh.model.ModelElement#followsQuadratDirection()].
+    ///
+    /// @return the direction of the content of the quadrats.
+    public TextDirection quadratDirection() {
+        if (!retrograde) {
+            return textDirection;
+        }
+        return textDirection.isLeftToRight() ? TextDirection.RIGHT_TO_LEFT : TextDirection.LEFT_TO_RIGHT;
+    }
 
     public static final LayoutOptions DEFAULT = new LayoutOptions(
             TextDirection.LEFT_TO_RIGHT,
@@ -50,7 +70,8 @@ public record LayoutOptions(
             true,
             false,
             false,
-            true);
+            true,
+            false);
 
     public Builder copy() {
         return new Builder(this);
@@ -66,6 +87,7 @@ public record LayoutOptions(
         private boolean uniformQuadratScaling;
         private boolean ignoreLineAlignment;
         private boolean fitLoneSigns;
+        private boolean retrograde;
 
         public Builder(LayoutOptions specs) {
             this.textDirection = specs.textDirection;
@@ -76,6 +98,7 @@ public record LayoutOptions(
             this.uniformQuadratScaling = specs.uniformQuadratScaling;
             this.ignoreLineAlignment = specs.ignoreLineAlignment;
             this.fitLoneSigns = specs.fitLoneSigns;
+            this.retrograde = specs.retrograde;
         }
 
         public Builder textDirection(TextDirection textDirection) {
@@ -119,6 +142,11 @@ public record LayoutOptions(
             return this;
         }
 
+        public Builder retrograde(boolean retrograde) {
+            this.retrograde = retrograde;
+            return this;
+        }
+
         public LayoutOptions build() {
             return new LayoutOptions(
                     textDirection,
@@ -128,7 +156,8 @@ public record LayoutOptions(
                     honourMaxQuadratWidthInLines,
                     uniformQuadratScaling,
                     ignoreLineAlignment,
-                    fitLoneSigns);
+                    fitLoneSigns,
+                    retrograde);
         }
     }
 

@@ -35,6 +35,8 @@ const VARIANTS: Record<string, JSeshStyle> = {
   rtl: withStyle(DEFAULT_STYLE, { options: { textDirection: "RIGHT_TO_LEFT" } }),
   columns: withStyle(DEFAULT_STYLE, { options: { textOrientation: "VERTICAL" } }),
   columnsRtl: withStyle(DEFAULT_STYLE, { options: { textOrientation: "VERTICAL", textDirection: "RIGHT_TO_LEFT" } }),
+  retrograde: withStyle(DEFAULT_STYLE, { options: { retrograde: true } }),
+  retrogradeRtl: withStyle(DEFAULT_STYLE, { options: { retrograde: true, textDirection: "RIGHT_TO_LEFT" } }),
   centered: withStyle(DEFAULT_STYLE, { options: { smallSignCentered: true } }),
   uniformScaling: withStyle(DEFAULT_STYLE, { options: { uniformQuadratScaling: true } }),
   columnsUniformScaling: withStyle(DEFAULT_STYLE, {

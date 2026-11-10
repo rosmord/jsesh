@@ -87,6 +87,8 @@ final class ParserCases {
         "%zone[width=300,frame](+lsome words in a zone+s-A1-A1-A1-A1)",
         "%zone[layout=columns,width=300](A1-A1-A1-A1-A1-A1)",
         "%insert[dir=ts](A1,B1)",
+        "%zone[retrograde=yes](A1*B1:C1-G17\\)",
+        "%zone[retrograde=no](A1*B1)",
         "%insert[dir=t](A1,B1)",
         "%insert[dir=t,fit](A1,B1)",
         "i-%insert[dir=e](A1,B1)-w",

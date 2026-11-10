@@ -306,6 +306,15 @@ export abstract class ModelElement {
   isBreak(): boolean {
     return false;
   }
+
+  /// Does this element follow the direction inside the quadrats (`quadratDirection` in
+  /// `render/style`), rather
+  /// than the order of the quadrats along the line? They differ in retrograde writing. False for
+  /// the elements which structure the line (zones and their content, tabs, rules, running
+  /// annotations, breaks), which keep the direction of the text.
+  followsQuadratDirection(): boolean {
+    return true;
+  }
 }
 
 // ---- Top items
@@ -1456,6 +1465,10 @@ export class LineBreak extends TopItem {
   deepCopy(): LineBreak {
     return this.withAlignment(this.alignment);
   }
+
+  override followsQuadratDirection(): boolean {
+    return false;
+  }
 }
 
 /// `!!` or `!![align=...]`: ends a line too, and carries its alignment.
@@ -1483,6 +1496,10 @@ export class PageBreak extends TopItem {
   deepCopy(): PageBreak {
     return this.withAlignment(this.alignment);
   }
+
+  override followsQuadratDirection(): boolean {
+    return false;
+  }
 }
 
 /// `?NN`.
@@ -1499,6 +1516,10 @@ export class AbsoluteTab extends TopItem {
     const copy = new AbsoluteTab(this.stopPos);
     this.copyStateTo(copy);
     return copy;
+  }
+
+  override followsQuadratDirection(): boolean {
+    return false;
   }
 }
 
@@ -1564,6 +1585,10 @@ export class Tab extends TopItem {
     this.copyStateTo(copy);
     return copy;
   }
+
+  override followsQuadratDirection(): boolean {
+    return false;
+  }
 }
 
 /// `{lA,B}` (thin) or `{LA,B}` (wide) horizontal rule.
@@ -1599,6 +1624,10 @@ export class HRule extends TopItem {
     const copy = new HRule(this.type, this.startPos, this.endPos);
     this.copyStateTo(copy);
     return copy;
+  }
+
+  override followsQuadratDirection(): boolean {
+    return false;
   }
 }
 
@@ -1646,6 +1675,10 @@ export class RunningAnnotation extends TopItem {
     const copy = new RunningAnnotation(this.kind, this.percent, this.fill);
     this.copyStateTo(copy);
     return copy;
+  }
+
+  override followsQuadratDirection(): boolean {
+    return false;
   }
 }
 
@@ -1743,6 +1776,10 @@ export class Zone extends TopItem {
     this.copyStateTo(copy);
     return copy;
   }
+
+  override followsQuadratDirection(): boolean {
+    return false;
+  }
 }
 
 /// The content of a [Zone]: a text of its own, laid out in lines or columns.
@@ -1781,6 +1818,10 @@ export class ZoneContent extends ModelElement {
     const copy = new ZoneContent();
     this.copyChildrenTo(copy);
     return copy;
+  }
+
+  override followsQuadratDirection(): boolean {
+    return false;
   }
 }
 
