@@ -583,7 +583,7 @@ public final class JSeshViewCore {
         return mdcDocument.getEmbeddedSigns();
     }
 
-    /// Removes all embedded signs, starting again from `SIGN1` (for a cleared view).
+    /// Removes all embedded signs, starting again from `sign1` (for a cleared view).
     public void clearEmbeddedSigns() {
         mdcDocument.getEmbeddedSigns().removeListener(embeddedSignsListener);
         mdcDocument.setEmbeddedSigns(new EmbeddedSignList());

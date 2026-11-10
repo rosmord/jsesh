@@ -22,19 +22,19 @@ export {
 } from "./document/preferences.js";
 export { stripJSeshHeader, writeJSeshHeader } from "./document/header.js";
 export {
+  EMBEDDED_SIGN_FORMAT_VERSION,
   embeddedSignId,
+  embeddedSignRendering,
   embeddedSignsFromMap,
   embeddedSignsToMap,
+  embeddedSignSvg,
   isEmbeddedSignCode,
   nextEmbeddedSignCode,
   type EmbeddedSign,
+  type EmbeddedSignRendering,
   type EmbeddedSigns,
 } from "./document/embedded-signs.js";
-export {
-  EmbeddedSignGlyphProvider,
-  parseEmbeddedSignSvg,
-  withEmbeddedSigns,
-} from "./render/embedded-glyphs.js";
+export { EmbeddedSignGlyphProvider, withEmbeddedSigns } from "./render/embedded-glyphs.js";
 
 // Lower level: the literal AST and the parser.
 export { MdcParser, MdcSyntaxError, parseMdcAst, type MdcParserOptions } from "./parser/parser.js";

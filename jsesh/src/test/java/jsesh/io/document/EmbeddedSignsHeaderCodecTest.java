@@ -7,14 +7,20 @@
  */
 package jsesh.io.document;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,35 +33,54 @@ import jsesh.parser.MDCSyntaxError;
 /// Embedded signs in the document header.
 public class EmbeddedSignsHeaderCodecTest {
 
-    private static final String SVG = "<svg width='10' height='18'>\n<path d='M 0 0 L 10 18 Z'/>\n</svg>\n";
+    /// An SVG file as a user might give it: Latin-1, with an accented comment.
+    private static final byte[] SVG = ("<?xml version='1.0' encoding='ISO-8859-1'?>\n<!-- signe dessiné -->\n"
+            + "<svg xmlns='http://www.w3.org/2000/svg' width='10' height='18'>\n"
+            + "<path d='M 0 0 L 10 18 L 0 18 Z'/>\n</svg>\n").getBytes(StandardCharsets.ISO_8859_1);
 
     private static EmbeddedSignList sampleList() {
         EmbeddedSignList list = new EmbeddedSignList();
         list.add(SVG, "A1", "Un homme assis, variante « tardive »");
         list.add(SVG, null, null);
         list.add(SVG, null, "removed");
-        list.remove("SIGN3");
+        list.remove("sign3");
         return list;
     }
 
+    private static String gunzip(String base64) throws IOException {
+        try (GZIPInputStream in = new GZIPInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(base64)))) {
+            return new String(in.readAllBytes(), StandardCharsets.UTF_8);
+        }
+    }
+
     @Test
-    public void roundTrip() {
+    public void roundTripKeepsTheOriginalFile() {
         Map<String, String> header = EmbeddedSignsHeaderCodec.toHeader(sampleList());
         assertEquals("3", header.get("JSesh_max_embedded_sign_id"));
-        assertTrue(header.get("JSesh_embedded_sign_SIGN2").startsWith("- - "));
-        assertFalse(header.containsKey("JSesh_embedded_sign_SIGN3"));
+        assertTrue(header.get("JSesh_embedded_sign_sign2").startsWith("- v0 - "));
+        assertFalse(header.containsKey("JSesh_embedded_sign_sign3"));
         header.values().forEach(v -> assertFalse(v.contains("\n")));
 
         EmbeddedSignList read = EmbeddedSignsHeaderCodec.fromHeader(header);
         assertEquals(3, read.getMaxId());
         assertEquals(2, read.size());
-        EmbeddedSign s1 = read.get("SIGN1").orElseThrow();
-        assertEquals(SVG, s1.svg());
+        EmbeddedSign s1 = read.get("sign1").orElseThrow();
+        assertArrayEquals(SVG, s1.svg());
         assertEquals("A1", s1.variantOf());
         assertEquals("Un homme assis, variante « tardive »", s1.description());
-        EmbeddedSign s2 = read.get("SIGN2").orElseThrow();
+        EmbeddedSign s2 = read.get("sign2").orElseThrow();
         assertNull(s2.variantOf());
         assertEquals("", s2.description());
+    }
+
+    @Test
+    public void theRenderingDataIsWrittenToo() throws IOException {
+        String value = EmbeddedSignsHeaderCodec.toHeader(sampleList()).get("JSesh_embedded_sign_sign1");
+        String[] parts = value.split(" ");
+        assertEquals(5, parts.length);
+        assertEquals("A1", parts[0]);
+        assertEquals("v0", parts[1]);
+        assertTrue(gunzip(parts[4]).startsWith("{\"w\":10,\"h\":18,\"d\":\"M 0 0 "));
     }
 
     @Test
@@ -65,13 +90,17 @@ public class EmbeddedSignsHeaderCodecTest {
 
     @Test
     public void malformedSignsAreSkipped() {
+        String good = EmbeddedSignsHeaderCodec.toHeader(sampleList()).get("JSesh_embedded_sign_sign2");
         Map<String, String> header = new HashMap<>();
-        header.put("JSesh_embedded_sign_SIGN1", "A1 -");
-        header.put("JSesh_embedded_sign_FOO", "- - PHN2Zy8+");
-        header.put("JSesh_embedded_sign_SIGN2", "- - PHN2Zy8+");
+        header.put("JSesh_embedded_sign_sign1", "A1 v0 -");
+        header.put("JSesh_embedded_sign_sign3", "- v0 - PHN2Zy8+ PHN2Zy8+"); // not gzipped
+        header.put("JSesh_embedded_sign_sign4", good.replace(" v0 ", " v1 ")); // unknown version
+        header.put("JSesh_embedded_sign_sign5", good.replace(" v0 ", " ")); // no version
+        header.put("JSesh_embedded_sign_FOO", good);
+        header.put("JSesh_embedded_sign_sign2", good);
         EmbeddedSignList read = EmbeddedSignsHeaderCodec.fromHeader(header);
         assertEquals(1, read.size());
-        assertEquals("<svg/>", read.get("SIGN2").orElseThrow().svg());
+        assertArrayEquals(SVG, read.get("sign2").orElseThrow().svg());
     }
 
     @Test
@@ -79,15 +108,15 @@ public class EmbeddedSignsHeaderCodecTest {
         MDCDocument doc = new MDCDocument();
         doc.setFile(new File("test.gly"));
         doc.setEmbeddedSigns(sampleList());
-        doc.setHieroglyphicText(new MDCDocumentReader().readString("A1-SIGN1-SIGN2", new File("x.gly"))
+        doc.setHieroglyphicText(new MDCDocumentReader().readString("A1-sign1-sign2", new File("x.gly"))
                 .getHieroglyphicText());
         String mdc = new MDCDocumentWriter().toMdC(doc);
 
         MDCDocument read = new MDCDocumentReader().readString(mdc, new File("test.gly"));
         assertEquals(Dialect.JSESH1, read.getDialect());
         assertEquals(3, read.getEmbeddedSigns().getMaxId());
-        assertEquals(SVG, read.getEmbeddedSigns().get("SIGN1").orElseThrow().svg());
-        assertTrue(mdc.contains("SIGN1"));
+        assertArrayEquals(SVG, read.getEmbeddedSigns().get("sign1").orElseThrow().svg());
+        assertTrue(mdc.contains("sign1"));
         assertEquals(mdc, new MDCDocumentWriter().toMdC(read));
     }
 

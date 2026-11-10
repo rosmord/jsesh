@@ -113,7 +113,7 @@ public class MDCDocument {
 		this.documentPreferences = newDocumentPreferences;
 	}
 
-	/// The signs drawn by the user and stored in this document (`SIGN1`...).
+	/// The signs drawn by the user and stored in this document (`sign1`...).
 	public EmbeddedSignList getEmbeddedSigns() {
 		return embeddedSigns;
 	}

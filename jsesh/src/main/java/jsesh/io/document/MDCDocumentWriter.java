@@ -132,7 +132,7 @@ public class MDCDocumentWriter {
 	/// in the header.
 	///
 	/// As [#toMdC(HieroglyphicText, DocumentPreferences)], for texts which may
-	/// use signs embedded in their document (`SIGN1`...).
+	/// use signs embedded in their document (`sign1`...).
 	///
 	/// @param text           the text to render.
 	/// @param preferences    the preferences to write in the header.

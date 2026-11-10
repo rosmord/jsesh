@@ -6,7 +6,7 @@
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
 /// Signs drawn by the user and stored in a document ("embedded signs",
-/// `SIGN1`, `SIGN2`...).
+/// `sign1`, `sign2`...).
 ///
 /// - [jsesh.document.embeddedsigns.EmbeddedSignList] holds the signs of one
 ///   document ([jsesh.document.MDCDocument#getEmbeddedSigns()]);

@@ -3,24 +3,32 @@
  * SPDX-License-Identifier: CECILL-C
  */
 
-/// The signs drawn by the user and stored in a document (`SIGN1`,
-/// `SIGN2`...): port of `jsesh.document.embeddedsigns.EmbeddedSignList` and
+/// The signs drawn by the user and stored in a document (`sign1`,
+/// `sign2`...): port of `jsesh.document.embeddedsigns.EmbeddedSignList` and
 /// of `jsesh.io.document.EmbeddedSignsHeaderCodec`.
 ///
 /// In the header, each sign is a property
-/// `JSesh_embedded_sign_SIGN1 <variantOf|-> <base64(description)|-> <base64(svg)>`,
-/// and `JSesh_max_embedded_sign_id` is the highest number ever used.
+/// `JSesh_embedded_sign_sign1 <variantOf|-> v0 <base64(description)|-> <svg> <rendering>`,
+/// where `v0` is the version of the storage format of the sign (a sign in
+/// another version is skipped), and `JSesh_max_embedded_sign_id` is the highest number ever used. `svg`
+/// (the user's file) and `rendering` (its size, outline and ligature zones,
+/// computed by JSesh) are gzipped, then base64-encoded. They are kept as
+/// they are, and decompressed only when needed ([embeddedSignSvg],
+/// [embeddedSignRendering]), which is asynchronous.
 
 /// One embedded sign.
 export interface EmbeddedSign {
-  /// `SIGN1`, `SIGN2`...
+  /// `sign1`, `sign2`...
   code: string;
-  /// The normalized SVG written by JSesh (one path, plus ligature zones).
-  svg: string;
   /// The Gardiner code the sign is a variant of, if any.
   variantOf?: string;
   /// A description, possibly empty.
   description: string;
+  /// The user's SVG file, gzipped and base64-encoded, as in the header.
+  svg: string;
+  /// The drawing as JSesh reads it ([EmbeddedSignRendering] as JSON),
+  /// gzipped and base64-encoded, as in the header.
+  rendering: string;
 }
 
 /// The embedded signs of a document.
@@ -31,24 +39,38 @@ export interface EmbeddedSigns {
   signs: EmbeddedSign[];
 }
 
-const CODE_PREFIX = "SIGN";
+/// The drawing of an embedded sign, as written by the Java
+/// `EmbeddedSignShapes.renderingData`: size, outline (starting at 0,0) and
+/// the three ligature zones.
+export interface EmbeddedSignRendering {
+  w: number;
+  h: number;
+  d: string;
+  /// x, y, width, height and gravity (`s`, `c` or `e`, then `t`, `c` or `b`),
+  /// as in the glyph data of `@jsesh/glyphs`.
+  zones: ([number, number, number, number, string] | null)[];
+}
+
+const CODE_PREFIX = "sign";
 const MAX_ID = "JSesh_max_embedded_sign_id";
 const SIGN_PREFIX = "JSesh_embedded_sign_";
 const NONE = "-";
+/// The version of the storage format of a sign, after `variantOf`.
+export const EMBEDDED_SIGN_FORMAT_VERSION = "v0";
 
-/// The number of an embedded sign code (12 for `SIGN12`), if it is one.
+/// The number of an embedded sign code (12 for `sign12`), if it is one.
 export function embeddedSignId(code: string): number | undefined {
-  const m = /^SIGN([1-9][0-9]{0,8})$/.exec(code);
+  const m = /^sign([1-9][0-9]{0,8})$/.exec(code);
   return m === null ? undefined : Number(m[1]);
 }
 
-/// Is `code` of the form `SIGN<n>`?
+/// Is `code` of the form `sign<n>`?
 export function isEmbeddedSignCode(code: string): boolean {
   return embeddedSignId(code) !== undefined;
 }
 
-/// Reads the embedded signs from header properties. Malformed signs are
-/// skipped (with a warning).
+/// Reads the embedded signs from header properties. Malformed signs, and
+/// signs in an unknown format version, are skipped (with a warning). The compressed data is not checked.
 export function embeddedSignsFromMap(properties: Record<string, string>): EmbeddedSigns {
   const byId = new Map<number, EmbeddedSign>();
   let maxId = 0;
@@ -58,11 +80,12 @@ export function embeddedSignsFromMap(properties: Record<string, string>): Embedd
     const id = embeddedSignId(code);
     const parts = value.trim().split(/ +/);
     try {
-      if (id === undefined || parts.length !== 3) throw new Error("malformed");
+      if (id === undefined || parts[1] !== EMBEDDED_SIGN_FORMAT_VERSION || parts.length !== 5) throw new Error("malformed");
       const sign: EmbeddedSign = {
         code,
-        svg: decodeBase64(parts[2]!),
-        description: parts[1] === NONE ? "" : decodeBase64(parts[1]!),
+        description: parts[2] === NONE ? "" : decodeText(parts[2]!),
+        svg: parts[3]!,
+        rendering: parts[4]!,
       };
       if (parts[0] !== NONE) sign.variantOf = parts[0]!;
       byId.set(id, sign);
@@ -82,8 +105,8 @@ export function embeddedSignsToMap(signs: EmbeddedSigns): Record<string, string>
   const result: Record<string, string> = {};
   if (signs.maxId > 0) result[MAX_ID] = String(signs.maxId);
   for (const s of signs.signs) {
-    const description = s.description === "" ? NONE : encodeBase64(s.description);
-    result[SIGN_PREFIX + s.code] = `${s.variantOf ?? NONE} ${description} ${encodeBase64(s.svg)}`;
+    const description = s.description === "" ? NONE : encodeText(s.description);
+    result[SIGN_PREFIX + s.code] = `${s.variantOf ?? NONE} ${EMBEDDED_SIGN_FORMAT_VERSION} ${description} ${s.svg} ${s.rendering}`;
   }
   return result;
 }
@@ -93,15 +116,34 @@ export function nextEmbeddedSignCode(signs: EmbeddedSigns): string {
   return CODE_PREFIX + (signs.maxId + 1);
 }
 
-function decodeBase64(text: string): string {
+/// The user's SVG file of a sign, byte for byte.
+export function embeddedSignSvg(sign: EmbeddedSign): Promise<Uint8Array> {
+  return gunzip(sign.svg);
+}
+
+/// The drawing of a sign, as JSesh reads it from its SVG.
+export async function embeddedSignRendering(sign: EmbeddedSign): Promise<EmbeddedSignRendering> {
+  return JSON.parse(new TextDecoder().decode(await gunzip(sign.rendering))) as EmbeddedSignRendering;
+}
+
+function base64ToBytes(text: string): Uint8Array {
   const binary = atob(text);
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  return bytes;
 }
 
-function encodeBase64(text: string): string {
+function decodeText(text: string): string {
+  return new TextDecoder("utf-8", { fatal: true }).decode(base64ToBytes(text));
+}
+
+function encodeText(text: string): string {
   let binary = "";
   for (const b of new TextEncoder().encode(text)) binary += String.fromCharCode(b);
   return btoa(binary);
+}
+
+async function gunzip(base64: string): Promise<Uint8Array> {
+  const stream = new Blob([base64ToBytes(base64) as BlobPart]).stream().pipeThrough(new DecompressionStream("gzip"));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
 }

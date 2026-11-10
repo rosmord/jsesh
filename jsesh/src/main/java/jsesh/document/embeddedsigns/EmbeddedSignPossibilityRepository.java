@@ -23,7 +23,7 @@ import jsesh.signcodes.ManuelDeCodage;
 /// - when the list for what the user typed already proposes `X` (so a sign
 ///   declared a variant of `Y5` also appears for `mn`).
 ///
-/// When the user types an embedded sign code (`SIGN1`), it is proposed too.
+/// When the user types an embedded sign code (`sign1`), it is proposed too.
 /// The lists are recomputed at each call (documents have few such signs).
 public final class EmbeddedSignPossibilityRepository implements PossibilityRepository {
 

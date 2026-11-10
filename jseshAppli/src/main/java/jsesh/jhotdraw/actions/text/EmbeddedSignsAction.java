@@ -16,7 +16,7 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 import jsesh.ui.widgets.embeddedsigns.EmbeddedSignsDialog;
 
-/// Opens the list of the signs embedded in the current document (`SIGN1`...),
+/// Opens the list of the signs embedded in the current document (`sign1`...),
 /// to add, insert, edit, remove or export them.
 @SuppressWarnings("serial")
 public class EmbeddedSignsAction extends AbstractCoreViewAction {

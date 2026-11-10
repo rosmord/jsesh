@@ -21,7 +21,7 @@ import {
 export interface MdcDocument {
   preferences: DocumentPreferences;
   text: HieroglyphicText;
-  /// The signs stored in the document (`SIGN1`...), if it has ever had any.
+  /// The signs stored in the document (`sign1`...), if it has ever had any.
   embeddedSigns?: EmbeddedSigns;
 }
 

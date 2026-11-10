@@ -167,7 +167,7 @@ Once you have set up JSeshJs, for your page with the javascript `<script>` from 
 
 The element is `inline-block`, so it sits in a line of text like a word, and can also be styled like any other element. Its text comes from its `mdc` attribute (or property) or, if there is none, from its content. If you change either one, the picture is redrawn.
 
-The text can even be a whole JSesh document (the content of a `.gly` file): the preferences stored in its header (direction, justification...) are then used, and so are the signs the user drew for this text (`SIGN1`, `SIGN2`...), which JSesh stores in the header too.
+The text can even be a whole JSesh document (the content of a `.gly` file): the preferences stored in its header (direction, justification...) are then used, and so are the signs the user drew for this text (`sign1`, `sign2`...), which JSesh stores in the header too.
 
 #### Attributes
 

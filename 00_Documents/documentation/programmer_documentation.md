@@ -25,7 +25,7 @@ The `jsesh` module is a **library**: it has no `main`. The end-user application 
 - [8. Use case: read and write `.gly` documents](#8-use-case-read-and-write-gly-documents)
   - [8.1. Loading](#81-loading)
   - [8.2. Saving to MdC](#82-saving-to-mdc)
-  - [8.3. Embedded signs (`SIGN1`, `SIGN2`…)](#83-embedded-signs-sign1-sign2)
+  - [8.3. Embedded signs (`sign1`, `sign2`…)](#83-embedded-signs-sign1-sign2)
   - [8.4. Document preferences: one unit, and the settings shared with zones](#84-document-preferences-one-unit-and-the-settings-shared-with-zones)
 - [9. Use case: turn a model back into MdC text](#9-use-case-turn-a-model-back-into-mdc-text)
 - [10. Use case: embed the interactive editor in a Swing app](#10-use-case-embed-the-interactive-editor-in-a-swing-app)
@@ -341,17 +341,19 @@ document in place** — it forces the modern JSesh dialect, UTF-8 encoding, and 
 
 A document with embedded signs is always saved as `.gly` (they live in the header).
 
-### 8.3. Embedded signs (`SIGN1`, `SIGN2`…)
+### 8.3. Embedded signs (`sign1`, `sign2`…)
 
-A document can carry its own signs, drawn by the user as SVG: they are in
+A document can carry its own signs, drawn by the user as SVG (their format in
+the header is described in [embedded_signs.md](embedded_signs.md)): they are in
 `doc.getEmbeddedSigns()` (an `EmbeddedSignList`, package
 `jsesh.document.embeddedsigns`), saved in the header, and used in the text as
-`SIGN1`, `SIGN2`…
+`sign1`, `sign2`…
 
 ```java
 EmbeddedSignList signs = doc.getEmbeddedSigns();
-String svg = EmbeddedSignShapes.normalizeSvg(in, "my-sign.svg"); // throws IOException if unreadable
-EmbeddedSign sign = signs.add(svg, "A1", "a seated man, late form"); // "SIGN1"
+byte[] svg = Files.readAllBytes(file.toPath());           // the user's file, kept as is
+EmbeddedSignShapes.checkSvg(svg, file.getName());          // throws IOException if unreadable
+EmbeddedSign sign = signs.add(svg, "A1", "a seated man, late form"); // "sign1"
 ```
 
 The global resources don't know these signs. To draw them and propose them

@@ -509,6 +509,8 @@ A1-B1-!
 
 Each header line is `++`, a property name starting with `JSesh_`, a value, and ` +s`. Property names are in `jsesh.model.constants.JSeshInfoConstants`. They hold the document preferences: page direction and orientation, maximum quadrat size, line and column skip, and so on.
 
+The header can also hold signs drawn by the user, used in the text as `sign1`, `sign2`... ("embedded signs"). The appendix [embedded_signs.md](embedded_signs.md) describes how to read them.
+
 `00_Documents/formats/jseshHeader.txt` describes a JSON header starting with `++JSESH_FILE`. That format was never implemented.
 
 ## 13. The form JSesh writes

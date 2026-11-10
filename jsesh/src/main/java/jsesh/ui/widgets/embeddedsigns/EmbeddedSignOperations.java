@@ -14,8 +14,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.Optional;
@@ -70,9 +68,10 @@ public final class EmbeddedSignOperations {
             return Optional.empty();
         }
         File file = chooser.getSelectedFile();
-        String svg;
-        try (InputStream in = Files.newInputStream(file.toPath())) {
-            svg = EmbeddedSignShapes.normalizeSvg(in, file.getName());
+        byte[] svg;
+        try {
+            svg = Files.readAllBytes(file.toPath());
+            EmbeddedSignShapes.checkSvg(svg, file.getName());
         } catch (IOException e) {
             JOptionPane.showMessageDialog(parent,
                     JSeshMessages.format("embeddedSigns.readError.message", file.getName()),
@@ -116,7 +115,8 @@ public final class EmbeddedSignOperations {
         return Collections.frequency(new HieroglyphCodesExtractor(false).extractHieroglyphs(text), code);
     }
 
-    /// Asks for a folder and writes one `SIGNn.svg` file per sign in it.
+    /// Asks for a folder and writes one `sign<n>.svg` file per sign in it (the
+    /// user's original files).
     ///
     /// @param directory the directory to start from, or `null`.
     /// @return the folder written to, or nothing if the user cancelled or
@@ -148,7 +148,7 @@ public final class EmbeddedSignOperations {
         }
         try {
             for (EmbeddedSign s : signs.asList()) {
-                Files.writeString(svgFile(folder, s).toPath(), s.svg(), StandardCharsets.UTF_8);
+                Files.write(svgFile(folder, s).toPath(), s.svg());
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(parent,

@@ -4,11 +4,16 @@
  */
 
 /// Drawing the signs embedded in a document: a [GlyphProvider] which answers
-/// for `SIGN1`, `SIGN2`... from their SVG, and asks another provider for the
-/// other signs. Mirrors the Java `EmbeddedSignShapeRepository`, put in front
-/// of the global fonts.
+/// for `sign1`, `sign2`... from the drawing JSesh stored next to their SVG,
+/// and asks another provider for the other signs. Mirrors the Java
+/// `EmbeddedSignShapeRepository`, put in front of the global fonts.
 
-import type { EmbeddedSign, EmbeddedSigns } from "../document/embedded-signs.js";
+import {
+  embeddedSignRendering,
+  type EmbeddedSign,
+  type EmbeddedSignRendering,
+  type EmbeddedSigns,
+} from "../document/embedded-signs.js";
 import type {
   ExplicitPosition,
   GlyphProvider,
@@ -26,83 +31,61 @@ interface EmbeddedGlyph {
   zones: (LigatureZone | undefined)[];
 }
 
-const HORIZONTAL_GRAVITY: Record<string, HorizontalGravity> = { s: "START", e: "END" };
-const VERTICAL_GRAVITY: Record<string, VerticalGravity> = { t: "TOP", b: "BOTTOM" };
+const HORIZONTAL_GRAVITY: Record<string, HorizontalGravity> = { s: "START", c: "CENTER", e: "END" };
+const VERTICAL_GRAVITY: Record<string, VerticalGravity> = { t: "TOP", c: "CENTER", b: "BOTTOM" };
 
-/// The attributes of an SVG start tag (`<path d='...'/>`).
-function attributes(element: string): Record<string, string> {
-  const result: Record<string, string> = {};
-  for (const m of element.matchAll(/([\w:-]+)\s*=\s*(?:'([^']*)'|"([^"]*)")/g)) {
-    result[m[1]!] = m[2] ?? m[3] ?? "";
-  }
-  return result;
-}
-
-/// Reads the normalized SVG of an embedded sign (as written by
-/// `ShapeChar.exportToSVG`): its size (the `width` and `height` of the
-/// `svg` element, which are its bounding box), its path (already at 0,0)
-/// and its ligature zones (`rect` elements `zone1` to `zone3`).
-export function parseEmbeddedSignSvg(svg: string): EmbeddedGlyph | undefined {
-  const root = /<svg\b[^>]*>/.exec(svg);
-  const path = /<path\b[^>]*>/.exec(svg);
-  if (root === null || path === null) return undefined;
-  const size = attributes(root[0]);
-  const d = attributes(path[0]).d;
-  const width = Number(size.width);
-  const height = Number(size.height);
-  if (d === undefined || !Number.isFinite(width) || !Number.isFinite(height)) return undefined;
-  const zones: (LigatureZone | undefined)[] = [undefined, undefined, undefined];
-  for (const m of svg.matchAll(/<rect\b[^>]*>/g)) {
-    const a = attributes(m[0]);
-    const index = /^zone([123])$/.exec(a.id ?? "");
-    if (index === null) continue;
-    const gravity = /^gravity:(.*)$/.exec(a["inkscape:label"] ?? "")?.[1] ?? "";
-    let horizontalGravity: HorizontalGravity = "CENTER";
-    let verticalGravity: VerticalGravity = "CENTER";
-    for (const c of gravity) {
-      horizontalGravity = HORIZONTAL_GRAVITY[c] ?? horizontalGravity;
-      verticalGravity = VERTICAL_GRAVITY[c] ?? verticalGravity;
-    }
-    zones[Number(index[1]) - 1] = {
-      x: Number(a.x),
-      y: Number(a.y),
-      width: Number(a.width),
-      height: Number(a.height),
-      horizontalGravity,
-      verticalGravity,
-    };
-  }
-  return { width, height, shape: { d }, zones };
+/// Converts the drawing data of a sign for the layout.
+function toGlyph(r: EmbeddedSignRendering): EmbeddedGlyph {
+  return {
+    width: r.w,
+    height: r.h,
+    shape: { d: r.d },
+    zones: [0, 1, 2].map((i) => {
+      const z = r.zones[i];
+      if (z === undefined || z === null) return undefined;
+      const [x, y, width, height, gravity] = z;
+      return {
+        x,
+        y,
+        width,
+        height,
+        horizontalGravity: HORIZONTAL_GRAVITY[gravity[0]!] ?? "CENTER",
+        verticalGravity: VERTICAL_GRAVITY[gravity[1]!] ?? "CENTER",
+      };
+    }),
+  };
 }
 
 /// A provider for the embedded signs of a document, over `base` for the
 /// others.
+///
+/// The data of a sign is compressed: like the shapes of `base`, it is only
+/// available after [loadShapes] (its size and zones too). Until then, the
+/// sign is unknown.
 export class EmbeddedSignGlyphProvider implements GlyphProvider {
+  private readonly signs = new Map<string, EmbeddedSign>();
   private readonly glyphs = new Map<string, EmbeddedGlyph>();
+  private readonly pending = new Map<string, Promise<void>>();
 
   constructor(
     private readonly base: GlyphProvider,
     signs: readonly EmbeddedSign[],
   ) {
-    for (const s of signs) {
-      const glyph = parseEmbeddedSignSvg(s.svg);
-      if (glyph !== undefined) this.glyphs.set(s.code, glyph);
-      else console.warn(`Unreadable embedded sign ${s.code}`);
-    }
+    for (const s of signs) this.signs.set(s.code, s);
   }
 
   canonicalCode(code: string): string {
-    return this.glyphs.has(code) ? code : this.base.canonicalCode(code);
+    return this.signs.has(code) ? code : this.base.canonicalCode(code);
   }
 
   size(code: string): { width: number; height: number } | undefined {
+    if (!this.signs.has(code)) return this.base.size(code);
     const g = this.glyphs.get(code);
-    return g !== undefined ? { width: g.width, height: g.height } : this.base.size(code);
+    return g === undefined ? undefined : { width: g.width, height: g.height };
   }
 
   ligatureZone(code: string, i: number): LigatureZone | undefined {
-    const g = this.glyphs.get(code);
-    return g !== undefined ? g.zones[i] : this.base.ligatureZone(code, i);
+    return this.signs.has(code) ? this.glyphs.get(code)?.zones[i] : this.base.ligatureZone(code, i);
   }
 
   ligaturePositions(codes: readonly string[]): readonly ExplicitPosition[] | undefined {
@@ -110,11 +93,37 @@ export class EmbeddedSignGlyphProvider implements GlyphProvider {
   }
 
   shape(code: string): SignShape | undefined {
-    return this.glyphs.get(code)?.shape ?? this.base.shape(code);
+    return this.signs.has(code) ? this.glyphs.get(code)?.shape : this.base.shape(code);
   }
 
   async loadShapes(codes: Iterable<string>): Promise<void> {
-    await this.base.loadShapes([...codes].filter((c) => !this.glyphs.has(c)));
+    const others: string[] = [];
+    const waits: Promise<void>[] = [];
+    for (const code of codes) {
+      const sign = this.signs.get(code);
+      if (sign === undefined) {
+        others.push(code);
+        continue;
+      }
+      if (this.glyphs.has(code)) continue;
+      let p = this.pending.get(code);
+      if (p === undefined) {
+        p = embeddedSignRendering(sign).then(
+          (r) => {
+            this.glyphs.set(code, toGlyph(r));
+            this.pending.delete(code);
+          },
+          (error: unknown) => {
+            this.pending.delete(code);
+            console.warn(`Unreadable embedded sign ${code}`, error);
+          },
+        );
+        this.pending.set(code, p);
+      }
+      waits.push(p);
+    }
+    waits.push(this.base.loadShapes(others));
+    await Promise.all(waits);
   }
 }
 

@@ -20,7 +20,7 @@ import org.qenherkhopeshef.observable.ObservableEventSupport;
 
 /// The signs embedded in one document ("text-specific signs").
 ///
-/// Each sign gets the code `SIGN<n>`, where `n` is one more than the
+/// Each sign gets the code `sign<n>`, where `n` is one more than the
 /// highest number ever used in the document ([#getMaxId()]). Removing a sign
 /// does **not** free its number: the next sign gets a new one, so an old copy
 /// of the text never silently shows another drawing.
@@ -29,18 +29,18 @@ import org.qenherkhopeshef.observable.ObservableEventSupport;
 public final class EmbeddedSignList {
 
     /// The prefix of all embedded sign codes.
-    public static final String CODE_PREFIX = "SIGN";
+    public static final String CODE_PREFIX = "sign";
 
     private final TreeMap<Integer, EmbeddedSign> signs = new TreeMap<>();
     private int maxId = 0;
     private final ObservableEventSupport<EmbeddedSignListChangedEvent> eventSupport = new ObservableEventSupport<>();
 
-    /// Is `code` of the form `SIGN<n>`, with `n > 0`.
+    /// Is `code` of the form `sign<n>`, with `n > 0`.
     public static boolean isEmbeddedSignCode(String code) {
         return idOf(code).isPresent();
     }
 
-    /// The number of an embedded sign code: 12 for `SIGN12`.
+    /// The number of an embedded sign code: 12 for `sign12`.
     public static OptionalInt idOf(String code) {
         if (code == null || !code.startsWith(CODE_PREFIX) || code.length() == CODE_PREFIX.length()) {
             return OptionalInt.empty();
@@ -55,11 +55,12 @@ public final class EmbeddedSignList {
 
     /// Adds a new sign, with a fresh code.
     ///
-    /// @param svg         the normalized SVG (see [EmbeddedSignShapes#normalizeSvg]).
+    /// @param svg         the SVG data, as the user's file has it (see
+    ///                    [EmbeddedSignShapes#checkSvg]).
     /// @param variantOf   the Gardiner code the sign is a variant of, or `null`.
     /// @param description a description, or `null`.
     /// @return the new sign.
-    public EmbeddedSign add(String svg, String variantOf, String description) {
+    public EmbeddedSign add(byte[] svg, String variantOf, String description) {
         int id = maxId + 1;
         EmbeddedSign sign = new EmbeddedSign(CODE_PREFIX + id, svg, variantOf, description);
         signs.put(id, sign);

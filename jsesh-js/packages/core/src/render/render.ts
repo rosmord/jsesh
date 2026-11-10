@@ -58,7 +58,7 @@ function isFullStyle(style: JSeshStyle | StyleChanges): style is JSeshStyle {
 }
 
 /// Reads a text (MdC, with an optional JSesh header) and computes its style.
-/// The signs embedded in the header (`SIGN1`...) are added to the glyphs.
+/// The signs embedded in the header (`sign1`...) are added to the glyphs.
 function prepare(
   source: string | HieroglyphicText,
   options: RenderOptions,

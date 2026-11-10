@@ -19,7 +19,7 @@ import jsesh.ui.widgets.embeddedsigns.EmbeddedSignOperations;
 /// Adds a sign drawn by the user (an SVG file) to the current document, and
 /// inserts it at the cursor.
 ///
-/// The sign is stored in the document, with the code `SIGN1`, `SIGN2`...
+/// The sign is stored in the document, with the code `sign1`, `sign2`...
 @SuppressWarnings("serial")
 public class AddEmbeddedSignAction extends AbstractCoreViewAction {
 

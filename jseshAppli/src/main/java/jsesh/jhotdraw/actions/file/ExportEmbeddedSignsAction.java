@@ -17,7 +17,7 @@ import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 import jsesh.ui.widgets.embeddedsigns.EmbeddedSignOperations;
 
 /// Writes the signs embedded in the current document as SVG files
-/// (`SIGN1.svg`...), for instance to add them to a font.
+/// (`sign1.svg`...), for instance to add them to a font.
 @SuppressWarnings("serial")
 public class ExportEmbeddedSignsAction extends AbstractCoreViewAction {
 
