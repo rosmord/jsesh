@@ -524,6 +524,8 @@ with `CompositePossibilityRepository` (`combine`); a source whose proposals depe
 the others propose is a *decorator* (`EmbeddedSignPossibilityRepository`). Not to be
 confused with the palette search, which asks the hieroglyph database directly.
 
+The `PossibilityHandler` is now local to each component. It means that typing the same code in two different component may give a different sign. This is a change in the UI. With the addition of signs embedding, the old behaviour, with a shared list and position becomes illogical.
+
 ### Shape repository
 
 `HieroglyphShapeRepository`: gives the drawing of a sign from its code. Implementations

@@ -519,14 +519,15 @@ others in a `CompositePossibilityRepository`:
 
 ```java
 PossibilityRepository possibilities = new CompositePossibilityRepository(
-        new SignDatabasePossibilities(db),
+        new SignDatabasePossibilities(db, shapes), // shapes: the repository db was built on
+
         new GlossaryPossibilities(glossary),
         myOwnSource);
 PossibilitiesList forM = possibilities.getPossibilityListFor("m"); // immutable, never null
 ```
 
 The Gardiner code system itself (parsing `A1`, `G17`, phantom codes…) lives in
-`jsesh.glyphs.data.coremdc` (`GardinerCode`, `ManuelDeCodage`).
+`jsesh.signcodes` (`GardinerCode`, `ManuelDeCodage`).
 
 ---
 

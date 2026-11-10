@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,18 +14,47 @@ import jsesh.defaults.HieroglyphDatabaseFactory;
 import jsesh.glossary.Glossary;
 import jsesh.glossary.GlossaryEntry;
 import jsesh.glossary.GlossaryPossibilities;
+import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.PredefinedFonts;
+import jsesh.glyphs.shape.ShapeChar;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.SignDescriptionConstants;
+import jsesh.signcodes.CanonicalCode;
 
 /// Possibility lists and their sources.
 class PossibilitiesTest {
 
+    private static HieroglyphShapeRepository shapes;
     private static HieroglyphDatabase database;
 
     @BeforeAll
     static void loadDatabase() {
-        database = HieroglyphDatabaseFactory.buildPlainDefault(PredefinedFonts.buildAllEmbeddedFonts());
+        shapes = PredefinedFonts.buildAllEmbeddedFonts();
+        database = HieroglyphDatabaseFactory.buildPlainDefault(shapes);
+    }
+
+    /// A shape repository holding codes only (no actual shapes).
+    private record CodesOnly(Set<String> codes) implements HieroglyphShapeRepository {
+        @Override
+        public ShapeChar get(CanonicalCode code) {
+            return null;
+        }
+
+        @Override
+        public ShapeChar getSmallBody(CanonicalCode code) {
+            return null;
+        }
+
+        @Override
+        public Set<String> getCodes() {
+            return codes;
+        }
+
+        @Override
+        public boolean hasNewSigns() {
+            return true;
+        }
     }
 
     private static List<String> codes(PossibilitiesList list) {
@@ -66,7 +96,7 @@ class PossibilitiesTest {
 
     @Test
     void signDatabaseProposesSignsForATransliteration() {
-        PossibilitiesList m = new SignDatabasePossibilities(database).getPossibilityListFor("m");
+        PossibilitiesList m = new SignDatabasePossibilities(database, shapes).getPossibilityListFor("m");
         // The "official" Manuel de Codage code comes first.
         assertEquals("m", m.get(0).getCode());
         assertTrue(codes(m).contains("G17"));
@@ -74,13 +104,25 @@ class PossibilitiesTest {
 
     @Test
     void signDatabaseProposesTheExactCodeFirst() {
-        PossibilitiesList a1 = new SignDatabasePossibilities(database).getPossibilityListFor("a1");
+        PossibilitiesList a1 = new SignDatabasePossibilities(database, shapes).getPossibilityListFor("a1");
         assertEquals("A1", a1.get(0).getCode());
     }
 
     @Test
+    void signDatabaseSeesTheSignsAddedToItsShapes() {
+        CompositeHieroglyphShapeRepository composite = new CompositeHieroglyphShapeRepository();
+        composite.addRepository(new CodesOnly(Set.of("A1")));
+        HieroglyphDatabase db = HieroglyphDatabaseFactory.buildPlainDefault(composite);
+        SignDatabasePossibilities possibilities = new SignDatabasePossibilities(db, composite);
+        assertEquals(List.of("A1"), codes(possibilities.getPossibilityListFor("a1")));
+        // Adding a repository is a change: the cached list is forgotten.
+        composite.addRepository(new CodesOnly(Set.of("A1Z")));
+        assertEquals(List.of("A1", "A1Z"), codes(possibilities.getPossibilityListFor("a1")));
+    }
+
+    @Test
     void signDatabaseGivesAnEmptyListForAnUnknownValue() {
-        PossibilitiesList l = new SignDatabasePossibilities(database).getPossibilityListFor("zzqqx");
+        PossibilitiesList l = new SignDatabasePossibilities(database, shapes).getPossibilityListFor("zzqqx");
         assertTrue(l.isEmpty());
     }
 

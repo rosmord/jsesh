@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.SignDescriptionConstants;
 import jsesh.signcodes.GardinerCode;
@@ -25,14 +26,27 @@ import jsesh.signcodes.GardinerCode;
 ///   ([HieroglyphDatabase#getPossibilityFor(String, String)] with
 ///   [SignDescriptionConstants#KEYBOARD]).
 ///
-/// The lists are cached: the database doesn't change once built.
+/// The lists are cached. The variants of a Gardiner code are read from the
+/// shape repository the database is built on, whose signs can change (the
+/// user font directory is replaced, for instance): the cache is emptied each
+/// time this repository signals a change.
 public final class SignDatabasePossibilities implements PossibilityRepository {
 
     private final HieroglyphDatabase database;
     private final Map<String, PossibilitiesList> cache = new HashMap<>();
 
-    public SignDatabasePossibilities(HieroglyphDatabase database) {
+    /// @param database the sign database.
+    /// @param shapes   the shape repository `database` takes its sign codes
+    ///                 from; its changes empty the cache. This object listens
+    ///                 to it as long as it lives.
+    public SignDatabasePossibilities(HieroglyphDatabase database, HieroglyphShapeRepository shapes) {
         this.database = Objects.requireNonNull(database);
+        shapes.addListener(e -> clearCache());
+    }
+
+    /// Forgets the cached lists: they will be computed again from the database.
+    public synchronized void clearCache() {
+        cache.clear();
     }
 
     @Override
