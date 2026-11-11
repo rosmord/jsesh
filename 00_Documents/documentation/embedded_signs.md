@@ -29,7 +29,7 @@ Each embedded sign has:
 - a **code**, `sign` followed by a number (`sign1`, `sign12`);
 - the **SVG file** the user gave, byte for byte. This is the reference;
 - the **rendering data**: the sign's size, outline and ligature zones, as JSesh reads them from the SVG. JSesh computes them for programs which can't read arbitrary SVG files, such as its own JavaScript port;
-- optionally, the **Gardiner code** it is a variant of. JSesh then proposes the sign when the user types that code;
+- optionally, the **Gardiner code** it is a variant of. JSesh then proposes the sign when the user types that code. Only Gardiner codes are accepted (`A1`, `Aa15`, `US1A1`...), in any case, and stored with the Manuel de Codage capitalisation (`a1` → `A1`); phonetic codes such as `mn` are refused;
 - a **description**, possibly empty.
 
 Older versions of JSesh ignore these header lines. They show `sign1` as an unknown code.
@@ -43,6 +43,8 @@ sign1-A1:sign2-sign1*sign2-w&&&sign2
 ```
 
 A code is an embedded sign code if it matches `sign[1-9][0-9]*` exactly. Case matters: `SIGN1` is not one. A `sign` code which has no definition in the header is an unknown code. JSesh draws such a code as text.
+
+**Searching.** A sign which declares a Gardiner equivalent ("variant of") is found under both codes. If `sign1` is a variant of `A5`, searching `i-A5` finds `i-sign1`, whatever the variant level of the search; searching `sign1` finds only `sign1`. The search which respects the layout compares each quadrat as it is, and once its embedded signs are replaced by their equivalents: `A5:Z1` finds `sign1:Z1`, but a query which mixes the two (`sign1:A5`) only finds itself. A program which searches JSesh texts should do the same.
 
 ## 3. In the header
 
@@ -60,7 +62,7 @@ As for any header line, the value is the text between the first space and the fi
 
 | # | Field | Content | Empty value |
 |---|---|---|---|
-| 1 | variant of | A Gardiner code (`A1`, `Y5`), written as is | `-` |
+| 1 | variant of | A Gardiner code (`A1`, `Y5`), written as is. A reader ignores (and keeps the sign) any other value | `-` |
 | 2 | format version | The version of the storage format of the sign: `v0` | (never empty) |
 | 3 | description | The description in UTF-8, base64-encoded | `-` |
 | 4 | SVG | The user's SVG file, base64-encoded | (never empty) |

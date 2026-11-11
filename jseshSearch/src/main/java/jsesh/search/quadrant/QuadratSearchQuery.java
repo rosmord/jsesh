@@ -34,44 +34,55 @@
  */
 package jsesh.search.quadrant;
 
-import jsesh.document.MdCSearchQuery;
-
 import java.util.ArrayList;
 import java.util.List;
-import jsesh.model.MDCPosition;
-import jsesh.model.HieroglyphicText;
-import jsesh.model.tools.MDCNormalizer;
+import java.util.Map;
 
-/**
- * Search for the exact appearance of a given quadrat.
- * @author rosmord
- */
+import jsesh.document.MdCSearchQuery;
+import jsesh.document.embeddedsigns.EmbeddedSignList;
+import jsesh.model.HieroglyphicText;
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItem;
+import jsesh.model.tools.MDCNormalizer;
+import jsesh.model.tools.SignCodeRenamer;
+
+/// Search for the exact appearance of a given quadrat.
+///
+/// Embedded signs are also found under their Gardiner equivalent: if `sign1`
+/// is a variant of `A5`, `A5:Z1` finds `sign1:Z1`. A text item matches if it
+/// is equal to the searched one as it is, or once all its embedded signs are
+/// replaced by their equivalents. Hence a query which mixes embedded signs
+/// and Gardiner equivalents in one quadrat (`sign1:A5`) only finds itself.
+///
+/// @author rosmord
 public class QuadratSearchQuery implements MdCSearchQuery {
     private final HieroglyphicText search;
 
-    public QuadratSearchQuery(HieroglyphicText search) {        
-        this.search =search.deepCopy();
-        MDCNormalizer normalizer= new MDCNormalizer();
+    public QuadratSearchQuery(HieroglyphicText search) {
+        this.search = search.deepCopy();
+        MDCNormalizer normalizer = new MDCNormalizer();
         normalizer.normalize(this.search);
     }
 
-    /**
-     * Perform the search.
-     *
-     * <p>
-     * Basically, we have a tree and we want to perform a sequential search on
-     * it. The easiest way to do this is to linearize the entry.
-     *
-     * @param items the items to search into.
-     * @return
-     */
-    public List<MDCPosition> doSearch(HieroglyphicText items) {
-        ArrayList<MDCPosition> result= new ArrayList<>();
-        for (int pos= 0; pos < items.getNumberOfChildren(); pos++) {
-            // Brute force search. 
+    /// Perform the search.
+    ///
+    /// Basically, we have a tree and we want to perform a sequential search on
+    /// it. The easiest way to do this is to linearize the entry.
+    ///
+    /// @param items the items to search into.
+    /// @param embeddedSigns the signs embedded in the document of `items`.
+    /// @return the positions of the matches.
+    @Override
+    public List<MDCPosition> doSearch(HieroglyphicText items, EmbeddedSignList embeddedSigns) {
+        HieroglyphicText withEquivalents = replaceEmbeddedSigns(items, embeddedSigns.getGardinerEquivalents());
+        ArrayList<MDCPosition> result = new ArrayList<>();
+        for (int pos = 0; pos < items.getNumberOfChildren(); pos++) {
+            // Brute force search.
             int i;
-            for (i=0; i < search.getNumberOfChildren() && i + pos < items.getNumberOfChildren(); i++) {
-                if (! search.getChildAt(i).equalsIgnoreId(items.getChildAt(pos+i))) {
+            for (i = 0; i < search.getNumberOfChildren() && i + pos < items.getNumberOfChildren(); i++) {
+                TopItem searched = search.getTopItemAt(i);
+                if (!searched.equalsIgnoreId(items.getTopItemAt(pos + i))
+                        && !searched.equalsIgnoreId(withEquivalents.getTopItemAt(pos + i))) {
                     break;
                 }
             }
@@ -79,6 +90,17 @@ public class QuadratSearchQuery implements MdCSearchQuery {
                 result.add(new MDCPosition(pos));
         }
         return result;
+    }
+
+    /// A copy of `items` where embedded signs are replaced by their Gardiner
+    /// equivalents, or `items` itself if there are none.
+    private static HieroglyphicText replaceEmbeddedSigns(HieroglyphicText items, Map<String, String> equivalents) {
+        if (equivalents.isEmpty()) {
+            return items;
+        }
+        HieroglyphicText copy = items.deepCopy();
+        new SignCodeRenamer(equivalents).rename(List.of(copy));
+        return copy;
     }
 
 }

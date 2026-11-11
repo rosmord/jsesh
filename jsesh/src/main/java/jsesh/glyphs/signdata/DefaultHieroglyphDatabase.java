@@ -213,9 +213,9 @@ public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
     /// to the scope of the value (PALETTE, KEYBOARD, INFORMATIVE). Should now be
     /// an enum.
     /// @return the sign codes (immutable, possibly empty).
-    /// @see HieroglyphDatabase#getPossibilityFor(String, String)
+    /// @see HieroglyphDatabase#getSignsForValue(String, String)
     @Override
-    public List<String> getPossibilityFor(String transliteration,
+    public List<String> getSignsForValue(String transliteration,
             String level) {
         String filteredValue = StringUtils.removeHyphens(transliteration);
         // Keyboard access...

@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
+import jsesh.signcodes.GardinerCode;
+
 /// A sign drawn by the user and stored in the document itself.
 ///
 /// An embedded sign belongs to one text: its drawing travels in the document
@@ -23,7 +25,9 @@ import java.util.Objects;
 ///                    is immutable.
 /// @param variantOf   the Gardiner code this sign is a variant of, or `null`.
 ///                    When set, the sign is proposed in the possibility list of
-///                    that code.
+///                    that code. Only Gardiner codes are accepted (see
+///                    [#normalizeVariantOf(String)]), not phonetic codes
+///                    such as `mn`.
 /// @param description a free description; never `null`, possibly empty.
 ///
 /// Serializable, to travel on the clipboard with copied text.
@@ -83,19 +87,28 @@ public record EmbeddedSign(String code, byte[] svg, String variantOf, String des
                 + ", description=" + description + "]";
     }
 
-    /// Blank and space-containing values make no sense as a sign code: blank
-    /// gives `null`, and surrounding spaces are removed.
-    private static String normalizeVariantOf(String variantOf) {
-        if (variantOf == null) {
+    /// Is `variantOf` acceptable as the "variant of" code of a sign: blank,
+    /// or a Gardiner code in any case (`A1`, `a1`, `Aa15`, `US1A1`...).
+    public static boolean isValidVariantOf(String variantOf) {
+        if (variantOf == null || variantOf.isBlank()) {
+            return true;
+        }
+        return GardinerCode.isWellFormedCodeIgnoreCase(variantOf.trim());
+    }
+
+    /// The "variant of" code as stored: `null` for a blank value, otherwise
+    /// the Gardiner code with the Manuel de Codage capitalisation (`a1` → `A1`,
+    /// `aa15` → `Aa15`).
+    ///
+    /// @throws IllegalArgumentException if the value is not blank and not a Gardiner code.
+    public static String normalizeVariantOf(String variantOf) {
+        if (!isValidVariantOf(variantOf)) {
+            throw new IllegalArgumentException("Not a Gardiner code: " + variantOf);
+        }
+        if (variantOf == null || variantOf.isBlank()) {
             return null;
         }
-        String trimmed = variantOf.trim();
-        if (trimmed.isEmpty()) {
-            return null;
-        }
-        if (trimmed.chars().anyMatch(Character::isWhitespace)) {
-            throw new IllegalArgumentException("A sign code can't contain spaces: " + variantOf);
-        }
-        return trimmed;
+        // Despite its name, getCodeForFileName normalises the capitalisation of codes.
+        return GardinerCode.getCodeForFileName(variantOf.trim());
     }
 }

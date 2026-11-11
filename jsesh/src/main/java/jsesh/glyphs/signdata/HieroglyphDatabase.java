@@ -78,7 +78,7 @@ public interface HieroglyphDatabase {
      *
      * @return the codes of the signs, the preferred one first (immutable, never null).
      */
-    List<String> getPossibilityFor(String phoneticValue, String level);
+    List<String> getSignsForValue(String phoneticValue, String level);
 
     /**
      * Gets all signs which contain this one in their drawing.

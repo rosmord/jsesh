@@ -171,7 +171,7 @@ public class HieroglyphResourcesBuilder {
 
         // The signs come first, then the glossary words.
         PossibilityRepository possibilities = new CompositePossibilityRepository(
-                new SignDatabasePossibilities(database, shapes),
+                new SignDatabasePossibilities(database),
                 new GlossaryPossibilities(glossary));
         return new HieroglyphResources(shapes, database, possibilities);
     }

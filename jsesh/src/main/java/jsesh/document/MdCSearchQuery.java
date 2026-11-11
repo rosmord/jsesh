@@ -35,13 +35,28 @@
 package jsesh.document;
 
 import java.util.List;
+
+import jsesh.document.embeddedsigns.EmbeddedSignList;
 import jsesh.model.MDCPosition;
 import jsesh.model.HieroglyphicText;
 
-/**
- * Generic representation of search queries in JSesh.
- * @author rosmord
- */
+/// Generic representation of search queries in JSesh.
+///
+/// @author rosmord
 public interface MdCSearchQuery {
-       List<MDCPosition> doSearch(HieroglyphicText items);
+
+    /// Searches a text.
+    ///
+    /// @param items         the text to search.
+    /// @param embeddedSigns the signs embedded in the text's document. A sign
+    ///                      which declares a Gardiner equivalent ("variant of")
+    ///                      is also found under that code: if `sign1` is a
+    ///                      variant of `A5`, searching `i-A5` finds `i-sign1`.
+    /// @return the positions of the matches.
+    List<MDCPosition> doSearch(HieroglyphicText items, EmbeddedSignList embeddedSigns);
+
+    /// Searches a text which has no embedded signs.
+    default List<MDCPosition> doSearch(HieroglyphicText items) {
+        return doSearch(items, new EmbeddedSignList());
+    }
 }

@@ -8,12 +8,10 @@
 package jsesh.glyphs.possibilities;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.SignDescriptionConstants;
 import jsesh.signcodes.GardinerCode;
@@ -21,46 +19,32 @@ import jsesh.signcodes.GardinerCode;
 /// Proposes the signs of a [HieroglyphDatabase] for a code.
 ///
 /// - For a Gardiner code (`a1`, `A1`...), the sign and its variants
-///   ([HieroglyphDatabase#getSuitableSignsForCode(String)]).
+///   ([HieroglyphDatabase#getSuitableSignsForCode(String)]). These are
+///   computed at each call: they are read from the sign codes of the fonts,
+///   which change when the user adds signs to their font directory.
 /// - Otherwise, the signs having this value at the keyboard
-///   ([HieroglyphDatabase#getPossibilityFor(String, String)] with
-///   [SignDescriptionConstants#KEYBOARD]).
-///
-/// The lists are cached. The variants of a Gardiner code are read from the
-/// shape repository the database is built on, whose signs can change (the
-/// user font directory is replaced, for instance): the cache is emptied each
-/// time this repository signals a change.
+///   ([HieroglyphDatabase#getSignsForValue(String, String)] with
+///   [SignDescriptionConstants#KEYBOARD]). These come from the sign
+///   descriptions, which don't change once the database is built, so they are
+///   cached.
 public final class SignDatabasePossibilities implements PossibilityRepository {
 
     private final HieroglyphDatabase database;
-    private final Map<String, PossibilitiesList> cache = new HashMap<>();
+    /// The lists for transliterations only.
+    private final Map<String, PossibilitiesList> transliterationCache = new HashMap<>();
 
-    /// @param database the sign database.
-    /// @param shapes   the shape repository `database` takes its sign codes
-    ///                 from; its changes empty the cache. This object listens
-    ///                 to it as long as it lives.
-    public SignDatabasePossibilities(HieroglyphDatabase database, HieroglyphShapeRepository shapes) {
+    public SignDatabasePossibilities(HieroglyphDatabase database) {
         this.database = Objects.requireNonNull(database);
-        shapes.addListener(e -> clearCache());
-    }
-
-    /// Forgets the cached lists: they will be computed again from the database.
-    public synchronized void clearCache() {
-        cache.clear();
     }
 
     @Override
-    public synchronized PossibilitiesList getPossibilityListFor(String code) {
-        return cache.computeIfAbsent(code, this::compute);
-    }
-
-    private PossibilitiesList compute(String code) {
-        List<String> signs;
+    public PossibilitiesList getPossibilityListFor(String code) {
         if (GardinerCode.isWellFormedCodeIgnoreCase(code.toUpperCase(Locale.ENGLISH))) {
-            signs = database.getSuitableSignsForCode(code);
-        } else {
-            signs = database.getPossibilityFor(code, SignDescriptionConstants.KEYBOARD);
+            return PossibilitiesList.ofSigns(code, database.getSuitableSignsForCode(code));
         }
-        return PossibilitiesList.ofSigns(code, signs);
+        synchronized (transliterationCache) {
+            return transliterationCache.computeIfAbsent(code, c -> PossibilitiesList.ofSigns(c,
+                    database.getSignsForValue(c, SignDescriptionConstants.KEYBOARD)));
+        }
     }
 }

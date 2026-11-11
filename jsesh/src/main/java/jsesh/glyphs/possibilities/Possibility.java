@@ -35,67 +35,54 @@ package jsesh.glyphs.possibilities;
 
 import java.util.Objects;
 
-/// A candidate in a [PossibilitiesList].
+/// A candidate in a [PossibilitiesList]: either a single sign ([Sign]), or a
+/// Manuel de Codage text ([MdCText]), for instance a word from the glossary.
 ///
-/// A candidate is either:
-///
-/// - a single sign (its code);
-/// - a Manuel de Codage text (for instance a word from the glossary).
-///
-/// Immutable.
+/// A sign and a text with the same characters are different possibilities.
 ///
 /// @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
-public final class Possibility {
-	private final String code;
-	private final boolean singleSign;
+public sealed interface Possibility {
 
-	/// Creates a possibility representing a single sign.
+	/// The possibility as Manuel de Codage text: the sign code for a single
+	/// sign (which is valid Manuel de Codage), the text itself otherwise.
+	/// Fit for display, or for drawing the possibility.
+	String asMdC();
+
+	/// A single sign.
 	///
-	/// @param signCode the code of the sign.
-	public static Possibility createSignPossibility(String signCode) {
-		return new Possibility(signCode, true);
+	/// @param code the code of the sign.
+	record Sign(String code) implements Possibility {
+		public Sign {
+			Objects.requireNonNull(code);
+		}
+
+		@Override
+		public String asMdC() {
+			return code;
+		}
+
+		@Override
+		public String toString() {
+			return code;
+		}
 	}
 
-	/// Creates a possibility representing a Manuel de Codage text.
+	/// A Manuel de Codage text, inserted as is (it may contain several signs).
 	///
-	/// @param mdcText the text.
-	public static Possibility createMdCPossibility(String mdcText) {
-		return new Possibility(mdcText, false);
-	}
+	/// @param mdc the text.
+	record MdCText(String mdc) implements Possibility {
+		public MdCText {
+			Objects.requireNonNull(mdc);
+		}
 
-	private Possibility(String code, boolean singleSign) {
-		this.code = Objects.requireNonNull(code);
-		this.singleSign = singleSign;
-	}
+		@Override
+		public String asMdC() {
+			return mdc;
+		}
 
-	/// True if this possibility is a single sign, false if it is a Manuel de Codage text.
-	public boolean isSingleSign() {
-		return singleSign;
-	}
-
-	/// The sign code for a single sign, or the Manuel de Codage text.
-	public String getCode() {
-		return code;
-	}
-
-	public boolean hasCode(String code) {
-		return this.code.equals(code);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(code, singleSign);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return obj instanceof Possibility other
-				&& code.equals(other.code)
-				&& singleSign == other.singleSign;
-	}
-
-	@Override
-	public String toString() {
-		return code;
+		@Override
+		public String toString() {
+			return mdc;
+		}
 	}
 }

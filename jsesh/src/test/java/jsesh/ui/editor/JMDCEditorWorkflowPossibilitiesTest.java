@@ -43,7 +43,7 @@ class JMDCEditorWorkflowPossibilitiesTest {
         type("m ");
         assertTrue(workflow.prepareChoiceOfPossibility());
         assertEquals(List.of("G17", "U1", "Aa15"),
-                workflow.getPossibilityChoices().stream().map(Possibility::getCode).toList());
+                workflow.getPossibilityChoices().stream().map(Possibility::asMdC).toList());
         assertEquals(0, workflow.getSelectedPossibilityIndex());
     }
 

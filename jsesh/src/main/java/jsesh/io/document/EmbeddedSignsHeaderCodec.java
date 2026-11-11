@@ -123,6 +123,12 @@ public final class EmbeddedSignsHeaderCodec {
             throw new IllegalArgumentException("expected 5 fields, found " + parts.length);
         }
         String variantOf = NONE.equals(parts[0]) ? null : parts[0];
+        if (!EmbeddedSign.isValidVariantOf(variantOf)) {
+            // Older files may have other codes: keep the sign, drop the code.
+            LOGGER.log(Level.WARNING, "Embedded sign {0}: \"{1}\" is not a Gardiner code, ignored",
+                    new Object[] { code, variantOf });
+            variantOf = null;
+        }
         String description = NONE.equals(parts[2]) ? "" : decode(parts[2]);
         // parts[4], the rendering data, is recomputed from the SVG.
         return new EmbeddedSign(code, unbase64(parts[3]), variantOf, description);

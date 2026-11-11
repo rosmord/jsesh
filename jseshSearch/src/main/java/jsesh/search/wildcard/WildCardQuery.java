@@ -28,6 +28,7 @@ import org.qenherkhopeshef.finitestate.lazy.RegularExtractor;
 import org.qenherkhopeshef.finitestate.lazy.RegularLanguageIF;
 
 import jsesh.document.MdCSearchQuery;
+import jsesh.document.embeddedsigns.EmbeddedSignList;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.VariantTypeForSearches;
 import jsesh.model.MDCPosition;
@@ -89,10 +90,10 @@ public class WildCardQuery implements MdCSearchQuery {
     }
 
     @Override
-    public List<MDCPosition> doSearch(HieroglyphicText items) {
+    public List<MDCPosition> doSearch(HieroglyphicText items, EmbeddedSignList embeddedSigns) {
         List<MDCPosition> result = Collections.emptyList();
         if (extractor != null) {
-            List<HieroglyphOccurrence> text = new OccurrenceStringBuilder().analyzeQuadrat(items);
+            List<HieroglyphOccurrence> text = new OccurrenceStringBuilder(embeddedSigns).analyzeQuadrat(items);
             result = extractor.search(text).stream()
                     .map(m -> extractPosition(text, m))
                     .collect(Collectors.toList());
@@ -147,7 +148,7 @@ public class WildCardQuery implements MdCSearchQuery {
 
         private void processStandardCode(String code) {
             if (variantLevel == VariantLevelForSearch.EXACT_SEARCH) {
-                seq.add(label(occ -> occ.getCode().equals(code)));
+                seq.add(label(occ -> occ.hasCode(code)));
             } else {
                 // TO MODIFY.. redundant types, in a way (but FULL != EXACT...)
                 VariantTypeForSearches variantTypeForSearches = VariantTypeForSearches.UNSPECIFIED;
@@ -204,7 +205,7 @@ public class WildCardQuery implements MdCSearchQuery {
 
         @Override
         public boolean matches(HieroglyphOccurrence t) {
-            return codes.contains(t.getCode());
+            return t.matchesAny(codes);
         }
 
     }

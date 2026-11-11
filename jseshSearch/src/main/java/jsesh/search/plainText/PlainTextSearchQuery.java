@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import jsesh.document.MdCSearchQuery;
+import jsesh.document.embeddedsigns.EmbeddedSignList;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.EmbeddedModelElement;
 import jsesh.model.MDCPosition;
@@ -31,7 +32,7 @@ public class PlainTextSearchQuery implements MdCSearchQuery {
     }
 
     @Override
-    public List<MDCPosition> doSearch(HieroglyphicText items) {
+    public List<MDCPosition> doSearch(HieroglyphicText items, EmbeddedSignList embeddedSigns) {
         List<TextAndPosition> searchableText = buildSearchableText(items);
         List<MDCPosition> result = new ArrayList<>();
 

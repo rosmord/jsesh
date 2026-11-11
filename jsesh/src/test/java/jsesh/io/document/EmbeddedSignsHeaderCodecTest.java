@@ -69,6 +69,16 @@ public class EmbeddedSignsHeaderCodecTest {
     }
 
     @Test
+    public void aVariantOfWhichIsNotAGardinerCodeIsDropped() {
+        Map<String, String> header = EmbeddedSignsHeaderCodec.toHeader(sampleList());
+        String value = header.get("JSesh_embedded_sign_sign1");
+        header.put("JSesh_embedded_sign_sign1", "mn" + value.substring(value.indexOf(' ')));
+        EmbeddedSign s1 = EmbeddedSignsHeaderCodec.fromHeader(header).get("sign1").orElseThrow();
+        assertNull(s1.variantOf());
+        assertArrayEquals(SVG, s1.svg());
+    }
+
+    @Test
     public void theFieldsAreBase64Only() {
         String value = EmbeddedSignsHeaderCodec.toHeader(sampleList()).get("JSesh_embedded_sign_sign1");
         String[] parts = value.split(" ");

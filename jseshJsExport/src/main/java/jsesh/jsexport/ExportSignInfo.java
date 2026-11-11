@@ -40,10 +40,10 @@ import jsesh.signcodes.ManuelDeCodage;
 ///   (tags), `var` (`[code, type]` of its variants), `in` (the signs it
 ///   contains), `d` (its description, in MdC);
 /// - `values`: for each value, the signs the palette proposes for it
-///   ([HieroglyphDatabase#getPossibilityFor(String, String)] with
+///   ([HieroglyphDatabase#getSignsForValue(String, String)] with
 ///   `PALETTE`);
 /// - `keyboard`: for each value typed at the keyboard, the signs a
-///   possibility list cycles through ([HieroglyphDatabase#getPossibilityFor(String, String)]
+///   possibility list cycles through ([HieroglyphDatabase#getSignsForValue(String, String)]
 ///   with `KEYBOARD`, as `SignDatabasePossibilities` does for a
 ///   transliteration);
 /// - `tallNarrow`, `lowBroad`, `lowNarrow`: Gardiner's lists of sign shapes.
@@ -110,7 +110,7 @@ public final class ExportSignInfo {
     /// Gardiner code (as `PalettePresenter.selectFromTransliterationOrCode`).
     private static List<String> paletteSignsFor(HieroglyphDatabase database, String value) {
         List<String> result = new ArrayList<>();
-        for (String code : database.getPossibilityFor(value, SignDescriptionConstants.PALETTE)) {
+        for (String code : database.getSignsForValue(value, SignDescriptionConstants.PALETTE)) {
             if (GardinerCode.isWellFormedGardinerCode(code) && !result.contains(code)) {
                 result.add(code);
             }
@@ -120,7 +120,7 @@ public final class ExportSignInfo {
 
     /// The single signs a possibility list offers for a value typed at the keyboard, in order.
     private static List<String> keyboardSignsFor(HieroglyphDatabase database, String value) {
-        return database.getPossibilityFor(value, SignDescriptionConstants.KEYBOARD);
+        return database.getSignsForValue(value, SignDescriptionConstants.KEYBOARD);
     }
 
     private static List<String> sorted(Collection<String> codes) {

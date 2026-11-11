@@ -76,6 +76,7 @@ import javax.swing.SwingUtilities;
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import jsesh.document.embeddedsigns.EmbeddedSignImport;
+import jsesh.document.embeddedsigns.EmbeddedSignList;
 import jsesh.document.embeddedsigns.EmbeddedSignShapeRepository;
 import jsesh.ui.clipboard.JSeshFragment;
 import jsesh.ui.clipboard.JSeshPasteFlavors;
@@ -564,8 +565,13 @@ public class JMDCEditor extends JPanel implements Scrollable {
 
     }
 
+    /// Searches the text of this editor. The embedded signs of the editor's
+    /// document, if any, are found under their Gardiner equivalent too.
     public java.util.List<MDCPosition> doSearch(MdCSearchQuery query) {
-        return getHieroglyphicTextModel().doSearch(query);
+        EmbeddedSignList embeddedSigns = EmbeddedSignShapeRepository
+                .find(getRenderContext().hieroglyphShapeRepository())
+                .orElseGet(EmbeddedSignList::new);
+        return getHieroglyphicTextModel().doSearch(query, embeddedSigns);
     }
 
     /**
@@ -1053,13 +1059,13 @@ public class JMDCEditor extends JPanel implements Scrollable {
 
                 @Override
                 public String label(Possibility possibility) {
-                    return possibility.getCode();
+                    return possibility.asMdC();
                 }
 
                 @Override
                 public Icon icon(Possibility possibility) {
                     try {
-                        return mdcIconFactory.buildImage(possibility.getCode());
+                        return mdcIconFactory.buildImage(possibility.asMdC());
                     } catch (RuntimeException e) {
                         // A glossary entry which can't be drawn is still listed by its code.
                         return null;

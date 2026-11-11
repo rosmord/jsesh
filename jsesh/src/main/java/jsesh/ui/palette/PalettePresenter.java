@@ -502,7 +502,7 @@ public class PalettePresenter {
             codes.addAll(hieroglyphsDatabase.getSuitableSignsForCode(trl));
             codes.addAll(hieroglyphsDatabase.getCodesStartingWith(trl));
         } else {
-            codes.addAll(hieroglyphsDatabase.getPossibilityFor(trl,
+            codes.addAll(hieroglyphsDatabase.getSignsForValue(trl,
                     SignDescriptionConstants.PALETTE));
         }
         // We only want Gardiner codes in our list (or similar stuff).

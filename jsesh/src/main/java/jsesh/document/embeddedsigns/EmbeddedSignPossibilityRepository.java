@@ -72,7 +72,7 @@ public final class EmbeddedSignPossibilityRepository implements PossibilityRepos
             return true;
         }
         for (Possibility p : list.asList()) {
-            if (p.isSingleSign() && mdc.equalsCanonical(p.getCode(), variantOf)) {
+            if (p instanceof Possibility.Sign sign && mdc.equalsCanonical(sign.code(), variantOf)) {
                 return true;
             }
         }

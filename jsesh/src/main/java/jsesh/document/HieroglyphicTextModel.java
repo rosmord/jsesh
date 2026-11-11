@@ -38,6 +38,8 @@ import java.io.StringReader;
 import java.util.Collections;
 import java.util.List;
 
+import jsesh.document.embeddedsigns.EmbeddedSignList;
+
 import org.qenherkhopeshef.observable.ObservableEventListener;
 import org.qenherkhopeshef.observable.ObservableEventPublisher;
 import org.qenherkhopeshef.observable.ObservableEventSupport;
@@ -474,13 +476,13 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 
 	}
 
-	/**
-	 * Returns all positions where query matches were found.
-	 * @param query
-	 * @return a list of positions.
-	 */
-	public List<MDCPosition> doSearch(MdCSearchQuery query) {
-		return query.doSearch(getHieroglyphicText());
+	/// Returns all positions where query matches were found.
+	///
+	/// @param query         the query.
+	/// @param embeddedSigns the signs embedded in the document of this text.
+	/// @return a list of positions.
+	public List<MDCPosition> doSearch(MdCSearchQuery query, EmbeddedSignList embeddedSigns) {
+		return query.doSearch(getHieroglyphicText(), embeddedSigns);
 	}
 
 	/**

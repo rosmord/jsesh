@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,14 @@ public class EmbeddedSignsTest {
 
     /// Any data: the list doesn't read the SVG.
     private static final byte[] DATA = "<svg/>".getBytes(StandardCharsets.UTF_8);
+
+    @Test
+    public void gardinerEquivalentsListOnlyDeclaredOnes() {
+        EmbeddedSignList list = new EmbeddedSignList();
+        list.add(DATA, "a5", null);
+        list.add(DATA, null, null);
+        assertEquals(Map.of("sign1", "A5"), list.getGardinerEquivalents());
+    }
 
     @Test
     public void codesAreNumberedAndNeverReused() {
@@ -85,6 +94,22 @@ public class EmbeddedSignsTest {
         assertEquals("new", s.description());
         assertArrayEquals(DATA, list.get("sign1").orElseThrow().svg());
         assertNull(list.update("sign1", "  ", null).variantOf());
+    }
+
+    @Test
+    public void variantOfIsAGardinerCode() {
+        EmbeddedSignList list = new EmbeddedSignList();
+        assertEquals("A1", list.add(DATA, "a1", null).variantOf());
+        assertEquals("Aa15", list.add(DATA, "aa15", null).variantOf());
+        assertEquals("US1A1", list.add(DATA, "US1A1", null).variantOf());
+        // Phonetic codes, numbers and embedded sign codes are refused.
+        for (String bad : List.of("mn", "100", "sign1", "A 1")) {
+            assertFalse(EmbeddedSign.isValidVariantOf(bad), bad);
+            assertThrows(IllegalArgumentException.class, () -> list.add(DATA, bad, null), bad);
+            assertThrows(IllegalArgumentException.class, () -> list.update("sign1", bad, null), bad);
+        }
+        assertEquals(3, list.size());
+        assertEquals("A1", list.get("sign1").orElseThrow().variantOf());
     }
 
     @Test
@@ -242,6 +267,6 @@ public class EmbeddedSignsTest {
     }
 
     private static List<String> codes(PossibilitiesList l) {
-        return l.asList().stream().map(Possibility::getCode).collect(Collectors.toList());
+        return l.asList().stream().map(Possibility::asMdC).collect(Collectors.toList());
     }
 }

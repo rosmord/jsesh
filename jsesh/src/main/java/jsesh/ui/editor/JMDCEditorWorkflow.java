@@ -2836,38 +2836,44 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         }
     }
 
+    /// The items of a Manuel de Codage text proposed as a possibility (a
+    /// glossary word, for instance), or an error sign if it can't be parsed.
+    private List<TopItem> parsePossibilityText(String mdc) {
+        try {
+            return MdcTextHelper.parse(mdc).asList();
+        } catch (MDCSyntaxError e) {
+            e.printStackTrace();
+            return Collections.singletonList(buildItemForSignCode("erroringlossary"));
+        }
+    }
+
     /**
      * Add the element(s) corresponding to the current code, and group them
      * using the current separator.
      */
     private void addCodeAndThenGroup() {
-        // Build a list of items to add
+        // Build a list of items to add.
+        // signCode: the sign to add, or null when a Manuel de Codage text is added.
+        String signCode;
         List<TopItem> items;
-        if (possibilitiesHandler.hasPossibilities()) {
-            Possibility s = possibilitiesHandler.getPossibility();
-            if (!s.isSingleSign()) {
-                String mdc = s.getCode();
-                try {
-					items = MdcTextHelper.parse(mdc).asList();
-				} catch (MDCSyntaxError e) {
-                    items = Collections.singletonList(buildItemForSignCode("erroringlossary"));
-					e.printStackTrace();
-				}                
-            } else {
-                items = Collections.singletonList(buildItemForSignCode(s
-                        .getCode()));
-            }
+        if (!possibilitiesHandler.hasPossibilities()) {
+            signCode = currentCode.toString();
+            items = Collections.singletonList(buildItemForSignCode(signCode));
         } else {
-            items = Collections.singletonList(buildItemForSignCode(currentCode
-                    .toString()));
+            switch (possibilitiesHandler.getPossibility()) {
+                case Possibility.Sign sign -> {
+                    signCode = sign.code();
+                    items = Collections.singletonList(buildItemForSignCode(signCode));
+                }
+                case Possibility.MdCText text -> {
+                    signCode = null;
+                    items = parsePossibilityText(text.mdc());
+                }
+            }
         }
         // Inside a quadrat, the container tells how the sign is combined with its neighbours.
         innerRetryPosition = null;
-        boolean singleSign = !possibilitiesHandler.hasPossibilities()
-                || possibilitiesHandler.getPossibility().isSingleSign();
-        if (caret.isInsertInner() && !caret.hasSelection() && singleSign) {
-            String signCode = possibilitiesHandler.hasPossibilities() ? possibilitiesHandler.getPossibility().getCode()
-                    : currentCode.toString();
+        if (caret.isInsertInner() && !caret.hasSelection() && signCode != null) {
             if (insertSignAtInnerPosition(signCode)) {
                 clearCode();
                 return;

@@ -183,6 +183,21 @@ public final class EmbeddedSignList {
         return Collections.unmodifiableList(new ArrayList<>(signs.values()));
     }
 
+    /// The declared Gardiner equivalents: code → "variant of" code
+    /// (`sign1` → `A5`), for the signs which declare one.
+    ///
+    /// A copy: later changes to the list don't show in it. Used by searches,
+    /// so that `A5` finds `sign1`.
+    public Map<String, String> getGardinerEquivalents() {
+        Map<String, String> result = new LinkedHashMap<>();
+        for (EmbeddedSign s : signs.values()) {
+            if (s.hasVariantOf()) {
+                result.put(s.code(), s.variantOf());
+            }
+        }
+        return Collections.unmodifiableMap(result);
+    }
+
     public boolean isEmpty() {
         return signs.isEmpty();
     }

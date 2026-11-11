@@ -514,7 +514,9 @@ possibility repository (completion). Build it with `HieroglyphResourcesBuilder`
 ### Possibility list, possibility repository
 
 What is proposed when the user types a code: `m` → `m`, G17, Aa15...; `a1` → A1 and its
-variants; glossary words (`jsesh.glyphs.possibilities`). A `PossibilitiesList` is
+variants; glossary words (`jsesh.glyphs.possibilities`). Each candidate is a `Possibility`,
+a sealed interface: either `Possibility.Sign` (a single sign code) or `Possibility.MdCText`
+(a Manuel de Codage text, inserted as is, e.g. a glossary word). A `PossibilitiesList` is
 **immutable**: the possibility currently selected (cycled with the space key) is kept by
 the editor (`PossibilitiesHandler`), which also remembers the last choice for each code
 (typing `iw` again proposes the sign chosen last time in this editor). The choice is

@@ -150,12 +150,12 @@ public final class PossibilitiesList {
 
 		/// Adds a single sign.
 		public Builder addSign(String signCode) {
-			return add(Possibility.createSignPossibility(signCode));
+			return add(new Possibility.Sign(signCode));
 		}
 
 		/// Adds a Manuel de Codage text.
 		public Builder addMdCText(String mdcText) {
-			return add(Possibility.createMdCPossibility(mdcText));
+			return add(new Possibility.MdCText(mdcText));
 		}
 
 		public PossibilitiesList build() {

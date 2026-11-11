@@ -204,7 +204,7 @@ public final class EmbeddedSignOperations {
                 return Optional.empty();
             }
             String variant = variantField.getText().trim();
-            if (variant.chars().anyMatch(Character::isWhitespace)) {
+            if (!EmbeddedSign.isValidVariantOf(variant)) {
                 JOptionPane.showMessageDialog(parent, JSeshMessages.getString("embeddedSigns.variantOf.error"),
                         title, JOptionPane.ERROR_MESSAGE);
             } else {

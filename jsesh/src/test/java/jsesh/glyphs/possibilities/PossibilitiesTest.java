@@ -1,9 +1,11 @@
 package jsesh.glyphs.possibilities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +16,6 @@ import jsesh.defaults.HieroglyphDatabaseFactory;
 import jsesh.glossary.Glossary;
 import jsesh.glossary.GlossaryEntry;
 import jsesh.glossary.GlossaryPossibilities;
-import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.glyphs.shape.ShapeChar;
@@ -25,13 +26,11 @@ import jsesh.signcodes.CanonicalCode;
 /// Possibility lists and their sources.
 class PossibilitiesTest {
 
-    private static HieroglyphShapeRepository shapes;
     private static HieroglyphDatabase database;
 
     @BeforeAll
     static void loadDatabase() {
-        shapes = PredefinedFonts.buildAllEmbeddedFonts();
-        database = HieroglyphDatabaseFactory.buildPlainDefault(shapes);
+        database = HieroglyphDatabaseFactory.buildPlainDefault(PredefinedFonts.buildAllEmbeddedFonts());
     }
 
     /// A shape repository holding codes only (no actual shapes).
@@ -58,14 +57,14 @@ class PossibilitiesTest {
     }
 
     private static List<String> codes(PossibilitiesList list) {
-        return list.asList().stream().map(Possibility::getCode).toList();
+        return list.asList().stream().map(Possibility::asMdC).toList();
     }
 
     @Test
     void listsAreImmutable() {
         PossibilitiesList l = PossibilitiesList.ofSigns("m", List.of("G17"));
         assertThrows(UnsupportedOperationException.class,
-                () -> l.asList().add(Possibility.createSignPossibility("U1")));
+                () -> l.asList().add(new Possibility.Sign("U1")));
     }
 
     @Test
@@ -96,40 +95,40 @@ class PossibilitiesTest {
 
     @Test
     void signDatabaseProposesSignsForATransliteration() {
-        PossibilitiesList m = new SignDatabasePossibilities(database, shapes).getPossibilityListFor("m");
+        PossibilitiesList m = new SignDatabasePossibilities(database).getPossibilityListFor("m");
         // The "official" Manuel de Codage code comes first.
-        assertEquals("m", m.get(0).getCode());
+        assertEquals(new Possibility.Sign("m"), m.get(0));
         assertTrue(codes(m).contains("G17"));
     }
 
     @Test
     void signDatabaseProposesTheExactCodeFirst() {
-        PossibilitiesList a1 = new SignDatabasePossibilities(database, shapes).getPossibilityListFor("a1");
-        assertEquals("A1", a1.get(0).getCode());
+        PossibilitiesList a1 = new SignDatabasePossibilities(database).getPossibilityListFor("a1");
+        assertEquals(new Possibility.Sign("A1"), a1.get(0));
     }
 
     @Test
     void signDatabaseSeesTheSignsAddedToItsShapes() {
-        CompositeHieroglyphShapeRepository composite = new CompositeHieroglyphShapeRepository();
-        composite.addRepository(new CodesOnly(Set.of("A1")));
-        HieroglyphDatabase db = HieroglyphDatabaseFactory.buildPlainDefault(composite);
-        SignDatabasePossibilities possibilities = new SignDatabasePossibilities(db, composite);
+        // Like a sign file added to the user font directory: the codes change,
+        // and no event is sent.
+        Set<String> fontCodes = new HashSet<>(Set.of("A1"));
+        HieroglyphDatabase db = HieroglyphDatabaseFactory.buildPlainDefault(new CodesOnly(fontCodes));
+        SignDatabasePossibilities possibilities = new SignDatabasePossibilities(db);
         assertEquals(List.of("A1"), codes(possibilities.getPossibilityListFor("a1")));
-        // Adding a repository is a change: the cached list is forgotten.
-        composite.addRepository(new CodesOnly(Set.of("A1Z")));
+        fontCodes.add("A1Z");
         assertEquals(List.of("A1", "A1Z"), codes(possibilities.getPossibilityListFor("a1")));
     }
 
     @Test
     void signDatabaseGivesAnEmptyListForAnUnknownValue() {
-        PossibilitiesList l = new SignDatabasePossibilities(database, shapes).getPossibilityListFor("zzqqx");
+        PossibilitiesList l = new SignDatabasePossibilities(database).getPossibilityListFor("zzqqx");
         assertTrue(l.isEmpty());
     }
 
     @Test
     void readingTheDatabaseDoesNotChangeIt() {
-        List<String> before = database.getPossibilityFor("zzqqx", SignDescriptionConstants.KEYBOARD);
-        List<String> again = database.getPossibilityFor("zzqqx", SignDescriptionConstants.KEYBOARD);
+        List<String> before = database.getSignsForValue("zzqqx", SignDescriptionConstants.KEYBOARD);
+        List<String> again = database.getSignsForValue("zzqqx", SignDescriptionConstants.KEYBOARD);
         assertEquals(List.of(), before);
         assertEquals(before, again);
     }
@@ -142,7 +141,7 @@ class PossibilitiesTest {
         glossary.add("nfr", "nfr-f:r");
         PossibilitiesList l = possibilities.getPossibilityListFor("nfr");
         assertEquals(List.of("nfr-f:r"), codes(l));
-        assertTrue(!l.get(0).isSingleSign());
+        assertInstanceOf(Possibility.MdCText.class, l.get(0));
         glossary.remove(new GlossaryEntry("nfr", "nfr-f:r"));
         assertTrue(possibilities.getPossibilityListFor("nfr").isEmpty());
     }
