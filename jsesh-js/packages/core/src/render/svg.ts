@@ -109,6 +109,8 @@ class SvgViewDrawer {
   private readonly drawer: HieroglyphDrawer;
   private readonly measurer: TextMeasurer;
   private drawingState = new TopItemState();
+  /// The underline of the next view drawn (see `underlineFor`).
+  private pendingUnderline: { left: number; right: number } | undefined;
   /// Areas shaded with lines, in page coordinates (drawn at the end).
   private readonly hatched: Rect[] = [];
   /// The shapes used, each defined once: id for each code.
@@ -185,8 +187,12 @@ class SvgViewDrawer {
   }
 
   private drawViewIn(v: MDCView, depth: number, page: PageTransform): string {
-    const color = this.drawingState.isRed ? this.style.painting.redColor : this.style.painting.blackColor;
+    // With "underline for red", red parts are drawn in black (the quadrats are underlined).
+    const painting = this.style.painting;
+    const color = this.drawingState.isRed && !painting.underlineRed ? painting.redColor : painting.blackColor;
     const element = new ElementDrawer(this, v, color, page);
+    element.underline = this.pendingUnderline;
+    this.pendingUnderline = undefined;
     let result = element.draw(false);
     // The subviews, in the view's inner system.
     let inner = "";
@@ -199,12 +205,36 @@ class SvgViewDrawer {
         tx: innerPage.tx + b.x * innerPage.sx,
         ty: innerPage.ty + b.y * innerPage.sy,
       };
+      this.pendingUnderline = this.underlineFor(v, i, depth);
       const sub = this.drawView(v.getSubView(i), depth + 1, subPage);
       if (sub !== "") inner += group(translate(b.x, b.y), sub);
     }
     if (inner !== "") result += group(scale(v.xScale, v.yScale), inner);
     result += element.draw(true);
     return result;
+  }
+
+  /// Port of `ViewDrawer.prepareUnderline`: is the subview `i` of `parent` underlined ("underline
+  /// for red")? Only the red top-level quadrats are; a run of them on a line is underlined
+  /// continuously, the line extending over the gap to the next red quadrat.
+  private underlineFor(parent: MDCView, i: number, parentDepth: number): { left: number; right: number } | undefined {
+    if (!this.style.painting.underlineRed) return undefined;
+    const isRedQuadrat = (view: MDCView) => view.model instanceof Cadrat && view.model.state.isRed;
+    if (!isRedQuadrat(parent.getSubView(i)) || !(parentDepth + 1 === 1 || parent.model instanceof ZoneContent)) {
+      return undefined;
+    }
+    let left = 0;
+    let right = 0;
+    if (i + 1 < parent.numberOfSubviews && isRedQuadrat(parent.getSubView(i + 1))) {
+      const here = parent.getSubViewBounds(i);
+      const next = parent.getSubViewBounds(i + 1);
+      // Same line: the quadrats overlap vertically, but not horizontally.
+      if (next.y < here.y + here.height && here.y < next.y + next.height) {
+        if (next.x >= here.x + here.width) right = next.x - (here.x + here.width);
+        else if (next.x + next.width <= here.x) left = here.x - (next.x + next.width);
+      }
+    }
+    return { left, right };
   }
 
   // Accessors for ElementDrawer.
@@ -253,6 +283,8 @@ function text(s: string, x: number, y: number, font: FontDescription, color: str
 class ElementDrawer extends ModelElementAdapter {
   private postfix = false;
   private out = "";
+  /// Set if the view is underlined ("underline for red"): how far the line extends sideways.
+  underline: { left: number; right: number } | undefined;
 
   constructor(
     private readonly d: SvgViewDrawer,
@@ -290,6 +322,17 @@ class ElementDrawer extends ModelElementAdapter {
   override visitCadrat(c: Cadrat): void {
     // Shading is drawn after the signs (shadeAfter is true by default).
     if (this.postfix) this.doShade(c.shading);
+    // Monochrome convention: red quadrats are underlined (they are drawn in black); the line
+    // goes `smallSkip` below the quadrat.
+    if (!this.postfix && this.underline) {
+      const g = this.d.s.geometry;
+      const y = this.view.height + g.underlineGap;
+      this.out += strokedPath(
+        new PathBuilder().line(-this.underline.left, y, this.view.width + this.underline.right, y),
+        this.color,
+        g.fineLineWidth,
+      );
+    }
   }
 
   override visitHieroglyph(h: Hieroglyph): void {
@@ -304,7 +347,7 @@ class ElementDrawer extends ModelElementAdapter {
       const tagColor = style.painting.colorMap[m.name];
       if (tagColor !== undefined) this.color = tagColor;
     }
-    if (h.modifiers.getBoolean("red")) this.color = style.painting.redColor;
+    if (h.modifiers.getBoolean("red") && !style.painting.underlineRed) this.color = style.painting.redColor;
     if (h.modifiers.getBoolean("i")) this.color = style.painting.grayColor;
     switch (h.type) {
       case SymbolCodes.SMALLTEXT: {

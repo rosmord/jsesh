@@ -125,6 +125,30 @@ public abstract class ModelElement implements ModelElementObserver,
         notifyModelElementObservers(new Insertion(this, idx, child));
     }
 
+    /// Adds several children, the first one at position `idx`, and sends a
+    /// **single** [Insertion] for all of them.
+    ///
+    /// Calling [#addChildAt(int, EmbeddedModelElement)] in a loop sends one
+    /// event per child, and the editor re-lays out the whole view for each of
+    /// them: replacing a few hundred items then costs a few hundred layouts.
+    ///
+    /// @param idx the position of the first new child.
+    /// @param newChildren the children to add, in order. Nothing happens (and
+    /// no event is sent) if it's empty.
+    final protected void addChildrenAt(int idx, List<? extends EmbeddedModelElement> newChildren) {
+        if (newChildren.isEmpty()) {
+            return;
+        }
+        for (EmbeddedModelElement child : newChildren) {
+            child.setParent(this);
+        }
+        children.addAll(idx, newChildren);
+        for (int i = idx; i < idx + newChildren.size(); i++) {
+            fixSlibings(i);
+        }
+        notifyModelElementObservers(new Insertion(this, idx, new ArrayList<ModelElement>(newChildren)));
+    }
+
     /**
      * Creates an empty list for children. Override it to change the children
      * list implementation.

@@ -57,10 +57,7 @@ public class BasicItemList
 		if (!acceptsAll(items)) {
 			throw new IllegalArgumentException("Only basic items can be inserted here: " + items);
 		}
-		int i = index;
-		for (TopItem item : items) {
-			addChildAt(i++, item);
-		}
+		addChildrenAt(index, items);
 	}
 
 	@Override

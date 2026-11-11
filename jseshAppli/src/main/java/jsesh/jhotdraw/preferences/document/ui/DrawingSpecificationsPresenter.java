@@ -97,6 +97,7 @@ public class DrawingSpecificationsPresenter {
 			e.getValue().setSelected(prefs.flag(e.getKey()));
 		}
 		form.getUseLinesForShadingCheckBox().setSelected(prefs.useLinesForShading());
+		form.getUnderlineRedCheckBox().setSelected(prefs.useUnderlineForRed());
 	}
 
 	/// Applies the preferences of the dialog to a style.
@@ -131,6 +132,7 @@ public class DrawingSpecificationsPresenter {
 			prefs = prefs.with(e.getKey(), e.getValue().isSelected());
 		}
 		prefs = prefs.withUseLinesForShading(form.getUseLinesForShadingCheckBox().isSelected());
+		prefs = prefs.withUseUnderlineForRed(form.getUnderlineRedCheckBox().isSelected());
 		return DocumentPreferencesStyleConverter.applyDocumentPreferences(prefs, original);
 	}
 

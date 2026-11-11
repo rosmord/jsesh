@@ -58,6 +58,8 @@ export interface GeometrySpecification {
   standardSignHeight: number;
   /// Height of the baseline of alphabetic text above the quadrats' bottom line.
   alphabeticTextBaseline: number;
+  /// The space between a quadrat and its underline ("underline for red"), independent of `smallSkip`.
+  underlineGap: number;
   /// The total width (margins included) to which lines of horizontal text are
   /// soft-wrapped, in layout units. 0 (or less) means no wrapping: lines only
   /// end at explicit line breaks.
@@ -173,6 +175,7 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   smallBodyScaleLimit: 12,
   standardSignHeight: 18,
   alphabeticTextBaseline: 4,
+  underlineGap: 2,
   wrapWidth: 0,
   columnHeight: 0,
   columnQuadratSkip: 6,
@@ -238,6 +241,9 @@ export interface PaintingSpecifications {
   grayColor: string;
   backgroundColor: string;
   shadingStyle: ShadingMode;
+  /// Red quadrats are drawn in black and underlined (monochrome convention); red signs
+  /// inside a quadrat (`\red`) are drawn in black.
+  underlineRed: boolean;
   /// Colours for sign tags (`A1\det`).
   colorMap: Readonly<Record<string, string>>;
 }
@@ -249,6 +255,7 @@ export const DEFAULT_PAINTING: Readonly<PaintingSpecifications> = Object.freeze<
   grayColor: "rgba(153, 153, 153, 0.3)",
   backgroundColor: "#ffffff",
   shadingStyle: "GRAY_SHADING",
+  underlineRed: false,
   colorMap: Object.freeze({}),
 });
 
@@ -384,6 +391,7 @@ export function layoutSettingsChanges(settings: TextLayoutSettings, unit: number
     [settings.columnquadratgap, "columnQuadratSkip"],
     [settings.cartouchelinewidth, "cartoucheLineWidth"],
     [settings.textbaseline, "alphabeticTextBaseline"],
+    [settings.underlinegap, "underlineGap"],
   ];
   for (const [value, field] of lengths) {
     const points = length(value);
@@ -405,7 +413,10 @@ export function applyDocumentPreferences(preferences: DocumentPreferences, origi
         ? { leftMargin: preferences.marginLeft, topMargin: preferences.marginTop }
         : {}),
     },
-    painting: { shadingStyle: preferences.useLinesForShading ? "LINE_HATCHING" : "GRAY_SHADING" },
+    painting: {
+      shadingStyle: preferences.useLinesForShading ? "LINE_HATCHING" : "GRAY_SHADING",
+      underlineRed: preferences.useUnderlineForRed,
+    },
   });
   return withStyle(base, layoutSettingsChanges(preferences.settings, preferences.unit));
 }

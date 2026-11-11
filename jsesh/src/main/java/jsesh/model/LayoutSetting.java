@@ -60,6 +60,9 @@ public enum LayoutSetting {
     /// The height of the baseline of alphabetic text above the bottom of the
     /// quadrats.
     TEXT_BASELINE("textbaseline", Kind.LENGTH, Kind.percentOfDefaultUnit(4)),
+    /// The space between a quadrat and its underline, when red quadrats are
+    /// underlined (see `PaintingSpecifications.underlineRed()`).
+    UNDERLINE_GAP("underlinegap", Kind.LENGTH, Kind.percentOfDefaultUnit(2)),
     /// Is a low broad sign alone on a line of a quadrat (as a lone `n` in a
     /// column) enlarged to the quadrat width ("scale to column width")?
     FIT_SIGNS("fitsigns", Kind.FLAG, Boolean.TRUE),

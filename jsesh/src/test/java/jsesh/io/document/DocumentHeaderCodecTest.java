@@ -146,8 +146,22 @@ public class DocumentHeaderCodecTest {
                 .with(LayoutSetting.CENTRE_SMALL_SIGNS, true)
                 .withSmallBodyScaleLimit(9)
                 .withUseLinesForShading(true)
+                .withUseUnderlineForRed(true)
                 .withPage(300, 400, 20, 30, 10, 15);
         assertEquals(prefs, DocumentHeaderCodec.fromHeader(DocumentHeaderCodec.toHeader(prefs)));
+    }
+
+    @Test
+    public void underlineForRedIsWrittenAndDefaultsToColour() {
+        DocumentPreferences prefs = new DocumentPreferences();
+        assertFalse(prefs.useUnderlineForRed());
+        assertEquals("colour", DocumentHeaderCodec.toHeader(prefs).get("JSesh_redsigns"));
+        Map<String, String> header = DocumentHeaderCodec.toHeader(prefs.withUseUnderlineForRed(true));
+        assertEquals("underline", header.get("JSesh_redsigns"));
+        assertTrue(DocumentHeaderCodec.fromHeader(header).useUnderlineForRed());
+        // Style conversion keeps the option.
+        assertTrue(DocumentPreferencesStyleConverter.applyDocumentPreferences(
+                prefs.withUseUnderlineForRed(true), jsesh.render.style.JSeshStyle.DEFAULT).painting().underlineRed());
     }
 
     @Test

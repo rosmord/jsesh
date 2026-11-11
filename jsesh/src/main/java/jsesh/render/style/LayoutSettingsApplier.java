@@ -66,6 +66,7 @@ public final class LayoutSettingsApplier {
                         case COLUMN_QUADRAT_GAP -> g.columnQuadratSkip(p);
                         case CARTOUCHE_LINE_WIDTH -> g.cartoucheLineWidth(p);
                         case TEXT_BASELINE -> g.alphabeticTextBaseline(p);
+                        case UNDERLINE_GAP -> g.underlineGap(p);
                         default -> throw new IllegalStateException("Not a length: " + e.getKey());
                     });
                 }
@@ -102,6 +103,7 @@ public final class LayoutSettingsApplier {
                 case COLUMN_QUADRAT_GAP -> percent(g.columnQuadratSkip(), unit);
                 case CARTOUCHE_LINE_WIDTH -> percent(g.cartoucheLineWidth(), unit);
                 case TEXT_BASELINE -> percent(g.alphabeticTextBaseline(), unit);
+                case UNDERLINE_GAP -> percent(g.underlineGap(), unit);
             };
             result = result.with(setting, value);
         }

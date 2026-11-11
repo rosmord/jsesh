@@ -19,7 +19,7 @@ public class ColorSpecTest {
         HashMap<String, Color> map = new HashMap<>();
         PaintingSpecifications s = new PaintingSpecifications(Color.BLACK, Color.RED, Color.BLUE, Color.LIGHT_GRAY,
                 Color.WHITE,
-                ShadingMode.GRAY_SHADING,
+                ShadingMode.GRAY_SHADING, false,
                 map);
 
         map.put("yellow", Color.YELLOW);
@@ -35,7 +35,7 @@ public class ColorSpecTest {
                     HashMap<String, Color> map = new HashMap<>();
                     map.put("yellow", Color.YELLOW);
                     PaintingSpecifications s = new PaintingSpecifications(Color.BLACK, Color.RED, Color.BLUE,
-                            Color.LIGHT_GRAY, Color.WHITE, ShadingMode.GRAY_SHADING,
+                            Color.LIGHT_GRAY, Color.WHITE, ShadingMode.GRAY_SHADING, false,
                             map);
 
                     s.colorMap().put("green", Color.GREEN);

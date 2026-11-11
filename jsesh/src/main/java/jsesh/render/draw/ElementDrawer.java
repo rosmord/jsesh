@@ -89,6 +89,9 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	private boolean shadeAfter = true;
 
 	private TopItemState drawingState;
+	private boolean underlined;
+	private double underlineExtendLeft;
+	private double underlineExtendRight;
 
 	/**
 	 * The Graphic context we draw on.
@@ -403,6 +406,35 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 */
 	public void setDrawingState(TopItemState state) {
 		drawingState = state;
+	}
+
+	/// Asks for the next view drawn to be underlined (the "underline for red"
+	/// convention, see [jsesh.render.style.PaintingSpecifications#underlineRed()]).
+	/// The line goes below the view, and may extend sideways, to join the line
+	/// of a neighbouring underlined view.
+	///
+	/// @param underlined is the next view underlined?
+	/// @param extendLeft how far the line extends to the left of the view.
+	/// @param extendRight how far the line extends to the right of the view.
+	public void setUnderline(boolean underlined, double extendLeft, double extendRight) {
+		this.underlined = underlined;
+		this.underlineExtendLeft = extendLeft;
+		this.underlineExtendRight = extendRight;
+	}
+
+	/// @return true if the view being drawn is underlined.
+	protected boolean isUnderlined() {
+		return underlined;
+	}
+
+	/// @return how far the underline extends to the left of the view.
+	protected double getUnderlineExtendLeft() {
+		return underlineExtendLeft;
+	}
+
+	/// @return how far the underline extends to the right of the view.
+	protected double getUnderlineExtendRight() {
+		return underlineExtendRight;
 	}
 
 	public boolean isPaged() {

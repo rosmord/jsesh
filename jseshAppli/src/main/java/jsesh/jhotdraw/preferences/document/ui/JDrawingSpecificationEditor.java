@@ -70,6 +70,8 @@ public class JDrawingSpecificationEditor {
 	private final Map<LayoutSetting, JCheckBox> flagCheckBoxes = new EnumMap<>(LayoutSetting.class);
 	private final JCheckBox useLinesForShadingCheckBox = new JCheckBox(
 			JSeshMessages.getString("drawingPrefs.useLinesForShadingCheckBox"));
+	private final JCheckBox underlineRedCheckBox = new JCheckBox(
+			JSeshMessages.getString("drawingPrefs.underlineRedCheckBox"));
 
 	public JDrawingSpecificationEditor() {
 		for (LayoutSetting setting : LayoutSetting.values()) {
@@ -121,6 +123,7 @@ public class JDrawingSpecificationEditor {
 			optionSection.add(box, "span, wrap");
 		}
 		optionSection.add(useLinesForShadingCheckBox, "span, wrap");
+		optionSection.add(underlineRedCheckBox, "span, wrap");
 
 		JPanel lengthSection = FormLayoutHelper.section(JSeshMessages.getString("drawingPrefs.section.lengths"));
 		addRow(lengthSection, "drawingPrefs.lengthsUnit", lengthsUnitField, "");
@@ -176,6 +179,10 @@ public class JDrawingSpecificationEditor {
 
 	public JCheckBox getUseLinesForShadingCheckBox() {
 		return useLinesForShadingCheckBox;
+	}
+
+	public JCheckBox getUnderlineRedCheckBox() {
+		return underlineRedCheckBox;
 	}
 
 	public static void main(String[] args) {

@@ -34,6 +34,8 @@ export interface DocumentPreferences {
   /// The height of A1, in points, under which signs are drawn with the small body font.
   smallBodyScaleLimit: number;
   useLinesForShading: boolean;
+  /// Red quadrats are drawn in black and underlined (monochrome convention), not in red.
+  useUnderlineForRed: boolean;
   /// Width of the page; 0 means that the document has no page (it is as large as its text).
   pageWidth: number;
   /// Height of the page; 0 if not specified.
@@ -59,6 +61,7 @@ export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Objec
   settings: DOCUMENT_DEFAULT_SETTINGS,
   smallBodyScaleLimit: 12,
   useLinesForShading: false,
+  useUnderlineForRed: false,
   pageWidth: 0,
   pageHeight: 0,
   marginLeft: 0,
@@ -80,6 +83,7 @@ export const HEADER_VERSION = "2.0";
 const UNIT = "JSesh_unit";
 const SMALL_BODY_LIMIT = "JSesh_smallbodylimit";
 const SHADING = "JSesh_shading";
+const RED_SIGNS = "JSesh_redsigns";
 
 /// The old property of each setting, in points for lengths.
 const LEGACY_KEYS: Partial<Record<LayoutSettingName, string>> = {
@@ -145,6 +149,7 @@ export function documentPreferencesFromMap(map: Record<string, string>): Documen
     settings: settings as DocumentPreferences["settings"],
     smallBodyScaleLimit: positive(SMALL_BODY_LIMIT in map ? map[SMALL_BODY_LIMIT] : map["JSesh_small_body_scale_limit"], 12),
     useLinesForShading: shading !== undefined ? shading.trim() === "lines" : flag(map["JSesh_use_lines_for_shading"]) === true,
+    useUnderlineForRed: map[RED_SIGNS]?.trim() === "underline",
     pageWidth: num(map[PAGE.pageWidth], 0),
     pageHeight: num(map[PAGE.pageHeight], 0),
     marginLeft: num(map[PAGE.marginLeft], 0),
@@ -166,6 +171,7 @@ export function documentPreferencesToMap(preferences: DocumentPreferences): Reco
   for (const s of LAYOUT_SETTINGS) result[headerKey(s.name)] = formatLayoutSetting(s.name, preferences.settings[s.name]);
   result[SMALL_BODY_LIMIT] = formatLength(preferences.smallBodyScaleLimit);
   result[SHADING] = preferences.useLinesForShading ? "lines" : "gray";
+  result[RED_SIGNS] = preferences.useUnderlineForRed ? "underline" : "colour";
   if (WRITE_LEGACY_KEYS) putLegacyKeys(preferences, result);
   if (preferences.pageWidth > 0) {
     for (const [field, key] of Object.entries(PAGE)) {

@@ -14,6 +14,11 @@ import java.util.Map;
  * @param cursorColor the color to use for the cursor.
  * @param grayColor the color to use for shading.
  * @param backgroundColor the color to use for the background.
+ * @param shadingStyle how shaded areas are drawn (gray or hatching).
+ * @param underlineRed if true, the red quadrats of the text (those in a red
+ *        part, `$r`) are drawn in black and underlined, as in monochrome
+ *        typography. Red signs inside a quadrat (`\red` modifier) are then
+ *        simply drawn in black.
  * @param colorMap a color map (which should not be modifiable).
  * @author Serge Rosmorduc
  */
@@ -24,6 +29,7 @@ public record PaintingSpecifications(
 		Color grayColor,
 		Color backgroundColor,
 		ShadingMode shadingStyle,
+		boolean underlineRed,
 		Map<String, Color> colorMap) {
 
 	/**
@@ -44,6 +50,7 @@ public record PaintingSpecifications(
 			DEFAULT_GRAY_COLOR,
 			Color.WHITE,
 			ShadingMode.GRAY_SHADING,
+			false,
 			Map.of()
 			);
 
@@ -68,6 +75,7 @@ public record PaintingSpecifications(
 		private Color grayColor;
 		private Color backgroundColor;
 		private ShadingMode shadingStyle;
+		private boolean underlineRed;
 		private Map<String, Color> colorMap;
 		
 		public Builder(PaintingSpecifications specs) {
@@ -77,6 +85,7 @@ public record PaintingSpecifications(
 			this.grayColor = specs.grayColor;
 			this.backgroundColor = specs.backgroundColor;
 			this.shadingStyle = specs.shadingStyle;
+			this.underlineRed = specs.underlineRed;
 			this.colorMap = specs.colorMap;
 		}
 
@@ -115,8 +124,13 @@ public record PaintingSpecifications(
 			return this;
 		}
 
+		public Builder underlineRed(boolean underlineRed) {
+			this.underlineRed = underlineRed;
+			return this;
+		}
+
 		public PaintingSpecifications build() {
-			return new PaintingSpecifications(blackColor, redColor, cursorColor, grayColor, backgroundColor, shadingStyle, colorMap);
+			return new PaintingSpecifications(blackColor, redColor, cursorColor, grayColor, backgroundColor, shadingStyle, underlineRed, colorMap);
 		}
 	}
 }

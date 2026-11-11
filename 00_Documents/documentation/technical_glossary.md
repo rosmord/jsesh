@@ -666,3 +666,15 @@ How an editor interprets the arrow keys (`jsesh.ui.editor.arrows.ArrowKeyPolicy`
 `jsesh` (the library), `jseshAppli` (the application, entry point `jsesh.jhotdraw.Main`),
 `jseshLabels`, `mdwlexer` (generic scanner framework), `jseshJsExport`, `jseshSearch`,
 `jseshTests` (demo programs, *not* unit tests); the full list is in `settings.gradle.kts`.
+
+### Underline for red
+
+Document option `PaintingSpecifications.underlineRed` (`DocumentPreferences.useUnderlineForRed`,
+header `JSesh_redsigns` = `underline`/`colour`, set next to the shading style): the monochrome
+typographic convention. A top-level quadrat in a red part (`$r`...`$b`) is drawn in black and
+underlined (`DefaultElementDrawer.visitCadrat`); a red sign inside a quadrat (`\red`) is simply
+drawn in black. Other red items (cartouches...) are drawn in black without underline.
+The line lies `underlinegap` below the quadrat (layout setting, `GeometrySpecification.underlineGap`, independent of `quadratgap`/`smallSkip`). A run of red quadrats on a line is underlined
+without break: `ViewDrawer.prepareUnderline` (and `underlineFor` in the JS port) extends the
+line over the gap to the next red quadrat, and the element drawer draws it
+(`ElementDrawer.setUnderline`). Only horizontal lines are handled (not yet columns).

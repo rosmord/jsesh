@@ -59,6 +59,8 @@ public final class DocumentHeaderCodec {
     private static final String UNIT = PREFIX + "unit";
     private static final String SMALL_BODY_LIMIT = PREFIX + "smallbodylimit";
     private static final String SHADING = PREFIX + "shading";
+    /// How red signs are written: `underline` or `colour`.
+    private static final String RED_SIGNS = PREFIX + "redsigns";
 
     /// The old property giving the value of a setting, in points for lengths.
     private static final Map<LayoutSetting, String> LEGACY_KEYS = new EnumMap<>(LayoutSetting.class);
@@ -117,7 +119,8 @@ public final class DocumentHeaderCodec {
         } else {
             lines = Boolean.TRUE.equals(flag(map.get(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING)));
         }
-        return new DocumentPreferences(unit, settings, smallBodyLimit, lines,
+        boolean underlineRed = map.containsKey(RED_SIGNS) && "underline".equals(map.get(RED_SIGNS).trim());
+        return new DocumentPreferences(unit, settings, smallBodyLimit, lines, underlineRed,
                 number(map.get(JSeshInfoConstants.JSESH_PAGE_WIDTH), 0),
                 number(map.get(JSeshInfoConstants.JSESH_PAGE_HEIGHT), 0),
                 number(map.get(JSeshInfoConstants.JSESH_PAGE_MARGIN_LEFT), 0),
@@ -144,6 +147,7 @@ public final class DocumentHeaderCodec {
         }
         result.put(SMALL_BODY_LIMIT, LayoutSetting.QUADRAT_HEIGHT.format(preferences.smallBodyScaleLimit()));
         result.put(SHADING, preferences.useLinesForShading() ? "lines" : "gray");
+        result.put(RED_SIGNS, preferences.useUnderlineForRed() ? "underline" : "colour");
         if (WRITE_LEGACY_KEYS) {
             putLegacyKeys(preferences, result);
         }

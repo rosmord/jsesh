@@ -69,10 +69,7 @@ public class HieroglyphicText extends ModelElement implements ItemSequence {
     /// @param position where to insert the items.
     /// @param items the items to insert.
     public void addAllAt(MDCPosition position, List<? extends TopItem> items) {
-        int pos = position.getIndex();
-        for (TopItem e : items) {
-            super.addChildAt(pos++, e);
-        }
+        super.addChildrenAt(position.getIndex(), items);
     }
 
     public void addTopItem(TopItem topItem) {

@@ -64,7 +64,8 @@ public class JSeshStyleHelper {
                         .with(LayoutSetting.LAYOUT, current.textOrientation())
                         .with(LayoutSetting.DIRECTION, current.textDirection()))
                 .withSmallBodyScaleLimit(saved.smallBodyScaleLimit())
-                .withUseLinesForShading(saved.useLinesForShading());
+                .withUseLinesForShading(saved.useLinesForShading())
+                .withUseUnderlineForRed(saved.useUnderlineForRed());
         return DocumentPreferencesStyleConverter.applyDocumentPreferences(merged, original);
     }
 

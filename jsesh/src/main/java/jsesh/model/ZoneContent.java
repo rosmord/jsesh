@@ -41,10 +41,7 @@ public class ZoneContent extends EmbeddedModelElement implements ItemSequence {
         if (!acceptsAll(items)) {
             throw new IllegalArgumentException("Can't insert null items in a zone");
         }
-        int i = index;
-        for (TopItem item : items) {
-            addChildAt(i++, item);
-        }
+        addChildrenAt(index, items);
     }
 
     @Override

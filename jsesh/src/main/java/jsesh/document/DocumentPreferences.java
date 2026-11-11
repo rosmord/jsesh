@@ -30,6 +30,8 @@ import jsesh.render.style.PageTextPosition;
 ///        are drawn with the small body font.
 /// @param useLinesForShading are shadings drawn with hatching lines (rather
 ///        than in gray)?
+/// @param useUnderlineForRed are the red quadrats underlined (and drawn in
+///        black), as in monochrome typography, rather than drawn in red?
 /// @param pageWidth total width of the page; 0 if the document has no page.
 /// @param pageHeight total height of the page; 0 if not specified.
 /// @param marginLeft left margin of the page.
@@ -45,6 +47,7 @@ public record DocumentPreferences(
 		TextLayoutSettings settings,
 		double smallBodyScaleLimit,
 		boolean useLinesForShading,
+		boolean useUnderlineForRed,
 		double pageWidth,
 		double pageHeight,
 		double marginLeft,
@@ -62,7 +65,7 @@ public record DocumentPreferences(
 	/// The preferences of a document whose header sets nothing.
 	public static final DocumentPreferences DEFAULT = new DocumentPreferences(
 			LayoutSetting.DEFAULT_UNIT, TextLayoutSettings.DOCUMENT_DEFAULTS,
-			DEFAULT_SMALL_BODY_SCALE_LIMIT, false,
+			DEFAULT_SMALL_BODY_SCALE_LIMIT, false, false,
 			0, 0, 0, 0, 0, 0,
 			PageTextPosition.NONE, PageTextPosition.NONE, false, "");
 
@@ -81,7 +84,7 @@ public record DocumentPreferences(
 
 	/// The default preferences.
 	public DocumentPreferences() {
-		this(DEFAULT.unit, DEFAULT.settings, DEFAULT.smallBodyScaleLimit, DEFAULT.useLinesForShading,
+		this(DEFAULT.unit, DEFAULT.settings, DEFAULT.smallBodyScaleLimit, DEFAULT.useLinesForShading, DEFAULT.useUnderlineForRed,
 				0, 0, 0, 0, 0, 0, PageTextPosition.NONE, PageTextPosition.NONE, false, "");
 	}
 
@@ -134,7 +137,7 @@ public record DocumentPreferences(
 	///        being relative to it, follow: this scales the whole text.
 	/// @return a copy of these preferences, with the new unit.
 	public DocumentPreferences withUnit(double unit) {
-		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading, useUnderlineForRed,
 				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
 				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
 	}
@@ -142,7 +145,7 @@ public record DocumentPreferences(
 	/// @param settings new settings (the unset ones get their default value).
 	/// @return a copy of these preferences, with the new settings.
 	public DocumentPreferences withSettings(TextLayoutSettings settings) {
-		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading, useUnderlineForRed,
 				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
 				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
 	}
@@ -181,7 +184,7 @@ public record DocumentPreferences(
 	///        small body font is used.
 	/// @return a copy of these preferences, with the new value.
 	public DocumentPreferences withSmallBodyScaleLimit(double smallBodyScaleLimit) {
-		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading, useUnderlineForRed,
 				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
 				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
 	}
@@ -189,7 +192,15 @@ public record DocumentPreferences(
 	/// @param useLinesForShading are shadings drawn with lines?
 	/// @return a copy of these preferences, with the new value.
 	public DocumentPreferences withUseLinesForShading(boolean useLinesForShading) {
-		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading, useUnderlineForRed,
+				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
+				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
+	}
+
+	/// @param useUnderlineForRed are red quadrats underlined, rather than drawn in red?
+	/// @return a copy of these preferences, with the new value.
+	public DocumentPreferences withUseUnderlineForRed(boolean useUnderlineForRed) {
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading, useUnderlineForRed,
 				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
 				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
 	}
@@ -206,7 +217,7 @@ public record DocumentPreferences(
 	public DocumentPreferences withPage(double pageWidth, double pageHeight,
 			double marginLeft, double marginRight, double marginTop,
 			double marginBottom) {
-		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading, useUnderlineForRed,
 				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
 				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
 	}
@@ -231,7 +242,7 @@ public record DocumentPreferences(
 	/// @return a copy of these preferences, with the new texts.
 	public DocumentPreferences withPageTexts(PageTextPosition numberPosition,
 			PageTextPosition titlePosition, String title, boolean alternate) {
-		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading, useUnderlineForRed,
 				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
 				numberPosition, titlePosition, alternate, title);
 	}

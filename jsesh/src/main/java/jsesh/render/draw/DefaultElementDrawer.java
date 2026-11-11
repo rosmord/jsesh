@@ -222,7 +222,8 @@ public class DefaultElementDrawer extends ElementDrawer {
                     });
         }
 
-        if (h.getModifiers().getBoolean("red")) {
+        // With "underline for red", red signs inside a quadrat stay black.
+        if (h.getModifiers().getBoolean("red") && !jseshStyle.painting().underlineRed()) {
             g.setColor(jseshStyle.painting().redColor());
         }
         if (h.getModifiers().getBoolean("i")) {
@@ -699,6 +700,16 @@ public class DefaultElementDrawer extends ElementDrawer {
         }
         if (!postfix && !isShadeAfter()) {
             doShade(c.getShading());
+        }
+        // Monochrome convention: red quadrats are underlined (they are drawn
+        // in black). ViewDrawer decides which ones, and how far the line
+        // extends to join the next red quadrat's.
+        if (!postfix && isUnderlined()) {
+            JSeshStyle style = getJSeshStyle();
+            g.setStroke(style.geometry().fineStroke());
+            double y = currentView.getHeight() + style.geometry().underlineGap();
+            g.draw(new Line2D.Double(-getUnderlineExtendLeft(), y,
+                    currentView.getWidth() + getUnderlineExtendRight(), y));
         }
     }
 

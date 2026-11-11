@@ -37,6 +37,7 @@ public class DocumentPreferencesStyleConverter {
 				.withSmallBodyScaleLimit(g.smallBodyScaleLimit())
 				.withUseLinesForShading(jseshStyle.painting().shadingStyle()
 						.equals(ShadingMode.LINE_HATCHING))
+				.withUseUnderlineForRed(jseshStyle.painting().underlineRed())
 				.withPage(
 						g.page().pageWidth(),
 						g.page().pageHeight(),
@@ -92,7 +93,8 @@ public class DocumentPreferencesStyleConverter {
 				.painting(c -> c.shadingStyle(
 						preferences.useLinesForShading()
 								? ShadingMode.LINE_HATCHING
-								: ShadingMode.GRAY_SHADING));
+								: ShadingMode.GRAY_SHADING)
+						.underlineRed(preferences.useUnderlineForRed()));
 		return LayoutSettingsApplier.apply(preferences.settings(), preferences.unit(), builder).build();
 	}
 }

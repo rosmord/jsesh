@@ -389,7 +389,9 @@ public class ViewDrawer {
 
         elementDrawer.setPageCoordinateSystem(pageCoordinateSystem);
 
-        if (elementDrawer.getDrawingState().isRed()) {
+        // With "underline for red", red parts are drawn in black; the
+        // quadrats are underlined by the element drawer.
+        if (elementDrawer.getDrawingState().isRed() && !jseshStyles.painting().underlineRed()) {
             currentG.setColor(jseshStyles.painting().redColor());
         } else {
             currentG.setColor(jseshStyles.painting().blackColor());
@@ -456,8 +458,10 @@ public class ViewDrawer {
                 double subvx = subvBounds.getMinX();
                 double subvy = subvBounds.getMinY();
                 g.translate(subvx, subvy);
+                prepareUnderline(renderContext, v, i, depth);
                 // Draw the subview.
                 boolean wasDrawn = drawView(g, renderContext, subv, depth + 1);
+                elementDrawer.setUnderline(false, 0, 0);
                 // If the subview was selected, outline it.
                 if (wasDrawn && v.getModel() instanceof HieroglyphicText) {
                     drawSelection(g, renderContext, i, subv);
@@ -465,6 +469,43 @@ public class ViewDrawer {
                 g.translate(-subvx, -subvy);
             }
         }
+    }
+
+    /// Is a view a top-level quadrat in a red part of the text?
+    private boolean isRedQuadrat(MDCView view) {
+        return view.getModel() instanceof Cadrat cadrat && cadrat.isRed();
+    }
+
+    /// Tells the element drawer whether the subview `i` of `parent` is
+    /// underlined ("underline for red" option): only the top-level quadrats of
+    /// the text (or of a zone) which are red are. A run of red quadrats on the
+    /// same line is underlined continuously: the line extends over the gap
+    /// between a quadrat and the next red one.
+    private void prepareUnderline(JSeshRenderContext renderContext, MDCView parent, int i, int parentDepth) {
+        elementDrawer.setUnderline(false, 0, 0);
+        if (!renderContext.jseshStyle().painting().underlineRed()) {
+            return;
+        }
+        MDCView view = parent.getSubView(i);
+        if (!isRedQuadrat(view)
+                || !(parentDepth + 1 == 1 || parent.getModel() instanceof ZoneContent)) {
+            return;
+        }
+        double left = 0;
+        double right = 0;
+        if (i + 1 < parent.getNumberOfSubviews() && isRedQuadrat(parent.getSubView(i + 1))) {
+            Rectangle2D here = parent.getSubViewBounds(i);
+            Rectangle2D next = parent.getSubViewBounds(i + 1);
+            // Same line: the quadrats overlap vertically, but not horizontally.
+            if (next.getMinY() < here.getMaxY() && here.getMinY() < next.getMaxY()) {
+                if (next.getMinX() >= here.getMaxX()) {
+                    right = next.getMinX() - here.getMaxX();
+                } else if (next.getMaxX() <= here.getMinX()) {
+                    left = here.getMinX() - next.getMaxX();
+                }
+            }
+        }
+        elementDrawer.setUnderline(true, left, right);
     }
 
     /// Highlights a selection which lies inside a cartouche (or another nested

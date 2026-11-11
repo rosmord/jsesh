@@ -72,6 +72,9 @@ import java.awt.BasicStroke;
  *                            (latin, transliteration...) above the bottom line
  *                            of quadrats, in points. 0 puts the text on the
  *                            quadrats' baseline.
+ * @param underlineGap        the space between a quadrat and its underline, in
+ *                            points (see {@link PaintingSpecifications#underlineRed()}).
+ *                            It is independent of {@code smallSkip}.
  * @param wrapWidth           the total width (margins included) to which lines
  *                            of horizontal text are soft-wrapped, in layout
  *                            units. 0 (or less) means no wrapping: lines only
@@ -116,6 +119,7 @@ public record GeometrySpecification(
 		double smallBodyScaleLimit, // 12.0,
 		double standardSignHeight, // 18.0
 		double alphabeticTextBaseline, // 4.0
+		double underlineGap, // 2.0
 		double wrapWidth, // 0.0 (no wrapping)
 		double columnHeight, // 0.0 (natural height)
 		double columnQuadratSkip, // 6.0
@@ -148,6 +152,7 @@ public record GeometrySpecification(
 			12.0,
 			18.0,
 			4.0,
+			2.0,
 			0.0,
 			0.0,
 			6.0,
@@ -271,6 +276,7 @@ public record GeometrySpecification(
 		private double smallBodyScaleLimit; // 12.0,
 		private double standardSignHeight; // 18.0;
 		private double alphabeticTextBaseline; // 4.0;
+		private double underlineGap; // 2.0;
 		private double wrapWidth; // 0.0;
 		private double columnHeight; // 0.0;
 		private double columnQuadratSkip; // 6.0;
@@ -302,6 +308,7 @@ public record GeometrySpecification(
 			this.smallBodyScaleLimit = specs.smallBodyScaleLimit;
 			this.standardSignHeight = specs.standardSignHeight;
 			this.alphabeticTextBaseline = specs.alphabeticTextBaseline;
+			this.underlineGap = specs.underlineGap;
 			this.wrapWidth = specs.wrapWidth;
 			this.columnHeight = specs.columnHeight;
 			this.columnQuadratSkip = specs.columnQuadratSkip;
@@ -442,6 +449,11 @@ public record GeometrySpecification(
 			return this;
 		}
 
+		public Builder underlineGap(double underlineGap) {
+			this.underlineGap = underlineGap;
+			return this;
+		}
+
 		public Builder wrapWidth(double wrapWidth) {
 			this.wrapWidth = wrapWidth;
 			return this;
@@ -493,6 +505,7 @@ public record GeometrySpecification(
 					smallBodyScaleLimit,
 					standardSignHeight,
 					alphabeticTextBaseline,
+					underlineGap,
 					wrapWidth,
 					columnHeight,
 					columnQuadratSkip,
@@ -530,6 +543,7 @@ public record GeometrySpecification(
 			smallBodyScaleLimit *= scale;
 			standardSignHeight *= scale;
 			alphabeticTextBaseline *= scale;
+			underlineGap *= scale;
 			wrapWidth *= scale;
 			columnHeight *= scale;
 			columnQuadratSkip *= scale;
