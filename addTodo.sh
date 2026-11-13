@@ -6,7 +6,7 @@
 #   maybe (they stand for the TODO/00_wip, TODO/01_easy, TODO/02_important,
 #   TODO/03_longterm and TODO/04_maybe folders).
 #
-# Creates a file named todoYYYYMMDD-NNNN.md, where NNNN is the next free
+# Creates a file named todoYYYYMMDD-NNNNN.md, where NNNNN is the next free
 # sequence number, unique across every TODO status folder and DONE (see
 # README.md), and fills it with a short skeleton.
 
@@ -31,8 +31,8 @@ esac
 DATE="$(date +%Y%m%d)"
 
 MAX=0
-for f in TODO/*/todo[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9].md \
-         DONE/done[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9].md; do
+for f in TODO/*/todo[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9].md \
+         DONE/done[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9].md; do
     [ -e "$f" ] || continue
     seq="${f##*-}"
     seq="${seq%.md}"
@@ -42,7 +42,7 @@ for f in TODO/*/todo[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9
     fi
 done
 
-NEXT=$(printf "%04d" $((MAX + 1)))
+NEXT=$(printf "%05d" $((MAX + 1)))
 FILE="$FOLDER/todo${DATE}-${NEXT}.md"
 
 cat > "$FILE" <<EOF

@@ -1,25 +1,25 @@
 #!/bin/bash
 # Mark a todo as done: move it into DONE/ with git, renaming it to
-# doneYYYYMMDD-NNNN.md (YYYYMMDD = closure date, NNNN = the todo's original
+# doneYYYYMMDD-NNNNN.md (YYYYMMDD = closure date, NNNNN = the todo's original
 # sequence number), and record the closure date after its "created" field.
 #
 # Usage: ./done.sh <todo-file>
 #   todo-file is either a path to a file in any TODO/ sub-folder (wip, easy,
 #   important, longterm, maybe; e.g. TODO/01_easy/todo....md),
-#   named todoYYYYMMDD-NNNN.md, or just its NNNN sequence number (e.g. 0042),
+#   named todoYYYYMMDD-NNNNN.md, or just its NNNNN sequence number (e.g. 00042),
 #   in which case the matching file is looked up under TODO/ and confirmed
 #   before being marked done.
 
 set -euo pipefail
 
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <todo-file>|<NNNN>" >&2
+    echo "Usage: $0 <todo-file>|<NNNNN>" >&2
     exit 1
 fi
 
 SRC="$1"
 
-if [[ "$SRC" =~ ^[0-9]{4}$ ]]; then
+if [[ "$SRC" =~ ^[0-9]{5}$ ]]; then
     SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
     MATCHES=()
     while IFS= read -r -d '' f; do
@@ -50,8 +50,8 @@ fi
 
 BASENAME="$(basename "$SRC")"
 
-if [[ ! "$BASENAME" =~ ^todo([0-9]{8})-([0-9]{4})\.md$ ]]; then
-    echo "File name doesn't match todoYYYYMMDD-NNNN.md: $BASENAME" >&2
+if [[ ! "$BASENAME" =~ ^todo([0-9]{8})-([0-9]{5})\.md$ ]]; then
+    echo "File name doesn't match todoYYYYMMDD-NNNNN.md: $BASENAME" >&2
     exit 1
 fi
 
