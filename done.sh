@@ -4,7 +4,8 @@
 # sequence number), and record the closure date after its "created" field.
 #
 # Usage: ./done.sh <todo-file>
-#   todo-file is either a path to a file in TODO/ (e.g. TODO/01_easy/todo....md),
+#   todo-file is either a path to a file in any TODO/ sub-folder (wip, easy,
+#   important, longterm, maybe; e.g. TODO/01_easy/todo....md),
 #   named todoYYYYMMDD-NNNN.md, or just its NNNN sequence number (e.g. 0042),
 #   in which case the matching file is looked up under TODO/ and confirmed
 #   before being marked done.

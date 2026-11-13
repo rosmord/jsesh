@@ -2,9 +2,9 @@
 # Create a new todo file with the current date in its name.
 #
 # Usage: ./addTodo.sh [status]
-#   status defaults to easy. Must be one of wip, easy, important, longterm
-#   (they stand for the TODO/00_wip, TODO/01_easy, TODO/02_important and
-#   TODO/03_longterm folders).
+#   status defaults to easy. Must be one of wip, easy, important, longterm,
+#   maybe (they stand for the TODO/00_wip, TODO/01_easy, TODO/02_important,
+#   TODO/03_longterm and TODO/04_maybe folders).
 #
 # Creates a file named todoYYYYMMDD-NNNN.md, where NNNN is the next free
 # sequence number, unique across every TODO status folder and DONE (see
@@ -21,8 +21,9 @@ case "$STATUS" in
     easy)      FOLDER="TODO/01_easy" ;;
     important) FOLDER="TODO/02_important" ;;
     longterm)  FOLDER="TODO/03_longterm" ;;
+    maybe)     FOLDER="TODO/04_maybe" ;;
     *)
-        echo "Unknown status: $STATUS (expected wip, easy, important or longterm)" >&2
+        echo "Unknown status: $STATUS (expected wip, easy, important, longterm or maybe)" >&2
         exit 1
         ;;
 esac
