@@ -49,7 +49,7 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
     // WINDOWS
     val fullName = "${applicationName}-${project.version}"
     val copyResources = tasks.register<Copy>("copyResources") {
-        from("src/main/packaging/windows/tksesh.ico") {
+        from("src/main/packaging/windows/hibou.ico") {
             rename { "${fullName}.ico" }
         }
         into("build/prepackage")
@@ -82,7 +82,7 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
             "--main-class", application.mainClass.get(),
             "--runtime-image", "build/jre",
             "--java-options", "-Xmx2G",
-            "--icon", "src/main/packaging/windows/tksesh.ico",
+            "--icon", "src/main/packaging/windows/hibou.ico",
             "--copyright", "Serge Rosmorduc, CeCILL-C license",
             //"--win-per-user-install", would install in C:\Users\user-name\AppData\Local\application-name
             "--win-dir-chooser",
