@@ -19,6 +19,10 @@ For the `jsesh` module's internal package layering (which package may depend on 
 
 - older code may contain latin-1 characters (mostly in comments and javadoc). We are currently using UTF-8 everywhere, so if you meet a latin-1 character in a comment, place replace it with its UTF-8 equivalent. You should also signal it.
 
+## jsesh-todos branch
+
+The management of TODOS and their tracking has been moved to a specific branch, `jsesh-todos`. the `master` branch and other branches won't contain TODOS (if they still do, it's temporary).
+
 ## Build Commands
 
 ```bash
