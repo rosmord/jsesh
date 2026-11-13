@@ -49,7 +49,10 @@ public class ViewOpenerWorker extends Worker<Object> {
 
     @Override
     protected void done(Object value) {
-        view.setURI(uri);
+        // A text from the library is not tied to a file: no URI (so "Save" asks for a name),
+        // and it doesn't belong to the recent files.
+        boolean fromLibrary = TextLibraryURI.SCHEME.equals(uri.getScheme());
+        view.setURI(fromLibrary ? null : uri);
         view.setEnabled(true);
         Frame w = (Frame) SwingUtilities.getWindowAncestor(view
                 .getComponent());
@@ -58,7 +61,9 @@ public class ViewOpenerWorker extends Worker<Object> {
             w.toFront();
         }
         view.getComponent().requestFocus();
-        app.addRecentURI(uri);
+        if (!fromLibrary) {
+            app.addRecentURI(uri);
+        }
         app.setEnabled(true);
     }
 

@@ -37,6 +37,7 @@ import java.awt.BorderLayout;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -73,6 +74,8 @@ import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
 import jsesh.jhotdraw.JSeshApplicationCore;
 import jsesh.jhotdraw.JSeshApplicationModel;
+import jsesh.jhotdraw.actions.generic.TextLibraryURI;
+import jsesh.jseshtexts.JSeshTextLibrary;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.TextDirection;
@@ -285,6 +288,8 @@ public class JSeshView extends AbstractView {
         if (uri != null) {
             if ("clipboard".equals(uri.getScheme())) {
                 readFromClipboard(uri);
+            } else if (TextLibraryURI.SCHEME.equals(uri.getScheme())) {
+                readFromLibrary(uri);
             } else {
                 readFromFile(uri);
             }
@@ -315,6 +320,30 @@ public class JSeshView extends AbstractView {
             } catch (PDFImportException e) {
                 throw new UserMessage(e.getMessage());
             }
+        }
+    }
+
+    /// Read a text of the JSesh text library (see [TextLibraryURI]).
+    ///
+    /// The document is clean, and is not associated with any real file: saving it
+    /// will ask for a file name. Not called on the EDT.
+    private void readFromLibrary(URI uri) {
+        try {
+            String path = TextLibraryURI.toLibraryPath(uri);
+            byte[] bytes = JSeshTextLibrary.getInstance().readBytes(path);
+            // The name is used to guess the dialect and encoding.
+            final MDCDocument document = new MDCDocumentReader()
+                    .readStream(new ByteArrayInputStream(bytes), new File(path));
+            document.setFile(new File(JSeshWorkingDirectory.getWorkingDirectory(), "Unnamed.gly"));
+            SwingUtilities.invokeLater(() -> {
+                viewCore.setCurrentDocument(document);
+                firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
+            });
+        } catch (MDCSyntaxError e) {
+            displayErrorInEdt(JSeshMessages.getString("syntaxError.title"),
+                    "error at line " + e.getLine() + " near token: " + e.getToken());
+        } catch (IOException | IllegalArgumentException e) {
+            throw new UserMessage(e);
         }
     }
 

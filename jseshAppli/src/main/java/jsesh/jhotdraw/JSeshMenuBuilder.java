@@ -70,6 +70,7 @@ import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
 import jsesh.jhotdraw.actions.file.ExportAsPDFAction;
 import jsesh.jhotdraw.actions.file.ExportAsRTFAction;
 import jsesh.jhotdraw.actions.file.ExportTextLibraryAction;
+import jsesh.jhotdraw.actions.file.TextLibraryAction;
 import jsesh.jhotdraw.actions.file.ImportNewSignAction;
 import jsesh.jhotdraw.actions.file.ImportPDFAction;
 import jsesh.jhotdraw.actions.file.ImportRTFAction;
@@ -309,6 +310,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 addToMenu(fileMenu, app, jSeshView, AddEmbeddedSignAction.ID);
                 addToMenu(fileMenu, app, jSeshView, EmbeddedSignsAction.ID);
                 fileMenu.addSeparator(); // maybe not.
+                addToMenu(fileMenu, app, jSeshView, TextLibraryAction.ID);
                 addToMenu(fileMenu, app, jSeshView, ExportTextLibraryAction.ID);
 
         }
