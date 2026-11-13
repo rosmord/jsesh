@@ -60,14 +60,25 @@ class UndoManager {
 	//private boolean textChanged= false;
 	private Stack<MDCCommand> commands= new Stack<MDCCommand>(); // Stack of MDCCommand
 	private Stack<MDCCommand> undoneCommands= new Stack<MDCCommand>(); // Stack of MDCCommand
-	
-	/**
-	 * Add a new command to the UndoManager.
-	 * @param newCommand
-	 */
+
+	/// True while a new command is being executed.
+	///
+	/// The command notifies the text's listeners while it runs, i.e. before
+	/// it is pushed on `commands`. Without this flag, a listener asking
+	/// [#isClean()] during the very first edit would get `true`.
+	private boolean commandInProgress = false;
+
+	/// Executes a new command and records it.
+	///
+	/// @param newCommand the command to execute.
 	public void doCommand(MDCCommand newCommand) {
 		undoneCommands.clear();
-		newCommand.doCommand();
+		commandInProgress = true;
+		try {
+			newCommand.doCommand();
+		} finally {
+			commandInProgress = false;
+		}
 		// The command may continue the previous one (e.g. typed text).
 		if (commands.isEmpty() || !commands.peek().absorb(newCommand)) {
 			commands.push(newCommand);
@@ -103,7 +114,10 @@ class UndoManager {
 		undoneCommands.clear();		
 	}
 	
+	/// Has the text been left unchanged since the history was cleared?
+	///
+	/// Also `false` while a new command runs (see [#doCommand(MDCCommand)]).
 	public boolean isClean() {
-		return commands.isEmpty();
+		return commands.isEmpty() && !commandInProgress;
 	}
 }
