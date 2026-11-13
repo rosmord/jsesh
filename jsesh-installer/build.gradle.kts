@@ -52,10 +52,51 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
         from("src/main/packaging/windows/tksesh.ico") {
             rename { "${fullName}.ico" }
         }
-        from("src/main/packaging/windows/jsesh-file-association.properties") {
-        }
         into("build/prepackage")
-        
+
+    }
+
+    // File associations: jpackage ignores --file-associations when it packages
+    // an existing app image (JDK-8372753), which is how the beryx plugin builds
+    // installers. So, on Windows, we build the installer ourselves, straight
+    // from the jars and the runtime image made by beryx (skipInstaller is set
+    // in the runtime block below).
+    val jpackageWindowsInstaller = tasks.register<Exec>("jpackageWindowsInstaller") {
+        group = "build"
+        description = "Builds the Windows installer, with file associations."
+        dependsOn("jre", "installDist", "copyResources")
+        val type = (project.findProperty("installerType") as String?) ?: "msi"
+        val destDir = layout.buildDirectory.dir("jpackage")
+        doFirst {
+            // jpackage refuses to overwrite an existing installer.
+            delete(fileTree(destDir) { include("*.${type}") })
+        }
+        executable = file("${System.getProperty("java.home")}/bin/jpackage.exe").path
+        args(
+            "--type", type,
+            "--dest", destDir.get().asFile.path,
+            "--name", applicationName,
+            "--app-version", project.version.toString().replace("-SNAPSHOT", ""),
+            "--input", "build/install/jsesh-installer/lib",
+            "--main-jar", tasks.jar.get().archiveFileName.get(),
+            "--main-class", application.mainClass.get(),
+            "--runtime-image", "build/jre",
+            "--java-options", "-Xmx2G",
+            "--icon", "src/main/packaging/windows/tksesh.ico",
+            "--copyright", "Serge Rosmorduc, CeCILL-C license",
+            //"--win-per-user-install", would install in C:\Users\user-name\AppData\Local\application-name
+            "--win-dir-chooser",
+            "--win-menu",
+            "--win-shortcut",
+            "--file-associations", "src/main/packaging/windows/jsesh-file-association.properties",
+            "--file-associations", "src/main/packaging/windows/jsesh-hie-association.properties",
+            "--license-file", "src/main/binary/LICENSE.txt",
+            // app-content is not compatible with msi :-()
+            "--verbose"
+        )
+    }
+    tasks.named("jpackage") {
+        dependsOn(jpackageWindowsInstaller)
     }
     /*
     val copyResources = tasks.register<Copy>("copyResources") {
@@ -196,19 +237,9 @@ runtime {
         )
 
         if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
-            // Default installer type is msi
-            if (installerType == null) {
-                installerType = "msi"
-            }
-            installerOptions.addAll(listOf(
-                //"--win-per-user-install", would install in C:\Users\user-name\AppData\Local\application-name
-                "--win-dir-chooser",
-                "--win-menu",
-                "--win-shortcut",
-                "--file-associations", "src/main/packaging/windows/jsesh-file-association.properties",
-                "--license-file", "src/main/binary/LICENSE.txt"
-               // app-content is not compatible with msi :-()
-            ))
+            // The installer is built by jpackageWindowsInstaller (see above):
+            // here, we only want the app image.
+            skipInstaller = true
         } else if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
             // On Linux, our default installer type is dep
             if (installerType == null) {
