@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mime types for JSesh documents, installed by the Debian postinst script.
+     jpackage can't do it itself when building from an app image
+     (its file associations are ignored with -app-image). -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/vnd.jsesh.gly">
+    <comment>Manuel de Codage File</comment>
+    <glob pattern="*.gly"/>
+    <glob pattern="*.GLY"/>
+  </mime-type>
+  <mime-type type="application/vnd.jsesh.hie">
+    <comment>Manuel de Codage File</comment>
+    <glob pattern="*.hie"/>
+    <glob pattern="*.HIE"/>
+  </mime-type>
+</mime-info>

@@ -320,8 +320,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
     /** Launches the application.
      *
-     * @param args This implementation supports the command-line parameter "-open"
-     * which can be followed by one or more filenames or URI's.
+     * @param args the files or URIs to open (see {@link #getOpenURIsFromMainArgs(String[])}).
      */
     
     public void launch(String[] args) {
@@ -340,31 +339,39 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         });
     }
 
-    /** Parses the arguments to the main method and returns a list of URI's
-     * for which views need to be opened upon launch of the application.
-     * <p>
-     * This implementation supports the command-line parameter "-open"
-     * which can be followed by one or more filenames or URI's.
-     * <p>
-     * This method is invoked from the {@code Application.launch} method.
-     *
-     * @param args Arguments to the main method.
-     * @return A list of URI's parsed from the arguments. Returns an empty list
-     * if no URI's shall be opened.
-     */
+    /// Parses the arguments to the main method and returns a list of URI's
+    /// for which views need to be opened upon launch of the application.
+    ///
+    /// Every argument which doesn't start with "-" is a file to open. This is
+    /// how Linux desktops (`Exec=... %F` or `%U` in the `.desktop` file) and
+    /// Windows file associations pass documents to the application. The older
+    /// form `-open file1 file2...` is still accepted, as `-open` is simply
+    /// skipped. Arguments starting with `file:` are read as URIs, other ones
+    /// as file paths.
+    ///
+    /// This method is invoked from the `Application.launch` method.
+    ///
+    /// @param args Arguments to the main method.
+    /// @return A list of URI's parsed from the arguments. Returns an empty list
+    /// if no URI's shall be opened.
     protected List<URI> getOpenURIsFromMainArgs(String[] args) {
         LinkedList<URI> uris = new LinkedList<URI>();
-        for (int i = 0; i < args.length; ++i) {
-            if (args[i].equals("-open")) {
-                for (++i; i < args.length; ++i) {
-                    if (args[i].startsWith("-")) {
-                        break;
-                    }
-                    URI uri;
-                    uri = new File(args[i]).toURI();
-                    uris.add(uri);
+        for (String arg : args) {
+            if (arg.startsWith("-")) {
+                continue;
+            }
+            URI uri = null;
+            if (arg.startsWith("file:")) {
+                try {
+                    uri = URI.create(arg);
+                } catch (IllegalArgumentException e) {
+                    // Not a well-formed URI: read it as a path below.
                 }
             }
+            if (uri == null) {
+                uri = new File(arg).getAbsoluteFile().toURI();
+            }
+            uris.add(uri);
         }
         return uris;
     }

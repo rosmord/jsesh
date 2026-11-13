@@ -2,8 +2,9 @@
 Type=Application
 Name=JSesh
 Comment=Hieroglyphic text editor
-Exec=/opt/jsesh/bin/${fullName}
+Exec=/opt/jsesh/bin/${fullName} %F
 Icon=/opt/jsesh/lib/${fullName}.png
 Terminal=false
 Categories=Office;
+MimeType=application/vnd.jsesh.gly;application/vnd.jsesh.hie;
 StartupWMClass=jsesh-jhotdraw-Main
