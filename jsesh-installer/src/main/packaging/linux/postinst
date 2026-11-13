@@ -1,0 +1,46 @@
+#!/bin/sh
+# postinst script for APPLICATION_PACKAGE
+#
+# see: dh_installdeb(1)
+
+# JSesh: jpackage's own template, plus the registration of our mime types.
+# jpackage ignores --file-associations when it packages an existing app
+# image (which is what the beryx runtime plugin does), so we do it here.
+# The files are copied into the app image by the jpackageImage task.
+
+set -e
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <postinst> `abort-remove'
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see https://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+package_type=deb
+LAUNCHER_AS_SERVICE_SCRIPTS
+
+case "$1" in
+    configure)
+DESKTOP_COMMANDS_INSTALL
+xdg-mime install /opt/jsesh/lib/jsesh-mime.xml
+xdg-icon-resource install --context mimetypes --size 128 /opt/jsesh/lib/jsesh-document.png application-vnd.jsesh.gly
+xdg-icon-resource install --context mimetypes --size 128 /opt/jsesh/lib/jsesh-document.png application-vnd.jsesh.hie
+LAUNCHER_AS_SERVICE_COMMANDS_INSTALL
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0

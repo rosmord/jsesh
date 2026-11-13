@@ -129,7 +129,31 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
         from("src/main/binary/LICENSE.txt") {
             rename {"copyright"}
         }
+        // File associations: jpackage ignores --file-associations when it
+        // packages an existing app image (as the beryx plugin does), so our
+        // own postinst/prerm register the mime types.
+        // Not filtered: they are shell scripts, full of $.
+        from("src/main/packaging/linux/postinst")
+        from("src/main/packaging/linux/prerm")
         into("build/prepackage")
+    }
+
+    // The files used by postinst go into the app image, in /opt/jsesh/lib once installed.
+    tasks.named("jpackageImage") {
+        doLast {
+            val libFolder = file("build/jpackage/${fullName}/lib")
+            if (libFolder.exists()) {
+                copy {
+                    from("src/main/packaging/linux/jsesh-mime.xml")
+                    from("src/main/packaging/linux/iconeTextMdC.png") {
+                        rename { "jsesh-document.png" }
+                    }
+                    into(libFolder)
+                }
+            } else {
+                println("Problem : app folder not built")
+            }
+        }
     }
 }
 
@@ -190,6 +214,8 @@ runtime {
             if (installerType == null) {
                 installerType = "deb"
             }
+            // No --file-associations here: ignored with an app image.
+            // See postinst, jsesh-mime.xml and JSesh.desktop (MimeType, %F).
             installerOptions.addAll(listOf(
                 "--linux-shortcut"
             ))
