@@ -94,9 +94,9 @@ public final class InsertionRanker {
 
         TextDirection textDirection = renderContext.jseshStyle().options().quadratDirection();
         HieroglyphDrawer drawer = new HieroglyphDrawer(renderContext.hieroglyphShapeRepository());
-        ViewSilhouette silhouette = new ViewSilhouette(drawer,
+        ViewOutlineExtractor outlineExtractor = new ViewOutlineExtractor(drawer,
                 drawer.scaleFromFontToStyle(renderContext.jseshStyle()), textDirection);
-        InsertPlacer placer = new InsertPlacer(silhouette, TextDirection.RIGHT_TO_LEFT.equals(textDirection));
+        InsertPlacer placer = new InsertPlacer(outlineExtractor, TextDirection.RIGHT_TO_LEFT.equals(textDirection));
 
         List<Candidate> result = new ArrayList<>();
         for (InsertionDirection direction : InsertionDirection.values()) {

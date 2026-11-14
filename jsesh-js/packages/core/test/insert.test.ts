@@ -21,7 +21,7 @@ import {
   type VerticalSide,
 } from "../src/render/insert/insertion-fitter.js";
 import { rectOutline, ShapeMask, type Outline } from "../src/render/insert/shape-mask.js";
-import { ViewSilhouette } from "../src/render/insert/view-silhouette.js";
+import { ViewOutlineExtractor } from "../src/render/insert/view-outline-extractor.js";
 import { buildView } from "../src/render/layout.js";
 import { ApproximateTextMeasurer } from "../src/render/measurers.js";
 import { concatenate, translation, type PathSegment } from "../src/render/path.js";
@@ -356,9 +356,9 @@ describe.skipIf(!glyphDataAvailable)("%insert layout", () => {
   }
 
   /// The outlines of a sub view of the insert, in the insert's drawing coordinates.
-  function placedSilhouette(silhouette: ViewSilhouette, insert: MDCView, index: number): Outline[] {
+  function placedOutlines(outlineExtractor: ViewOutlineExtractor, insert: MDCView, index: number): Outline[] {
     const b = insert.getSubViewBounds(index);
-    return silhouette.silhouette(insert.getSubView(index)).map((o) => ({
+    return outlineExtractor.outlines(insert.getSubView(index)).map((o) => ({
       ...o,
       path: o.path.map((s) =>
         s.type === "Z" ? s : ({ type: s.type, points: s.points.map((v, i) => v + (i % 2 === 0 ? b.minX : b.minY)) } as PathSegment),
@@ -372,12 +372,12 @@ describe.skipIf(!glyphDataAvailable)("%insert layout", () => {
     const insert = findInsert(view)!;
     expect(insert, mdc).toBeDefined();
     expect(insert.numberOfSubviews).toBe(2);
-    const silhouette = new ViewSilhouette(drawer, drawer.scaleFromFontToStyle(style), direction);
+    const outlineExtractor = new ViewOutlineExtractor(drawer, drawer.scaleFromFontToStyle(style), direction);
     const whole = new Rect(0, 0, insert.width, insert.height);
     const main = new ShapeMask(whole, 64);
-    for (const o of placedSilhouette(silhouette, insert, 0)) main.fill(o);
+    for (const o of placedOutlines(outlineExtractor, insert, 0)) main.fill(o);
     const inserted = new ShapeMask(main);
-    for (const o of placedSilhouette(silhouette, insert, 1)) inserted.fill(o);
+    for (const o of placedOutlines(outlineExtractor, insert, 1)) inserted.fill(o);
     expect(main.isEmpty(), "main sign has an outline: " + mdc).toBe(false);
     expect(inserted.isEmpty(), "inserted element has an outline: " + mdc).toBe(false);
     expect(main.intersects(inserted), `no overlap: ${mdc} ${direction}`).toBe(false);

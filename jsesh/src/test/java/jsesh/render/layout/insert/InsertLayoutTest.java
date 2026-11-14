@@ -64,11 +64,11 @@ public class InsertLayoutTest {
     }
 
     /// The outlines of a sub view of the insert, in the insert's drawing coordinates.
-    private static List<Shape> placedSilhouette(ViewSilhouette silhouette, MDCView insert, int index) {
+    private static List<Shape> placedOutlines(ViewOutlineExtractor outlineExtractor, MDCView insert, int index) {
         Rectangle2D bounds = insert.getSubViewBounds(index);
         AffineTransform t = AffineTransform.getTranslateInstance(bounds.getMinX(), bounds.getMinY());
         List<Shape> result = new ArrayList<>();
-        for (Shape s : silhouette.silhouette(insert.getSubView(index))) {
+        for (Shape s : outlineExtractor.outlines(insert.getSubView(index))) {
             result.add(t.createTransformedShape(s));
         }
         return result;
@@ -81,15 +81,15 @@ public class InsertLayoutTest {
         assertEquals(2, insert.getNumberOfSubviews());
 
         HieroglyphDrawer drawer = new HieroglyphDrawer(context.hieroglyphShapeRepository());
-        ViewSilhouette silhouette = new ViewSilhouette(drawer, drawer.scaleFromFontToStyle(context.jseshStyle()),
+        ViewOutlineExtractor outlineExtractor = new ViewOutlineExtractor(drawer, drawer.scaleFromFontToStyle(context.jseshStyle()),
                 direction);
         Rectangle2D whole = new Rectangle2D.Double(0, 0, insert.getWidth(), insert.getHeight());
         ShapeMask main = new ShapeMask(whole, 64);
-        for (Shape s : placedSilhouette(silhouette, insert, 0)) {
+        for (Shape s : placedOutlines(outlineExtractor, insert, 0)) {
             main.fill(s, null);
         }
         ShapeMask inserted = new ShapeMask(main);
-        for (Shape s : placedSilhouette(silhouette, insert, 1)) {
+        for (Shape s : placedOutlines(outlineExtractor, insert, 1)) {
             inserted.fill(s, null);
         }
         assertFalse(main.isEmpty(), "main sign has an outline: " + mdc);

@@ -22,14 +22,14 @@ import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.render.elements.SignPlacement;
 import jsesh.render.view.MDCView;
 
-/// Computes the silhouette of a laid-out view: the outlines of the signs it
+/// Computes the outlines of a laid-out view: the outlines of the signs it
 /// contains, as they will be drawn.
 ///
 /// This is a geometric query on the view tree, and needs no graphics device.
 /// It follows the way `jsesh.render.draw.ViewDrawer` and `DefaultElementDrawer` place
 /// views and signs (sub-view positions, view transforms, mirroring, base sign scale).
 ///
-/// The silhouette is given in the view's own coordinate system, in the parent's scale: that
+/// The outlines are given in the view's own coordinate system, in the parent's scale: that
 /// of its position and size. The view is supposed to be laid out.
 ///
 /// Approximations:
@@ -38,7 +38,7 @@ import jsesh.render.view.MDCView;
 ///   depending on the final zoom, which layout can't know;
 /// - views without a known outline (text, unknown signs, shading) count as their box;
 /// - spaces and kerning operators count as nothing.
-public final class ViewSilhouette {
+public final class ViewOutlineExtractor {
 
     private final HieroglyphDrawer hieroglyphDrawer;
     private final double baseSignScale;
@@ -47,7 +47,7 @@ public final class ViewSilhouette {
     /// @param hieroglyphDrawer used to find the shape of signs.
     /// @param baseSignScale the scale from the font to the style.
     /// @param textDirection the direction of the text: signs are mirrored in right-to-left text.
-    public ViewSilhouette(HieroglyphDrawer hieroglyphDrawer, double baseSignScale, TextDirection textDirection) {
+    public ViewOutlineExtractor(HieroglyphDrawer hieroglyphDrawer, double baseSignScale, TextDirection textDirection) {
         this.hieroglyphDrawer = hieroglyphDrawer;
         this.baseSignScale = baseSignScale;
         this.textDirection = textDirection;
@@ -57,7 +57,7 @@ public final class ViewSilhouette {
     ///
     /// @param view the view. It must be laid out.
     /// @return outlines which should be filled separately (each one has its own winding rule).
-    public List<Shape> silhouette(MDCView view) {
+    public List<Shape> outlines(MDCView view) {
         List<Shape> result = new ArrayList<>();
         collect(view, new AffineTransform(), result);
         return result;

@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: CECILL-C
  */
 
-/// The silhouette of a laid-out view: the outlines of the signs it contains, as they will be
-/// drawn. Port of `jsesh.render.layout.insert.ViewSilhouette`.
+/// The outlines of a laid-out view: the outlines of the signs it contains, as they will be
+/// drawn. Port of `jsesh.render.layout.insert.ViewOutlineExtractor`.
 ///
 /// It follows the way the SVG drawing places views and signs (sub-view positions, view scales,
-/// mirroring, base sign scale). The silhouette is given in the view's own coordinate system, in
+/// mirroring, base sign scale). The outlines are given in the view's own coordinate system, in
 /// the parent's scale: that of its position and size. The view is supposed to be laid out.
 ///
 /// Approximations:
@@ -32,7 +32,7 @@ export function glyphToView(reversed: boolean, viewWidth: number, baseSignScale:
   return concatenate(concatenate(reversed ? mirror : IDENTITY, scaling(baseSignScale, baseSignScale)), scaling(xScale, yScale));
 }
 
-export class ViewSilhouette {
+export class ViewOutlineExtractor {
   /// @param drawer used to find the shape of signs.
   /// @param baseSignScale the scale from the font to the style.
   /// @param textDirection the direction of the text: signs are mirrored in right-to-left text.
@@ -43,7 +43,7 @@ export class ViewSilhouette {
   ) {}
 
   /// The outlines of a view, which should be filled separately (each one has its own winding rule).
-  silhouette(view: MDCView): Outline[] {
+  outlines(view: MDCView): Outline[] {
     const result: Outline[] = [];
     this.collect(view, IDENTITY, result);
     return result;

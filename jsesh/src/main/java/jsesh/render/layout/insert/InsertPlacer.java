@@ -28,7 +28,7 @@ import jsesh.render.view.MDCView;
 /// text. The fit itself, which rasterises the shapes on a grid anchored on the
 /// left of the frame, is not symmetric: fitting the mirrored signs may give a
 /// slightly different position or scale. So the fit is always computed in the
-/// left-to-right orientation: in right-to-left text, the silhouettes are mirrored
+/// left-to-right orientation: in right-to-left text, the outlines are mirrored
 /// back before the fit, and the result is mirrored afterwards.
 public final class InsertPlacer {
 
@@ -44,14 +44,14 @@ public final class InsertPlacer {
         }
     }
 
-    private final ViewSilhouette silhouette;
+    private final ViewOutlineExtractor outlineExtractor;
     private final boolean rightToLeft;
     private final InsertionFitter fitter = new InsertionFitter();
 
-    /// @param silhouette computes the outlines of the views.
+    /// @param outlineExtractor computes the outlines of the views.
     /// @param rightToLeft true for right-to-left text.
-    public InsertPlacer(ViewSilhouette silhouette, boolean rightToLeft) {
-        this.silhouette = silhouette;
+    public InsertPlacer(ViewOutlineExtractor outlineExtractor, boolean rightToLeft) {
+        this.outlineExtractor = outlineExtractor;
         this.rightToLeft = rightToLeft;
     }
 
@@ -90,8 +90,8 @@ public final class InsertPlacer {
         double insertedWidth = insertedView.getWidth();
         Rectangle2D mainBox = new Rectangle2D.Double(0, 0, mainWidth, mainView.getHeight());
         Rectangle2D insertedBox = new Rectangle2D.Double(0, 0, insertedWidth, insertedView.getHeight());
-        List<Shape> mainShapes = silhouette.silhouette(mainView);
-        List<Shape> insertedShapes = silhouette.silhouette(insertedView);
+        List<Shape> mainShapes = outlineExtractor.outlines(mainView);
+        List<Shape> insertedShapes = outlineExtractor.outlines(insertedView);
         if (rightToLeft) {
             mainShapes = mirror(mainShapes, mainWidth);
             insertedShapes = mirror(insertedShapes, insertedWidth);

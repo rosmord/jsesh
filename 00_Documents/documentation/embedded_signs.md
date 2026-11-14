@@ -21,6 +21,7 @@ It completes [manuel-de-codage.md](manuel-de-codage.md), §12 *Files*, which des
 - [6. The SVG file: reading it as JSesh does](#6-the-svg-file-reading-it-as-jsesh-does)
 - [7. Writing embedded signs](#7-writing-embedded-signs)
 - [8. Example code](#8-example-code)
+- [9. Security](#9-security)
 
 ## 1. Overview
 
@@ -204,3 +205,25 @@ const rendering = JSON.parse(new TextDecoder().decode(base64ToBytes(fields[4])))
 ```
 
 With the JavaScript port, `readMdcDocument` reads the signs (`document.embeddedSigns`), and `renderToSvg`, `layOutText` and `layOutTextSync` draw them. The data is decoded only when the signs are drawn (`embeddedSignSvg` and `embeddedSignRendering` give the decoded fields).
+
+## 9. Security
+
+The SVG of an embedded sign comes from the document, so it is **untrusted data**: anybody who sends you a `.gsh` file chooses its bytes.
+
+**What JSesh does.** `SVGSignSource` reads the SVG with a SAX parser which is hardened against XXE (XML external entities):
+
+- secure processing is on, which bounds entity expansion (the "billion laughs" attack);
+- external general and parameter entities and external DTDs are not loaded, and the entity resolver returns an empty source, so no file or URL named in the SVG is ever opened;
+- XInclude is off;
+- a `DOCTYPE` is still accepted (some old editors write one), but nothing external is fetched.
+
+Beyond that, `SVGReader` only keeps paths, polygons, zones and style (§6). It runs no script and loads no `image`, `use` or external stylesheet. `SVGSignSourceSecurityTest` checks the entity cases. There is no limit on the size or the number of the signs of a document (a choice).
+
+**If you add a full SVG library** (Batik, JSVG...) to render these SVG files, the situation changes: scripts, `foreignObject`, `<image href>` to a file or URL, and CSS `url()` become possible. Then:
+
+- don't give the document's SVG directly to the library. Filter it first with a whitelist (`svg`, `g`, `path`, basic shapes, `transform`, `fill`, `stroke`);
+- refuse `script`, `foreignObject`, `image`, `href` other than `#local`, `on*` attributes, `@import` and `url()` in styles;
+- disable scripting, network and file access in the library (with Batik, a `UserAgent` which allows none);
+- keep the hardened XML parser for the filtering step.
+
+Any other code which reads user XML should use the same parser settings.

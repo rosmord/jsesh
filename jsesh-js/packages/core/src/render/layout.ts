@@ -58,7 +58,7 @@ import {
 } from "./insert/insertion-fitter.js";
 import { Kerner } from "./insert/kerner.js";
 import type { Outline } from "./insert/shape-mask.js";
-import { ViewSilhouette } from "./insert/view-silhouette.js";
+import { ViewOutlineExtractor } from "./insert/view-outline-extractor.js";
 import { transformPath } from "./path.js";
 import {
   computeCartouchePartLength,
@@ -760,7 +760,7 @@ class LayoutAux extends ModelElementAdapter {
   /// Right-to-left text must be drawn as the exact mirror image of left-to-right text, but the fit
   /// (which rasterises the shapes on a grid anchored on the left of the frame) is not symmetric. So,
   /// as in Java's `InsertPlacer`, the fit is always computed in the left-to-right orientation: in
-  /// right-to-left text, the silhouettes are mirrored back before the fit, and the result is
+  /// right-to-left text, the outlines are mirrored back before the fit, and the result is
   /// mirrored afterwards.
   override visitInsert(insert: Insert): void {
     const v = this.l.v;
@@ -778,13 +778,13 @@ class LayoutAux extends ModelElementAdapter {
     let vertical: VerticalSide = "CENTER";
     if (isVerticalInsertion(direction)) vertical = isTopInsertion(direction) ? "TOP" : "BOTTOM";
 
-    const silhouette = new ViewSilhouette(this.l.drawer, this.l.computeScale(), v.direction);
+    const outlineExtractor = new ViewOutlineExtractor(this.l.drawer, this.l.computeScale(), v.direction);
     const mainWidth = mainView.width;
     const insertedWidth = insertedView.width;
     const mainBox = new Rect(0, 0, mainWidth, mainView.height);
     const insertedBox = new Rect(0, 0, insertedWidth, insertedView.height);
-    let mainShapes = silhouette.silhouette(mainView);
-    let insertedShapes = silhouette.silhouette(insertedView);
+    let mainShapes = outlineExtractor.outlines(mainView);
+    let insertedShapes = outlineExtractor.outlines(insertedView);
     if (rightToLeft) {
       mainShapes = mirrorOutlines(mainShapes, mainWidth);
       insertedShapes = mirrorOutlines(insertedShapes, insertedWidth);

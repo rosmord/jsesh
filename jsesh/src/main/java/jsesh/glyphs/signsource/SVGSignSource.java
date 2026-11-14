@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.*;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
 
 
@@ -148,10 +149,25 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					true);
 			parserFactory.setFeature(
 					"http://xml.org/sax/features/namespace-prefixes", false);
+			// The SVG may come from an untrusted document: no XXE.
+			// DOCTYPE is still accepted (old Illustrator files have one),
+			// but nothing external is ever fetched.
+			parserFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+			parserFactory.setFeature(
+					"http://xml.org/sax/features/external-general-entities", false);
+			parserFactory.setFeature(
+					"http://xml.org/sax/features/external-parameter-entities", false);
+			parserFactory.setFeature(
+					"http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			parserFactory.setXIncludeAware(false);
 			SAXParser parser = parserFactory.newSAXParser();
 
 			SVGReader handler = new SVGReader();
-			parser.parse(in, handler);
+			XMLReader reader = parser.getXMLReader();
+			reader.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
+			reader.setContentHandler(handler);
+			reader.setErrorHandler(handler);
+			reader.parse(new InputSource(in));
 			shape = new ShapeChar();
 			if (handler.getZones() != null) {
 				for (int i = 0; i < handler.getZones().length; i++) {

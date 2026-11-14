@@ -23,7 +23,7 @@ import jsesh.render.view.MDCView;
 /// moved back towards the first, along the kerning axis, so that their signs end
 /// up about `skip` apart where they are closest.
 ///
-/// The computation uses the actual outlines of the signs (see [ViewSilhouette]).
+/// The computation uses the actual outlines of the signs (see [ViewOutlineExtractor]).
 /// The cross axis is cut into [#BANDS] bands. In each band, the *profile* of the
 /// first group is its furthest extent along the axis, and the profile of the second
 /// group is its nearest one. Both are exact for the flattened outlines. The first
@@ -32,7 +32,7 @@ import jsesh.render.view.MDCView;
 ///
 /// Views are given with their positions in the layout coordinates of a common
 /// parent. In right-to-left text, layout coordinates are the mirror of drawing
-/// coordinates; silhouettes are mirrored back accordingly.
+/// coordinates; outlines are mirrored back accordingly.
 ///
 /// Like [ShapeMask], the computation is deterministic and needs no graphics device.
 public final class Kerner {
@@ -40,14 +40,14 @@ public final class Kerner {
     /// Number of bands along the cross axis.
     static final int BANDS = 64;
 
-    private final ViewSilhouette silhouette;
+    private final ViewOutlineExtractor outlineExtractor;
     private final boolean rightToLeft;
 
     /// @param hieroglyphDrawer used to find the shape of signs.
     /// @param baseSignScale the scale from the font to the style.
     /// @param textDirection the direction of the text.
     public Kerner(HieroglyphDrawer hieroglyphDrawer, double baseSignScale, TextDirection textDirection) {
-        this.silhouette = new ViewSilhouette(hieroglyphDrawer, baseSignScale, textDirection);
+        this.outlineExtractor = new ViewOutlineExtractor(hieroglyphDrawer, baseSignScale, textDirection);
         this.rightToLeft = TextDirection.RIGHT_TO_LEFT.equals(textDirection);
     }
 
@@ -131,7 +131,7 @@ public final class Kerner {
                 transform.translate(view.getWidth(), 0);
                 transform.scale(-1, 1);
             }
-            for (Shape s : silhouette.silhouette(view)) {
+            for (Shape s : outlineExtractor.outlines(view)) {
                 addShape(s, transform);
             }
         }

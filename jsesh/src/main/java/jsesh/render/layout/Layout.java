@@ -61,7 +61,7 @@ import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.render.layout.insert.InsertPlacer;
 import jsesh.render.layout.insert.InsertionFitter;
 import jsesh.render.layout.insert.Kerner;
-import jsesh.render.layout.insert.ViewSilhouette;
+import jsesh.render.layout.insert.ViewOutlineExtractor;
 import jsesh.render.elements.PhilologyHelper;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewIterator;
@@ -635,14 +635,25 @@ public class Layout {
 		/// views' positions are then converted to layout coordinates.
 		@Override
 		public void visitInsert(Insert insert) {
-			// The sub views are in reading order, and the target may be either of them.
-			MDCView mainView = currentView.getSubView(insert.getTarget() - 1);
-			MDCView insertedView = currentView.getSubView(2 - insert.getTarget());
+			// The sub views are in reading order, and the target may be either of them.			
+			int targetIndex;
+			int insertedIndex;
+			// We use this rather dull code instead of a computation 
+			// for readability sake.
+			if (insert.getTarget() == Insert.TARGET_FIRST) {
+				targetIndex = 0;
+				insertedIndex = 1;
+			} else {
+				targetIndex = 1;
+				insertedIndex = 0;
+			}
+			MDCView mainView = currentView.getSubView(targetIndex);
+			MDCView insertedView = currentView.getSubView(insertedIndex);
 			TextDirection direction = currentView.getDirection();
 			boolean rightToLeft = TextDirection.RIGHT_TO_LEFT.equals(direction);
 
-			ViewSilhouette silhouette = new ViewSilhouette(hieroglyphsDrawer, computeScale(), direction);
-			InsertPlacer.Result result = new InsertPlacer(silhouette, rightToLeft).place(insert.getDirection(),
+			ViewOutlineExtractor outlineExtractor = new ViewOutlineExtractor(hieroglyphsDrawer, computeScale(), direction);
+			InsertPlacer.Result result = new InsertPlacer(outlineExtractor, rightToLeft).place(insert.getDirection(),
 					insert.getDw(), insert.getDh(), mainView, insertedView);
 			InsertionFitter.Placement placement = result.placement();
 			Rectangle2D frame = result.frame();

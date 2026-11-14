@@ -14,7 +14,7 @@ import { Cadrat, HBox, Kerning, type ModelElement } from "../src/model/model.js"
 import { signCodes } from "../src/render/codes.js";
 import { HieroglyphDrawer } from "../src/render/glyphs.js";
 import { Kerner } from "../src/render/insert/kerner.js";
-import { ViewSilhouette } from "../src/render/insert/view-silhouette.js";
+import { ViewOutlineExtractor } from "../src/render/insert/view-outline-extractor.js";
 import { buildView } from "../src/render/layout.js";
 import { ApproximateTextMeasurer } from "../src/render/measurers.js";
 import { pathBounds } from "../src/render/path.js";
@@ -67,8 +67,8 @@ describe.skipIf(!glyphDataAvailable)("kerning layout", () => {
   async function signBounds(mdc: string, orientation: TextOrientation, direction: TextDirection): Promise<Rect[]> {
     const s = style(orientation, direction);
     const { view, drawer } = await layOut(mdc, s);
-    const silhouette = new ViewSilhouette(drawer, drawer.scaleFromFontToStyle(s), direction);
-    return silhouette.silhouette(view).map((o) => pathBounds(o.path));
+    const outlineExtractor = new ViewOutlineExtractor(drawer, drawer.scaleFromFontToStyle(s), direction);
+    return outlineExtractor.outlines(view).map((o) => pathBounds(o.path));
   }
 
   async function expectSameDrawing(expected: string, actual: string, orientation: TextOrientation): Promise<void> {

@@ -8,14 +8,14 @@
 /// It tells how far the second group can be moved back towards the first, along the kerning axis,
 /// so that their signs end up about `skip` apart where they are closest.
 ///
-/// The computation uses the actual outlines of the signs (see [ViewSilhouette]). The cross axis is
+/// The computation uses the actual outlines of the signs (see [ViewOutlineExtractor]). The cross axis is
 /// cut into [BANDS] bands. In each band, the *profile* of the first group is its furthest extent
 /// along the axis, and the profile of the second group is its nearest one. Both are exact for the
 /// flattened outlines. The first profile is spread over the bands closer than `skip`, so that the
 /// remaining space is close to an actual distance between the shapes.
 ///
 /// Views are given with their positions in the layout coordinates of a common parent. In
-/// right-to-left text, layout coordinates are the mirror of drawing coordinates; silhouettes are
+/// right-to-left text, layout coordinates are the mirror of drawing coordinates; outlines are
 /// mirrored back accordingly.
 
 import type { KerningAxis, TextDirection } from "../../model/constants.js";
@@ -23,20 +23,20 @@ import type { HieroglyphDrawer } from "../glyphs.js";
 import { concatenate, translation, type Matrix } from "../path.js";
 import type { MDCView } from "../view.js";
 import { flattenPath } from "./shape-mask.js";
-import { ViewSilhouette } from "./view-silhouette.js";
+import { ViewOutlineExtractor } from "./view-outline-extractor.js";
 
 /// Number of bands along the cross axis.
 export const BANDS = 64;
 
 export class Kerner {
-  private readonly silhouette: ViewSilhouette;
+  private readonly outlineExtractor: ViewOutlineExtractor;
   private readonly rightToLeft: boolean;
 
   /// @param drawer used to find the shape of signs.
   /// @param baseSignScale the scale from the font to the style.
   /// @param textDirection the direction of the text.
   constructor(drawer: HieroglyphDrawer, baseSignScale: number, textDirection: TextDirection) {
-    this.silhouette = new ViewSilhouette(drawer, baseSignScale, textDirection);
+    this.outlineExtractor = new ViewOutlineExtractor(drawer, baseSignScale, textDirection);
     this.rightToLeft = textDirection === "RIGHT_TO_LEFT";
   }
 
@@ -85,7 +85,7 @@ export class Kerner {
       // Back from drawing to layout coordinates, inside the view's box.
       transform = concatenate(transform, [-1, 0, 0, 1, view.width, 0]);
     }
-    for (const outline of this.silhouette.silhouette(view)) {
+    for (const outline of this.outlineExtractor.outlines(view)) {
       const edges = flattenPath(outline.path, transform, profile.bandSize / 4);
       for (let i = 0; i < edges.length; i += 4) profile.addEdge(edges[i]!, edges[i + 1]!, edges[i + 2]!, edges[i + 3]!);
     }

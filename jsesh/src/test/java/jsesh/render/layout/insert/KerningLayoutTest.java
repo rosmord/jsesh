@@ -56,10 +56,10 @@ public class KerningLayoutTest {
         JSeshRenderContext context = renderContext(orientation, direction);
         MDCView root = layout(mdc, context);
         HieroglyphDrawer drawer = new HieroglyphDrawer(context.hieroglyphShapeRepository());
-        ViewSilhouette silhouette = new ViewSilhouette(drawer, drawer.scaleFromFontToStyle(context.jseshStyle()),
+        ViewOutlineExtractor outlineExtractor = new ViewOutlineExtractor(drawer, drawer.scaleFromFontToStyle(context.jseshStyle()),
                 direction);
         List<Rectangle2D> result = new ArrayList<>();
-        for (Shape s : silhouette.silhouette(root)) {
+        for (Shape s : outlineExtractor.outlines(root)) {
             result.add(s.getBounds2D());
         }
         return result;

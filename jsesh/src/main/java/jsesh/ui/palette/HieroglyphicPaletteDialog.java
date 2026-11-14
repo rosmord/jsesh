@@ -1,7 +1,8 @@
 package jsesh.ui.palette;
 
-import org.qenherkhopeshef.swingUtils.PortableToolKit;
-import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.util.prefs.Preferences;
 
 import javax.swing.JFrame;
@@ -17,6 +18,9 @@ import jsesh.utils.preferences.JSeshPreferencesRoot;
 
 @SuppressWarnings("serial")
 public class HieroglyphicPaletteDialog extends JFrame {
+
+	/// Maximum height of the palette, in pixels.
+	private static final int DEFAULT_MAX_HEIGHT = 800;
 
 	private PalettePresenter presenter;
 
@@ -36,17 +40,37 @@ public class HieroglyphicPaletteDialog extends JFrame {
 		int width = prefs.getInt("hieroglyphicPalette.width", 0);
 		int height = prefs.getInt("hieroglyphicPalette.height", 0);
 		boolean visible = prefs.getBoolean("hieroglyphicPalette.visible", true);
-		boolean reasonableDefault = true;
-		if (x <= 0 || y <= 0 || width <= 100 || height <= 100)
-			reasonableDefault = false;
-		Dimension screenSize = PortableToolKit.createToolkit().getScreenSize();
-		if (x+width >= screenSize.width || y + height >= screenSize.height)
-			reasonableDefault= false;
-		if (reasonableDefault) {
+		Rectangle saved = new Rectangle(x, y, width, height);
+		if (width > 100 && height > 100 && isOnSomeScreen(saved)) {
 			setLocation(x, y);
 			setSize(width, height);
+		} else {
+			// pack() gives the full height of the sign list, which can be
+			// huge (and crashes some compositors, e.g. WSLg).
+			setLocationByPlatform(true);
 		}
+		limitSizeToScreen();
 		setVisible(visible);
+	}
+
+	/// Checks that the rectangle intersects at least one screen (any monitor,
+	/// including those with negative or large coordinates).
+	private boolean isOnSomeScreen(Rectangle r) {
+		for (GraphicsDevice device : GraphicsEnvironment
+				.getLocalGraphicsEnvironment().getScreenDevices()) {
+			if (device.getDefaultConfiguration().getBounds().intersects(r))
+				return true;
+		}
+		return false;
+	}
+
+	/// Makes sure the palette is never larger than the usable screen area.
+	private void limitSizeToScreen() {
+		Rectangle max = GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getMaximumWindowBounds();
+		int w = Math.min(getWidth(), max.width);
+		int h = Math.min(getHeight(), Math.min(max.height, DEFAULT_MAX_HEIGHT));
+		setSize(w, h);
 	}
 
 	private Preferences getPreferences() {
