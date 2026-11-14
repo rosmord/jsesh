@@ -478,8 +478,8 @@ public class Layout {
 					sub.getPosition().x = (cross - sub.getWidth()) / 2;
 				}
 			}
-			double length = packer(horizontal ? KerningAxis.HORIZONTAL : KerningAxis.VERTICAL)
-					.pack(currentView);
+			double length = packer(horizontal ? KerningAxis.HORIZONTAL : KerningAxis.VERTICAL,
+					quadratSkip()).pack(currentView);
 			currentView.setWidth(horizontal ? length : cross);
 			currentView.setHeight(horizontal ? cross : length);
 		}
@@ -746,7 +746,7 @@ public class Layout {
 
 			// Compute the correct box dimensions
 			double w = currentView.getSumOfSubViewsWidths();
-			w += (currentView.getNumberOfSubviews() - 1) * jseshStyle.geometry().smallSkip();
+			w += (currentView.getNumberOfSubviews() - 1) * jseshStyle.geometry().innerQuadratSkip();
 
 			currentView.setHeight(h);
 			currentView.setWidth(w);
@@ -765,7 +765,8 @@ public class Layout {
 					subView.getPosition().y = KerningPacker.kerningOf(subView).isPresent() ? h / 2
 							: h - subView.getHeight();
 				}
-				currentView.setWidth(packer(KerningAxis.HORIZONTAL).pack(currentView));
+				currentView.setWidth(packer(KerningAxis.HORIZONTAL,
+						jseshStyle.geometry().innerQuadratSkip()).pack(currentView));
 			}
 		}
 
@@ -1228,8 +1229,17 @@ public class Layout {
 			return new Kerner(hieroglyphsDrawer, computeScale(), currentQuadratDirection());
 		}
 
-		private KerningPacker packer(KerningAxis axis) {
-			return new KerningPacker(kerner(), axis, renderContext.jseshStyle().geometry().smallSkip());
+		/// @param axis the axis of the kerning.
+		/// @param skip the space between the elements which are not kerned: the
+		///        quadrat gap between quadrats, the inner quadrat gap between the
+		///        signs of a quadrat.
+		private KerningPacker packer(KerningAxis axis, double skip) {
+			return new KerningPacker(kerner(), axis, skip);
+		}
+
+		/// @return the space between two quadrats.
+		private double quadratSkip() {
+			return renderContext.jseshStyle().geometry().smallSkip();
 		}
 
 		// Weird code, which supposes that the reference font has a scale of 18.0 for A1

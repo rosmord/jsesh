@@ -180,7 +180,7 @@ public class QuadratLayout {
 			double h = currentView.getSumOfSubViewsHeights();
 			// add the interline spaces
 			h += (currentView.getNumberOfSubviews() - 1)
-					* jseshStyle.geometry().smallSkip();
+					* jseshStyle.geometry().innerQuadratSkip();
 
 			if (uniform) {
 				uniformScale = uniformScale(currentView.getMaximalWidthOfSubView(), h, honourMaxHeight, maxWidth);
@@ -352,7 +352,7 @@ public class QuadratLayout {
 	}
 
 	private KerningPacker packer(KerningAxis axis) {
-		return new KerningPacker(kerner, axis, jseshStyle.geometry().smallSkip());
+		return new KerningPacker(kerner, axis, jseshStyle.geometry().innerQuadratSkip());
 	}
 
 	private void fitLoneSignsToColumnWidth(Cadrat c, double width) {

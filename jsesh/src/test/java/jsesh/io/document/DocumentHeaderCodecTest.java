@@ -208,4 +208,39 @@ public class DocumentHeaderCodecTest {
         assertEquals(3.0, back.geometry().columnQuadratSkip());
         assertEquals(25.0, back.geometry().maxCadratWidth());
     }
+
+    /// The space between the signs of a quadrat used to be the quadrat gap: an
+    /// old header gives it the old small skip.
+    @Test
+    public void anOldHeaderUsesTheSmallSkipBetweenSigns() {
+        JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(
+                DocumentHeaderCodec.fromHeader(legacyHeader()), JSeshStyle.DEFAULT);
+        assertEquals(1.5, style.geometry().innerQuadratSkip());
+    }
+
+    /// A header which sets the quadrat gap, but not the inner quadrat gap,
+    /// uses the quadrat gap between signs too.
+    @Test
+    public void theInnerQuadratGapFollowsTheQuadratGapWhenUnset() {
+        Map<String, String> map = new HashMap<>();
+        map.put("JSesh_unit", "18");
+        map.put("JSesh_quadratgap", "50");
+        DocumentPreferences prefs = DocumentHeaderCodec.fromHeader(map);
+        assertEquals(50, prefs.percent(LayoutSetting.INNER_QUADRAT_GAP), 1e-9);
+    }
+
+    @Test
+    public void theInnerQuadratGapIsIndependentOfTheQuadratGap() {
+        DocumentPreferences prefs = new DocumentPreferences()
+                .with(LayoutSetting.QUADRAT_GAP, 50.0)
+                .with(LayoutSetting.INNER_QUADRAT_GAP, 5.0);
+        Map<String, String> header = DocumentHeaderCodec.toHeader(prefs);
+        assertEquals("5", header.get("JSesh_innerquadratgap"));
+        DocumentPreferences back = DocumentHeaderCodec.fromHeader(header);
+        assertEquals(prefs, back);
+        GeometrySpecification g = DocumentPreferencesStyleConverter.applyDocumentPreferences(back,
+                JSeshStyle.DEFAULT).geometry();
+        assertEquals(9.0, g.smallSkip(), 1e-9);
+        assertEquals(0.9, g.innerQuadratSkip(), 1e-9);
+    }
 }

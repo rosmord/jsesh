@@ -108,6 +108,12 @@ public final class DocumentHeaderCodec {
             if (value == null && legacy && LEGACY_KEYS.containsKey(setting)) {
                 value = readLegacy(setting, map.get(LEGACY_KEYS.get(setting)), unit);
             }
+            // The space between the signs of a quadrat used to be the quadrat
+            // gap: a document which doesn't set it keeps its look. (The quadrat
+            // gap comes first in the enum, so it is already read.)
+            if (value == null && setting == LayoutSetting.INNER_QUADRAT_GAP) {
+                value = settings.get(LayoutSetting.QUADRAT_GAP);
+            }
             settings = settings.with(setting, value);
         }
         double smallBodyLimit = positive(map.containsKey(SMALL_BODY_LIMIT) ? map.get(SMALL_BODY_LIMIT)

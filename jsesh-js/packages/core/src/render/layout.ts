@@ -369,8 +369,10 @@ class Layout {
     return new Kerner(this.hieroglyphsDrawer, this.computeScale(), quadratDirection(this.style.options));
   }
 
-  packer(axis: KerningAxis): KerningPacker {
-    return new KerningPacker(this.kerner(), axis, this.style.geometry.smallSkip);
+  /// @param skip the space between the elements which are not kerned: the quadrat gap
+  /// between quadrats (the default), the inner quadrat gap between the signs of a quadrat.
+  packer(axis: KerningAxis, skip: number = this.style.geometry.smallSkip): KerningPacker {
+    return new KerningPacker(this.kerner(), axis, skip);
   }
 }
 
@@ -630,7 +632,7 @@ class LayoutAux extends ModelElementAdapter {
       }
       new ViewVerticalEnlarger().enlarge(subView, h);
     }
-    const w = v.sumOfSubViewsWidths + ((v.numberOfSubviews - 1) * style.geometry.smallSkip);
+    const w = v.sumOfSubViewsWidths + ((v.numberOfSubviews - 1) * style.geometry.innerQuadratSkip);
     v.height = h;
     v.width = w;
     // The positions are set by the quadrat.
@@ -641,7 +643,7 @@ class LayoutAux extends ModelElementAdapter {
       for (const subView of v.subviews) {
         subView.position.y = kerningOf(subView) !== undefined ? h / 2 : (h - subView.height);
       }
-      v.width = this.l.packer("HORIZONTAL").pack(v);
+      v.width = this.l.packer("HORIZONTAL", style.geometry.innerQuadratSkip).pack(v);
     }
   }
 
@@ -1164,7 +1166,7 @@ class QuadratLayout {
     } else {
       // Height: the sum of the hboxes' heights, and the spaces between them.
       let h = currentView.sumOfSubViewsHeights;
-      h += ((currentView.numberOfSubviews - 1) * g.smallSkip);
+      h += ((currentView.numberOfSubviews - 1) * g.innerQuadratSkip);
       if (uniform) uniformScale = this.uniformScale(currentView.maximalWidthOfSubView, h, honourMaxHeight, maxWidth);
       // In lines, a quadrat which is not high enough gets some space (if it's
       // too high, it will be scaled).
@@ -1293,7 +1295,7 @@ class QuadratLayout {
   }
 
   private packer(axis: KerningAxis): KerningPacker {
-    return new KerningPacker(this.kerner, axis, this.style.geometry.smallSkip);
+    return new KerningPacker(this.kerner, axis, this.style.geometry.innerQuadratSkip);
   }
 
   private fitLoneSignsToColumnWidth(c: Cadrat, width: number): void {

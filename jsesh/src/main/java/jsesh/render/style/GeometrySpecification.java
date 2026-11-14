@@ -50,7 +50,11 @@ import java.awt.BasicStroke;
  *                            of each page ({@link PageDecoration#NONE} for none).
  * @param maxCadratHeight     the maximum height of a quadrat (in points)
  * @param maxCadratWidth      the maximum width of a quadrat (in points)
- * @param smallSkip           a small space (used in various places)
+ * @param smallSkip           a small space: between two quadrats of a line, and
+ *                            in various places (the space between the signs of
+ *                            a quadrat is {@code innerQuadratSkip}).
+ * @param innerQuadratSkip    the space between the signs of a quadrat (and
+ *                            between its lines).
  * @param largeSignSizeRatio  the ratio to base size a sign should have to be
  *                            considered a "large" sign.
  * @param smallSignSizeRatio  the ratio to base size a sign should have to be
@@ -114,6 +118,7 @@ public record GeometrySpecification(
 		double maxCadratHeight, // 18.0,
 		double maxCadratWidth, // 22.0,
 		double smallSkip, // 2.0,
+		double innerQuadratSkip, // 2.0,
 		double largeSignSizeRatio, // 0.8,
 		double smallSignSizeRatio, // 0.4,
 		double smallBodyScaleLimit, // 12.0,
@@ -146,6 +151,7 @@ public record GeometrySpecification(
 			PageDecoration.NONE,
 			18.0,
 			22.0,
+			2.0,
 			2.0,
 			0.8,
 			0.4,
@@ -271,6 +277,7 @@ public record GeometrySpecification(
 		private double maxCadratHeight; // 18.0,
 		private double maxCadratWidth; // 22.0,
 		private double smallSkip; // 2.0,
+		private double innerQuadratSkip; // 2.0,
 		private double largeSignSizeRatio; // 0.8,
 		private double smallSignSizeRatio; // 0.4,
 		private double smallBodyScaleLimit; // 12.0,
@@ -303,6 +310,7 @@ public record GeometrySpecification(
 			this.maxCadratHeight = specs.maxCadratHeight;
 			this.maxCadratWidth = specs.maxCadratWidth;
 			this.smallSkip = specs.smallSkip;
+			this.innerQuadratSkip = specs.innerQuadratSkip;
 			this.largeSignSizeRatio = specs.largeSignSizeRatio;
 			this.smallSignSizeRatio = specs.smallSignSizeRatio;
 			this.smallBodyScaleLimit = specs.smallBodyScaleLimit;
@@ -424,6 +432,13 @@ public record GeometrySpecification(
 			return this;
 		}
 
+		/// @param innerQuadratSkip the space between the signs of a quadrat.
+		/// @return this builder, for chaining.
+		public Builder innerQuadratSkip(double innerQuadratSkip) {
+			this.innerQuadratSkip = innerQuadratSkip;
+			return this;
+		}
+
 		public Builder largeSignSizeRatio(double largeSignSizeRatio) {
 			this.largeSignSizeRatio = largeSignSizeRatio;
 			return this;
@@ -500,6 +515,7 @@ public record GeometrySpecification(
 					maxCadratHeight,
 					maxCadratWidth,
 					smallSkip,
+					innerQuadratSkip,
 					largeSignSizeRatio,
 					smallSignSizeRatio,
 					smallBodyScaleLimit,
@@ -538,6 +554,7 @@ public record GeometrySpecification(
 			maxCadratHeight *= scale;
 			maxCadratWidth *= scale;
 			smallSkip *= scale;
+			innerQuadratSkip *= scale;
 			largeSignSizeRatio *= scale;
 			smallSignSizeRatio *= scale;
 			smallBodyScaleLimit *= scale;

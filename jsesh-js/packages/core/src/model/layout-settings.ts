@@ -11,8 +11,8 @@
 /// (`++JSesh_linegap 50 +s`). Lengths are percents of the unit of the
 /// document, the height of a quadrat. The gaps are named by role: `linegap`
 /// (between lines), `columngap` (between columns), `quadratgap` (between the
-/// quadrats of a line, and the signs of a quadrat) and `columnquadratgap`
-/// (between the quadrats of a column).
+/// quadrats of a line), `innerquadratgap` (between the signs of a quadrat, and
+/// between its lines) and `columnquadratgap` (between the quadrats of a column).
 
 import type { TextDirection, TextOrientation } from "./constants.js";
 
@@ -26,6 +26,7 @@ export interface TextLayoutSettings {
   readonly linegap?: number;
   readonly columngap?: number;
   readonly quadratgap?: number;
+  readonly innerquadratgap?: number;
   readonly columnquadratgap?: number;
   readonly cartouchelinewidth?: number;
   readonly textbaseline?: number;
@@ -56,6 +57,7 @@ export const LAYOUT_SETTINGS: readonly { name: LayoutSettingName; kind: LayoutSe
   { name: "linegap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(6) },
   { name: "columngap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(8) },
   { name: "quadratgap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(2) },
+  { name: "innerquadratgap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(2) },
   { name: "columnquadratgap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(6) },
   { name: "cartouchelinewidth", kind: "LENGTH", documentDefault: percentOfDefaultUnit(1) },
   { name: "textbaseline", kind: "LENGTH", documentDefault: percentOfDefaultUnit(4) },

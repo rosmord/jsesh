@@ -47,8 +47,11 @@ export interface GeometrySpecification {
   topMargin: number;
   maxCadratHeight: number;
   maxCadratWidth: number;
-  /// A small space, used in various places (between quadrats, for instance).
+  /// A small space: between two quadrats of a line, and in various places (the
+  /// space between the signs of a quadrat is `innerQuadratSkip`).
   smallSkip: number;
+  /// The space between the signs of a quadrat (and between its lines).
+  innerQuadratSkip: number;
   /// Signs higher than this ratio of A1 are "large".
   largeSignSizeRatio: number;
   /// Signs smaller than this ratio of A1 are "small".
@@ -170,6 +173,7 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   maxCadratHeight: 18,
   maxCadratWidth: 22,
   smallSkip: 2,
+  innerQuadratSkip: 2,
   largeSignSizeRatio: 0.8,
   smallSignSizeRatio: 0.4,
   smallBodyScaleLimit: 12,
@@ -388,6 +392,7 @@ export function layoutSettingsChanges(settings: TextLayoutSettings, unit: number
     [settings.linegap, "lineSkip"],
     [settings.columngap, "columnSkip"],
     [settings.quadratgap, "smallSkip"],
+    [settings.innerquadratgap, "innerQuadratSkip"],
     [settings.columnquadratgap, "columnQuadratSkip"],
     [settings.cartouchelinewidth, "cartoucheLineWidth"],
     [settings.textbaseline, "alphabeticTextBaseline"],

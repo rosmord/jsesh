@@ -437,6 +437,7 @@ A zone holds anything a text holds, including line breaks and other zones. Zones
 | `height` | length | fixed height |
 | `linegap` | length | space between two lines of text (two columns, in a zone in columns) |
 | `quadratgap` | length | space between two successive quadrats of a line (or of a column) |
+| `innerquadratgap` | length | space between the signs of a quadrat, and between its lines |
 | `separator` | length | thickness of the rules between lines or columns; no rule if unset |
 | `quadratwidth` | length | maximum width of quadrats |
 | `quadratheight` | length | maximum height of quadrats |

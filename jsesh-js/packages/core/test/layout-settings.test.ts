@@ -79,4 +79,28 @@ describe("layout settings in the header", () => {
     const prefs = documentPreferencesFromMap(legacy);
     expect(documentPreferencesFromMap(documentPreferencesToMap(prefs))).toEqual(prefs);
   });
+
+  it("uses the old small skip between the signs of a quadrat", () => {
+    const { geometry: g } = applyDocumentPreferences(documentPreferencesFromMap(legacy), DEFAULT_STYLE);
+    expect(g.innerQuadratSkip).toBe(1.5);
+  });
+
+  it("uses the quadrat gap between signs when the inner quadrat gap is unset", () => {
+    const prefs = documentPreferencesFromMap({ JSesh_unit: "18", JSesh_quadratgap: "50" });
+    expect(prefs.settings.innerquadratgap).toBe(50);
+  });
+
+  it("keeps the inner quadrat gap independent of the quadrat gap", () => {
+    const prefs = {
+      ...DEFAULT_DOCUMENT_PREFERENCES,
+      settings: { ...DEFAULT_DOCUMENT_PREFERENCES.settings, quadratgap: 50, innerquadratgap: 5 },
+    };
+    const map = documentPreferencesToMap(prefs);
+    expect(map["JSesh_innerquadratgap"]).toBe("5");
+    const back = documentPreferencesFromMap(map);
+    expect(back).toEqual(prefs);
+    const { geometry: g } = applyDocumentPreferences(back, DEFAULT_STYLE);
+    expect(g.smallSkip).toBeCloseTo(9);
+    expect(g.innerQuadratSkip).toBeCloseTo(0.9);
+  });
 });

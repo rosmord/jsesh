@@ -141,6 +141,9 @@ export function documentPreferencesFromMap(map: Record<string, string>): Documen
     // The settings which are more recent than the old format have no old property.
     const legacyKey = LEGACY_KEYS[s.name];
     if (value === undefined && legacy && legacyKey !== undefined) value = readLegacy(s.name, map[legacyKey], unit);
+    // The space between the signs of a quadrat used to be the quadrat gap: a document which
+    // doesn't set it keeps its look (the quadrat gap comes first, so it is already read).
+    if (value === undefined && s.name === "innerquadratgap") value = settings["quadratgap"];
     settings[s.name] = value ?? DOCUMENT_DEFAULT_SETTINGS[s.name];
   }
   const shading = map[SHADING];

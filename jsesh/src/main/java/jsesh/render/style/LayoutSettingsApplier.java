@@ -63,6 +63,7 @@ public final class LayoutSettingsApplier {
                         case LINE_GAP -> g.lineSkip(p);
                         case COLUMN_GAP -> g.columnSkip(p);
                         case QUADRAT_GAP -> g.smallSkip(p);
+                        case INNER_QUADRAT_GAP -> g.innerQuadratSkip(p);
                         case COLUMN_QUADRAT_GAP -> g.columnQuadratSkip(p);
                         case CARTOUCHE_LINE_WIDTH -> g.cartoucheLineWidth(p);
                         case TEXT_BASELINE -> g.alphabeticTextBaseline(p);
@@ -100,6 +101,7 @@ public final class LayoutSettingsApplier {
                 case LINE_GAP -> percent(g.lineSkip(), unit);
                 case COLUMN_GAP -> percent(g.columnSkip(), unit);
                 case QUADRAT_GAP -> percent(g.smallSkip(), unit);
+                case INNER_QUADRAT_GAP -> percent(g.innerQuadratSkip(), unit);
                 case COLUMN_QUADRAT_GAP -> percent(g.columnQuadratSkip(), unit);
                 case CARTOUCHE_LINE_WIDTH -> percent(g.cartoucheLineWidth(), unit);
                 case TEXT_BASELINE -> percent(g.alphabeticTextBaseline(), unit);

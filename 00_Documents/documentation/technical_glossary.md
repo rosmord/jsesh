@@ -410,7 +410,8 @@ layout of a text, with the **same names and values** in zone options
 | `signheight` | % | 100 | height of A1 |
 | `linegap` | % | 33.33 | space between two lines |
 | `columngap` | % | 44.44 | space between two columns |
-| `quadratgap` | % | 11.11 | space between the quadrats of a line (and the signs of a quadrat) |
+| `quadratgap` | % | 11.11 | space between the quadrats of a line |
+| `innerquadratgap` | % | 11.11 | space between the signs of a quadrat, and between its lines (`a*b`, `a:b`); a document header which sets only `quadratgap` uses it here too |
 | `columnquadratgap` | % | 33.33 | space between the quadrats of a column |
 | `cartouchelinewidth` | % | 5.56 | line of cartouches and zone frames |
 | `textbaseline` | % | 22.22 | baseline of alphabetic text above the quadrats' bottom |

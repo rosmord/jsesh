@@ -29,8 +29,8 @@ import jsesh.model.constants.TextOrientation;
 ///
 /// - `linegap`: between two lines;
 /// - `columngap`: between two columns;
-/// - `quadratgap`: between two quadrats of a line (and between the signs of a
-///   quadrat);
+/// - `quadratgap`: between two quadrats of a line;
+/// - `innerquadratgap`: between the signs of a quadrat (and between its lines);
 /// - `columnquadratgap`: between two quadrats of a column.
 ///
 /// See [TextLayoutSettings] for a set of values.
@@ -50,9 +50,15 @@ public enum LayoutSetting {
     LINE_GAP("linegap", Kind.LENGTH, Kind.percentOfDefaultUnit(6)),
     /// The space between two columns.
     COLUMN_GAP("columngap", Kind.LENGTH, Kind.percentOfDefaultUnit(8)),
-    /// The space between two quadrats of a line, and between the signs of a
-    /// quadrat.
+    /// The space between two quadrats of a line.
     QUADRAT_GAP("quadratgap", Kind.LENGTH, Kind.percentOfDefaultUnit(2)),
+    /// The space between the signs of a quadrat, and between its lines (as in
+    /// `a*b` and `a:b`).
+    ///
+    /// A document which sets [#QUADRAT_GAP] but not this one, as those written
+    /// before it existed, uses the quadrat gap here too (see
+    /// [jsesh.io.document.DocumentHeaderCodec]).
+    INNER_QUADRAT_GAP("innerquadratgap", Kind.LENGTH, Kind.percentOfDefaultUnit(2)),
     /// The space between two quadrats of a column.
     COLUMN_QUADRAT_GAP("columnquadratgap", Kind.LENGTH, Kind.percentOfDefaultUnit(6)),
     /// The thickness of the line of cartouches (and of the frame of zones).
