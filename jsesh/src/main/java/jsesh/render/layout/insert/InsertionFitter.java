@@ -123,7 +123,7 @@ public final class InsertionFitter {
     }
 
     /// The scale tried at step `k`.
-    static double scaleAt(int k) {
+    static double scaleAtStep(int k) {
         return Math.pow(2.0, -k / 4.0);
     }
 
@@ -175,6 +175,7 @@ public final class InsertionFitter {
         Rectangle2D box = request.insertedBox();
         Point2D anchor = anchorOf(box, request.horizontal(), request.vertical());
         List<Point2D> candidates = candidates(frame, request.horizontal(), request.vertical());
+        // Slightly astute way of checking that this is neither a center not an oblique insertion.
         boolean fromSide = (request.horizontal() == HorizontalSide.CENTER) != (request.vertical() == VerticalSide.CENTER);
 
         if (frame.getWidth() <= 0 || frame.getHeight() <= 0 || box.getWidth() <= 0 || box.getHeight() <= 0) {
@@ -188,27 +189,35 @@ public final class InsertionFitter {
         ShapeMask forbidden = target.dilate(marginCells);
         ShapeMask trial = new ShapeMask(forbidden);
 
-        double bestScale = scaleAt(SCALE_STEPS - 1);
+        double bestScale = scaleAtStep(SCALE_STEPS - 1);
         Point2D bestPosition = candidates.get(0);
         int bestOverlap = Integer.MAX_VALUE;
 
+        // On teste toutes les échelles
+        // et toutes les positons prédéfinies pour choisir la meilleure.        
         for (int k = 0; k < SCALE_STEPS; k++) {
-            double scale = scaleAt(k);
-            boolean lastScale = k == SCALE_STEPS - 1;
+            double scale = scaleAtStep(k);
+            boolean isLastScale = k == SCALE_STEPS - 1;
             for (Point2D position : candidates) {
+                // Create a representation of the current attempt.
                 Placement p = placement(scale, position, anchor, true);
+                // First check, using only the bounding boxes.
                 boolean inside = isInside(frame, box, p);
-                if (inside || lastScale) {
+                // If it's ok, or if this is the last ressort issue, check the actual shapes.
+                if (inside || isLastScale) {
+                    // Check if the inserted element would overlap the target.
                     trial.clear();
                     AffineTransform t = p.transform();
                     for (Shape s : request.inserted()) {
                         trial.fill(s, t);
                     }
                     int overlap = forbidden.overlap(trial);
+                    // The scaling order and the candidate order 
+                    // are chosen so that the first placement with no overlap is the best one.
                     if (overlap == 0 && inside) {
                         return p;
                     }
-                    if (lastScale && overlap < bestOverlap) {
+                    if (isLastScale && overlap < bestOverlap) {
                         bestOverlap = overlap;
                         bestScale = scale;
                         bestPosition = position;
@@ -227,6 +236,7 @@ public final class InsertionFitter {
                 fits);
     }
 
+    /// Check if box, placed according to placement p, is inside frame (with a small epsilon).
     private static boolean isInside(Rectangle2D frame, Rectangle2D box, Placement p) {
         Rectangle2D moved = p.transform().createTransformedShape(box).getBounds2D();
         double eps = EPSILON * Math.max(frame.getWidth(), frame.getHeight());
