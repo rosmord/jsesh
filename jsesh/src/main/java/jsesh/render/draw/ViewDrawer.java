@@ -55,15 +55,6 @@ public class ViewDrawer {
     private ElementDrawer elementDrawer;
 
     /**
-     * This rectangle is in fact a local variable of drawView. We have placed it
-     * here, because we want to avoid garbage collection of rectangles.
-     * 
-     * TODO: this is probably an outdated hack.
-     */
-    transient Rectangle temporaryRectangle = new Rectangle();
-
-   
-    /**
      * The original coordinate system. We need to keep the original
      * transformation, for certain computation are done in the page's
      * coordinates.
@@ -347,28 +338,14 @@ public class ViewDrawer {
         // (this would be better anyway, for the test would be simpler,
         // without need for "depth")
         // Code for HieroglyphicText elements.
-        if (depth == 1 && v.getModel() instanceof TopItem) {
-
-            // The clipping functions allow us not to draw the text which is not
-            // visible.
-            if (clip) {
-                temporaryRectangle = g.getClipBounds(temporaryRectangle);
-                // If the view stands before the visible area, do nothing.
-                // If the view stands after the visible area, do nothing.
-
-                if (temporaryRectangle != null
-                        && (v.getHeight() < temporaryRectangle.getMinY() || 0 > temporaryRectangle
-                                .getMaxY())
-                        || 0 > temporaryRectangle.getMaxX()
-                        || v.getWidth() < temporaryRectangle.getMinX()) {
-                    return false;
-                }
+        // The items of the text, and those of a zone, are the units which
+        // are skipped when they are not visible. They also carry their own
+        // drawing state.
+        if (v.getModel() instanceof TopItem topItem
+                && (depth == 1 || topItem.getParent() instanceof ZoneContent)) {
+            if (clip && isOutsideClip(g, v, renderContext)) {
+                return false;
             }
-
-            TopItem topItem = (TopItem) v.getModel();
-            elementDrawer.setDrawingState(topItem.getState());
-        } else if (v.getModel() instanceof TopItem topItem && topItem.getParent() instanceof ZoneContent) {
-            // The items of a zone have their own state, as those of the text.
             elementDrawer.setDrawingState(topItem.getState());
         }
 
@@ -427,6 +404,34 @@ public class ViewDrawer {
             elementDrawer.setRenderContext(outerContext);
         }
         return true;
+    }
+
+    /// Is a view entirely outside the clip of the graphics, so that it doesn't
+    /// need to be drawn?
+    ///
+    /// The graphics is in the coordinates of the parent of the view, translated
+    /// to the view's top-left corner; this holds at every level, so the test is
+    /// valid inside zones, with their scale, direction and orientation. As some
+    /// drawings spill out of their view (signs overlapping the next quadrat
+    /// because of kerning, shading, cartouche lines...), the view is enlarged by
+    /// a margin of one quadrat height.
+    ///
+    /// @param g the graphics, with its origin at the top-left corner of `v`.
+    /// @param v the view.
+    /// @param renderContext the context the view was laid out in.
+    /// @return true if nothing of `v` can be visible.
+    private boolean isOutsideClip(Graphics2D g, MDCView v, JSeshRenderContext renderContext) {
+        // Not getClipBounds(Rectangle): without clip, it returns its argument
+        // unchanged instead of null.
+        Rectangle clipBounds = g.getClipBounds();
+        if (clipBounds == null) {
+            return false;
+        }
+        double margin = renderContext.jseshStyle().geometry().maxCadratHeight();
+        return v.getHeight() + margin < clipBounds.getMinY()
+                || -margin > clipBounds.getMaxY()
+                || v.getWidth() + margin < clipBounds.getMinX()
+                || -margin > clipBounds.getMaxX();
     }
 
     /**

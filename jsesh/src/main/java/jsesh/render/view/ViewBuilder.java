@@ -12,6 +12,13 @@ import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
 import jsesh.model.Modifier;
 import jsesh.model.ModifiersList;
+import jsesh.model.Zone;
+import jsesh.model.ZoneContent;
+import jsesh.model.operations.ChildOperation;
+import jsesh.model.operations.Deletion;
+import jsesh.model.operations.Insertion;
+import jsesh.model.operations.ModelOperation;
+import jsesh.model.operations.Replacement;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.layout.Layout;
@@ -109,6 +116,108 @@ public class ViewBuilder {
         getLayout().reset(renderContext, techRenderContext);
         getLayout().layout(view);
         getLayout().cleanup();
+    }
+
+    /// Updates the view of a zone after an operation on its content, keeping
+    /// the views of the items which didn't change.
+    ///
+    /// Only the items touched by the operation are built again; the content of
+    /// the zone is then laid out again from the views of its items (lines,
+    /// columns, tabs...), and so is the zone. Zones nested in the zone are
+    /// updated in the same way. This avoids rebuilding the whole content of a
+    /// large zone at each edit. The parent of the zone (text or zone) is *not*
+    /// laid out again: call [#reLayout] on the text afterwards.
+    ///
+    /// @param zoneView the view of the zone, as built by this class.
+    /// @param operation the operation on the zone, as notified by the zone to
+    ///        its observers: a [ChildOperation] whose child operation is on the
+    ///        content of the zone.
+    /// @param renderContext the context of the parent of the zone (the one
+    ///        given to [#buildView] for the text).
+    /// @param techRenderContext the technical rendering context.
+    /// @return true if the view was updated; false if the operation is not one
+    ///         this method handles, in which case the view is unchanged, and
+    ///         should be built again.
+    public boolean updateZoneView(MDCView zoneView, ModelOperation operation, JSeshRenderContext renderContext,
+            JSeshTechRenderContext techRenderContext) {
+        if (!canUpdateZone(zoneView, operation)) {
+            return false;
+        }
+        getLayout().reset(renderContext, techRenderContext);
+        try {
+            updateZone(zoneView, (ChildOperation) operation);
+        } finally {
+            getLayout().cleanup();
+        }
+        return true;
+    }
+
+    /// Can [#updateZone] deal with an operation on a zone?
+    private static boolean canUpdateZone(MDCView zoneView, ModelOperation operation) {
+        if (!(zoneView.getModel() instanceof Zone zone)
+                || operation.getElement() != zone
+                || !(operation instanceof ChildOperation zoneOperation)
+                || zoneView.getNumberOfSubviews() != 1
+                || zoneView.getFirstSubView().getModel() != zone.getContent()) {
+            return false;
+        }
+        ModelOperation contentOperation = zoneOperation.getChildOperation();
+        return contentOperation.getElement() == zone.getContent()
+                && (contentOperation instanceof Insertion
+                        || contentOperation instanceof Deletion
+                        || contentOperation instanceof Replacement
+                        || contentOperation instanceof ChildOperation);
+    }
+
+    /// Updates a zone, in the state of the layout of its parent.
+    private void updateZone(MDCView zoneView, ChildOperation zoneOperation) {
+        MDCView contentView = zoneView.getFirstSubView();
+        ZoneContent content = (ZoneContent) contentView.getModel();
+        ModelOperation operation = zoneOperation.getChildOperation();
+        // Enters the context of the zone (see Layout.preLayoutHook).
+        getLayout().preLayoutHook(contentView);
+        if (operation instanceof Insertion insertion) {
+            int index = insertion.getIndex();
+            for (ModelElement child : insertion.getChildren()) {
+                contentView.addAt(index++, buildSubView(child));
+            }
+        } else if (operation instanceof Deletion deletion) {
+            contentView.remove(deletion.getStart(), deletion.getEnd());
+        } else if (operation instanceof Replacement replacement) {
+            contentView.replaceSubView(replacement.getIndex(), buildSubView(content.getChildAt(replacement.getIndex())));
+        } else if (operation instanceof ChildOperation childOperation) {
+            updateItem(contentView, childOperation.getChildOperation());
+        }
+        // The layout of the content starts by resetting its view (size,
+        // scale...), so laying it out again is safe.
+        getLayout().layout(contentView);
+        getLayout().postLayoutHook(contentView);
+        getLayout().layout(zoneView);
+    }
+
+    /// Updates the view of an item of a zone, after an operation on it.
+    ///
+    /// @param contentView the view of the content of the zone.
+    /// @param itemOperation the operation on the item.
+    private void updateItem(MDCView contentView, ModelOperation itemOperation) {
+        ModelElement item = itemOperation.getElement();
+        for (int i = 0; i < contentView.getNumberOfSubviews(); i++) {
+            MDCView itemView = contentView.getSubView(i);
+            if (itemView.getModel() == item) {
+                if (canUpdateZone(itemView, itemOperation)) {
+                    updateZone(itemView, (ChildOperation) itemOperation);
+                } else {
+                    contentView.replaceSubView(i, buildSubView(item));
+                }
+                return;
+            }
+        }
+        // Unknown item: should not happen; the whole content is built again.
+        ZoneContent content = (ZoneContent) contentView.getModel();
+        contentView.clear();
+        for (int i = 0; i < content.getNumberOfChildren(); i++) {
+            contentView.add(buildSubView(content.getChildAt(i)));
+        }
     }
 
     private class ViewBuilderAux extends ModelElementAdapter {

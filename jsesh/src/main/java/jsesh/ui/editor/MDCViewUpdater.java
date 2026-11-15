@@ -97,12 +97,16 @@ class MDCViewUpdater implements ModelOperationVisitor {
 				&& getView().getSubView(k).getModel() != operation
 						.getChildOperation().getElement(); k++)
 			/* empty */;
-		// This is k. rebuild view for k, and replace it.
-		if (this.getView().getSubView(k).getModel() == operation
+		// This is k. Update the view for k: a zone keeps the views of its
+		// unchanged items; other items are built again.
+		if (k < getView().getNumberOfSubviews() && this.getView().getSubView(k).getModel() == operation
 				.getChildOperation().getElement()) {
-			MDCView subv = builder.buildView(operation.getChildOperation()
-					.getElement(), renderContext, techRenderContext);
-			this.getView().replaceSubView(k, subv);
+			MDCView current = getView().getSubView(k);
+			if (!builder.updateZoneView(current, operation.getChildOperation(), renderContext, techRenderContext)) {
+				MDCView subv = builder.buildView(operation.getChildOperation()
+						.getElement(), renderContext, techRenderContext);
+				this.getView().replaceSubView(k, subv);
+			}
 		}
 		// update the page layout.
 		builder.reLayout(getView(), renderContext, techRenderContext);
