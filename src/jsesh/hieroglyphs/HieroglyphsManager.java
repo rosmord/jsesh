@@ -1776,9 +1776,11 @@ public class HieroglyphsManager {
 	}
 
 	/**
-	 * @param string
-	 * @param string2
+	 * save the association between the code and the canonicalcode.
+	 * @param code
+	 * @param canonicalCode
 	 */
+	
 	private void putCanon(String code, String canonicalCode) {
 		canonical.put(code, canonicalCode);
 	}
@@ -1794,7 +1796,7 @@ public class HieroglyphsManager {
 	 * Returns the canonical code for a sign.
 	 * 
 	 * @param code
-	 * @return
+	 * @return the canonical code for the sign code.
 	 */
 	public String getCanonicalCode(String code) {
 		String result = (String) canonical.get(code);
@@ -1806,21 +1808,25 @@ public class HieroglyphsManager {
 	public Set getCodesSet() {
 		// NOTE THAT THE CODES SHOULD NOT BE STORED IN THE FONT MANAGER.
 		// THIS IS A TEMPORARY SOLUTION.
-		return HieroglyphicFontManager.getInstance().getCodes();
+		return DefaultHieroglyphicFontManager.getInstance().getCodes();
 	}
 
 	/**
 	 * Returns all the codes for a given family of signs.
 	 * 
-	 * @param family
-	 * @return
+	 * @param family : the Gardiner family for this sign (A,B...Aa,Ff)
+	 * @param usercodes : if true, also add signs which have an user code (USn+ Gardiner code)
+	 * @return all codes for a given sign family.
 	 */
-	public String[] getCodesForFamily(String family) {
+	public String[] getCodesForFamily(String family, boolean userCodes) {
 		ArrayList l = new ArrayList();
-		Iterator it = getCodesSet().iterator();
+		Set s= getCodesSet();
+		Iterator it = s.iterator();
 		while (it.hasNext()) {
 			String c = (String) it.next();
 			if (c.matches(family + "[0-9]+.*")) {
+				l.add(c);
+			} else if (userCodes && c.matches("US"+ "[0-9]+"+ family + "[0-9]+.*")) {
 				l.add(c);
 			}
 		}
@@ -1832,12 +1838,12 @@ public class HieroglyphsManager {
 	 * Returns a comparator able to compare two gardiner codes and to order
 	 * them.
 	 * 
-	 * @return
+	 * @return a comparator able to compare two gardiner codes and to order them.
 	 */
 	private Comparator getCodeComparator() {
 		return new Comparator() {
 
-			Pattern p = Pattern.compile("([A-Za-z]+)([0-9]+)(.*)");
+			Pattern p = Pattern.compile("(US[0-9]+)?([A-Za-z]+)([0-9]+)(.*)");
 
 			/*
 			 * (non-Javadoc)
@@ -1851,15 +1857,15 @@ public class HieroglyphsManager {
 
 				Matcher m1 = p.matcher(c1);
 				m1.matches();
-				String fam1 = m1.group(1);
-				int num1 = Integer.parseInt(m1.group(2));
-				String tail1 = m1.group(3);
+				String fam1 = m1.group(2);
+				int num1 = Integer.parseInt(m1.group(3));
+				String tail1 = m1.group(4);
 
 				Matcher m2 = p.matcher(c2);
 				m2.matches();
-				String fam2 = m2.group(1);
-				int num2 = Integer.parseInt(m2.group(2));
-				String tail2 = m2.group(3);
+				String fam2 = m2.group(2);
+				int num2 = Integer.parseInt(m2.group(3));
+				String tail2 = m2.group(4);
 
 				int result = fam1.compareTo(fam2);
 				if (result == 0) {
@@ -1910,5 +1916,27 @@ public class HieroglyphsManager {
 	
 	public boolean isKnownCode(String code) {
 		return canonical.containsKey(code);
+	}
+	
+	/**
+	 * Tells if a given string has the correct form for a manuel de codage code.
+	 * The code can be :
+	 * <ul>
+	 * 	<li> a "Gardiner-like" code, as defined in the manuel
+	 * 	<li> a tksesh user sign code of the form UG<em>n0</em>M<em>n1</em>N<em>n2</em>
+	 *  <li> a user sign code of the form US + number + gardiner sign code.
+	 * where 
+	 * <ul>
+	 * <li> n0 is the user id (an integer)
+	 * <li> n1 is an arbitrary machine id (usually 0)
+	 * <li> n2 is the sign id (an integer)
+	 * </ul>
+	 * </ul> 
+	 * Note that translitteration codes are not dealt with here. 
+	 * @param code
+	 * @return true if the sign is a possible code.
+	 */
+	public static boolean isCorrectGardinerCode (String code) {
+		return Pattern.matches("([A-Z]|Aa|Ff)[0-9]+[a-zA-Z]*|UG\\d+M\\d+N\\d+|US\\d+([A-Z]|Aa|Ff)[0-9]+[a-zA-Z]*", code);
 	}
 }

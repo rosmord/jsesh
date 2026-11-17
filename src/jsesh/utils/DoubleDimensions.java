@@ -32,14 +32,14 @@ public class DoubleDimensions extends Dimension2D {
 	
 
 	/**
-	 * @return
+	 * @return the height
 	 */
 	public double getHeight() {
 		return height;
 	}
 
 	/**
-	 * @return
+	 * @return the width
 	 */
 	public double getWidth() {
 		return width;

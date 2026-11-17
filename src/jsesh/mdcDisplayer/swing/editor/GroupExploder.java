@@ -30,7 +30,7 @@ public class GroupExploder {
 
 	/**
 	 * @param item
-	 * @return
+	 * @return the list of BasicItems contained in the group. 
 	 */
 	public List explode(TopItem item) {
 		result = new ArrayList();

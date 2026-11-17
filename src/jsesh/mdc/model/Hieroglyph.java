@@ -1,9 +1,10 @@
 package jsesh.mdc.model;
 
-import jsesh.mdc.constants.Constants;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
+import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;
 import jsesh.mdc.interfaces.HieroglyphInterface;
+import jsesh.mdc.model.operations.Replacement;
 
 /**
  * 
@@ -34,6 +35,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 	/**
 	 * a code which helps to distinguish between real hieroglyphs (MDCCODE) and
 	 * another kind of sign (shading, red points...).
+	 * @see SymbolCodes
 	 */
 
 	private int type;
@@ -73,14 +75,19 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 		code= null;
 		endingCode= WordEndingCode.NONE;
 		grammar= false;
-		type= Constants.MDCCODE;
+		type= SymbolCodes.MDCCODE;
 		addChild(new ModifiersList());
 	}
 
+	/**
+	 * Create a sign of a particular type.
+	 * May be a hieroglyph, or some other symbols like red points.
+	 * @param type : the type of the symbol, from SymbolCodes.
+	 */
 	public Hieroglyph(int type) {
 		this();
 		switch(type) {
-			case Constants.MDCCODE:
+			case SymbolCodes.MDCCODE:
 				setCode("A1");
 				break;
             default:
@@ -103,7 +110,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 		setCode(code);
 	}
 
-	/**
+	/*
 	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)
 	 */
 	public void accept(ModelElementVisitor v)
@@ -171,6 +178,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 	/**
 	 * an integer used to say if the sign is a word ending (1), a sentence
 	 * ending (2), or nothing of this kind (0).
+	 * @return the ending code.
 	 */
 	public WordEndingCode getEndingCode()
 	{
@@ -194,6 +202,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 	/**
      * a code which helps to distinguish between real hieroglyphs (MDCCODE) and
 	 * another kind of sign (shading, red points...).
+	 * @return the type.
 	 */
 
 	public int getType()
@@ -204,7 +213,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 	/**
 	 * An explicit positioning for this sign.
 	 * Expressed in 1/1000 of A1 sign height.
-	 * @return
+	 * @return x.
 	 */
 	public int getX() {
 		return x;
@@ -213,7 +222,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 	/**
 	 * An explicit positioning for this sign.
 	 * Expressed in 1/1000 of A1 sign height.
-	 * * @return
+	 * * @return y.
 	 */
 	
 	public int getY() {
@@ -231,7 +240,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 	}
 
 	/**
-	 * @return
+	 * @return true if the sign can be stretched to fit a cadrat width.
 	 */
 	public boolean isWide() {
 		boolean result= false;
@@ -244,14 +253,19 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 		getModifiers().setAngle(_angle);
 	}
 
-	public void setCode(String _code)
+	public void setCode(String code)
 	{
-		code= _code;
+		if (code.startsWith("J"))
+		{
+			code= "Aa" + code.substring(1);
+		}
+		this.code= code;
 		notifyModification();
 	}
 
 	/**
 	 * Is the sign is a word ending, a sentence ending, or nothing of this kind.
+	 * @param _endingCode
 	 */
 	public void setEndingCode(WordEndingCode _endingCode)
 	{

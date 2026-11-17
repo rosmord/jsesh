@@ -1,0 +1,67 @@
+package jsesh.mdcDisplayer.layout;
+
+import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
+
+/**
+ * Elements of this class are responsible for computing the position and 
+ * dimensions of view elements.
+ * 
+ * <p> A layout can change a view's width and height
+ * and it can also change the subview positions and scales.
+ * <p> <b> Important </b> - note that layout does just that -- layout -- and
+ * does in no way create view elements. MDCView element creation is the task of
+ * ViewBuilder. 
+ * 
+ * 
+ * <p> An actual base for implementation can be found in the SimpleLayout class. 
+ * 
+ * @see jsesh.mdcDisplayer.draw.ViewBuilder
+ * @see jsesh.mdcDisplayer.layout.SimpleLayout
+ * (c) Serge Rosmorduc
+ * @author Serge Rosmorduc
+ *
+ */
+public interface Layout {
+    
+	/**
+	 * Reset the internal state of the Layout before working on a 
+	 * new text chunk. 
+	 * @param drawingSpecifications TODO
+	 *
+	 */
+	void reset(DrawingSpecifications drawingSpecifications);
+	
+	/**
+	 * Called when the complete model has been processed.
+	 *
+	 */
+	void cleanup();
+		
+	/**
+	 * compute the view size (width and height). If the view has subviews,
+	 * layout should compute their position in the parent view and scale them if required.
+	 * Note that layout is <em>not</em> a recursive function : when a view is built, 
+	 * its subviews have already been processed by another call to layout.
+	 * The embedded variable is used to specify that this view corresponds to an element that
+	 * doesn't appears on the upper levels of the text. For instance, it will be true for a cadrat, but false when
+	 * this cadrat is embedded within another cadrat. In fact that's the main use of this variable, as spacing can be quite different
+	 * (specially in columns). 
+	 * @param view
+	 * @param embedded true if this construct is embedded in another one.
+	 */
+	void layout(MDCView view, boolean embedded);
+	
+	/**
+	 * This method is called before anything is done on the view. 
+	 * Most notably, it's called before the subviews are built.
+	 * It might be used when the layout of the internal elements depends on their 
+	 * container.
+	 * Currently, its main actual use is to change the sign centering preferences
+	 * when laying out a cadrat. 
+	 * @param view
+	 * @param embedded TODO
+	 */
+	void preLayoutHook(MDCView view, boolean embedded);
+
+}

@@ -6,7 +6,7 @@ package jsesh.tmp.simpleDemo;
  * Created: Thu Apr 18 18:35:25 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version
+ * 
  */
 
 import jsesh.mdc.constants.ToggleType;
@@ -251,6 +251,7 @@ public class PrintMDCBuilder implements MDCBuilder
 	/**
 	 *
 	 * @param param1 <description>
+	 * @param type
 	 * @param param2 <description>
 	 * @param param3 <description>
 	 * @param param4 <description>
@@ -487,7 +488,6 @@ public class PrintMDCBuilder implements MDCBuilder
      * @see jsesh.mdc.interfaces.MDCBuilder#setOptionList(jsesh.mdc.interfaces.CadratInterface, jsesh.mdc.interfaces.OptionListInterface)
      */
     public void setOptionList(CadratInterface result, OptionListInterface e1) {
-        // TODO Auto-generated method stub
         
     }
 

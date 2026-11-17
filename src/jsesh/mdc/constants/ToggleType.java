@@ -30,7 +30,7 @@ public class ToggleType extends EnumBase
 
 	
 	/**
-	 * @return
+	 * @return the manuel de codage code for this toggle.
 	 */
 	public String getMDC()
 	{

@@ -15,7 +15,7 @@ import jsesh.mdc.utils.MDCSyntaxError;
  * Created: Tue Jun 11 21:59:25 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version
+ * 
  */
 
 /**

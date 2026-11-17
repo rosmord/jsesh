@@ -13,6 +13,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 /**
+ * Demonstration of uses of the "Dessinateur" class to draw hieroglyphs on an image.
  * voir aussi : uiswing/painting/usingImages.html
  * dans le tutorial de java.
  * 

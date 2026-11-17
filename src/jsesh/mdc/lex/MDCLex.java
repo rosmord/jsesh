@@ -44,7 +44,7 @@ public class MDCLex implements java_cup.runtime.Scanner, ParserErrorManager {
 	public  static void main(String argv[]) throws java.io.IOException {
 		   MDCLex yy = new MDCLex(System.in);
 		   java_cup.runtime.Symbol t;
-		   while ((t = yy.next_token()).sym != MDCLexAux.EOF)
+		   while ((t = yy.next_token()).sym != MDCSymbols.EOF)
 			   System.out.println(t);
 	   }
 
@@ -74,14 +74,14 @@ public class MDCLex implements java_cup.runtime.Scanner, ParserErrorManager {
 	}
 
 	/**
-	 * @return
+	 * @return true if we are debugging.
 	 */
 	public boolean getDebug() {
 		return implementation.getDebug();
 	}
 
 	/**
-	 * @return
+	 * @return if philological markers are simple signs.
 	 */
 	public boolean getPhilologyAsSigns() {
 		return implementation.getPhilologyAsSigns();

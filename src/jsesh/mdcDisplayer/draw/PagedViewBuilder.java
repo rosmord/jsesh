@@ -12,14 +12,15 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.draw.layout.PagedLayout;
+import jsesh.mdcDisplayer.layout.PagedLayout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /*
  * This class builds a view for a hieroglyphic text in which each page
  * stands in a different subview.
  * 
- * <p> Currently, it's used for printing purposes
+ * <p> Currently, it's used for printing purposes and bitmap files creation.
  * 
 *  
  * @author Serge Rosmorduc
@@ -65,11 +66,12 @@ public class PagedViewBuilder extends AbstractViewBuilder
 	{
 		ViewBuilderAux visitor = new ViewBuilderAux(start, end);
 		// prepare for work :
-		getPagedLayout().reset();
+		getPagedLayout().reset(getDrawingSpecifications());
 		// lay out the element.
 		elt.accept(visitor);
 		MDCView result = currentView;
 		currentView = null;
+		getPagedLayout().cleanup();
 		return result;
 	}
 
@@ -116,12 +118,13 @@ public class PagedViewBuilder extends AbstractViewBuilder
 
 		/**
 		 * The default method is to build a view and subviews for the subelements.
+		 * @param t
 		 */
 
 		public void visitDefault(ModelElement t)
 		{
 			MDCView result = new MDCView(t);
-			getPagedLayout().preLayoutHook(result);
+			getPagedLayout().preLayoutHook(result, false);
 
 			int a, b;
 			if (topLevel) {
@@ -143,7 +146,7 @@ public class PagedViewBuilder extends AbstractViewBuilder
 			// visiting must write the view it builds in currentView : 
 			currentView = result;
 			// actual layout of the view. The sub views are already laid out :
-			getPagedLayout().layout(currentView, getDrawingSpecifications());
+			getPagedLayout().layout(currentView, false);
 		}
 
 		/**
@@ -154,17 +157,18 @@ public class PagedViewBuilder extends AbstractViewBuilder
 		public void visitHieroglyph(Hieroglyph h)
 		{
 			MDCView result = new MDCView(h);
-			getPagedLayout().layout(result, getDrawingSpecifications());
+			getPagedLayout().layout(result, false);
 			currentView = result;
 		}
 
 		/**
 		 * Create the view for the whole model.
+		 * @param t
 		 */
 		public void visitTopItemList(TopItemList t)
 		{
 			MDCView result = new MDCView(t);
-			getPagedLayout().preLayoutHook(result);
+			getPagedLayout().preLayoutHook(result, false);
 
 			topLevel= false;
 			for (int i= start; i < end; i++) {
@@ -177,7 +181,7 @@ public class PagedViewBuilder extends AbstractViewBuilder
 			// visiting must write the view it builds in currentView : 
 			currentView = result;
 			// actual layout of the view. The sub views are already laid out :
-			getPagedLayout().layout(currentView, getDrawingSpecifications());
+			getPagedLayout().layout(currentView, false);
 		}
 
 	}
@@ -189,9 +193,6 @@ public class PagedViewBuilder extends AbstractViewBuilder
 	{
 	}
 
-	/**
-	 * @return
-	 */
 	public PagedLayout getPagedLayout()
 	{
 		return pagedLayout;

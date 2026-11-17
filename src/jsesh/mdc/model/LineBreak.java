@@ -36,7 +36,9 @@ public class LineBreak extends TopItem {
 	}
 	
 	/**
-	 * @return
+	 * Returns the spacing value.
+	 * 100 is a full line, 200 is two lines worth, and so on.
+	 * @return spacing.
 	 */
 	public int getSpacing() {
 		return spacing;

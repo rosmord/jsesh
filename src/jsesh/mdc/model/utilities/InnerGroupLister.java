@@ -21,7 +21,7 @@ public class InnerGroupLister {
     /**
      * Return all inner groups contained in elt.
      * @param elt
-     * @return
+     * @return the groups contained in elt.
      */
     static public InnerGroup [] getInnerGroups(ModelElement elt) {
         InnerGroupListerAux aux= new InnerGroupListerAux();
@@ -31,8 +31,10 @@ public class InnerGroupLister {
     
     /**
      * Return all inner groups contained in elt's children, between indexes a and b.
-     * @param elt
-     * @return
+     * @param elt 
+     * @param a
+     * @param b
+     * @return all inner groups contained in elt's children, between indexes a and b.
      */
     static public InnerGroup [] getInnerGroups(ModelElement elt, int a, int b) {
         InnerGroupListerAux aux= new InnerGroupListerAux();

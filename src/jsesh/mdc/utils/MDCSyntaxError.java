@@ -7,7 +7,7 @@ package jsesh.mdc.utils;
  * Created: Thu Jun 13 15:18:50 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version
+ * 
  */
 
 public class MDCSyntaxError extends Exception {

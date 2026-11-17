@@ -57,7 +57,7 @@ public class ModifiersList
 		reversed = false;
 	}
 
-	/**
+	/*
 	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)
 	 */
 	public void accept(ModelElementVisitor v) {
@@ -161,7 +161,7 @@ public class ModifiersList
 
 	/**
 	 * @param i
-	 * @return
+	 * @return the ith modifier
 	 */
 	public Modifier getModifierAt(int i) {
 		return (Modifier) getChildAt(i); 
@@ -179,7 +179,7 @@ public class ModifiersList
 	}
 
 	/**
-	 * @return
+	 * @return the scale.
 	 */
 	public int getScale() {
 		return scale;
@@ -316,8 +316,9 @@ public class ModifiersList
 	}
 
 	/**
+	 * Unsets a modifier.
 	 * Note that angle and reverse can't be unset. They can be set to 0.
-	 * @see jsesh.mdc.model.ModifierListInterface#unSetInteger(java.lang.String)
+	 * @param name
 	 */
 	public void unSetInteger(String name) {
 		Modifier m = getModifierFrom(name, 1);

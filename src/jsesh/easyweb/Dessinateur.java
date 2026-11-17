@@ -1,14 +1,13 @@
 /*
  * Created on 15 déc. 2003
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package jsesh.easyweb;
 
 import java.awt.Graphics2D;
 import java.io.StringReader;
 
+import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
 import jsesh.mdc.MDCParserFacade;
 import jsesh.mdc.utils.MDCSyntaxError;
@@ -34,7 +33,7 @@ public class Dessinateur {
 	private HieroglyphicTextBuilder builder;
 			
 	public Dessinateur() {
-		drawer= new HieroglyphicDrawer(HieroglyphicFontManager.getInstance());
+		drawer= new HieroglyphicDrawer(DefaultHieroglyphicFontManager.getInstance());
 		builder= new HieroglyphicTextBuilder();
 		parser= new MDCParserFacade(builder);
 	}
@@ -66,7 +65,7 @@ public class Dessinateur {
 		drawer.draw(g,hieroglyphicText);
 	}
 	/**
-	 * @return
+	 * @return the text.
 	 */
 	public String getText() {
 		return text;

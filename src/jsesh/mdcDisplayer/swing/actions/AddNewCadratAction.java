@@ -11,7 +11,7 @@ import javax.swing.AbstractAction;
 import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 
 /**
- * TODO describe type 
+ * Action of adding a new sign as a new cadrat. 
  *   @author rosmord
  *
  */

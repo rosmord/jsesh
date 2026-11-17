@@ -25,7 +25,8 @@ public abstract class Tool extends MouseInputAdapter {
 
 	/**
 	 * Fixe la vue sur laquelle l'tool fonctionne.
-	 * @param view
+	 * @param contexte
+	 * 
 	 */
 	public void setContexte(ToolContext contexte) {
 		this.contexte= contexte;
@@ -42,7 +43,8 @@ public abstract class Tool extends MouseInputAdapter {
 
 	
 	/**
-	 * @return
+	 * @return current context.
+	 * 
 	 */
 	public ToolContext getContexte() {
 		return contexte;

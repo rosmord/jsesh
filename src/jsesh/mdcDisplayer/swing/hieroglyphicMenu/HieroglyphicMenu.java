@@ -25,7 +25,9 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import jsesh.bzr.simple.ShapeChar;
+import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
+import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.utils.GraphicsUtils;
 
 /**
@@ -48,20 +50,22 @@ public class HieroglyphicMenu extends JMenu {
 
 	private int ncols;
 
-	private String codes[];
+	private String family;
 
 	private HieroglyphicMenuListener hieroglyphicMenuListener = null;
 
-	public HieroglyphicMenu(String title, String codes[], int ncols) {
+	public HieroglyphicMenu(String title, String family, int ncols) {
 		super(title);
 		this.ncols = ncols;
-		this.codes = codes;
+		this.family= family;
 		addMenuListener(new MenuListener() {
 
 			public void menuCanceled(MenuEvent e) {
+				flushMenu();
 			}
 
 			public void menuDeselected(MenuEvent e) {
+				flushMenu();
 			}
 
 			public void menuSelected(MenuEvent e) {
@@ -72,7 +76,10 @@ public class HieroglyphicMenu extends JMenu {
 	}
 
 	private void fillMenu() {
-		if (codes != null) {
+	
+			String codes[] = HieroglyphsManager.getInstance()
+            .getCodesForFamily(family,true);
+
 			CodeSelector menuEnter = new CodeSelector();
 			JPopupMenu pm = getPopupMenu();
 			pm.setLayout(new GridLayout(0, ncols));
@@ -82,12 +89,15 @@ public class HieroglyphicMenu extends JMenu {
 				jm.addMouseListener(menuEnter);
 				add(jm);
 			}
-		}
-		codes = null;
+	}
+	
+	private void flushMenu() {
+		removeAll();
 	}
 
 	/**
 	 * Sets the listener which will be warned about actions in this menu.
+	 * @param hieroglyphicMenuListener
 	 */
 	public void setHieroglyphicMenuListener(
 			HieroglyphicMenuListener hieroglyphicMenuListener) {
@@ -102,10 +112,10 @@ public class HieroglyphicMenu extends JMenu {
 	 *            the icon size
 	 * @param border :
 	 *            the size of the icon's border
-	 * @return
+	 * @return an icon for the glyph.
 	 */
 	public Icon createHieroglyphIcon(String code, int size, int border) {
-		HieroglyphicFontManager manager = HieroglyphicFontManager
+		HieroglyphicFontManager manager = DefaultHieroglyphicFontManager
 				.getInstance();
 		ShapeChar glyph = manager.get(code);
 		ShapeChar A1 = manager.get("A1");
@@ -140,8 +150,9 @@ public class HieroglyphicMenu extends JMenu {
 		String code;
 
 		/**
-		 * @param name
-		 * @param icon
+		 * Build an action that can insert a given glyph.
+		 * @param code
+		 * 
 		 */
 		public HieroglyphAction(String code) {
 			super(code, createHieroglyphIcon(code, size, border));

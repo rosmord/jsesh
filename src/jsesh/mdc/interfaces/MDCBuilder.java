@@ -36,7 +36,7 @@ public interface MDCBuilder {
     
     /**
      * @param l an <code>BasicItemListInterface</code> value
-     * @param e a <code>CadratInterface</code> value
+     * @param c a <code>CadratInterface</code> value
      * @param shading an <code>int</code> value with the following meaning :
      * It's the sum of the following codes :
      * <ul>
@@ -158,7 +158,7 @@ public interface MDCBuilder {
      * @param l
      * @param scriptCode
      * @param text
-     * @see addTextToBasicItemList
+     * @see MDCBuilder#addTextToBasicItemList(BasicItemListInterface, char, String)
      */
     public void addTextToTopItemList(TopItemListInterface l, char scriptCode, String text);
     
@@ -170,6 +170,8 @@ public interface MDCBuilder {
   
     /**
      * adds a hieroglyph to a ligature
+     * @param i the ligature
+     * @param h the hieroglyph to add.
      */
     
     public void addToLigature(LigatureInterface i, HieroglyphInterface h);
@@ -219,7 +221,7 @@ public interface MDCBuilder {
      * @param type is a constant which states which kind of sign we have : a true hieroglyph (MDCCODE)
      *             or another symbol like a FULLSHADE or a REDPOINT. The values for these codes are
      * 			   in the interface jsesh.mdc.lex.SymbolCodes
-     * @see jsesh.mdc.lex.SymbolCodes for values.
+     * @see jsesh.mdc.constants.SymbolCodes for values.
      * @param code the string with the manuel de codage code for this sign.
 
      * @param m a <code>ModifierListInterface</code> which corresponds to the list of modifiers for this sign.
@@ -232,6 +234,7 @@ public interface MDCBuilder {
 
     /**
      * Starts Building a ligature element.
+     * @return the ligatureInterface just built.
      *
      */
     public LigatureInterface buildLigature();
@@ -250,6 +253,7 @@ public interface MDCBuilder {
     
     /**
      * build a list of Top items
+     * @return the TopItemListInterface built.
      */
 
     public TopItemListInterface buildTopItemList();
@@ -258,6 +262,7 @@ public interface MDCBuilder {
 
     /**
      * called when a ligature is complete.
+     * @param i the complete ligature.
      */
 
     public void completeLigature(LigatureInterface i);
@@ -290,14 +295,14 @@ public interface MDCBuilder {
 
 	/**
 	 * build a group for absolute placement.
-	 * @return
+	 * @return the group.
 	 */
 	public AbsoluteGroupInterface buildAbsoluteGroup();
 
 
 	/**
 	 * Add a hieroglyph to an "absolute group."
-	 * @param RESULT
+	 * @param group
 	 * @param e
 	 */
 	public void addHieroglyphToAbsoluteGroup(AbsoluteGroupInterface group, HieroglyphInterface e);
@@ -311,36 +316,40 @@ public interface MDCBuilder {
 
 
 	/**
+	 * add an option with integer value to a list of options.
 	 * @param e1
-	 * @param e2
-	 * @param i
+	 * @param optName
+	 * @param val
 	 */
 	public void addOption(OptionListInterface e1, String optName, int val);
 
 
 	/**
+	 * add an option with string value to a list of options.
 	 * @param e1
-	 * @param e2
-	 * @param e3
+	 * @param optName
+	 * @param val
 	 */
 	public void addOption(OptionListInterface e1, String optName, String val);
 
 
 	/**
+	 * Add a non valued (boolean) option to a list.
 	 * @param e1
-	 * @param e2
+	 * @param optName
 	 */
 	public void addOption(OptionListInterface e1, String optName);
 
 
 	/**
-	 * @return
+	 * @return an empty list of options.
 	 */
 	public OptionListInterface buildOptionList();
 
 
 	/**
-	 * @return
+	 * @return a zone start.
+	 * TODO : change completely the whole zone business.
 	 */
 	public ZoneStartInterface buildZone();
 

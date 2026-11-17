@@ -53,7 +53,7 @@ public class Insertion extends ModelOperation {
 	}
 	
 	/**
-	 * @return
+	 * @return the index.
 	 */
 	public int getIndex() {
 		return index;

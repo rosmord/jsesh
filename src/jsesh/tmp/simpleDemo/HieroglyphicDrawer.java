@@ -8,7 +8,7 @@ package jsesh.tmp.simpleDemo;
  * Created: Mon Jun 10 16:34:26 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version */
+ */
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;

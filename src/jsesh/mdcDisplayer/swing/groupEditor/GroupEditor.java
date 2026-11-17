@@ -27,11 +27,11 @@ import javax.swing.event.MouseInputListener;
 
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdcDisplayer.draw.DrawingSpecifications;
 import jsesh.mdcDisplayer.draw.MDCEditorKit;
 import jsesh.mdcDisplayer.draw.SimpleViewBuilder;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 import jsesh.utils.GraphicsUtils;
 
 /**
@@ -209,7 +209,7 @@ public class GroupEditor extends JPanel {
      * Translates a mouse event into a significant group editor event.
      * 
      * @param e
-     * @return
+     * @return the corresponding event.
      */
     private GroupEditorEvent buildEvent(MouseEvent e) {
         GroupEditorEvent result = null;
@@ -290,31 +290,15 @@ public class GroupEditor extends JPanel {
      * Build the list of handles.
      * 
      * <pre>
-     * 
-     *  
-     *   
-     *    
-     *     
-     *      
-     *       
-     *        
      *         
      *                   0 1 2 : top handles
      *                   3   4 : middle handles
      *                   5 6 7 : bottom handles
-     *           
-     *          
-     *         
-     *        
-     *       
-     *      
-     *     
-     *    
-     *   
      *  
      * </pre>
+     * @param v the view.
      * 
-     * @return
+     * @return the handles.
      */
 
     private Handle[] getHandles(MDCView v) {
@@ -372,6 +356,7 @@ public class GroupEditor extends JPanel {
      * 
      * @param p :
      *            a point in screen coordinates.
+     * @return a point in model coordinates
      */
     private Point2D getModelPoint(Point p) {
         float x = (float) (p.getX() / scale - sideMargin);
@@ -397,7 +382,7 @@ public class GroupEditor extends JPanel {
 
     /**
      * @param v
-     * @return
+     * @return a bounding rectangle for v.
      */
     private Rectangle2D getRectangleForSubView(MDCView v) {
         Point2D p = getViewPosition(v);
@@ -413,7 +398,7 @@ public class GroupEditor extends JPanel {
     /**
      * Return the index of the selected element, or -1 if none.
      * 
-     * @return
+     * @return the index of the selected element, or -1 if none.
      */
     public int getSelected() {
         return selected;
@@ -647,7 +632,7 @@ public class GroupEditor extends JPanel {
      * Not too reliable system for sub view positions.
      * 
      * @param subview
-     * @return
+     * @return the position of subview.
      */
     private Point2D getViewPosition(MDCView subview) {
         return new Point2D.Double(subview.getStartPoint().getDx(), subview

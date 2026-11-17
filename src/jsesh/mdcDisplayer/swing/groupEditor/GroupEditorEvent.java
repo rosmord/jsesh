@@ -33,6 +33,7 @@ public class GroupEditorEvent {
 	/**
 	 * Create an event for a mouse click or down on an absolute group.
 	 * @param group : the group being edited
+	 * @param point
 	 * @param elementIndex : the element in the group
 	 */
 	public GroupEditorEvent(AbsoluteGroup group, Point2D point, int elementIndex) {
@@ -49,7 +50,7 @@ public class GroupEditorEvent {
     
     /**
      * Get the mouse event point, in model coordinates.
-     * @return
+     * @return the mouse event point, in model coordinates
      */
     public Point2D getPoint() {
         return point;
@@ -62,6 +63,7 @@ public class GroupEditorEvent {
     /**
      * Event for mouse events on an handle.
      * @param group
+     * @param point
      * @param elementIndex
      * @param handleHorizontalPosition
      * @param handleVerticalPosition
@@ -79,7 +81,7 @@ public class GroupEditorEvent {
     
     /**
      * Return the element on which this event occured, or -1 if none. 
-     * @return
+     * @return the index of the element on which this event occured, or -1 if none
      */
 	public int getElementIndex() {
 		return elementIndex;

@@ -6,10 +6,13 @@
  */
 package jsesh.mdcDisplayer.draw;
 
-import jsesh.mdcDisplayer.draw.layout.Layout;
-import jsesh.mdcDisplayer.draw.layout.SimpleLayout;
+import jsesh.mdcDisplayer.layout.Layout;
+import jsesh.mdcDisplayer.layout.SimpleLayout;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
+ * 
+ * TODO : change this class into an "abstract" factory.
  * This class is used as a repository of default options for the various objects used while building a view.
  * Default implementations can be retrieved with the static method provided.
  * Note that any modification made to the object returned by these methods will be global.
@@ -44,12 +47,12 @@ abstract public class MDCEditorKit
 	/**
 	 * Factory method for creating a layout for this kit.
 	 * Layout objects should not be shared if one wants to start multiple threads on them.
-	 * @return
+	 * @return a new Layout.
 	 */
 	abstract public Layout createLayout();
 	
 	/**
-	 * @return
+	 * @return drawing specifications.
 	 */
 	public DrawingSpecifications getDrawingSpecifications()
 	{

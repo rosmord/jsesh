@@ -41,6 +41,7 @@ public class SimpleDrawBarreDeCommande
 
 	/**
 	 * Sélectionne l'tool correct.
+	 * @param e
 	 */
 	
 	public void actionPerformed(ActionEvent e) {

@@ -95,8 +95,8 @@ public class MDCCaret implements MDCMarkChangeListener {
 		setMark(null);
 	}
 
-	/**
-	 * @return
+	/** 
+	 * @return the model
 	 */
 	public TopItemList getModel() {
 		return (TopItemList) insert.getPosition().getTopItemList();
@@ -142,7 +142,7 @@ public class MDCCaret implements MDCMarkChangeListener {
 	}
 
 	/**
-	 * @return
+	 * @return true if a mark is set.
 	 */
 	public boolean hasMark() {
 		return (mark != null);
@@ -172,4 +172,18 @@ public class MDCCaret implements MDCMarkChangeListener {
 			return getInsert().getIndex();
 		}
 	}
+
+    /**
+     * true if some text is selected. 
+     * <p> This means that
+     * <ol>
+     * <li> There is a mark
+     * <li> the mark is different from the current position.
+     * </ol>
+     * @return  true if some text is selected
+     * 
+     */
+    public boolean hasSelection() {        
+        return hasMark() && (getMin() != getMax());
+    }
 }

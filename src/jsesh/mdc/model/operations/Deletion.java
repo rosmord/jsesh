@@ -19,6 +19,7 @@ public class Deletion extends ModelOperation {
 	/**
 	 * @param element the container element.
 	 * @param start the position before the element to be deleted.
+	 * @param end
 	 */
 	public Deletion(ModelElement element, int start, int end) {
 			super(element);

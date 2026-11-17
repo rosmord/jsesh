@@ -12,6 +12,7 @@ public class NoSuchModifierException extends Exception {
 	
 	/**
 	 * Constructor for NoSuchModifierException.
+	 * @param modifierName
 	 */
 	public NoSuchModifierException(String modifierName) {
 		super();
@@ -21,6 +22,7 @@ public class NoSuchModifierException extends Exception {
 	/**
 	 * Constructor for NoSuchModifierException.
 	 * @param message
+	 * @param modifierName
 	 */
 	public NoSuchModifierException(String message, String modifierName) {
 		super(message);

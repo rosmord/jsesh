@@ -34,13 +34,13 @@ public class OptionsMap implements OptionListInterface, Comparable {
 
 	/**
 	 * @param key
-	 * @return
+	 * @return true if the map contains key.
 	 */
 	public boolean containsKey(Object key) {
 		return map.containsKey(key);
 	}
 
-	/**
+	/*
 	 * Returns all couples of options and values.
 	 * 
 	 * @return
@@ -53,6 +53,7 @@ public class OptionsMap implements OptionListInterface, Comparable {
 	 * Define a boolean option.
 	 * 
 	 * @param name
+	 * @param value
 	 */
 	public void setOption(String name, boolean value) {
 		if (value) {
@@ -64,9 +65,8 @@ public class OptionsMap implements OptionListInterface, Comparable {
 
 	/**
 	 * Gets an option
-	 * 
-	 * @author S. Rosmorduc
-	 *  
+	 * @param name
+	 * @return the option value.
 	 */
 
 	public Object get(String name) {
@@ -75,8 +75,9 @@ public class OptionsMap implements OptionListInterface, Comparable {
 
 	/**
 	 * Test if an option is defined.
+	 * @param option
+	 * @return true if defined.
 	 * 
-	 * @author S. Rosmorduc
 	 */
 
 	public boolean isDefined(String option) {

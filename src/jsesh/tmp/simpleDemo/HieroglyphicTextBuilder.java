@@ -30,7 +30,7 @@ import jsesh.mdc.interfaces.ZoneStartInterface;
  * Created: Fri Jun  7 16:26:11 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version */
+ */
 
 public class HieroglyphicTextBuilder implements MDCBuilder
 {

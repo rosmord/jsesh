@@ -11,8 +11,8 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
 import jsesh.mdc.utils.MDCSyntaxError;
-import jsesh.mdcDisplayer.draw.DrawingSpecifications;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
  * An action whose icon is built from an MDCtype.
@@ -29,13 +29,14 @@ abstract public class MDCIconAction extends AbstractAction {
 	/**
 	 * 
 	 * @param mdcText
-	 * @return
+	 * @return an image for the given manuel de codage text.
 	 */
 	private static ImageIcon buildImage(String mdcText) {
 		MDCDrawingFacade drawing= new MDCDrawingFacade();
 		DrawingSpecifications drawingSpecifications= new DrawingSpecifications();
 		drawingSpecifications.setMaxCadratHeight(20);
 		drawingSpecifications.setLeftMargin(0);
+		drawingSpecifications.setTopMargin(0);
 		drawing.setDrawingSpecifications(drawingSpecifications);
 		
 		drawing.setPhilologySign(true);

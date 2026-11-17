@@ -51,8 +51,9 @@ public class SimpleDrawViewControl extends MouseInputAdapter {
 		this.contexte= contexte;
 	}
 	/**
-	 * Fixe l'tool courant.
-	 * @param tool
+	 * Fixe le tool courant.
+	 * @param outil the new tool
+	 *
 	 */
 	public void setOutil(Tool outil) {
 		this.outil= outil;
@@ -61,7 +62,8 @@ public class SimpleDrawViewControl extends MouseInputAdapter {
 	}
 
 	/**
-	 * @return
+	 * @return current tool.
+	 *
 	 */
 	public Tool getOutil() {
 		return outil;

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jsesh.bzr.simple.ShapeChar;
+import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
@@ -44,7 +45,7 @@ public class SimpleHieroglyphicDrawer implements HieroglyphsDrawer
 	{
 		// IMPORTANT : I don't know it this absolutely needs to be a singleton.
 		// If it's not, we might think of using prototypes.
-		this.fontManager= HieroglyphicFontManager.getInstance();
+		this.fontManager= DefaultHieroglyphicFontManager.getInstance();
 		nonHieroglyphs= new HashMap();
 
 		// Use The A1 sign as base
@@ -61,7 +62,11 @@ public class SimpleHieroglyphicDrawer implements HieroglyphsDrawer
 	}
 
 	/**
-	 * @see jsesh.mdcDisplayer.draw.HieroglyphsDrawer#draw(java.awt.Graphics2D, java.lang.String, jsesh.mdcDisplayer.mdcView.ContainerView)
+	 * @param g
+	 * @param code
+	 * @param angle
+	 * @param view
+	 * @see jsesh.mdcDisplayer.draw.HieroglyphsDrawer#draw(Graphics2D, String, int, MDCView)
 	 */
 	public void draw(Graphics2D g, String code, int angle, MDCView view)
 	{
@@ -86,7 +91,7 @@ public class SimpleHieroglyphicDrawer implements HieroglyphsDrawer
 	}
 
 	/**
-	 * @see jsesh.mdcDisplayer.draw.HieroglyphsDrawer#getDimensions(java.lang.String)
+	 * @see jsesh.mdcDisplayer.draw.HieroglyphsDrawer#getBBox(String)
 	 */
 	public Rectangle2D getBBox(String code)
 	{
@@ -137,7 +142,7 @@ public class SimpleHieroglyphicDrawer implements HieroglyphsDrawer
     	Area result= null;
 		ShapeChar glyph= fontManager.get(code);
 		if (glyph != null)
-		    // FIXME : use revesed !
+		    // FIXME : use reversed !
 			result= glyph.getSignArea(x,y,xscale,yscale,angle*Math.PI/180.0);
 		else
 			result= new Area();

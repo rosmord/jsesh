@@ -14,7 +14,9 @@ public class FileUtils {
 
     /**
      * Return a file name for a certain type of files, ensuring the extension is correct.
-     * @return
+     * @param file
+     * @param type
+     * @return a file name for a certain type of files, ensuring the extension is correct.
      */
     public static File buildFileWithExtension(File file, String type) {
     	File directory = file.getParentFile();
@@ -26,6 +28,21 @@ public class FileUtils {
     			+ type);
     	return file;
     
+    }
+    
+    /**
+     * Return a file extension, or null if there is none.
+     * @param file
+     * @return a file extension, or null if there is none.
+     */
+    public static String getExtension(File file) {        
+        String name= file.getName();
+        int idx= name.lastIndexOf('.');
+        String result= null;
+        if (idx != -1) {
+            result= name.substring(idx+1).toLowerCase();
+        }
+        return result;
     }
 
 }

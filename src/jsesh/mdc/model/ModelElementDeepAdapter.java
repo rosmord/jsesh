@@ -87,8 +87,8 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 		visitInnerGroup(h);
 	}
 
-	/**
-	 * @param h
+	/*
+	 * 
 	 */
 	public void visitInnerGroup(InnerGroup g) {
 		visitDefault(g);

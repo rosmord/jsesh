@@ -5,8 +5,9 @@ import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
-import jsesh.mdcDisplayer.draw.layout.Layout;
+import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
  * The purpose of this class is to build a view for a ModelElement hierarchy.
@@ -61,17 +62,19 @@ public class SimpleViewBuilder extends AbstractViewBuilder
 		return buildView(elt, 0, elt.getNumberOfChildren());
 	}
 	
-	/* (non-Javadoc)
-	 * @see jsesh.mdcDisplayer.draw.ViewBuilder#buildView(jsesh.mdc.model.TopItemList, int, int)
+	/*
+	 * (non-Javadoc)
+	 * @see jsesh.mdcDisplayer.draw.ViewBuilder#buildView(jsesh.mdc.model.ModelElement, int, int)
 	 */
 	public MDCView buildView(ModelElement elt, int start, int end) {
 		// prepare for work :
-		getLayout().reset();
+		getLayout().reset(getDrawingSpecifications());
 		// lay out the element.
 		ViewBuilderAux visitor= new ViewBuilderAux(start, end);
 		elt.accept(visitor);
 		MDCView result = currentView;
 		currentView = null;
+		getLayout().cleanup();
 		return result;	
 	}
 
@@ -79,11 +82,15 @@ public class SimpleViewBuilder extends AbstractViewBuilder
 	 * Recompute the layout of a view.
 	 * If a view has been modified since it was built,
 	 * this methods recomputes its layout.
+	 * @param v
 	 */
 
 	public void reLayout(MDCView v)
 	{
-		getLayout().layout(v, getDrawingSpecifications());
+	    //	  prepare for work :
+		getLayout().reset(getDrawingSpecifications());
+		getLayout().layout(v, false);
+		getLayout().cleanup();
 	}
 
 	private class ViewBuilderAux extends ModelElementAdapter
@@ -104,6 +111,8 @@ public class SimpleViewBuilder extends AbstractViewBuilder
 		 */
 		boolean topLevel;
 		
+	
+		int depth;
 		
 		/**
 		 * @param start
@@ -113,6 +122,7 @@ public class SimpleViewBuilder extends AbstractViewBuilder
 			this.start = start;
 			this.end = end;
 			topLevel= true;
+			depth= 0;
 		}
 		/**
 		 * @see jsesh.mdc.model.ModelElementVisitor#visitModifier(jsesh.mdc.model.Modifier)
@@ -133,12 +143,14 @@ public class SimpleViewBuilder extends AbstractViewBuilder
 
 		/**
 		 * The default method is to build a view and subviews for the subelements.
+		 * @param t
 		 */
 
 		public void visitDefault(ModelElement t)
 		{
+		    depth++;
 			MDCView result = new MDCView(t);
-			getLayout().preLayoutHook(result);
+			getLayout().preLayoutHook(result, false);
 
 			int a, b;
 			if (topLevel) {
@@ -161,7 +173,8 @@ public class SimpleViewBuilder extends AbstractViewBuilder
 			// visiting must write the view it builds in currentView : 
 			currentView = result;
 			// actual layout of the view. The sub views are already laid out :
-			getLayout().layout(currentView, getDrawingSpecifications());
+			getLayout().layout(currentView, (depth > 2));
+			depth--;
 		}
 
 		/**
@@ -172,13 +185,14 @@ public class SimpleViewBuilder extends AbstractViewBuilder
 		public void visitHieroglyph(Hieroglyph h)
 		{
 			MDCView result = new MDCView(h);
-			getLayout().layout(result, getDrawingSpecifications());
+			getLayout().preLayoutHook(result, false);
+			getLayout().layout(result, true);
 			currentView = result;
 		}
 	}
 
 	/**
-	 * @return
+	 * @return the current layout.
 	 */
 	public Layout getLayout()
 	{

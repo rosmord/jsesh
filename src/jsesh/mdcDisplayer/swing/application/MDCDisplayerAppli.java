@@ -1,40 +1,53 @@
 package jsesh.mdcDisplayer.swing.application;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.print.PrinterJob;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.util.Properties;
 
 import javax.swing.AbstractAction;
 import javax.swing.Box;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+
 import jsesh.Version;
-import jsesh.doc.DocDisplayer;
-import jsesh.graphicExport.JPGExporter;
-import jsesh.graphicExport.PDFExporter;
+import jsesh.docdisplayer.DocDisplayer;
+import jsesh.externalFonts.ExternalSignImporter;
+import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.mdc.utils.MDCSyntaxError;
 import jsesh.mdcDisplayer.draw.ViewPrinter;
 import jsesh.mdcDisplayer.swing.editor.HieroglyphicTextModel;
 import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener;
+import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesEditor;
 import jsesh.mdcDisplayer.swing.splash.SplashScreen;
 import jsesh.resources.ResourcesManager;
-
-import org.freehep.util.export.ExportDialog;
+import jsesh.utils.FileButtonMapper;
 
 import com.birosoft.liquid.LiquidLookAndFeel;
 
@@ -47,463 +60,566 @@ import com.birosoft.liquid.LiquidLookAndFeel;
 
 public class MDCDisplayerAppli {
 
-    /**
-     * The application data
-     */
-    private HieroglyphicTextModel data;
+	/**
+	 * The application data
+	 */
+	private HieroglyphicTextModel data;
 
-    /**
-     * The Main GUI window
-     *  
-     */
-    private MDCDisplayerAppliFrame frame;
+	/**
+	 * The Main GUI window
+	 * 
+	 */
+	private MDCDisplayerAppliFrame frame;
 
-    /**
-     * The Application control
-     * 
-     * @see java.lang.Object#Object()
-     *  
-     */
-    private MDCDisplayerAppliWorkflow workflow;
+	/**
+	 * The Application control
+	 * 
+	 * @see java.lang.Object#Object()
+	 * 
+	 */
+	private MDCDisplayerAppliWorkflow workflow;
 
-    /**
-     * The application menu
-     */
+	/**
+	 * The application menu
+	 */
 
-    private JMenuBar menubar;
+	private JMenuBar menubar;
 
-    /**
-     *  
-     */
-    // The architecture of the application is still a bit unsure (whereas the
-    // architecture for the manuel de codage viewer itself is quite sound)
-    AbstractAction exportGraphicsAction = new AbstractAction("Export Graphics") {
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-         */
-        public void actionPerformed(ActionEvent e) {
-            ExportDialog dialog = new ExportDialog();
-            dialog.showExportDialog(frame, "export as", frame.editor, "export");
-        }
+	SplashScreen splash;
 
-    };
+	AbstractAction printAction = new AbstractAction("Print") {
 
-    AbstractAction exportPDFAction;
+		public void actionPerformed(ActionEvent e) {
+			String message = "Please note that the printing facilities still suffer from some bugs.\n";
+			message += "(page layout problems; shading don't print well)\n";
+			message += "\nI suggest you use export as pdf instead.\n";
+			message += "Do you want to continue printing ?";
+			int ok = JOptionPane.showConfirmDialog(null, message, "warning",
+					JOptionPane.YES_NO_OPTION);
+			if (ok == JOptionPane.YES_OPTION) {
+				// IMPORTANT : we need some central drawer somewhere.
+				PrinterJob printJob = PrinterJob.getPrinterJob();
+				ViewPrinter printer = new ViewPrinter();
 
-    /**
-     *  
-     */
-    JPGExporter exportJPGAction;
+				printJob.setPageable(printer);
+				printer.setModel(data.getModel());
+				if (printJob.printDialog()) {
+					try {
+						printJob.print();
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+		}
 
-    AbstractAction printAction = new AbstractAction("Print") {
+	};
 
-        public void actionPerformed(ActionEvent e) {
-            // IMPORTANT : we need some central drawer somewhere.
-            PrinterJob printJob = PrinterJob.getPrinterJob();
-            ViewPrinter printer = new ViewPrinter();
+	/**
+	 * Constructor for MDCDisplayerAppli.
+	 */
 
-            printJob.setPageable(printer);
-            printer.setModel(data.getModel());
-            if (printJob.printDialog()) {
-                try {
-                    printJob.print();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
+	public MDCDisplayerAppli() {
+		super();
+		data = new HieroglyphicTextModel();
+		data.setPhilologyIsSign(true);
 
-    };
+		loadFirstText();
+		workflow = new MDCDisplayerAppliWorkflow(data);
+		String title = "JSesh MDC Editor v. " + Version.VERSION;
+		frame = new MDCDisplayerAppliFrame(title, workflow);
+		// IMPORTANT clean up the relations between these two.
+		workflow.setFrame(frame);
 
-    SplashScreen splash;
+		menubar = buildMenuBar();
+		frame.setJMenuBar(menubar);
+		frame.addWindowListener(new WindowAdapter() {
 
-    /**
-     * Constructor for MDCDisplayerAppli.
-     */
-    
-    public MDCDisplayerAppli() {
-        super();
-        splash = new SplashScreen();
-        Properties props = System.getProperties();
-        props.list(System.out);
-        data = new HieroglyphicTextModel();
-        data.setPhilologyIsSign(true);
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.WindowAdapter#windowClosed(java.awt.event.WindowEvent)
+			 */
+			public void windowClosing(WindowEvent e) {
+				workflow.exit();
+			}
 
-        loadFirstText();
-        workflow = new MDCDisplayerAppliWorkflow(data);
-        String title = "JSesh MDC Editor v. " + Version.VERSION;
-        frame = new MDCDisplayerAppliFrame(title, workflow);
-        // IMPORTANT clean up the relations between these two.
-        workflow.setFrame(frame);
+		});
+	}
 
-        exportPDFAction = new PDFExporter(data, frame, "Export PDF");
-        exportJPGAction = new JPGExporter(data, frame, "Export jpeg");
-        exportJPGAction.setScale(2);
+	private void loadFirstText() {
+		try {
+			Reader r = ResourcesManager.getInstance().getDemoData();
+			// Reader r= new
+			// FileReader("/home/rosmord/HieroFinal/inBase/amenemope.hie");
+			data.readModel(r);
+			r.close();
+			// Test :
+			/*
+			 * ModelWriter w = new ModelWriter(); OutputStreamWriter outw = new
+			 * OutputStreamWriter(System.out); w.write(outw, data.getModel());
+			 * outw.flush();
+			 */
 
-        menubar = buildMenuBar();
-        frame.setJMenuBar(menubar);
-        frame.addWindowListener(new WindowAdapter() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.WindowAdapter#windowOpened(java.awt.event.WindowEvent)
-             */
-            public void windowOpened(WindowEvent e) {
-                java.awt.EventQueue.invokeLater(new Runnable() {
-                    /* (non-Javadoc)
-                     * @see java.lang.Runnable#run()
-                     */
-                    public void run() {
-                        splash.closeSplash();
-                    }
-                });
-                
+		} catch (MDCSyntaxError e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-                //  JOptionPane.showMessageDialog(frame,"opened");
-            }
+	public JMenuBar buildMenuBar() {
+		JMenuBar menubar = new JMenuBar();
+		JMenu menu = new JMenu("File");
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.WindowAdapter#windowClosed(java.awt.event.WindowEvent)
-             */
-            public void windowClosing(WindowEvent e) {
-                workflow.exit();
-            }
+		menu.setMnemonic(KeyEvent.VK_F);
 
-        });
-        frame.setVisible(true);
-    }
+		menu.add(workflow.getNewAction());
+		menu.add(workflow.getLoadTextAction());
+		menu.add(workflow.getSaveTextAction());
+		menu.addSeparator();
+		// menu.add(exportGraphicsAction);
+		// menu.add(exportPDFAction);
+		menu.add(workflow.getBitmapExportAction());
+		menu.add(workflow.getWmfExportAction());
+		menu.add(workflow.getHtmlExportAction());
+		menu.add(workflow.getIPDFExportAction());
+		menu.add(printAction);
+		menu.addSeparator();
+		menu.add(workflow.getExitAction());
+		menubar.add(menu);
 
-    private void loadFirstText() {
-        try {
-            Reader r = ResourcesManager.getInstance().getDemoData();
-            //Reader r= new
-            // FileReader("/home/rosmord/HieroFinal/inBase/amenemope.hie");
-            data.readModel(r);
-            r.close();
-            // Test :
-            /*
-             * ModelWriter w = new ModelWriter(); OutputStreamWriter outw = new
-             * OutputStreamWriter(System.out); w.write(outw, data.getModel());
-             * outw.flush();
-             */
+		JMenu edit = new JMenu("Edit");
+		edit.setMnemonic(KeyEvent.VK_E);
+		addWithShortCut(edit, workflow.getCutAction(), KeyEvent.VK_X);
+		addWithShortCut(edit, workflow.getCopyAction(), KeyEvent.VK_C);
+		addWithShortCut(edit, workflow.getPasteAction(), KeyEvent.VK_V);
+		edit.addSeparator();
+		addWithShortCut(edit, workflow.getSelectAllAction(), KeyEvent.VK_A);
+		edit.addSeparator();
+		addWithShortCut(edit, workflow.getSetHieroglyphicModeAction(),
+				KeyEvent.VK_N);
+		addWithShortCut(edit, workflow.getSetLatinModeAction(), KeyEvent.VK_D);
+		addWithShortCut(edit, workflow.getSetBoldModeAction(), KeyEvent.VK_B);
+		addWithShortCut(edit, workflow.getSetItalicModeAction(), KeyEvent.VK_I);
+		addWithShortCut(edit, workflow.getSetTransliterationModeAction(),
+				KeyEvent.VK_T);
+		menubar.add(edit);
 
-        } catch (MDCSyntaxError e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		JMenu manipulate = new JMenu("Text Manipulation");
+		manipulate.setMnemonic(KeyEvent.VK_T);
+		addWithShortCut(manipulate, workflow.getGroupHorizontallyAction(),
+				KeyEvent.VK_H);
+		addWithShortCut(manipulate, workflow.getGroupVerticallyAction(),
+				KeyEvent.VK_G);
+		addWithShortCut(manipulate, workflow.getLigatureAction(), KeyEvent.VK_L);
+		addWithShortCut(manipulate, workflow.getExplodeGroupAction(),
+				KeyEvent.VK_E);
+		manipulate.addSeparator();
+		addWithShortCut(manipulate, workflow.getInsertSpaceAction(),
+				KeyEvent.VK_P);
+		addWithShortCut(manipulate, workflow.getInsertHalfSpaceAction(),
+				KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK);
+		addWithShortCut(manipulate, workflow.getInsertPageBreakAction(),
+				KeyEvent.VK_ENTER, InputEvent.SHIFT_DOWN_MASK);
+		addWithShortCut(manipulate, workflow.getInsertRedPointAction(),
+				KeyEvent.VK_O);
+		addWithShortCut(manipulate, workflow.getInsertBlackPointAction(),
+				KeyEvent.VK_O, InputEvent.SHIFT_DOWN_MASK);
+		manipulate.addSeparator();
+		addWithShortCut(manipulate, workflow.getShadeZoneAction(),
+				KeyEvent.VK_Z);
+		addWithShortCut(manipulate, workflow.getUnShadeZoneAction(),
+				KeyEvent.VK_Z, InputEvent.SHIFT_DOWN_MASK);
+		// manipulate.add(workflow.getInsertPageBreakAction());
+		addWithShortCut(manipulate, workflow.getPaintRedAction(), KeyEvent.VK_R);
+		addWithShortCut(manipulate, workflow.getPaintBlackAction(),
+				KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK);
+		addWithShortCut(manipulate, workflow.getEditGroupAction(),
+				KeyEvent.VK_G, InputEvent.SHIFT_DOWN_MASK);
+		manipulate.addSeparator();
 
-    public JMenuBar buildMenuBar() {
-        JMenuBar menubar = new JMenuBar();
-        JMenu menu = new JMenu("File");
-        JMenuItem item;
+		// Sign manipulation menu.
+		JMenu sign = new JMenu("Sign");
+		sign.setMnemonic(KeyEvent.VK_S);
+		sign.add(workflow.getReverseSignAction());
 
-        menu.setMnemonic(KeyEvent.VK_F);
+		JMenu size = new JMenu("Size");
+		size.setMnemonic(KeyEvent.VK_S);
+		// TODO : move this table to the workflow.
+		// Sizes : 200 144 120 100 70 50 35 25
+		int sizes[] = { 200, 144, 120, 100, 70, 50, 35, 25 };
+		for (int i = 0; i < sizes.length; i++) {
+			size.add(workflow.buildSizeAction(sizes[i]));
+		}
+		sign.add(size);
 
-        menu.add(workflow.getNewAction());
-        menu.add(workflow.getLoadTextAction());
-        menu.add(workflow.getSaveTextAction());
-        menu.addSeparator();
-        // menu.add(exportGraphicsAction);
-        menu.add(exportPDFAction);
-        menu.add(exportJPGAction);
-        menu.add(workflow.getWmfExportAction());
-        menu.add(workflow.getHtmlExportAction());
-        menu.add(printAction);
-        menu.addSeparator();
-        menu.add(workflow.getExitAction());
-        menubar.add(menu);
+		JMenu rotation = new JMenu("Rotation");
+		rotation.setMnemonic(KeyEvent.VK_R);
+		for (int i = 0; i < workflow.getRotations().length; i++)
+			rotation.add(workflow.getRotations()[i]);
+		sign.add(rotation);
+		sign.add(workflow.getToggleRedSignAction());
+		sign.add(workflow.getToggleWideSignAction());
 
-        JMenu edit = new JMenu("Edit");
-        edit.setMnemonic(KeyEvent.VK_E);
-        addWithShortCut(edit, workflow.getCutAction(), KeyEvent.VK_X);
-        addWithShortCut(edit, workflow.getCopyAction(), KeyEvent.VK_C);
-        addWithShortCut(edit, workflow.getPasteAction(), KeyEvent.VK_V);
-        edit.addSeparator();
-        addWithShortCut(edit, workflow.getSelectAllAction(), KeyEvent.VK_A);
-        edit.addSeparator();
-        addWithShortCut(edit, workflow.getSetHieroglyphicModeAction(),
-                KeyEvent.VK_N);
-        addWithShortCut(edit, workflow.getSetLatinModeAction(), KeyEvent.VK_D);
-        addWithShortCut(edit, workflow.getSetBoldModeAction(), KeyEvent.VK_B);
-        addWithShortCut(edit, workflow.getSetItalicModeAction(), KeyEvent.VK_I);
-        addWithShortCut(edit, workflow.getSetTransliterationModeAction(),
-                KeyEvent.VK_T);
-        menubar.add(edit);
+		// grammar and stuff.
+		sign.addSeparator();
+		sign.add(workflow.getToggleGrammarAction());
+		sign.add(workflow.getSignIsInWordAction());
+		sign.add(workflow.getSignIsWordEndAction());
+		sign.add(workflow.getSignIsSentenceEndAction());
+		sign.add(workflow.getSignIsInWordAction());
+		sign.add(workflow.getToggleIgnoredSignAction());
 
-        JMenu manipulate = new JMenu("Text Manipulation");
-        manipulate.setMnemonic(KeyEvent.VK_T);
-        addWithShortCut(manipulate, workflow.getGroupHorizontallyAction(),
-                KeyEvent.VK_H);
-        addWithShortCut(manipulate, workflow.getGroupVerticallyAction(),
-                KeyEvent.VK_G);
-        addWithShortCut(manipulate, workflow.getLigatureAction(), KeyEvent.VK_L);
-        addWithShortCut(manipulate, workflow.getExplodeGroupAction(),
-                KeyEvent.VK_E);
-        manipulate.addSeparator();
-        addWithShortCut(manipulate, workflow.getInsertSpaceAction(),
-                KeyEvent.VK_P);
-        addWithShortCut(manipulate, workflow.getInsertHalfSpaceAction(),
-                KeyEvent.VK_P, KeyEvent.SHIFT_DOWN_MASK);
-        addWithShortCut(manipulate, workflow.getInsertPageBreakAction(),
-                KeyEvent.VK_ENTER, KeyEvent.SHIFT_DOWN_MASK);
-        addWithShortCut(manipulate, workflow.getInsertRedPointAction(),
-                KeyEvent.VK_O);
-        addWithShortCut(manipulate, workflow.getInsertBlackPointAction(),
-                KeyEvent.VK_O, KeyEvent.SHIFT_DOWN_MASK);
-        manipulate.addSeparator();
-        addWithShortCut(manipulate, workflow.getShadeZoneAction(),
-                KeyEvent.VK_Z);
-        addWithShortCut(manipulate, workflow.getUnShadeZoneAction(),
-                KeyEvent.VK_Z, KeyEvent.SHIFT_DOWN_MASK);
-        //manipulate.add(workflow.getInsertPageBreakAction());
-        addWithShortCut(manipulate, workflow.getPaintRedAction(), KeyEvent.VK_R);
-        addWithShortCut(manipulate, workflow.getPaintBlackAction(),
-                KeyEvent.VK_R, KeyEvent.SHIFT_DOWN_MASK);
-        addWithShortCut(manipulate, workflow.getEditGroupAction(),
-                KeyEvent.VK_G, KeyEvent.SHIFT_DOWN_MASK);
-        menubar.add(manipulate);
+		//        
+		// manipulate.add(sign);
+		buildShadingMenu(manipulate);
+		buildCartoucheMenu(manipulate);
+		buildPhilologicalMenu(manipulate);
 
-        // Sign manipulation menu.
-        JMenu sign = new JMenu("Sign");
-        sign.setMnemonic(KeyEvent.VK_S);
-        sign.add(workflow.getReverseSignAction());
+		menubar.add(manipulate);
+		menubar.add(sign);
 
-        JMenu size = new JMenu("Size");
-        size.setMnemonic(KeyEvent.VK_S);
-        // TODO : move this table to the workflow.
-        // Sizes : 200 144 120 100 70 50 35 25
-        int sizes[] = { 200, 144, 120, 100, 70, 50, 35, 25 };
-        for (int i = 0; i < sizes.length; i++) {
-            size.add(workflow.buildSizeAction(sizes[i]));
-        }
-        sign.add(size);
+		JMenu view = new JMenu("View");
+		view.setMnemonic(KeyEvent.VK_V);
+		view.add(workflow.getHalfZoomAction());
+		view.add(workflow.getDoubleZoomAction());
+		view.add(workflow.getResetZoomAction());
+		view.addSeparator();
+		// FIXME : design a cleaner system for actions (xml definition file ?)
+		view.add(new JCheckBoxMenuItem(workflow.getSelectOrientationAction()));
+		view.add(new JCheckBoxMenuItem(workflow.getSelectDirectionAction()));
+		view.addSeparator();
+		// Small signs on base line ?
+		view
+				.add(new JCheckBoxMenuItem(workflow
+						.getSelectCenteredSignsAction()));
+		menubar.add(view);
 
-        JMenu rotation = new JMenu("Rotation");
-        rotation.setMnemonic(KeyEvent.VK_R);
-        for (int i = 0; i < workflow.getRotations().length; i++)
-            rotation.add(workflow.getRotations()[i]);
-        sign.add(rotation);
-        sign.add(workflow.getToggleRedSignAction());
-        sign.add(workflow.getToggleWideSignAction());
+		buildHieroglyphicMenus(menubar);
 
-        //	 grammar and stuff.
-        sign.addSeparator();
-        sign.add(workflow.getToggleGrammarAction());
-        sign.add(workflow.getSignIsInWordAction());
-        sign.add(workflow.getSignIsWordEndAction());
-        sign.add(workflow.getSignIsSentenceEndAction());
-        sign.add(workflow.getSignIsInWordAction());
-        sign.add(workflow.getToggleIgnoredSignAction());
+		buildToolsMenus(menubar);
 
-        menubar.add(sign);
+		menubar.add(Box.createHorizontalGlue());
+		JMenu help = new JMenu("Help");
+		help.setMnemonic(KeyEvent.VK_L);
+		help.add(new AbstractAction("JSesh user documentation") {
 
-        JMenu view = new JMenu("View");
-        view.setMnemonic(KeyEvent.VK_V);
-        view.add(workflow.getHalfZoomAction());
-        view.add(workflow.getDoubleZoomAction());
-        view.add(workflow.getResetZoomAction());
-        menubar.add(view);
+			public void actionPerformed(ActionEvent e) {
+				DocDisplayer.getInstance().setVisible(true);
 
-        buildShadingMenu(menubar);
-        buildCartoucheMenu(menubar);
-        buildPhilologicalMenu(menubar);
+			}
 
-        buildHieroglyphicMenus(menubar);
+		});
+		help.add(new AbstractAction("Display java properties") {
 
-        menubar.add(Box.createHorizontalGlue());
-        JMenu help = new JMenu("Help");
-        help.setMnemonic(KeyEvent.VK_L);
-        help.add(new AbstractAction("JSesh user documentation") {
+			public void actionPerformed(ActionEvent e) {
+				Properties props = System.getProperties();
+				StringWriter string = new StringWriter();
+				PrintWriter out = new PrintWriter(string);
+				props.list(out);
+				JTextArea textArea = new JTextArea(string.toString());
+				JScrollPane pane = new JScrollPane(textArea);
+				pane.setPreferredSize(new Dimension(640, 400));
+				JOptionPane.showMessageDialog(frame, pane);
+			}
 
-            public void actionPerformed(ActionEvent e) {
-                DocDisplayer.getInstance().show();
+		});
+		menubar.add(help);
+		return menubar;
+	}
 
-            }
+	private void buildToolsMenus(JMenuBar menubar2) {
+		JMenu tools = new JMenu("Tools");
+		tools.add(workflow.getAddNewSignsAction());
 
-        });
-        menubar.add(help);
-        return menubar;
-    }
+		tools.addSeparator();
+		// JMenuItem prefs= new JMenuItem("Edit preferences");
+		tools.add(new AbstractAction("Edit preferences") {
 
-    /**
-     * @param menubar2
-     */
-    private void buildPhilologicalMenu(JMenuBar menubar) {
-        JMenu philology = new JMenu("Philological Markup");
-        philology.setMnemonic(KeyEvent.VK_LEFT_PARENTHESIS);
-        JPopupMenu pm = philology.getPopupMenu();
-        pm.setLayout(new GridLayout(0, 4));
-        String tips[] = { "Erased text", "Editor addition",
-                "Superfluous signs", "Previously readable signs",
-                "Scribe addition" };
-        for (int i = 0; i < workflow.getPhilologyActions().length; i++) {
-            JMenuItem sub = new JMenuItem(workflow.getPhilologyActions()[i]);
-            if (i < tips.length)
-                sub.setToolTipText(tips[i]);
-            philology.add(sub);
-        }
-        menubar.add(philology);
+			public void actionPerformed(ActionEvent e) {
+				workflow.editPreferences();
+			}
 
-    }
+		});
+		menubar2.add(tools);
+	}
 
-    /**
-     * @param menubar2
-     */
-    private void buildCartoucheMenu(JMenuBar menubar) {
-        JMenu cartouche = new JMenu("Cartouche");
-        cartouche.setMnemonic(KeyEvent.VK_C);
-        JPopupMenu pm = cartouche.getPopupMenu();
-        pm.setLayout(new GridLayout(0, 4));
-        for (int i = 0; i < workflow.getCartoucheActions().length; i++) {
-            cartouche.add(workflow.getCartoucheActions()[i]);
-        }
-        menubar.add(cartouche);
-    }
+	/**
+	 * @param menubar
+	 */
+	private void buildPhilologicalMenu(JMenu menubar) {
+		JMenu philology = new JMenu("Philological Markup");
+		philology.setMnemonic(KeyEvent.VK_P);
+		JPopupMenu pm = philology.getPopupMenu();
+		pm.setLayout(new GridLayout(0, 4));
+		String tips[] = { "Erased text", "Editor addition",
+				"Superfluous signs", "Previously readable signs",
+				"Scribe addition" };
+		for (int i = 0; i < workflow.getPhilologyActions().length; i++) {
+			JMenuItem sub = new JMenuItem(workflow.getPhilologyActions()[i]);
+			if (i < tips.length)
+				sub.setToolTipText(tips[i]);
+			philology.add(sub);
+		}
+		menubar.add(philology);
 
-    /**
-     * @param menubar
-     */
-    private void buildShadingMenu(JMenuBar menubar) {
-        JMenu shading = new JMenu("Shading");
-        shading.setMnemonic(KeyEvent.VK_H);
-        JPopupMenu pm = shading.getPopupMenu();
-        pm.setLayout(new GridLayout(0, 4));
-        for (int i = 0; i < workflow.getShadeActions().length; i++) {
-            shading.add(workflow.getShadeActions()[i]);
-        }
-        menubar.add(shading);
-    }
+	}
 
-    /**
-     * @param manipulate
-     * @param groupHorizontallyAction
-     * @param vk_e
-     * @param mask :
-     *            additional mask
-     */
-    private void addWithShortCut(JMenu menu, AbstractAction action, int vk,
-            int mask) {
-        JMenuItem item = new JMenuItem(action);
-        item.setAccelerator(KeyStroke
-                .getKeyStroke(vk, mask
-                        | java.awt.Toolkit.getDefaultToolkit()
-                                .getMenuShortcutKeyMask()));
-        menu.add(item);
+	/**
+	 * @param menubar
+	 */
+	private void buildCartoucheMenu(JMenu menubar) {
+		JMenu cartouche = new JMenu("Cartouche");
+		cartouche.setMnemonic(KeyEvent.VK_C);
+		JPopupMenu pm = cartouche.getPopupMenu();
+		pm.setLayout(new GridLayout(0, 4));
+		for (int i = 0; i < workflow.getCartoucheActions().length; i++) {
+			cartouche.add(workflow.getCartoucheActions()[i]);
+		}
+		menubar.add(cartouche);
+	}
 
-    }
+	/**
+	 * @param menubar
+	 */
+	private void buildShadingMenu(JMenu menubar) {
+		JMenu shading = new JMenu("Shading");
+		shading.setMnemonic(KeyEvent.VK_H);
+		JPopupMenu pm = shading.getPopupMenu();
+		pm.setLayout(new GridLayout(0, 4));
+		for (int i = 0; i < workflow.getShadeActions().length; i++) {
+			shading.add(workflow.getShadeActions()[i]);
+		}
+		menubar.add(shading);
+	}
 
-    private void addWithShortCut(JMenu menu, AbstractAction action, int vk) {
-        JMenuItem item = new JMenuItem(action);
+	/**
+	 * Build a menu.
+	 * 
+	 * @param menu
+	 * @param action
+	 * @param vk
+	 * @param mask
+	 *            additional mask
+	 */
+	private void addWithShortCut(JMenu menu, AbstractAction action, int vk,
+			int mask) {
+		JMenuItem item = new JMenuItem(action);
+		item.setAccelerator(KeyStroke
+				.getKeyStroke(vk, mask
+						| java.awt.Toolkit.getDefaultToolkit()
+								.getMenuShortcutKeyMask()));
+		menu.add(item);
 
-        // item.setAccelerator(KeyStroke.getKeyStroke(vk,
-        // KeyEvent.CTRL_DOWN_MASK));
-        // Respect the usual shortcuts for this system.
-        item.setAccelerator(KeyStroke.getKeyStroke(vk, java.awt.Toolkit
-                .getDefaultToolkit().getMenuShortcutKeyMask()));
-        menu.add(item);
+	}
 
-    }
+	private void addWithShortCut(JMenu menu, AbstractAction action, int vk) {
+		JMenuItem item = new JMenuItem(action);
 
-    /**
-     * @param menubar2
-     */
-    private void buildHieroglyphicMenus(JMenuBar menubar) {
-        String families[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "K",
-                "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
-                "X", "Y", "Z", "Aa", "Ff" };
-        String titles[] = { "A. Man and his occupations",
-                "B. Woman and her occupations", "C. Anthropomorphic Deities",
-                "D. Parts of the human body", "E. Mammals",
-                "F. Parts of Mammals", "G. Birds", "H. Parts of Birds",
-                "I. Amphibious animals, reptiles, etc.",
-                "K. Fishes and parts of fishes",
-                "L. Invertebrata and lesser animals", "M. Trees and plants",
-                "N. Sky, earth, water",
-                "O. Buildings, parts of buildings, etc.",
-                "P. Ships and parts of ships",
-                "Q. Domestic and funerary furniture",
-                "R. Temple furniture and sacred emblems",
-                "S. Crowns, Dress, Staves, etc.",
-                "T. Warfare, hunting, butchery",
-                "U. Agriculture, crafts, and professions",
-                "V. Rope, Fibre, baskets, bags, etc.",
-                "W. Vessels of stone and earthenware", "X. Loaves and cakes",
-                "Y. Writings, games, music", "Z. Strokes",
-                "Aa. Unclassified (J)",
-                "Ff. Hieratic signs, Gardiner, JEA 15 (&)" };
+		// item.setAccelerator(KeyStroke.getKeyStroke(vk,
+		// KeyEvent.CTRL_DOWN_MASK));
+		// Respect the usual shortcuts for this system.
+		item.setAccelerator(KeyStroke.getKeyStroke(vk, java.awt.Toolkit
+				.getDefaultToolkit().getMenuShortcutKeyMask()));
+		menu.add(item);
 
-        JMenu hieroglyphs = new JMenu("Hieroglyphs");
-        for (int i = 0; i < families.length; i++) {
-            String codes[] = HieroglyphsManager.getInstance()
-                    .getCodesForFamily(families[i]);
-            HieroglyphicMenu fmenu = new HieroglyphicMenu(titles[i], codes, 6);
-            fmenu.setHieroglyphicMenuListener(new HieroglyphicMenuMediator());
-            if (i < 25)
-                fmenu.setMnemonic(families[i].toUpperCase().charAt(0));
-            else if (i == 25) {
-                fmenu.setMnemonic(KeyEvent.VK_J);
-            } else if (i == 26)
-                fmenu.setMnemonic(KeyEvent.VK_AMPERSAND);
-            hieroglyphs.add(fmenu);
-        }
-        hieroglyphs.setMnemonic(KeyEvent.VK_H);
-        menubar.add(hieroglyphs);
+	}
 
-    }
+	/**
+	 * @param menubar
+	 */
+	private void buildHieroglyphicMenus(JMenuBar menubar) {
+		String families[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "K",
+				"L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
+				"X", "Y", "Z", "Aa", "Ff" };
+		String titles[] = { "A. Man and his occupations",
+				"B. Woman and her occupations", "C. Anthropomorphic Deities",
+				"D. Parts of the human body", "E. Mammals",
+				"F. Parts of Mammals", "G. Birds", "H. Parts of Birds",
+				"I. Amphibious animals, reptiles, etc.",
+				"K. Fishes and parts of fishes",
+				"L. Invertebrata and lesser animals", "M. Trees and plants",
+				"N. Sky, earth, water",
+				"O. Buildings, parts of buildings, etc.",
+				"P. Ships and parts of ships",
+				"Q. Domestic and funerary furniture",
+				"R. Temple furniture and sacred emblems",
+				"S. Crowns, Dress, Staves, etc.",
+				"T. Warfare, hunting, butchery",
+				"U. Agriculture, crafts, and professions",
+				"V. Rope, Fibre, baskets, bags, etc.",
+				"W. Vessels of stone and earthenware", "X. Loaves and cakes",
+				"Y. Writings, games, music", "Z. Strokes",
+				"Aa. Unclassified (J)",
+				"Ff. Hieratic signs, Gardiner, JEA 15 (&)" };
 
-    private class HieroglyphicMenuMediator implements HieroglyphicMenuListener {
+		JMenu hieroglyphs = new JMenu("Hieroglyphs");
+		hieroglyphs.getPopupMenu().setLayout(new GridLayout(14, 2));
+		for (int i = 0; i < families.length; i++) {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener#codeSelected(java.lang.String)
-         */
-        public void codeSelected(String code) {
-            workflow.insert(code);
+			HieroglyphicMenu fmenu = new HieroglyphicMenu(titles[i],
+					families[i], 6);
+			fmenu.setHieroglyphicMenuListener(new HieroglyphicMenuMediator());
+			if (i < 25)
+				fmenu.setMnemonic(families[i].toUpperCase().charAt(0));
+			else if (i == 25) {
+				fmenu.setMnemonic(KeyEvent.VK_J);
+			} else if (i == 26)
+				fmenu.setMnemonic(KeyEvent.VK_AMPERSAND);
+			hieroglyphs.add(fmenu);
+		}
+		hieroglyphs.setMnemonic(KeyEvent.VK_H);
+		menubar.add(hieroglyphs);
 
-        }
+	}
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener#enter(java.lang.String)
-         */
-        public void enter(String code) {
-            workflow.displaySignInfo(code);
-        }
+	private class HieroglyphicMenuMediator implements HieroglyphicMenuListener {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener#exit(java.lang.String)
-         */
-        public void exit(String code) {
-            workflow.setMessage("");
-        }
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener#codeSelected(java.lang.String)
+		 */
+		public void codeSelected(String code) {
+			workflow.insert(code);
 
-    }
+		}
 
-    public static void main(String[] args) {
-    	
-    	// We should have a more flexible look and feel system.
-    	// However, for Linux, I like liquid.
-        if ("Linux".equals(System.getProperty("os.name")))
-        try {
-            //UIManager.setLookAndFeel(new KunststoffLookAndFeel());
-            UIManager.setLookAndFeel(new LiquidLookAndFeel());
-            //UIManager.setLookAndFeel(new MetouiaLookAndFeel());
-        } catch (UnsupportedLookAndFeelException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        MDCDisplayerAppli a = new MDCDisplayerAppli();
-    }
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener#enter(java.lang.String)
+		 */
+		public void enter(String code) {
+			workflow.displaySignInfo(code);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener#exit(java.lang.String)
+		 */
+		public void exit(String code) {
+			workflow.setMessage("");
+		}
+
+	}
+
+	public static void main(String[] args) {
+
+		// We should have a more flexible look and feel system.
+		// However, for Linux, I like liquid.
+		try {
+			if ("Linux".equals(System.getProperty("os.name"))) {
+
+				// UIManager.setLookAndFeel(new KunststoffLookAndFeel());
+				UIManager.setLookAndFeel(new LiquidLookAndFeel());
+				// UIManager.setLookAndFeel(new MetouiaLookAndFeel());
+				// UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+
+			} else if (System.getProperty("os.name").toLowerCase().startsWith(
+					"windows")) {
+
+				UIManager
+						.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
+				//UIManager.setLookAndFeel("net.java.plaf.windows.WindowsLookAndFeel;");
+				
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			SplashScreen splash = new SplashScreen();
+			splash.display();
+
+			MDCDisplayerAppli a = new MDCDisplayerAppli();
+			// Swing commands should be performed in the graphical thread.
+			// Hence we create a runnable to actually start the program.
+
+			a.frame.addWindowListener(new SplashCloser(splash));
+
+			StartMe run = new StartMe(a.frame);
+			SwingUtilities.invokeLater(run);
+			// SwingUtilities.invokeLater(run);
+			// In order to have a nice splash screen, we should do more work
+			// * move splash screen creation out of MDCDisplayerAppli
+			// constructor
+			// * probably move some of MDCDisplayerAppli's creation work out of
+			// the graphical thread.
+			// run.run();
+		} catch (Exception e) {
+			String message = "An unexpected error occurred when starting jsesh.\n"
+					+ "can you please note the message and send a mail to rosmord@iut.univ-paris8.fr about it?\n"
+					+ e.getMessage();
+			StringWriter string = new StringWriter();
+			PrintWriter out = new PrintWriter(string);
+			e.printStackTrace(out);
+			JTextArea textArea = new JTextArea(e.getMessage() + "\n"
+					+ string.toString());
+			JScrollPane pane = new JScrollPane(textArea);
+			pane.setPreferredSize(new Dimension(640, 400));
+			JOptionPane.showMessageDialog(null, pane, "Problem",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	/**
+	 * Utilitary class to start the application in a thread correct way.
+	 * 
+	 * @author rosmord
+	 * 
+	 */
+
+	private static class StartMe implements Runnable {
+		MDCDisplayerAppliFrame startme;
+
+		/**
+		 * @param startme
+		 */
+		public StartMe(MDCDisplayerAppliFrame startme) {
+			this.startme = startme;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Runnable#run()
+		 */
+		public void run() {
+			startme.setVisible(true);
+		}
+
+	}
+
+	/**
+	 * This listener closes the splash window when the main window has appeared.
+	 * 
+	 * @author rosmord
+	 * 
+	 */
+	private static class SplashCloser extends WindowAdapter {
+		private SplashScreen splash;
+
+		/**
+		 * @param splash
+		 */
+		public SplashCloser(SplashScreen splash) {
+			super();
+			this.splash = splash;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.awt.event.WindowAdapter#windowOpened(java.awt.event.WindowEvent)
+		 */
+		public void windowOpened(WindowEvent e) {
+			splash.setVisible(false);
+			splash.dispose();
+		}
+	}
 }

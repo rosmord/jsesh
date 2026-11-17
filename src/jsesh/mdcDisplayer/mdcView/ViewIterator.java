@@ -21,49 +21,49 @@ public class ViewIterator {
 		this.rep= rep;
 		this.container= container; 
 	}
-	/**
+	/*
 	 * @see java.util.ListIterator#add(java.lang.ContainerView)
 	 */
 	public void add(MDCView o) {
 		rep.add(o);
 	}
 
-	/**
+	/*
 	 * @see java.util.Iterator#hasNext()
 	 */
 	public boolean hasNext() {
 		return rep.hasNext();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#hasPrevious()
 	 */
 	public boolean hasPrevious() {
 		return rep.hasPrevious();
 	}
 
-	/**
+	/*
 	 * @see java.util.Iterator#next()
 	 */
 	public MDCView next() {
 		return (MDCView) rep.next();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#nextIndex()
 	 */
 	public int nextIndex() {
 		return rep.nextIndex();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#previous()
 	 */
 	public MDCView previous() {
 		return (MDCView) rep.previous();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#previousIndex()
 	 */
 	public int previousIndex() {
@@ -77,7 +77,7 @@ public class ViewIterator {
 		rep.remove();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#set(java.lang.ContainerView)
 	 */
 	public void set(MDCView o) {

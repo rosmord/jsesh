@@ -35,6 +35,7 @@ public class CreateurCercleOutil extends Tool {
 
 	/**
 	 * La création de cercle est géré par deux clicks de souris.
+	 * @param e
 	 */
 	public void mouseClicked(MouseEvent e) {
 		if (p1 == null) {

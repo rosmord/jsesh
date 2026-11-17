@@ -19,7 +19,7 @@ public class Replacement extends ModelOperation {
 	 * 
 	 * @param element the container element.
 	 * @param index the position in the container.
-	 * @param child the element to be inserted.
+	 * 
 	 */
 	public Replacement(ModelElement element, int index) {
 			super(element);
@@ -27,7 +27,7 @@ public class Replacement extends ModelOperation {
 	}
 
 	/**
-	 * @return
+	 * @return the index.
 	 */
 	public int getIndex() {
 		return index;

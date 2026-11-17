@@ -27,7 +27,7 @@ public class CaretActionManager extends MDCModelEditionAdapter {
 	/**
 	 * Creates a caretActionManager for "this", 
 	 * listening to caret changes in 
-	 * @param caret
+	 * @param workflow
 	 */
 	
 	public CaretActionManager(JMDCEditorWorkflow workflow) {

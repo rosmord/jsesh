@@ -9,7 +9,7 @@ package jsesh.mdc.lex;
  * Created: Sun May 12 10:33:35 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version */
+ */
 
 public class MDCSubType {
     private int subType;

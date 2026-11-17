@@ -39,7 +39,7 @@ public class MDCAlphabeticText
 	}
 
 	/**
-	 * @return
+	 * @return the text.
 	 */
 	public String getText()
 	{

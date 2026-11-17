@@ -22,8 +22,9 @@ import jsesh.mdc.model.ModelElementDeepAdapter;
 public class HieroglyphExtractor {
 
 	/**
+	 * Extract hieroglyphs from a list.
 	 * @param elts
-	 * @return
+	 * @return the hieroglyphs in elts.
 	 */
 	public List extractHieroglyphs(List elts) {
 		HieroglyphExtractorAux aux= new HieroglyphExtractorAux();

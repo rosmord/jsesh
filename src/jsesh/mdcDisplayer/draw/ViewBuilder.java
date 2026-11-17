@@ -8,6 +8,7 @@ package jsesh.mdcDisplayer.draw;
 
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
  * @author Serge Rosmorduc
@@ -29,15 +30,18 @@ public interface ViewBuilder
 	 * Recompute the layout of a view.
 	 * If a view has been modified since it was built,
 	 * this methods recomputes its layout.
+	 * @param v
 	 */
 	public void reLayout(MDCView v);
 
 	/**
 	 * Build a partial view of an element.
+	 * <p> The view will correspond to all sub elements of model between indexes start and end.
+	 * <p> mode will typically be a TopItemList which we want to render partially.
 	 * @param model
 	 * @param start
 	 * @param end
-	 * @return
+	 * @return the view built for this element part.
 	 */
 	public MDCView buildView(ModelElement model, int start, int end);
 }

@@ -20,15 +20,18 @@ public class Segment extends Forme {
 	private Point a, b;
 
 	/**
-	 * 
+	 * Build a segment between points a and b.
+	 * @param a
+	 * @param b
 	 */
 	public Segment(Point a, Point b) {
 		this.a= a;
 		this.b= b;
 	}
 
-	/**
-	 * 
+	/*
+	 * (non-Javadoc)
+	 * @see jsesh.fontEditor.model.Forme#contient(jsesh.fontEditor.model.Point, double)
 	 */
 	public boolean contient(Point p, double tolerance) {
 		double distance;
@@ -54,7 +57,7 @@ public class Segment extends Forme {
 	 * Calcule le carré de la distance entre le point p et la droite (ab).
 	 * 
 	 * @param p
-	 * @return
+	 * @return the square of distance between p and the line our segment is a part of.
 	 */
 	public  double distanceADroiteAuCarre(Point p) {
 		double distance;
@@ -76,14 +79,14 @@ public class Segment extends Forme {
 	}
 
 	/**
-	 * @return
+	 * @return first point.
 	 */
 	public Point getA() {
 		return a;
 	}
 
 	/**
-	 * @return
+	 * @return second point.
 	 */
 	public Point getB() {
 		return b;

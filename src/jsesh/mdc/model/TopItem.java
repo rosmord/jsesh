@@ -17,7 +17,7 @@ abstract public class TopItem extends ModelElement{
 	}
 
 	/**
-	 * @return
+	 * @return the state.
 	 */
 	public TopItemState getState()
 	{

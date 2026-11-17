@@ -35,10 +35,10 @@ import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.draw.DrawingSpecifications;
 import jsesh.mdcDisplayer.draw.SimpleViewBuilder;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 import jsesh.utils.GraphicsUtils;
 
 /**
@@ -53,7 +53,7 @@ public class HTMLExporter {
 	private File directory;
 	private String baseName;
 	private String title;
-	private Color backgroundColor = Color.WHITE;
+	private Color backgroundColor = new Color(0,0,0,0);
 	private int lineHeight;
 	/**
 	 * Chooses the way special HTML characters are dealt with.
@@ -82,6 +82,8 @@ public class HTMLExporter {
 	 * One of 
 	 */
 	private int newLinesReplacement; 
+	
+	private DrawingSpecifications drawingSpecifications;
 
 	public HTMLExporter() {
 		setDefaults();
@@ -94,10 +96,28 @@ public class HTMLExporter {
 		lineHeight = 30;
 		htmlSpecialProtected= false;
 		newLinesReplacement= BREAK;
+		drawingSpecifications= new DrawingSpecifications();
 	}
 
 	/**
+     * @param drawingSpecifications The drawingSpecifications to set.
+     */
+    public void setDrawingSpecifications(
+            DrawingSpecifications drawingSpecifications) {
+        this.drawingSpecifications = drawingSpecifications;
+    }
+    
+    /**
+     * @return Returns the drawingSpecifications.
+     */
+    public DrawingSpecifications getDrawingSpecifications() {
+        return drawingSpecifications;
+    }
+    
+	/**
 	 * gets a panel suitable for option editing.
+	 * @param parent
+	 * @param title
 	 * @return a panel
 	 */
 	public ExportOptionPanel getOptionPanel(Component parent, String title) {
@@ -246,13 +266,11 @@ public class HTMLExporter {
 				TopItemList smallModel = new TopItemList();
 				smallModel.addAll(elements);
 
-				SimpleViewBuilder builder = new SimpleViewBuilder();
-				DrawingSpecifications specs =
-					builder.getDrawingSpecifications();
-
+				SimpleViewBuilder builder = new SimpleViewBuilder(drawingSpecifications);
+				
 				// scale Compute
 
-				double scale = (double) lineHeight / specs.getMaxCadratHeight();
+				double scale = (double) lineHeight / drawingSpecifications.getMaxCadratHeight();
 
 				MDCView view = builder.buildView(smallModel);
 
@@ -264,7 +282,7 @@ public class HTMLExporter {
 					new BufferedImage(
 						(int) (view.getWidth() * scale),
 						(int) (view.getHeight() * scale) + 12,
-						BufferedImage.TYPE_INT_RGB);
+						BufferedImage.TYPE_INT_ARGB);
 
 				Graphics2D g = image.createGraphics();
 				GraphicsUtils.antialias(g);
@@ -274,7 +292,7 @@ public class HTMLExporter {
 				g.translate(0, 6);
 
 				g.scale(scale, scale);
-				drawer.draw(g, view, builder.getDrawingSpecifications());
+				drawer.draw(g, view, drawingSpecifications);
 				g.dispose();
 
 				File fic = getImageFile(imageNumber);
@@ -347,28 +365,28 @@ public class HTMLExporter {
 	}
 
 	/**
-	 * @return
+	 * @return base name of html files.
 	 */
 	public String getBaseName() {
 		return baseName;
 	}
 
 	/**
-	 * @return
+	 * @return the directory which will contain the files.
 	 */
 	public File getDirectory() {
 		return directory;
 	}
 
 	/**
-	 * @return
+	 * @return true if explicit page separation should be respected.
 	 */
 	public boolean isRespectPages() {
 		return respectPages;
 	}
 
 	/**
-	 * @return
+	 * @return the page title.
 	 */
 	public String getTitle() {
 		return title;
@@ -404,7 +422,7 @@ public class HTMLExporter {
 
 	/**
 	 * The typical height of a line of text, in pixels. 
-	 * @return
+	 * @return The typical height of a line of text, in pixels.
 	 */
 	public int getLineHeight() {
 		return lineHeight;

@@ -4,13 +4,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * A class which can be to produce a readable representation for a BZR file.
- *
+ * A class which can be used to produce a readable representation for a BZR file.
+ * mainly for test purposes.
  *
  * Created: Sun Jun  2 16:34:46 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version
+ * 
  */
 
 public class BzrToStringBuilder implements BzrFontBuilder {

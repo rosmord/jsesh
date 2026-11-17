@@ -1,9 +1,7 @@
 package jsesh.mdc.lex;
+import jsesh.mdc.utils.*;
+import jsesh.mdc.constants.*;
 import java_cup.runtime.Symbol;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.constants.ToggleType;
-import jsesh.mdc.utils.MDCSyntaxError;
-import jsesh.mdc.utils.ParserErrorManager;
 
 
 class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, ParserErrorManager {
@@ -17,6 +15,9 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 	private final int YY_BOL = 65536;
 	private final int YY_EOF = 65537;
  
+	// Changes made to accomodate a JLex version 1.2.6
+	// We shall change to JFLex one day. However, it won't be possible
+	// to distribute JFLex, as it's GPL and we want LGPL.
     /**
      * Are philological symbols to be treated as plain signs ?
      */
@@ -36,7 +37,8 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
         return debug;
     }
     /**
-     *
+	 * choose if phililogical parenthesis will be considered as simple signs.
+     * @param p
      */
     public void setPhilologyAsSigns(boolean p)
     {
@@ -48,6 +50,7 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
     }
     /**
      * put in "space is meaningful" mode if spaces are meaningful after the current symbol.
+	 * @param s
      */
     public void fixExpect(Symbol s) {
         expectSpace= false;
@@ -72,6 +75,9 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
     /**
      * Handle philological parenthesis, choosing between simple signs and
      * complex contructs, depending on user's choice.
+	 * @param type
+	 * @param sub
+	 * @return corresponding token Symbol.
      */
     private Symbol handlePhilology(int type, int sub)
     {
@@ -574,6 +580,8 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 
     printDebug(EOF);
     return buildMDCSymbol(EOF);
+    // In state YYINITIAL, the system is waiting for hieroglyphs
+	// state PROPERTIES is used when hieroglyphic codes are not expected (i.e. between {{ and }} ; between [] for the Revised Encoding ...
 			}
 			if (YY_F != yy_next_state) {
 				yy_state = yy_next_state;

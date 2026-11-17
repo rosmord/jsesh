@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
@@ -55,7 +56,7 @@ public class GroupEditorDialog extends JPanel {
         resize= new JToggleButton("resize");
         buttonGroup.add(rotate);
         buttonGroup.add(resize);
-        JToolBar sub= new JToolBar(JToolBar.HORIZONTAL);
+        JToolBar sub= new JToolBar(SwingConstants.HORIZONTAL);
         //sub.setLayout(new BoxLayout(sub, BoxLayout.X_AXIS));
         sub.add(previous);
         previous.addActionListener(l);

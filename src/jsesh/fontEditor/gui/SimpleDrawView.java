@@ -42,9 +42,7 @@ public class SimpleDrawView extends JPanel
 	
 	
 	/**
-	 * This method initializes this
-	 * 
-	 * @return void
+	 * This method initializes the current object.
 	 */
 	private void initialize() {
         this.setBackground(new java.awt.Color(226,37,37));
@@ -74,14 +72,15 @@ public class SimpleDrawView extends JPanel
 	}
 	
 	/**
-	 * @return 
+	 * @return the glyph model.
 	 */
 	public GlyphModel getGlyphModel() {
 		return glyphModel;
 	}
 
 	/**
-	 * @param glyphModel 
+	 * sets the glyph model.
+	 * @param dessin
 	 */
 	public void setGlyphModel(GlyphModel dessin) {
 		this.glyphModel = dessin;
@@ -96,7 +95,7 @@ public class SimpleDrawView extends JPanel
 	}
 
 	/**
-	 * @return
+	 * @return the scale.
 	 */
 	public double getScale() {
 		return scale;

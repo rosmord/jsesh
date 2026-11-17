@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -21,7 +20,6 @@ import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 import jsesh.mdcDisplayer.swing.editor.MDCModelEditionAdapter;
 import jsesh.mdcDisplayer.swing.editor.MDCModelEditionListener;
 import jsesh.utils.StringDisplayer;
-import jsesh.utils.StringModel;
 
 /**
  * Graphical interface for MDC displayer.
@@ -45,9 +43,14 @@ public class MDCDisplayerAppliFrame extends JFrame {
 	
 	JMDCEditor editor;
 
-	StringDisplayer codeField;
+	// StringDisplayer codeField;
+	JTextField codeField; 
 
+	// StringDisplayer separatorField;
+	JTextField separatorField;
+	
 	StringDisplayer messageField;
+	
 
 	JProgressBar progressBar;
 
@@ -59,13 +62,16 @@ public class MDCDisplayerAppliFrame extends JFrame {
 	 * Constructor for MDCDisplayerAppliFrame.
 	 * 
 	 * @param title
+	 * @param workflow
 	 * @throws HeadlessException
 	 */
 	public MDCDisplayerAppliFrame(String title,
 			MDCDisplayerAppliWorkflow workflow) throws HeadlessException {
 		super(title);
 		//	'rsssssssssetCursor(Cursor.WAIT_CURSOR);
-		ImageIcon icon= new ImageIcon(getClass().getResource("hiboux.png"));
+		//ImageIcon icon= new ImageIcon(getClass().getResource("hiboux.png"));
+		ImageIcon icon= new ImageIcon(getClass().getResource("/jseshResources/images/hiboux.png"));
+		
 		setIconImage(icon.getImage());
 		//this.workflow = workflow;
 		// Create windows :
@@ -74,23 +80,41 @@ public class MDCDisplayerAppliFrame extends JFrame {
 		// The code model
 		CodeModel codeModel = new CodeModel();
 		editor.addCodeChangeListener(codeModel);
-		codeField = new StringDisplayer(codeModel, 5);
-
+		
+		//codeField = new StringDisplayer(codeModel, 5);
+		codeField= new JTextField(5);
+		codeField.setEnabled(false);
+		codeField.setFocusable(false);		
+		codeField.setDisabledTextColor(codeField.getForeground());
+		codeField.setToolTipText("current Manuel de codage code being typed");
+		
+		//separatorField= new StringDisplayer(separatorModel, 1);
+		separatorField= new JTextField(1);
+		separatorField.setEnabled(false);
+		separatorField.setFocusable(false);		
+		separatorField.setDisabledTextColor(separatorField.getForeground());
+		separatorField.setToolTipText("Manuel de codage separator to use");
+		
 		JScrollPane scroll = new JScrollPane(editor);
 		//scroll.
 		//scroll.getHorizontalScrollBar().setFocusable(false);
 		//scroll.getVerticalScrollBar().setFocusable(false);
 
 		messageField = new StringDisplayer(workflow.getMessage(), 30);
+		messageField.setToolTipText("Various messages");
 		progressBar = new JProgressBar();
-
+		progressBar.setToolTipText("Progress bar for future uses.");
+		
 		JSplitPane bottom2 = new JSplitPane();
 		JSplitPane bottom1 = new JSplitPane();
-
+		JSplitPane bottom3= new JSplitPane();
+		
 		bottom2.setLeftComponent(messageField);
 		bottom2.setRightComponent(progressBar);
+		bottom3.setRightComponent(bottom2);
+		bottom3.setLeftComponent(separatorField);
 		bottom1.setLeftComponent(codeField);
-		bottom1.setRightComponent(bottom2);
+		bottom1.setRightComponent(bottom3);
 
 		mdcField = new JTextField();
 		mdcField.setToolTipText("Here you can edit the manuel de codage code for the current line.");
@@ -158,17 +182,9 @@ public class MDCDisplayerAppliFrame extends JFrame {
 	 * @author S. Rosmorduc
 	 *  
 	 */
-	private class CodeModel extends Observable implements MDCModelEditionListener,
-			StringModel {
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdcDisplayer.swing.editor.MDCModelEditionListener#codeChanged(java.lang.StringBuffer)
-		 */
-		public void codeChanged(StringBuffer newcode) {
-			setChanged();
-			notifyObservers();
-		}
+	private class CodeModel  implements MDCModelEditionListener
+			 {
+	
 
 		public void focusGained(StringBuffer code) {
 		}
@@ -205,6 +221,14 @@ public class MDCDisplayerAppliFrame extends JFrame {
 		 * @see jsesh.mdcDisplayer.draw.MDCCaretChangeListener#caretChanged(jsesh.mdcDisplayer.draw.MDCCaret)
 		 */
 		public void caretChanged(MDCCaret caret) {
+		}
+
+		public void separatorChanged() {
+			separatorField.setText("" + getEditor().getCurrentSeparator());
+		}
+
+		public void codeChanged(StringBuffer code) {
+			codeField.setText(getEditor().getCodeBuffer());			
 		}
 	}
 }

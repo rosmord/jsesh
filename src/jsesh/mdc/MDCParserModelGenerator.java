@@ -35,7 +35,7 @@ public class MDCParserModelGenerator {
 	
 	
 	/**
-	 * @return
+	 * @return true if we are debugging.
 	 */
 	public boolean isDebug() {
 		return facade.isDebug();
@@ -44,7 +44,7 @@ public class MDCParserModelGenerator {
 	/**
 	 * if true, philological markers, such as [[ and ]], are considered
 	 * as simple signs, and not as constructs.
-	 * @return
+	 * @return true if philological markers are considered as simple signs.
 	 */
 	public boolean isPhilologyAsSigns() {
 		return facade.isPhilologyAsSigns();

@@ -13,13 +13,18 @@ import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 
 /**
  * @author S. Rosmorduc
- *
+ * 
  */
 public class GoDownAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
-		JMDCEditor d=  (JMDCEditor) e.getSource();
-		d.getWorkflow().cursorDown();
+		JMDCEditor d = (JMDCEditor) e.getSource();
+
+		if (d.getDrawingSpecifications().getTextOrientation().isHorizontal())
+			d.getWorkflow().cursorDown();
+		else
+			d.getWorkflow().cursorNext();
+
 	}
 
 }

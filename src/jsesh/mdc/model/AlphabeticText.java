@@ -1,5 +1,7 @@
 package jsesh.mdc.model;
 
+import jsesh.utils.TranslitterationUtilities;
+
 /**
  * AlphabeticText represents text written in an alphabetic system, as Coptic,
  * Greek, or Latin.
@@ -16,16 +18,24 @@ public class AlphabeticText extends BasicItem {
 	private String text;
 
 	public AlphabeticText(char scriptCode, String text) {
-		this.text = text;
 		this.scriptCode = scriptCode;
+		setTextAux(text);
 	}
 
 	public String getText() {
 		return text;
 	}
 
+	private void setTextAux(String text) {
+		if (scriptCode == 't') {
+			this.text = TranslitterationUtilities
+					.convertWindowsTranslitteration(text);
+		} else
+			this.text = text;
+	}
+
 	public void setText(String _text) {
-		text = _text;
+		setTextAux(_text);
 		notifyModification();
 	}
 
@@ -55,7 +65,7 @@ public class AlphabeticText extends BasicItem {
 	 * <li>'r' : cyrillic
 	 * </ul>
 	 * 
-	 * @return
+	 * @return the code.
 	 */
 	public char getScriptCode() {
 		return scriptCode;
@@ -92,7 +102,7 @@ public class AlphabeticText extends BasicItem {
 	 */
 	public ModelElement deepCopy() {
 		// String are immutable ! no need to copy them !
-		AlphabeticText t= new AlphabeticText(scriptCode, text);
+		AlphabeticText t = new AlphabeticText(scriptCode, text);
 		copyStateTo(t);
 		return t;
 	}

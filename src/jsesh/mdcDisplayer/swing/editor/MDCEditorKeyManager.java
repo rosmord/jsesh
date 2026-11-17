@@ -67,7 +67,7 @@ public class MDCEditorKeyManager extends KeyAdapter
 
 	/**
 	 * return the singleton instance.
-	 * @return
+	 * @return the key manager.
 	 */
 	public static MDCEditorKeyManager getInstance() {
 		if (instance == null) {
@@ -103,7 +103,7 @@ public class MDCEditorKeyManager extends KeyAdapter
 
 			public void actionPerformed(ActionEvent e) {
 				JMDCEditor ed= (JMDCEditor) e.getSource();
-				ed.getWorkflow().beginningOfLine();
+				ed.getWorkflow().cursorToBeginningOfLine();
 			}
 			
 		});
@@ -112,7 +112,7 @@ public class MDCEditorKeyManager extends KeyAdapter
 
 			public void actionPerformed(ActionEvent e) {
 				JMDCEditor ed= (JMDCEditor) e.getSource();
-				ed.getWorkflow().endOfLine();		
+				ed.getWorkflow().cursorToEndOfLine();		
 			}
 			
 		});

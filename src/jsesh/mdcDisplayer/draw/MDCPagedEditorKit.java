@@ -6,8 +6,9 @@
  */
 package jsesh.mdcDisplayer.draw;
 
-import jsesh.mdcDisplayer.draw.layout.PagedLayout;
-import jsesh.mdcDisplayer.draw.layout.SimplePrinterLayout;
+import jsesh.mdcDisplayer.layout.PagedLayout;
+import jsesh.mdcDisplayer.layout.SimplePrinterLayout;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
  * @author Serge Rosmorduc

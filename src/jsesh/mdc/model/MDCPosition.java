@@ -53,6 +53,8 @@ public class MDCPosition implements Cloneable {
 
 	/**
 	 * TEMPORARY CONSTRUCTOR.
+	 * @param container
+	 * @param index
 	 */
 
 	public MDCPosition(TopItemList container, int index) {
@@ -88,7 +90,7 @@ public class MDCPosition implements Cloneable {
 	}
 
 	/**
-	 * @return
+	 * @return the index.
 	 */
 	public int getIndex() {
 		return index;
@@ -132,12 +134,17 @@ public class MDCPosition implements Cloneable {
 	}
 
 	/**
-	 * @return
+	 * @return true if there is a previous position.
 	 */
 	public boolean hasPrevious() {
 		return index > 0;
 	}
 
+
+	/**
+	 * @return true if there is a next position.
+	 */
+	
 	public boolean hasNext() {
 		return index < topItemList.getNumberOfChildren();
 	}

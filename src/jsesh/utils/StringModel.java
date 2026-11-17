@@ -17,7 +17,8 @@ public interface StringModel {
 	/**
 	 * Adds an observer to this model.
 	 * Can be easily implemented by extending Observable. 
-	 * @param displayer
+	 * @param obs
+	 * 
 	 */
 	public abstract void addObserver(Observer obs);
 }

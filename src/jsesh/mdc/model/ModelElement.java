@@ -1,5 +1,6 @@
 package jsesh.mdc.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -39,10 +40,7 @@ import jsesh.mdc.model.operations.Replacement;
  *  
  */
 public abstract class ModelElement extends Observable implements Observer,
-		Comparable {
-	public final static int LEFT_TO_RIGHT = 0;
-
-	public final static int RIGHT_TO_LEFT = 1;
+		Comparable, Serializable {
 
 	private List children = null;
 
@@ -54,6 +52,7 @@ public abstract class ModelElement extends Observable implements Observer,
 
 	private ModelElement parent = null;
 
+	
 	/**
 	 * Means that modifications to sub elements of this one will be forwarded.
 	 */
@@ -72,6 +71,7 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * elements with this structure is up to the programmer.
 	 * 
 	 * @param elementList
+	 * @param eltClass the base class of the legal elements.
 	 */
 	final protected void addAll(List elementList, Class eltClass) {
 		int i = getNumberOfChildren();
@@ -125,9 +125,9 @@ public abstract class ModelElement extends Observable implements Observer,
 	}
 
 	/**
-	 * add child at position id.
+	 * add child at position idx.
 	 * 
-	 * @param id
+	 * @param idx
 	 * @param child
 	 */
 
@@ -142,6 +142,7 @@ public abstract class ModelElement extends Observable implements Observer,
 	/**
 	 * Creates an empty list for children. Override it to change the children
 	 * list implementation.
+	 * @return a newly built empty list of children.
 	 */
 
 	protected List buildChildrenList() {
@@ -177,8 +178,8 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * Utility function that compare the classes of two ModelElements. Usable to
 	 * implement compareTo.
 	 * 
-	 * @param e
-	 * @return
+	 * @param o
+	 * @return a comparison between two classes.
 	 */
 	private int compareClass(Object o) {
 		if (getClass().equals(o.getClass()))
@@ -194,7 +195,7 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * field than their children), compareToAux is simply a call to this method.
 	 * @param e : a model element, of the exact same type as <code>this</code>.
 	 * @return an int, &lt; 0 if this &lt; e, 0 if this and e have the same content; and &gt; 0 if this &gt; e.
-	 * @see compareToAux
+	 * @see ModelElement#compareToAux(ModelElement)
 	 */
 	protected final int compareContents(ModelElement e) {
 		int result = 0;
@@ -229,7 +230,8 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * <code>e</code> to their real type.
 	 * 
 	 * @param e
-	 * @return
+	 * @return an int 
+	 * @see Comparable#compareTo(java.lang.Object)
 	 */
 	abstract public int compareToAux(ModelElement e);
 
@@ -251,7 +253,7 @@ public abstract class ModelElement extends Observable implements Observer,
 	/**
 	 * Create a copy of this ModelElement.
 	 * 
-	 * @return
+	 * @return a recursive copy of this ModelElement.
 	 */
 	abstract public ModelElement deepCopy();
 
@@ -331,6 +333,7 @@ public abstract class ModelElement extends Observable implements Observer,
 
 	/**
 	 * Returns the ith child of this element. Indexes start at 0.
+	 * @param id
 	 * 
 	 * @return null if there is no such child.
 	 */
@@ -381,14 +384,14 @@ public abstract class ModelElement extends Observable implements Observer,
 		return children.size();
 	}
 
-	public int getOrientation() {
-		return LEFT_TO_RIGHT;
-	}
+	/*public TextDirection getDirection() {
+		return TextDirection.LEFT_TO_RIGHT;
+	}*/
 
 	/**
 	 * Returns the containing element. Might be null.
 	 * 
-	 * @return
+	 * @return the parent element.
 	 */
 	public ModelElement getParent() {
 		return parent;
@@ -463,7 +466,7 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * 
 	 * @param a
 	 * @param b
-	 * @return
+	 * @return the list of the suppressed elements.
 	 */
 	protected List removeChildren(int a, int b) {
 		List l = new ArrayList(b - a);

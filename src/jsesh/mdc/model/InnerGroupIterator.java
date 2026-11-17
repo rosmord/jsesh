@@ -3,76 +3,75 @@ package jsesh.mdc.model;
 import java.util.ListIterator;
 
 /**
- * This file is free Software
- * (c) Serge Rosmorduc
+ * This file is free Software (c) Serge Rosmorduc
+ * 
  * @author rosmord
- *
+ *  
  */
 public class InnerGroupIterator {
-	private	ListIterator rep;
-	
-	InnerGroupIterator(ListIterator rep)
-	{
-		this.rep= rep;	
-	}	
-	
-	public void add(InnerGroup o) {
-		rep.add(o);
-	}
+    private ListIterator rep;
 
-	/**
-	 * @see java.util.Iterator#hasNext()
-	 */
-	public boolean hasNext() {
-		return rep.hasNext();
-	}
+    InnerGroupIterator(ListIterator rep) {
+        this.rep = rep;
+    }
 
-	/**
-	 * @see java.util.ListIterator#hasPrevious()
-	 */
-	public boolean hasPrevious() {
-		return rep.hasPrevious();
-	}
+    public void add(InnerGroup o) {
+        rep.add(o);
+    }
 
-	/**
-	 * @see java.util.Iterator#next()
-	 */
-	public InnerGroup next() {
-		return (InnerGroup)rep.next();
-	}
+    /*
+     * @see java.util.Iterator#hasNext()
+     */
+    public boolean hasNext() {
+        return rep.hasNext();
+    }
 
-	/**
-	 * @see java.util.ListIterator#nextIndex()
-	 */
-	public int nextIndex() {
-		return rep.nextIndex();
-	}
+    /*
+     * @see java.util.ListIterator#hasPrevious()
+     */
+    public boolean hasPrevious() {
+        return rep.hasPrevious();
+    }
 
-	/**
-	 * @see java.util.ListIterator#previous()
-	 */
-	public Object previous() {
-		return (InnerGroup)rep.previous();
-	}
+    /*
+     * @see java.util.Iterator#next()
+     */
+    public InnerGroup next() {
+        return (InnerGroup) rep.next();
+    }
 
-	/**
-	 * @see java.util.ListIterator#previousIndex()
-	 */
-	public int previousIndex() {
-		return rep.previousIndex();
-	}
+    /*
+     * @see java.util.ListIterator#nextIndex()
+     */
+    public int nextIndex() {
+        return rep.nextIndex();
+    }
 
-	/**
-	 * @see java.util.Iterator#remove()
-	 */
-	public void remove() {
-		rep.remove();
-	}
+    /*
+     * @see java.util.ListIterator#previous()
+     */
+    public InnerGroup previous() {
+        return (InnerGroup) rep.previous();
+    }
 
-	/**
-	 * @see java.util.ListIterator#set(java.lang.Object)
-	 */
-	public void set(InnerGroup o) {
-		rep.set(o);
-	}
+    /*
+     * @see java.util.ListIterator#previousIndex()
+     */
+    public int previousIndex() {
+        return rep.previousIndex();
+    }
+
+    /*
+     * @see java.util.Iterator#remove()
+     */
+    public void remove() {
+        rep.remove();
+    }
+
+    /*
+     * @see java.util.ListIterator#set(java.lang.Object)
+     */
+    public void set(InnerGroup o) {
+        rep.set(o);
+    }
 }

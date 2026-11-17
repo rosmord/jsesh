@@ -35,7 +35,7 @@ public class ToolContext {
 
 
 	/**
-	 * @return  
+	 * @return  the view
 	 */
 	public SimpleDrawView getView() {
 		return view;
@@ -48,7 +48,7 @@ public class ToolContext {
 	/**
 	 * Fonction utilitaire pour récupérer un point à partir d'un événement souris.
 	 * @param e
-	 * @return
+	 * @return the point where the event took place.
 	 */
 	public Point getPointFromEvent(MouseEvent e) {
 		return view.screenToModel(e.getX(), e.getY());
@@ -83,28 +83,28 @@ public class ToolContext {
 	}
 
 	/**
-	 * @return
+	 * @return true if the command can be redone; false otherwise.
 	 */
 	public boolean canRedo() {
 		return commandManager.canRedo();
 	}
 
 	/**
-	 * @return
+	 *  @return true if the command can be undone; false otherwise.
 	 */
 	public boolean canUndo() {
 		return commandManager.canUndo();
 	}
 
 	/**
-	 * 
+	 * redo the command.
 	 */
 	public void redo() {
 		commandManager.redo();
 	}
 
 	/**
-	 * 
+	 * undo the command.
 	 */
 	public void undo() {
 		commandManager.undo();

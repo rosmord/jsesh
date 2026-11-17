@@ -3,13 +3,16 @@ import jsesh.mdc.utils.*;
 import jsesh.mdc.constants.*;
 import java_cup.runtime.Symbol;
 
-
  
 %%
 %class MDCLexAux
 %cup
 
 %{ 
+	// Changes made to accomodate a JLex version 1.2.6
+	// We shall change to JFLex one day. However, it won't be possible
+	// to distribute JFLex, as it's GPL and we want LGPL.
+
     /**
      * Are philological symbols to be treated as plain signs ?
      */
@@ -38,10 +41,10 @@ import java_cup.runtime.Symbol;
     }
 
     /**
-     *
+	 * choose if phililogical parenthesis will be considered as simple signs.
+     * @param p
      */
     
-
     public void setPhilologyAsSigns(boolean p)
     {
         philologyAsSigns= p;
@@ -55,6 +58,7 @@ import java_cup.runtime.Symbol;
 
     /**
      * put in "space is meaningful" mode if spaces are meaningful after the current symbol.
+	 * @param s
      */
 
     public void fixExpect(Symbol s) {
@@ -82,6 +86,9 @@ import java_cup.runtime.Symbol;
     /**
      * Handle philological parenthesis, choosing between simple signs and
      * complex contructs, depending on user's choice.
+	 * @param type
+	 * @param sub
+	 * @return corresponding token Symbol.
      */
     private Symbol handlePhilology(int type, int sub)
     {
@@ -201,12 +208,9 @@ import java_cup.runtime.Symbol;
 %eofval{
     printDebug(EOF);
     return buildMDCSymbol(EOF);
+    // In state YYINITIAL, the system is waiting for hieroglyphs
+	// state PROPERTIES is used when hieroglyphic codes are not expected (i.e. between {{ and }} ; between [] for the Revised Encoding ...
 %eofval}
-
-// In state YYINITIAL, the system is waiting for hieroglyphs
-
-
-// state PROPERTIES is used when hieroglyphic codes are not expected (i.e. between {{ and }} ; between [] for the Revised Encoding ...
 
 %state PROPERTIES
 
@@ -218,9 +222,9 @@ import java_cup.runtime.Symbol;
 
 %unicode
 
-INTEGER	([0-9]+)
-ESPSO	([ \t\n\015_-]*)
-TRUESPACE	([ \t\n\015_])
+INTEGER=([0-9]+)
+ESPSO=([ \t\n\015_-]*)
+TRUESPACE=([ \t\n\015_])
 
 %%
 <YYINITIAL>"!!"{ESPSO}	{return buildMDCSymbol(PAGEEND);}

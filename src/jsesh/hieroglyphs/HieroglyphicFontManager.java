@@ -10,29 +10,35 @@ package jsesh.hieroglyphs;
  * Created: Mon Jun 10 17:59:58 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version */
+ */
 
+import java.io.File;
+import java.sql.SQLException;
 import java.util.Set;
 
 import jsesh.bzr.simple.ShapeChar;
 
-abstract public class HieroglyphicFontManager {
+public interface HieroglyphicFontManager {
 
-	static HieroglyphicFontManager instance = null;
 
+	/**
+	 * Returns the ShapeChar for the given Manuel de Codage code, or null if the code is unknown.
+	 * @param code
+	 * @return the ShapeChar for the given Manuel de Codage code, or null if the code is unknown.
+	 */
 	abstract public ShapeChar get(String code);
 	
-	public static HieroglyphicFontManager getInstance() {
-		if (instance == null)
-			//try {
-				instance = new MemoryHieroglyphicFontManager();
-				//instance= new HieroglyphicDB();
-			//} catch (SQLException e) {
-			//					e.printStackTrace();
-			//}
-		return instance;
-	}
-	
+	/**
+	 * Gets the set of the codes for the signs defined by this manager.
+	 * @return a set of codes.
+	 */
 	abstract public Set getCodes();
+	
+	/**
+	 * Returns true if new signs are known to have been added since the last call to getCodes.
+	 * If the manager is immutable or if one wants to keep things simple, returning false is an option.
+	 * @return true if new signs are known to have been added since the last call to getCodes.
+	 */
+	abstract public boolean hasNewSigns();
 	
 } // HieroglyphicFontManager

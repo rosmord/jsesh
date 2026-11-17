@@ -25,7 +25,7 @@ public class ModelElementIterator {
 	public ModelElementIterator(Iterator i) {
 		this.i= i;
 	}
-	/**
+	/*
 	 * @see java.util.Iterator#hasNext()
 	 */
 	public boolean hasNext() {
@@ -35,12 +35,15 @@ public class ModelElementIterator {
 			return i.hasNext();
 	}
 	/**
+	 * Return the next model element and advance.
+	 * @return the next model element.
 	 * @see java.util.Iterator#next()
 	 */
 	public ModelElement next() {
 		return (ModelElement) i.next();
 	}
 	/**
+	 * remove the current element.
 	 * @see java.util.Iterator#remove()
 	 */
 	public void remove() {

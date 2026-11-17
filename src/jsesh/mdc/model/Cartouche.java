@@ -85,6 +85,34 @@ public class Cartouche extends TopItem implements CartoucheInterface {
 		addChildAt(0, content);
 	} // end Cartouche
 
+	/**
+	 * <p>
+	 * indicates how the first extremity of the cartouche should be drawn.
+	 * </p>
+	 * <p>
+	 * 0 : nothing
+	 * </p>
+	 * <p>
+	 * 1 : normal start
+	 * </p>
+	 * <p>
+	 * 2 : ending part (e.g. for actual cartouches; the node)
+	 * </p>
+	 * <p>
+	 * For Hwt signs, this is somehow different :
+	 * </p>
+	 * <p>
+	 * 1 : no square
+	 * </p>
+	 * <p>
+	 * 2 : square in the lower part (for text in lines)
+	 * </p>
+	 * <p>
+	 * 3 : square in the upper part.
+	 * </p>
+	 * @return the end part code.
+	 *  
+	 */
 	public int getStartPart() {
 		return startPart;
 	}
@@ -118,6 +146,7 @@ public class Cartouche extends TopItem implements CartoucheInterface {
 	 * <p>
 	 * 3 : square in the upper part.
 	 * </p>
+	 * @return the end part code.
 	 *  
 	 */
 
@@ -146,7 +175,7 @@ public class Cartouche extends TopItem implements CartoucheInterface {
 		return new BasicItemIterator(getListIterator());
 	}
 
-	/**
+	/*
 	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)
 	 */
 
@@ -164,7 +193,8 @@ public class Cartouche extends TopItem implements CartoucheInterface {
 	}
 
 	/**
-	 * @return
+	 * returns the list of items contained in this cartouche.
+	 * @return the list of items contained in this cartouche.
 	 */
 	public BasicItemList getBasicItemList() {
 		return (BasicItemList) getChildAt(0);

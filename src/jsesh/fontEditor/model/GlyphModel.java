@@ -52,7 +52,8 @@ public class GlyphModel extends Observable implements Observer {
 	/**
 	 * méthode appelée automatiquement par les éléments du dessin
 	 * quand ils changent. 
-	 * 
+	 * @param o
+	 * @param arg
 	 */
 	public void update(Observable o, Object arg) {
 		setChanged();
@@ -60,8 +61,10 @@ public class GlyphModel extends Observable implements Observer {
 	}
 
 	/**
-	 * @param oldPos
-	 * @return
+	 * Find the form which was clicked.
+	 * @param p point clicked.
+	 * @param tolerance
+	 * @return the form closer to the point.
 	 */
 	public Forme trouverFormeQuiContient(Point p, double tolerance) {
 		Forme forme;

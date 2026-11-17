@@ -128,6 +128,8 @@ public class HieroglyphicTextModel extends Observable implements Observer {
 	/** 
 	 * shouldn't be called directly.
 	 * Receive notifications from the model, and forwards them to its own observers. 
+	 * @param o
+	 * @param arg
 	 */
 	public void update(Observable o, Object arg) {
 		// TODO : decide of the exact protocol to use.

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * BzrFontReader reads a BZR file and use a Bzr  
+ * BzrFontReader reads a BZR file and calls a BzrFontBuilder to process it. 
  *
  * Use design pattern builder. Role in Design Pattern is Director.
  * Created: Sun Jun  2 12:29:25 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version
+ * 
  */
 
 
@@ -189,6 +189,8 @@ public class BzrFontReader implements BzrCodes {
  
 	/**
 	 * Reads size-relative double
+	 * @return scaled double value
+	 * @throws IOException
 	 */
 	private double readSDouble() throws IOException
 	{
@@ -197,6 +199,8 @@ public class BzrFontReader implements BzrCodes {
 
 	/**
 	 * Reads size-relative double
+	 * @return scaled double value
+	 * @throws IOException
 	 */
 
 	private double readBDouble() throws IOException

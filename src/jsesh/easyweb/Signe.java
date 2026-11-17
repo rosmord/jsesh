@@ -1,8 +1,6 @@
 /*
  * Created on 15 déc. 2003
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package jsesh.easyweb;
 
@@ -32,7 +30,7 @@ public class Signe {
 	/**
 	 * précise si le signe est un déterminatif.
 	 * 
-	 * @return
+	 * @return if the sign is a determinative
 	 */
 	public boolean isDeterminative() {
 		return isDeterminative;

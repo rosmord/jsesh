@@ -44,6 +44,7 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 		public static Gravity FORWARD = new Gravity(2, "FORWARD");
 
 		/**
+		 * @param id
 		 * @param designation
 		 */
 		private Gravity(int id, String designation) {
@@ -66,15 +67,16 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 
 	private Gravity gravity;
 
+	
+
+	List listeners = null;
 	/**
 	 * Create a mark corresponding to a specific position in a text. When text
 	 * is inserted at the mark position, the mark will move forward.
 	 * 
 	 * @param position
 	 */
-
-	List listeners = null;
-
+	
 	public MDCMark(MDCPosition position) {
 		this(position, Gravity.FORWARD);
 	}
@@ -101,12 +103,12 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 	}
 
 	/**
-	 * @param position
-	 *            The position to set.
+	 * @param newPosition The position to set.
+	 *            
 	 */
 
 	public void setPosition(MDCPosition newPosition) {
-		if (newPosition == null || !newPosition.equals(position)) {
+		if (newPosition != null && !newPosition.equals(position)) {
 			position = newPosition;
 			position.getTopItemList().addObserver(this);
 			notifyChanges();
@@ -262,44 +264,49 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 	}
 
 	/**
-	 * @return
+	 * @return the element after the mark.
 	 */
 	public TopItem getElementAfter() {
 		return position.getElementAfter();
 	}
 
 	/**
-	 * @return
+	 * @return the element before the mark.
 	 */
 	public TopItem getElementBefore() {
 		return position.getElementBefore();
 	}
 
 	/**
-	 * @return
+	 * @return the mark index.
 	 */
 	public int getIndex() {
 		return position.getIndex();
 	}
 
 	/**
+	 * Get a position relatively to this mark.
 	 * @param i
-	 * @return
+	 * @return the position <em>i</em> places from this mark.
+	 * @see MDCPosition#getNextPosition(int)  
 	 */
 	public MDCPosition getNextPosition(int i) {
 		return position.getNextPosition(i);
 	}
 
 	/**
+	 * Get an absolute position in the list of items.
 	 * @param k
-	 * @return
+	 * @return an absolute position.
+	 * @see MDCPosition#getPositionAt(int)
 	 */
 	public MDCPosition getPositionAt(int k) {
 		return position.getPositionAt(k);
 	}
 
 	/**
-	 * @return
+	 * returns the topitemlist to which this mark points.
+	 * @return the topitemlist to which this mark points.
 	 */
 	public TopItemList getTopItemList() {
 		return position.getTopItemList();
@@ -327,6 +334,5 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 	 */
 	public void visitZoneModification(ZoneModification modification) {
 		// TODO Auto-generated method stub
-		
 	}
 }

@@ -22,7 +22,8 @@ class GroupEditorControl implements GroupEditorListener {
     boolean handleSelected;
 
     /**
-     * @param editor2
+     * @param editor
+     * 
      */
     public GroupEditorControl(GroupEditor editor) {
         this.editor = editor;

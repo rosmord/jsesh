@@ -11,7 +11,7 @@ import javax.swing.AbstractAction;
 import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 
 /**
- * TODO describe type 
+ * Action of adding an element to the lower level of a cadrat. 
  *   @author rosmord
  *
  */

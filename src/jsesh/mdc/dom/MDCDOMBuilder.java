@@ -304,18 +304,18 @@ public class MDCDOMBuilder {
 			parent = oldParent;
 			return node;
 		}
-
+//Fix the attributes that are common to all model elements
 		/**
-		 * Fix the attributes that are common to all model elements
-		 * @param node
-		 * @param t
+		 * Create an element.
+		 * @param elt
+		 * @param name
+		 * @return the element created.
 		 */
 
 		private Element createModelElement(String name, ModelElement elt) {
 			Element node = theDocument.createElement(name);
 			node.setAttribute(FILL_X, "" + elt.isFillX());
 			node.setAttribute(FILL_Y, "" + elt.isFillY());
-			node.setAttribute(ORIENTATION, "" + elt.getOrientation());
 			parent.appendChild(node);
 			return node;
 		}

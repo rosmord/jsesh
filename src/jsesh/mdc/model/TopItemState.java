@@ -32,7 +32,7 @@ public class TopItemState implements Cloneable, Comparable
 		return result;
 	}
 	/**
-	 * @return
+	 * @return true if red.
 	 */
 	public boolean isRed()
 	{
@@ -40,7 +40,7 @@ public class TopItemState implements Cloneable, Comparable
 	}
 
 	/**
-	 * @return
+	 * @return true if shaded.
 	 */
 	public boolean isShaded()
 	{

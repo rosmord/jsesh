@@ -48,7 +48,7 @@ public class HBox extends ModelElement implements HBoxInterface {
 	/**
 	 * A hbox is wide if it contains <em>only</em> a wide sign.
 	 * @return true if the box is wide.
-	 * @see 
+	 * @see Hieroglyph#isWide()
 	 */
 	public boolean isWide() {
 		boolean result= false;

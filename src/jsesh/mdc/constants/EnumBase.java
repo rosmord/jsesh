@@ -20,7 +20,7 @@ public class EnumBase {
 	
 	
 	/**
-	 * @return
+	 * @return the designation of the Enum member.
 	 */
 	public String getDesignation() {
 		return designation;

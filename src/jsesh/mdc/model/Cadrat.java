@@ -64,7 +64,7 @@ public class Cadrat
 
 	/**
 	 * Sets the shading value.
-	 * @see getShading.
+	 * @see Cadrat#getShading()
 	 * @param shading The shading to set
 	 */
 	public void setShading(int shading) {
@@ -113,7 +113,7 @@ public class Cadrat
 	 * A cadrat is wide if it contain a box <em>filled</em> with a wide sign.
 	 * <p> A wide sign is a sign that can be streched horizontally
 	 * (in practice, \l marks such signs).
-	 * @return
+	 * @return true if the cadrat is wide.
 	 */
 	public boolean isWide() {
 		boolean result= false;

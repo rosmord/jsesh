@@ -6,6 +6,8 @@
  */
 package jsesh.mdcDisplayer.draw;
 
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
+
 /**
  * A base for implementing view builders.
  * @author Serge Rosmorduc
@@ -22,7 +24,7 @@ public abstract class AbstractViewBuilder implements ViewBuilder
 	}
 
 	/**
-	 * @return
+	 * @return drawing specifications.
 	 */
 	public DrawingSpecifications getDrawingSpecifications()
 	{

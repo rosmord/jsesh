@@ -19,11 +19,12 @@ public class GraphicsUtils {
 
 	/**
 	 * Sets antialiasing on a graphics context.
-	 * @param g2d
+	 * @param g
 	 */
 	public static void antialias(Graphics g) {
 		Graphics2D g2d= (Graphics2D) g;
-		RenderingHints h = new RenderingHints(g2d.getRenderingHints());
+		//RenderingHints h = new RenderingHints(g2d.getRenderingHints());
+		RenderingHints h =g2d.getRenderingHints();
 		h.put(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		h.put(RenderingHints.KEY_TEXT_ANTIALIASING,

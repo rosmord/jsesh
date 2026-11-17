@@ -8,6 +8,8 @@ public class MDCModifier {
     /**
      * Analyse a string in MDC format and extracts the modifier
      * it represents
+     * @param str
+     * @return the modifier which corresponds to the code.
      */
      
     public static MDCModifier buildMDCModifierFromString(String str)

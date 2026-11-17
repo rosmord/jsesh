@@ -11,11 +11,11 @@ import java.util.Observer;
 import javax.swing.JTextField;
 
 /**
+ * Simple MVC oriented label.
  * @author S. Rosmorduc
  *
  */
 public class StringDisplayer extends JTextField implements Observer {
-	private StringModel model;
 	
 	public StringDisplayer(StringModel model) {
 		super(model.getText());
@@ -28,7 +28,6 @@ public class StringDisplayer extends JTextField implements Observer {
 	}
 	
 	private void init(StringModel model) {
-		this.model = model;
 		setEnabled(false);
 		setFocusable(false);
 		model.addObserver(this);

@@ -21,7 +21,8 @@ public class SubCadrat extends InnerGroup implements SubCadratInterface {
 	/**
 	 * Build a subcadrat containing only one basic item.
 	 * <p> this is a convenience method.
-	 * @param element
+	 * @param basicItem
+
 	 */
 	public SubCadrat(BasicItem basicItem) {
 		BasicItemList l= new BasicItemList();
@@ -29,7 +30,7 @@ public class SubCadrat extends InnerGroup implements SubCadratInterface {
 		addChild(l);
 	}
 
-	/**
+	/*
 	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)
 	 */
 	public void accept(ModelElementVisitor v) {v.visitSubCadrat(this);}
@@ -44,7 +45,7 @@ public class SubCadrat extends InnerGroup implements SubCadratInterface {
 
 
 	/**
-	 * @return
+	 * @return the list.
 	 */
 	public BasicItemList getBasicItemList() {
 		return (BasicItemList) getChildAt(0);

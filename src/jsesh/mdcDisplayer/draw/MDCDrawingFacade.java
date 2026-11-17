@@ -14,6 +14,7 @@ import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.MDCSyntaxError;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 import jsesh.utils.GraphicsUtils;
 
 /**
@@ -52,7 +53,7 @@ public class MDCDrawingFacade {
 	 * Generate a picture for a TopItemList passed as argument.
 	 * 
 	 * @param t
-	 * @return
+	 * @return a new bufferedImage.
 	 */
 	private BufferedImage createImage(TopItemList t) {
 		drawingSpecifications = getDrawingSpecifications();

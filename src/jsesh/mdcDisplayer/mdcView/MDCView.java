@@ -1,13 +1,16 @@
 package jsesh.mdcDisplayer.mdcView;
 
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
+import jsesh.mdc.model.SubCadrat;
 
 /**
  * Base class for all view elements. A view element is a view of an MDC model
@@ -76,8 +79,10 @@ import jsesh.mdc.model.ModelElement;
  * <p>
  * Scaling and dimensions : scaling and dimensions are really two different
  * things in this class. An important thing to note is that
- * <em> a view's dimensions are quite independant of its subviews.</em> So,
- * scaling a view won't modify its width or height.
+ * <em> a view's dimensions are quite independant of those of its subviews.</em> So,
+ * scaling a view won't modify its width or height. If one wants a view to be just large
+ * enough for its subviews, one should call fitToSubViews(), <em>after all subviews have been placed and computed</em>.
+ * If some subview is modified thereafter, fitToSubViews() should be called once more.
  * <p>
  * This file is free Software under the LGPL. (c) Serge Rosmorduc
  * 
@@ -154,7 +159,7 @@ public class MDCView extends Observable implements Observer {
 	private float dx, dy;
 
 	/**
-	 * size of this view
+	 * size of this view (seen from outside).
 	 */
 
 	private float width, height;
@@ -197,6 +202,7 @@ public class MDCView extends Observable implements Observer {
 
 	/**
 	 * Constructor for ContainerView.
+	 * @param model
 	 */
 	public MDCView(ModelElement model) {
 		setModel(model);
@@ -234,7 +240,7 @@ public class MDCView extends Observable implements Observer {
 	 * returns the view which contain this subview. Can return null, if the view
 	 * has no parent.
 	 * 
-	 * @return
+	 * @return parent.
 	 */
 	public MDCView getParent() {
 		return parent;
@@ -293,7 +299,7 @@ public class MDCView extends Observable implements Observer {
 	 * Returns the position of the top-left origin of this view's drawing,
 	 * relative to the current reference point.
 	 * 
-	 * @return
+	 * @return relative start position.
 	 */
 	public RelativePosition getStartPoint() {
 		return startPoint;
@@ -336,7 +342,7 @@ public class MDCView extends Observable implements Observer {
 	}
 
 	/**
-	 * @return
+	 * @return position of first subview.
 	 */
 	public RelativePosition getFirstSubViewPosition() {
 		if (firstSubViewPosition == null) {
@@ -347,7 +353,7 @@ public class MDCView extends Observable implements Observer {
 	}
 
 	/**
-	 * @return
+	 * @return position of next view.
 	 */
 	public RelativePosition getNextViewPosition() {
 		return nextViewPosition;
@@ -735,7 +741,7 @@ public class MDCView extends Observable implements Observer {
 	 *            Does nothing if there is only one subview.
 	 */
 
-	public void distributeHorizontally(int orientation) {
+	public void distributeHorizontally(TextDirection orientation) {
 		int n = getNumberOfSubviews();
 		if (n > 1) {
 			// Compute the available space.
@@ -743,7 +749,7 @@ public class MDCView extends Observable implements Observer {
 			float minW = getSumOfSubViewsWidths();
 			float interSpace = (getInternalWidth() - minW) / (n - 1);
 			ViewIterator i = iterator();
-			if (orientation == ModelElement.LEFT_TO_RIGHT) {
+			if (orientation.equals(TextDirection.LEFT_TO_RIGHT)) {
 				// setSubViewReference(MDCView.WEST, MDCView.NORTH);
 				RelativePosition p = getFirstSubViewPosition();
 				p.setValues(0f, RelativePosition.WEST, 0f,
@@ -757,19 +763,22 @@ public class MDCView extends Observable implements Observer {
 				// setSubViewReference(MDCView.EAST, MDCView.NORTH);
 				// setSubX(0);
 				// setSubY(0);
-				getFirstSubViewPosition().setDx(getWidth());
-				getFirstSubViewPosition().setDy(0);
+				RelativePosition p = getFirstSubViewPosition();
+				p.setValues(getInternalWidth(), RelativePosition.WEST, 0f,
+						RelativePosition.NORTH);
 
 				while (i.hasNext()) {
 					MDCView v = i.next();
 					v.resetPos();
-					v.getStartPoint().setDx(-(v.getWidth() + interSpace));
+					v.getStartPoint().setDx(-v.getWidth());
+					v.getNextViewPosition().setValues(-interSpace, RelativePosition.PREVIOUS, 0f, RelativePosition.PREVIOUS);
 				}
 			}
 		}
 	}
 
 	/**
+	 * @param skip skip betweens subviews.
 	 * Distribute subviews vertically, beginning from the top. The subview's
 	 * scales and shape doesn't change, and they don't fill the available space.
 	 */
@@ -777,8 +786,17 @@ public class MDCView extends Observable implements Observer {
 	// TODO : I think I did a mistake on this one. Currently, I call it for
 	// columns, which are not
 	// filled !!!!
-	public void flushTop() {
-		// TODO : write flushtop
+	public void stackTop(float skip) {
+		RelativePosition p = getFirstSubViewPosition();
+		p.setValues(0f, RelativePosition.WEST, 0f,
+				RelativePosition.NORTH);
+		ViewIterator i= iterator();
+		while (i.hasNext()) {
+			MDCView v = i.next();
+			v.resetPos();
+			v.getNextViewPosition().setDy(v.getHeight() + skip);
+		}
+		fitToSubViews();
 	}
 
 	/**
@@ -843,19 +861,12 @@ public class MDCView extends Observable implements Observer {
 		return result;
 	}
 
-	public void putSubViewOnBottom() {
-		MDCView sub = getFirstSubView();
-		float space = (getInternalHeight() - sub.getHeight());
-		sub.getStartPoint().setDy(space);
-		sub.getStartPoint().setYAnchor(RelativePosition.SOUTH);
-	}
 
 	/**
 	 * Ensures the height for this view is lesser than maxHeight, by setting the
 	 * scale accordingly if necessary.
 	 * 
-	 * @param maxHeight.
-	 *            the maximum height for this view element. 0 means no limit.
+	 * @param maxHeight the maximum height for this view element. 0 means no limit.
 	 *  
 	 */
 	public void scaleForMaxHeight(float maxHeight) {
@@ -871,8 +882,7 @@ public class MDCView extends Observable implements Observer {
 	 * Ensures the width for this view is lesser than maxWidth, by setting the
 	 * scale accordingly if necessary.
 	 * 
-	 * @param maxWidth.
-	 *            the maximum width for this view element. 0 means no limit.
+	 * @param maxWidth the maximum width for this view element. 0 means no limit.
 	 *  
 	 */
 	public void scaleForMaxWidth(float maxWidth) {
@@ -910,68 +920,45 @@ public class MDCView extends Observable implements Observer {
 	/**
 	 * stick the subviews to one side of this view.
 	 * 
-	 * @param i :
-	 *            one of RelativePosition.SOUTH, WEST, NORTH, EAST.
+	 * @param side one of RelativePosition.SOUTH, WEST, NORTH, EAST.
 	 */
-	public void stickTo(int side) {
+	public void stickSubViewsTo(int side) {
 		ViewIterator i = iterator();
 		RelativePosition p;
 
 		p = getFirstSubViewPosition();
 
-		switch (side) {
-		case RelativePosition.SOUTH:
-			p.setDy(0f);
-			p.setYAnchor(side);
-			break;
-		case RelativePosition.NORTH:
-			p.setDy(0f);
-			p.setYAnchor(side);
-			break;
-		case RelativePosition.EAST:
-			p.setDx(0f);
-			p.setXAnchor(side);
-			break;
-		case RelativePosition.WEST:
-			p.setDx(0f);
-			p.setXAnchor(side);
-			break;
-		}
-
 		while (i.hasNext()) {
 			MDCView subView = (MDCView) i.next();
-			p = subView.getNextViewPosition();
 
 			switch (side) {
-			case RelativePosition.NORTH:
 			case RelativePosition.SOUTH:
+				p.setDy(-subView.getHeight());
+				p.setYAnchor(side);
+				break;
+			case RelativePosition.NORTH:
 				p.setDy(0f);
 				p.setYAnchor(side);
 				break;
 			case RelativePosition.EAST:
+				p.setDx(-subView.getWidth());
+				p.setXAnchor(side);
+				break;
 			case RelativePosition.WEST:
 				p.setDx(0f);
 				p.setXAnchor(side);
 				break;
 			}
+
+			p = subView.getNextViewPosition();
 		}
 
 	}
 
-	/**
-	 * @param orientation :
-	 *            either LEFT_TO_RIGHT or RIGHT_TO_LEFT.
-	 */
-	public void flushSideDELETEMEIMSTUPID(int orientation) {
-		if (orientation == ModelElement.LEFT_TO_RIGHT) {
-
-		}
-		// TODO : write flushSide for RIGHT_TO_LEFT.
-	}
 
 	/**
 	 * @param i
-	 * @return
+	 * @return the subview number i.
 	 */
 	public MDCView getSubView(int i) {
 		return (MDCView) subViews.get(i);
@@ -992,7 +979,7 @@ public class MDCView extends Observable implements Observer {
 	 * Return the x axis displacement between the reference point and the
 	 * position where the drawing should start.
 	 * 
-	 * @return
+	 * @return dx.
 	 */
 	public float getDx() {
 		return dx;
@@ -1002,7 +989,7 @@ public class MDCView extends Observable implements Observer {
 	 * Return the y axis displacement between the reference point and the
 	 * position where the drawing should start.
 	 * 
-	 * @return
+	 * @return dy
 	 */
 	public float getDy() {
 		return dy;
@@ -1049,30 +1036,35 @@ public class MDCView extends Observable implements Observer {
 	/**
 	 * Compute the dimensions of this view so that it contains exactly its
 	 * subviews.
+	 * 
+	 * TODO : MODIFY THE SUBVIEWS THEMSELVES TO BE SURE THAT THE RESULT IS SECURE
 	 */
 	public void fitToSubViews() {
 		width = 0f;
 		height = 0f;
 		float x = 0f;
 		float y = 0f;
+		Rectangle2D area= new Rectangle2D.Double();
+		
 		RelativePosition prev = getFirstSubViewPosition();
 		for (int i = 0; i < getNumberOfSubviews(); i++) {
 			MDCView subv = getSubView(i);
-			x = prev.computeXTranslation(this, subv, x);
-			y = prev.computeYTranslation(this, subv, y);
-			x = subv.getStartPoint().computeXTranslation(this, subv, x);
-			y = subv.getStartPoint().computeYTranslation(this, subv, y);
-			float maxx = x + subv.getDx() + subv.getWidth();
-			float maxy = y + subv.getDy() + subv.getHeight();
-			if (maxx > width)
-				width = maxx;
-			if (maxy > height)
-				height = maxy;
+			x = prev.computeXTranslation(this, x);
+			y = prev.computeYTranslation(this, y);
+			x = subv.getStartPoint().computeXTranslation(this, x);
+			y = subv.getStartPoint().computeYTranslation(this, y);
+			area.add(new Rectangle2D.Double(x+subv.getDx(),y+subv.getDy(), subv.getWidth(), subv.getHeight()));	
+			prev= subv.getNextViewPosition();
 		}
+		// The following may be buggy if we mix subviews relative to the left and to the right side of this view.		
+		width= (float) area.getWidth()*xScale;
+		height= (float) area.getHeight()*yScale;
+		// See all subviews. Ensures that the coordinates are correct.
+		
 	}
 
 	/**
-	 * @return
+	 * @return the last subView.
 	 */
 	public MDCView getLastSubView() {
 		if (getNumberOfSubviews() > 0)
@@ -1106,4 +1098,41 @@ public class MDCView extends Observable implements Observer {
 		subViews.set(i, subv);
 		subv.parent = this;
 	}
+
+    /**
+     * resets a view's dimensions, scale, internal starting point...
+     * doesn't modify the external position information.
+     */
+    public void reset() {
+        setWidth(0f);
+        setHeight(0f);        
+        setModel(model);
+		xScale = 1.0F;
+		yScale = 1.0F;
+		angle = 0f;
+		fillX = false;
+		fillY = false;
+		height = 0f;
+		width = 0f;
+		affineTransform = null;
+		if (firstSubViewPosition != null)
+		    getFirstSubViewPosition().setValues(0,
+	                RelativePosition.WEST, 0, RelativePosition.NORTH);				
+		resetPos();        
+    }
+
+    /**
+     * Sets the height of all subviews of this view to the view's height, if possible.
+     */
+    public void setSubViewsToHeight() {
+        	float tmph= getInternalHeight();
+        	for (ViewIterator it= iterator(); it.hasNext(); ) {
+        	    MDCView subv= it.next();
+        	    if (subv.getModel() instanceof SubCadrat) {
+        	        subv.setHeight(tmph);
+        	        subv.distributeFromTopToBottom();
+        	    }
+        	}
+        	stickSubViewsTo(RelativePosition.SOUTH);        
+    }
 }

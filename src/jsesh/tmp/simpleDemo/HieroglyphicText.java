@@ -10,7 +10,7 @@ package jsesh.tmp.simpleDemo;
  * Created: Fri Jun  7 16:25:10 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version */
+ */
 
 import java.util.LinkedList;
 

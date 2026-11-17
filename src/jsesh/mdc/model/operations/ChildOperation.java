@@ -35,7 +35,8 @@ public class ChildOperation extends ModelOperation {
 		v.visitChildOperation(this);
 	}
 	/**
-	 * @return
+	 * Return the operation done on the child of the element.
+	 * @return the child operation.
 	 */
 	public ModelOperation getChildOperation() {
 		return childOperation;

@@ -61,6 +61,7 @@ class HorizontalGrouper {
 		 * Fetch InnerGroups from a cadrat. If the cadrat is limited to a single 
 		 * hbox, dig into it a fetch the hbox elements.
 		 * If it's more complex, embed the cadrat in a subcadrat (as with other basic item lists).
+		 * @param c
 		 */
 		
 		public void visitCadrat(Cadrat c) {
@@ -73,6 +74,7 @@ class HorizontalGrouper {
 		
 		/**
 		 * Embed simple basicItem in a SubCadrat.
+		 * @param t
 		 */
 		public void visitBasitItem(BasicItem t) {
 			BasicItemList l= new BasicItemList();

@@ -25,14 +25,14 @@ public class Point {
 	
 	
 	/**
-	 * @return
+	 * @return x
 	 */
 	public double getX() {
 		return x;
 	}
 
 	/**
-	 * @return
+	 * @return y
 	 */
 	public double getY() {
 		return y;
@@ -63,7 +63,7 @@ public class Point {
 	 * @param b
 	 * @param c
 	 * @param d
-	 * @return
+	 * @return the scalar produc ab.cd.
 	 */
 	public static double scalaire(Point a, Point b, Point c, Point d) {
 		return (b.x-a.x)*(d.x-c.x) + (b.y-a.y)*(d.y-c.y);		

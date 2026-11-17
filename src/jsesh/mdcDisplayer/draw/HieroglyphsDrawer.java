@@ -31,6 +31,7 @@ public interface HieroglyphsDrawer {
      *            where we are going to draw
      * @param code
      *            the hieroglyph code in Manuel de Codage
+     * @param angle
      * @param currentView :
      *            the view.
      */
@@ -58,8 +59,15 @@ public interface HieroglyphsDrawer {
 
     /**
      * Get the shape of a sign, once transformed.
+     * @param code
+     * @param x
+     * @param y
+     * @param xscale
+     * @param yscale
+     * @param angle
+     * @param reversed
      * 
-     * @return
+     * @return the transformed shape.
      */
     Shape getTransformedShape(String code, double x, double y, double xscale, double yscale,
             int angle, boolean reversed);
@@ -67,6 +75,7 @@ public interface HieroglyphsDrawer {
     /**
      * Get the sign area.
      * The area of a sign is the region enclosed in its outer boundaries.
+     * @param code
      * 
      * @param x
      * @param y
@@ -74,7 +83,7 @@ public interface HieroglyphsDrawer {
      * @param yscale
      * @param angle
      * @param reversed
-     * @return
+     * @return the global area occupied by this sign.
      */
     Area getSignArea(String code, double x, double y, double xscale, double yscale,
             int angle, boolean reversed);
@@ -83,7 +92,7 @@ public interface HieroglyphsDrawer {
      * Does this code correspond to a known sign ?
      * 
      * @param code
-     * @return
+     * @return true if the sign is known.
      */
     boolean isKnown(String code);
 }

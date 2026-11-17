@@ -9,7 +9,7 @@ package jsesh.tmp.simpleDemo;
  * Created: Mon Jun 10 13:08:21 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version
+ * 
  */
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +18,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
 import jsesh.utils.GraphicsUtils;
 
@@ -31,7 +32,7 @@ public class DemoMDCDisplayer extends JPanel {
 	setSize(getPreferredSize());
 	setBackground(Color.white);
 
-	HieroglyphicFontManager manager= HieroglyphicFontManager.getInstance();
+	HieroglyphicFontManager manager= DefaultHieroglyphicFontManager.getInstance();
 	drawer= new HieroglyphicDrawer(manager);
 	setDoubleBuffered(true);
     }

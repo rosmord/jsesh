@@ -12,9 +12,10 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphsManager;
-import jsesh.mdcDisplayer.draw.layout.ExplicitPosition;
+import jsesh.mdcDisplayer.layout.ExplicitPosition;
 import jsesh.resources.ResourcesManager;
 
 /**
@@ -28,7 +29,7 @@ public class LigatureManager {
 	static private LigatureManager instance = null;
 
 	/**
-	 * @return
+	 * @return the ligature manager.
 	 */
 	public static LigatureManager getInstance() {
 		if (instance == null) {
@@ -81,10 +82,12 @@ public class LigatureManager {
 	/**
 	 * Reads a ligature description file (in tksesh's format).
 	 * @param in
+	 * @throws IOException
+	 * 
 	 */
 	public void readTksesh(Reader in) throws IOException {
 		BufferedReader r = new BufferedReader(in);
-		HieroglyphicFontManager fontmanager= HieroglyphicFontManager.getInstance();
+		HieroglyphicFontManager fontmanager= DefaultHieroglyphicFontManager.getInstance();
 		
 		String s;
 		while ((s = r.readLine()) != null) {

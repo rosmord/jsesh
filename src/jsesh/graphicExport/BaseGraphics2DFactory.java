@@ -1,0 +1,37 @@
+/*
+ * Created on 5 juil. 2005 by rosmord
+ *
+ * TODO document the file BaseGraphics2DFactory.java
+ * 
+ * This file is distributed along the GNU Lesser Public License (LGPL)
+ * author : rosmord
+ */
+package jsesh.graphicExport;
+
+import java.awt.Dimension;
+import java.io.IOException;
+
+import jsesh.graphics.generic.BaseGraphics2D;
+
+/**
+ * Classes who know how to build a graphic of a certain dimension.
+ * <p> Used for exporting graphic files.
+ * 
+ * <p> TODO : New system : the factory is also used for multipaged documents.
+ * @author rosmord
+ */
+public interface BaseGraphics2DFactory {
+
+	/**
+	 * @param deviceDimensions size in device dependent space. For instance, pixels for bitmaps.
+	 */
+	void setDimension(Dimension deviceDimensions);
+	
+    /**
+     * Build a graphic file for the export.
+   * 
+     * @return a StreamGraphics2D
+     */
+    BaseGraphics2D buildGraphics() throws IOException;
+
+}

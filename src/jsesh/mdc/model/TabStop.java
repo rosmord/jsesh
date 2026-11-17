@@ -33,8 +33,8 @@ public class TabStop extends TopItem {
 	
 	
 
-	/**
-	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)
+	/*
+	 * @see jsesh.mdc.model.ModelElement#accept(jsesh.mdc.model.ModelElementVisitor)
 	 */
 	public void accept(ModelElementVisitor v) {
 		v.visitTabStop(this);

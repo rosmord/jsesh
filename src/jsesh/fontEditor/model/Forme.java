@@ -36,13 +36,13 @@ public abstract class Forme extends Observable implements Observer {
 	 * @param p
 	 * @param tolerance : le <em>carré</em> de la distance (en coordonnées dessin) utilisée comme marge d'erreur
 	 * 	      pour certaines formes comme les segments.
-	 * @return
+	 * @return true if the form contains the point.
 	 */
 	
 	abstract public boolean contient(Point p, double tolerance);
 	
 	/**
-	 * @return
+	 * @return the color.
 	 */
 	public Color getCouleur() {
 		return couleur;

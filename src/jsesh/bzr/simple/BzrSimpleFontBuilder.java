@@ -14,7 +14,7 @@ import jsesh.bzr.BzrFontBuilder;
  * 
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC
  *         </a>
- * @version
+ * 
  */
 
 public class BzrSimpleFontBuilder implements BzrFontBuilder {

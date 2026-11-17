@@ -149,7 +149,7 @@ public class ModelWriter {
 				end = "->";
 			} else {
 				start = "<" + cartoucheCode + c.getStartPart() + "-";
-				end = "-" + c.getEndPart() + ">";
+				end = "-" + cartoucheCode+ c.getEndPart() + ">";
 			}
 			write(start);
 			c.getBasicItemList().accept(this);
@@ -319,6 +319,7 @@ public class ModelWriter {
 		 * like that way we deal with them, but then a) HieroTeX user know how
 		 * to correct syntax errors ; and b) I will write a java port of
 		 * hierotex anyway.
+		 * @param t
 		 */
 		public void visitTopItemList(TopItemList t) {
 			TopItemState state = new TopItemState();
@@ -353,7 +354,8 @@ public class ModelWriter {
 		 * @param state
 		 * @param newState
 		 * @param redCloser
-		 * @return
+		 * @return true if a red toggle was closer than a gray toggle.
+		 * TODO : perhaps move the whole "closer" business to fields of this class.
 		 */
 		private boolean fixToggles(TopItemState state, TopItemState newState,
 				boolean redCloser) {
@@ -461,7 +463,7 @@ public class ModelWriter {
 	/**
 	 * write the elements between indexes a and b.
 	 * @param w
-	 * @param t
+	 * @param top
 	 * @param a
 	 * @param b
 	 */

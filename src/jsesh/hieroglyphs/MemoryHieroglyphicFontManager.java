@@ -10,7 +10,7 @@ package jsesh.hieroglyphs;
  * Created: Mon Jun 10 17:59:58 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version */
+ */
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -21,12 +21,13 @@ import jsesh.bzr.simple.BzrSimpleFont;
 import jsesh.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.bzr.simple.ShapeChar;
 
-public class MemoryHieroglyphicFontManager extends HieroglyphicFontManager {
+public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 
 	static MemoryHieroglyphicFontManager instance = null;
 
 	HashMap codes;
 	BzrSimpleFont fonts[];
+	boolean hasNewSigns= false;
 
 	public MemoryHieroglyphicFontManager() {
 		String fontNames[] =
@@ -67,7 +68,7 @@ public class MemoryHieroglyphicFontManager extends HieroglyphicFontManager {
 		for (int i = 0; i < fonts.length; i++)
 			try {
 				if (fontNames[i] != null) {
-					String rbase = "/jsesh/goodbzr/";
+					String rbase = "/jseshResources/goodbzr/";
 					InputStream f =
 						getClass().getResourceAsStream(rbase + fontNames[i]);
 					//    ClassLoader.getSystemClassLoader().getResourceAsStream(rbase + fontNames[i]);    
@@ -1249,6 +1250,7 @@ public class MemoryHieroglyphicFontManager extends HieroglyphicFontManager {
 	}
 
 	public void set(String code, ShapeChar s) {
+		hasNewSigns= true;
 		codes.put(code, s);
 	}
 
@@ -1256,11 +1258,15 @@ public class MemoryHieroglyphicFontManager extends HieroglyphicFontManager {
 	/**
 	 * A temporary method, which WILL MOVE  WHEN THE FONTS ARE STORED IN A DATABASE.
 	 * IMPORTANT : CHANGE THE FONT HANDLING SYSTEM.
-	 * @return
+	 * @return the set of codes.
 	 */
 	public Set getCodes()
 	{
+		hasNewSigns= false;
 		return codes.keySet();
 	}
 	
+	public boolean hasNewSigns() {	
+		return hasNewSigns;
+	}
 } // HieroglyphicFontManager

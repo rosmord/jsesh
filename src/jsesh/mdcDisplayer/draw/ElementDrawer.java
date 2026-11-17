@@ -2,6 +2,8 @@ package jsesh.mdcDisplayer.draw;
 
 import java.awt.Graphics2D;
 
+import jsesh.mdc.constants.TextDirection;
+import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.BasicItemList;
@@ -25,6 +27,7 @@ import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.TopItemState;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
  * This file is free Software 
@@ -69,7 +72,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	protected boolean postfix;
 	
     // only the ViewDrawer can write here
-	DrawingSpecifications drawingSpecifications;
+	protected DrawingSpecifications drawingSpecifications;
 	
 	/**
 	 * True if pagination is on, in which case no line will be drawn for new pages.
@@ -93,14 +96,32 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	protected MDCView currentView;
 
 
+	protected TextOrientation currentTextOrientation;
+	
+	protected TextDirection currentTextDirection;
+	
 	/**
 	 * Initialize the drawer before drawing the text.
-	 * implementations of ElementDrawer should override this method ;
-	 * an empty implementation is perfectly possible.
+	 * This method is called once before drawing a whole MDC text.
+	 * implementations of ElementDrawer can override this method ;
+	 * if so, they should call super.prepareDrawing(drawingSpecifications) at some time.
+	 * @param drawingSpecifications TODO
 	 */
 	
-    abstract public void reset();
+     public void prepareDrawing(DrawingSpecifications drawingSpecifications) {
+         this.drawingSpecifications= drawingSpecifications;
+     }
     
+     /**
+      * free some ressources used by ElementDrawer.
+      * called after the text has been drawn. 
+      * Implementations can override this method, but should call super.cleanup() in this case.
+      *
+      */
+     public void cleanup() {
+         this.drawingSpecifications= null;
+     }
+     
 	/**
 	 * Draws the element part of a view on the Graphics element
 	 * specified before.
@@ -112,7 +133,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 * @param e : the view to draw.
 	 * @param g : the graphics to draw to.
 	 * @param postfix : this boolean indicates if the method is being called after the subelements have been drawn.
-	 * @see postfix 
+	 * @see ElementDrawer#postfix
 	 */
 
 	public void drawElement(MDCView e, Graphics2D g, boolean postfix) {
@@ -121,9 +142,12 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		if (elt== null)
 			return;
 		currentView= e;
-		this.g=(Graphics2D) g.create();
+		//this.g=(Graphics2D) g.create();
+		currentTextDirection= drawingSpecifications.getTextDirection();
+		currentTextOrientation= drawingSpecifications.getTextOrientation();
+		this.g=g;
 		elt.accept(this);
-		this.g.dispose();
+		//this.g.dispose();
 	}
 
 	/**
@@ -233,13 +257,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		// This method intentionnaly left blank.
 	}
 
-	void setDrawingSpecification(DrawingSpecifications d) {
-		drawingSpecifications = d;
-	}
-	
-	protected DrawingSpecifications getDrawingSpecifications() {
-		return drawingSpecifications;
-	}
+		
 	/**
 	 * The ViewDrawer is responsible for setting the drawing specifications
 	 * before drawing. Thus, drawing specifications can be shared,
@@ -252,7 +270,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	}
 
 	/**
-	 * @return
+	 * @return the current drawing state.
 	 */
 	public TopItemState getDrawingState()
 	{

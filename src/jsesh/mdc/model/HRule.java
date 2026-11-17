@@ -74,8 +74,8 @@ public class HRule extends TopItem {
 		this.type = type;
 	}
 
-	/**
-	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)
+	/*
+	 * @see ModelElement#accept(ModelElementVisitor) 
 	 */
 	public void accept(ModelElementVisitor v) {
 		v.visitHRule(this);

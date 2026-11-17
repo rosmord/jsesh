@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * BzrPortableFile.java
+ * A low level binary reader for reading BZR files. 
  *
  *
  * Created: Sat May 25 17:09:52 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version
+ * 
  */
 
 
@@ -80,6 +80,7 @@ public class BzrPortableFile extends FilterInputStream implements BzrCodes {
      * 
      * @return a <code>String</code> value. No attempt is currently made
      * to have a correct representation for non ASCII chars.
+     * @throws IOException
      *
      */
 

@@ -15,13 +15,6 @@ public class SimpleStringModel extends Observable implements StringModel{
 	private String text;
 	
 	/**
-	 * 
-	 */
-	private void StringMode() {
-		text= "";
-	}
-
-	/**
 	 * @param text
 	 */
 	public SimpleStringModel(String text) {

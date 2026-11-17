@@ -23,4 +23,8 @@ public class TextDirection extends EnumBase {
 	public TextDirection(int id, String designation) {
 		super(id, designation);
 	}
+	
+	public boolean isLeftToRight() {
+	    return getId() == 0;
+	}
 }

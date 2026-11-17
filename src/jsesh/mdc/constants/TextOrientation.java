@@ -22,4 +22,11 @@ public class TextOrientation extends EnumBase {
 	private TextOrientation(int id, String designation) {
 		super(id, designation);
 	}
+
+    /**
+     * @return true if this is the horizontal orientation.
+     */
+    public boolean isHorizontal() {      
+        return getId() == HORIZONTAL.getId();
+    }
 }

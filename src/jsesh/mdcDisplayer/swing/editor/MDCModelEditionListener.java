@@ -44,6 +44,8 @@ public interface MDCModelEditionListener extends MDCCaretChangeListener {
 	 */
 	void textChanged(); 
 	
+	void separatorChanged();
+	
 	void codeChanged(StringBuffer code);
 	
 	void focusGained(StringBuffer code);

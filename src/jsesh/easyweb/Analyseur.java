@@ -1,8 +1,6 @@
 /*
  * Created on 15 déc. 2003
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package jsesh.easyweb;
 
@@ -19,10 +17,7 @@ import jsesh.mdc.interfaces.ModifierListInterface;
 import jsesh.mdc.interfaces.OptionListInterface;
 
 /**
- * @author rosmord
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Analyses a MDC text and produces a list of signs codes.
  */
 public class Analyseur {
 	private MDCParserFacade parser;

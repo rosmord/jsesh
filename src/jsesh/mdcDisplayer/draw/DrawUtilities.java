@@ -16,6 +16,7 @@ import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.utilities.InnerGroupLister;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.RelativePosition;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
  * @author Serge Rosmorduc
@@ -26,7 +27,8 @@ public class DrawUtilities {
     	 * Build an absolute group from a list of top items.
     	 * The group will try to be as close as possible to the original top items disposition.
     	 * @param topItems
-    	 * @return
+    	 * @param specs
+    	 * @return a new AbsoluteGroup.
     	 */
     	public static AbsoluteGroup createAbsoluteGroupFrom(List topItems, DrawingSpecifications specs) {
     	    AbsoluteGroup result= null;
@@ -90,10 +92,10 @@ public class DrawUtilities {
     	        RelativePosition prev= v.getFirstSubViewPosition();
     	        for (int i= 0; i< v.getNumberOfSubviews(); i++) {
     	            MDCView subv= v.getSubView(i);
-    	            px= prev.computeXTranslation(v,subv, px);
-        	        py= prev.computeYTranslation(v,subv, py);
-    	            px= subv.getStartPoint().computeXTranslation(v,subv, px);
-        	        py= subv.getStartPoint().computeYTranslation(v,subv, py);
+    	            px= prev.computeXTranslation(v,px);
+        	        py= prev.computeYTranslation(v,py);
+    	            px= subv.getStartPoint().computeXTranslation(v,px);
+        	        py= subv.getStartPoint().computeYTranslation(v,py);
         	        // Save position before entering the subview.
         	        float oldScale= scale;
         	        float oldx= origx;

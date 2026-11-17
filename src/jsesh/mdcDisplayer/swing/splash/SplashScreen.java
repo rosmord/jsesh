@@ -16,11 +16,12 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 /**
  * @author Serge Rosmorduc
  */
-public class SplashScreen extends Frame {
+public class SplashScreen extends Frame  {
 
     private Image img;
 
@@ -34,7 +35,6 @@ public class SplashScreen extends Frame {
         setSize(img.getWidth(this), img.getHeight(this));
         center();
         toFront();
-        show();
         addMouseListener(new MouseAdapter() {
             /* (non-Javadoc)
              * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
@@ -44,12 +44,30 @@ public class SplashScreen extends Frame {
             }
         });
     }
+    
+    /**
+     * Displays this screen in a thread-clean way ?
+     *
+     */
+    public void display() {
+        Runnable r= new Runnable() {
+            /* (non-Javadoc)
+             * @see java.lang.Runnable#run()
+             */
+            public void run() {
+                setVisible(true);
+            }
+        };
+            SwingUtilities.invokeLater(r);
+    
+                
+    }
 
     /**
      * 
      */
     private void buildImage() {
-        URL imgURL = getClass().getResource("splash.png");
+        URL imgURL = getClass().getResource("/jseshResources/images/splash.png");
         img = new ImageIcon(imgURL).getImage();
     }
 
@@ -82,4 +100,5 @@ public class SplashScreen extends Frame {
         img.flush();
         dispose();
     }
+
 }

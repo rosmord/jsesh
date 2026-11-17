@@ -22,12 +22,15 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
+import jsesh.mdc.constants.TextDirection;
+import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdcDisplayer.draw.MDCCaret;
 import jsesh.mdcDisplayer.draw.SimpleViewBuilder;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 import jsesh.utils.GraphicsUtils;
 
 /**
@@ -103,7 +106,7 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 	public JMDCEditor(HieroglyphicTextModel data) {
 		setBackground(Color.WHITE);
 		drawer = new ViewDrawer();
-		drawer.setCached(true);
+		drawer.setCached(false);
 		setScale(2.0);
 		//simpleDrawingSpecification= new SimpleDrawingSpecifications();
 		builder = new SimpleViewBuilder();
@@ -142,6 +145,10 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 		// NO-OP.
 	}
 
+	public void separatorChanged() {
+		// NO-OP
+	}
+	
 	public void deleteCodeChangeListener(MDCModelEditionListener l) {
 		workflow.deleteCodeChangeListener(l);
 	}
@@ -174,7 +181,7 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 	}
 
 	/**
-	 * @return
+	 * @return the model.
 	 *  
 	 */
 	public HieroglyphicTextModel getHieroglyphicTextModel() {
@@ -184,6 +191,7 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 	/**
 	 * returns the cursor associated with this object, or null if none. The
 	 * simple displayer has no cursor. Only its editor subclass has.
+	 * @return the caret.
 	 */
 	protected MDCCaret getMDCCaret() {
 		return workflow.getCaret();
@@ -204,7 +212,7 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 	}
 
 	/**
-	 * @return
+	 * @return the scale
 	 *  
 	 */
 	public double getScale() {
@@ -213,8 +221,8 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 
 	/**
 	 * Returns a MDCView of the current hieroglyphicTextModel.
-	 * 
-	 * @return
+	 * Build it if necessary.
+	 * @return the view for the model.
 	 */
 
 	public MDCView getView() {
@@ -238,7 +246,8 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 	}
 
 	/**
-	 * @param e
+	 * Moves cursor to screen position p.
+	 * @param p a point in screen position.
 	 */
 	protected void moveCursorToMouse(Point p) {
 
@@ -249,13 +258,14 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 		clickPoint.y = (int) (clickPoint.y / getScale());
 		//drawer.getPositionForPoint(getView(), clickPoint);
 		MDCPosition pos= drawer.getPositionForPoint(getView(), clickPoint,
-				builder.getDrawingSpecifications());
+				getDrawingSpecifications());
 		if (pos != null)
 			workflow.setCursor(pos);
 	}
 
 	/**
-	 * @param e
+	 * Moves mouse to screen position p.
+	 * @param p
 	 */
 	protected void moveMarkToMouse(Point p) {
 		Point clickPoint = (Point) p.clone();
@@ -265,23 +275,25 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 		clickPoint.y = (int) (clickPoint.y / getScale());
 		//drawer.getPositionForPoint(getView(), clickPoint);
 		MDCPosition pos= drawer.getPositionForPoint(getView(), clickPoint,
-				builder.getDrawingSpecifications());
+				getDrawingSpecifications());
 		workflow.setMark(pos);
 	}
 
 	public void paintComponent(Graphics g) {
-		//boolean canDraw= true;
+		super.paintComponent(g);	
+		
+	    //boolean canDraw= true;
 		
 		//if (canDraw) {
-			super.paintComponent(g);
-			Graphics2D g2d = (Graphics2D) g;
-			GraphicsUtils.antialias(g2d);
-			g2d.scale(scale, scale);
+		Graphics2D g2d = (Graphics2D) g;
+		GraphicsUtils.antialias(g2d);
+		g2d.scale(scale, scale);
 
-			drawer.setClip(true);
-			drawer.DrawViewAndCursor(g2d, getView(), getMDCCaret(), builder
-					.getDrawingSpecifications());
-		//}
+	
+		drawer.setClip(true);
+		drawer.DrawViewAndCursor(g2d, getView(), getMDCCaret(), builder
+				.getDrawingSpecifications());
+
 		if (caretChanged) {
 			// Disarm caret change updates.
 			caretChanged = false;
@@ -289,10 +301,16 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 			Rectangle r= getPointerRectangle();
 			if (! g.getClipBounds().contains(r)) {
 				//canDraw= false;
+			    // Let's get some space around the cursor :
+			    r.height+= 4;
+			    r.width+= 4;
+			    r.x-=2;
+			    r.y-=2;
 				scrollRectToVisible(r);
-				repaint();
+				repaint();				
 			}
 		} 
+
 	}
 
 	/*
@@ -343,7 +361,7 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 	 */
 	public void textEdited(ModelOperation op) {
 		op.accept(viewUpdater);
-		// TODO : only call revalidate if the dimensions have changed.
+		// FIXME : only call revalidate if the dimensions have changed.
 		revalidate();
 		repaint();
 	}
@@ -358,7 +376,7 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 	/**
 	 * Returns a rectangle describing the current cursor position.
 	 * 
-	 * @return
+	 * @return a rectangle describing the current cursor position.
 	 */
 	Rectangle getPointerRectangle() {
 		Rectangle2D r1 = drawer.getRectangleAroundPosition(getView(), workflow
@@ -373,6 +391,55 @@ public class JMDCEditor extends JPanel implements MDCModelEditionListener {
 		Rectangle r = new Rectangle((int) (r1.getX() * getScale()), (int) (r1
 				.getY() * getScale()), w, h);
 		return r;
+	}
+	
+	/**
+     * Chooses between lines and columns for main text.
+     * Should change orientation in sub zones when a zone system is created.
+     * @param orientation
+     */
+    public void setTextOrientation(TextOrientation orientation) {
+        getDrawingSpecifications().setTextOrientation(orientation);
+        invalidateView();
+    }
+    
+    /**
+     * Choose between right-to-left and left-to-right text direction.
+     *  
+     */
+    public void setTextDirection(TextDirection direction) {        
+        getDrawingSpecifications().setTextDirection(direction);
+        invalidateView();
+    }
+    
+    public TextOrientation getTextOrientation() {
+        return getDrawingSpecifications().getTextOrientation();
+    }
+    
+    /**
+     * Choose between right-to-left and left-to-right text direction.
+     *  
+     */
+    public TextDirection getTextDirection() {
+        return getDrawingSpecifications().getTextDirection();
+    }
+    
+    /**
+     * Returns the specifications attached to the current window.
+     */
+    public DrawingSpecifications getDrawingSpecifications() {
+        return builder.getDrawingSpecifications();
+    }
+
+    public void invalidateView() {
+        mdcView= null;
+		if (drawer.isCached())
+			drawer.flushCache();
+        repaint();
+    }
+
+	public char getCurrentSeparator() {
+		return getWorkflow().getCurrentSeparator();
 	}
 
 }

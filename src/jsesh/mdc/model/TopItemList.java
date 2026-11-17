@@ -37,7 +37,8 @@ public class TopItemList
 	/**
 	 * Add a list of topitems at a given position in this TopItemList.
 	 * @param index
-	 * @param copyBuffer
+	 * @param items
+	 * 
 	 */
 	public void addAllAt(int index, List items) {
 		super.addAllAt(index, items, TopItem.class);
@@ -71,7 +72,7 @@ public class TopItemList
 	/**
 	 * Return the ith children as a topitem.
 	 * @param i
-	 * @return
+	 * @return the ith children as a topitem.
 	 */
 	public TopItem getTopItemAt(int i) {
 		return (TopItem) getChildAt(i);
@@ -109,7 +110,7 @@ public class TopItemList
 	 * Returns the list of the suppressed elements.
 	 * @param a
 	 * @param b
-	 * @return
+	 * @return Returns the list of the suppressed elements.
 	 */
 	public List removeTopItems(int a, int b) {
 		return removeChildren(a,b);
@@ -169,4 +170,16 @@ public class TopItemList
 		notifyObservers(new ZoneModification(this, start, end));
 	}
 
+    /**
+     * Returns the number of pages in this topItemList.
+     * (currently not optimized).
+     * @return the number of pages in this topItemList.
+     */
+    public int getNumberOfPages() {
+        int result= 1;
+        for (int i= 0; i< getNumberOfChildren(); i++)
+            if (getChildAt(i) instanceof PageBreak)
+                result++;
+        return result;
+    }
 }

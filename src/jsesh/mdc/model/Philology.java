@@ -39,8 +39,8 @@ public class Philology extends InnerGroup implements PhilologyInterface {
 		this.type= type;
 	}
 
-	/**
-	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)
+	/*
+	 * @see jsesh.mdc.model.ModelElement#accept(jsesh.mdc.model.ModelElementVisitor)
 	 */
 	public void accept(ModelElementVisitor v) {v.visitPhilology(this);}
 	
@@ -53,7 +53,7 @@ public class Philology extends InnerGroup implements PhilologyInterface {
 	}
 
 	/**
-	 * @return
+	 * @return the list.
 	 */
 	public BasicItemList getBasicItemList() {
 		return (BasicItemList) getChildAt(0);

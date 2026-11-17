@@ -1,13 +1,13 @@
 package jsesh.bzr;
 
 /**
- * Codes used in BZR files.
+ * OPCodes used in BZR files.
  *
  *
  * Created: Sun Jun  2 13:10:09 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version
+ *
  */
 
 public interface BzrCodes {

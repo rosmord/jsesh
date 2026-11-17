@@ -7,6 +7,7 @@ package jsesh.mdcDisplayer.swing.actions;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.mdcDisplayer.swing.actions.generic.AbstractSelectionAction;
 import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 
 /**

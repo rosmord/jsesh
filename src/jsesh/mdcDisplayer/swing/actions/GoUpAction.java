@@ -13,12 +13,17 @@ import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 
 /**
  * @author S. Rosmorduc
- *
+ * 
  */
-public class GoUpAction extends AbstractAction{
+public class GoUpAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
-		JMDCEditor d=  (JMDCEditor) e.getSource();
-		d.getWorkflow().cursorUp();
+		JMDCEditor d = (JMDCEditor) e.getSource();
+
+		if (d.getDrawingSpecifications().getTextOrientation().isHorizontal())
+			d.getWorkflow().cursorUp();
+		else
+			d.getWorkflow().cursorPrevious();
+
 	}
 
 }

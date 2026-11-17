@@ -16,7 +16,7 @@ import jsesh.tmp.simpleDemo.PrintMDCBuilder;
  * Created: Sun Feb 24 15:15:16 2002
  *
  * @author Serge ROSMORDUC
- * @version
+ * 
  */
 
 public class ParserTest {

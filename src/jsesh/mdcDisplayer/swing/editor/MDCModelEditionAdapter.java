@@ -49,5 +49,8 @@ public class MDCModelEditionAdapter implements MDCModelEditionListener {
 	 */
 	public void caretChanged(MDCCaret caret) {
 	}
+	
+	public void separatorChanged() {
+	}
 
 }

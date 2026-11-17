@@ -20,56 +20,56 @@ public class TopItemIterator {
 		rep.add(o);
 	}
 
-	/**
+	/*
 	 * @see java.util.Iterator#hasNext()
 	 */
 	public boolean hasNext() {
 		return rep.hasNext();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#hasPrevious()
 	 */
 	public boolean hasPrevious() {
 		return rep.hasPrevious();
 	}
 
-	/**
+	/*
 	 * @see java.util.Iterator#next()
 	 */
 	public TopItem next() {
 		return (TopItem)rep.next();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#nextIndex()
 	 */
 	public int nextIndex() {
 		return rep.nextIndex();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#previous()
 	 */
-	public Object previous() {
+	public TopItem previous() {
 		return (TopItem)rep.previous();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#previousIndex()
 	 */
 	public int previousIndex() {
 		return rep.previousIndex();
 	}
 
-	/**
+	/*
 	 * @see java.util.Iterator#remove()
 	 */
 	public void remove() {
 		rep.remove();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#set(java.lang.Object)
 	 */
 	public void set(TopItem o) {

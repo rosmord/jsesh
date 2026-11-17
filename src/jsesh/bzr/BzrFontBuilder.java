@@ -3,11 +3,12 @@ package jsesh.bzr;
 /**
  * interface used for building actual representation of a BZR font.
  * 
+ * Use design pattern builder. Role in Design Pattern is Builder.
  *
  * Created: Sun Jun  2 12:43:07 2002
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
- * @version
+ * 
  */
 
 public interface BzrFontBuilder {

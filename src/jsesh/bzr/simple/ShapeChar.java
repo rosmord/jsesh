@@ -7,16 +7,22 @@ import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
+import jsesh.utils.DoubleUtils;
 
 /**
- * ShapeChar.java
+ * A glyph in a BzrSimpleFont (basically a shape which can be painted).
  * 
  * 
  * Created: Mon Jun 10 10:49:26 2002
  * 
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC
  *         </a>
- * @version
+ * 
  */
 
 public class ShapeChar {
@@ -172,5 +178,90 @@ public class ShapeChar {
 	        if (current != null)
 	            s1.add(new Area(current));
 	        return s1;
+	}
+
+	/**
+	 * fixShape ensures the shapeChar is correct, using the shape as starting point. 
+	 * <p>Fixes both the bounding box and the sign origin.
+	 */
+	public void fixShape() {
+		// Just to be sure of the bounding box...
+		PathIterator it= shape.getPathIterator(null, 0.01);
+		GeneralPath p= new GeneralPath();
+		p.append(it, false);
+		Rectangle2D r= p.getBounds2D();
+		shape= AffineTransform.getTranslateInstance(-r.getMinX(), -r.getMinY()).createTransformedShape(shape);
+		setBBox(0, r.getMaxY() - r.getMinY(), r.getMaxX() - r.getMinX(), 0);
+	}
+
+	
+	/**
+	 * Modify a shape char in order to get an height of exactly h units.
+	 * Should be used only in the context of sign importation and/or modifications.
+	 * @param h : the height of the sign.
+	 */
+	public void scaleToHeight(double h) {
+		double s = h / getBbox().getHeight();
+		setShape(AffineTransform.getScaleInstance(s, s)
+				.createTransformedShape(getShape()));
+		fixShape();	
+	}
+	/**
+	 * Saves the drawing of this sign as an SVG file.
+	 * Note that the output should be in ASCII (or UTF-8) encoding for best portability.
+	 * @param out
+	 * @param encoding the name of the encoding to use. We suggest "UTF-8".
+	 */
+	public void exportToSVG(OutputStream o, String encoding) throws IOException {
+		Writer out= new OutputStreamWriter(o, encoding);
+		out.write("<?xml version=\"1.0\" ");
+		if (! "".equals(encoding)) {
+			out.write("encoding =\""+ encoding+ "\" ");
+		}
+		out.write("standalone=\"yes\"?>\n");
+		out.write("<svg width=\"");
+		out.write(DoubleUtils.writeInDecimal(bbox.getWidth()));
+		out.write("\" height=\"");
+		out.write(DoubleUtils.writeInDecimal(bbox.getHeight()));
+		out.write("\">\n");
+		out.write("<path style=\"fill:#000000; stroke:none\" d=\"");
+		PathIterator iter= shape.getPathIterator(null);
+		while (! iter.isDone()) {
+			float coords[] = new float[6];
+            int type = iter.currentSegment(coords);
+            switch (type) {
+            case PathIterator.SEG_CLOSE:
+            	            out.write(" Z ");	
+                break;
+            case PathIterator.SEG_CUBICTO:
+                out.write(" C ");
+                outputNumbers(out, coords, 6);
+                break;
+            case PathIterator.SEG_LINETO:
+            	out.write(" L ");
+            	outputNumbers(out, coords, 2);
+                break;
+            case PathIterator.SEG_MOVETO:    
+            	out.write(" M ");
+            	outputNumbers(out, coords, 2);
+                break;
+            case PathIterator.SEG_QUADTO:
+            	out.write(" Q ");
+            	outputNumbers(out, coords, 4);
+                break;
+            }
+            iter.next();
+		}
+		out.write("\"/>");
+		out.write("</svg>\n");
+		out.close();
+	}
+
+	private void outputNumbers(Writer out, float[] coords, int max) throws IOException {
+		for (int i=0; i< max; i++) {
+			out.write(DoubleUtils.writeInDecimal(coords[i]));
+			out.write(' ');
+		}
+		
 	}
 } // ShapeChar

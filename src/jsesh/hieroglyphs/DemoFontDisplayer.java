@@ -32,7 +32,7 @@ import jsesh.utils.GraphicsUtils;
  * 
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC
  *         </a>
- * @version
+ * 
  */
 
 public class DemoFontDisplayer extends JFrame {
@@ -75,7 +75,7 @@ public class DemoFontDisplayer extends JFrame {
 
 	private void loadFont() {
 		FileDialog file = new FileDialog(this, "choose a bzr font");
-		file.show();
+		file.setVisible(true);
 		System.out.println(file.getFile());
 		String fname = file.getFile();
 		BzrSimpleFontBuilder builder = new BzrSimpleFontBuilder();
@@ -110,7 +110,7 @@ public class DemoFontDisplayer extends JFrame {
 	public static void main(String[] args) {
 
 		DemoFontDisplayer f = new DemoFontDisplayer();
-		f.show();
+		f.setVisible(true);
 	}
 
 	protected JMenuBar createMenu() {

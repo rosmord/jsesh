@@ -22,7 +22,8 @@ public class BasicItemIterator {
 	}
 
 
-	/**
+	/*
+	 * (non javadoc)
 	 * @see java.util.Iterator#hasNext()
 	 */
 	public boolean hasNext() {
@@ -30,7 +31,7 @@ public class BasicItemIterator {
 	}
 
 
-	/**
+	/*
 	 * @see java.util.ListIterator#hasPrevious()
 	 */
 	public boolean hasPrevious() {
@@ -39,6 +40,8 @@ public class BasicItemIterator {
 
 
 	/**
+	 * return the next basicItem and advances.
+	 * @return the next basicItem.
 	 * @see java.util.Iterator#next()
 	 */
 	public BasicItem next() {
@@ -46,7 +49,7 @@ public class BasicItemIterator {
 	}
 
 
-	/**
+	/*
 	 * @see java.util.ListIterator#nextIndex()
 	 */
 	public int nextIndex() {
@@ -55,14 +58,16 @@ public class BasicItemIterator {
 
 
 	/**
+	 * return the previous basicItem and goes back.
+	 * @return the previous basicItem.
 	 * @see java.util.ListIterator#previous()
 	 */
-	public Object previous() {
+	public BasicItem previous() {
 		return (BasicItem)rep.previous();
 	}
 
 
-	/**
+	/*
 	 * @see java.util.ListIterator#previousIndex()
 	 */
 	public int previousIndex() {
@@ -70,7 +75,7 @@ public class BasicItemIterator {
 	}
 
 
-	/**
+	/*
 	 * @see java.util.Iterator#remove()
 	 */
 	public void remove() {
@@ -79,6 +84,8 @@ public class BasicItemIterator {
 
 
 	/**
+	 * Sets current BasicItem.
+	 * @param o
 	 * @see java.util.ListIterator#set(java.lang.Object)
 	 */
 	public void set(BasicItem o) {

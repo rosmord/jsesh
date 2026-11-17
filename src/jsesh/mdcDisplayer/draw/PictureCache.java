@@ -18,6 +18,8 @@ import jsesh.mdc.model.ModelElement;
  * As bitmaps are huge, especially in java, we limit the number of cached
  * elements.
  * 
+ * A possible problem is that if the cache is too small, as bitmaps are reused and <b>not drawn immediately</b>, we might share a bitmap between different groups,
+ * which is not a good prospect.
  * @author S. Rosmorduc
  *  
  */
@@ -100,12 +102,18 @@ class PictureCache {
 	 * 
 	 * @param width
 	 * @param height
-	 * @return
+	 * @return a new BufferedImage.
 	 */
 	public BufferedImage createImage(int width, int height) {
 		if (width > PICSIZE || height > PICSIZE)
 			return null;
 		else
-			return elements[pos].image;
+		    // We used to reuse old buffered images for new entries. However,
+		    // due to the delayed processus of image writing, this could lead 
+		    // to serious screen garbage is the cache was too small.
+		    // So we try a different strategy, just in case.
+		    return new BufferedImage(PICSIZE, PICSIZE,
+					BufferedImage.TYPE_INT_ARGB);
+			//return elements[pos].image;
 	}
 }

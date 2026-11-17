@@ -22,7 +22,20 @@ public class GoRightAction extends AbstractAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor d=  (JMDCEditor) e.getSource();
-		d.getWorkflow().cursorNext();
+		if (d.getDrawingSpecifications().getTextDirection().isLeftToRight()) {
+			if (d.getDrawingSpecifications().getTextOrientation().isHorizontal())
+				d.getWorkflow().cursorNext();
+			else
+				d.getWorkflow().cursorDown();
+		} else {
+			if (d.getDrawingSpecifications().getTextOrientation().isHorizontal()) {
+				d.getWorkflow().cursorPrevious();
+			} else {
+				d.getWorkflow().cursorUp();
+			}
+		}
+				
+		
 	}
 
 }

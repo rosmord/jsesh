@@ -18,18 +18,20 @@ public class HBoxIterator {
 	}
 	
 	/**
-	 * @see java.util.ListIterator#add(java.lang.HBox)
+	 * Add an Hbox at the current position.
+	 * @param o
+	 * @see java.util.ListIterator#add(java.lang.Object)
 	 */
 	public void add(HBox o) {rep.add(o);}
 
-	/**
+	/* 
 	 * @see java.util.Iterator#hasNext()
 	 */
 	public boolean hasNext() {
 		return rep.hasNext();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#hasPrevious()
 	 */
 	public boolean hasPrevious() {
@@ -37,13 +39,15 @@ public class HBoxIterator {
 	}
 
 	/**
+	 * Returns the next hbox and advances.
+	 * @return the next hbox.
 	 * @see java.util.Iterator#next()
 	 */
 	public HBox next() {
 		return (HBox) rep.next();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#nextIndex()
 	 */
 	public int nextIndex() {
@@ -51,13 +55,15 @@ public class HBoxIterator {
 	}
 
 	/**
+	 * Returns the previous hbox and goes back.
+	 * @return the previous hbox.
 	 * @see java.util.ListIterator#previous()
 	 */
 	public HBox previous() {
 		return (HBox) rep.previous();
 	}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#previousIndex()
 	 */
 	public int previousIndex() {
@@ -69,7 +75,7 @@ public class HBoxIterator {
 	 */
 	public void remove() {rep.remove();}
 
-	/**
+	/*
 	 * @see java.util.ListIterator#set(java.lang.HBox)
 	 */
 	public void set(HBox o) {rep.set(o);}

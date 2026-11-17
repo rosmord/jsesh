@@ -53,14 +53,14 @@ public class LabeledField extends JPanel {
 	}
 
 	/**
-	 * @return
+	 * @return the field component.
 	 */
 	public JComponent getField() {
 		return field;
 	}
 
 	/**
-	 * @return
+	 * @return the label component.
 	 */
 	public JLabel getLabel() {
 		return label;

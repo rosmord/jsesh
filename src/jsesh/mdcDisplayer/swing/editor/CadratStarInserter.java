@@ -22,7 +22,9 @@ import jsesh.mdc.model.TopItem;
 class CadratStarInserter {
 
 	/**
-	 * 
+	 * build a new cadrat, in which the second element is inserted in the lower row of the first. 
+	 * @param c1 the container cadrat.
+	 * @param c2 the cadrat to insert.
 	 * @return a cadrat, or null if it couldn't build one.
 	 */
 	public Cadrat buildCadrat(TopItem c1, TopItem c2) {
@@ -49,7 +51,7 @@ class CadratStarInserter {
 		
 		/**
 		 * @param c1
-		 * @return
+		 * @return the container cadrat.
 		 */
 		public Cadrat buildCadrat(TopItem c1) {
 			result= null;
@@ -81,9 +83,10 @@ class CadratStarInserter {
 		InnerGroup group;
 		
 		/**
-		 * @param result
+		 * insert c2 in c.
+		 * @param c
 		 * @param c2
-		 * @return
+		 * @return the corresponding cadrat.
 		 */
 		public Cadrat insert(Cadrat c, TopItem c2) {
 			group= null;

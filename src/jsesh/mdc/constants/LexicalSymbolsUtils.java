@@ -44,7 +44,7 @@ public class LexicalSymbolsUtils {
 	 * @param code :
 	 *            the code for the bracket. Note that this can be computed (see
 	 *            symbolcode).
-	 * @return
+	 * @return the string for a given Philological code.
 	 */
 	public static String getStringForPhilology(int code) {
 		String result = "??";
@@ -87,8 +87,8 @@ public class LexicalSymbolsUtils {
 	/**
 	 * Return the Manuel de codage code for opening brackets.
 	 * 
-	 * @param i
-	 * @return
+	 * @param code
+	 * @return the opening construct fot a given philological parenthesis.
 	 */
 	public static String getOpenCodeForPhilology(int code) {
 		String result = null;
@@ -115,8 +115,8 @@ public class LexicalSymbolsUtils {
 	/**
 	 * Return the Manuel de codage code for closing brackets.
 	 * 
-	 * @param i
-	 * @return
+	 * @param code
+	 * @return the closing construct fot a given philological parenthesis.
 	 */
 
 	public static String getCloseCodeForPhilology(int code) {
