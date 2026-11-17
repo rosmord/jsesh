@@ -1,0 +1,170 @@
+mdcfile   ::= [WORDEND] [SEPARATOR] (textitem [SEPARATOR])+
+textitem    ::= cadrat [HACHING] | cartouche | PAGEEND | LINEEND | TEXTSUPER | TOGGLE | TEXT
+cadrat ::= subcadrat (":" subcadrat)*
+subcadrat  ::= inhierlist ("*" inhierlist)*
+inhierlist  ::= sign | BEGINPHIL cadrats ENDPHIL | "(" cadrats ")"
+cadrats   ::= maincadrat ([SEPARATOR] maincadrat)*                             
+maincadrat ::= cadrat | TEXT
+sign ::= (hieroglyphs | SYMBOL) [OVERWRITE (hieroglyphs|SYMBOL)]
+hieroglyphs ::= hieroglyph [ligature]
+ligature ::=  ("&" hieroglyph)+
+hieroglyph  ::= [GRAMMAR] HIEROGLYPH MODIFIER* [WORDEND]
+
+// The new kind of cartouches.
+cartouche ::= BEGINCARTOUCHE (cadrat [HACHING] | TEXT | TOGGLE)* ENDCARTOUCHE
+// old kind of cartouches
+cartouches ::= BEGINOLDCARTOUCHE 
+
+
+BEGINPHIL/ENDPHIL = parenthesized constructs
+
+
+CURRENT GRAMMAR :
+
+[0] mdcfile ::= optWordEnd textitems 
+[1] $START ::= mdcfile EOF 
+[2] textitems ::= 
+[3] textitems ::= textitems optSeparator textitem 
+[4] textitem ::= topcadrat 
+[5] textitem ::= cartouche 
+[6] textitem ::= toggle 
+[7] textitem ::= text 
+[8] textitem ::= lineEnd 
+[9] textitem ::= pageEnd 
+[10] textitem ::= textSuper 
+[11] lineEnd ::= LINEEND 
+[12] pageEnd ::= PAGEEND 
+[13] textSuper ::= TEXTSUPER 
+[14] toggle ::= TOGGLE 
+[15] text ::= TEXT 
+[16] topcadrat ::= cadrat optShading 
+[17] optShading ::= 
+[18] optShading ::= SHADING 
+[19] cadrat ::= verticalStack 
+[20] verticalStack ::= horizontalList 
+[21] verticalStack ::= verticalStack COLUMN horizontalList 
+[22] horizontalList ::= horizontalListElement 
+[23] horizontalList ::= horizontalList STAR horizontalListElement 
+[24] horizontalListElement ::= complexsign 
+[25] horizontalListElement ::= BEGINPHIL cadrats ENDPHIL 
+[26] horizontalListElement ::= BPAR cadrats EPAR 
+[27] cadrats ::= maincadrats 
+[28] maincadrats ::= maincadrat 
+[29] maincadrats ::= maincadrats optSeparator maincadrat 
+[30] optSeparator ::= 
+[31] optSeparator ::= SEPARATOR 
+[32] maincadrat ::= cadrat 
+[33] maincadrat ::= text 
+[34] maincadrat ::= toggle 
+[35] complexsign ::= hieroglyphsOrSymbol 
+[36] complexsign ::= hieroglyphsOrSymbol OVERWRITE hieroglyphsOrSymbol 
+[37] hieroglyphsOrSymbol ::= hieroglyphs 
+[38] hieroglyphsOrSymbol ::= SYMBOL 
+[39] hieroglyphs ::= ligatures 
+[40] ligatures ::= hieroglyph 
+[41] ligatures ::= ligatures AMP hieroglyph 
+[42] hieroglyph ::= optGrammar HIEROGLYPH modifiers optWordEnd 
+[43] optWordEnd ::= 
+[44] optWordEnd ::= WORDEND 
+[45] optGrammar ::= 
+[46] optGrammar ::= GRAMMAR 
+[47] modifiers ::= 
+[48] modifiers ::= modifiers MODIFIER 
+[49] cartouche ::= BEGINCARTOUCHE cartoucheTexts ENDCARTOUCHE 
+[50] cartouche ::= BEGINOLDCARTOUCHE cartoucheTexts ENDCARTOUCHE 
+[51] cartoucheTexts ::= 
+[52] cartoucheTexts ::= cartoucheTexts cartoucheText 
+[53] cartoucheText ::= topcadrat 
+[54] cartoucheText ::= text 
+[55] cartoucheText ::= toggle 
+
+
+BNF View :
+
+mdcfile ::= [WordEnd] topitems 
+
+topitems ::= ([Separator] topitem)*
+
+topitem= topcadrat 
+	| cartouche 
+	| toggle 
+	| text 
+	| lineEnd 
+	| pageEnd 
+	| textSuper
+
+topcadrat ::= cadrat optShading
+
+[11] lineEnd ::= LINEEND 
+[12] pageEnd ::= PAGEEND 
+[13] textSuper ::= TEXTSUPER 
+[14] toggle ::= TOGGLE 
+[15] text ::= TEXT 
+
+optShading ::= 0 | SHADING 
+
+cadrat ::= verticalStack 
+
+verticalStack ::= horizontalList (COLUMN horizontalList)*
+
+horizontalList ::= horizontalList (STAR horizontalListElement)*
+
+horizontalListElement ::= complexsign 
+	| BEGINPHIL cadrats ENDPHIL 
+	| BPAR cadrats EPAR 
+
+cadrats ::= maincadrats 
+
+maincadrats ::= maincadrat 
+maincadrats ::= maincadrats ([Separator] maincadrat)*
+
+maincadrat ::= cadrat 
+	| text 
+	| toggle 
+
+
+complexsign ::= hieroglyphsOrSymbol [OVERWRITE hieroglyphsOrSymbol]
+
+hieroglyphsOrSymbol ::= hieroglyphs 
+	| SYMBOL 
+
+hieroglyphs ::= ligatures 
+
+ligatures ::= hieroglyphs (AMP hieroglyph)*
+
+hieroglyph ::= optGrammar HIEROGLYPH modifiers optWordEnd 
+
+optWordEnd ::= 
+	| WORDEND 
+
+optGrammar ::= 
+	| GRAMMAR 
+
+modifiers ::= modifier*
+modifier ::= MODIFIER 
+
+cartouche ::= BEGINCARTOUCHE cartoucheTexts ENDCARTOUCHE 
+	| BEGINOLDCARTOUCHE cartoucheTexts ENDCARTOUCHE 
+
+cartoucheTexts ::= cartoucheText*
+
+cartoucheText ::= topcadrat 
+	| text 
+	| toggle 
+
+
+ITEMS : 
+
+topitem= topcadrat 
+	| cartouche 
+	| toggle 
+	| text 
+	| lineEnd 
+	| pageEnd 
+	| textSuper
+
+basicitem ::= topcadrat 
+	| text 
+	| toggle 
+
+

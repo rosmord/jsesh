@@ -1,0 +1,210 @@
+package jsesh.mdcDisplayer.swing.application;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
+
+import jsesh.mdc.model.operations.ModelOperation;
+import jsesh.mdcDisplayer.draw.MDCCaret;
+import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
+import jsesh.mdcDisplayer.swing.editor.MDCModelEditionAdapter;
+import jsesh.mdcDisplayer.swing.editor.MDCModelEditionListener;
+import jsesh.utils.StringDisplayer;
+import jsesh.utils.StringModel;
+
+/**
+ * Graphical interface for MDC displayer.
+ * 
+ * Key listener added just for testing purposes. It should move in a CONTROL
+ * layer.
+ * 
+ * This file is free Software (c) Serge Rosmorduc
+ * 
+ * @author rosmord
+ */
+
+public class MDCDisplayerAppliFrame extends JFrame {
+
+	/**
+	 * @return Returns the editor.
+	 */
+	public JMDCEditor getEditor() {
+		return editor;
+	}
+	
+	JMDCEditor editor;
+
+	StringDisplayer codeField;
+
+	StringDisplayer messageField;
+
+	JProgressBar progressBar;
+
+	JTextField mdcField;
+
+	//MDCDisplayerAppliWorkflow workflow;
+
+	/**
+	 * Constructor for MDCDisplayerAppliFrame.
+	 * 
+	 * @param title
+	 * @throws HeadlessException
+	 */
+	public MDCDisplayerAppliFrame(String title,
+			MDCDisplayerAppliWorkflow workflow) throws HeadlessException {
+		super(title);
+		//	'rsssssssssetCursor(Cursor.WAIT_CURSOR);
+		ImageIcon icon= new ImageIcon(getClass().getResource("hiboux.png"));
+		setIconImage(icon.getImage());
+		//this.workflow = workflow;
+		// Create windows :
+		editor = new JMDCEditor(workflow.getData());
+
+		// The code model
+		CodeModel codeModel = new CodeModel();
+		editor.addCodeChangeListener(codeModel);
+		codeField = new StringDisplayer(codeModel, 5);
+
+		JScrollPane scroll = new JScrollPane(editor);
+		//scroll.
+		//scroll.getHorizontalScrollBar().setFocusable(false);
+		//scroll.getVerticalScrollBar().setFocusable(false);
+
+		messageField = new StringDisplayer(workflow.getMessage(), 30);
+		progressBar = new JProgressBar();
+
+		JSplitPane bottom2 = new JSplitPane();
+		JSplitPane bottom1 = new JSplitPane();
+
+		bottom2.setLeftComponent(messageField);
+		bottom2.setRightComponent(progressBar);
+		bottom1.setLeftComponent(codeField);
+		bottom1.setRightComponent(bottom2);
+
+		mdcField = new JTextField();
+		mdcField.setToolTipText("Here you can edit the manuel de codage code for the current line.");
+		JPanel bottomPanel = new JPanel();
+		editor.getWorkflow().addMDCModelListener(
+				new MDCModelEditionAdapter() {
+					/* (non-Javadoc)
+					 * @see jsesh.mdcDisplayer.swing.editor.MDCModelEditionAdapter#caretChanged(jsesh.mdcDisplayer.draw.MDCCaret)
+					 */
+					public void caretChanged(MDCCaret caret) {
+						getCurrentMDCLine();
+					}
+					
+					/* (non-Javadoc)
+					 * @see jsesh.mdcDisplayer.swing.editor.MDCModelEditionAdapter#textChanged()
+					 */
+					public void textChanged() {
+						getCurrentMDCLine();
+					}
+					
+					/* (non-Javadoc)
+					 * @see jsesh.mdcDisplayer.swing.editor.MDCModelEditionAdapter#textEdited(jsesh.mdc.model.operations.ModelOperation)
+					 */
+					public void textEdited(ModelOperation op) {
+						getCurrentMDCLine();
+					}
+				});
+		mdcField.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				setCurrentMDCLine();
+			}
+			
+		});
+
+		bottomPanel.add(mdcField);
+		bottomPanel.add(bottom1);
+
+		bottomPanel.setLayout(new GridLayout(2, 0));
+		// layout :
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(scroll, BorderLayout.CENTER);
+		//getContentPane().add(code, BorderLayout.SOUTH);
+		getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+
+		setSize(800, 600);
+
+	}
+
+	/**
+	 *  
+	 */
+	private void getCurrentMDCLine() {
+		String s = editor.getWorkflow().getCurrentLineAsString();
+		mdcField.setText(s);
+	}
+
+	private void setCurrentMDCLine() {
+		editor.getWorkflow().setCurrentLineTo(mdcField.getText());
+
+	}
+	/**
+	 * Monitors the display of the current code buffer.
+	 * 
+	 * @author S. Rosmorduc
+	 *  
+	 */
+	private class CodeModel extends Observable implements MDCModelEditionListener,
+			StringModel {
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdcDisplayer.swing.editor.MDCModelEditionListener#codeChanged(java.lang.StringBuffer)
+		 */
+		public void codeChanged(StringBuffer newcode) {
+			setChanged();
+			notifyObservers();
+		}
+
+		public void focusGained(StringBuffer code) {
+		}
+
+		public void focusLost() {
+		}
+
+		public String getText() {
+			if (editor.getCodeBuffer() != null)
+				return editor.getCodeBuffer();
+			else
+				return "";
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdcDisplayer.swing.editor.MDCModelEditionListener#textEdited(jsesh.mdc.model.operations.ModelOperation)
+		 */
+		public void textEdited(ModelOperation op) {
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdcDisplayer.swing.editor.MDCModelEditionListener#textChanged()
+		 */
+		public void textChanged() {
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdcDisplayer.draw.MDCCaretChangeListener#caretChanged(jsesh.mdcDisplayer.draw.MDCCaret)
+		 */
+		public void caretChanged(MDCCaret caret) {
+		}
+	}
+}

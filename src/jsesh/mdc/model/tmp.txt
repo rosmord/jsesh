@@ -1,0 +1,51 @@
+	// Boolean iterators
+	
+	public void setBooleanModifier(String name, boolean value) {
+		Modifier m= getModifierFromName(name, NO_VALUE);
+		if (m == null) {
+			modifiers.add(new Modifier(name, null));
+		}
+	}
+
+	public boolean getBooleanModifier(String name) {
+		Modifier m= getModifierFromName(name, NO_VALUE);
+		return (m != null);
+	}
+	
+	public void setIntModifier(String name, Integer value) {
+		Modifier m= getModifierFromName(name, VALUE);
+		if (m != null) {
+			m.setValue(value);
+		} else
+			modifiers.add(new Modifier(name, value));
+	} // end setModifier        
+
+	public boolean hasIntModifier(String name) {
+		return getModifierFromName(name, VALUE) != null;
+	}
+	
+	public void removeIntModifier(String name) {
+	
+	}
+	
+
+	}
+
+	private void addConstantFinalModifier(Modifier m) {
+		if (! modifiers.contains(m))
+				modifiers.add(m);
+	}
+	/**
+	 * <p>
+	 * Return the collection of modifiers for this sign.
+	 * One can use this collection to add or delete  modifiers.
+	 * </p>
+	 * <p>
+	 * 
+	 * @return a Collection
+	 * </p>
+	 */
+	
+	public Iterator getModifiersIterator() {
+		return modifiers.iterator();
+	} // end getModifiers        

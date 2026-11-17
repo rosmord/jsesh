@@ -1,0 +1,16 @@
+TOP-LEVEL GROUPS :
+ItemInterface CartoucheInterface
+ItemInterface LineEndInterface
+ItemInterface PageEndInterface
+ItemInterface TextSuperInterface
+ItemInterface BasicItemInterface
+	      BasicItemInterface CadratInterface
+	      BasicItemInterface TextInterface
+	      BasicItemInterface ToggleInterface
+	      BasicItemInterface TopCadratInterface
+
+SMALLER GROUPS :
+SimpleGroupInterface HieroglyphInterface
+SimpleGroupInterface LigatureInterface
+SimpleGroupInterface PhilologyInterface
+SimpleGroupInterface SubGroupInterface
