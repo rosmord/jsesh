@@ -6,10 +6,9 @@
 package jsesh.mdcDisplayer.swing.hieroglyphicMenu;
 
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -23,12 +22,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
-import jsesh.bzr.simple.ShapeChar;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphsManager;
-import jsesh.utils.GraphicsUtils;
 
 /**
  * A menu that displays hieroglyphs.
@@ -53,11 +53,35 @@ public class HieroglyphicMenu extends JMenu {
 	private String family;
 
 	private HieroglyphicMenuListener hieroglyphicMenuListener = null;
+	
+	private boolean menuFilled= false;
 
 	public HieroglyphicMenu(String title, String family, int ncols) {
 		super(title);
 		this.ncols = ncols;
 		this.family= family;
+		addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("menu selected");
+			}
+			
+		});
+		getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
+
+			public void popupMenuCanceled(PopupMenuEvent e) {
+				
+			}
+
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+				
+			}
+
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				fillMenu();
+			}
+			
+		});
 		addMenuListener(new MenuListener() {
 
 			public void menuCanceled(MenuEvent e) {
@@ -69,7 +93,6 @@ public class HieroglyphicMenu extends JMenu {
 			}
 
 			public void menuSelected(MenuEvent e) {
-				fillMenu();
 			}
 
 		});
@@ -77,6 +100,11 @@ public class HieroglyphicMenu extends JMenu {
 
 	private void fillMenu() {
 	
+			if (menuFilled)
+				return;
+			
+			menuFilled= true;
+			
 			String codes[] = HieroglyphsManager.getInstance()
             .getCodesForFamily(family,true);
 
@@ -91,8 +119,9 @@ public class HieroglyphicMenu extends JMenu {
 			}
 	}
 	
-	private void flushMenu() {
+	private void flushMenu() {		
 		removeAll();
+		menuFilled= false;
 	}
 
 	/**
@@ -116,32 +145,13 @@ public class HieroglyphicMenu extends JMenu {
 	 */
 	public Icon createHieroglyphIcon(String code, int size, int border) {
 		HieroglyphicFontManager manager = DefaultHieroglyphicFontManager
-				.getInstance();
-		ShapeChar glyph = manager.get(code);
-		ShapeChar A1 = manager.get("A1");
-		// NOTE : creating images with new BufferedImage(...) is supposed not to
-		// be the best way
-		// methods like createCompatibleImage()... are in theory more efficient
-		// because they create images that are both accelerated and can be
-		// directly drawn into the target
-		// device. However, it's a bit hard to get a graphicConfiguration object
-		// in a clean way
-		// and this leads to timing problems. Besides jdk1.5 tends to accelerate
-		// all images.
-		// Anyway, we will change our code only if it appears to be too slow.
-
-		// Compute the scale
-		float height = size - 2 * border;
-		float scale = (float) (height / A1.getBbox().getHeight());
-		BufferedImage img = new BufferedImage(size, size,
-				BufferedImage.TYPE_BYTE_GRAY);
-		Graphics2D g = img.createGraphics();
-		GraphicsUtils.antialias(g);
-		g.setBackground(Color.WHITE);
-		g.setColor(Color.BLACK);
-		g.clearRect(0, 0, img.getWidth(), img.getHeight());
-		glyph.draw(g, border, border, scale, scale, 0);
-		g.dispose();
+		.getInstance();
+		jsesh.bzr.simple.ShapeChar glyph = manager.get(code);
+		HieroglyphicBitmapBuilder builder= new HieroglyphicBitmapBuilder(20,30,false);
+		builder.setBorder(2);
+		builder.setFit(true);
+		builder.setComponent(this);
+		BufferedImage img = builder.buildSignBitmap(glyph);
 		return new ImageIcon(img);
 	}
 

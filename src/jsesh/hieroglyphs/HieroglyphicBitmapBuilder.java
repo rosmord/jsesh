@@ -1,0 +1,207 @@
+package jsesh.hieroglyphs;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import jsesh.bzr.simple.ShapeChar;
+import jsesh.swingUtils.GraphicsUtils;
+
+/**
+ * An helper class to create bitmap versions of the signs.
+ * 
+ * @author rosmord
+ * 
+ */
+public class HieroglyphicBitmapBuilder {
+
+	/**
+	 * The size of the bitmap
+	 */
+	private int size;
+
+	/**
+	 * the size of the hightest sign, in model coordinate.
+	 */
+	private double maxSize;
+
+	/**
+	 * Do we want a transparent picture ?
+	 */
+	private boolean transparent;
+
+	/**
+	 * Are the bitmaps fitted to the signs ?
+	 */
+	private boolean fit;
+
+	/**
+	 * A component which can be used to build compatible images.
+	 */
+	private Component component = null;
+
+	private int border;
+
+	public HieroglyphicBitmapBuilder() {
+
+		HieroglyphicFontManager manager = DefaultHieroglyphicFontManager
+				.getInstance();
+		// ShapeChar glyph = manager.get(code);
+		ShapeChar A1 = manager.get("A1");
+		maxSize = A1.getBbox().getHeight();
+		size = 50;
+		transparent = false;
+		border=4;
+	}
+
+	public HieroglyphicBitmapBuilder(double maxSize, int imageSize,
+			boolean transparent) {
+		super();
+		// TODO Auto-generated constructor stub
+
+		this.maxSize = maxSize;
+		this.size = imageSize;
+		this.transparent = transparent;
+	}
+
+	public BufferedImage buildSignBitmap(ShapeChar glyph) {
+		// NOTE : creating images with new BufferedImage(...) is supposed not to
+		// be the best way
+		// methods like createCompatibleImage()... are in theory more efficient
+		// because they create images that are both accelerated and can be
+		// directly drawn into the target
+		// device. However, it's a bit hard to get a graphicConfiguration object
+		// in a clean way
+		// and this leads to timing problems. Besides jdk1.5 tends to accelerate
+		// all images.
+		// Anyway, we will change our code only if it appears to be too slow.
+
+		// Compute the scale
+
+		float scale = (float) (size / maxSize);
+
+		int colorModel = BufferedImage.TYPE_BYTE_GRAY;
+		Color backGroundColor = Color.WHITE;
+
+		if (transparent) {
+			colorModel = BufferedImage.TYPE_INT_ARGB;
+			backGroundColor = new Color(0, 0, 0, 1);
+		}
+
+		int actualWidth = size;
+		int actualHeight = size;
+
+		if (isFit()) {
+			actualWidth = border+ (int) (1 + glyph.getBbox().getWidth() * scale);
+			actualHeight = border+ (int) ( 1+ glyph.getBbox().getHeight() * scale);
+		}
+
+		double mx = (actualWidth - scale * glyph.getBbox().getWidth()) / 2.0;
+		double my = (actualHeight - scale * glyph.getBbox().getHeight()) / 2.0;
+
+		BufferedImage img;
+		if (component != null) {
+			img = component.getGraphicsConfiguration().createCompatibleImage(actualWidth,actualHeight);
+		} else
+			img = new BufferedImage(actualWidth, actualHeight, colorModel);
+		Graphics2D g = img.createGraphics();
+		GraphicsUtils.antialias(g);
+		g.setBackground(backGroundColor);
+		g.setColor(Color.BLACK);
+		g.clearRect(0, 0, img.getWidth(), img.getHeight());
+
+		glyph.draw(g, mx, my, scale, scale, 0);
+		g.dispose();
+		return img;
+	}
+
+	/**
+	 * @return Returns the maxSize.
+	 */
+	public double getMaxSize() {
+		return maxSize;
+	}
+
+	/**
+	 * the size of the hightest sign, in model coordinate.
+	 * 
+	 * @param maxSize
+	 *            The maxSize to set.
+	 */
+	public void setMaxSize(double maxSize) {
+		this.maxSize = maxSize;
+	}
+
+	/**
+	 * The size of the bitmap
+	 * 
+	 * @return Returns the size.
+	 */
+	public int getSize() {
+		return size;
+	}
+
+	/**
+	 * @param size
+	 *            The size to set.
+	 */
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	/**
+	 * Do we want a transparent picture ?
+	 * 
+	 * @return Returns the transparent.
+	 */
+	public boolean isTransparent() {
+		return transparent;
+	}
+
+	/**
+	 * @param transparent
+	 *            The transparent to set.
+	 */
+	public void setTransparent(boolean transparent) {
+		this.transparent = transparent;
+	}
+
+	/**
+	 * requires that the bitmaps will be fitted to the signs.
+	 * 
+	 * @param fit
+	 */
+	public void setFit(boolean fit) {
+		this.fit = fit;
+	}
+
+	/**
+	 * Are the bitmaps fitted the the signs ?
+	 * 
+	 * @return a boolean
+	 */
+	public boolean isFit() {
+		return fit;
+	}
+
+	public void setComponent(Component component) {
+		this.component = component;
+
+	}
+
+	/**
+	 * @return Returns the border.
+	 */
+	public int getBorder() {
+		return border;
+	}
+
+	/**
+	 * @param border The border to set.
+	 */
+	public void setBorder(int border) {
+		this.border = border;
+	}
+	
+}

@@ -1,22 +1,37 @@
 package jsesh.mdc.model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import jsesh.mdc.interfaces.MDCFileInterface;
 import jsesh.mdc.interfaces.TopItemListInterface;
+import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.model.operations.ZoneModification;
 
 /**
  * 
  * TopItemList
+ * 
  * @author rosmord
- *
- *This code is published under the GNU LGPL.
+ * 
+ * This code is published under the GNU LGPL.
  */
 
-public class TopItemList
-	extends ModelElement
-	implements MDCFileInterface, TopItemListInterface {
+public class TopItemList extends ModelElement implements MDCFileInterface,
+		TopItemListInterface {
+
+	/**
+	 * List of observers for this topItemList. Currently, the associated
+	 * HieroglyphicTextModel
+	 */
+	transient List topItemListObservers;
+
+	/**
+	 * The list of MDCMark on this topItemList. To avoid problems with outdated
+	 * marks, we have separated them from the usual observers.
+	 */
+	transient List marks;
 
 	public TopItemList() {
 	}
@@ -26,8 +41,9 @@ public class TopItemList
 	}
 
 	/**
-	 * Adds a list of elements to this TopItemList.
-	 * The list must contain only topitems.
+	 * Adds a list of elements to this TopItemList. The list must contain only
+	 * topitems.
+	 * 
 	 * @param elements
 	 */
 	public void addAll(List elements) {
@@ -36,13 +52,14 @@ public class TopItemList
 
 	/**
 	 * Add a list of topitems at a given position in this TopItemList.
+	 * 
 	 * @param index
 	 * @param items
 	 * 
 	 */
 	public void addAllAt(int index, List items) {
 		super.addAllAt(index, items, TopItem.class);
-		
+
 	}
 
 	public void addTopItem(TopItem topItem) {
@@ -52,25 +69,30 @@ public class TopItemList
 	public void addTopItemAt(int id, TopItem topItem) {
 		addChildAt(id, topItem);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see jsesh.mdc.model.ModelElement#compareToAux(jsesh.mdc.model.ModelElement)
 	 */
 	public int compareToAux(ModelElement e) {
 		return compareContents(e);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
 	public ModelElement deepCopy() {
-		TopItemList r= new TopItemList();
+		TopItemList r = new TopItemList();
 		copyContentTo(r);
 		return r;
 	}
 
 	/**
 	 * Return the ith children as a topitem.
+	 * 
 	 * @param i
 	 * @return the ith children as a topitem.
 	 */
@@ -98,7 +120,9 @@ public class TopItemList
 		removeChild(topItem);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -106,80 +130,170 @@ public class TopItemList
 	}
 
 	/**
-	 * Suppress all elements between a and b.
-	 * Returns the list of the suppressed elements.
+	 * Suppress all elements between a and b. Returns the list of the suppressed
+	 * elements.
+	 * 
 	 * @param a
 	 * @param b
 	 * @return Returns the list of the suppressed elements.
 	 */
 	public List removeTopItems(int a, int b) {
-		return removeChildren(a,b);
+		return removeChildren(a, b);
 	}
-	
-	/* (non-Javadoc)
-	 * TopItem lists are too big to enter a topitem, so the method always returns null.
+
+	/*
+	 * (non-Javadoc) TopItem lists are too big to enter a topitem, so the method
+	 * always returns null.
+	 * 
 	 * @see jsesh.mdc.model.ModelElement#buildTopItem()
 	 */
+
 	public TopItem buildTopItem() {
 		return null;
 	}
 
 	/**
 	 * Shade or unshade a whole zone.
+	 * 
 	 * @param a
 	 * @param b
-	 * @param shade  if true, shade ; if false, unshade.
+	 * @param shade
+	 *            if true, shade ; if false, unshade.
 	 */
 	public void shade(int a, int b, boolean shade) {
-		int start= Math.min(a,b);
-		int end= Math.max(a,b);
-		
+		int start = Math.min(a, b);
+		int end = Math.max(a, b);
+
 		// We don't want messages from the modified elements.
-		// note that currently we won't get any, for state is not linked to its container.
+		// note that currently we won't get any, for state is not linked to its
+		// container.
 		disableUpdates();
-		for (int i=start; i< end; i++) {
-			TopItem t= getTopItemAt(i);
+		for (int i = start; i < end; i++) {
+			TopItem t = getTopItemAt(i);
 			t.getState().setShaded(shade);
 		}
 		enableUpdates();
-		notifyObservers(new ZoneModification(this, start, end));
-		setChanged();
+		notifyModelElementObservers(new ZoneModification(this, start, end));
 	}
-	
-	
+
 	/**
-	 * paint a zone in black or black.
-	 * a,b are the zone limits. The system is the one used for positions. 
-	 * (that is, the indexes fall between elements).
+	 * paint a zone in black or black. a,b are the zone limits. The system is
+	 * the one used for positions. (that is, the indexes fall between elements).
+	 * 
 	 * @param a
 	 * @param b
-	 * @param red : if true, paint in red ; if false, paint in black.
+	 * @param red :
+	 *            if true, paint in red ; if false, paint in black.
 	 */
 	public void setRed(int a, int b, boolean red) {
-		int start= Math.min(a,b);
-		int end= Math.max(a,b);
-		
-		//	We don't want messages from the modified elements.
+		int start = Math.min(a, b);
+		int end = Math.max(a, b);
+
+		// We don't want messages from the modified elements.
 		disableUpdates();
-		for (int i=start; i< end; i++) {
-			TopItem t= getTopItemAt(i);
+		for (int i = start; i < end; i++) {
+			TopItem t = getTopItemAt(i);
 			t.getState().setRed(red);
 		}
 		enableUpdates();
-		setChanged();
-		notifyObservers(new ZoneModification(this, start, end));
+		notifyModelElementObservers(new ZoneModification(this, start, end));
 	}
 
-    /**
-     * Returns the number of pages in this topItemList.
-     * (currently not optimized).
-     * @return the number of pages in this topItemList.
-     */
-    public int getNumberOfPages() {
-        int result= 1;
-        for (int i= 0; i< getNumberOfChildren(); i++)
-            if (getChildAt(i) instanceof PageBreak)
-                result++;
-        return result;
-    }
+	/**
+	 * Returns the number of pages in this topItemList. (currently not
+	 * optimized).
+	 * 
+	 * @return the number of pages in this topItemList.
+	 */
+	public int getNumberOfPages() {
+		int result = 1;
+		for (int i = 0; i < getNumberOfChildren(); i++)
+			if (getChildAt(i) instanceof PageBreak)
+				result++;
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see jsesh.mdc.model.ModelElement#notifyContainers(jsesh.mdc.model.operations.ModelOperation)
+	 */
+	protected void notifyModelElementObservers(ModelOperation op) {
+		// First notify marks
+		if (marks != null) {
+			for (Iterator it = marks.iterator(); it.hasNext();) {
+				MDCMark mark = (MDCMark) it.next();
+				mark.updateMark(op);
+			}
+		}
+		// Then notify regular observers
+		if (topItemListObservers != null) {
+			for (Iterator it = topItemListObservers.iterator(); it.hasNext();) {
+				ModelElementObserver observer = (ModelElementObserver) it
+						.next();
+				observer.observedElementChanged(op);
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see jsesh.mdc.model.ModelElement#getParent()
+	 */
+	public ModelElement getParent() {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see jsesh.mdc.model.ModelElement#unsetContainers()
+	 */
+	protected void unsetContainers() {
+		topItemListObservers = null;
+	}
+
+	public ModelElement getNextSlibing() {
+		return null;
+	}
+
+	public ModelElement getPreviousSlibing() {
+		return null;
+	}
+
+	/**
+	 * @param obs
+	 */
+	public void deleteObserver(ModelElementObserver obs) {
+		if (topItemListObservers != null) {
+			topItemListObservers.remove(obs);
+			if (topItemListObservers.isEmpty())
+				topItemListObservers = null;
+		}
+	}
+
+	/**
+	 * @param obs
+	 */
+	public void addObserver(ModelElementObserver obs) {
+		if (topItemListObservers == null) {
+			topItemListObservers = new ArrayList();
+		}
+		topItemListObservers.add(obs);
+	}
+
+	public void addMark(MDCMark mdcMark) {
+		if (marks == null)
+			marks = new ArrayList();
+		marks.add(mdcMark);
+	}
+
+	public void removeMark(MDCMark mdcMark) {
+		if (marks != null) {
+			marks.remove(mdcMark);
+			if (marks.isEmpty())
+				marks = null;
+		}
+	}
 }

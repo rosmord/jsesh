@@ -5,12 +5,13 @@
  */
 package jsesh.mdcDisplayer.draw;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphicFontManager;

@@ -12,18 +12,9 @@ import jsesh.mdc.interfaces.InnerGroupInterface;
  *This code is published under the GNU LGPL.
  */
 
-abstract public class InnerGroup extends ModelElement implements InnerGroupInterface {
+abstract public class InnerGroup extends HorizontalListElement implements InnerGroupInterface {
 
-	/* (non-Javadoc)
-	 * @see jsesh.mdc.model.ModelElement#buildTopItem()
-	 */
-	public TopItem buildTopItem() {
-		Cadrat c= new Cadrat();
-		HBox b= new HBox();
-		b.addInnerGroup((InnerGroup) this.deepCopy());
-		c.addHBox(b);
-		return c;
-	}
+
 } // end InnerGroup
 
 

@@ -8,7 +8,7 @@ import jsesh.mdc.constants.ToggleType;
  * <p>To implement a MDCBuilder, you need a) to write all method and b) you obviously need 
  * to implement some of the interfaces. It doesn't mean that the final result of your work should
  * have a structure that reflect these interfaces : you can simply use them as wrappers, if you like so.
- * That's for example what we do in jsesh.mdc.implementation.PrintMDCBuilder.</p>
+ * That's for example what we do in jsesh.mdc.implementation.PrintMDCBuilder, where the final result is a string.</p>
  *
  * <p> The clean OO way for parsing is to build an abstract parse
  * tree. However, it means that if you need another structure, you
@@ -166,7 +166,7 @@ public interface MDCBuilder {
   
     public void addToggleToTopItemList(TopItemListInterface l, ToggleType toggle);
     
-    public void addToHorizontalList(HBoxInterface h, InnerGroupInterface elt);
+    public void addToHorizontalList(HBoxInterface h, HorizontalListElementInterface elt);
   
     /**
      * adds a hieroglyph to a ligature
@@ -262,6 +262,7 @@ public interface MDCBuilder {
 
     /**
      * called when a ligature is complete.
+     * <p> It might be a good time, for instance, to look out in a ligature table.
      * @param i the complete ligature.
      */
 
@@ -367,6 +368,20 @@ public interface MDCBuilder {
      */
     public void setOptionList(CadratInterface result, OptionListInterface e1);
 
+
+    /**
+     * Build a complex ligature (inspired from macscribe). 
+     * <p> These ligature combine a glyph with one or two "insert zones", and two possibly complex construct, like a subcadrat.
+     * 
+     * Complete example : t^^w&amp;&amp;t ; ns&&(mSa*Z3)
+     * 
+     * @param e1 the group which should go in the first zone (may be null)
+     * @param e2 the main sign.
+     * @param e3 the group which should go in the second zone (may be null)
+     * @return
+     */
+
+	public ComplexLigatureInterface buildComplexLigature(InnerGroupInterface e1, HieroglyphInterface e2, InnerGroupInterface e3);
 	
 }
 

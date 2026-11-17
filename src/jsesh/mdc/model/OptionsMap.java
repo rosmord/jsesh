@@ -12,13 +12,15 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
+import java.io.Serializable;
+
 import jsesh.mdc.interfaces.OptionListInterface;
 
 /**
  * @author S. Rosmorduc
  *  
  */
-public class OptionsMap implements OptionListInterface, Comparable {
+public class OptionsMap implements OptionListInterface, Comparable, Serializable {
 	TreeMap map;
 
 	public OptionsMap() {

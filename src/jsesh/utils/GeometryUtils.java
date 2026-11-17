@@ -1,8 +1,8 @@
 package jsesh.utils;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.util.List;
+
+import java.awt.geom.Point2D;
 
 /**
  * Utility class for geometry.
@@ -11,9 +11,6 @@ import java.util.List;
  */
 public class GeometryUtils {
 	
-	private GeometryUtils() {
-	}
-
 	/**
 	 * Compute the algebric area of a polygon.
 	 * 
@@ -35,9 +32,4 @@ public class GeometryUtils {
 		return area;
 	}
 	
-	public static GeneralPath reversePath(GeneralPath path) {
-		GeneralPath result= new GeneralPath();
-	
-		return result;
-	}
 }

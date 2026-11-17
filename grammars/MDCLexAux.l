@@ -389,6 +389,11 @@ TRUESPACE=([ \t\n\015_])
 <YYINITIAL>"/"	{return buildMDCSign(QUATERSHADE, "/");}
 <YYINITIAL>"h/"	{return buildMDCSign(HORIZONTALSHADE, "h/");}
 <YYINITIAL>"&&"	{return buildMDCSymbol(DOUBLEAMP);}
+<YYINITIAL>"**"	{return buildMDCSymbol(DOUBLEAMP);}
+<YYINITIAL>"&&&"	{return buildMDCSymbol(LIGAFTER);}
+<YYINITIAL>"^^^"	{return buildMDCSymbol(LIGBEFORE);}
+<YYINITIAL>"^^"	{return buildMDCSymbol(LIGBEFORE);}
+
 <YYINITIAL>"{{"	{yybegin(PROPERTIES); return buildMDCSymbol(DOUBLELEFTCURLY);}
 
 <PROPERTIES>"}}" {yybegin(YYINITIAL); return buildMDCSymbol(DOUBLERIGHTCURLY);}

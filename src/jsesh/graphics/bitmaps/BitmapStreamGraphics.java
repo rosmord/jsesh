@@ -8,16 +8,18 @@
  */
 package jsesh.graphics.bitmaps;
 
+import java.util.Properties;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
-import jsesh.utils.GraphicsUtils;
+import jsesh.swingUtils.GraphicsUtils;
 
 /**
  * A StreamGraphics2D for bitmaps files.

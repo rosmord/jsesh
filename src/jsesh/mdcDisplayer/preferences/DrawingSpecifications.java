@@ -120,8 +120,6 @@ public class DrawingSpecifications implements Cloneable {
 
     private float pageWidth;
 
-    private float ruleWidth;
-
     /*
      * ------------------------- Serekh-related variables
      *  
@@ -144,14 +142,18 @@ public class DrawingSpecifications implements Cloneable {
      */
     private float topMargin;
 
-    private Stroke wideStroke;
-
     /**
      * The expected size for a page. 
      * If null, the size of the generated pictures will depend on the contents of the pages.
      * if not, the text rendering will accomodate the page sizes.
      */
     private PageFormat pageFormat;
+
+	private float fineLineWidth;
+
+	private float wideLineWidth;
+
+	private Color backgroundColor= Color.WHITE;
 
     //private float
     public DrawingSpecifications() {
@@ -162,12 +164,12 @@ public class DrawingSpecifications implements Cloneable {
         smallSkip = 2;
         lineSkip = 6;
         columnSkip= 10;
-        ruleWidth = 2f;
+        fineLineWidth= 0.5f;
+        wideLineWidth= 3f;
         textOrientation = TextOrientation.HORIZONTAL;
         textDirection = TextDirection.LEFT_TO_RIGHT;
         hieroglyphsDrawer = new SimpleHieroglyphicDrawer();
         cadratWidth = 16;
-        wideStroke = new BasicStroke(1.5f * ruleWidth);
         maxCadratHeight = 18f;
         maxCadratWidth= 22f;
         topMargin = smallSkip + getCartoucheLineWidth() + getCartoucheMargin();
@@ -313,10 +315,7 @@ public class DrawingSpecifications implements Cloneable {
         }
     }
 
-    private void doCopy(DrawingSpecifications specs) {
-
-    }
-
+   
     /**
      * The height of an A1 sign.
      * 
@@ -386,45 +385,15 @@ public class DrawingSpecifications implements Cloneable {
         return cartoucheMargin;
     }
 
-    /*
-     * private float getCartouchePartWidth(int cartoucheType, int part) { if
-     * (part == 0) return 0; else if (cartoucheType == 's' && part == 2) return
-     * 20; else if ((cartoucheType == 'h' || cartoucheType == 's') && part == 1)
-     * return 2; else return 5; }
-     */
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getCartoucheStartWidth(int,
-     *      int)
-     * 
-     * public float getCartoucheStartWidth(int cartoucheType, int part) { return
-     * getCartouchePartWidth(cartoucheType, part); }
+    /**
+     * Compute the stroke which correspond to cartouche lines.
+     * Utility method.
      */
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getCartoucheStroke(jsesh.mdc.model.Cartouche)
-     */
-    public Stroke getCartoucheStroke(int cartoucheType) {
+    public Stroke buildCartoucheStroke(int cartoucheType) {
         return new BasicStroke(getCartoucheLineWidth());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getCartoucheTopMargin(int)
-     * 
-     * public float getCartoucheTopMargin(int cartoucheType) { return 2f; }
-     */
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getCursorColor()
-     */
     public Color getCursorColor() {
         return cursorColor;
     }
@@ -447,7 +416,7 @@ public class DrawingSpecifications implements Cloneable {
      * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getFineStroke()
      */
     public Stroke getFineStroke() {
-        return new BasicStroke(0.5f);
+        return new BasicStroke(fineLineWidth);
     }
 
     public Font getFont(char code) {
@@ -565,15 +534,7 @@ public class DrawingSpecifications implements Cloneable {
         return Color.RED;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getRuleWidth()
-     */
-    public float getRuleWidth() {
-        return ruleWidth;
-    }
-
+   
     public float getSerekhDoorSize() {
         return serekhDoorSize;
     }
@@ -651,7 +612,7 @@ public class DrawingSpecifications implements Cloneable {
      * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getWideStroke()
      */
     public Stroke getWideStroke() {
-        return wideStroke;
+    	return  new BasicStroke(wideLineWidth);
     }
 
     /**
@@ -756,12 +717,6 @@ public class DrawingSpecifications implements Cloneable {
         pageWidth = f;
     }
 
-    /**
-     * @param f
-     */
-    public void setRuleWidth(float f) {
-        ruleWidth = f;
-    }
 
     public void setSerekhDoorSize(float serekhDoorSize) {
         this.serekhDoorSize = serekhDoorSize;
@@ -804,12 +759,7 @@ public class DrawingSpecifications implements Cloneable {
         this.topMargin = topMargin;
     }
 
-    /**
-     * @param stroke
-     */
-    public void setWideStroke(Stroke stroke) {
-        wideStroke = stroke;
-    }
+   
     public float getColumnSkip() {
         return columnSkip;
     }
@@ -833,5 +783,43 @@ public class DrawingSpecifications implements Cloneable {
 	public void setPageFormat(PageFormat pageFormat) {
 		this.pageFormat = pageFormat;
 	}
+
+	/**
+	 * Returns the width of fine lines.
+	 * @return
+	 */
+	public float getFineLineWidth() {
+		return fineLineWidth;
+	}
+	
+	/**
+	 * @param fineLineWidth The fineLineWidth to set.
+	 */
+	public void setFineLineWidth(float fineLineWidth) {
+		this.fineLineWidth = fineLineWidth;
+	}
     
+	/**
+	 * The width of wide lines.
+	 * @return
+	 */
+	public float getWideLineWidth() {
+		return wideLineWidth;
+	}
+	
+	/**
+	 * @param wideLineWidth The wideLineWidth to set.
+	 */
+	public void setWideLineWidth(float wideLineWidth) {
+		this.wideLineWidth = wideLineWidth;
+	}
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+	
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+	
 }

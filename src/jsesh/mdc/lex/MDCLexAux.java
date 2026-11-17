@@ -215,7 +215,7 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 	private final int PROPERTIES = 1;
 	private final int yy_state_dtrans[] = {
 		0,
-		114
+		118
 	};
 	private void yybegin (int state) {
 		yy_lexical_state = state;
@@ -449,43 +449,43 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 		/* 78 */ YY_NO_ANCHOR,
 		/* 79 */ YY_NO_ANCHOR,
 		/* 80 */ YY_NO_ANCHOR,
-		/* 81 */ YY_NOT_ACCEPT,
+		/* 81 */ YY_NO_ANCHOR,
 		/* 82 */ YY_NO_ANCHOR,
 		/* 83 */ YY_NO_ANCHOR,
 		/* 84 */ YY_NO_ANCHOR,
-		/* 85 */ YY_NO_ANCHOR,
+		/* 85 */ YY_NOT_ACCEPT,
 		/* 86 */ YY_NO_ANCHOR,
 		/* 87 */ YY_NO_ANCHOR,
 		/* 88 */ YY_NO_ANCHOR,
 		/* 89 */ YY_NO_ANCHOR,
-		/* 90 */ YY_NOT_ACCEPT,
+		/* 90 */ YY_NO_ANCHOR,
 		/* 91 */ YY_NO_ANCHOR,
 		/* 92 */ YY_NO_ANCHOR,
 		/* 93 */ YY_NO_ANCHOR,
-		/* 94 */ YY_NO_ANCHOR,
+		/* 94 */ YY_NOT_ACCEPT,
 		/* 95 */ YY_NO_ANCHOR,
-		/* 96 */ YY_NOT_ACCEPT,
+		/* 96 */ YY_NO_ANCHOR,
 		/* 97 */ YY_NO_ANCHOR,
 		/* 98 */ YY_NO_ANCHOR,
 		/* 99 */ YY_NO_ANCHOR,
 		/* 100 */ YY_NOT_ACCEPT,
 		/* 101 */ YY_NO_ANCHOR,
 		/* 102 */ YY_NO_ANCHOR,
-		/* 103 */ YY_NOT_ACCEPT,
-		/* 104 */ YY_NO_ANCHOR,
+		/* 103 */ YY_NO_ANCHOR,
+		/* 104 */ YY_NOT_ACCEPT,
 		/* 105 */ YY_NO_ANCHOR,
-		/* 106 */ YY_NOT_ACCEPT,
-		/* 107 */ YY_NO_ANCHOR,
+		/* 106 */ YY_NO_ANCHOR,
+		/* 107 */ YY_NOT_ACCEPT,
 		/* 108 */ YY_NO_ANCHOR,
-		/* 109 */ YY_NOT_ACCEPT,
-		/* 110 */ YY_NO_ANCHOR,
+		/* 109 */ YY_NO_ANCHOR,
+		/* 110 */ YY_NOT_ACCEPT,
 		/* 111 */ YY_NO_ANCHOR,
-		/* 112 */ YY_NOT_ACCEPT,
-		/* 113 */ YY_NO_ANCHOR,
-		/* 114 */ YY_NOT_ACCEPT,
+		/* 112 */ YY_NO_ANCHOR,
+		/* 113 */ YY_NOT_ACCEPT,
+		/* 114 */ YY_NO_ANCHOR,
 		/* 115 */ YY_NO_ANCHOR,
-		/* 116 */ YY_NO_ANCHOR,
-		/* 117 */ YY_NOT_ACCEPT,
+		/* 116 */ YY_NOT_ACCEPT,
+		/* 117 */ YY_NO_ANCHOR,
 		/* 118 */ YY_NOT_ACCEPT,
 		/* 119 */ YY_NO_ANCHOR,
 		/* 120 */ YY_NO_ANCHOR,
@@ -493,7 +493,11 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 		/* 122 */ YY_NOT_ACCEPT,
 		/* 123 */ YY_NO_ANCHOR,
 		/* 124 */ YY_NO_ANCHOR,
-		/* 125 */ YY_NO_ANCHOR
+		/* 125 */ YY_NOT_ACCEPT,
+		/* 126 */ YY_NOT_ACCEPT,
+		/* 127 */ YY_NO_ANCHOR,
+		/* 128 */ YY_NO_ANCHOR,
+		/* 129 */ YY_NO_ANCHOR
 	};
 	private int yy_cmap[] = unpackFromString(1,65538,
 "16:9,58,27,16:2,27,16:18,30,1,47,29,32,5,49,48,51,52,39,12,9,2,59,60,45,34," +
@@ -501,59 +505,60 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 ":7,40,14,50,33,28,55,22,31,21,23,20,44,13,62,13:3,8,43,19,18,13:2,24,15,25," +
 "13,61,13:3,17,7,26,10,16:65410,0:2")[0];
 
-	private int yy_rmap[] = unpackFromString(1,126,
-"0,1,2,3,1,4,1,5,6,4,7,8,9,10,1:3,11,12,1,13,1:3,4,14,15,16,17,18,19,1:3,20," +
-"1:2,21,1,22,1:4,23,1:8,24,1:2,25,1:13,4,1:2,4,1,26,27,1:4,28,29,30,31,32,33" +
-",34,35,36,37,38,39,40,20,41,42,43,44,1,45,46,47,8,48,49,50,51,52,53,1,54,55" +
-",56,57,58,59,60,61,62,63,64,65,66,67,68")[0];
+	private int yy_rmap[] = unpackFromString(1,130,
+"0,1,2,3,1,4,1,5,6,4,7,8,9,10,11,1,12,13,14,1,15,1:3,4,16,17,18,19,20,21,1:3" +
+",22,1:2,23,1,24,1:4,25,1:2,26,1:7,27,1:2,28,1:2,29,1:12,4,1:2,4,1,30,31,1:4" +
+",32,33,34,35,36,37,38,39,40,41,42,43,44,22,45,46,47,48,1,49,50,51,8,52,53,5" +
+"4,55,56,57,1,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72")[0];
 
-	private int yy_nxt[][] = unpackFromString(69,63,
-"1,2,3,4,5,6,7,84,5,6,92,5,98,5,8,83,6,120,9,5:2,125,5:4,10,11:2,12,11,5,13," +
-"14,91:2,5:2,15,16,17,18,5:2,83,91,19,102,105,20,108,21,22,5:2,23,24,97,11,2" +
-"5,26,101,104,-1:64,27,82,81,-1:23,82:2,-1,82,-1:27,82,-1:6,28,-1:24,28:2,29" +
-",28,-1:27,28,-1:8,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:9,-1:5,5,-1:2,5:4,-1:4,5:4" +
-",-1:7,5:2,-1,5:2,-1:3,5:2,-1:4,30,-1,31,-1:27,30:4,-1:7,30,-1:21,85,-1,36,-" +
-"1,93,-1:2,93,-1,93,-1,93,-1,93:9,-1:5,93,-1:2,85:4,-1:4,93:3,85,-1:7,37,93," +
-"-1,93,-1:4,93:2,-1,10,-1,10:60,-1:27,39:2,-1,39,-1:27,39,-1:6,40,-1:17,41,-" +
-"1:8,42,88,43,-1:2,44,89,95,99,-1:49,45,-1:6,46,-1:38,48,-1:32,49,-1:6,50,51" +
-",52,-1:28,53,-1:4,54,-1:10,54,-1:2,55:2,-1:6,56,54,53,55,-1:16,53,-1:49,59," +
-"60,-1:71,62,-1:63,63,-1:4,27,-1:24,27:2,-1,27,-1:27,27,-1:6,28,-1:24,28:2,-" +
-"1,28,-1:27,28,-1:6,66,-1:17,41,-1:10,43,-1:35,30,-1:29,30:4,-1:7,30,-1:18,3" +
-"4:11,100,34,86,34:48,-1:2,87,-1,87,-1:3,93,-1:2,93,-1,93,-1,93,-1,93:9,-1:5" +
-",93,-1:2,87:4,-1:4,93:3,87,-1:7,93:2,-1,93,-1:4,93:2,-1:27,103:2,-1,103,-1:" +
-"27,103,-1:39,89,95,99,-1:59,68:3,-1:8,68,-1:37,69,-1:10,69,-1:11,69,-1:23,7" +
-"5,-1:29,75:4,-1:7,75,-1:21,76,-1:3,76,-1:2,76,-1,76,-1,76,-1,76:9,-1:2,76,-" +
-"1:2,76,-1:2,76:4,-1:4,76:4,-1:7,76:2,-1,76,-1:4,76:2,-1:4,90,-1:29,90:4,-1:" +
-"7,90,-1:19,82,-1:24,82:2,-1,82,-1:27,82,-1:8,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5" +
-":9,-1:5,5,-1:2,107:3,5,-1:4,5:3,107,38,-1:6,5:2,-1,5:2,-1:3,5:2,-1:7,32,117" +
-",-1:2,122,-1:55,85,-1:29,85:4,-1:7,85,-1:18,34:11,94,34,86,34:48,-1:4,87,-1" +
-":29,87:4,-1:7,87,-1:47,88,-1:68,95,99,-1:29,90,82,-1:28,90:4,-1:7,90,-1:21," +
-"5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:9,-1:5,5,-1:2,5:4,-1:4,5:4,47,-1:6,5:2,-1,5:" +
-"2,-1:3,5:2,-1:50,33,-1:16,85,-1:3,93,-1:2,93,-1,93,-1,93,-1,93:9,-1:5,93,-1" +
-":2,85:4,-1:4,93:3,85,-1:7,93:2,-1,93,-1:4,93:2,-1:37,99,-1:29,96,-1:4,106,-" +
-"1:24,96:4,-1:7,96,-1:18,110:3,5,110:3,5,110:2,5,110,5,110,5,110,5:9,110,-1," +
-"110:3,5,110:2,5:4,110:4,5:4,110:7,5:2,110,5:2,110:3,5:2,-1:8,34,-1:3,34:2,-" +
-"1,35,-1,34:9,-1:5,34,-1:11,34:2,-1:16,34:2,-1,34:7,-1,34:3,-1:2,34,-1,34,-1" +
-":9,34:5,-1,34:11,-1:2,34:16,-1:6,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:9,-1:5,5,-1" +
-":2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:2,64,5:2,-1:50,57,-1:16,5,-1:3,5,-1:2,5," +
-"-1,5,-1,5,-1,5:9,-1:5,5,-1:2,107:3,5,-1:4,5:3,107,38,-1:6,5:2,-1,5:2,-1:2,6" +
-"5,5:2,-1:50,58,-1:16,109,-1:29,109:4,-1:7,109,-1:21,5,-1:3,5,-1:2,5,-1,5,-1" +
-",5,-1,5:9,-1:5,5,-1:2,5:4,-1:4,5:4,67,-1:6,5:2,-1,5:2,-1:3,5:2,-1:50,61,-1:" +
-"16,109,-1:5,71,-1:23,109:4,-1:7,109,-1:27,80,-1:56,112,-1:5,72,-1:23,112:4," +
-"-1:7,112,-1:21,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:3,70,5:5,-1:5,5,-1:2,5:4,-1:4" +
-",5:4,-1:7,5:2,-1,5:2,-1:3,5:2,1,6:2,74,75,6:3,76,77,111,76,6,76,6,76,6,76:9" +
-",6,78,76,6,78,76,6:2,75:4,6:4,76:3,75,6:4,79,6:2,76:2,6,76,6,78,6:2,76:2,-1" +
-":4,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:8,73,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1" +
-",5:2,-1:3,5:2,-1:4,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:2,113,5:6,-1:5,5,-1:2,5:4" +
-",-1:4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2,-1:4,96,-1:29,96:4,-1:7,96,-1:21,112,-1:" +
-"29,112:4,-1:7,112,-1:21,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:5,115,5:3,-1:5,5,-1:" +
-"2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2,-1:4,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5" +
-",116,5:7,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2,-1:4,121,-1:4,11" +
-"8,-1:24,121:4,-1:7,121,-1:21,121,-1:29,121:4,-1:7,121,-1:21,5,-1:3,5,-1:2,5" +
-",-1,5,-1,5,-1,5:7,119,5,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2,-" +
-"1:4,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:6,123,5:2,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7," +
-"5:2,-1,5:2,-1:3,5:2,-1:4,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:5,124,5:3,-1:5,5,-1" +
-":2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2");
+	private int yy_nxt[][] = unpackFromString(73,63,
+"1,2,3,4,5,6,7,88,5,6,96,5,102,5,8,87,6,124,9,5:2,129,5:4,10,11:2,12,11,5,13" +
+",14,95:2,5:2,15,16,17,18,5:2,87,95,19,106,109,20,112,21,22,5:2,23,24,101,11" +
+",25,26,105,108,-1:64,27,86,85,-1:23,86:2,-1,86,-1:27,86,-1:6,28,-1:24,28:2," +
+"29,28,-1:27,28,-1:8,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:9,-1:5,5,-1:2,5:4,-1:4,5" +
+":4,-1:7,5:2,-1,5:2,-1:3,5:2,-1:4,30,-1,31,-1:27,30:4,-1:7,30,-1:21,89,-1,36" +
+",-1,97,-1:2,97,-1,97,-1,97,-1,97:9,-1:5,97,-1:2,89:4,-1:4,97:3,89,-1:7,37,9" +
+"7,-1,97,-1:4,97:2,-1,10,-1,10:60,-1:27,39:2,-1,39,-1:27,39,-1:6,40,-1:17,41" +
+",-1:8,42,92,43,-1:2,44,93,99,103,-1:49,45,-1:6,46,-1:64,47,-1:68,49,-1:30,5" +
+"0,-1:32,51,-1:6,52,53,54,-1:28,55,-1:4,56,-1:10,56,-1:2,57:2,-1:6,58,56,55," +
+"57,-1:16,55,-1:49,61,62,-1:71,64,-1:63,65,-1:4,27,-1:24,27:2,-1,27,-1:27,27" +
+",-1:6,28,-1:24,28:2,-1,28,-1:27,28,-1:6,68,-1:17,41,-1:10,43,-1:35,30,-1:29" +
+",30:4,-1:7,30,-1:18,34:11,104,34,90,34:48,-1:2,91,-1,91,-1:3,97,-1:2,97,-1," +
+"97,-1,97,-1,97:9,-1:5,97,-1:2,91:4,-1:4,97:3,91,-1:7,97:2,-1,97,-1:4,97:2,-" +
+"1:27,107:2,-1,107,-1:27,107,-1:39,93,99,103,-1:58,70,-1:63,71:3,-1:8,71,-1:" +
+"37,72,-1:10,72,-1:11,72,-1:68,73,-1:17,79,-1:29,79:4,-1:7,79,-1:21,80,-1:3," +
+"80,-1:2,80,-1,80,-1,80,-1,80:9,-1:2,80,-1:2,80,-1:2,80:4,-1:4,80:4,-1:7,80:" +
+"2,-1,80,-1:4,80:2,-1:4,94,-1:29,94:4,-1:7,94,-1:19,86,-1:24,86:2,-1,86,-1:2" +
+"7,86,-1:8,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:9,-1:5,5,-1:2,111:3,5,-1:4,5:3,111" +
+",38,-1:6,5:2,-1,5:2,-1:3,5:2,-1:7,32,121,-1:2,126,-1:55,89,-1:29,89:4,-1:7," +
+"89,-1:18,34:11,98,34,90,34:48,-1:4,91,-1:29,91:4,-1:7,91,-1:47,92,-1:68,99," +
+"103,-1:29,94,86,-1:28,94:4,-1:7,94,-1:21,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:9,-" +
+"1:5,5,-1:2,5:4,-1:4,5:4,48,-1:6,5:2,-1,5:2,-1:3,5:2,-1:50,33,-1:16,89,-1:3," +
+"97,-1:2,97,-1,97,-1,97,-1,97:9,-1:5,97,-1:2,89:4,-1:4,97:3,89,-1:7,97:2,-1," +
+"97,-1:4,97:2,-1:37,103,-1:29,100,-1:4,110,-1:24,100:4,-1:7,100,-1:18,114:3," +
+"5,114:3,5,114:2,5,114,5,114,5,114,5:9,114,-1,114:3,5,114:2,5:4,114:4,5:4,11" +
+"4:7,5:2,114,5:2,114:3,5:2,-1:8,34,-1:3,34:2,-1,35,-1,34:9,-1:5,34,-1:11,34:" +
+"2,-1:16,34:2,-1,34:7,-1,34:3,-1:2,34,-1,34,-1:9,34:5,-1,34:11,-1:2,34:16,-1" +
+":6,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:9,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1,5:" +
+"2,-1:2,66,5:2,-1:50,59,-1:16,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:9,-1:5,5,-1:2,1" +
+"11:3,5,-1:4,5:3,111,38,-1:6,5:2,-1,5:2,-1:2,67,5:2,-1:50,60,-1:16,113,-1:29" +
+",113:4,-1:7,113,-1:21,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:9,-1:5,5,-1:2,5:4,-1:4" +
+",5:4,69,-1:6,5:2,-1,5:2,-1:3,5:2,-1:50,63,-1:16,113,-1:5,75,-1:23,113:4,-1:" +
+"7,113,-1:27,84,-1:56,116,-1:5,76,-1:23,116:4,-1:7,116,-1:21,5,-1:3,5,-1:2,5" +
+",-1,5,-1,5,-1,5:3,74,5:5,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2," +
+"1,6:2,78,79,6:3,80,81,115,80,6,80,6,80,6,80:9,6,82,80,6,82,80,6:2,79:4,6:4," +
+"80:3,79,6:4,83,6:2,80:2,6,80,6,82,6:2,80:2,-1:4,5,-1:3,5,-1:2,5,-1,5,-1,5,-" +
+"1,5:8,77,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2,-1:4,5,-1:3,5,-1" +
+":2,5,-1,5,-1,5,-1,5:2,117,5:6,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:3" +
+",5:2,-1:4,100,-1:29,100:4,-1:7,100,-1:21,116,-1:29,116:4,-1:7,116,-1:21,5,-" +
+"1:3,5,-1:2,5,-1,5,-1,5,-1,5:5,119,5:3,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1," +
+"5:2,-1:3,5:2,-1:4,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5,120,5:7,-1:5,5,-1:2,5:4,-1" +
+":4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2,-1:4,125,-1:4,122,-1:24,125:4,-1:7,125,-1:2" +
+"1,125,-1:29,125:4,-1:7,125,-1:21,5,-1:3,5,-1:2,5,-1,5,-1,5,-1,5:7,123,5,-1:" +
+"5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2,-1:4,5,-1:3,5,-1:2,5,-1,5,-1" +
+",5,-1,5:6,127,5:2,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1,5:2,-1:3,5:2,-1:4,5," +
+"-1:3,5,-1:2,5,-1,5,-1,5,-1,5:5,128,5:3,-1:5,5,-1:2,5:4,-1:4,5:4,-1:7,5:2,-1" +
+",5:2,-1:3,5:2");
 
 	public java_cup.runtime.Symbol next_token ()
 		throws java.io.IOException {
@@ -847,196 +852,212 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 					case -47:
 						break;
 					case 47:
-						{return buildEndCartouche('c', 
-	                         yytext().charAt(0));}
+						{return buildMDCSymbol(LIGBEFORE);}
 					case -48:
 						break;
 					case 48:
-						{return handlePhilology(BEGINPHIL, EDITORSUPERFLUOUS);}
+						{return buildEndCartouche('c', 
+	                         yytext().charAt(0));}
 					case -49:
 						break;
 					case 49:
-						{return handlePhilology(BEGINPHIL, ERASEDSIGNS);}
+						{return buildMDCSymbol(DOUBLEAMP);}
 					case -50:
 						break;
 					case 50:
-						{return handlePhilology(BEGINPHIL, PREVIOUSLYREADABLE);}
+						{return handlePhilology(BEGINPHIL, EDITORSUPERFLUOUS);}
 					case -51:
 						break;
 					case 51:
-						{return handlePhilology(BEGINPHIL, SCRIBEADDITION);}
+						{return handlePhilology(BEGINPHIL, ERASEDSIGNS);}
 					case -52:
 						break;
 					case 52:
-						{return handlePhilology(BEGINPHIL, EDITORADDITION);}
+						{return handlePhilology(BEGINPHIL, PREVIOUSLYREADABLE);}
 					case -53:
 						break;
 					case 53:
-						{return buildBeginCartouche(yytext().charAt(1), '1');}
+						{return handlePhilology(BEGINPHIL, SCRIBEADDITION);}
 					case -54:
 						break;
 					case 54:
-						{return buildStartOldCartouche('c', yytext().charAt(1));}
+						{return handlePhilology(BEGINPHIL, EDITORADDITION);}
 					case -55:
 						break;
 					case 55:
-						{return buildBeginCartouche('c', yytext().charAt(1));}
+						{return buildBeginCartouche(yytext().charAt(1), '1');}
 					case -56:
 						break;
 					case 56:
-						{return buildStartOldCartouche(yytext().charAt(1), 'a');}
+						{return buildStartOldCartouche('c', yytext().charAt(1));}
 					case -57:
 						break;
 					case 57:
-						{return handlePhilology(ENDPHIL, PREVIOUSLYREADABLE);}
+						{return buildBeginCartouche('c', yytext().charAt(1));}
 					case -58:
 						break;
 					case 58:
-						{return handlePhilology(ENDPHIL, SCRIBEADDITION);}
+						{return buildStartOldCartouche(yytext().charAt(1), 'a');}
 					case -59:
 						break;
 					case 59:
-						{return buildMDCSymbol(DOUBLEAMP);}
+						{return handlePhilology(ENDPHIL, PREVIOUSLYREADABLE);}
 					case -60:
 						break;
 					case 60:
-						{return handlePhilology(ENDPHIL, EDITORADDITION);}
+						{return handlePhilology(ENDPHIL, SCRIBEADDITION);}
 					case -61:
 						break;
 					case 61:
-						{return handlePhilology(ENDPHIL, ERASEDSIGNS);}
+						{return buildMDCSymbol(DOUBLEAMP);}
 					case -62:
 						break;
 					case 62:
-						{return buildMDCSign(FULLSPACE, "..");}
+						{return handlePhilology(ENDPHIL, EDITORADDITION);}
 					case -63:
 						break;
 					case 63:
-						{return buildMDCSign(FULLSHADE, "//");}
+						{return handlePhilology(ENDPHIL, ERASEDSIGNS);}
 					case -64:
 						break;
 					case 64:
-						{return buildMDCSign(VERTICALSHADE, "v/");}
+						{return buildMDCSign(FULLSPACE, "..");}
 					case -65:
 						break;
 					case 65:
-						{return buildMDCSign(HORIZONTALSHADE, "h/");}
+						{return buildMDCSign(FULLSHADE, "//");}
 					case -66:
 						break;
 					case 66:
-						{return buildMDCToggle(ToggleType.SHADINGTOGGLE);}
+						{return buildMDCSign(VERTICALSHADE, "v/");}
 					case -67:
 						break;
 					case 67:
-						{return buildEndCartouche(yytext().charAt(0), 
-	                         yytext().charAt(1));}
+						{return buildMDCSign(HORIZONTALSHADE, "h/");}
 					case -68:
 						break;
 					case 68:
-						{return 
-	     buildBeginCartouche(yytext().charAt(1),
-	                    yytext().charAt(2));}
+						{return buildMDCToggle(ToggleType.SHADINGTOGGLE);}
 					case -69:
 						break;
 					case 69:
-						{return buildStartOldCartouche(
-	                                 yytext().charAt(1),
-	                                 yytext().charAt(2));}
+						{return buildEndCartouche(yytext().charAt(0), 
+	                         yytext().charAt(1));}
 					case -70:
 						break;
 					case 70:
-						{
-		return buildMDCSymbol(ZONE);
-	}
+						{return buildMDCSymbol(LIGBEFORE);}
 					case -71:
 						break;
 					case 71:
-						{ // Simple horizontal line from position integer1 to integer2. Absolute positioning
-	    return buildHRule('l');
-	}
+						{return 
+	     buildBeginCartouche(yytext().charAt(1),
+	                    yytext().charAt(2));}
 					case -72:
 						break;
 					case 72:
-						{ // wide horizontal line from position integer1 to integer2. Absolute positioning
-	    return buildHRule('L');
-	}
+						{return buildStartOldCartouche(
+	                                 yytext().charAt(1),
+	                                 yytext().charAt(2));}
 					case -73:
 						break;
 					case 73:
-						{
-		return buildMDCSymbol(CADRAT);
-	}
+						{return buildMDCSymbol(LIGAFTER);}
 					case -74:
 						break;
 					case 74:
-						{return buildMDCSymbol(EQUAL);}
+						{
+		return buildMDCSymbol(ZONE);
+	}
 					case -75:
 						break;
 					case 75:
-						{return buildMDCIntValuedSymbol(INTEGER,Integer.parseInt(yytext()));}
+						{ // Simple horizontal line from position integer1 to integer2. Absolute positioning
+	    return buildHRule('l');
+	}
 					case -76:
 						break;
 					case 76:
-						{return buildMDCString(IDENTIFIER, yytext());}
+						{ // wide horizontal line from position integer1 to integer2. Absolute positioning
+	    return buildHRule('L');
+	}
 					case -77:
 						break;
 					case 77:
-						{return buildMDCSymbol(COMMA);}
+						{
+		return buildMDCSymbol(CADRAT);
+	}
 					case -78:
 						break;
 					case 78:
-						{}
+						{return buildMDCSymbol(EQUAL);}
 					case -79:
 						break;
 					case 79:
-						{yybegin(YYINITIAL); return buildMDCSymbol(CLOSEBRACE);}
+						{return buildMDCIntValuedSymbol(INTEGER,Integer.parseInt(yytext()));}
 					case -80:
 						break;
 					case 80:
-						{yybegin(YYINITIAL); return buildMDCSymbol(DOUBLERIGHTCURLY);}
+						{return buildMDCString(IDENTIFIER, yytext());}
 					case -81:
 						break;
+					case 81:
+						{return buildMDCSymbol(COMMA);}
+					case -82:
+						break;
 					case 82:
+						{}
+					case -83:
+						break;
+					case 83:
+						{yybegin(YYINITIAL); return buildMDCSymbol(CLOSEBRACE);}
+					case -84:
+						break;
+					case 84:
+						{yybegin(YYINITIAL); return buildMDCSymbol(DOUBLERIGHTCURLY);}
+					case -85:
+						break;
+					case 86:
 						{ 
     	  // The skip is expressed as percentage of normal skip.
     	  // So 100% <=> normal skip (default), 200% = skip one line, etc.
     	  return buildMDCIntValuedSymbol(LINEEND, extractIntFromLineSkip());    
 	}
-					case -82:
+					case -86:
 						break;
-					case 83:
+					case 87:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
-					case -83:
+					case -87:
 						break;
-					case 84:
+					case 88:
 						{return buildMDCString(UNKNOWN, yytext());
     // Local Variables:
     // mode: java
     // tab-width: 48
     // End: 
 }
-					case -84:
+					case -88:
 						break;
-					case 85:
+					case 89:
 						{return buildMDCModifier(yytext());}
-					case -85:
+					case -89:
 						break;
-					case 86:
+					case 90:
 						{
 	  String txt="";
 	  if (yytext().length() > 2) txt= yytext().substring(2);
 	  return buildMDCAlphabetictext(yytext().charAt(1), txt.replaceAll("\\\\\\+","+").replaceAll("\\\\\\\\","\\\\"));
 	}
-					case -86:
+					case -90:
 						break;
-					case 87:
+					case 91:
 						{return buildMDCModifier(yytext());}
-					case -87:
+					case -91:
 						break;
-					case 88:
+					case 92:
 						{
 	// ?!??!!!!! winglyph has introduced way too many meanings for '#', and 
 	// some of them are really not consistent.
@@ -1048,70 +1069,50 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 		else
 			return buildMDCToggle(ToggleType.SHADINGTOGGLE);
 	}
-					case -88:
+					case -92:
 						break;
-					case 89:
+					case 93:
 						{return buildMDCShading(yytext());}
-					case -89:
+					case -93:
 						break;
-					case 91:
+					case 95:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
-					case -90:
+					case -94:
 						break;
-					case 92:
+					case 96:
 						{return buildMDCString(UNKNOWN, yytext());
     // Local Variables:
     // mode: java
     // tab-width: 48
     // End: 
 }
-					case -91:
+					case -95:
 						break;
-					case 93:
+					case 97:
 						{return buildMDCModifier(yytext());}
-					case -92:
+					case -96:
 						break;
-					case 94:
+					case 98:
 						{
 	  String txt="";
 	  if (yytext().length() > 2) txt= yytext().substring(2);
 	  return buildMDCAlphabetictext(yytext().charAt(1), txt.replaceAll("\\\\\\+","+").replaceAll("\\\\\\\\","\\\\"));
 	}
-					case -93:
-						break;
-					case 95:
-						{return buildMDCShading(yytext());}
-					case -94:
-						break;
-					case 97:
-						{
-                // MANUEL DE CODAGE CODE FOR A SIGN
-	            return buildMDCSign(MDCCODE,yytext());
-}
-					case -95:
-						break;
-					case 98:
-						{return buildMDCString(UNKNOWN, yytext());
-    // Local Variables:
-    // mode: java
-    // tab-width: 48
-    // End: 
-}
-					case -96:
+					case -97:
 						break;
 					case 99:
 						{return buildMDCShading(yytext());}
-					case -97:
+					case -98:
 						break;
 					case 101:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
-					case -98:
+					case -99:
 						break;
 					case 102:
 						{return buildMDCString(UNKNOWN, yytext());
@@ -1120,32 +1121,20 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
     // tab-width: 48
     // End: 
 }
-					case -99:
-						break;
-					case 104:
-						{
-                // MANUEL DE CODAGE CODE FOR A SIGN
-	            return buildMDCSign(MDCCODE,yytext());
-}
 					case -100:
 						break;
-					case 105:
-						{return buildMDCString(UNKNOWN, yytext());
-    // Local Variables:
-    // mode: java
-    // tab-width: 48
-    // End: 
-}
+					case 103:
+						{return buildMDCShading(yytext());}
 					case -101:
 						break;
-					case 107:
+					case 105:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
 					case -102:
 						break;
-					case 108:
+					case 106:
 						{return buildMDCString(UNKNOWN, yytext());
     // Local Variables:
     // mode: java
@@ -1154,14 +1143,14 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 }
 					case -103:
 						break;
-					case 110:
+					case 108:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
 					case -104:
 						break;
-					case 111:
+					case 109:
 						{return buildMDCString(UNKNOWN, yytext());
     // Local Variables:
     // mode: java
@@ -1170,61 +1159,93 @@ class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, Pa
 }
 					case -105:
 						break;
-					case 113:
+					case 111:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
 					case -106:
 						break;
-					case 115:
-						{
-                // MANUEL DE CODAGE CODE FOR A SIGN
-	            return buildMDCSign(MDCCODE,yytext());
+					case 112:
+						{return buildMDCString(UNKNOWN, yytext());
+    // Local Variables:
+    // mode: java
+    // tab-width: 48
+    // End: 
 }
 					case -107:
 						break;
-					case 116:
+					case 114:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
 					case -108:
 						break;
-					case 119:
-						{
-                // MANUEL DE CODAGE CODE FOR A SIGN
-	            return buildMDCSign(MDCCODE,yytext());
+					case 115:
+						{return buildMDCString(UNKNOWN, yytext());
+    // Local Variables:
+    // mode: java
+    // tab-width: 48
+    // End: 
 }
 					case -109:
 						break;
-					case 120:
+					case 117:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
 					case -110:
 						break;
-					case 123:
+					case 119:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
 					case -111:
 						break;
-					case 124:
+					case 120:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
 					case -112:
 						break;
-					case 125:
+					case 123:
 						{
                 // MANUEL DE CODAGE CODE FOR A SIGN
 	            return buildMDCSign(MDCCODE,yytext());
 }
 					case -113:
+						break;
+					case 124:
+						{
+                // MANUEL DE CODAGE CODE FOR A SIGN
+	            return buildMDCSign(MDCCODE,yytext());
+}
+					case -114:
+						break;
+					case 127:
+						{
+                // MANUEL DE CODAGE CODE FOR A SIGN
+	            return buildMDCSign(MDCCODE,yytext());
+}
+					case -115:
+						break;
+					case 128:
+						{
+                // MANUEL DE CODAGE CODE FOR A SIGN
+	            return buildMDCSign(MDCCODE,yytext());
+}
+					case -116:
+						break;
+					case 129:
+						{
+                // MANUEL DE CODAGE CODE FOR A SIGN
+	            return buildMDCSign(MDCCODE,yytext());
+}
+					case -117:
 						break;
 					default:
 						yy_error(YY_E_INTERNAL,false);

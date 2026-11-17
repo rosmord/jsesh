@@ -4,7 +4,6 @@ import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;
 import jsesh.mdc.interfaces.HieroglyphInterface;
-import jsesh.mdc.model.operations.Replacement;
 
 /**
  * 
@@ -324,6 +323,10 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 	 */
 	public String toString()
 	{
-		return "(glyph " + code + ")";
+		String result="(glyph " + code ;
+		if (getRelativeSize() != 100 || getX() != 0 || getY() != 0)
+			result+= " [" + getX() + "," + getY() + ", "+ getRelativeSize() + "%]";
+		result+= ")";
+		return result;
 	}
 } // end Hieroglyph

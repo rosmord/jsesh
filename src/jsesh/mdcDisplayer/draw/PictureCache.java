@@ -5,8 +5,9 @@
  */
 package jsesh.mdcDisplayer.draw;
 
-import java.awt.image.BufferedImage;
 import java.util.TreeMap;
+
+import java.awt.image.BufferedImage;
 
 import jsesh.mdc.model.ModelElement;
 

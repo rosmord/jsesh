@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import jsesh.mdc.model.MDCMark;
-import jsesh.mdc.model.MDCMarkChangeListener;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
 
@@ -24,13 +23,17 @@ import jsesh.mdc.model.TopItemList;
  * Note that both insert and mark can be null.
  * 
  * IMPORTANT : we have just had a problem with a case where a text was changed, but not the caret.
- * We should a) move the HieroglyphicTextModel class to the same package as caret, or maybe even to "model"
- * and b) set up an observer system between the two. 
+ * We could a) move the HieroglyphicTextModel class to the same package as caret, or maybe even to "model"
+ * and b) set up an observer system between the two. Another solution : if marks are immutable (in the sense that
+ * one can't move them except by changing the text), there is no need for mark listeners. Caret can still change, but in this case, we are in control.
+ * 
+ *  
+ * // TODO : use named marks, in order to avoid any memory leak problem.
  * @author S. Rosmorduc
  *  
  */
 
-public class MDCCaret implements MDCMarkChangeListener {
+public class MDCCaret {
 
 	private MDCMark insert;
 
@@ -59,20 +62,22 @@ public class MDCCaret implements MDCMarkChangeListener {
 	}
 
 	public void setInsert(MDCMark insert) {
+		/*
 		if (this.insert != null) {
 			this.insert.removeMarkChangeListener(this);
-		}
+		}*/
+		if (this.insert != null)
+			this.insert.release();
 		this.insert = insert;
-		if (insert != null)
-			insert.addMarkChangeListener(this);
+		/*if (insert != null)
+			insert.addMarkChangeListener(this);*/
 		notifyCaretListeners();
 	}
 
 	public void changeModel(TopItemList model) {
+		// We want to generate only one caretChanged event. Hence, we delete the mark by hand.
 		if (mark != null)
-			mark.removeMarkChangeListener(this);
-		if (insert != null)
-			insert.removeMarkChangeListener(this);
+			mark.release();
 		mark= null;
 		setInsert(new MDCMark(new MDCPosition(model, 0)));
 	}
@@ -82,12 +87,15 @@ public class MDCCaret implements MDCMarkChangeListener {
 	}
 
 	public void setMark(MDCMark newMark) {
+		/*
 		if (mark != null) {
 			mark.removeMarkChangeListener(this);
-		}
-		this.mark = newMark;
+		}*/
 		if (mark != null)
-			mark.addMarkChangeListener(this);
+			mark.release();
+		this.mark = newMark;
+		/*if (mark != null)
+			mark.addMarkChangeListener(this);*/
 		notifyCaretListeners();
 	}
 
@@ -103,14 +111,19 @@ public class MDCCaret implements MDCMarkChangeListener {
 	}
 
 	/**
+	 * move the insertion location by a certain amount of elements
 	 * @param i
 	 */
-	public void moveInsert(int i) {
-		insert.advanceBy(i);
+	public void moveInsertBy(int i) {
+		setInsertPosition(insert.getNextPosition(i));
 	}
 
+	/**
+	 * move the insertion location to a certain place.
+	 * @param i
+	 */
 	public void moveInsertTo(int i) {
-		insert.setIndex(i);
+		setInsertPosition(insert.getPositionAt(i));
 	}
 
 	public void setMarkAt(int i) {
@@ -121,10 +134,10 @@ public class MDCCaret implements MDCMarkChangeListener {
 	 * (non-Javadoc)
 	 * 
 	 * @see jsesh.mdc.model.MDCMarkChangeListener#markChanged(jsesh.mdc.model.MDCMark)
-	 */
+	 *
 	public void markChanged(MDCMark mark) {
 		notifyCaretListeners();
-	}
+	}*/
 
 	private void notifyCaretListeners() {
 		for (Iterator i = listeners.iterator(); i.hasNext();) {
@@ -186,4 +199,14 @@ public class MDCCaret implements MDCMarkChangeListener {
     public boolean hasSelection() {        
         return hasMark() && (getMin() != getMax());
     }
+
+	public void setInsertPosition(MDCPosition p) {
+		MDCMark newInsert= new MDCMark(p);
+		setInsert(newInsert);
+	}
+
+	public void advanceInsertBy(int dir) {
+		MDCPosition pos= insert.getNextPosition(dir);
+		setInsertPosition(pos);
+	}
 }

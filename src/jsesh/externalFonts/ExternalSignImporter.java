@@ -1,6 +1,7 @@
 package jsesh.externalFonts;
 
-import javax.swing.JFrame;
+import java.io.File;
+
 import javax.swing.JPanel;
 
 import jsesh.externalFonts.control.ExternalSignImporterPresenter;
@@ -23,4 +24,20 @@ public class ExternalSignImporter {
 	public JPanel getPanel() {
 		return ui.getPanel();
 	}
+
+	/* 
+	 * gets the directory where the system will look for source files for the glyphs.
+	 */
+	public File getSourceDirectory() {
+		return model.getSourceDirectory();
+	}
+
+	/**
+	 * sets the directory where the system will look for source files for the glyphs.
+	 * @param sourceDirectory : the  directory where the search will start.
+	 */
+	public void setSourceDirectory(File sourceDirectory) {
+		model.setSourceDirectory(sourceDirectory);
+	}
+	
 }

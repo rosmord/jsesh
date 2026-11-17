@@ -7,10 +7,11 @@
  */
 package jsesh.fontEditor.model;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.Observable;
 import java.util.Observer;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
 
 
 

@@ -5,6 +5,10 @@
  */
 package jsesh.externalFonts.old;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -13,9 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -27,7 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import jsesh.utils.GraphicsUtils;
+import jsesh.swingUtils.GraphicsUtils;
 
 import com.lowagie.text.DocumentException;
 

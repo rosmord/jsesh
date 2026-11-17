@@ -7,6 +7,8 @@ package jsesh.utils;
 
 import java.util.Observable;
 
+import jsesh.swingUtils.StringModel;
+
 /**
  * @author S. Rosmorduc
  *

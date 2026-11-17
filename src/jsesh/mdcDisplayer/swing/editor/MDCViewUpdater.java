@@ -50,10 +50,10 @@ class MDCViewUpdater implements ModelOperationVisitor {
 		if (this.editor.mdcView.getSubView(k).getModel() == operation
 				.getChildOperation().getElement()) {
 			MDCView subv = this.editor.builder.buildView(operation.getChildOperation()
-					.getElement());
+					.getElement(), editor.getDrawingSpecifications());
 			this.editor.mdcView.replaceSubView(k, subv);
 		}
-		this.editor.builder.reLayout(this.editor.mdcView);
+		this.editor.builder.reLayout(this.editor.mdcView, editor.getDrawingSpecifications());
 	}
 
 	/*
@@ -63,7 +63,7 @@ class MDCViewUpdater implements ModelOperationVisitor {
 	 */
 	public void visitDeletion(Deletion deletion) {
 		this.editor.mdcView.remove(deletion.getStart(), deletion.getEnd());
-		this.editor.builder.reLayout(this.editor.mdcView);
+		this.editor.builder.reLayout(this.editor.mdcView,editor.getDrawingSpecifications());
 
 	}
 
@@ -75,10 +75,10 @@ class MDCViewUpdater implements ModelOperationVisitor {
 	public void visitInsertion(Insertion insertion) {
 		int index= insertion.getIndex();
 		for (Iterator i= insertion.getChildren().iterator(); i.hasNext();) {
-			MDCView subView = this.editor.builder.buildView((ModelElement) i.next());
+			MDCView subView = this.editor.builder.buildView((ModelElement) i.next(),editor.getDrawingSpecifications());
 			this.editor.mdcView.addAt(index++, subView);
 		}
-		this.editor.builder.reLayout(this.editor.mdcView);
+		this.editor.builder.reLayout(this.editor.mdcView,editor.getDrawingSpecifications());
 	}
 
 	/*
@@ -105,11 +105,11 @@ class MDCViewUpdater implements ModelOperationVisitor {
 	public void visitZoneModification(ZoneModification modification) {
 		for (int i= modification.getStart(); i< modification.getEnd(); i++) {
 			TopItem it= this.editor.getHieroglyphicTextModel().getModel().getTopItemAt(i);
-			MDCView v= this.editor.builder.buildView(it);
+			MDCView v= this.editor.builder.buildView(it,editor.getDrawingSpecifications());
 			editor.mdcView.replaceSubView(i,v);
 		}
 		
-		this.editor.builder.reLayout(this.editor.mdcView);
+		this.editor.builder.reLayout(this.editor.mdcView,editor.getDrawingSpecifications());
 	}
 
 }

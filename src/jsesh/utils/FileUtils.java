@@ -14,8 +14,10 @@ public class FileUtils {
 
     /**
      * Return a file name for a certain type of files, ensuring the extension is correct.
+     * <p>If there is no extension, it will be added.
+     * <p>If the extension is wrong, it will be replaced.
      * @param file
-     * @param type
+     * @param type : the extension to use (without dot)
      * @return a file name for a certain type of files, ensuring the extension is correct.
      */
     public static File buildFileWithExtension(File file, String type) {

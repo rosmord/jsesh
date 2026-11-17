@@ -1,5 +1,15 @@
 package jsesh.graphics.wmfexport;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,24 +24,16 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.FlatteningPathIterator;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
 
 import jsesh.graphics.generic.BaseGraphics2D;
+import jsesh.graphics.generic.RandomAccessFileAdapter;
+import jsesh.graphics.generic.RandomAccessStream;
 import jsesh.graphics.generic.StreamGraphicsConfiguration;
 import jsesh.utils.GeometryUtils;
 
@@ -39,7 +41,7 @@ import jsesh.utils.GeometryUtils;
  * Windows Metafile Format Graphics 2D driver.
  * 
  * <p>
- * Unit : Originally, a unit of 1.0 is worth 20 twips (or 1/72 inch).
+ * Unit : Originally, a unit of 1.0 (1 point) is worth 20 twips (or 1/72 inch).
  * <p>
  * IMPORTANT : improve pen handling. Pen should be as shared as possible. Store
  * them in an array, and delete those who don't survive a gc restore.
@@ -52,6 +54,9 @@ public class WMFGraphics2D extends BaseGraphics2D {
 
 	WMFPen currentPen;
 
+	/**
+	 * Picture dimensions, in TWIPS.
+	 */
 	private Dimension dimensions;
 
 	/**
@@ -59,14 +64,12 @@ public class WMFGraphics2D extends BaseGraphics2D {
 	 */
 	private double precision = 0.05;
 
-	private WMFPen selectedPen; // Temporary. A better system should be used
-
 	private WMFDeviceContext wmfOut;
 
 	/**
 	 * True if the graphic context's disposal should close the wmfOut file.
 	 * (when copies are made with create(), their disposal should not close the
-	 * GC).
+	 * wmf file).
 	 */
 	private boolean closeOnDispose;
 
@@ -74,24 +77,40 @@ public class WMFGraphics2D extends BaseGraphics2D {
 	 * Creates a WMFGraphics2D in the file f.
 	 * 
 	 * @param f
-	 * @param dims :
-	 *            graphics dimensions, in points.
+	 * @param dims : graphics dimensions, in points.
 	 * @throws IOException
 	 */
 
 	public WMFGraphics2D(File f, Dimension dims) throws IOException {
-		closeOnDispose = true;
-		dimensions = new Dimension(dims.width * 20, dims.height * 20);
-		wmfOut = new WMFDeviceContext(f, dimensions);
-		scale(20, 20);
-		setFont(new Font("SansSerif", Font.PLAIN, 12));
-		writeHeader();
+		this(new RandomAccessFileAdapter(new RandomAccessFile(f,"rw")), dims);
 	}
 
+	/**
+	 * Creates a WMFGraphics2D in the file fname.
+	 * 
+	 * @param fname path of the file
+	 * @param dims dimensions, expressed in points
+	 * @throws IOException
+	 */
 	public WMFGraphics2D(String fname, Dimension dims) throws IOException {
 		this(new File(fname), dims);
 	}
 
+	/**
+	 * Create a WMF graphics which will be stored in stream.
+	 * Stream may encapsulate a RandomAccessFile or a simple byte array.
+	 * @param stream
+	 * @param dims dimensions, expressed in points
+	 */
+	public WMFGraphics2D(RandomAccessStream stream, Dimension dims) throws IOException {
+		closeOnDispose = true;
+		dimensions = new Dimension(dims.width * 20, dims.height * 20);
+		wmfOut = new WMFDeviceContext(stream, dimensions);
+		scale(20, 20);
+		setFont(new Font("SansSerif", Font.PLAIN, 12));
+		writeHeader();		
+	}
+	
 	private WMFGraphics2D(WMFGraphics2D g) {
 		super(g);
 		dimensions = g.dimensions;
@@ -197,15 +216,14 @@ public class WMFGraphics2D extends BaseGraphics2D {
 			} else {
 				PathIterator iter;
 
-				// We use areas to suppress the problems caused by shape auto-intersection.
+				// We may use areas to suppress the problems caused by shape auto-intersection.
 				Area shapeAsArea= new Area(shape);
 				
-				/* iter = new FlatteningPathIterator(shape
-						.getPathIterator(null), precision); */
-
+				 
 				iter = shapeAsArea.getPathIterator(null, precision);
 
-				WMFPoint first = null;
+				//iter = new FlatteningPathIterator(iter, precision); 
+
 				List polygons = new ArrayList();
 				ArrayList points = new ArrayList();
 				while (!iter.isDone()) {
@@ -380,11 +398,19 @@ public class WMFGraphics2D extends BaseGraphics2D {
 	/*
 	 * 
 	 */
-	public void writeHeader() throws IOException {
+	private void writeHeader() throws IOException {
+		/* without these lines, the actual drawing tries to fill the window.*/
 		wmfOut.setWindowOrg((short) 0, (short) 0);
 		wmfOut.setWindowExt((short) dimensions.getWidth(), (short) dimensions
 				.getHeight());
+		
+		//wmfOut.SetMapMode((short) WMFConstants.MM_ANISOTROPIC);
+		//wmfOut.SetMapMode((short) WMFConstants.MM_TWIPS);
 		wmfOut.SaveDC();
+		
+		/*
+		 * Prepare the drawing commands...
+		 */
 		wmfOut.SetROP2(WMFConstants.R2_COPYPEN);
 		wmfOut.SetBKColor(0x000000);
 		wmfOut.SetBKMode((short) WMFConstants.TRANSPARENT);

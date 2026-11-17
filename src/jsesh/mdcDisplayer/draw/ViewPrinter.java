@@ -14,12 +14,14 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.layout.MDCPagedEditorKit;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
- * Expert for printing pages.
  * 
+ * Expert for printing pages.
+ * @deprecated
  * @author rosmord
  */
 public class ViewPrinter implements Pageable, Printable {
@@ -31,6 +33,8 @@ public class ViewPrinter implements Pageable, Printable {
 	private PagedViewBuilder builder;
 
 	private MDCView currentView = null;
+	
+	private DrawingSpecifications drawingSpecifications;
 
 	/**
 	 * Page format for drawing to a printer of similar device.
@@ -45,6 +49,7 @@ public class ViewPrinter implements Pageable, Printable {
 		drawer.setPaged(true);
 		builder = new PagedViewBuilder();
 		model = null;
+		drawingSpecifications= new DrawingSpecifications();
 	}
 
 	/*
@@ -107,8 +112,7 @@ public class ViewPrinter implements Pageable, Printable {
 			graphics.translate((int) pageFormat.getImageableX(),
 					(int) pageFormat.getImageableY());
 
-			drawer.draw((Graphics2D) graphics, pageView, builder
-					.getDrawingSpecifications());
+			drawer.draw((Graphics2D) graphics, pageView, getDrawingSpecifications());
 		} else
 			return Printable.NO_SUCH_PAGE;
 
@@ -128,7 +132,7 @@ public class ViewPrinter implements Pageable, Printable {
 
 	private MDCView getView() {
 		if (currentView == null) {
-			currentView = builder.buildView(model);
+			currentView = builder.buildView(model,getDrawingSpecifications());
 		}
 		return currentView;
 
@@ -148,7 +152,7 @@ public class ViewPrinter implements Pageable, Printable {
 	 * @return DrawingSpecifications
 	 */
 	public DrawingSpecifications getDrawingSpecifications() {
-		return builder.getDrawingSpecifications();
+		return drawingSpecifications;
 	}
 
 	/**
@@ -170,7 +174,7 @@ public class ViewPrinter implements Pageable, Printable {
 	 * @param specification
 	 */
 	public void setDrawingSpecifications(DrawingSpecifications specification) {
-		builder.setDrawingSpecifications(specification);
+		this.drawingSpecifications= drawingSpecifications; 
 	}
 
 	/**

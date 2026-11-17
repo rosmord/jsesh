@@ -1,12 +1,11 @@
 package jsesh.mdc.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Observable;
-import java.util.Observer;
+
+import java.io.Serializable;
 
 import jsesh.mdc.model.operations.ChildOperation;
 import jsesh.mdc.model.operations.Deletion;
@@ -34,12 +33,39 @@ import jsesh.mdc.model.operations.Replacement;
  * functions : IMPORTANT : The current system does not ensure views are
  * systematically deleted. IMPROVE IT.
  * 
- * This file is free Software (c) Serge Rosmorduc
+ * <p>
+ * Note that a list of child elements is maintained. It is suggested to use it
+ * to store the child elements !!!!!!
+ * 
+ * <p>
+ * ModelElements used to implement the Observable class and be observers for
+ * their children. It is no longer the case, and Observable has been replaced by
+ * an ad-hoc system. The rationale behind this is that a) Observable doesn't
+ * implement Serializable, and hence the Observable part of ModelElements could
+ * not be serialized, which was quite annoying (it's an important rule about
+ * Java Serialization: if a Serializable class extends a non Serializable one,
+ * the data in the parent class is not copied). The second reason was that it
+ * was too general to maintain a list of observers for each model element with
+ * the current architecture. Multiple observers can easily be managed by
+ * encapsulating a TopItemList in some Observable element.
+ * 
+ * <p>
+ * Modelisation problem : all elements have at most one Container, which, for most of them, is also a ModelElement.
+ * the only exception is TopItemList, whose Container is arbitrary.
+ * In some cases, we want to know the parent ModelElement of an element (for navigation purporses. 
+ * Currently, it's used to know if an element is an inner element or not).
+ * 
+ * <p>Now, we don't want to store the same information twice : for all elements save TopItemList, the parentElement is also
+ * the ModelElementContainer. We also want to avoid using instanceof, which is evil. The only possible solution is to create an intermediary 
+ * abstract class, EmbeddedModelElement.
+ * 
+ * <p>
+ * This file is free Software under the LGPL (c) Serge Rosmorduc
  * 
  * @author rosmord
- *  
+ * 
  */
-public abstract class ModelElement extends Observable implements Observer,
+public abstract class ModelElement implements ModelElementObserver,
 		Comparable, Serializable {
 
 	private List children = null;
@@ -48,9 +74,7 @@ public abstract class ModelElement extends Observable implements Observer,
 
 	private boolean fillY = false;
 
-	private ModelElement next, previous;
-
-	private ModelElement parent = null;
+	//private ModelElement next, previous;
 
 	
 	/**
@@ -60,8 +84,6 @@ public abstract class ModelElement extends Observable implements Observer,
 
 	public ModelElement() {
 		children = buildChildrenList();
-		next = null;
-		previous = null;
 	}
 
 	abstract public void accept(ModelElementVisitor v);
@@ -71,33 +93,19 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * elements with this structure is up to the programmer.
 	 * 
 	 * @param elementList
-	 * @param eltClass the base class of the legal elements.
+	 * @param eltClass
+	 *            the base class of the legal elements.
 	 */
 	final protected void addAll(List elementList, Class eltClass) {
-		int i = getNumberOfChildren();
-		int pos = i;
-
-		children.addAll(elementList);
-		for (Iterator iter = elementList.iterator(); iter.hasNext();) {
-			ModelElement child = (ModelElement) iter.next();
-			if (!eltClass.isInstance(child)) {
-				throw new ClassCastException("Bad element in list " + child
-						+ " for " + eltClass);
-			}
-			child.setParent(this);
-			fixSlibings(i);
-			i++;
-		}
-		setChanged();
-		notifyObservers(new Insertion(this, pos, elementList));
+		addAllAt(children.size(), elementList, eltClass);
 	}
 
 	protected void addAllAt(int index, List elementList, Class eltClass) {
-		int i = getNumberOfChildren();
+		int i = index;
 
 		children.addAll(index, elementList);
 		for (Iterator iter = elementList.iterator(); iter.hasNext();) {
-			ModelElement child = (ModelElement) iter.next();
+			EmbeddedModelElement child = (EmbeddedModelElement) iter.next();
 			if (!eltClass.isInstance(child)) {
 				throw new ClassCastException("Bad element in list " + child
 						+ " for " + eltClass);
@@ -106,8 +114,7 @@ public abstract class ModelElement extends Observable implements Observer,
 			fixSlibings(i);
 			i++;
 		}
-		setChanged();
-		notifyObservers(new Insertion(this, index, elementList));
+		notifyModelElementObservers(new Insertion(this, index, elementList));
 	}
 
 	/**
@@ -116,12 +123,8 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * @param child
 	 *            the child to add.
 	 */
-	final protected void addChild(ModelElement child) {
-		child.setParent(this);
-		children.add(child);
-		fixSlibings(children.size() - 1);
-		setChanged();
-		notifyObservers(new Insertion(this, children.size() - 1, child));
+	final protected void addChild(EmbeddedModelElement child) {
+		addChildAt(children.size(), child);
 	}
 
 	/**
@@ -131,17 +134,17 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * @param child
 	 */
 
-	final protected void addChildAt(int idx, ModelElement child) {
+	final protected void addChildAt(int idx, EmbeddedModelElement child) {
 		child.setParent(this);
 		children.add(idx, child);
 		fixSlibings(idx);
-		setChanged();
-		notifyObservers(new Insertion(this, idx, child));
+		notifyModelElementObservers(new Insertion(this, idx, child));
 	}
 
 	/**
 	 * Creates an empty list for children. Override it to change the children
 	 * list implementation.
+	 * 
 	 * @return a newly built empty list of children.
 	 */
 
@@ -165,13 +168,12 @@ public abstract class ModelElement extends Observable implements Observer,
 	final protected void clearChildren() {
 		ListIterator i = getListIterator();
 		while (i.hasNext()) {
-			ModelElement child = (ModelElement) i.next();
-			child.detachModelElement();
+			EmbeddedModelElement child = (EmbeddedModelElement) i.next();
+			child.detachFromContainer();
 		}
 		children.clear();
-		// IMPORTANT : change the system for element suppression.
-		setChanged();
-		notifyObservers(new Modification(this));
+		// FIXME : change the system for element suppression.
+		notifyModelElementObservers(new Modification(this));
 	}
 
 	/**
@@ -228,12 +230,15 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * Function called to compare two model elements that have the
 	 * <em>exact</em> same classes. Implementations can securely cast
 	 * <code>e</code> to their real type.
+	 * <p>
+	 * Implementations for this method can use compareContent().
 	 * 
 	 * @param e
-	 * @return an int 
+	 * @return an int
 	 * @see Comparable#compareTo(java.lang.Object)
+	 * @see ModelElement#compareContents(ModelElement)
 	 */
-	abstract public int compareToAux(ModelElement e);
+	abstract protected int compareToAux(ModelElement e);
 
 	/**
 	 * Copy the content of this modelElement into copy. This is an auxiliary
@@ -246,7 +251,7 @@ public abstract class ModelElement extends Observable implements Observer,
 			copy.children = buildChildrenList();
 			for (int i = 0; i < children.size(); i++)
 				// It's important to use addChild here !
-				copy.addChild(getChildAt(i).deepCopy());
+				copy.addChild((EmbeddedModelElement) getChildAt(i).deepCopy());
 		}
 	}
 
@@ -257,31 +262,8 @@ public abstract class ModelElement extends Observable implements Observer,
 	 */
 	abstract public ModelElement deepCopy();
 
-	/**
-	 * Deconnect an element which was previously a child of this one. This is
-	 * cleanup after actual removal.
-	 * 
-	 * @param child
-	 */
-	private void detachElement(ModelElement child) {
-		// Fix the current element for possible reuse elsewhere :
-		child.previous = null;
-		child.next = null;
-		child.parent = null;
-		child.deleteObserver(this);
-	}
 
-	/**
-	 * Separate a model element from its container.
-	 */
-
-	final protected void detachModelElement() {
-		if (parent != null)
-			deleteObserver(parent);
-		parent = null;
-		previous = null;
-		next = null;
-	}
+	
 
 	/**
 	 * Disable updates forwarding. If updates are enables, modifications to sub
@@ -296,7 +278,7 @@ public abstract class ModelElement extends Observable implements Observer,
 	/**
 	 * Enable updates forwarding. If updates are enables, modifications to sub
 	 * elements will be forwarded to our listeners.
-	 *  
+	 * 
 	 */
 	protected void enableUpdates() {
 		updatesEnabled = true;
@@ -308,16 +290,16 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * @param id
 	 */
 	private void fixSlibings(int id) {
-		ModelElement child = null;
-		ModelElement nextChild = null;
-		ModelElement previousChild = null;
+		EmbeddedModelElement child = null;
+		EmbeddedModelElement nextChild = null;
+		EmbeddedModelElement previousChild = null;
 
 		if (id >= 0 && id < children.size())
-			child = (ModelElement) children.get(id);
+			child = (EmbeddedModelElement) children.get(id);
 		if (id + 1 >= 0 && id + 1 < children.size())
-			nextChild = (ModelElement) children.get(id + 1);
+			nextChild = (EmbeddedModelElement) children.get(id + 1);
 		if (id - 1 >= 0 && id - 1 < children.size())
-			previousChild = (ModelElement) children.get(id - 1);
+			previousChild = (EmbeddedModelElement) children.get(id - 1);
 		// Fix previous element, if any :
 		if (child != null) {
 			child.previous = previousChild;
@@ -333,13 +315,14 @@ public abstract class ModelElement extends Observable implements Observer,
 
 	/**
 	 * Returns the ith child of this element. Indexes start at 0.
+	 * 
 	 * @param id
 	 * 
 	 * @return null if there is no such child.
 	 */
 
-	final public ModelElement getChildAt(int id) {
-		return (ModelElement) children.get(id);
+	final public EmbeddedModelElement getChildAt(int id) {
+		return (EmbeddedModelElement) children.get(id);
 	}
 
 	final protected String getChildrenAsString() {
@@ -369,9 +352,7 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * 
 	 * @return the next element at the same level as this one.
 	 */
-	public ModelElement getNextSlibing() {
-		return next;
-	}
+	public abstract ModelElement getNextSlibing();
 
 	/**
 	 * Return the number of children of this element. Elements who have no child
@@ -384,18 +365,6 @@ public abstract class ModelElement extends Observable implements Observer,
 		return children.size();
 	}
 
-	/*public TextDirection getDirection() {
-		return TextDirection.LEFT_TO_RIGHT;
-	}*/
-
-	/**
-	 * Returns the containing element. Might be null.
-	 * 
-	 * @return the parent element.
-	 */
-	public ModelElement getParent() {
-		return parent;
-	}
 
 	/**
 	 * Get the previous element at the same level as this one. If there is no
@@ -403,9 +372,7 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * 
 	 * @return the previous element at the same level as this one.
 	 */
-	public ModelElement getPreviousSlibing() {
-		return previous;
-	}
+	public abstract ModelElement getPreviousSlibing();
 
 	/**
 	 * @return true for elements that break the current structure (line breaks,
@@ -434,8 +401,7 @@ public abstract class ModelElement extends Observable implements Observer,
 	 * (it might be colour change, shading...)
 	 */
 	protected void notifyModification() {
-		setChanged();
-		notifyObservers(new Modification(this));
+		notifyModelElementObservers(new Modification(this));
 	}
 
 	final protected void removeChild(ModelElement child) {
@@ -451,13 +417,12 @@ public abstract class ModelElement extends Observable implements Observer,
 	final protected void removeChildAt(int id) {
 		if (id < 0 || id >= children.size())
 			return;
-		ModelElement child;
-		child = (ModelElement) children.get(id);
+		EmbeddedModelElement child;
+		child = (EmbeddedModelElement) children.get(id);
 		children.remove(id);
 		fixSlibings(id);
-		detachElement(child);
-		setChanged();
-		notifyObservers(new Deletion(this, id, id + 1));
+		child.detachFromContainer();
+		notifyModelElementObservers(new Deletion(this, id, id + 1));
 	}
 
 	/**
@@ -472,47 +437,43 @@ public abstract class ModelElement extends Observable implements Observer,
 		List l = new ArrayList(b - a);
 		l.addAll(children.subList(a, b));
 		for (int i = b - 1; i >= a; i--) {
-			ModelElement child = (ModelElement) children.get(i);
+			EmbeddedModelElement child = (EmbeddedModelElement) children.get(i);
 			children.remove(i);
-			detachElement(child);
-
+			child.detachFromContainer();
 		}
 		fixSlibings(a);
-		setChanged();
-		notifyObservers(new Deletion(this, a, b));
+		notifyModelElementObservers(new Deletion(this, a, b));
 		return l;
 	}
 
-	final protected void setChildAt(int idx, ModelElement child) {
-		ModelElement oldChild = (ModelElement) children.get(idx);
-		oldChild.detachModelElement();
+	final protected void setChildAt(int idx, EmbeddedModelElement child) {
+		EmbeddedModelElement oldChild = (EmbeddedModelElement) children.get(idx);
+		oldChild.detachFromContainer();
 		child.setParent(this);
 		children.set(idx, child);
 		fixSlibings(idx);
-		setChanged();
-		notifyObservers(new Replacement(this, idx));
+		notifyModelElementObservers(new Replacement(this, idx));
 	}
 
-	/**
-	 * Set the element which contains this one.
-	 * 
-	 * @param element
-	 */
-	private void setParent(ModelElement element) {
-		parent = element;
-		if (parent != null)
-			addObserver(parent);
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-	public void update(Observable o, Object arg) {
-		if (updatesEnabled && arg instanceof ModelOperation) {
-			setChanged();
-			notifyObservers(new ChildOperation(this, (ModelOperation) arg));
+	public void observedElementChanged(ModelOperation operation) {
+		if (updatesEnabled) {
+			notifyModelElementObservers(new ChildOperation(this,operation));
 		}
 	}
+
+	abstract protected void notifyModelElementObservers(ModelOperation op);
+	
+	/**
+	 * Returns this element's parent, or null if none.
+	 * @return this element's parent, or null if none.
+	 */
+	public abstract ModelElement getParent();
+	
+	/**
+	 * Detaches an element from its container, be it another modelElement or something else.
+	 * 
+	 */
+	protected abstract void unsetContainers();
+	
 }

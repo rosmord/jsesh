@@ -6,16 +6,18 @@
  */
 package jsesh.graphicExport;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.List;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -27,11 +29,9 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import jsesh.graphics.bitmaps.BitmapStreamGraphics;
-import jsesh.graphics.bitmaps.MultiFileGraphics;
 import jsesh.graphics.generic.BaseGraphics2D;
-import jsesh.mdcDisplayer.draw.MDCCaret;
+import jsesh.swingUtils.RestrictedCharFormatter;
 import jsesh.utils.FileUtils;
-import jsesh.utils.RestrictedCharFormatter;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
@@ -246,46 +246,6 @@ public class BitmapExporter {
 	}
 
 	
-	private class PictureFilter extends FileFilter {
-		private String format;
-
-		/**
-		 * @param format
-		 *            one of "png", "jpg", etc...
-		 */
-		public PictureFilter(String format) {
-			super();
-			this.format = format;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
-		 */
-		public boolean accept(File f) {
-			return f.isDirectory()
-					|| f.getName().toLowerCase().endsWith("." + format);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see javax.swing.filechooser.FileFilter#getDescription()
-		 */
-		public String getDescription() {
-			return format;
-		}
-
-		/**
-		 * @return Returns the format.
-		 */
-		public String getFormat() {
-			return format;
-		}
-
-	}
-
 	private class BitmapOptionPanel extends ExportOptionPanel implements
 			ActionListener {
 

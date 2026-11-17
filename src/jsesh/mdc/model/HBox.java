@@ -12,24 +12,24 @@ import jsesh.mdc.interfaces.HBoxInterface;
  * @author Rosmorduc
  * </p>
  */
-public class HBox extends ModelElement implements HBoxInterface {
+public class HBox extends EmbeddedModelElement implements HBoxInterface {
 
 	public HBox() {
 	}
 
-	public InnerGroupIterator iterator() {
-		return new InnerGroupIterator(getListIterator());
+	public HorizontalListElementIterator iterator() {
+		return new HorizontalListElementIterator(getListIterator());
 	}
 
-	public void addInnerGroup(InnerGroup elt) {
+	public void addHorizontalListElement(HorizontalListElement elt) {
 		addChild(elt);
 	}
 
-	public void removeInnerGroup(InnerGroup innerGroup) {
-		removeChild(innerGroup);
+	public void removeHorizontalListElement(HorizontalListElement elt) {
+		removeChild(elt);
 	}
 
-	public InnerGroup getInnerGroupAt(int i) {
+	public HorizontalListElement getHorizontalListElementAt(int i) {
 		return (InnerGroup) getChildAt(i);
 	}
 	

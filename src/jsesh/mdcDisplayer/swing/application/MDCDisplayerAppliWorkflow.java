@@ -5,21 +5,24 @@ package jsesh.mdcDisplayer.swing.application;
  * 2004/04/28 : modified saveText so that all texts get an extension.
  */
 
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
+
+import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -30,11 +33,15 @@ import javax.swing.filechooser.FileFilter;
 
 import jsesh.externalFonts.ExternalSignImporter;
 import jsesh.graphicExport.BitmapExporter;
-import jsesh.graphicExport.CaretProvider;
+import jsesh.graphicExport.CaretBroker;
 import jsesh.graphicExport.ExportData;
 import jsesh.graphicExport.HTMLExporter;
 import jsesh.graphicExport.IPDFExporter;
+import jsesh.graphicExport.RTFExportPreferences;
+import jsesh.graphicExport.RTFExporter;
+import jsesh.graphicExport.RTFExporterUI;
 import jsesh.graphicExport.WMFExporter;
+import jsesh.graphicExport.RTFExportPreferences.RTFExportGranularity;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.mdc.constants.SymbolCodes;
@@ -44,17 +51,24 @@ import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelWriter;
+import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.output.ModelWriter;
 import jsesh.mdc.utils.MDCSyntaxError;
+import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
 import jsesh.mdcDisplayer.draw.MDCCaret;
+import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
-import jsesh.mdcDisplayer.swing.actions.generic.PreferenceBoundAction;
-import jsesh.mdcDisplayer.swing.actions.generic.PreferencesChangeListener;
+import jsesh.mdcDisplayer.swing.actionsUtils.PreferenceBoundAction;
+import jsesh.mdcDisplayer.swing.actionsUtils.PreferencesChangeListener;
+import jsesh.mdcDisplayer.swing.application.actions.generic.ForwardedAction;
 import jsesh.mdcDisplayer.swing.editor.HieroglyphicTextModel;
 import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
+import jsesh.mdcDisplayer.swing.editor.MDCModelTransferableBroker;
 import jsesh.mdcDisplayer.swing.groupEditor.GroupEditorDialog;
 import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesEditor;
-import jsesh.utils.FileButtonMapper;
+import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesFacade;
+import jsesh.mdcDisplayer.swing.preferencesEditor.RTFPreferencesForm;
+import jsesh.mdcDisplayer.swing.units.LengthUnit;
 import jsesh.utils.FileUtils;
 import jsesh.utils.SimpleStringModel;
 
@@ -68,12 +82,15 @@ import jsesh.utils.SimpleStringModel;
  * TODO Separate in a) action catalog b) shared data (in particular, a list of
  * editors)
  * 
+ * Actions and menus should be created from an XML file.
+ * 
  * (c) Serge Rosmorduc
  * 
  * @author Serge Rosmorduc
  */
 
-public class MDCDisplayerAppliWorkflow implements CaretProvider {
+public class MDCDisplayerAppliWorkflow implements CaretBroker,
+		MDCModelTransferableBroker {
 
 	class CartoucheAction extends MDCIconAction {
 		private int end;
@@ -203,8 +220,10 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 
 		public void actionPerformed(ActionEvent e) {
 			ExternalSignImporter importer = new ExternalSignImporter();
+			importer.setSourceDirectory(currentHieroglyphsSource);
 			JOptionPane.showMessageDialog(frame, importer.getPanel(),
 					"Import new signs", JOptionPane.PLAIN_MESSAGE);
+			currentHieroglyphsSource = importer.getSourceDirectory();
 		}
 
 		public void preferencesChanged() {
@@ -288,19 +307,30 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 	private File currentMDCDirectory;
 
 	/**
+	 * The current RTF export file.
+	 */
+	
+	private File currentRTFExportFile=null;
+	
+	/**
 	 * The current directory for outputing results, such as pdf files, png
 	 * files...
 	 */
 
 	private File currentOutputDirectory;
 
+	/**
+	 * The directory where the source for SVG, TTF fonts and the like are read.
+	 */
+	private File currentHieroglyphsSource;
+
 	private AbstractAction cutAction;
 
 	private HieroglyphicTextModel data;
 
-	private AbstractAction doubleZoomAction;
-
 	private DrawingSpecifications drawingSpecifications;
+
+	private AbstractAction doubleZoomAction;
 
 	private AbstractAction editGroupAction = new AbstractAction("Edit group") {
 
@@ -366,6 +396,8 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 
 	private AbstractAction ipdfExportAction;
 
+	private AbstractAction rtfExportAction;
+
 	private IPDFExporter iPDFExporter = null;
 
 	private AbstractAction ligatureAction = new AbstractAction(
@@ -373,6 +405,24 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 
 		public void actionPerformed(ActionEvent e) {
 			getEditor().getWorkflow().ligatureElements();
+		}
+
+	};
+
+	private AbstractAction ligatureBeforeAction = new AbstractAction(
+			"ligature group with hieroglyph") {
+
+		public void actionPerformed(ActionEvent e) {
+			getEditor().getWorkflow().ligatureBefore();
+		}
+
+	};
+
+	private AbstractAction ligatureAfterAction = new AbstractAction(
+			"ligature hieroglyph with group") {
+
+		public void actionPerformed(ActionEvent e) {
+			getEditor().getWorkflow().ligatureAfter();
 		}
 
 	};
@@ -430,34 +480,6 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 	private AbstractAction saveTextAction;
 
 	private AbstractAction selectAllAction;
-
-	// FIXME : change the classes selectDirection and selectOrientation to
-	// something better.
-	private AbstractAction selectDirectionAction = new AbstractAction(
-			"Toggle Direction") {
-
-		public void actionPerformed(ActionEvent e) {
-			if (getEditor().getTextDirection().equals(
-					TextDirection.LEFT_TO_RIGHT))
-				getEditor().setTextDirection(TextDirection.RIGHT_TO_LEFT);
-			else
-				getEditor().setTextDirection(TextDirection.LEFT_TO_RIGHT);
-		}
-
-	};
-
-	private AbstractAction selectOrientationAction = new AbstractAction(
-			"Select Orientation") {
-
-		public void actionPerformed(ActionEvent e) {
-			if (getEditor().getTextOrientation().equals(
-					TextOrientation.HORIZONTAL))
-				getEditor().setTextOrientation(TextOrientation.VERTICAL);
-			else
-				getEditor().setTextOrientation(TextOrientation.HORIZONTAL);
-		}
-
-	};
 
 	private AbstractAction setBoldModeAction = new AbstractAction(
 			"Edit bold text") {
@@ -613,21 +635,46 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 
 	private List preferencesListeners;
 
+	private RTFExportPreferences rtfExportPreferences[];
+
+	private LengthUnit preferedUnit;
+
+	/**
+	 * Index of rtfExportPreferences which will be used when copying
+	 */
+
+	private int rtfExportPreferencesIndex;
+
 	public MDCDisplayerAppliWorkflow(HieroglyphicTextModel data) {
 		this.data = data;
 		preferencesListeners = new ArrayList();
 		preferences = Preferences.userNodeForPackage(this.getClass());
+
+		rtfExportPreferences = new RTFExportPreferences[] {
+				new RTFExportPreferences(20,
+						RTFExportGranularity.ONE_PICTURE_PER_CADRAT),
+				new RTFExportPreferences(14,
+						RTFExportGranularity.ONE_PICTURE_PER_CADRAT),
+				new RTFExportPreferences(20,
+						RTFExportGranularity.ONE_PICTURE_PER_CADRAT) };
+
+		rtfExportPreferencesIndex = 0;
+
+		preferedUnit = LengthUnit.POINT;
+
 		wmfExporter = new WMFExporter();
 		setPhilologySign(true);
 		this.frame = null;
 		String dir = System.getProperty("user.dir");
 		currentMDCDirectory = new File(dir);
 		currentOutputDirectory = new File(dir);
+		currentHieroglyphsSource = new File(dir);
 		message = new SimpleStringModel("");
+
 		buildActions();
 		drawingSpecifications = new DrawingSpecifications();
 		refreshFromPreferences();
-		currentFile = new File(currentMDCDirectory, "default.gly");
+		currentFile = getDefaultFile();
 
 		// FIXME : All actions which are preference listeners should be added at
 		// some point.
@@ -637,6 +684,10 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 		// reflection.
 		addPreferencesChangeListener(addNewSignsAction);
 		firePreferencesChange();
+	}
+
+	private File getDefaultFile() {
+		return new File(currentMDCDirectory, "default.gly");
 	}
 
 	public void addPreferencesChangeListener(PreferencesChangeListener l) {
@@ -656,7 +707,7 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 			}
 		};
 		loadTextAction.putValue(Action.MNEMONIC_KEY, new Integer('O'));
-		
+
 		saveTextAction = new AbstractAction("Save") {
 			/*
 			 * (non-Javadoc)
@@ -668,13 +719,13 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 			}
 		};
 		saveTextAction.putValue(Action.MNEMONIC_KEY, new Integer('S'));
-		
+
 		exitAction = new AbstractAction("Exit") {
 			public void actionPerformed(ActionEvent e) {
 				exit();
 			}
 		};
-		
+
 		exitAction.putValue(Action.MNEMONIC_KEY, new Integer('x'));
 		halfZoomAction = new AbstractAction("unzoom") {
 			/*
@@ -743,9 +794,14 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 				boolean selectionOnly = getCaret().hasSelection();
 				if (bitmapExporter.askUser(selectionOnly) == JOptionPane.OK_OPTION) {
 					// TODO : choose DrawingSpecifications from a better place.
-					ExportData exportData = new ExportData(frame.editor
-							.getDrawingSpecifications(),
-							MDCDisplayerAppliWorkflow.this, data, 2.0f);
+					ExportData exportData = new ExportData(
+							getDrawingSpecifications(), getCaret(), getData()
+									.getModel(), 2f);
+					/*
+					 * new ExportData(frame.editor .getDrawingSpecifications(),
+					 * MDCDisplayerAppliWorkflow.this, data, 2.0f);
+					 */
+					// exportData= new ExportData(getDrawingSpecifications(), )
 					bitmapExporter.export(exportData);
 				}
 			}
@@ -757,20 +813,22 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 			public void actionPerformed(ActionEvent e) {
 				if (getCaret().hasSelection()
 						&& wmfExporter.askUser() == JOptionPane.OK_OPTION) {
-					// TODO : choose DrawingSpecifications from a better place.
-					DrawingSpecifications ds = frame.editor
-							.getDrawingSpecifications().copy();
-					ds.setTopMargin(1f);
-					ds.setLeftMargin(1f);
-					ExportData exportData = new ExportData(ds,
-							MDCDisplayerAppliWorkflow.this, data, 2.0f);
+					/*
+					 * DrawingSpecifications ds = frame.editor
+					 * .getDrawingSpecifications().copy(); ds.setTopMargin(1f);
+					 * ds.setLeftMargin(1f); new ExportData(ds,
+					 * MDCDisplayerAppliWorkflow.this, data, 2.0f)
+					 */
+					ExportData exportData = new ExportData(
+							getDrawingSpecifications(), getCaret(), getData()
+									.getModel(), 1f);
 					wmfExporter.export(exportData);
 				}
 			}
-
 		};
+
 		wmfExportAction.putValue(Action.MNEMONIC_KEY, new Integer('w'));
-	
+
 		ipdfExportAction = new AbstractAction("Export as PDF") {
 			/*
 			 * (non-Javadoc)
@@ -801,6 +859,32 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 
 		};
 
+		rtfExportAction = new AbstractAction("Export as RTF") {
+
+			public void actionPerformed(ActionEvent e) {
+				RTFExporterUI rtfExporterUI;
+				rtfExporterUI = new RTFExporterUI(currentRTFExportFile,
+						rtfExportPreferences[2]);
+
+				if (rtfExporterUI.getOptionPanel(frame, "Export as RTF")
+						.askAndSet() == JOptionPane.OK_OPTION) {
+					// try {
+					rtfExporterUI.exportModel(drawingSpecifications, data
+							.getModel());
+					currentOutputDirectory = rtfExporterUI.getFile()
+							.getParentFile();
+					/*
+					 * } catch (IOException e1) {
+					 * JOptionPane.showMessageDialog(null, "Error while
+					 * exporting to RTF " + e1.getMessage(), "Problem when
+					 * exporting", JOptionPane.ERROR_MESSAGE);
+					 * e1.printStackTrace(); }
+					 */
+				}
+
+			}
+
+		};
 		/*
 		 * wmfExportAction = new WMFExporter(data, frame, this, "Export as wmf",
 		 * currentOutputDirectory);
@@ -810,20 +894,13 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 
 			public void actionPerformed(ActionEvent e) {
 				getEditor().getWorkflow().clear();
+				currentFile = getDefaultFile();
 			}
 
 		};
-		
+
 		newAction.putValue(Action.MNEMONIC_KEY, new Integer('N'));
 
-		cutAction = new AbstractAction("Cut") {
-
-			public void actionPerformed(ActionEvent e) {
-				getEditor().getWorkflow().cut();
-
-			}
-
-		};
 		selectAllAction = new AbstractAction("Select All") {
 
 			public void actionPerformed(ActionEvent e) {
@@ -866,22 +943,14 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 
 		};
 
-		pasteAction = new AbstractAction("Paste") {
+		pasteAction = new ForwardedAction(this, "Paste", "PASTE");
 
-			public void actionPerformed(ActionEvent e) {
-				getEditor().getWorkflow().paste();
+		// Create the copy action. Actually, this should be done through a
+		// configuration file
 
-			}
+		copyAction = new ForwardedAction(this, "Copy", "COPY");
 
-		};
-
-		copyAction = new AbstractAction("Copy") {
-
-			public void actionPerformed(ActionEvent e) {
-				getEditor().getWorkflow().copy();
-			}
-
-		};
+		cutAction = new ForwardedAction(this, "Cut", "CUT");
 
 		buildShadeActions();
 		buildCartoucheActions();
@@ -1098,7 +1167,7 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 	 * 
 	 * @return the editor.
 	 */
-	private JMDCEditor getEditor() {
+	public JMDCEditor getEditor() {
 		return frame.editor;
 	}
 
@@ -1181,6 +1250,13 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 	 */
 	public AbstractAction getIPDFExportAction() {
 		return ipdfExportAction;
+	}
+
+	/**
+	 * @return Returns the rtfExportAction.
+	 */
+	public AbstractAction getRtfExportAction() {
+		return rtfExportAction;
 	}
 
 	/**
@@ -1311,14 +1387,6 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 	 */
 	public AbstractAction getSelectAllAction() {
 		return selectAllAction;
-	}
-
-	public AbstractAction getSelectDirectionAction() {
-		return selectDirectionAction;
-	}
-
-	public AbstractAction getSelectOrientationAction() {
-		return selectOrientationAction;
 	}
 
 	/**
@@ -1480,49 +1548,53 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 			}
 			currentMDCDirectory = fc.getCurrentDirectory();
 			File file = fc.getSelectedFile();
-			StringBuffer buffer = new StringBuffer();
-			try {
-				// We read the file in memory,
-				// because we need to suppress non manuel de codage headers, if
-				// any.
-				Reader r = new FileReader(file);
-				int c;
-				while ((c = r.read()) != -1) {
-					buffer.append((char) c);
-				}
-				r.close();
+			loadFile(file);
+		}
+	}
 
-				if (buffer.length() != 0 && buffer.charAt(0) == '@') {
-					int first = buffer.indexOf("\n");
-					if (first == -1)
-						first = buffer.length();
-					buffer.replace(0, first, "");
-				}
-				// handle the difference between winglyph and tksesh about
-				// philology.
-				setPhilologySign(!file.getName().endsWith(".hie"));
-
-				data.readModel(new StringReader(buffer.toString()));
-				currentFile = file;
-			} catch (MDCSyntaxError e) {
-				String msg = "error at line " + e.getLine();
-				int infPos, supPos;
-				if ((e.getCharPos() - 10) > 0)
-					infPos = (e.getCharPos() - 10);
-				else
-					infPos = 0;
-				if (e.getCharPos() + 10 > buffer.length())
-					supPos = buffer.length();
-				else
-					supPos = e.getCharPos() + 10;
-				msg += ". Wrong text : " + buffer.substring(infPos, supPos);
-				JOptionPane.showMessageDialog(frame, msg, "Syntax Error",
-						JOptionPane.ERROR_MESSAGE);
-				e.getCharPos();
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+	public void loadFile(File file) {
+		StringBuffer buffer = new StringBuffer();
+		try {
+			// We read the file in memory,
+			// because we need to suppress non manuel de codage headers, if
+			// any.
+			Reader r = new FileReader(file);
+			int c;
+			while ((c = r.read()) != -1) {
+				buffer.append((char) c);
 			}
+			r.close();
+
+			if (buffer.length() != 0 && buffer.charAt(0) == '@') {
+				int first = buffer.indexOf("\n");
+				if (first == -1)
+					first = buffer.length();
+				buffer.replace(0, first, "");
+			}
+			// handle the difference between winglyph and tksesh about
+			// philology.
+			setPhilologySign(!file.getName().endsWith(".hie"));
+
+			data.readModel(new StringReader(buffer.toString()));
+			currentFile = file;
+		} catch (MDCSyntaxError e) {
+			String msg = "error at line " + e.getLine();
+			int infPos, supPos;
+			if ((e.getCharPos() - 10) > 0)
+				infPos = (e.getCharPos() - 10);
+			else
+				infPos = 0;
+			if (e.getCharPos() + 10 > buffer.length())
+				supPos = buffer.length();
+			else
+				supPos = e.getCharPos() + 10;
+			msg += ". Wrong text : " + buffer.substring(infPos, supPos);
+			JOptionPane.showMessageDialog(frame, msg, "Syntax Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.getCharPos();
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -1550,21 +1622,59 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 		String outputPath = preferences.get("currentOutputDirectory",
 				currentOutputDirectory.getAbsolutePath());
 		currentOutputDirectory = new File(outputPath);
+		currentRTFExportFile= new File(preferences.get("RTFExportFile", new File(currentOutputDirectory,"unnamed.rtf").getAbsolutePath()));
+
 		// wmf export :
 		wmfExporter.setExportFile(new File(preferences.get("wmfExportFile",
 				new File(currentOutputDirectory, "unnamed.wmf").getPath())));
+		// directory looked for loading external hieroglyph fonts
+		path = preferences.get("currentHieroglyphsSource",
+				currentHieroglyphsSource.getAbsolutePath());
+		currentHieroglyphsSource = new File(path);
+		// Cut and paste preferences.
+		// "Large" set
+		rtfExportPreferences[0].setCadratHeight(preferences.getInt(
+				"rtf_large_size", 20));
+		rtfExportPreferences[0].setExportGranularity(RTFExportGranularity
+				.getGranularity(preferences.getInt("rtf_large_mode",
+						RTFExportGranularity.ONE_PICTURE_PER_CADRAT.getId())));
+		rtfExportPreferences[1].setCadratHeight(preferences.getInt(
+				"rtf_small_size", 12));
+		rtfExportPreferences[1].setExportGranularity(RTFExportGranularity
+				.getGranularity(preferences.getInt("rtf_small_mode",
+						RTFExportGranularity.ONE_PICTURE_PER_CADRAT.getId())));
+		rtfExportPreferences[2].setCadratHeight(preferences.getInt(
+				"rtf_file_size", 12));
+		rtfExportPreferences[2].setExportGranularity(RTFExportGranularity
+				.getGranularity(preferences.getInt("rtf_file_mode",
+						RTFExportGranularity.GROUPED_CADRATS.getId())));
 
 	}
 
 	public void savePreferences() {
 		// Also save the creator software version.
-		preferences.put("prefversion", "1.2");
+		preferences.put("prefversion", "2a10");
 		preferences.put("currentMDCDirectory", currentMDCDirectory
 				.getAbsolutePath());
 		preferences.put("currentOutputDirectory", currentOutputDirectory
 				.getAbsolutePath());
 		preferences.put("wmfExportFile", wmfExporter.getExportFile()
 				.getAbsolutePath());
+		preferences.put("currentHieroglyphsSource", currentHieroglyphsSource
+				.getAbsolutePath());
+		// Save cut and paste preferences
+		preferences.putInt("rtf_large_size", rtfExportPreferences[0]
+				.getCadratHeight());
+		preferences.putInt("rtf_large_mode", rtfExportPreferences[0]
+				.getExportGranularity().getId());
+		preferences.putInt("rtf_small_size", rtfExportPreferences[1]
+				.getCadratHeight());
+		preferences.putInt("rtf_small_mode", rtfExportPreferences[1]
+				.getExportGranularity().getId());
+		preferences.putInt("rtf_file_size", rtfExportPreferences[2]
+				.getCadratHeight());
+		preferences.putInt("rtf_file_mode", rtfExportPreferences[2]
+				.getExportGranularity().getId());
 	}
 
 	public void saveText() {
@@ -1640,11 +1750,12 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 		this.frame = frame;
 
 		// NOW, WE can set the caret Action Manager.
-		// IMPORTANT ; the relationship between this workflow and frame is
+		// TODO IMPORTANT ; the relationship between this workflow and frame is
 		// unhealthy to say the least.
 		// We should find a good abtraction for the system. See next line for
 		// the general direction.
-		// IMPORTANT : prepare for the time of multiple editing sessions !!!!
+		// TODO IMPORTANT : prepare for the time of multiple editing sessions
+		// !!!!
 		caretActionManager = new CaretActionManager(getEditor().getWorkflow());
 		caretActionManager.addAction(cutAction);
 		caretActionManager.addAction(copyAction);
@@ -1683,39 +1794,25 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 	 * refactor the system for preferences.
 	 */
 	public void editPreferences() {
-		PreferencesEditor pref = new PreferencesEditor();
-		// fill preferences :
-		// (move this code)
+		PreferencesFacade preferencesFacade = new PreferencesFacade(
+				preferedUnit, rtfExportPreferences);
+		// Maybe facade should be an interface, and the workflow itself would be
+		// the facade.
+		PreferencesEditor preferencesEditor = new PreferencesEditor(frame,
+				preferencesFacade);
 
-		File glyphsPath = DefaultHieroglyphicFontManager.getInstance()
-				.getDirectory();
-		pref.getFontChooserPanel().getHieroglyphicFontDirectoryField()
-				.setValue(glyphsPath);
-
-		FileButtonMapper mapper = new FileButtonMapper(pref
-				.getFontChooserPanel().getBrowseHieroglyphs(), pref
-				.getFontChooserPanel().getHieroglyphicFontDirectoryField());
-		mapper.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		mapper.setApproveButtonLabel("set directory");
-		mapper.setDialogTitle("select glyphs directory");
-		mapper.askForCreation();
-		mapper.setMode(FileButtonMapper.SAVE);
-
-		int option = JOptionPane.showConfirmDialog(frame, pref.getPanel(),
-				"Edit preferences", JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE);
-		if (option == JOptionPane.OK_OPTION) {
-			File f = (File) pref.getFontChooserPanel()
-					.getHieroglyphicFontDirectoryField().getValue();
-			DefaultHieroglyphicFontManager.getInstance().setDirectory(f);
+		preferencesEditor.initializePreferences(preferencesFacade);
+		int ok = preferencesEditor.askForPreferences();
+		if (ok == JOptionPane.OK_OPTION) {
+			preferencesEditor.updatePreferences(preferencesFacade);
+			firePreferencesChange();
 		}
-		firePreferencesChange();
 	}
 
-	
 	/**
-	 * FIXME : rewrite this poor method.
-	 * The whole drawing specification business is wanting. 
+	 * FIXME : rewrite this poor method. The whole drawing specification
+	 * business is wanting.
+	 * 
 	 * @return
 	 */
 	public AbstractAction getSelectCenteredSignsAction() {
@@ -1725,7 +1822,8 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 				if (e.getSource() instanceof JCheckBoxMenuItem) {
 					JCheckBoxMenuItem checkBox = (JCheckBoxMenuItem) e
 							.getSource();
-					getDrawingSpecifications().setSmallSignsCentered(checkBox.isSelected());
+					getDrawingSpecifications().setSmallSignsCentered(
+							checkBox.isSelected());
 					getEditor().getDrawingSpecifications()
 							.setSmallSignsCentered(checkBox.isSelected());
 					getEditor().invalidateView();
@@ -1735,5 +1833,39 @@ public class MDCDisplayerAppliWorkflow implements CaretProvider {
 			}
 
 		};
+	}
+
+	/**
+	 * @return
+	 */
+	public AbstractAction getLigatureBeforeAction() {
+		return ligatureBeforeAction;
+	}
+
+	/**
+	 * @return
+	 */
+	public AbstractAction getLigatureAfterAction() {
+		return ligatureAfterAction;
+	}
+
+	/**
+	 * @param configurationNumber
+	 */
+	public void selectCopyPasteConfiguration(int configurationNumber) {
+		rtfExportPreferencesIndex = configurationNumber;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see jsesh.mdcDisplayer.swing.editor.MDCModelTransferableBroker#buildTransferable(jsesh.mdc.model.TopItemList)
+	 */
+	public MDCModelTransferable buildTransferable(TopItemList top) {
+		MDCModelTransferable result = new MDCModelTransferable(top);
+		result.setDrawingSpecifications(getDrawingSpecifications());
+		result
+				.setRtfPreferences(rtfExportPreferences[rtfExportPreferencesIndex]);
+		return result;
 	}
 }

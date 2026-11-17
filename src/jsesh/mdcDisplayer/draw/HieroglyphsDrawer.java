@@ -95,4 +95,14 @@ public interface HieroglyphsDrawer {
      * @return true if the sign is known.
      */
     boolean isKnown(String code);
+
+	/**
+	 * Return areas fit for inserting ligatured groups in this sign.
+	 * <p> Typical case : G1 sign, with two areas, one in the bottom-start corner of the sign, the other in the top-end corner.
+	 * We might actually propose an half automated system.
+	 * @param i the number of the area : 0 or 1
+	 * @param code the code of the sign.
+	 * @return a rectangle if an area is available, or null if none is.
+	 */
+	Rectangle2D getLigatureArea(int i, String code);
 }

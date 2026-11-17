@@ -4,8 +4,11 @@
 
 package jsesh.hieroglyphs;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.PathIterator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
+
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
@@ -15,10 +18,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+
+import java.awt.geom.GeneralPath;
+import java.awt.geom.PathIterator;
 
 import jsesh.bzr.simple.ShapeChar;
 

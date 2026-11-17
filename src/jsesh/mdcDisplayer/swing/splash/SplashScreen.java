@@ -5,6 +5,8 @@
  */
 package jsesh.mdcDisplayer.swing.splash;
 
+import java.net.URL;
+
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -13,7 +15,6 @@ import java.awt.MediaTracker;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;

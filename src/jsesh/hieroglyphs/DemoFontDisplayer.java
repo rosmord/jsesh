@@ -1,5 +1,8 @@
 package jsesh.hieroglyphs;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FileDialog;
@@ -8,8 +11,6 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileInputStream;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
@@ -22,7 +23,7 @@ import jsesh.bzr.BzrFontReader;
 import jsesh.bzr.simple.BzrSimpleFont;
 import jsesh.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.bzr.simple.ShapeChar;
-import jsesh.utils.GraphicsUtils;
+import jsesh.swingUtils.GraphicsUtils;
 
 /**
  * DemoFontDisplayer.java
@@ -77,7 +78,6 @@ public class DemoFontDisplayer extends JFrame {
 		FileDialog file = new FileDialog(this, "choose a bzr font");
 		file.setVisible(true);
 		System.out.println(file.getFile());
-		String fname = file.getFile();
 		BzrSimpleFontBuilder builder = new BzrSimpleFontBuilder();
 		BzrFontReader reader = new BzrFontReader(builder);
 		try {

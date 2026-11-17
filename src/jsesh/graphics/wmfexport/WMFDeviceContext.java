@@ -1,11 +1,15 @@
 package jsesh.graphics.wmfexport;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.io.File;
+import java.util.ArrayList;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.ArrayList;
+
+import java.awt.Color;
+import java.awt.Dimension;
+
+import jsesh.graphics.generic.RandomAccessFileAdapter;
+import jsesh.graphics.generic.RandomAccessStream;
 
 /*
  * Created on 4 nov. 2004
@@ -31,7 +35,7 @@ import java.util.ArrayList;
  * </ul>
  * 
  * @author S. Rosmorduc
- *  
+ * 
  */
 
 public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
@@ -45,6 +49,7 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		short Handle; /* Metafile HANDLE number (always 0) */
 
 		short Inch; /* Number of metafile units per inch (normally 1440) */
+
 		long Key; /* Magic number (always 9AC6CDD7h) */
 
 		int Left; /* Left coordinate in metafile units */
@@ -61,18 +66,18 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 			 * short *ptr; Checksum = 0; for (ptr = (short *) pmh; ptr < (short
 			 * *)&pmh->Checksum; ptr++) Checksum ^= *ptr;
 			 */
-			Checksum= 0;
-			short b[]= new short[9];
-			b[0]= (short) (Key & 0xFF);
-			b[1]= (short) ((Key & 0xFF00) >>> 16);
-			b[2]= (short) Left;
-			b[3]= (short) Top;
-			b[4]= (short) Right;
-			b[5]= (short) Bottom;
-			b[6]= Inch;
-			b[7]= (short) (Reserved & 0xFF);
-			b[8]= (short) ((Reserved & 0xFF00) >>> 16);
-			for (int i= 0; i < b.length; i++) 
+			Checksum = 0;
+			short b[] = new short[9];
+			b[0] = (short) (Key & 0xFF);
+			b[1] = (short) ((Key & 0xFF00) >>> 16);
+			b[2] = (short) Left;
+			b[3] = (short) Top;
+			b[4] = (short) Right;
+			b[5] = (short) Bottom;
+			b[6] = Inch;
+			b[7] = (short) (Reserved & 0xFF);
+			b[8] = (short) ((Reserved & 0xFF00) >>> 16);
+			for (int i = 0; i < b.length; i++)
 				Checksum ^= b[i];
 		}
 
@@ -92,6 +97,7 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 	class WindowsMetaHeader {
 
 		long FileSize; /* Total size of the metafile in shorts */
+
 		short FileType; /* Type of metafile (0=memory, 1=disk) */
 
 		short HeaderSize; /* Size of header in shortS (always 9) */
@@ -105,26 +111,34 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		short Version; /* Version of Microsoft Windows used */
 
 		public void write() throws IOException {
-			writeS16(FileType); // WMFWORD FileType; /* Type of metafile (0=memory, 1=disk) */
-			writeS16(HeaderSize); // WMFWORD HeaderSize; /* Size of header in WMFWORDS (always 9) */
-			writeS16(Version); //WMFWORD Version; /* Version of Microsoft Windows used */
-			writeS32(FileSize); //WMFDWORD FileSize; /* Total size of the metafile in WMFWORDs */
-		    writeS16(NumOfObjects); //WMFWORD NumOfObjects; /* Number of objects in the file */
-			writeS32(MaxRecordSize); // WMFDWORD MaxRecordSize; /* The size of largest record in WMFWORDs
-			writeS16(NumOfParams); // WMFWORD NumOfParams; /* Not Used (always 0) */
+			writeS16(FileType); // WMFWORD FileType; /* Type of metafile
+								// (0=memory, 1=disk) */
+			writeS16(HeaderSize); // WMFWORD HeaderSize; /* Size of header in
+									// WMFWORDS (always 9) */
+			writeS16(Version); // WMFWORD Version; /* Version of Microsoft
+								// Windows used */
+			writeS32(FileSize); // WMFDWORD FileSize; /* Total size of the
+								// metafile in WMFWORDs */
+			writeS16(NumOfObjects); // WMFWORD NumOfObjects; /* Number of
+									// objects in the file */
+			writeS32(MaxRecordSize); // WMFDWORD MaxRecordSize; /* The size
+										// of largest record in WMFWORDs
+			writeS16(NumOfParams); // WMFWORD NumOfParams; /* Not Used (always
+									// 0) */
 		}
 	}
 
 	/**
-	 * Build a correct colour for use in metafiles.
-	 * (note that the model is really bgr).
+	 * Build a correct colour for use in metafiles. (note that the model is
+	 * really bgr).
+	 * 
 	 * @param r
 	 * @param g
 	 * @param b
 	 * @return the color code.
 	 */
 	static long buildColor(int r, int g, int b) {
-		return ((r) | ((g) << 8) | ((b) << 16)); 
+		return ((r) | ((g) << 8) | ((b) << 16));
 	}
 
 	static long buildColor(Color col) {
@@ -132,20 +146,21 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 	}
 
 	public static void main(String args[]) throws IOException {
-		RandomAccessFile o= new RandomAccessFile("test.wmf", "rw");
-		WMFDeviceContext wmf = new WMFDeviceContext(o,200,200);
+		RandomAccessFile o = new RandomAccessFile("test.wmf", "rw");
+		WMFDeviceContext wmf = new WMFDeviceContext(
+				new RandomAccessFileAdapter(o), 200, 200);
 		WMFPoint pol[] = { new WMFPoint((short) 20, (short) 20),
 				new WMFPoint((short) 40, (short) 20),
 				new WMFPoint((short) 100, (short) 110),
 				new WMFPoint((short) 200, (short) 40),
 				new WMFPoint((short) 405, (short) 200) };
-		wmf.setWindowOrg((short)0, (short)0);
-		wmf.setWindowExt((short)200, (short)200);
-		wmf.MoveTo((short)10, (short)10);
-		wmf.LineTo((short)50, (short)100);
-		wmf.LineTo((short)100, (short)50);
-		wmf.LineTo((short)10, (short)10);
-		wmf.Polygon(pol, (short)4);
+		wmf.setWindowOrg((short) 0, (short) 0);
+		wmf.setWindowExt((short) 200, (short) 200);
+		wmf.MoveTo((short) 10, (short) 10);
+		wmf.LineTo((short) 50, (short) 100);
+		wmf.LineTo((short) 100, (short) 50);
+		wmf.LineTo((short) 10, (short) 10);
+		wmf.Polygon(pol, (short) 4);
 	}
 
 	WindowsMetaHeader head;
@@ -153,68 +168,39 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 	PlaceableMetaHeader meta;
 
 	/**
-	 * objects is a table of boolean, which remembers if objects are used (true) or not (false).
+	 * objects is a table of boolean, which remembers if objects are used (true)
+	 * or not (false).
 	 */
 	ArrayList objects;
 
-	RandomAccessFile out;
+	RandomAccessStream out;
+
+	public WMFDeviceContext(RandomAccessStream stream, Dimension dims)
+			throws IOException {
+		this(stream, (int) dims.getWidth(), (int) dims.getHeight());
+	}
 
 	/**
-	 * @param f
-	 * @param dims
+	 * Create a metafile in a RandomAccessStream, for instance a
+	 * RandomAccessByteArray or a RandomAccessFile.
+	 * 
+	 * @param stream
+	 * @param width
+	 * @param height
 	 * @throws IOException
 	 */
-	public WMFDeviceContext(File f, Dimension dims) throws IOException {
-		this(f, (int)dims.getWidth(), (int)dims.getHeight());
-		objects= (ArrayList) objects.clone();
-	}
 
-	/**
-	 * Create a metafile.
-	 * 
-	 * @param f
-	 * @param width width of the metafile, expressed in twips (1/1440 of inch)
-	 * @param height height of the metafile, expressed in twips (1/1440 of inch)
-	 * @throws IOException
-	 **/
-	public WMFDeviceContext(File f, int width, int height) throws IOException {
-		/* if (f.exists())
-			f.delete();*/
-		initLowLevelGraphics(new RandomAccessFile(f, "rw"), width, height);
-	}
-
-	/**
-	 * Create a metafile.
-	 * 
-	 * @param out a randomaccessfile which will contain the metafile.
-	 * @param width width of the metafile, expressed in twips (1/1440 of inch)
-	 * @param height height of the metafile, expressed in twips (1/1440 of inch)
-	 * @throws IOException
-	 **/
-
-	public WMFDeviceContext(RandomAccessFile out, int width, int height) throws IOException {
-		initLowLevelGraphics(out, width, height);
-	}
-
-
-	/**
-	 * Create a metafile.
-	 * 
-	 * @param fileName
-	 * @param width width of the metafile, expressed in twips (1/1440 of inch)
-	 * @param height height of the metafile, expressed in twips (1/1440 of inch)
-	 * @throws IOException
-	 */
-	public WMFDeviceContext(String fileName, int width, int height) throws IOException {
-		this(new File(fileName), width, height);
-		
+	public WMFDeviceContext(RandomAccessStream stream, int width, int height)
+			throws IOException {
+		initLowLevelGraphics(stream, width, height);
 	}
 
 	private void addCommand(short func) throws IOException {
 		addRecord(func, 0);
 	}
 
-	private void addCommandABCD(short func, short a, short b, short c, short d) throws IOException {
+	private void addCommandABCD(short func, short a, short b, short c, short d)
+			throws IOException {
 		addRecord(func, 4);
 		writeS16(d);
 		writeS16(c);
@@ -227,7 +213,8 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		writeS32(x);
 	}
 
-	private void addCommandLINES(short func, WMFPoint p[], short nbr) throws IOException {
+	private void addCommandLINES(short func, WMFPoint p[], short nbr)
+			throws IOException {
 		int i;
 		addRecord(func, 2 * nbr + 1);
 		writeS16(nbr);
@@ -248,7 +235,8 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		writeS16(x);
 	}
 
-	private void addCommandXYL(short func, short a, short b, long c) throws IOException {
+	private void addCommandXYL(short func, short a, short b, long c)
+			throws IOException {
 		addRecord(func, 4);
 		writeS32(c);
 		writeS16(b);
@@ -260,8 +248,8 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		/* Update header values */
 		head.NumOfObjects++;
 		if (head.MaxRecordSize < size)
-			head.MaxRecordSize= size;
-		head.FileSize+= size;
+			head.MaxRecordSize = size;
+		head.FileSize += size;
 		/* Start writing data */
 		writeS32(size);
 		writeS16(function);
@@ -269,18 +257,21 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 
 	/**
 	 * find and return a free object.
+	 * 
 	 * @return the object index.
 	 */
 
 	private short allocObject() {
 		short result;
 		int i;
-		for (i= 0; i < objects.size() && ((Boolean)objects.get(i)).booleanValue(); i++);
+		for (i = 0; i < objects.size()
+				&& ((Boolean) objects.get(i)).booleanValue(); i++)
+			;
 		if (i == objects.size()) {
-			result= (short) i;
+			result = (short) i;
 			objects.add(Boolean.TRUE);
 		} else {
-			result= (short) i;
+			result = (short) i;
 			objects.set(i, Boolean.TRUE);
 		}
 		return result;
@@ -289,6 +280,7 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 	/**
 	 * Arc from an ellipse described by top,left,... The Arc itself is described
 	 * by xstart & co
+	 * 
 	 * @param left
 	 * @param top
 	 * @param right
@@ -298,11 +290,12 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 	 * @param xend
 	 * @param yend
 	 * @throws IOException
-	 *  
+	 * 
 	 */
 
-	public void arc(short left, short top, short right, short bottom, short xstart,
-			short ystart, short xend, short yend) throws IOException {
+	public void arc(short left, short top, short right, short bottom,
+			short xstart, short ystart, short xend, short yend)
+			throws IOException {
 		addRecord(META_ARC, 8);
 		writeS16(yend);
 		writeS16(xend);
@@ -325,6 +318,7 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 	 * record is missing from the original WMF description found in the Windows
 	 * SDK and is now documented in article Q99334 of the Microsoft Knowledge
 	 * Base.
+	 * 
 	 * @throws IOException
 	 */
 
@@ -338,58 +332,82 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 
 	/**
 	 * Generic function for building a Pen.
-	 * @param penStyle : one of : one of PS_SOLID, PS_DASH, PS_DOT, PS_DASHDOT, PS_DASHDOTDOT, PS_NULL, PS_INSIDEFRAME, PS_USERSTYLE, PS_ALTERNATE
-	 * @param width : the pen's width, in 1/1440 of an inch.
-	 * @param penColour : the line colour
-	 * @param fillhatch : ignored if style is not hatched ; else : one of HS_HORIZONTAL, HS_VERTICAL, HS_FDIAGONAL, HS_BDIAGONAL, HS_CROSS, HS_DIAGCROSS
-	 * @param fillColour : the fill colour.
-	 * @param fillStyle one of BS_SOLID, BS_NULL or BS_HATCHED.
+	 * 
+	 * @param penStyle :
+	 *            one of : one of PS_SOLID, PS_DASH, PS_DOT, PS_DASHDOT,
+	 *            PS_DASHDOTDOT, PS_NULL, PS_INSIDEFRAME, PS_USERSTYLE,
+	 *            PS_ALTERNATE
+	 * @param width :
+	 *            the pen's width, in 1/1440 of an inch.
+	 * @param penColour :
+	 *            the line colour
+	 * @param fillhatch :
+	 *            ignored if style is not hatched ; else : one of HS_HORIZONTAL,
+	 *            HS_VERTICAL, HS_FDIAGONAL, HS_BDIAGONAL, HS_CROSS,
+	 *            HS_DIAGCROSS
+	 * @param fillColour :
+	 *            the fill colour.
+	 * @param fillStyle
+	 *            one of BS_SOLID, BS_NULL or BS_HATCHED.
 	 * @return the new pen.
 	 * @throws IOException
 	 */
-	public WMFPen createPenBrush(int penStyle, short width, long penColour, short fillhatch, long fillColour, int fillStyle) throws IOException {
-		short p= createPenIndirect(penStyle, width, penColour);
-		short b= createBrushIndirect(fillhatch, fillColour, fillStyle);
-		return new WMFPen(p,b);
-	}
-	
-	public WMFPen createDrawPen(int penStyle, short width, long colour) throws IOException {
-		return createPenBrush(penStyle, width, colour, (short) WMFConstants.HS_VERTICAL, colour, WMFConstants.BS_NULL);
+	public WMFPen createPenBrush(int penStyle, short width, long penColour,
+			short fillhatch, long fillColour, int fillStyle) throws IOException {
+		short p = createPenIndirect(penStyle, width, penColour);
+		short b = createBrushIndirect(fillhatch, fillColour, fillStyle);
+		return new WMFPen(p, b);
 	}
 
-	
+	public WMFPen createDrawPen(int penStyle, short width, long colour)
+			throws IOException {
+		return createPenBrush(penStyle, width, colour,
+				(short) WMFConstants.HS_VERTICAL, colour, WMFConstants.BS_NULL);
+	}
+
 	public WMFPen createDrawPen(short width, long colour) throws IOException {
-		return createPenBrush(WMFConstants.PS_SOLID, width, colour, (short) WMFConstants.HS_VERTICAL, colour, WMFConstants.BS_NULL);
+		return createPenBrush(WMFConstants.PS_SOLID, width, colour,
+				(short) WMFConstants.HS_VERTICAL, colour, WMFConstants.BS_NULL);
 	}
 
-	public WMFPen createFillPen(short fillHatch, long colour, int fillStyle) throws IOException {
-		return createPenBrush(WMFConstants.PS_NULL, (short) 0, colour, fillHatch, colour, fillStyle);
+	public WMFPen createFillPen(short fillHatch, long colour, int fillStyle)
+			throws IOException {
+		return createPenBrush(WMFConstants.PS_NULL, (short) 0, colour,
+				fillHatch, colour, fillStyle);
 	}
 
 	public WMFPen createFillPen(long colour) throws IOException {
-		return createPenBrush(WMFConstants.PS_NULL, (short) 0, colour, (short) WMFConstants.HS_VERTICAL, colour, WMFConstants.BS_SOLID);
+		return createPenBrush(WMFConstants.PS_NULL, (short) 0, colour,
+				(short) WMFConstants.HS_VERTICAL, colour, WMFConstants.BS_SOLID);
 	}
-	
+
 	public void selectPen(WMFPen pen) throws IOException {
 		SelectObject(pen.getPenNum());
 		SelectObject(pen.getBrushNum());
 	}
-	
+
 	public void freePen(WMFPen pen) throws IOException {
 		deleteObject(pen.getPenNum());
 		deleteObject(pen.getBrushNum());
 	}
-	
+
 	/**
 	 * create a brush.
-	 * @param hatch : ignored if style is not hatched ; else : one of HS_HORIZONTAL, HS_VERTICAL, HS_FDIAGONAL, HS_BDIAGONAL, HS_CROSS, HS_DIAGCROSS
-	 * @param colour : colour of the brush.
-	 * @param style : one of BS_SOLID, BS_NULL or BS_HATCHED.
+	 * 
+	 * @param hatch :
+	 *            ignored if style is not hatched ; else : one of HS_HORIZONTAL,
+	 *            HS_VERTICAL, HS_FDIAGONAL, HS_BDIAGONAL, HS_CROSS,
+	 *            HS_DIAGCROSS
+	 * @param colour :
+	 *            colour of the brush.
+	 * @param style :
+	 *            one of BS_SOLID, BS_NULL or BS_HATCHED.
 	 * @return object identifier.
 	 * @throws IOException
 	 */
-	
-	short createBrushIndirect(short hatch, long colour, int style) throws IOException {
+
+	short createBrushIndirect(short hatch, long colour, int style)
+			throws IOException {
 		addRecord(META_CREATEBRUSHINDIRECT, 4);
 		writeU16(style);
 		writeS32(colour);
@@ -423,13 +441,20 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 
 	/**
 	 * Create a new pen.
-	 * @param style one of : one of PS_SOLID, PS_DASH, PS_DOT, PS_DASHDOT, PS_DASHDOTDOT, PS_NULL, PS_INSIDEFRAME, PS_USERSTYLE, PS_ALTERNATE
-	 * @param width : width of the pen, if > 1, will force style to solid. 
-	 * @param colour : colour of the pen
+	 * 
+	 * @param style
+	 *            one of : one of PS_SOLID, PS_DASH, PS_DOT, PS_DASHDOT,
+	 *            PS_DASHDOTDOT, PS_NULL, PS_INSIDEFRAME, PS_USERSTYLE,
+	 *            PS_ALTERNATE
+	 * @param width :
+	 *            width of the pen, if > 1, will force style to solid.
+	 * @param colour :
+	 *            colour of the pen
 	 * @return the pen object's id.
 	 * @throws IOException
 	 */
-	short createPenIndirect(int style, short width, long colour) throws IOException {
+	short createPenIndirect(int style, short width, long colour)
+			throws IOException {
 		addRecord(META_CREATEPENINDIRECT, 5);
 		/* There seems to be a padding word between width and colour */
 		writeU16(style);
@@ -439,7 +464,8 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		return allocObject();
 	}
 
-	int createRegion(short left, short top, short right, short bottom) throws IOException {
+	int createRegion(short left, short top, short right, short bottom)
+			throws IOException {
 		addCommandABCD(META_CREATEREGION, left, top, right, bottom);
 		return allocObject();
 	}
@@ -448,8 +474,9 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		FreeObject(nobj);
 		addCommandX(META_DELETEOBJECT, nobj);
 	}
-	
-	void ellipse(short left, short top, short right, short bottom) throws IOException {
+
+	void ellipse(short left, short top, short right, short bottom)
+			throws IOException {
 		addCommandABCD(META_ELLIPSE, left, top, right, bottom);
 	}
 
@@ -457,11 +484,12 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 	 * Clipping
 	 */
 
-	void ExcludeClipRect(short left, short top, short right, short bottom) throws IOException {
+	void ExcludeClipRect(short left, short top, short right, short bottom)
+			throws IOException {
 		addCommandABCD(META_EXCLUDECLIPRECT, left, top, right, bottom);
 	}
 
-	void FillRgn(short nbrush, short nregion) throws IOException {	
+	void FillRgn(short nbrush, short nregion) throws IOException {
 		addCommandXY(META_FILLREGION, nbrush, nregion);
 	}
 
@@ -471,6 +499,7 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 
 	/**
 	 * frees a resource.
+	 * 
 	 * @param nobj
 	 */
 
@@ -480,16 +509,17 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 
 	/**
 	 * Aux. function for the constructor.
+	 * 
 	 * @param out
 	 * @param width
 	 * @param height
 	 * @throws IOException
 	 */
-	
-	private void initLowLevelGraphics(RandomAccessFile out, int width, int height) throws IOException {
-		int i;
+
+	private void initLowLevelGraphics(RandomAccessStream out, int width,
+			int height) throws IOException {
 		out.setLength(0);
-		objects= new ArrayList();
+		objects = new ArrayList();
 		meta = new PlaceableMetaHeader();
 		head = new WindowsMetaHeader();
 		/* unsigned char s[]= { 0xD7, 0xCD, 0xC6, 0x9A}; */
@@ -520,7 +550,8 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		/* Good. Now, commands can be written to the file */
 	}
 
-	void IntersectClipRetc(short left, short top, short right, short bottom) throws IOException {
+	void IntersectClipRetc(short left, short top, short right, short bottom)
+			throws IOException {
 		addCommandABCD(META_INTERSECTCLIPRECT, left, top, right, bottom);
 	}
 
@@ -556,7 +587,8 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		addCommandX(META_PAINTREGION, nregion);
 	}
 
-	void PatBlt(short left, short top, short right, short bottom, long rop) throws IOException {
+	void PatBlt(short left, short top, short right, short bottom, long rop)
+			throws IOException {
 		addRecord(META_PATBLT, 6);
 		writeS32(rop);
 		writeS16(bottom);
@@ -577,7 +609,8 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		addCommandLINES(META_POLYLINE, p, nbr);
 	}
 
-	void rectangle(short left, short top, short right, short bottom) throws IOException {
+	void rectangle(short left, short top, short right, short bottom)
+			throws IOException {
 		addCommandABCD(META_RECTANGLE, left, top, right, bottom);
 	}
 
@@ -600,7 +633,8 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		addCommand(META_SAVEDC);
 	}
 
-	void ScaleViewportExt(short xnum, short xdenom, short ynum, short ydenom) throws IOException {
+	void ScaleViewportExt(short xnum, short xdenom, short ynum, short ydenom)
+			throws IOException {
 		addRecord(META_SCALEVIEWPORTEXT, 4);
 		writeS16(ydenom);
 		writeS16(ynum);
@@ -608,7 +642,8 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		writeS16(xnum);
 	}
 
-	void ScaleWindowExt(short xnum, short xdenom, short ynum, short ydenom) throws IOException {
+	void ScaleWindowExt(short xnum, short xdenom, short ynum, short ydenom)
+			throws IOException {
 		addRecord(META_SCALEWINDOWEXT, 4);
 		writeS16(ydenom);
 		writeS16(ynum);
@@ -632,7 +667,6 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		addCommandX(META_SETBKMODE, mode);
 	}
 
-
 	void SetMapMode(short map) throws IOException {
 		addCommandX(META_SETMAPMODE, map);
 	}
@@ -647,7 +681,9 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 
 	/**
 	 * Sets the way polygons are filled.
-	 * @param fillmode : one of ALTERNATE, WINDING, POLYFILL_LAST (?).
+	 * 
+	 * @param fillmode :
+	 *            one of ALTERNATE, WINDING, POLYFILL_LAST (?).
 	 * @throws IOException
 	 */
 	void SetPolyFillMode(short fillmode) throws IOException {
@@ -666,13 +702,12 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 		addCommandL(META_SETTEXTCOLOR, color);
 	}
 
-	
 	void setViewportExt(short x, short y) throws IOException {
 		addCommandXY(META_SETVIEWPORTEXT, x, y);
 	}
 
 	void setViewportExt(WMFPoint p) throws IOException {
-		setViewportExt(p.x,p.y);
+		setViewportExt(p.x, p.y);
 	}
 
 	void setViewportOrg(short x, short y) throws IOException {
@@ -684,7 +719,7 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 	}
 
 	void setWindowExt(WMFPoint p) throws IOException {
-		setWindowExt(p.x,p.y);
+		setWindowExt(p.x, p.y);
 	}
 
 	void setWindowOrg(short x, short y) throws IOException {
@@ -716,14 +751,15 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 
 	/**
 	 * Draws a text.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param txt
 	 * @throws IOException
 	 */
 	public void textOut(short x, short y, String txt) throws IOException {
-		char t[]= txt.toCharArray();
-		textOut(x,y,t);
+		char t[] = txt.toCharArray();
+		textOut(x, y, t);
 	}
 
 	void textOut(WMFPoint p, char s[]) throws IOException {
@@ -731,15 +767,35 @@ public class WMFDeviceContext implements WMFFunctionCodes, WMFConstants {
 	}
 
 	public void textOut(WMFPoint p, String txt) throws IOException {
-		textOut(p.x,p.y,txt);
+		textOut(p.x, p.y, txt);
 	}
 
 	private void writeHEADER() throws IOException {
+		// Generate Aldus metafile header
 		meta.compute_checksum();
-
 		meta.write();
-
+		
+		// We could also generate a non-aldus metafile :
+		// writeClipboardHeader(meta);
+		
+		// Generate the standard header common to all metafiles.
 		head.write();
+	}
+
+	/**
+	 * write a header for a clipboard meta file (DOESN'T WORK).
+	 * @param meta2
+	 * @throws IOException 
+	 */
+	private void writeClipboardHeader(PlaceableMetaHeader meta2) throws IOException {
+		// LONG MappingMode; /* Units used to playback metafile */
+		writeS32(6);
+		// LONG Width; /* Width of the metafile */
+		writeS32(meta2.Right);		
+		// LONG Height; /* Height of the metafile */
+		writeS32( meta2.Bottom);
+		// LONG Handle; /* Handle to the metafile in memory */
+		writeS32(0);
 	}
 
 	private void writeS16(short x) throws IOException {

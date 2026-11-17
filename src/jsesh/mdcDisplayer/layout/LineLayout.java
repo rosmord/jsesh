@@ -16,7 +16,6 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.mdcView.RelativePosition;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
@@ -37,359 +36,295 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 public class LineLayout extends TopItemLayout {
 
-    private MDCView documentView;
+	private MDCView documentView;
 
-    Rectangle2D documentArea;
+	Rectangle2D documentArea;
 
-    /**
-     * Insertion point for the next zone.
-     * <p>
-     * Used to compute the positions of the zone, and then the whole document
-     * size.
-     */
-    private Point2D insertionPoint;
+	/**
+	 * Insertion point for the next zone.
+	 * <p>
+	 * Used to compute the positions of the zone, and then the whole document
+	 * size.
+	 */
+	private Point2D insertionPoint;
 
-    /**
-     * The zone being built.
-     */
-    private Zone zone;
+	/**
+	 * The zone being built.
+	 */
+	private Zone zone;
 
-    /**
-     * the relative position that will be used to place the current zone
-     */
+	/**
+	 * the position that will be used to place the current zone
+	 */
 
-    private RelativePosition zoneStart;
+	private Point2D.Double zoneStart;
 
-    private DrawingSpecifications drawingSpecifications;
+	private DrawingSpecifications drawingSpecifications;
 
-    /**
-     * The relative position given by the previous subview.
-     */
-    //private RelativePosition nextViewPosition;
-    private TextDirection currentTextDirection;
+	/**
+	 * The relative position given by the previous subview.
+	 */
+	// private RelativePosition nextViewPosition;
+	private TextDirection currentTextDirection;
 
-    /**
-     * The current subview (for a topitem).
-     */
-    private MDCView subView;
+	/**
+	 * The current subview (for a topitem).
+	 */
+	private MDCView subView;
 
-    /**
-     * Toggle used to indicates that at the current position, margins should be
-     * taken into account. Used when we process the first line of a page.
-     */
+	/**
+	 * Toggle used to indicates that at the current position, margins should be
+	 * taken into account. Used when we process the first line of a page.
+	 */
 
-    private boolean addTopMargin;
+	private boolean addTopMargin;
 
-    private LineLayoutAux aux = new LineLayoutAux();
+	private LineLayoutAux aux = new LineLayoutAux();
 
-    /**
-     * @param documentView
-     * @param drawingSpecifications
-     */
-    public LineLayout(MDCView documentView,
-            DrawingSpecifications drawingSpecifications) {
-        super();
-        this.documentView = documentView;
-        documentArea = new Rectangle2D.Double();
-        insertionPoint = new Point2D.Double();
-        this.drawingSpecifications = drawingSpecifications;
-        currentTextDirection = drawingSpecifications.getTextDirection();
-    }
+	/**
+	 * @param documentView
+	 * @param drawingSpecifications
+	 */
+	public LineLayout(MDCView documentView,
+			DrawingSpecifications drawingSpecifications) {
+		super();
+		this.documentView = documentView;
+		documentArea = new Rectangle2D.Double();
+		insertionPoint = new Point2D.Double();
+		this.drawingSpecifications = drawingSpecifications;
+		currentTextDirection = drawingSpecifications.getTextDirection();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.mdcDisplayer.draw.TopItemLayout#layoutElement(jsesh.mdcDisplayer.mdcView.MDCView)
-     */
-    public void layoutElement(MDCView subView) {
-        this.subView = subView;
-        subView.getNextViewPosition().clear();
-        subView.getStartPoint().clear();
-        //Point2D refPoint = state.getReferencePoint();
-        // Compute the new reference point ?
-        // Don't think so...
-        //state.getNextItemPosition().translate(subView.getParent(), subView,
-        //refPoint);
-        subView.getModel().accept(aux);
-        //state.setNextItemPosition(subView.getNextViewPosition());
-        this.subView = null;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#layoutElement(jsesh.mdcDisplayer.mdcView.MDCView)
+	 */
+	public void layoutElement(MDCView subView) {
+		this.subView = subView;
+		subView.getPosition().setLocation(0, 0);
+		subView.getModel().accept(aux);
+		this.subView = null;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.mdcDisplayer.draw.TopItemLayout#endLayout()
-     */
-    public void endLayout() {
-        if (!zone.isEmpty()) {
-            flushZone();
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#endLayout()
+	 */
+	public void endLayout() {
+		if (!zone.isEmpty()) {
+			flushZone();
+		}
+	}
 
-    /**
-     * Returns the total area for the document, after computation.
-     * 
-     * @return the area for the complete document.
-     */
+	/**
+	 * Returns the total area for the document, after computation.
+	 * 
+	 * @return the area for the complete document.
+	 */
 
-    public Rectangle2D getDocumentArea() {
-        return this.documentArea;
-    }
+	public Rectangle2D getDocumentArea() {
+		return this.documentArea;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.mdcDisplayer.draw.TopItemLayout#initState()
-     */
-    public void startLayout() {
-        // Pseudo relative position for first element.
-        addTopMargin = true;
-        // nextViewPosition = documentView.getFirstSubViewPosition();
-        resetView();
-        insertionPoint.setLocation(0f, 0f);
-        zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
-        zoneStart = documentView.getFirstSubViewPosition();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#initState()
+	 */
+	public void startLayout() {
+		// Pseudo relative position for first element.
+		addTopMargin = true;
+		// nextViewPosition = documentView.getFirstSubViewPosition();
+		resetView();
+		documentView.setDirection(currentTextDirection);
+		insertionPoint.setLocation(0f, 0f);
+		zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
+		zoneStart = new Point2D.Double();
+	}
 
-    /**
-     * 
-     */
-    public void resetView() {
-        documentView.reset();
-    }
+	/**
+	 * 
+	 */
+	public void resetView() {
+		documentView.reset();
+	}
 
-    /**
-     * Add the current zone to the current page.
-     * <p>
-     * <em>updates insertionPoint and documentArea.</em>
-     */
-    private void flushZone() {
-        // Normally, the zone upper left point is (0,0). It can change if the
-        // zone
-        // is highter than expected. Correct this position :
+	/**
+	 * Add the current zone to the current page.
+	 * <p>
+	 * <em>updates insertionPoint and documentArea.</em>
+	 */
+	private void flushZone() {
+		// Normally, the zone upper left point is (0,0). It can change if the
+		// zone
+		// is highter than expected. Correct this position :
 
-        float marginx = 0f, marginy = 0f;
+		float marginx = 0f, marginy = 0f;
 
-        if (addTopMargin) {
-            marginy = drawingSpecifications.getTopMargin();
-        }
-        marginx = drawingSpecifications.getLeftMargin();
+		if (addTopMargin) {
+			marginy = drawingSpecifications.getTopMargin();
+		}
+		
+		marginx = drawingSpecifications.getLeftMargin();
 
-        zoneStart.setDy(zoneStart.getDy() + marginy + (float) -zone.getMinY());
+		zoneStart.y= zoneStart.y + marginy  -zone.getMinY();
+		zoneStart.x= marginx -zone.getMinX();
 
-        if (currentTextDirection.isLeftToRight()) {
-            // Should it change for right-to-left orientation ?
-            zoneStart.setXAnchor(RelativePosition.WEST);
-            zoneStart.setDx(zoneStart.getDx() + marginx
-                    + (float) -zone.getMinX());
-        } else {
-            // Right-to-left orientation
-            // TODO : WRITE CODE FOR RIGHT TO LEFT.
-            zoneStart.setDx(0);
-            zoneStart.setXAnchor(RelativePosition.EAST);
-        }
+		// update the zone
+		
+		zone.translateBy(zoneStart);
+		
+		
+		// flush the zone
+		// (move part of this to zone ?
+		documentArea.add(new Rectangle2D.Double(zoneStart.x
+		/* + zone.getMinX() */, zoneStart.y
+		/* + zone.getMinY() */, zone.getWidth(), zone.getHeight()));
 
-        // update the zone
-        // Compute the actual start point for the zone
+		// zone.getLastPoint().translate(documentView,subView,insertionPoint);
+		// IMPROVE THE ZONE HANDLING. ZONES
+	}
 
-        zoneStart.translate(documentView, insertionPoint);
+	/**
+	 * Visitor used to layout individual elements on the whole document.
+	 * <p>
+	 * The internal layout of elements is done in SimpleLayout ; here we only
+	 * deal the position of the views on the global view.
+	 * <p>
+	 * More precisely, all visit.... methods should
+	 * <ul>
+	 * <li>add the element to the current zone, and prepare a new zone if
+	 * necessary (line breaks, page breaks...)
+	 * <li>
+	 * <li>change the nextviewposition of the current subview, and/or its
+	 * startPoint.
+	 * </ul>
+	 * 
+	 * @author rosmord
+	 */
+	private class LineLayoutAux extends ModelElementAdapter {
+		/**
+		 * Called when a new line is met.
+		 * <ul>
+		 * <li>add the current zone to the page
+		 * <li>prepare a new zone.
+		 * </ul>
+		 * 
+		 * @see jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model.LineBreak)
+		 */
 
-        // flush the zone
-        // (move part of this to zone ?
-        documentArea.add(new Rectangle2D.Double(insertionPoint.getX()
-        /* + zone.getMinX() */, insertionPoint.getY()
-        /* + zone.getMinY() */, zone.getWidth(), zone.getHeight()));
+		public void visitLineBreak(LineBreak b) {
 
-        //zone.getLastPoint().translate(documentView,subView,insertionPoint);
-        // IMPROVE THE ZONE HANDLING. ZONES
-    }
+			// compute the coordinate of the top-left point for the following
+			// line (mesured relatively to the top-left point of the current
+			// zone).
+			// that is : this line's height, plus the necessary skip, plus extra
+			// spacing for -!=...% notation.
+			double verticalSkip =  (zone.getHeight() + zone.getMinY() + drawingSpecifications
+					.getLineSkip());
+			if (b.getSpacing() != 100)
+				verticalSkip = verticalSkip * b.getSpacing() / 100f;
 
-    /**
-     * Visitor used to layout individual elements on the whole document.
-     * <p>
-     * The internal layout of elements is done in SimpleLayout ; here we only
-     * deal the position of the views on the global view.
-     * <p>
-     * More precisely, all visit.... methods should
-     * <ul>
-     * <li>add the element to the current zone, and prepare a new zone if
-     * necessary (line breaks, page breaks...)
-     * <li>
-     * <li>change the nextviewposition of the current subview, and/or its
-     * startPoint.
-     * </ul>
-     * 
-     * @author rosmord
-     */
-    private class LineLayoutAux extends ModelElementAdapter {
-        /**
-         * Called when a new line is met.
-         * <ul>
-         * <li>add the current zone to the page
-         * <li>prepare a new zone.
-         * </ul>
-         * 
-         * @see jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model.LineBreak)
-         */
+			// add the line break to the current line
+			zone.add(subView);
+			// flush the line.
+			flushZone();
 
-        public void visitLineBreak(LineBreak b) {
+			// create a new zone.
+			zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
+			zoneStart.y+= verticalSkip;
+			// Next view position is computed relatively to the zone (SOLVE
+			// THIS.)
+			// nextViewPosition = new RelativePosition(0, RelativePosition.WEST,
+			// 0, RelativePosition.NORTH);
+			// nextViewPosition= subView.getNextViewPosition();
+			addTopMargin = false;
 
-            // compute the coordinate of the top-left point for the following
-            // line (mesured relatively to the top-left point of the current
-            // zone).
-            // that is : this line's height, plus the necessary skip, plus extra
-            // spacing for -!=...% notation.
-            float verticalSkip = (float) (zone.getHeight() + zone.getMinY() + drawingSpecifications
-                    .getLineSkip());
-            if (b.getSpacing() != 100)
-                verticalSkip = verticalSkip * b.getSpacing() / 100f;
+		}
 
-            // sets this skip as "next view position".
-            subView.getNextViewPosition().setValues(0, RelativePosition.WEST,
-                    verticalSkip, RelativePosition.PREVIOUS);
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model.PageBreak)
+		 */
+		public void visitPageBreak(PageBreak b) {
+			double dh = zone.getHeight();
+			// flush the current line.
+			flushZone();
 
-            // add the line break to the current line
-            zone.add(subView);
-            // flush the line.
-            flushZone();
+			// build a zone containing only the page break.
+			zone = new Zone(0f, 0f);
+			zoneStart.y+= drawingSpecifications.getLineSkip() + dh;
 
-            // create a new zone.
-            zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
-            zoneStart = subView.getNextViewPosition();
-            // Next view position is computed relatively to the zone (SOLVE
-            // THIS.)
-            //nextViewPosition = new RelativePosition(0, RelativePosition.WEST,
-            //       0, RelativePosition.NORTH);
-            //nextViewPosition= subView.getNextViewPosition();
-            addTopMargin = false;
+			subView.setWidth(32f);
+			subView.setHeight(drawingSpecifications.getLineSkip());
+			zone.add(subView);
+			// We cheat : the subview's dimension is very large, but its width
+			// for computation purposes
+			// was 0.
+			flushZone();
 
-        }
+			// Zone for first line of the next page
+			zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
+			addTopMargin = true;
+		}
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model.PageBreak)
-         */
-        public void visitPageBreak(PageBreak b) {
-            double dh = zone.getHeight();
-            // flush the current line.
-            flushZone();
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * For simplicity sake, we consider that tabs are sets relatively to the
+		 * current zone. <p> If this wasn't the case, we should create a new
+		 * zone after a tab. <p> For right-to-left text, the tabs are defined in
+		 * terms of the EAST side of the zone.
+		 * 
+		 * @see jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.TabStop)
+		 */
+		public void visitTabStop(TabStop tab) {
+			float pos = tab.getStopPos() / 200.0f
+					* drawingSpecifications.getBaseLength();
+			zone.getCurrentPoint().setLocation(pos, 0);
+			zone.add(subView);
+		}
 
-            // build a zone containing only the page break.
-            zoneStart = subView.getStartPoint();
-            zone = new Zone(0f, 0f);
+		/**
+		 * Layout alphabetic text.
+		 * <p>
+		 * Note that alphabetic text is special, because a sequence of element
+		 * will always be laid out in a given orientation which depends</em>
+		 * only</em> on the text writing system. (currently, always
+		 * left-to-right, but if arabic and hebrew are added, this will change).
+		 * 
+		 * @param t
+		 */
+		public void visitAlphabeticText(AlphabeticText t) {
+			visitDefault(t);
+		}
 
-            subView.getStartPoint().setValues(0, RelativePosition.WEST,
-                    (float) (drawingSpecifications.getLineSkip() + dh),
-                    RelativePosition.PREVIOUS);
+		/**
+		 * Lay out generic top items.
+		 * 
+		 * <ul>
+		 * <li>compute next element position
+		 * <li>update the current zone shape
+		 * </ul>
+		 * 
+		 * @see jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.ModelElement)
+		 */
 
-            subView.setWidth(32f);
-            subView.setHeight(drawingSpecifications.getLineSkip());
-            subView.getNextViewPosition().clear();            
-            zone.add(subView);
-            // We cheat : the subview's dimension is very large, but its width
-            // for computation purposes
-            // was 0.
-            flushZone();
+		public void visitDefault(ModelElement t) {
+			double dx = 0, dy = 0;
+			// prepare a small skip after v, if necessary
+			// the skip is "integrated" in v,
 
-            //nextViewPosition= subView.getNextViewPosition();
-            //          Zone for first line of the next page
-            zoneStart = subView.getNextViewPosition();
-            zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
-            // Next element : abcisse is relative to a side of the
-            // global view. vertical position is relative to the current
-            // line.
-            /*
-             * subView.getNextViewPosition().setValues(drawingSpecifications.getLeftMargin(),
-             * RelativePosition.WEST, drawingSpecifications .getLineSkip() +
-             * drawingSpecifications.getTopMargin(), RelativePosition.PREVIOUS);
-             */
-
-            // Positions in the new zone will be relative to the zone, not to
-            // the current page,
-            // hence the next line:
-            //nextViewPosition= new RelativePosition(0, RelativePosition.WEST,
-            // 0, RelativePosition.NORTH);
-            addTopMargin = true;
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * For simplicity sake, we consider that tabs are sets relatively to the
-         * current zone. <p> If this wasn't the case, we should create a new
-         * zone after a tab. <p> For right-to-left text, the tabs are defined in
-         * terms of the EAST side of the zone.
-         * 
-         * @see jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.TabStop)
-         */
-        public void visitTabStop(TabStop tab) {
-            float pos = tab.getStopPos() / 200.0f
-                    * drawingSpecifications.getBaseLength();
-            if (currentTextDirection.isLeftToRight())
-                subView.getStartPoint().setValues(pos, RelativePosition.WEST,
-                        0, RelativePosition.PREVIOUS);
-            else
-                subView.getStartPoint().setValues(-pos, RelativePosition.EAST,
-                        0, RelativePosition.PREVIOUS);
-            subView.getNextViewPosition().clear();
-            zone.add(subView);
-        }
-
-        /**
-         * Layout alphabetic text.
-         * <p>
-         * Note that alphabetic text is special, because a sequence of element
-         * will always be laid out in a given orientation which depends</em>
-         * only</em> on the text writing system. (currently, always
-         * left-to-right, but if arabic and hebrew are added, this will change).
-         * 
-         * @param t
-         */
-        public void visitAlphabeticText(AlphabeticText t) {
-            visitDefault(t);
-        }
-
-        /**
-         * Lay out generic top items.
-         * 
-         * <ul>
-         * <li>compute next element position
-         * <li>update the current zone shape
-         * </ul>
-         * 
-         * @see jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.ModelElement)
-         */
-
-        public void visitDefault(ModelElement t) {
-            // Get the position of the point in the zone
-            Point2D refPoint = zone.getCurrentPointInZone();
-
-            // Horizontal skip for right-to-left text:
-            if (! currentTextDirection.isLeftToRight())
-                subView.getStartPoint()
-                        .setValues(-subView.getWidth(),
-                                RelativePosition.PREVIOUS, 0,
-                                RelativePosition.PREVIOUS);
-
-            // prepare a small skip after v, if necessary
-            // the skip is "integrated" in v,
-
-            if (subView.getWidth() != 0) {
-                if (currentTextDirection.isLeftToRight()) {
-                    subView.getNextViewPosition().setDx(
-                            subView.getWidth()
-                                    + drawingSpecifications.getSmallSkip());
-                } else {
-                    subView.getNextViewPosition().setDx(
-                            -drawingSpecifications.getSmallSkip());
-                }
-            } else
-                subView.getNextViewPosition().setDx(0);
-
-            //nextViewPosition = subView.getNextViewPosition();
-            zone.add(subView);
-        }
-    }
+			if (subView.getWidth() != 0) {
+				dx = subView.getWidth() + drawingSpecifications.getSmallSkip();
+			}
+			// nextViewPosition = subView.getNextViewPosition();
+			zone.add(subView);
+			zone.moveCurrentPoint(dx, dy);
+		}
+	}
 
 }

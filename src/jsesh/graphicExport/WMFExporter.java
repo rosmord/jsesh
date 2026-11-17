@@ -5,12 +5,12 @@
  */
 package jsesh.graphicExport;
 
+import java.io.File;
+import java.io.IOException;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -29,8 +29,6 @@ public class WMFExporter implements
 		BaseGraphics2DFactory {
 
 	
-
-	private String type = "wmf";
 
 	private File exportFile;
 
@@ -52,7 +50,6 @@ public class WMFExporter implements
 					exportData, this);
 			selectionExporter.exportSelection();
 		} catch (HeadlessException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(frame, "Can't open file", "Error",
@@ -64,8 +61,6 @@ public class WMFExporter implements
 		int returnval = JOptionPane.OK_OPTION;
 
 		JFileChooser chooser = new JFileChooser();
-
-		Properties properties = new Properties();
 
 		chooser.setFileFilter(new FileFilter() {
 

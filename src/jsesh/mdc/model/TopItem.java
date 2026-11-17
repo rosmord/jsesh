@@ -8,7 +8,7 @@ package jsesh.mdc.model;
  *
  *This code is published under the GNU LGPL.
  */
-abstract public class TopItem extends ModelElement{
+abstract public class TopItem extends EmbeddedModelElement{
 	
 	private TopItemState state;
 	

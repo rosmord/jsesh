@@ -91,7 +91,7 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 	 * 
 	 */
 	public void visitInnerGroup(InnerGroup g) {
-		visitDefault(g);
+		visitHorizontalListElement(g);
 	}
 
 	/* (non-Javadoc)
@@ -108,6 +108,14 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 		visitInnerGroup(l);
 	}
 
+	public void visitComplexLigature(ComplexLigature ligature) {
+		visitHorizontalListElement(ligature);	
+	}
+	
+	public void visitHorizontalListElement(HorizontalListElement elt) {
+		visitDefault(elt);
+	}
+	
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElementVisitor#visitModifier(jsesh.mdc.model.Modifier)
 	 */

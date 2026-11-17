@@ -66,6 +66,9 @@ public class ModelElementAdapter implements ModelElementVisitor {
 		visitDefault(l);
 	}
 
+	public void visitComplexLigature(ComplexLigature ligature) {
+		visitDefault(ligature);	
+	}
 	/**
 	 * @see jsesh.mdc.model.ModelElementVisitor#visitLineBreak(jsesh.mdc.model.LineBreak)
 	 */
@@ -145,7 +148,8 @@ public class ModelElementAdapter implements ModelElementVisitor {
 	 */
 	public void visitZoneStart(ZoneStart start) {
 		visitDefault(start);
-		
 	}
+	
+	
 
 }

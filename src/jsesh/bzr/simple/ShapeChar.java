@@ -1,5 +1,10 @@
 package jsesh.bzr.simple;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -7,10 +12,6 @@ import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 
 import jsesh.utils.DoubleUtils;
 
@@ -27,12 +28,13 @@ import jsesh.utils.DoubleUtils;
 
 public class ShapeChar {
 	private Shape shape;
+	private Rectangle2D bbox;
+	private Rectangle2D zones[];
 
 	public ShapeChar() {
-
 	}
 
-	Rectangle2D bbox;
+	
 
 	/**
 	 * Get the value of bbox.
@@ -190,7 +192,15 @@ public class ShapeChar {
 		GeneralPath p= new GeneralPath();
 		p.append(it, false);
 		Rectangle2D r= p.getBounds2D();
-		shape= AffineTransform.getTranslateInstance(-r.getMinX(), -r.getMinY()).createTransformedShape(shape);
+		AffineTransform transform= AffineTransform.getTranslateInstance(-r.getMinX(), -r.getMinY());
+		shape= transform.createTransformedShape(shape);
+		if (zones!= null) {
+			for (int i=0; i < zones.length; i++) {
+				if (zones[i]!= null) {
+					zones[i]= new Rectangle2D.Double(zones[i].getMinX() - r.getMinX(), zones[i].getMinY() - r.getMinY(), zones[i].getWidth(), zones[i].getHeight());
+				}
+			}
+		}
 		setBBox(0, r.getMaxY() - r.getMinY(), r.getMaxX() - r.getMinX(), 0);
 	}
 
@@ -204,6 +214,13 @@ public class ShapeChar {
 		double s = h / getBbox().getHeight();
 		setShape(AffineTransform.getScaleInstance(s, s)
 				.createTransformedShape(getShape()));
+		if (zones!= null) {
+			for (int i=0; i < zones.length; i++) {
+				if (zones[i]!= null) {
+					zones[i]= new Rectangle2D.Double(zones[i].getMinX() *s, zones[i].getMinY() *s, zones[i].getWidth()*s, zones[i].getHeight()*s);
+				}
+			}
+		}
 		fixShape();	
 	}
 	/**
@@ -263,5 +280,24 @@ public class ShapeChar {
 			out.write(' ');
 		}
 		
+	}
+
+	
+	public void setZone(int i, Rectangle2D rect) {
+		if (zones==null) {
+			zones= new Rectangle2D[3];
+		}
+		zones[i]= rect;
+	}
+	/**
+	 * Return an empty area suitable to fit ligatured group on this sign. 
+	 * @param i ordinal number of the area. Currently : 0 or 1 ("before" or "after").
+	 * @return a rectangle, or null
+	 */
+	public Rectangle2D getZone(int i) {
+		if (zones == null)
+			return null;
+		else
+			return zones[i];
 	}
 } // ShapeChar

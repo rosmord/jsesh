@@ -4,11 +4,11 @@
  */
 package jsesh.easyweb;
 
-import java.awt.Graphics2D;
 import java.io.StringReader;
 
+import java.awt.Graphics2D;
+
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.HieroglyphicFontManager;
 import jsesh.mdc.MDCParserFacade;
 import jsesh.mdc.utils.MDCSyntaxError;
 import jsesh.tmp.simpleDemo.HieroglyphicDrawer;
@@ -26,7 +26,6 @@ public class Dessinateur {
 	
 	private String text;
 	private HieroglyphicText hieroglyphicText;
-	private int signHeight;
 	private HieroglyphicDrawer drawer;
 	
 	private MDCParserFacade parser;

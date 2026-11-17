@@ -6,6 +6,11 @@
  */
 package jsesh.graphics.bitmaps;
 
+import java.util.Properties;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -16,9 +21,6 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Properties;
 
 import jsesh.graphics.generic.BaseGraphics2D;
 import jsesh.graphics.generic.BaseGraphics2DException;
@@ -34,8 +36,6 @@ import jsesh.graphics.generic.BaseGraphics2DException;
 public class MultiFileGraphics extends BaseGraphics2D   {
 
 	private Properties properties;
-
-	private boolean multiPage = true;
 
 	private BaseGraphics2D g;
 

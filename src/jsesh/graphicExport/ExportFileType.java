@@ -8,8 +8,9 @@
  */
 package jsesh.graphicExport;
 
-import java.io.File;
 import java.util.Properties;
+
+import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;

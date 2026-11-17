@@ -5,6 +5,8 @@
  */
 package jsesh.mdcDisplayer.layout;
 
+import java.util.ArrayList;
+
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -38,16 +40,11 @@ public class Zone {
     /**
      * Current insertion position for views in zone.
      */
-    private Point2D currentPointInZone;
-    
-    /**
-     * the place where the current insertion point will be when the whole zone has been filled.
-     *
-    
-    private RelativePosition lastPoint;*/
-    
+    private Point2D.Double currentPoint;
     
     private Rectangle2D zoneArea;
+    
+    private ArrayList views;
 
     /**
      * build a new zone. 
@@ -55,26 +52,26 @@ public class Zone {
      * @param minHeight
      */
     public Zone(double minWidth, double minHeight) {        
-        currentPointInZone= new Point2D.Double();
+        currentPoint= new Point2D.Double();
         zoneArea= new Rectangle2D.Double(0f,0f,minWidth, minHeight);
-        //lastPoint= new RelativePosition(0,RelativePosition.PREVIOUS, 0, RelativePosition.PREVIOUS);
+        views= new ArrayList();
     }
     
     /**
      * Add a view's bounding box to the current zone.
      * All the parameters for this view should be set. In particular, <em>both</em> the startPoint and the nextViewPosition 
-     * should have their final values.
+     * should have their values. These values will be relative to the zone's first point, and all views in the zone will be translated when the zone is finally added 
+     * to the document.
      * @param view : the view to add.
      */
-    public void add(MDCView view) {        
-        // Movement imposed by this view.
-        view.getStartPoint().translate(view.getParent(), currentPointInZone);     
-
+    public void add(MDCView view) {
+    	// Sets the view position
+    	view.getPosition().setLocation(currentPoint.x + view.getDeltaBaseX(), currentPoint.y + view.getDeltaBaseY());
         // Update the zone size
-        zoneArea.add(new Rectangle2D.Double(currentPointInZone.getX() + view.getDx(),
-                currentPointInZone.getY() + view.getDy(), view.getWidth(),
+        zoneArea.add(new Rectangle2D.Double(view.getPosition().x,
+               view.getPosition().y, view.getWidth(),
                 view.getHeight()));
-        view.getNextViewPosition().translate(view.getParent(), currentPointInZone);
+        views.add(view);
     }
     
     /*public void add(Rectangle2D box) {
@@ -88,14 +85,6 @@ public class Zone {
     public double getHeight() {
         return zoneArea.getHeight();
     }
-
-    /**
-     * @return Returns the currentPointInZone.
-     */
-    public Point2D getCurrentPointInZone() {
-        return currentPointInZone;
-    }
-
 
     /**
      * @return true if zone is empty.
@@ -115,10 +104,31 @@ public class Zone {
     public double getMaxX() {
     	return zoneArea.getMaxX();
     }
-    /**
-     * @return Returns the lastPoint.
-     *
-    public RelativePosition getLastPoint() {
-        return lastPoint;
-    }*/
+
+	/**
+	 * @return
+	 */
+	public Point2D getCurrentPoint() {
+		return currentPoint;
+	}
+
+	/**
+	 * @param dx
+	 * @param dy
+	 */
+	public void moveCurrentPoint(double dx, double dy) {
+		currentPoint.setLocation(currentPoint.x+dx, currentPoint.y+dy);
+	}
+
+	/**
+	 * @param zoneStart
+	 */
+	public void translateBy(Point2D zoneStart) {
+		for (int i=0; i< views.size(); i++) {
+			MDCView v= (MDCView) views.get(i);
+			v.getPosition().x+= zoneStart.getX();
+			v.getPosition().y+= zoneStart.getY();
+		}
+	}
+ 
 }

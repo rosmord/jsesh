@@ -1,5 +1,7 @@
 package jsesh.mdc.constants;
 
+import jsesh.utils.EnumBase;
+
 public class ToggleType extends EnumBase
 {
 	public static final ToggleType SHADINGTOGGLE= new ToggleType(1,"SHADINGTOGGLE", "#");

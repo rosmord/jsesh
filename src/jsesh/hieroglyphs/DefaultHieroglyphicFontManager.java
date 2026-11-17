@@ -1,9 +1,10 @@
 package jsesh.hieroglyphs;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Set;
 import java.util.prefs.Preferences;
+
+import java.io.File;
+import java.io.IOException;
 
 import jsesh.bzr.simple.ShapeChar;
 
@@ -26,13 +27,17 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 
 	private DirectoryHieroglyphicFontManager directoryManager;
 
+	private ResourcesHieroglyphicFontManager resourcesHieroglyphicFontManager;
+
 	private DefaultHieroglyphicFontManager() {
 		composite = new CompositeHieroglyphicFontManager();
 		directoryManager = new DirectoryHieroglyphicFontManager(new File(""));
 		composite.addHieroglyphicFontManager(directoryManager);
+		resourcesHieroglyphicFontManager = new ResourcesHieroglyphicFontManager(
+				"/jseshResources/glyphs");
+		composite.addHieroglyphicFontManager(resourcesHieroglyphicFontManager);
 		composite
 				.addHieroglyphicFontManager(new MemoryHieroglyphicFontManager());
-
 		initDirectory();
 	}
 
@@ -57,7 +62,15 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 	 * @see jsesh.hieroglyphs.CompositeHieroglyphicFontManager#get(java.lang.String)
 	 */
 	public ShapeChar get(String code) {
-		return composite.get(code);
+		String newCode= code;
+		// TODO Awfull patch for now. This should move to another class. The font manager should 
+		// associate glyphs codes to drawings ;
+		// a code manager should associate mdc codes to glyphs codes.
+		if (! HieroglyphsManager.isCorrectBasicMdcCode(code))
+			newCode= HieroglyphsManager.getInstance().getCanonicalCode(code);
+		if (newCode==null)
+			newCode= code;
+		return composite.get(newCode);
 	}
 
 	/*
@@ -108,10 +121,15 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 	}
 
 	private void initDirectory() {
-		Preferences preferences = Preferences.userNodeForPackage(this
-				.getClass());
-		String dirPath = preferences.get(GLYPH_DIRECTORY, "");
-		directoryManager.setDirectory(new File(dirPath));
+        try {
+            
+            Preferences preferences = Preferences.userNodeForPackage(this
+            		.getClass());
+            String dirPath = preferences.get(GLYPH_DIRECTORY, "");
+            directoryManager.setDirectory(new File(dirPath));
+        } catch (javax.xml.parsers.FactoryConfigurationError e) {
+            e.printStackTrace();
+        }
 	}
 
 	public void insertNewSign(String text, ShapeChar shapeChar) {

@@ -8,27 +8,23 @@
  */
 package jsesh.graphicExport;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.PrinterException;
 import java.io.IOException;
 
+import java.awt.Color;
+import java.awt.Dimension;
+
 import jsesh.graphics.generic.BaseGraphics2D;
-import jsesh.graphics.generic.BaseGraphics2DException;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.draw.MDCCaret;
-import jsesh.mdcDisplayer.draw.SimpleViewBuilder;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.draw.ViewPrinter;
+import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
+ * An expert which is able to export manuel de codage data to some kind of graphics.
  * @author rosmord
  * 
- * TODO document the type SelectionExporter
  */
 public class SelectionExporter {
 
@@ -38,7 +34,7 @@ public class SelectionExporter {
 
     private Color background;
     
-    private boolean transparency;
+    private DrawingSpecifications actualDrawingSpecifications;
     
     /**
      * @param exportData
@@ -48,7 +44,6 @@ public class SelectionExporter {
         this.exportData = exportData;
         this.graphicsFactory = gf;
         this.background= Color.WHITE;
-        this.transparency= false;
     }
 
     /**
@@ -57,42 +52,22 @@ public class SelectionExporter {
     public void exportSelection() throws IOException {
         // Build the view :
         SimpleViewBuilder builder = new SimpleViewBuilder();
-        builder.setDrawingSpecifications(exportData.getDrawingSpecifications().copy());
-        builder.getDrawingSpecifications().setLeftMargin(0f);
-        builder.getDrawingSpecifications().setTopMargin(0f);        
-        MDCCaret caret = exportData.getCaretProvider().getCaret();
-        exportZone(builder,caret.getMin(), caret.getMax());
-        /*
-        MDCView view = builder.buildView(exportData.getData().getModel(), caret
-                .getMin(), caret.getMax());
-
-        graphicsFactory.setDimension(getScaledDimensions(view));
-        // Build the wmf file and initialize it :
-        BaseGraphics2D g = graphicsFactory
-                .buildGraphics();
-
-        //g.setBackground(Color.WHITE);
-        g.setBackground(background);
-        g.clearRect(0,0,(int)getScaledDimensions(view).getWidth(), (int)getScaledDimensions(view).getHeight());
-        g.scale(exportData.getScale(), exportData.getScale());
-        // Prepare to draw.
-        ViewDrawer drawer = new ViewDrawer();
-        drawer.setShadeAfter(false);
-
-        // draw !
-        drawer.draw(g, view, exportData.getDrawingSpecifications());
-        g.dispose();*/        
+        actualDrawingSpecifications= exportData.getDrawingSpecifications().copy();
+        actualDrawingSpecifications.setLeftMargin(0f);
+        actualDrawingSpecifications.setTopMargin(0f);        
+        exportZone(builder,exportData.getStart().getIndex(), exportData.getEnd().getIndex());
+        actualDrawingSpecifications= null;
     }
 
 
 	public void exportToPages() throws IOException {
 	    // Build the view :
         SimpleViewBuilder builder = new SimpleViewBuilder();
-        builder.setDrawingSpecifications(exportData.getDrawingSpecifications().copy());
+        actualDrawingSpecifications= exportData.getDrawingSpecifications().copy();
         
         
         int start=0;
-        TopItemList l= exportData.getData().getModel();
+        TopItemList l= exportData.getTopItemList();
         // export all pages.
         while (start < l.getNumberOfChildren()) {
         	//          Now, loop through the model to find page limits	
@@ -103,6 +78,7 @@ public class SelectionExporter {
    
             start= end;
         }		
+        actualDrawingSpecifications= null;
 	}
 
 	/**
@@ -112,7 +88,7 @@ public class SelectionExporter {
 	 * @throws IOException
 	 */
 	private void exportZone(SimpleViewBuilder builder, int start, int end) throws IOException {
-		MDCView view = builder.buildView(exportData.getData().getModel(), start, end);
+		MDCView view = builder.buildView(exportData.getTopItemList(), start, end, actualDrawingSpecifications);
 		graphicsFactory.setDimension(getScaledDimensions(view));
 		// Build the graphic file and initialize it :
 		BaseGraphics2D g = graphicsFactory
@@ -131,49 +107,6 @@ public class SelectionExporter {
 		g.dispose();
 	}
 	
-    public void exportToPagesOLD(Dimension dimensions) throws IOException {
-
-        PageFormat pageFormat = new PageFormat();
-        Paper p = new Paper();
-        p.setSize(dimensions.getWidth(), dimensions.getHeight());
-        p.setImageableArea(0, 0, dimensions.getWidth(), dimensions.getHeight());
-        pageFormat.setPaper(p);
-
-        ViewPrinter printer = new ViewPrinter();
-        printer.setModel(exportData.getData().getModel());
-       
-        //printer.setPageformat(pageFormat);
-        printer.setDrawingSpecifications(exportData.getDrawingSpecifications());
-
-        Dimension dimension = new Dimension((int) pageFormat
-                .getImageableWidth(), (int) pageFormat.getImageableHeight());
-
-        graphicsFactory.setDimension(dimension);
-        BaseGraphics2D g = graphicsFactory.buildGraphics();
-        g.scale(exportData.getScale(), exportData.getScale());
-        for (int i = 0; i < printer.getNumberOfPages(); i++) {
-            try {
-            	printer.setPageformat(null);
-            	PageFormat currentPageFormat= printer.getPageFormat(i);
-            	Dimension d= new Dimension((int)currentPageFormat.getWidth(), (int)currentPageFormat.getHeight());
-                g.openPage(d, "page " + (i + 1));
-                printer.print(g, pageFormat, i);
-            } catch (PrinterException e2) {
-                e2.printStackTrace();
-            } catch (BaseGraphics2DException e1) {
-                e1.printStackTrace();
-            } finally {
-                try {
-                    g.closePage();
-                } catch (BaseGraphics2DException e3) {
-                    e3.printStackTrace();
-                }
-            }
-
-        }
-        g.dispose();       
-    }
-
     /**
      * returns the scaled dimensions for the view.
      * 
@@ -213,8 +146,7 @@ public class SelectionExporter {
     /**
      * @param transparency
      */
-    public void setTransparency(boolean transparency) {
-        this.transparency= transparency;        
+    public void setTransparency(boolean transparency) {        
     }
 
 }

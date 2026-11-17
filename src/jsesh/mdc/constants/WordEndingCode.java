@@ -6,6 +6,8 @@
  */
 package jsesh.mdc.constants;
 
+import jsesh.utils.EnumBase;
+
 /**
  * @author rosmord
  *

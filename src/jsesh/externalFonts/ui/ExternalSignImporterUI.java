@@ -280,11 +280,11 @@ public class ExternalSignImporterUI {
 	private class ResizerListener extends MouseAdapter implements
 			MouseMotionListener {
 
-		private boolean resizing = false;
+		//private boolean resizing = false;
 
 		public void mouseClicked(MouseEvent e) {
 			if (importedSignDisplay.inResizeArea(e.getX(), e.getY())) {
-				resizing = true;
+				//resizing = true;
 			}
 		}
 

@@ -6,8 +6,10 @@ import jsesh.mdc.interfaces.AbsoluteGroupInterface;
 import jsesh.mdc.interfaces.BasicItemListInterface;
 import jsesh.mdc.interfaces.CadratInterface;
 import jsesh.mdc.interfaces.CartoucheInterface;
+import jsesh.mdc.interfaces.ComplexLigatureInterface;
 import jsesh.mdc.interfaces.HBoxInterface;
 import jsesh.mdc.interfaces.HieroglyphInterface;
+import jsesh.mdc.interfaces.HorizontalListElementInterface;
 import jsesh.mdc.interfaces.InnerGroupInterface;
 import jsesh.mdc.interfaces.LigatureInterface;
 import jsesh.mdc.interfaces.MDCBuilder;
@@ -183,12 +185,13 @@ public class MDCModelBuilder implements MDCBuilder
 			currentState.setShaded(! currentState.isShaded());
 		}
 	}
-	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#addToHorizontalList(jsesh.mdc.interfaces.HBoxInterface, jsesh.mdc.interfaces.InnerGroupInterface)
+	
+	/* (non-Javadoc)
+	 * @see jsesh.mdc.interfaces.MDCBuilder#addToHorizontalList(jsesh.mdc.interfaces.HBoxInterface, jsesh.mdc.interfaces.HorizontalListElementInterface)
 	 */
-	public void addToHorizontalList(HBoxInterface h, InnerGroupInterface elt)
+	public void addToHorizontalList(HBoxInterface h, HorizontalListElementInterface elt)
 	{
-		((HBox) h).addInnerGroup((InnerGroup) elt);
+		((HBox) h).addHorizontalListElement((HorizontalListElement) elt);
 	}
 
 	/*
@@ -470,4 +473,9 @@ public class MDCModelBuilder implements MDCBuilder
         
     }
 
+	public ComplexLigatureInterface buildComplexLigature(InnerGroupInterface e1, HieroglyphInterface e2, InnerGroupInterface e3) {
+		return new ComplexLigature((InnerGroup)e1, (Hieroglyph) e2, (InnerGroup)e3);
+	}
+
+    
 }

@@ -5,6 +5,8 @@
  */
 package jsesh.mdc.constants;
 
+import jsesh.utils.EnumBase;
+
 /**
  * Constants for text general orientation : horizontal or vertical.
  * @author S. Rosmorduc

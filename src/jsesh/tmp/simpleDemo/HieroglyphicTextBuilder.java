@@ -7,8 +7,10 @@ import jsesh.mdc.interfaces.AbsoluteGroupInterface;
 import jsesh.mdc.interfaces.BasicItemListInterface;
 import jsesh.mdc.interfaces.CadratInterface;
 import jsesh.mdc.interfaces.CartoucheInterface;
+import jsesh.mdc.interfaces.ComplexLigatureInterface;
 import jsesh.mdc.interfaces.HBoxInterface;
 import jsesh.mdc.interfaces.HieroglyphInterface;
+import jsesh.mdc.interfaces.HorizontalListElementInterface;
 import jsesh.mdc.interfaces.InnerGroupInterface;
 import jsesh.mdc.interfaces.LigatureInterface;
 import jsesh.mdc.interfaces.MDCBuilder;
@@ -82,7 +84,7 @@ public class HieroglyphicTextBuilder implements MDCBuilder
 	}
 
 	private static class InternalHiero
-		implements HieroglyphInterface, LigatureInterface, OverwriteInterface
+		implements HieroglyphInterface, LigatureInterface, OverwriteInterface, HorizontalListElementInterface
 	{
 		InternalHiero(String rep)
 		{
@@ -134,7 +136,7 @@ public class HieroglyphicTextBuilder implements MDCBuilder
 	{
 	}
 
-	public void addToHorizontalList(HBoxInterface l, InnerGroupInterface e)
+	public void addToHorizontalList(HBoxInterface l, HorizontalListElementInterface e)
 	{
 		if (e != null)
 			 ((InternalHBox) l).rep.add(((InternalHiero) e).rep);
@@ -420,6 +422,11 @@ public class HieroglyphicTextBuilder implements MDCBuilder
         // TODO Auto-generated method stub
         
     }
+
+	public ComplexLigatureInterface buildComplexLigature(InnerGroupInterface e1, HieroglyphInterface e2, InnerGroupInterface e3) {
+		return null;
+	}
+    
 
 
 } // HieroglyphicTextBuilder

@@ -12,9 +12,10 @@ package jsesh.hieroglyphs;
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
  */
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Set;
+
+import java.io.InputStream;
 
 import jsesh.bzr.BzrFontReader;
 import jsesh.bzr.simple.BzrSimpleFont;
@@ -83,32 +84,32 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 		codes = new HashMap();
 		// Now fill the map. ugly code !
 		set("A", fonts['G' - 'A'].getChar(1 + 31));
-		set("i", fonts['M' - 'A'].getChar(17 + 31));
-		set("a", fonts['D' - 'A'].getChar(38 + 31));
+		//set("i", fonts['M' - 'A'].getChar(17 + 31));
+		//set("a", fonts['D' - 'A'].getChar(38 + 31));
 		set("A3", fonts['A' - 'A'].getChar(3 + 31));
-		set("w", fonts['G' - 'A'].getChar(46 + 31));
-		set("W", fonts['Z' - 'A'].getChar(9 + 31));
-		set("b", fonts['D' - 'A'].getChar(61 + 31));
-		set("p", fonts['Q' - 'A'].getChar(3 + 31));
-		set("f", fonts['I' - 'A'].getChar(10 + 31));
-		set("m", fonts['G' - 'A'].getChar(19 + 31));
-		set("M", fonts[26].getChar(12 + 31));
-		set("n", fonts['N' - 'A'].getChar(35 + 31));
-		set("N", fonts['S' - 'A'].getChar(3 + 31));
-		set("r", fonts['D' - 'A'].getChar(21 + 31));
-		set("h", fonts['O' - 'A'].getChar(4 + 31));
-		set("H", fonts['V' - 'A'].getChar(28 + 31));
-		set("x", fonts[26].getChar(1 + 31));
-		set("X", fonts['F' - 'A'].getChar(32 + 31));
-		set("z", fonts['O' - 'A'].getChar(34 + 31));
-		set("s", fonts['S' - 'A'].getChar(32 + 31));
-		set("S", fonts['N' - 'A'].getChar(38 + 31));
-		set("q", fonts['N' - 'A'].getChar(29 + 31));
-		set("k", fonts['V' - 'A'].getChar(31 + 31));
-		set("g", fonts['W' - 'A'].getChar(13 + 31));
-		set("t", fonts['X' - 'A'].getChar(1 + 31));
-		set("d", fonts['D' - 'A'].getChar(48 + 31));
-		set("D", fonts['I' - 'A'].getChar(11 + 31));
+		//set("w", fonts['G' - 'A'].getChar(46 + 31));
+		//set("W", fonts['Z' - 'A'].getChar(9 + 31));
+		//set("b", fonts['D' - 'A'].getChar(61 + 31));
+		//set("p", fonts['Q' - 'A'].getChar(3 + 31));
+		//set("f", fonts['I' - 'A'].getChar(10 + 31));
+		//set("m", fonts['G' - 'A'].getChar(19 + 31));
+//		set("M", fonts[26].getChar(12 + 31));
+//		set("n", fonts['N' - 'A'].getChar(35 + 31));
+//		set("N", fonts['S' - 'A'].getChar(3 + 31));
+//		set("r", fonts['D' - 'A'].getChar(21 + 31));
+//		set("h", fonts['O' - 'A'].getChar(4 + 31));
+//		set("H", fonts['V' - 'A'].getChar(28 + 31));
+//		set("x", fonts[26].getChar(1 + 31));
+//		set("X", fonts['F' - 'A'].getChar(32 + 31));
+//		set("z", fonts['O' - 'A'].getChar(34 + 31));
+//		set("s", fonts['S' - 'A'].getChar(32 + 31));
+//		set("S", fonts['N' - 'A'].getChar(38 + 31));
+//		set("q", fonts['N' - 'A'].getChar(29 + 31));
+//		set("k", fonts['V' - 'A'].getChar(31 + 31));
+//		set("g", fonts['W' - 'A'].getChar(13 + 31));
+//		set("t", fonts['X' - 'A'].getChar(1 + 31));
+//		set("d", fonts['D' - 'A'].getChar(48 + 31));
+//		set("D", fonts['I' - 'A'].getChar(11 + 31));
 		set("A1", fonts['A' - 'A'].getChar(1 + 31));
 		set("A2", fonts['A' - 'A'].getChar(2 + 31));
 		set("A4", fonts['A' - 'A'].getChar(4 + 31));
@@ -120,12 +121,12 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 		set("A10", fonts['A' - 'A'].getChar(10 + 31));
 		set("A11", fonts['A' - 'A'].getChar(11 + 31));
 		set("A12", fonts['A' - 'A'].getChar(12 + 31));
-		set("mSa", fonts['A' - 'A'].getChar(12 + 31));
+//		set("mSa", fonts['A' - 'A'].getChar(12 + 31));
 		set("A13", fonts['A' - 'A'].getChar(13 + 31));
 		set("A14", fonts['A' - 'A'].getChar(14 + 31));
 		set("A14A", fonts['A' - 'A'].getChar(15 + 31));
 		set("A15", fonts['A' - 'A'].getChar(16 + 31));
-		set("xr", fonts['A' - 'A'].getChar(16 + 31));
+//		set("xr", fonts['A' - 'A'].getChar(16 + 31));
 		set("A16", fonts['A' - 'A'].getChar(17 + 31));
 		set("A17", fonts['A' - 'A'].getChar(18 + 31));
 		set("Xrd", fonts['A' - 'A'].getChar(18 + 31));
@@ -134,7 +135,7 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 		set("A19", fonts['A' - 'A'].getChar(21 + 31));
 		set("A20", fonts['A' - 'A'].getChar(22 + 31));
 		set("A21", fonts['A' - 'A'].getChar(23 + 31));
-		set("sr", fonts['A' - 'A'].getChar(23 + 31));
+//		set("sr", fonts['A' - 'A'].getChar(23 + 31));
 		set("A22", fonts['A' - 'A'].getChar(24 + 31));
 		set("A23", fonts['A' - 'A'].getChar(25 + 31));
 		set("A24", fonts['A' - 'A'].getChar(26 + 31));
@@ -148,7 +149,7 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 		set("A31", fonts['A' - 'A'].getChar(34 + 31));
 		set("A32", fonts['A' - 'A'].getChar(35 + 31));
 		set("A33", fonts['A' - 'A'].getChar(36 + 31));
-		set("mniw", fonts['A' - 'A'].getChar(36 + 31));
+//		set("mniw", fonts['A' - 'A'].getChar(36 + 31));
 		set("A34", fonts['A' - 'A'].getChar(37 + 31));
 		set("A35", fonts['A' - 'A'].getChar(38 + 31));
 		set("A36", fonts['A' - 'A'].getChar(39 + 31));
@@ -1172,12 +1173,7 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 		set("Y8", fonts['Y' - 'A'].getChar(8 + 31));
 		set("zSSt", fonts['Y' - 'A'].getChar(8 + 31));
 		set("Z1", fonts['Z' - 'A'].getChar(1 + 31));
-		set("1", fonts['Z' - 'A'].getChar(1 + 31));
 		set("Z2", fonts['Z' - 'A'].getChar(2 + 31));
-		set("3", fonts['Z' - 'A'].getChar(2 + 31));
-		set("2", fonts['Z' - 'A'].getChar(20 + 31));
-		set("4", fonts['Z' - 'A'].getChar(21 + 31));
-		set("5", fonts['Z' - 'A'].getChar(22 + 31));
 		set("Z4A", fonts['Z' - 'A'].getChar(24 + 31));
 		set("Z3", fonts['Z' - 'A'].getChar(3 + 31));
 		set("Z3A", fonts['Z' - 'A'].getChar(4 + 31));
@@ -1197,8 +1193,8 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 		set("Ff1", fonts['Z' - 'A'].getChar(16 + 31));
 		set("Z12", fonts['Z' - 'A'].getChar(19 + 31));
 		set("Z30", fonts['Z' - 'A'].getChar(32 + 31));
-		set("Z98A", fonts['Z' - 'A'].getChar(16 + 31));
-		set("Z99A", fonts['Z' - 'A'].getChar(12 + 31));
+		//set("Z98A", fonts['Z' - 'A'].getChar(16 + 31));
+		//set("Z99A", fonts['Z' - 'A'].getChar(12 + 31));
 		set("Aa1", fonts[26].getChar(1 + 31));
 		set("Aa2", fonts[26].getChar(2 + 31));
 		set("Aa3", fonts[26].getChar(3 + 31));
@@ -1240,6 +1236,15 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 		set("Aa31", fonts[26].getChar(28 + 31));
 		set("o", fonts['Z' - 'A'].getChar(17 + 31));
 		set("O", fonts['Z' - 'A'].getChar(17 + 31));
+		//
+		//set("1", fonts['Z' - 'A'].getChar(1 + 31));
+		//set("3", fonts['Z' - 'A'].getChar(2 + 31));
+		//set("2", fonts['Z' - 'A'].getChar(20 + 31));
+		set("2", fonts['Z' - 'A'].getChar(20 + 31));
+		//set("4", fonts['Z' - 'A'].getChar(21 + 31));
+		set("4", fonts['Z' - 'A'].getChar(21 + 31));
+		//set("5", fonts['Z' - 'A'].getChar(22 + 31));	
+		set("5", fonts['Z' - 'A'].getChar(22 + 31));		
 		//
 		set("nTrw", fonts['R' - 'A'].getChar(57));
 		set("nn", fonts['M' - 'A'].getChar(76));

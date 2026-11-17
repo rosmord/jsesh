@@ -16,7 +16,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
  * 
  * <p> An actual base for implementation can be found in the SimpleLayout class. 
  * 
- * @see jsesh.mdcDisplayer.draw.ViewBuilder
+ * @see jsesh.mdcDisplayer.layout.ViewBuilder
  * @see jsesh.mdcDisplayer.layout.SimpleLayout
  * (c) Serge Rosmorduc
  * @author Serge Rosmorduc
@@ -48,20 +48,28 @@ public interface Layout {
 	 * this cadrat is embedded within another cadrat. In fact that's the main use of this variable, as spacing can be quite different
 	 * (specially in columns). 
 	 * @param view
-	 * @param embedded true if this construct is embedded in another one.
+	 * @param depth the depth of the view.
 	 */
-	void layout(MDCView view, boolean embedded);
+	void layout(MDCView view, int depth);
 	
 	/**
 	 * This method is called before anything is done on the view. 
 	 * Most notably, it's called before the subviews are built.
 	 * It might be used when the layout of the internal elements depends on their 
 	 * container.
-	 * Currently, its main actual use is to change the sign centering preferences
-	 * when laying out a cadrat. 
+	 * <p>It can also be used for things which should be done to all views.
+	 * <p>Currently, its main actual use is to change the sign centering preferences
+	 * when laying out a cadrat.
+	 * <p>
 	 * @param view
-	 * @param embedded TODO
+	 * @param depth depth of the view. the view for the whole text has depth 0.
 	 */
-	void preLayoutHook(MDCView view, boolean embedded);
+	void preLayoutHook(MDCView view, int depth);
+
+	/**
+	 * Called after layout, for cleanup of code from preLayoutHook.
+	 * @param result
+	 */
+	void postLayoutHook(MDCView result, int depth);
 
 }

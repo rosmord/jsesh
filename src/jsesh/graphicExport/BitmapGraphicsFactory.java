@@ -8,12 +8,13 @@
  */
 package jsesh.graphicExport;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Transparency;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Transparency;
 
 import jsesh.graphics.bitmaps.BitmapStreamGraphics;
 import jsesh.graphics.bitmaps.MultiFileGraphics;

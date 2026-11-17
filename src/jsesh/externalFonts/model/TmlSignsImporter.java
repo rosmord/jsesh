@@ -1,14 +1,15 @@
 package jsesh.externalFonts.model;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import java.io.IOException;
+import java.io.Reader;
+
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
 
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.utils.TclImporter;

@@ -13,13 +13,14 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdcDisplayer.draw.MDCCaret;
 import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 import jsesh.mdcDisplayer.swing.editor.MDCModelEditionAdapter;
 import jsesh.mdcDisplayer.swing.editor.MDCModelEditionListener;
-import jsesh.utils.StringDisplayer;
+import jsesh.swingUtils.StringDisplayer;
 
 /**
  * Graphical interface for MDC displayer.
@@ -68,7 +69,7 @@ public class MDCDisplayerAppliFrame extends JFrame {
 	public MDCDisplayerAppliFrame(String title,
 			MDCDisplayerAppliWorkflow workflow) throws HeadlessException {
 		super(title);
-		//	'rsssssssssetCursor(Cursor.WAIT_CURSOR);
+		//	setCursor(Cursor.WAIT_CURSOR);
 		//ImageIcon icon= new ImageIcon(getClass().getResource("hiboux.png"));
 		ImageIcon icon= new ImageIcon(getClass().getResource("/jseshResources/images/hiboux.png"));
 		
@@ -76,6 +77,9 @@ public class MDCDisplayerAppliFrame extends JFrame {
 		//this.workflow = workflow;
 		// Create windows :
 		editor = new JMDCEditor(workflow.getData());
+		editor.setDrawingSpecifications(workflow.getDrawingSpecifications());
+		editor.setMdcModelTransferableBroker(workflow);
+		
 
 		// The code model
 		CodeModel codeModel = new CodeModel();
@@ -168,8 +172,15 @@ public class MDCDisplayerAppliFrame extends JFrame {
 	 *  
 	 */
 	private void getCurrentMDCLine() {
-		String s = editor.getWorkflow().getCurrentLineAsString();
-		mdcField.setText(s);
+		// The system performs much (much) better if we ask for this function to be performed "later".
+		// This is not mandatory, though, as getCurrentMDCLine is called from the graphic loop anyway.
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				String s = editor.getWorkflow().getCurrentLineAsString();
+				mdcField.setText(s);		
+			}
+		});
+		
 	}
 
 	private void setCurrentMDCLine() {

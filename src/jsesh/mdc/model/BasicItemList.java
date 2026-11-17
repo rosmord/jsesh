@@ -14,7 +14,7 @@ import jsesh.mdc.interfaces.BasicItemListInterface;
  */
 
 public class BasicItemList
-    extends ModelElement
+    extends EmbeddedModelElement
 	implements BasicItemListInterface {
 
 	public BasicItemList() {
@@ -71,7 +71,7 @@ public class BasicItemList
 		Cadrat c= new Cadrat();
 		HBox b= new HBox();
 		SubCadrat sub= new SubCadrat((BasicItemList) this.deepCopy());
-		b.addInnerGroup(sub);
+		b.addHorizontalListElement(sub);
 		c.addHBox(b);
 		return c;
 	}

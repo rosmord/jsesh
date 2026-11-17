@@ -1,13 +1,15 @@
 package jsesh.mdcDisplayer.swing.editor;
 
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
+
+import java.io.Reader;
+import java.io.StringReader;
 
 import jsesh.mdc.MDCParserModelGenerator;
+import jsesh.mdc.model.ModelElementObserver;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.utils.MDCSyntaxError;
 
 /**
@@ -18,12 +20,20 @@ import jsesh.mdc.utils.MDCSyntaxError;
  * 
  * TODO : express this class in terms of patterns, and modify it accordingly.
  * 
+ * FIXME : currently, the Observable pattern used is misleading.
+ * <p> For instance, the workflow and the Carets are all understood as Observers.
+ * Now, the workflow uses the carets, and hence should be warned <em>after</em>
+ * them, because some of them may be out of date at the time they are used.
+ * 
+ * <p> In a few cases, these caused a problem with the code of getCurrentMDCLine, but it's now fixed.
+ * 
+ * <p> The carets would probably deserve a better treatment (and we might use a more precise class than observer).
  * This file is free Software
  * (c) Serge Rosmorduc
  * @author rosmord
  */
 
-public class HieroglyphicTextModel extends Observable implements Observer {
+public class HieroglyphicTextModel extends Observable implements ModelElementObserver {
 
 	private TopItemList model;
 
@@ -125,18 +135,15 @@ public class HieroglyphicTextModel extends Observable implements Observer {
 		this.philologyIsSign = philologyIsSign;
 	}
 
-	/** 
-	 * shouldn't be called directly.
-	 * Receive notifications from the model, and forwards them to its own observers. 
-	 * @param o
-	 * @param arg
-	 */
-	public void update(Observable o, Object arg) {
-		// TODO : decide of the exact protocol to use.
-		setChanged();
-		notifyObservers(arg);
-	}
 
+	/* (non-Javadoc)
+	 * @see jsesh.mdc.model.ModelElementObserver#observedElementChanged(jsesh.mdc.model.operations.ModelOperation)
+	 */
+	public void observedElementChanged(ModelOperation operation) {
+		setChanged();
+		notifyObservers(operation);	
+	}
+	
 	/**
 	 * Build a list of topitems from a String.
 	 * @param text

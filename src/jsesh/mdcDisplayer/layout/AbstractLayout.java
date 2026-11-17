@@ -75,15 +75,16 @@ public abstract class AbstractLayout extends ModelElementAdapter implements Layo
 	 */
 	protected TextDirection currentTextDirection;
 	
-	protected boolean embedded;
+	protected int depth;
 	
 	/**
 	 * compute the view size (width and height)
-	 * @see jsesh.mdcDisplayer.layout.Layout#layout(MDCView, boolean)
+	 * @see jsesh.mdcDisplayer.layout.Layout#layout(MDCView, int)
 	 */
-	final public void layout(MDCView view, boolean embedded) {
+	final public void layout(MDCView view, int depth) {
 		currentView= view;
-		this.embedded= embedded;
+		this.depth= depth;
+		commonLayoutHook();
 		// Actual layout :
 		view.getModel().accept(this);
 		// Reset everything, to avoid keeping unnecessary references.
@@ -102,12 +103,19 @@ public abstract class AbstractLayout extends ModelElementAdapter implements Layo
 	/**
 	 * AbstractLayout provides a No-op implentation of preLayoutHook.
 	 * 
-	 * @see jsesh.mdcDisplayer.layout.Layout#preLayoutHook(jsesh.mdcDisplayer.mdcView.MDCView, boolean)
+	 * @see jsesh.mdcDisplayer.layout.Layout#preLayoutHook(jsesh.mdcDisplayer.mdcView.MDCView, int)
 	 */
-	public void preLayoutHook(MDCView view, boolean embedded)
+	public void preLayoutHook(MDCView view, int depth)
 	{
 	}
 
+	/**
+	 * Method called just before specific layout visitor methods.
+	 * <p> Use for code that should be called on all views. Note that this code is called <em>after</em> the subviews are built and laid out.
+	 *
+	 */
+	protected void commonLayoutHook() {
+	}
 	
 	public boolean isCenterSigns() {
 		return centerSigns;

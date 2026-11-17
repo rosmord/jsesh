@@ -1,55 +1,55 @@
 package jsesh.mdcDisplayer.swing.application;
 
+import java.util.Properties;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringWriter;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.print.PrinterJob;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.util.Properties;
 
 import javax.swing.AbstractAction;
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFileChooser;
+import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 
 import jsesh.Version;
+import jsesh.about.AboutDisplayer;
 import jsesh.docdisplayer.DocDisplayer;
-import jsesh.externalFonts.ExternalSignImporter;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.mdc.utils.MDCSyntaxError;
 import jsesh.mdcDisplayer.draw.ViewPrinter;
+import jsesh.mdcDisplayer.swing.application.actions.SelectCopyPasteConfigurationAction;
+import jsesh.mdcDisplayer.swing.application.actions.generic.ForwardedAction;
 import jsesh.mdcDisplayer.swing.editor.HieroglyphicTextModel;
+import jsesh.mdcDisplayer.swing.editor.MDCEditorKeyManager;
 import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener;
-import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesEditor;
 import jsesh.mdcDisplayer.swing.splash.SplashScreen;
 import jsesh.resources.ResourcesManager;
-import jsesh.utils.FileButtonMapper;
-
-import com.birosoft.liquid.LiquidLookAndFeel;
+import jsesh.utils.PlatformDetection;
 
 /**
  * An application to load, display and edit MDC files This file is free Software
@@ -124,11 +124,10 @@ public class MDCDisplayerAppli {
 		data = new HieroglyphicTextModel();
 		data.setPhilologyIsSign(true);
 
-		loadFirstText();
 		workflow = new MDCDisplayerAppliWorkflow(data);
 		String title = "JSesh MDC Editor v. " + Version.VERSION;
 		frame = new MDCDisplayerAppliFrame(title, workflow);
-		// IMPORTANT clean up the relations between these two.
+		// TODO IMPORTANT clean up the relations between these two.
 		workflow.setFrame(frame);
 
 		menubar = buildMenuBar();
@@ -147,11 +146,13 @@ public class MDCDisplayerAppli {
 		});
 	}
 
-	private void loadFirstText() {
+	private void loadDemo() {
 		try {
 			Reader r = ResourcesManager.getInstance().getDemoData();
 			// Reader r= new
 			// FileReader("/home/rosmord/HieroFinal/inBase/amenemope.hie");
+			 //r= new StringReader("r:a-ra-m-!-t:A-p*t:pt-n\\200:(x:t)*U30\\200-xAst-!-s-r:D-A1");
+			//r= new StringReader("<h-m-p*t:pt->");
 			data.readModel(r);
 			r.close();
 			// Test :
@@ -179,18 +180,23 @@ public class MDCDisplayerAppli {
 		menu.add(workflow.getNewAction());
 		menu.add(workflow.getLoadTextAction());
 		menu.add(workflow.getSaveTextAction());
-		menu.addSeparator();
+		
+		JMenu exportMenu= new JMenu("Export as");
+		menu.add(exportMenu);
 		// menu.add(exportGraphicsAction);
 		// menu.add(exportPDFAction);
-		menu.add(workflow.getBitmapExportAction());
-		menu.add(workflow.getWmfExportAction());
-		menu.add(workflow.getHtmlExportAction());
-		menu.add(workflow.getIPDFExportAction());
-		menu.add(printAction);
+		//menu.add(printAction);
 		menu.addSeparator();
 		menu.add(workflow.getExitAction());
 		menubar.add(menu);
 
+		exportMenu.add(workflow.getBitmapExportAction());
+		exportMenu.add(workflow.getWmfExportAction());
+		exportMenu.add(workflow.getHtmlExportAction());
+		exportMenu.add(workflow.getIPDFExportAction());
+		exportMenu.add(workflow.getRtfExportAction());
+	
+		
 		JMenu edit = new JMenu("Edit");
 		edit.setMnemonic(KeyEvent.VK_E);
 		addWithShortCut(edit, workflow.getCutAction(), KeyEvent.VK_X);
@@ -206,6 +212,18 @@ public class MDCDisplayerAppli {
 		addWithShortCut(edit, workflow.getSetItalicModeAction(), KeyEvent.VK_I);
 		addWithShortCut(edit, workflow.getSetTransliterationModeAction(),
 				KeyEvent.VK_T);
+		edit.addSeparator();
+		//
+		// Selection of the copy and paste configuration.
+		ButtonGroup group= new ButtonGroup();
+		JRadioButtonMenuItem copyAndPaste1= new JRadioButtonMenuItem(new SelectCopyPasteConfigurationAction("copy : large size",workflow,0));
+		JRadioButtonMenuItem copyAndPaste2= new JRadioButtonMenuItem(new SelectCopyPasteConfigurationAction("copy : small size",workflow,1));
+		group.add(copyAndPaste1);
+		group.add(copyAndPaste2);
+		edit.add(copyAndPaste1);
+		edit.add(copyAndPaste2);
+		copyAndPaste1.setSelected(true);
+		//
 		menubar.add(edit);
 
 		JMenu manipulate = new JMenu("Text Manipulation");
@@ -215,6 +233,8 @@ public class MDCDisplayerAppli {
 		addWithShortCut(manipulate, workflow.getGroupVerticallyAction(),
 				KeyEvent.VK_G);
 		addWithShortCut(manipulate, workflow.getLigatureAction(), KeyEvent.VK_L);
+		addWithShortCut(manipulate, workflow.getLigatureBeforeAction(), KeyEvent.VK_K);
+		addWithShortCut(manipulate, workflow.getLigatureAfterAction(), KeyEvent.VK_M);
 		addWithShortCut(manipulate, workflow.getExplodeGroupAction(),
 				KeyEvent.VK_E);
 		manipulate.addSeparator();
@@ -250,7 +270,7 @@ public class MDCDisplayerAppli {
 		size.setMnemonic(KeyEvent.VK_S);
 		// TODO : move this table to the workflow.
 		// Sizes : 200 144 120 100 70 50 35 25
-		int sizes[] = { 200, 144, 120, 100, 70, 50, 35, 25 };
+		int sizes[] = { 240, 200, 144, 120, 100, 70, 50, 35, 25 ,1};
 		for (int i = 0; i < sizes.length; i++) {
 			size.add(workflow.buildSizeAction(sizes[i]));
 		}
@@ -289,8 +309,10 @@ public class MDCDisplayerAppli {
 		view.add(workflow.getResetZoomAction());
 		view.addSeparator();
 		// FIXME : design a cleaner system for actions (xml definition file ?)
-		view.add(new JCheckBoxMenuItem(workflow.getSelectOrientationAction()));
-		view.add(new JCheckBoxMenuItem(workflow.getSelectDirectionAction()));
+		JMenu orientationMenu= new JMenu("Orientation");
+		JMenu directionMenu= new JMenu("Direction");
+		view.add(orientationMenu);
+		view.add(directionMenu);		
 		view.addSeparator();
 		// Small signs on base line ?
 		view
@@ -298,6 +320,22 @@ public class MDCDisplayerAppli {
 						.getSelectCenteredSignsAction()));
 		menubar.add(view);
 
+		ButtonGroup orientationGroup= new ButtonGroup();
+		JRadioButtonMenuItem horizontalButton = new JRadioButtonMenuItem(new ForwardedAction(workflow, "Horizontal", MDCEditorKeyManager.SELECT_HORIZONTAL_ORIENTATION));
+		JRadioButtonMenuItem verticalButton= new JRadioButtonMenuItem(new ForwardedAction(workflow, "Vertical", MDCEditorKeyManager.SELECT_VERTICAL_ORIENTATION));
+		orientationGroup.add(horizontalButton);
+		orientationGroup.add(verticalButton);
+		orientationMenu.add(horizontalButton);
+		orientationMenu.add(verticalButton);
+		
+		ButtonGroup directionGroup= new ButtonGroup();
+		JRadioButtonMenuItem leftToRightButton=new JRadioButtonMenuItem(new ForwardedAction(workflow, "Left to Right", MDCEditorKeyManager.SELECT_L2R_DIRECTION));
+		JRadioButtonMenuItem rightToLeftButton = new JRadioButtonMenuItem(new ForwardedAction(workflow, "Right to Left", MDCEditorKeyManager.SELECT_R2L_DIRECTION));
+		directionGroup.add(rightToLeftButton);
+		directionGroup.add(leftToRightButton);
+		directionMenu.add(leftToRightButton);
+		directionMenu.add(rightToLeftButton);
+		
 		buildHieroglyphicMenus(menubar);
 
 		buildToolsMenus(menubar);
@@ -305,6 +343,14 @@ public class MDCDisplayerAppli {
 		menubar.add(Box.createHorizontalGlue());
 		JMenu help = new JMenu("Help");
 		help.setMnemonic(KeyEvent.VK_L);
+		help.add(new AbstractAction("About JSesh"){
+
+			public void actionPerformed(ActionEvent e) {
+				AboutDisplayer about= new AboutDisplayer(frame);
+				//JOptionPane.showMessageDialog(frame,about,"About JSesh",JOptionPane.PLAIN_MESSAGE);
+				about.show();
+			}
+		});
 		help.add(new AbstractAction("JSesh user documentation") {
 
 			public void actionPerformed(ActionEvent e) {
@@ -322,7 +368,7 @@ public class MDCDisplayerAppli {
 				props.list(out);
 				JTextArea textArea = new JTextArea(string.toString());
 				JScrollPane pane = new JScrollPane(textArea);
-				pane.setPreferredSize(new Dimension(640, 400));
+				pane.setPreferredSize(new Dimension(320, 200));
 				JOptionPane.showMessageDialog(frame, pane);
 			}
 
@@ -507,64 +553,21 @@ public class MDCDisplayerAppli {
 		}
 
 	}
-
-	public static void main(String[] args) {
-
-		// We should have a more flexible look and feel system.
-		// However, for Linux, I like liquid.
+	
+	/**
+	 * @param f
+	 */
+	public void setInitialFile(File f) {
 		try {
-			if ("Linux".equals(System.getProperty("os.name"))) {
-
-				// UIManager.setLookAndFeel(new KunststoffLookAndFeel());
-				UIManager.setLookAndFeel(new LiquidLookAndFeel());
-				// UIManager.setLookAndFeel(new MetouiaLookAndFeel());
-				// UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
-
-			} else if (System.getProperty("os.name").toLowerCase().startsWith(
-					"windows")) {
-
-				UIManager
-						.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
-				//UIManager.setLookAndFeel("net.java.plaf.windows.WindowsLookAndFeel;");
-				
-
-			}
-		} catch (Exception e) {
+			Reader r = new FileReader(f);
+			workflow.loadFile(f);
+			r.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		try {
-			SplashScreen splash = new SplashScreen();
-			splash.display();
 
-			MDCDisplayerAppli a = new MDCDisplayerAppli();
-			// Swing commands should be performed in the graphical thread.
-			// Hence we create a runnable to actually start the program.
-
-			a.frame.addWindowListener(new SplashCloser(splash));
-
-			StartMe run = new StartMe(a.frame);
-			SwingUtilities.invokeLater(run);
-			// SwingUtilities.invokeLater(run);
-			// In order to have a nice splash screen, we should do more work
-			// * move splash screen creation out of MDCDisplayerAppli
-			// constructor
-			// * probably move some of MDCDisplayerAppli's creation work out of
-			// the graphical thread.
-			// run.run();
-		} catch (Exception e) {
-			String message = "An unexpected error occurred when starting jsesh.\n"
-					+ "can you please note the message and send a mail to rosmord@iut.univ-paris8.fr about it?\n"
-					+ e.getMessage();
-			StringWriter string = new StringWriter();
-			PrintWriter out = new PrintWriter(string);
-			e.printStackTrace(out);
-			JTextArea textArea = new JTextArea(e.getMessage() + "\n"
-					+ string.toString());
-			JScrollPane pane = new JScrollPane(textArea);
-			pane.setPreferredSize(new Dimension(640, 400));
-			JOptionPane.showMessageDialog(null, pane, "Problem",
-					JOptionPane.ERROR_MESSAGE);
-		}
 	}
 
 	/**
@@ -622,4 +625,83 @@ public class MDCDisplayerAppli {
 			splash.dispose();
 		}
 	}
+	
+	
+
+	public static void main(String[] args) {
+	
+		// We should have a more flexible look and feel system.
+		// However, for Linux, I like liquid.
+		try {
+			if (PlatformDetection.getPlatform() == PlatformDetection.UNIX) {
+	
+				// UIManager.setLookAndFeel(new KunststoffLookAndFeel());
+				// UIManager.setLookAndFeel(new LiquidLookAndFeel());
+				// UIManager.setLookAndFeel(new MetouiaLookAndFeel());
+				//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+				
+				//UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
+				//OyoahaLookAndFeel lnf = new OyoahaLookAndFeel();
+				//UIManager.setLookAndFeel(lnf);
+				
+			} else if (PlatformDetection.getPlatform() == PlatformDetection.WINDOWS) {
+	
+				UIManager
+						.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
+				//UIManager.setLookAndFeel("net.java.plaf.windows.WindowsLookAndFeel;");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			SplashScreen splash = new SplashScreen();
+			splash.display();
+			UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
+			
+			MDCDisplayerAppli a = new MDCDisplayerAppli();
+			boolean noTextWasLoaded= true;
+			
+			if (args.length > 0) {
+				File f= new File(args[0]);
+				if (f.exists()) {
+					a.setInitialFile(f);
+					noTextWasLoaded= false;
+				}
+			}
+			
+			if (noTextWasLoaded) {
+				a.loadDemo();
+			}
+			// Swing commands should be performed in the graphical thread.
+			// Hence we create a runnable to actually start the program.
+	
+			a.frame.addWindowListener(new SplashCloser(splash));
+	
+			StartMe run = new StartMe(a.frame);
+			SwingUtilities.invokeLater(run);
+			// SwingUtilities.invokeLater(run);
+			// In order to have a nice splash screen, we should do more work
+			// * move splash screen creation out of MDCDisplayerAppli
+			// constructor
+			// * probably move some of MDCDisplayerAppli's creation work out of
+			// the graphical thread.
+			// run.run();
+		} catch (Exception e) {
+			String message = "An unexpected error occurred when starting jsesh.\n"
+					+ "can you please note the message and send a mail to rosmord@iut.univ-paris8.fr about it?\n"
+					+ e.getMessage();
+			StringWriter string = new StringWriter();
+			PrintWriter out = new PrintWriter(string);
+			e.printStackTrace(out);
+			JTextArea textArea = new JTextArea(e.getMessage() + "\n"
+					+ string.toString());
+			JScrollPane pane = new JScrollPane(textArea);
+			pane.setPreferredSize(new Dimension(640, 400));
+			JOptionPane.showMessageDialog(null, pane, "Problem",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+
 }

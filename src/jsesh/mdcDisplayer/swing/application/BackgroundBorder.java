@@ -11,6 +11,10 @@ package jsesh.mdcDisplayer.swing.application;
  *
  */
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.URL;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -18,9 +22,6 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;

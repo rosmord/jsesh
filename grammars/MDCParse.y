@@ -1,8 +1,8 @@
 // Cup specification for a manuel de codage parser.
 
 /****************************************************************************
-Entry system for tksesh according to the Manuel de Codage's specifications.
-										(c) 1993-2002 Serge Rosmorduc
+Entry system for JSesh according to the Manuel de Codage's specifications.
+				(c) 1993-2005 Serge Rosmorduc
 
 	 This code is free software under the LGPL (Lesser GNU Public Licence)
 	 
@@ -87,7 +87,14 @@ non terminal VBoxInterface verticalStack;
 
 non terminal HBoxInterface horizontalList;
 
-non terminal InnerGroupInterface horizontalListElement;
+non terminal HorizontalListElementInterface horizontalListElement;
+
+//  InnerGroupInterface EXTENDS HorizontalListElementInterface
+non terminal InnerGroupInterface innerGroup;
+
+//  ComplexLigatureInterface EXTENDS HorizontalListElementInterface
+
+non terminal ComplexLigatureInterface complexLigature;
 
 non terminal InnerGroupInterface overwrite;
 
@@ -157,6 +164,8 @@ terminal CLOSEBRACE;
 terminal Integer INTEGER;
 terminal COMMA;
 terminal DOUBLEAMP;
+terminal LIGBEFORE;
+terminal LIGAFTER;
 terminal DOUBLELEFTCURLY;
 terminal DOUBLERIGHTCURLY;
 terminal UNKNOWN;
@@ -169,6 +178,11 @@ terminal CADRAT;
 // non terminal            expr_list, expr_part;
 
 /* Precedences */
+
+//precedence left LIGBEFORE;
+//precedence right LIGAFTER;
+//precedence nonassoc LIGBEFORE;
+//precedence nonassoc LIGAFTER;
 
 /* The grammar */
 
@@ -326,36 +340,62 @@ horizontalList ::= horizontalList:e1 STAR horizontalListElement:e2
 
 :};
 
-horizontalListElement ::= ligature:e
+horizontalListElement ::= complexLigature:e
 {:
   RESULT= e;
 :};
 
-horizontalListElement ::= hieroglyph:e
+horizontalListElement ::= innerGroup:e
+{:
+  RESULT= e;
+:};
+
+// Ligatures of the form t^^w&&t
+complexLigature ::= innerGroup:e1 LIGBEFORE hieroglyph:e2 LIGAFTER innerGroup:e3
+{:
+	RESULT= getBuilder().buildComplexLigature(e1,e2,e3);
+:};
+
+complexLigature ::= innerGroup:e1 LIGBEFORE hieroglyph:e2
+{:
+	RESULT= getBuilder().buildComplexLigature(e1,e2,null);
+:};
+
+complexLigature ::=  hieroglyph:e1 LIGAFTER innerGroup:e2
+{:
+	RESULT= getBuilder().buildComplexLigature(null,e1,e2);
+:};
+
+
+innerGroup ::= ligature:e
+{:
+  RESULT= e;
+:};
+
+innerGroup ::= hieroglyph:e
 {:
  RESULT= e;
 :};
 
-horizontalListElement ::= overwrite:e
+innerGroup ::= overwrite:e
 {:
  RESULT= e;
 :};
 
-horizontalListElement ::= philology:e
+innerGroup ::= philology:e
 {:
   RESULT= e;
 :};
 
-horizontalListElement ::= subgroup:e
+innerGroup ::= subgroup:e
 {:
   RESULT= e;
 :};
 
-horizontalListElement ::= absoluteGroup:e
+innerGroup ::= absoluteGroup:e
 {:
   RESULT= e;
 :};
-
 
 philology ::= BEGINPHIL:p1  basicitems:e  optSeparator ENDPHIL:p2
 {:

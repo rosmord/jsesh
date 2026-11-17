@@ -12,7 +12,9 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.layout.MDCPagedEditorKit;
 import jsesh.mdcDisplayer.layout.PagedLayout;
+import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
@@ -27,7 +29,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
  *
  * This file is free software under the Gnu Lesser Public License.
  */
-public class PagedViewBuilder extends AbstractViewBuilder
+public class PagedViewBuilder implements ViewBuilder
 {
 
 	private PagedLayout pagedLayout;
@@ -42,15 +44,11 @@ public class PagedViewBuilder extends AbstractViewBuilder
 	public PagedViewBuilder()
 	{
 		this(
-			MDCPagedEditorKit.getDefaultMDCPagedEditorKit().createPagedLayout(),
-			MDCPagedEditorKit
-				.getDefaultMDCPagedEditorKit()
-				.getDrawingSpecifications());
+			MDCPagedEditorKit.getDefaultMDCPagedEditorKit().createPagedLayout());
 	}
 
-	public PagedViewBuilder(PagedLayout layout, DrawingSpecifications specif)
+	public PagedViewBuilder(PagedLayout layout)
 	{
-		super(specif);
 		this.pagedLayout = layout;
 		currentView = null;
 	}
@@ -58,15 +56,15 @@ public class PagedViewBuilder extends AbstractViewBuilder
 	/* (non-Javadoc)
 	 * @see jsesh.mdcDisplayer.draw.ViewBuilder#buildView(jsesh.mdc.model.ModelElement)
 	 */
-	public MDCView buildView(ModelElement elt) {
-		return buildView(elt, 0, elt.getNumberOfChildren());
+	public MDCView buildView(ModelElement elt, DrawingSpecifications drawingSpecifications) {
+		return buildView(elt, 0, elt.getNumberOfChildren(),drawingSpecifications);
 	}
 	
-	public MDCView buildView(ModelElement elt, int start, int end)
+	public MDCView buildView(ModelElement elt, int start, int end, DrawingSpecifications drawingSpecifications)
 	{
 		ViewBuilderAux visitor = new ViewBuilderAux(start, end);
 		// prepare for work :
-		getPagedLayout().reset(getDrawingSpecifications());
+		getPagedLayout().reset(drawingSpecifications);
 		// lay out the element.
 		elt.accept(visitor);
 		MDCView result = currentView;
@@ -124,7 +122,7 @@ public class PagedViewBuilder extends AbstractViewBuilder
 		public void visitDefault(ModelElement t)
 		{
 			MDCView result = new MDCView(t);
-			getPagedLayout().preLayoutHook(result, false);
+			getPagedLayout().preLayoutHook(result, 0);
 
 			int a, b;
 			if (topLevel) {
@@ -146,7 +144,7 @@ public class PagedViewBuilder extends AbstractViewBuilder
 			// visiting must write the view it builds in currentView : 
 			currentView = result;
 			// actual layout of the view. The sub views are already laid out :
-			getPagedLayout().layout(currentView, false);
+			getPagedLayout().layout(currentView, 0);
 		}
 
 		/**
@@ -157,7 +155,7 @@ public class PagedViewBuilder extends AbstractViewBuilder
 		public void visitHieroglyph(Hieroglyph h)
 		{
 			MDCView result = new MDCView(h);
-			getPagedLayout().layout(result, false);
+			getPagedLayout().layout(result, 0);
 			currentView = result;
 		}
 
@@ -168,7 +166,7 @@ public class PagedViewBuilder extends AbstractViewBuilder
 		public void visitTopItemList(TopItemList t)
 		{
 			MDCView result = new MDCView(t);
-			getPagedLayout().preLayoutHook(result, false);
+			getPagedLayout().preLayoutHook(result, 0);
 
 			topLevel= false;
 			for (int i= start; i < end; i++) {
@@ -181,7 +179,7 @@ public class PagedViewBuilder extends AbstractViewBuilder
 			// visiting must write the view it builds in currentView : 
 			currentView = result;
 			// actual layout of the view. The sub views are already laid out :
-			getPagedLayout().layout(currentView, false);
+			getPagedLayout().layout(currentView, 0);
 		}
 
 	}
@@ -189,7 +187,7 @@ public class PagedViewBuilder extends AbstractViewBuilder
 	/* (non-Javadoc)
 	 * @see jsesh.mdcDisplayer.draw.ViewBuilderInterface#reLayout(jsesh.mdcDisplayer.mdcView.MDCView)
 	 */
-	public void reLayout(MDCView v)
+	public void reLayout(MDCView v, DrawingSpecifications drawingSpecifications)
 	{
 	}
 

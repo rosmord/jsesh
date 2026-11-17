@@ -19,7 +19,7 @@ import jsesh.mdc.interfaces.ModifierInterface;
  * @author Rosmorduc
  *         </p>
  */
-public class Modifier extends ModelElement implements ModifierInterface {
+public class Modifier extends EmbeddedModelElement implements ModifierInterface {
 	/**
 	 * Represents the modifier's name.
 	 */

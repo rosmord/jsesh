@@ -4,8 +4,9 @@
  **/
 package jsesh.resources;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
+import java.util.HashMap;
+import java.util.Map;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,10 +14,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.awt.Font;
+import java.awt.FontFormatException;
 
 import javax.swing.ImageIcon;
+
+import jsesh.utils.PlatformDetection;
 
 /**
  * A container for various resources (like fonts).
@@ -129,12 +133,11 @@ public class ResourcesManager {
 	 */
 	public File getUserPrefsDirectory() {
 		File result = new File(System.getProperty("user.home"));
-		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
+		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
 			result = new File(result, "Library");
 			result = new File(result, "Preferences");
 			result = new File(result, "JSesh");
-		} else if (System.getProperty("os.name").toLowerCase().startsWith(
-				"windows")) {
+		} else if (PlatformDetection.getPlatform() == PlatformDetection.WINDOWS) {
 			result = new File(result, "JSeshData");
 		} else { // Unix
 			result = new File(result, ".jsesh");

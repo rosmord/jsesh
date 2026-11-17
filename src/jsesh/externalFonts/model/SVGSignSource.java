@@ -1,17 +1,20 @@
 package jsesh.externalFonts.model;
 
-import java.awt.BasicStroke;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.URL;
+
+import java.awt.BasicStroke;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -40,6 +43,12 @@ import org.xml.sax.helpers.DefaultHandler;
  * BTW, I'm really glad the JDK team created the Area class. It's so powerful
  * that I feel I'm cheating when I'm using it :-)
  * 
+ * <ul>
+ * <li> TODO implement a larger part of SVG (static graphics, ignoring spurious
+ * stuff like animation).
+ * <li> TODO take viewBox into account (not a priority)
+ * </ul>
+ * 
  * @author rosmord
  * 
  */
@@ -62,10 +71,42 @@ public class SVGSignSource implements SimpleSignSourceModel {
 	private int pos;
 
 	public SVGSignSource(File file) {
+		try {
+			initSVGSignSource(file.toURI().toURL());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+	/*
+	 * public SVGSignSource(File file) {
+	 * 
+	 * try { // look if file names might correspond to a code. code =
+	 * getCodeForFile(file);
+	 * 
+	 * if (code == null) code = ""; // read SVG SAXParserFactory parserFactory =
+	 * SAXParserFactory.newInstance(); parserFactory.setValidating(false);
+	 * parserFactory.setFeature("http://xml.org/sax/features/namespaces", true);
+	 * parserFactory.setFeature(
+	 * "http://xml.org/sax/features/namespace-prefixes", false); SAXParser
+	 * parser = parserFactory.newSAXParser();
+	 * 
+	 * SVGReader handler = new SVGReader(); parser.parse(file, handler); shape =
+	 * new ShapeChar(); shape.setShape(handler.getGeneralPath());
+	 * shape.fixShape(); } catch (ParserConfigurationException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } catch (SAXException e) { //
+	 * TODO Auto-generated catch block e.printStackTrace(); } catch (IOException
+	 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
+	 * beforeFirst(); }
+	 */
+	public SVGSignSource(URL url) {
+		initSVGSignSource(url);
+	}
+
+	private void initSVGSignSource(URL url) {
 		try {
 			// look if file names might correspond to a code.
-			code = getCodeForFile(file);
+			code = getCodeForURL(url);
 			if (code == null)
 				code = "";
 			// read SVG
@@ -78,21 +119,40 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			SAXParser parser = parserFactory.newSAXParser();
 
 			SVGReader handler = new SVGReader();
-			parser.parse(file, handler);
+			parser.parse(url.openStream(), handler);
 			shape = new ShapeChar();
 			shape.setShape(handler.getGeneralPath());
+			if (handler.getZones() != null) {
+				for (int i = 0; i < handler.getZones().length; i++) {
+					shape.setZone(i, handler.getZones()[i]);
+				}
+			}
 			shape.fixShape();
+			// A1 sign is supposed to be 1800px high.
+			// however, in old versions, it was 18px high
+			// Hence this conditional scaling.
+			// Temporary system to use signs with height 1800px by default
+			if (shape.getBbox().getHeight() > 60) {
+				double newHeight = shape.getBbox().getHeight() / 100.0;
+				shape.scaleToHeight(newHeight);
+			}
+			simplifyShape();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+			// In a future life, throw some kind of "BadFontException".
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		beforeFirst();
+	}
+
+	/**
+	 * 
+	 */
+	private void simplifyShape() {
+
 	}
 
 	public ShapeChar getCurrentShape() {
@@ -118,17 +178,34 @@ public class SVGSignSource implements SimpleSignSourceModel {
 	}
 
 	public void beforeFirst() {
-		pos= -1;
+		pos = -1;
 	}
 
 	public void afterLast() {
-		pos= 1;
+		pos = 1;
 	}
 
 	static class Style {
-		boolean black = false;
+		// In a next version, we might have something like a fill colour.
+		// As the bloody SVG standard has at least 3 ways of writing colours,
+		// it will be some work.
 
-		boolean line = false;
+		/**
+		 * If the shaped is filled, is it in black ?
+		 */
+		boolean blackPaint = true;
+
+		/**
+		 * Is the shape filled, in the first place ? (both this and the previous
+		 * boolean could be replaced by "Color fillColor")
+		 */
+
+		boolean filled = true;
+
+		/**
+		 * Should the outline be drawn ?
+		 */
+		boolean outlined = false;
 
 		float strokeWidth = 0f;
 
@@ -137,8 +214,9 @@ public class SVGSignSource implements SimpleSignSourceModel {
 
 		public Style(Style parent) {
 			if (parent != null) {
-				black = parent.black;
-				line = parent.line;
+				blackPaint = parent.blackPaint;
+				outlined = parent.outlined;
+				filled = parent.filled;
 				strokeWidth = parent.strokeWidth;
 			}
 		}
@@ -149,19 +227,38 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			if (styleDef != null) {
 				parseStyleDef(styleDef);
 			}
-			if ("#000000".equals(attributes.getValue("", "fill")))
-				black = true;
-			if ("black".equals(attributes.getValue("", "fill")))
-				black = true;
-			if ("rgb(0,0,0)".equals(attributes.getValue("", "fill")))
-				black = true;
-			if (!black) {
-				if ("none".equals(attributes.getValue("", "stroke")))
-					line = false;
-				else if (attributes.getValue("", "stroke") != null) {
-					line = true;
+			parseAttributes(attributes);
+		}
+
+		private void parseAttributes(Attributes attributes) {
+			// If a colour different from black is specified, the fill color is
+			// not black!
+			// colour
+			String fillColorAttr = attributes.getValue("", "fill");
+			if (fillColorAttr != null) {
+				if ("none".equals(fillColorAttr))
+					filled = false;
+				else {
+					// If any fill color is specified, the filling is not in
+					// black...
+					blackPaint = false;
+					// except if the said colour is black !
+					if (fillColorAttr.startsWith("#000000"))
+						blackPaint = true;
+					if ("black".equals(fillColorAttr))
+						blackPaint = true;
+					if (fillColorAttr.startsWith("rgb(0,0,0"))
+						blackPaint = true;
 				}
 			}
+
+			// Now, outlines/strokes
+			if ("none".equals(attributes.getValue("", "stroke")))
+				outlined = false;
+			else if (attributes.getValue("", "stroke") != null) {
+				outlined = true;
+			}
+
 			if (attributes.getValue("stroke-width") != null) {
 				String w = attributes.getValue("stroke-width");
 				int end = w.length() - 1;
@@ -180,19 +277,42 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			if (styleDef == null)
 				return;
 
-			line = (styleDef.indexOf("fill:none") != -1);
+			// filled is inherited.
+			// If filled is explicitly set to none, filled is false.
+			if (styleDef.indexOf("fill:none") != -1)
+				filled = false;
 
-			if (line) {
-				if (styleDef.indexOf("stroke:#000000") != -1
-						|| styleDef.indexOf("stroke:black") != -1
-						|| styleDef.indexOf("stroke:rgb(0,0,0)") != -1)
-					black = true;
-			} else {
+			else // Look if we have some fill colour information.
+			if (styleDef.indexOf("fill:") != -1) {
+				filled = true;
 				if (styleDef.indexOf("fill:#000000") != -1
 						|| styleDef.indexOf("fill:rgb(0,0,0)") != -1
 						|| styleDef.indexOf("fill:black") != -1)
-					black = true;
+					blackPaint = true;
+				else
+					// All other colours will be considered as "unfilling"
+					blackPaint = false;
 			}
+
+			/**
+			 * Line colour. We assume it's always black. if
+			 * (styleDef.indexOf("stroke:#000000") != -1 ||
+			 * styleDef.indexOf("stroke:black") != -1 ||
+			 * styleDef.indexOf("stroke:rgb(0,0,0)") != -1) blackPaint = true;
+			 */
+
+			/*
+			 * Should we outline ?
+			 */
+			if (styleDef.indexOf("stroke:none") != -1) {
+				outlined = false;
+			} else if (styleDef.indexOf("stroke:") != -1) {
+				outlined = true;
+			}
+
+			/**
+			 * Compute stroke-width.
+			 */
 
 			int i = styleDef.indexOf("stroke-width:");
 			if (i != -1) {
@@ -203,7 +323,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 				// find the end of this attribute.
 				int end = styleDef.indexOf(';', i);
 				if (end == -1)
-					end = styleDef.length();
+					end = styleDef.length() - 1;
 				while (!Character.isDigit(styleDef.charAt(end)))
 					end--;
 				widthDef = styleDef.substring(i, end + 1);
@@ -215,6 +335,14 @@ public class SVGSignSource implements SimpleSignSourceModel {
 
 	class SVGReader extends DefaultHandler {
 
+		/**
+		 * For ligature zones. Defined as anchor tags in the source, with title
+		 * either "zone1" or "zone2".
+		 */
+		private String zoneName = null;
+
+		private Rectangle2D[] zones;
+
 		private Area area;
 
 		private Stack styles;
@@ -222,6 +350,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		public SVGReader() {
 			area = new Area();
 			styles = new Stack();
+			zones = null;
 		}
 
 		/*
@@ -233,27 +362,33 @@ public class SVGSignSource implements SimpleSignSourceModel {
 
 		public void startElement(String uri, String localName, String qName,
 				Attributes attributes) throws SAXException {
+			// Style is inherited from container.
 			Style parentStyle = null;
 
 			if (!styles.isEmpty())
 				parentStyle = (Style) styles.peek();
 
+			// Create the current style, and select it.
 			Style style = new Style(parentStyle, attributes);
 			styles.push(style);
 
-			if ("path".equals(localName)) {
+			// Now, look at the element.
+			// first, anchors, which are used for ligature area (in a somehow
+			// unorthodox way)
+			if ("a".equals(localName)) {
+				readAnchor(attributes);
+			} else if ("rect".equals(localName)) {
+				// In anchors, rectangles are used to define ligature zones.
+				if (zoneName != null)
+					defineZone(attributes);
+			} else if ("path".equals(localName)) {
+				// Now, the usual case, paths
+				// the "d" attribute contains the path data.
 				String d = attributes.getValue("", "d");
-
-				GeneralPath subPath = parsePath(d, style.black);
+				GeneralPath subPath = parsePath(d);
+				// Add the path to the currently built area.
 				if (subPath != null) {
-					if (style.line) {
-						area.add(new Area(new BasicStroke(style.strokeWidth)
-								.createStrokedShape(subPath)));
-					} else if (style.black) {
-						area.add(new Area(subPath));
-					} else {
-						area.subtract(new Area(subPath));
-					}
+					addPathToArea(style, subPath);
 				}
 			} else if ("polygon".equals(localName)) {
 
@@ -275,21 +410,72 @@ public class SVGSignSource implements SimpleSignSourceModel {
 										java.lang.Float.parseFloat(coords[1]));
 						}
 					}
-					if (!style.line) {
+					if (!style.outlined) {
 						subPath.closePath();
-						if (style.black) {
-							area.add(new Area(subPath));
-						} else {
-							area.subtract(new Area(subPath));
-						}
 					}
+					addPathToArea(style, subPath);
 				}
+			}
+		}
+
+		private void addPathToArea(Style style, GeneralPath subPath) {
+			if (style.outlined) {
+				area.add(new Area(new BasicStroke(style.strokeWidth)
+						.createStrokedShape(subPath)));
+			}
+			if (style.filled) {
+				if (style.blackPaint) {
+					area.add(new Area(subPath));
+				} else {
+					area.subtract(new Area(subPath));
+				}
+			}
+		}
+
+		/**
+		 * @param attributes
+		 */
+		private void defineZone(Attributes attributes) {
+			int zoneId = 0; // Default : zone1
+			if ("zone2".equals(zoneName)) {
+				zoneId = 1;
+			}
+			if (zones == null)
+				zones = new Rectangle2D.Double[2];
+			double values[] = new double[4];
+			String attrNames[] = { "x", "y", "width", "height" };
+			for (int i = 0; i < 4; i++) {
+				try {
+					values[i] = java.lang.Double.parseDouble(attributes
+							.getValue("", attrNames[i]));
+				} catch (NumberFormatException exception) {
+					exception.printStackTrace();
+				}
+			}
+
+			zones[zoneId] = new Rectangle2D.Double(values[0], values[1],
+					values[2], values[3]);
+
+		}
+
+		/**
+		 * @param attributes
+		 */
+		private void readAnchor(Attributes attributes) {
+			zoneName = null;
+			// We could simply use http://www.w3.org/1999/xlink as URI for
+			// xlink, but I'm not that confident.
+			for (int i = 0; zoneName == null && i < attributes.getLength(); i++) {
+				if ("title".equals(attributes.getLocalName(i)))
+					zoneName = attributes.getValue(i);
 			}
 		}
 
 		public void endElement(String uri, String localName, String qName)
 				throws SAXException {
-
+			// End of anchor.
+			if ("a".equals(localName))
+				this.zoneName = null;
 			styles.pop();
 
 		}
@@ -326,11 +512,8 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		 * 
 		 * @param pathData
 		 *            a "d" attribute for an XML path tag.
-		 * @param black
-		 *            true if this subpath should be filled in black (direct
-		 *            orientation).
 		 */
-		private GeneralPath parsePath(String pathData, boolean black) {
+		private GeneralPath parsePath(String pathData) {
 			GeneralPath result = new GeneralPath();
 			String[] l = pathToList(pathData);
 			Point2D.Float currentPos = new Point2D.Float();
@@ -461,21 +644,21 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					float startx = currentPos.x;
 					float starty = currentPos.y;
 					float rx = Float.parseFloat(l[i + 1]); // x-radius of the
-															// ellipse
+					// ellipse
 					float ry = Float.parseFloat(l[i + 2]);
 					float rot = Float.parseFloat(l[i + 3]); // x-axis rotation
 					float largeArc = Float.parseFloat(l[i + 4]); // boolean
-																	// flag :
-																	// should we
-																	// choose
-																	// the
-																	// largest
-																	// possible
-																	// arc ?
+					// flag :
+					// should we
+					// choose
+					// the
+					// largest
+					// possible
+					// arc ?
 					float sweep = Float.parseFloat(l[i + 5]); // boolean flag
-																// : do we turn
-																// in the direct
-																// orientation ?
+					// : do we turn
+					// in the direct
+					// orientation ?
 
 					args = new float[] { Float.parseFloat(l[i + 6]),
 							Float.parseFloat(l[i + 7]) };
@@ -590,14 +773,30 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			if (publicId.indexOf(" SVG ") != -1) {
 				return new InputSource(new StringReader(
 						"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
-			} else
-				return super.resolveEntity(publicId, systemId);
+			} else {
+				// Temporary solution for a problem with libraries. 
+				// Normally,resolveEntity is declared in jdk 1.5 as throwing IOException.
+				// This was not the case in 1.4 (and it was probably an error).
+				// Hence, we catch the exception so that the code compiles in both 1.4 and 1.5.
+				try {
+					return super.resolveEntity(publicId, systemId);
+				} catch (Exception e) {
+					return null;
+				}
+			}
 		}
 
 		public GeneralPath getGeneralPath() {
 			GeneralPath shape = new GeneralPath();
 			shape.append(area.getPathIterator(null), false);
 			return shape;
+		}
+
+		/**
+		 * @return Returns the zones.
+		 */
+		public Rectangle2D[] getZones() {
+			return zones;
 		}
 
 		/**
@@ -633,40 +832,51 @@ public class SVGSignSource implements SimpleSignSourceModel {
 	}
 
 	/**
-	 * Returns the Manuel de codage code corresponding to a given MDC file, or
-	 * null if the file name does not fit.
+	 * Returns the Manuel de codage code corresponding to a given file, or null
+	 * if the file name does not fit.
 	 * 
 	 * @param file
 	 * @return a code or null.
 	 */
-	public static String getCodeForFile(File file) {
-		String fname = file.getName().toUpperCase();
+	public static String getCodeForFileName(String fname) {
+		fname = fname.toUpperCase();
 		int stopIndex = fname.indexOf('.');
 		String code = fname.substring(0, stopIndex);
-		
-		 if (code.startsWith("US")) {
-				StringBuffer buff= new StringBuffer();
-				buff.append("US");
-				int i=2;
-				while (i < code.length() && Character.isDigit(code.charAt(i)))
-					i++;
-				buff.append(code.substring(2,i));
-				buff.append(canonizeCode(code.substring(i)));
-				code= buff.toString();
-		 }
-		 else
-			 code= canonizeCode(code);
-		
-		if (!HieroglyphsManager.isCorrectGardinerCode(code))
+
+		// Special codes "nTrw" and "nn" don't have a Gardiner code associated
+		// to it.
+		if ("ntrw".equals(code.toLowerCase())) {
+			code = "nTrw";
+		} else if ("nn".equals(code.toLowerCase())) {
+			code = "nn";
+		} else if (code.startsWith("US")) {
+			StringBuffer buff = new StringBuffer();
+			buff.append("US");
+			int i = 2;
+			while (i < code.length() && Character.isDigit(code.charAt(i)))
+				i++;
+			buff.append(code.substring(2, i));
+			buff.append(canonizeCode(code.substring(i)));
+			code = buff.toString();
+		} else
+			code = canonizeCode(code);
+
+		if (!HieroglyphsManager.isCorrectBasicMdcCode(code))
 			code = null;
 		return code;
+	}
+
+	private String getCodeForURL(URL url) {
+		String path = url.getPath();
+		int id = path.lastIndexOf('/');
+		return getCodeForFileName(path.substring(id + 1));
 	}
 
 	/**
 	 * Given a Gardiner code in uppercase, return the correct code.
 	 */
 	private static String canonizeCode(String code) {
-		//		 	Now, the only problem is with Aa and Ff
+		// Now, the only problem is with Aa and Ff
 		if (code.length() >= 2) {
 			if (code.charAt(1) == 'A' || code.charAt(1) == 'F') {
 				// StringBuffer would probably be an overkill for this line.

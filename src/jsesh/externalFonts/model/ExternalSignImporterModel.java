@@ -1,22 +1,21 @@
 package jsesh.externalFonts.model;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Dictionary;
+
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 
 import jsesh.bzr.BzrFormatException;
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.DirectoryHieroglyphicFontManager;
-import jsesh.hieroglyphs.HieroglyphicDB;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
 
 public class ExternalSignImporterModel {
 
+	private File sourceDirectory;
+	
 	private SimpleSignSourceModel newSigns;
 
 	private ShapeChar referenceShape;
@@ -24,6 +23,7 @@ public class ExternalSignImporterModel {
 	public ExternalSignImporterModel() {
 			HieroglyphicFontManager db= DefaultHieroglyphicFontManager.getInstance();
 			referenceShape = db.get("A1");
+			sourceDirectory= new File(".");
 	}
 
 	public boolean hasNext() {
@@ -96,8 +96,8 @@ public class ExternalSignImporterModel {
 		newSigns = new SVGSignSource(file);
 		// scale to cadrat height.
 		while (newSigns.hasNext()) {
-			newSigns.next();			
-			newSigns.getCurrentShape().scaleToHeight(referenceShape.getBbox().getHeight());
+			newSigns.next();
+			//newSigns.getCurrentShape().scaleToHeight(referenceShape.getBbox().getHeight());
 		}
 		newSigns.beforeFirst();
 	}
@@ -172,4 +172,20 @@ public class ExternalSignImporterModel {
 		else
 			return "";
 	}
+
+	/**
+	 * @return Returns the sourceDirectory.
+	 */
+	public File getSourceDirectory() {
+		return sourceDirectory;
+	}
+
+	/**
+	 * @param sourceDirectory The sourceDirectory to set.
+	 */
+	public void setSourceDirectory(File sourceDirectory) {
+		this.sourceDirectory = sourceDirectory;
+	}
+	
+	
 }

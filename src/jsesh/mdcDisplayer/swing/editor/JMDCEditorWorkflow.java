@@ -11,12 +11,13 @@
  **/
 package jsesh.mdcDisplayer.swing.editor;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import java.io.StringWriter;
 
 import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.hieroglyphs.PossibilitiesList;
@@ -27,24 +28,35 @@ import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.BasicItemList;
 import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.Cartouche;
+import jsesh.mdc.model.ComplexLigature;
 import jsesh.mdc.model.HBox;
 import jsesh.mdc.model.Hieroglyph;
+import jsesh.mdc.model.InnerGroup;
 import jsesh.mdc.model.Ligature;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.MDCMark;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelWriter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.Philology;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
+import jsesh.mdc.model.utilities.BasicItemListGrouper;
+import jsesh.mdc.model.utilities.CadratStarInserter;
+import jsesh.mdc.model.utilities.ComplexLigatureExtractor;
+import jsesh.mdc.model.utilities.GroupExploder;
+import jsesh.mdc.model.utilities.HieroglyphExtractor;
+import jsesh.mdc.model.utilities.HorizontalGrouper;
+import jsesh.mdc.model.utilities.InnerGroupBuilder;
+import jsesh.mdc.model.utilities.LastHieroglyphSelector;
+import jsesh.mdc.model.utilities.VerticalGrouper;
+import jsesh.mdc.output.ModelWriter;
 import jsesh.mdc.utils.MDCSyntaxError;
 import jsesh.mdcDisplayer.draw.DrawUtilities;
 import jsesh.mdcDisplayer.draw.MDCCaret;
 import jsesh.mdcDisplayer.draw.MDCCaretChangeListener;
-import jsesh.mdcDisplayer.draw.MDCEditorKit;
+import jsesh.mdcDisplayer.layout.MDCEditorKit;
 
 /**
  * An abstract represention of the editing process of a hieroglyphic text.
@@ -175,12 +187,12 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	public void addLowerLevel() {
 		TopItemList l = hieroglyphicTextModel.getModel();
-		ModelElement elt = l.getChildAt(getIndexPosition() - 1);
+		ModelElement elt = l.getChildAt(getInsertPosition() - 1);
 		if (elt instanceof Cadrat) {
 			Cadrat c = (Cadrat) elt;
 			HBox hbox = new HBox();
 			Hieroglyph hiero = buildHieroglyphFromCode(currentCode.toString());
-			hbox.addInnerGroup(hiero);
+			hbox.addHorizontalListElement(hiero);
 			c.addHBox(hbox);
 			clearCode();
 			clearSeparator();
@@ -236,18 +248,18 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	}
 
 	/**
-	 * 
+	 * Adds a sign coorresponding to currentCode to the cadrat before the insertion point.
 	 */
 	public void addSameLevel() {
 		TopItemList l = hieroglyphicTextModel.getModel();
-		ModelElement elt = l.getChildAt(getIndexPosition() - 1);
+		ModelElement elt = l.getChildAt(getInsertPosition() - 1);
 		if (elt instanceof Cadrat) {
 			Cadrat c = (Cadrat) elt;
 			// get last hbox.
 			HBox hbox = c.getHBox(c.getNumberOfChildren() - 1);
 			// add sign :
 			Hieroglyph hiero = buildHieroglyphFromCode(currentCode.toString());
-			hbox.addInnerGroup(hiero);
+			hbox.addHorizontalListElement(hiero);
 			clearCode();
 			clearSeparator();
 		}
@@ -277,7 +289,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			addSign();
 		}
 		groupBy(currentSeparator);
-		currentSeparator = sep;		
+		currentSeparator = sep;
 		notifyCodeChangeListeners();
 		notifySeparatorChangeListeners();
 	}
@@ -288,7 +300,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	public void addSign() {
 		// No empty sign.
 		if (getCurrentCode().length() == 0)
-			return;		
+			return;
 		possibilities = HieroglyphsManager.getInstance().getPossibilityFor(
 				currentCode.toString());
 		if (possibilities == null)
@@ -305,8 +317,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		Cadrat cadrat = new Cadrat();
 		HBox hbox = new HBox();
 		cadrat.addHBox(hbox);
-		hbox.addInnerGroup(buildHieroglyphFromCode(code));
-		t.addTopItemAt(getIndexPosition(), cadrat);
+		hbox.addHorizontalListElement(buildHieroglyphFromCode(code));
+		t.addTopItemAt(getInsertPosition(), cadrat);
 		clearCode();
 	}
 
@@ -328,11 +340,10 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	public AbsoluteGroup buildAbsoluteGroup() {
 		AbsoluteGroup result = null;
-		if (!caret.hasMark() && getIndexPosition() >= 1)
-			caret.setMarkAt(getIndexPosition() - 1);
+		if (!caret.hasMark() && getInsertPosition() >= 1)
+			caret.setMarkAt(getInsertPosition() - 1);
 		if (caret.hasMark()) {
 			List elts = suppressSelection();
-			HieroglyphExtractor extractor = new HieroglyphExtractor();
 
 			// FIXME : drawing specifications alert !!!
 			AbsoluteGroup g = DrawUtilities.createAbsoluteGroupFrom(elts,
@@ -352,7 +363,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	private Hieroglyph buildHieroglyphFromCode(String code) {
 		Hieroglyph hiero;
 		if ("o".equals(code))
-			hiero= new Hieroglyph(SymbolCodes.REDPOINT);
+			hiero = new Hieroglyph(SymbolCodes.REDPOINT);
 		else
 			hiero = new Hieroglyph(code);
 		return hiero;
@@ -367,7 +378,6 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		for (Iterator i = listeners.iterator(); i.hasNext();) {
 			MDCModelEditionListener l = (MDCModelEditionListener) i.next();
 			l.caretChanged(caret);
-			// clearSeparator();
 		}
 	}
 
@@ -424,7 +434,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 
 	/**
 	 * 
-	 */
+	 
 	public void copy() {
 		possibilities = null;
 		if (caret.hasMark()) {
@@ -439,7 +449,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			}
 		}
 	}
-
+	*/
+	
 	/**
 	 * Moves the cursor down one line.
 	 */
@@ -449,7 +460,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		p = p.getNextPosition(1);
 		while (p.hasNext() && !p.getElementBefore().isBreak())
 			p = p.getNextPosition(1);
-		caret.getInsert().setPosition(p);
+		caret.setInsertPosition(p);
 		caret.unsetMark();
 		clearSeparator();
 	}
@@ -459,7 +470,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	public void cursorNext() {
 		possibilities = null;
-		caret.moveInsert(1);
+		caret.moveInsertBy(1);
 		caret.unsetMark();
 		clearSeparator();
 	}
@@ -470,7 +481,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	public void cursorPrevious() {
 		possibilities = null;
-		caret.moveInsert(-1);
+		caret.moveInsertBy(-1);
 		caret.unsetMark();
 		clearSeparator();
 	}
@@ -481,7 +492,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	public void cursorToBeginningOfLine() {
 		possibilities = null;
 		MDCPosition p = getLineFirstPosition();
-		caret.getInsert().setPosition(p);
+		caret.setInsertPosition(p);
 		clearSeparator();
 	}
 
@@ -491,7 +502,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	public void cursorToEndOfLine() {
 		possibilities = null;
 		MDCPosition p = getLineLastPosition();
-		caret.getInsert().setPosition(p);
+		caret.setInsertPosition(p);
 	}
 
 	/**
@@ -507,20 +518,20 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		// Go to the last position of the previous line.
 		while (p.hasPrevious() && !p.getElementAfter().isBreak())
 			p = p.getNextPosition(-1);
-		caret.getInsert().setPosition(p);
+		caret.setInsertPosition(p);
 		cursorToBeginningOfLine();
 		caret.unsetMark();
 		clearSeparator();
 	}
 
 	/**
-	 * 
+	 * Deletes the current selection.
 	 */
 	public void cut() {
 		List l = suppressSelection();
-		if (l != null) {
-			copyBuffer = l;
-		}
+		//if (l != null) {
+			//			copyBuffer = l;
+		//}
 		clearSeparator();
 	}
 
@@ -543,8 +554,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			notifyCodeChangeListeners();
 		} else if (currentSeparator != ' ') {
 			clearSeparator();
-		}
-		else {
+		} else {
 			removeTopItem();
 		}
 		clearSeparator();
@@ -573,14 +583,13 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		if (!caret.hasMark()) {
 			caret.setMark(new MDCMark(caret.getInsert().getPosition()));
 		}
-		caret.getInsert().advanceBy(dir);
+		caret.advanceInsertBy(dir);
 	}
 
 	/**
 	 * separate the current group into smaller ones.
 	 */
 	public void explodeGroup() {
-		boolean success = false;
 		if (caret.getInsert().getIndex() < 1)
 			return;
 		GroupExploder f = new GroupExploder();
@@ -607,7 +616,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			removeTopItem();
 			// IMPORTANT : We should decide where (and if) we compact the group.
 			g.compact();
-			hieroglyphicTextModel.getModel().addTopItemAt(getIndexPosition(),
+			hieroglyphicTextModel.getModel().addTopItemAt(getInsertPosition(),
 					g.buildTopItem());
 		}
 	}
@@ -667,7 +676,6 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 * @return the content of the current line as manuel de codage code.
 	 */
 	public String getCurrentLineAsString() {
-		int idx = getIndexPosition();
 		TopItemList t = getHieroglyphicTextModel().getModel();
 		int[] limits = getLineLimits();
 
@@ -688,7 +696,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		return hieroglyphicTextModel;
 	}
 
-	private int getIndexPosition() {
+	private int getInsertPosition() {
 		return caret.getInsert().getPosition().getIndex();
 	}
 
@@ -742,10 +750,6 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	private int[] getLineLimits() {
 		int[] result = new int[2];
-		int a, b;
-		int idx = getIndexPosition();
-		TopItemList t = getHieroglyphicTextModel().getModel();
-
 		MDCPosition first = getLineFirstPosition();
 
 		MDCPosition second = getLineLastPosition();
@@ -888,6 +892,14 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	}
 
 	/**
+	 * Insert a list of TopItems in the text.
+	 * @param elements a 
+	 */
+	public void insertElements(List elements) {
+		possibilities= null;
+		getHieroglyphicTextModel().getModel().addAllAt(getInsertPosition(), elements);
+	}
+	/**
 	 * 
 	 */
 	public void insertHalfSpace() {
@@ -934,7 +946,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	public void insertNewLine() {
 		possibilities = null;
 		addSeparator(' ');
-		getHieroglyphicTextModel().getModel().addTopItemAt(getIndexPosition(),
+		getHieroglyphicTextModel().getModel().addTopItemAt(getInsertPosition(),
 				new LineBreak());
 
 	}
@@ -945,7 +957,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	public void insertPageBreak() {
 		possibilities = null;
 		addSeparator(' ');
-		getHieroglyphicTextModel().getModel().addTopItemAt(getIndexPosition(),
+		getHieroglyphicTextModel().getModel().addTopItemAt(getInsertPosition(),
 				new PageBreak());
 	}
 
@@ -1076,10 +1088,10 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			listener.separatorChanged();
 		}
 	}
-	
+
 	/**
 	 * 
-	 */
+	 *
 	public void paste() {
 		possibilities = null;
 		if (copyBuffer != null) {
@@ -1087,7 +1099,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			clearMark();
 		}
 		clearSeparator();
-	}
+	}*/
 
 	/**
 	 * Utility function. Paste a list of TopItems into the model.
@@ -1119,7 +1131,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	public void removeTopItem() {
 		possibilities = null;
 		TopItemList l = hieroglyphicTextModel.getModel();
-		l.removeTopItem(getIndexPosition() - 1);
+		l.removeTopItem(getInsertPosition() - 1);
 		clearSeparator();
 	}
 
@@ -1172,7 +1184,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			getHieroglyphicTextModel().getModel().removeTopItems(limits[0],
 					limits[1]);
 			getHieroglyphicTextModel().getModel().addAllAt(limits[0], items);
-			caret.getInsert().setIndex(limits[0]);
+			// caret.getInsert().setIndex(limits[0]);
+			caret.setInsertPosition(new MDCPosition(t, limits[0]));
 		} catch (MDCSyntaxError e) {
 			success = false;
 		}
@@ -1355,4 +1368,133 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			throw new RuntimeException("should not happen.");
 		}
 	}
+
+	/**
+	 * Ligature one or two group(s) and a hieroglyph.
+	 * <p>
+	 * The group before signPost is inserted in the first ligature position, the
+	 * group after signPos in the second.
+	 * 
+	 * @param signPos
+	 *            position of the hieroglyph. -1 stands for "last position".
+	 */
+	public void doComplexLigature(int signPos) {
+		boolean success = false;
+		List elts = suppressSelection();
+		if (elts == null)
+			return;
+		if (elts.size() > 1 && signPos < elts.size()) {
+			InnerGroup group1 = null;
+			InnerGroup group2 = null;
+			Hieroglyph h = null;
+
+			if (signPos == -1)
+				signPos = elts.size() - 1;
+
+			// See if the main element is already a ligature
+			ComplexLigatureExtractor ligatureExtractor = new ComplexLigatureExtractor();
+			ligatureExtractor.extract((ModelElement) elts.get(signPos));
+			if (!ligatureExtractor.foundOtherElements()
+					&& ligatureExtractor.getComplexLigature() != null) {
+				ComplexLigature c1 = ligatureExtractor.getComplexLigature();
+				if ((InnerGroup) c1.getBeforeGroup() != null)
+					group1 = (InnerGroup) c1.getBeforeGroup().deepCopy();
+				if ((InnerGroup) c1.getAfterGroup() != null)
+					group2 = (InnerGroup) c1.getAfterGroup().deepCopy();
+				h = (Hieroglyph) c1.getHieroglyph().deepCopy();
+			}
+
+			// If the element is not already a ligature, it might be a
+			// hieroglyph.
+
+			if (h == null) {
+				// The element should be a lone hieroglyph or a complexLigature,
+				// in which the
+				// previous elements will be ligatured.
+				HieroglyphExtractor extractor = new HieroglyphExtractor();
+				List hieros = extractor.extractHieroglyphs(elts.subList(
+						signPos, signPos + 1));
+				if (hieros.size() == 1) {
+					h = (Hieroglyph) hieros.get(0);
+				}
+			}
+
+			// We should not ligature if the ligature slot is already occupied.
+			boolean error = false;
+			if (h != null) {
+				// Build first group with elements in front of the sign
+				if (signPos > 0) {
+					if (group1 == null) {
+
+						InnerGroupBuilder innerGroupBuilder = new InnerGroupBuilder();
+						innerGroupBuilder.buildHorizontalElement(elts.subList(
+								0, signPos));
+						group1 = innerGroupBuilder.getGroup();
+					} else {
+						error = true;
+					}
+				}
+				// Build second group with elements after the sign
+				if (signPos < elts.size() - 1) {
+					if (group2 == null) {
+						InnerGroupBuilder innerGroupBuilder = new InnerGroupBuilder();
+						innerGroupBuilder.buildHorizontalElement(elts.subList(
+								signPos + 1, elts.size()));
+						group2 = innerGroupBuilder.getGroup();
+					} else {
+						error = true;
+					}
+				}
+				if (!error && (group1 != null || group2 != null)) {
+					ComplexLigature ligature = new ComplexLigature(group1, h,
+							group2);
+					hieroglyphicTextModel.getModel().addTopItemAt(
+							caret.getInsert().getIndex(),
+							ligature.buildTopItem());
+					success = true;
+				}
+
+			}
+		}
+
+		if (!success) {
+			pasteList(elts);
+		}
+		clearSeparator();
+	}
+
+	/**
+	 * 
+	 */
+	public void ligatureBefore() {
+		doComplexLigature(-1);
+
+	}
+
+	/**
+	 * 
+	 */
+	public void ligatureAfter() {
+		doComplexLigature(0);
+	}
+
+	/**
+	 * @return
+	 */
+	public TopItemList getSelectionAsTopItemList() {
+		TopItemList topItemList= new TopItemList();
+		if (caret.hasMark()) {
+			int a = Math.min(caret.getInsert().getIndex(), caret.getMark()
+					.getIndex());
+			int b = Math.max(caret.getInsert().getIndex(), caret.getMark()
+					.getIndex());
+			for (int i = a; i < b; i++) {
+				topItemList.addTopItem((TopItem)(hieroglyphicTextModel.getModel().getChildAt(i)
+						.deepCopy()));
+			}
+		}
+		return topItemList;
+	}
+
+	
 }

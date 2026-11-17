@@ -17,7 +17,6 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.mdcView.RelativePosition;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
@@ -46,13 +45,11 @@ public class ColumnLayout extends TopItemLayout {
 
 	Zone zone;
 
-	RelativePosition zoneStart;
+	Point2D.Double zoneStart;
 
 	DrawingSpecifications drawingSpecifications;
 
 	TextDirection currentTextDirection;
-
-	RelativePosition nextViewPosition;
 
 	// End of zone to move
 
@@ -81,14 +78,7 @@ public class ColumnLayout extends TopItemLayout {
 	 */
 	public void layoutElement(MDCView subView) {
 		this.subView = subView;
-		// Point2D refPoint = state.getReferencePoint();
-		// Compute the new reference point ?
-		// Don't think so...
-		// state.getNextItemPosition().translate(subView.getParent(), subView,
-		// refPoint);
 		subView.getModel().accept(aux);
-		// state.setNextItemPosition(subView.getNextViewPosition());
-
 		this.subView = null;
 	}
 
@@ -122,17 +112,9 @@ public class ColumnLayout extends TopItemLayout {
 		documentView.reset();
 		// Pseudo relative position for first element.
 		drawingSpecifications.setTextOrientation(TextOrientation.VERTICAL);
-
-	
-			nextViewPosition = new RelativePosition(0, RelativePosition.WEST,
-					0, RelativePosition.NORTH);
-
+		documentView.setDirection(currentTextDirection);
 		zone = new Zone(0, 0);
-		zoneStart = documentView.getFirstSubViewPosition();
-		if (! currentTextDirection.isLeftToRight())
-			zoneStart.setValues(0,RelativePosition.EAST, 0, RelativePosition.NORTH) ;
-		else
-			zoneStart.setValues(0,RelativePosition.WEST, 0, RelativePosition.NORTH) ;
+		zoneStart = new Point2D.Double();
 	}
 
 	/**
@@ -149,22 +131,16 @@ public class ColumnLayout extends TopItemLayout {
 		// Normally, the zone upper left point is (0,0). It can change if the
 		// zone
 		// is highter than expected. Correct this position :
-
-		zoneStart.setDy(zoneStart.getDy() + (float) -zone.getMinY());
+		zoneStart.y+= -zone.getMinY();
 
 		// Should it change for right-to-left orientation ?
-		if (currentTextDirection.isLeftToRight()) {
-			zoneStart.setDx(zoneStart.getDx() + (float) -zone.getMinX());
-		} else {
-			//zoneStart.setDx(zoneStart.getDx() +(float) -zone.getWidth());
-			zoneStart.setDx(zoneStart.getDx() +(float) -zone.getMaxX());
-		}
-		// Compute the actual start point for the line
-		zoneStart.translate(documentView, insertionPoint);
-		// update the zone
+		zoneStart.x+= -zone.getMinX();
 
+		//		 update the zone
+		zone.translateBy(zoneStart);
+		
 		// flush the zone
-		documentArea.add(new Rectangle2D.Double(insertionPoint.getX(), 0, zone
+		documentArea.add(new Rectangle2D.Double(zoneStart.x, zoneStart.y, zone
 				.getWidth(), zone.getHeight()));
 	}
 
@@ -180,30 +156,19 @@ public class ColumnLayout extends TopItemLayout {
 		 */
 
 		public void visitLineBreak(LineBreak b) {
+			subView.setHeight(0.1f);
+			subView.setWidth(drawingSpecifications.getMaxCadratWidth());
 			// Add a minimal line break height to the current zone
 			// (else empty lines would be 0 height)
 			// Write
+			// Add the line break to the current line.
+			zone.add(subView);
 			flushZone();
 
-			if (currentTextDirection.isLeftToRight()) {
-				subView.getNextViewPosition().setValues(
-						(float) zone.getWidth()
-								+ drawingSpecifications.getColumnSkip(),
-						RelativePosition.PREVIOUS, 0, RelativePosition.NORTH);
-			} else {
-				subView.getNextViewPosition().setValues(
-						(float) -(drawingSpecifications
-								.getColumnSkip()), RelativePosition.PREVIOUS,
-						0, RelativePosition.NORTH);
-			}
-
+			zoneStart.x+= zone.getWidth() + drawingSpecifications.getColumnSkip();
+			
 			// create a new zone ?
 			zone = new Zone(0, 0);
-			zoneStart = subView.getNextViewPosition();
-			// Next view position is computed relatively to the zone.
-			nextViewPosition = new RelativePosition(0, RelativePosition.WEST,
-					0, RelativePosition.NORTH);
-
 		}
 
 		/*
@@ -252,20 +217,13 @@ public class ColumnLayout extends TopItemLayout {
 
 		public void visitDefault(ModelElement t) {
 			// add the new view's bounding box to the current column.
-
+			zone.add(subView);
 			// Compute the position of the following view.
 			// prepare a small skip after v, if necessary
 			// the skip is "integrated" in v,
-			if (subView.getWidth() != 0) {
-				// IMPORTANT : here difference with right to left code
-				subView.getNextViewPosition().setDy(
-						subView.getHeight()
-								+ drawingSpecifications.getSmallSkip());
-			} else
-				subView.getNextViewPosition().setDy(0);
-			zone.add(subView);
-			nextViewPosition = subView.getNextViewPosition();
-
+			if (subView.getHeight() != 0) {
+				zone.moveCurrentPoint(0, subView.getHeight() + drawingSpecifications.getSmallSkip());
+			} 
 		}
 	}
 

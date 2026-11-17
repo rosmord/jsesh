@@ -6,4 +6,4 @@ package jsesh.mdc.interfaces;
      * Abstract interface. Only sub interfaces for this one are of interest.
      */
 
-public interface InnerGroupInterface {};
+public interface InnerGroupInterface extends HorizontalListElementInterface {};

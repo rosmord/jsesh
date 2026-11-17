@@ -1,10 +1,9 @@
 package jsesh.externalFonts.control;
 
+import java.io.File;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.regex.Pattern;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -29,11 +28,8 @@ public class ExternalSignImporterPresenter implements UIEventListener {
 	ExternalSignImporterUI ui;
 	
 	public ExternalSignImporterPresenter(ExternalSignImporterModel model, ExternalSignImporterUI ui) {
-		super();
-		// TODO Auto-generated constructor stub
 		this.model = model;
 		this.ui = ui;
-
 		refreshUI();
 	}
 
@@ -76,7 +72,7 @@ public class ExternalSignImporterPresenter implements UIEventListener {
 		refreshUI();	
 	}
 	private void importSigns() {
-		JFileChooser fileChooser= new JFileChooser();
+		JFileChooser fileChooser= new JFileChooser(model.getSourceDirectory());
 		
 		fileChooser.addChoosableFileFilter(new FileFilter() {
 
@@ -92,7 +88,13 @@ public class ExternalSignImporterPresenter implements UIEventListener {
 		int answer= fileChooser.showOpenDialog(ui.getPanel());
 		if (answer == JFileChooser.APPROVE_OPTION) {
 			try {
-				model.loadSigns(fileChooser.getSelectedFile());
+				File selected= fileChooser.getSelectedFile();
+				if (! selected.isDirectory()) {
+					model.setSourceDirectory(selected.getParentFile());
+					model.loadSigns(selected);
+				} else {
+					model.setSourceDirectory(selected);
+				}
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(ui.getPanel(), "Could not load file " + fileChooser.getSelectedFile().getPath(),"File not loaded",JOptionPane.ERROR_MESSAGE);
 			} 
@@ -121,7 +123,7 @@ public class ExternalSignImporterPresenter implements UIEventListener {
 		String txt= ui.getCodeField().getText();
 		return
 		(!"".equals(txt) ) && (model.getShapeChar() != null)
-			&& HieroglyphsManager.isCorrectGardinerCode(txt);
+			&& HieroglyphsManager.isCorrectBasicMdcCode(txt);
 	}
 
 	public void focusGained(FocusEvent e) {				

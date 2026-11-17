@@ -5,6 +5,8 @@
  */
 package jsesh.mdc.constants;
 
+import jsesh.utils.EnumBase;
+
 /**
  * Writing direction for the text : left to right or right to left.
  * @author S. Rosmorduc

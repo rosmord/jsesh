@@ -21,7 +21,7 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
  * @author Serge Rosmorduc
  */
 abstract public class TopItemLayout {
-    TopItemLayoutPosition state;
+    //TopItemLayoutPosition state;
     
     /**
      * Sets an subview position in the global view.
@@ -36,19 +36,19 @@ abstract public class TopItemLayout {
      */
     public abstract void endLayout();
     
-    /**
+    /*
      * @return Returns the state.
-     */
+     *
     public TopItemLayoutPosition getState() {
         return state;
-    }
+    }*/
     
-    /**
+    /*
      * @param state The state to set.
-     */
+     *
     public void setState(TopItemLayoutPosition state) {
         this.state = state;
-    }
+    }*/
 
     /**
      * Initialize the state, when this layout is the main layout for the text. 

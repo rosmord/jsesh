@@ -9,14 +9,15 @@ package jsesh.tmp.simpleDemo;
  *
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
  */
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.List;
 
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
-import jsesh.utils.GraphicsUtils;
+import jsesh.swingUtils.GraphicsUtils;
 
 public class HieroglyphicDrawer {
 

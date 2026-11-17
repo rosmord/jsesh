@@ -4,6 +4,8 @@
  **/
 package jsesh.mdc.model;
 
+import java.io.Serializable;
+
 /**
  * Describe the state of a top item in terms of manuel de codage toggles :
  * is it part of a grayed area ? is it red ?
@@ -12,7 +14,7 @@ package jsesh.mdc.model;
  * @author rosmord
  *
  */
-public class TopItemState implements Cloneable, Comparable
+public class TopItemState implements Cloneable, Comparable, Serializable
 {
 
 	private boolean isRed= false;

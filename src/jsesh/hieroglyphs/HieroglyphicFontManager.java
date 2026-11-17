@@ -12,8 +12,6 @@ package jsesh.hieroglyphs;
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
  */
 
-import java.io.File;
-import java.sql.SQLException;
 import java.util.Set;
 
 import jsesh.bzr.simple.ShapeChar;

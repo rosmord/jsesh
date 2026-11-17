@@ -23,6 +23,16 @@ import java.util.regex.Pattern;
  */
 public class HieroglyphsManager {
 
+	/**
+	 * Regexp which covers all possible signs codes, except for phonetic codes.and numbers
+	 */
+	private static final String GARDINER_CODE_REGEXP = "(US\\d+)?(NL|NU|[A-Z]|Aa|Ff)[0-9]+[a-zA-Z]*|UG\\d+M\\d+N\\d+";
+	
+	/**
+	 * Regexp like GARDINER_CODE_REGEXP, but which covers also the signs which don't have official "Gardiner codes"
+	 */
+	private static final String	GCANONICAL_CODE_REGEXP= GARDINER_CODE_REGEXP + 
+		"|nTrw|nn|[2456789]|[2-9]00*";
 	private static HieroglyphsManager instance = null;
 
 	HashMap canonical;
@@ -92,6 +102,7 @@ public class HieroglyphsManager {
 		addValue("A28", "HAi");
 		addValue("A28", "iAs");
 		addValue("A28", "qAi");
+		addValue("A28", "qA");
 		addValue("A29", "sxr");
 		addValue("A30", "dwA");
 		addValue("A30", "iAw");
@@ -121,8 +132,8 @@ public class HieroglyphsManager {
 		addValue("A43", "wsir");
 		addValue("A44", "nsw");
 		addValue("A44", "wsir");
-		addValue("A45", "biti");
-		addValue("A46", "biti");
+		addValue("A45", "bity");
+		addValue("A46", "bity");
 		addValue("A47", "iry");
 		addValue("A47", "mniw");
 		addValue("A47", "sAw");
@@ -152,7 +163,9 @@ public class HieroglyphsManager {
 		addValue("A7", "wrd");
 		addValue("A8", "hnw");
 		addValue("A9", "ATp");
+		addValue("A9", "Atp");
 		addValue("A9", "fAi");
+		addValue("A9", "fA");
 		addValue("A9", "kAt");
 		addValue("Aa10", "drf");
 		addValue("Aa11", "mAa");
@@ -641,7 +654,7 @@ public class HieroglyphsManager {
 		addValue("I6", "km");
 		addValue("I7", "Hqt");
 		addValue("I7", "qrr");
-		addValue("I7", "wHm-anx");
+		addValue("I7", "wHm_anx");
 		addValue("I8", "Hfn");
 		addValue("I9", "f");
 		addValue("I9", "it");
@@ -697,7 +710,7 @@ public class HieroglyphsManager {
 		addValue("M25", "rsw");
 		addValue("M26", "Sma");
 		addValue("M27", "Sma");
-		addValue("M28", "mD-Sma");
+		addValue("M28", "mD_Sma");
 		addValue("M29", "nDm");
 		addValue("M2", "Hn");
 		addValue("M2", "Hrrt");
@@ -1767,11 +1780,12 @@ public class HieroglyphsManager {
 		putCanon("W", "Z7");
 		putCanon("imi", "Z11");
 		putCanon("wnm", "Z11");
-		putCanon("`", "Z98A");
+		putCanon("`", "Ff1");
 		putCanon("2", "Z202");
 		putCanon("4", "Z204");
 		putCanon("5", "Z205");
-		putCanon("Z98A", "Ff1");
+		putCanon("nr", "H4");
+		//putCanon("Z98A", "Ff1");
 
 	}
 
@@ -1813,7 +1827,8 @@ public class HieroglyphsManager {
 
 	/**
 	 * Returns all the codes for a given family of signs.
-	 * 
+	 * <p>If family is the empty string, will return all codes for all families. Note that tksesh user glyph codes won't be listed.
+	 * (this could count as a bug).
 	 * @param family : the Gardiner family for this sign (A,B...Aa,Ff)
 	 * @param usercodes : if true, also add signs which have an user code (USn+ Gardiner code)
 	 * @return all codes for a given sign family.
@@ -1824,9 +1839,11 @@ public class HieroglyphsManager {
 		Iterator it = s.iterator();
 		while (it.hasNext()) {
 			String c = (String) it.next();
-			if (c.matches(family + "[0-9]+.*")) {
+			if (family.length() > 0 && c.matches(family + "[0-9]+.*")) {
 				l.add(c);
 			} else if (userCodes && c.matches("US"+ "[0-9]+"+ family + "[0-9]+.*")) {
+				l.add(c);
+			} else if ("".equals(family)&& isCorrectGardinerCode(c) && ! c.startsWith("UG")) {
 				l.add(c);
 			}
 		}
@@ -1854,7 +1871,7 @@ public class HieroglyphsManager {
 			public int compare(Object o1, Object o2) {
 				String c1 = (String) o1;
 				String c2 = (String) o2;
-
+			
 				Matcher m1 = p.matcher(c1);
 				m1.matches();
 				String fam1 = m1.group(2);
@@ -1879,9 +1896,11 @@ public class HieroglyphsManager {
 	}
 	
 	public void addValue(String gardinerCode, String value) {
+		// create a value entry for the sign if necessary
 		if (! signsValues.containsKey(gardinerCode)) {
 			signsValues.put(gardinerCode, new ArrayList());
 		}
+		// If there is no sign list for this value, create one
 		if (! possibilitiesLists.containsKey(value)) {
 			PossibilitiesList l= new PossibilitiesList(value);
 			// Ensure the "official" manuel de codage value comes first.
@@ -1892,6 +1911,7 @@ public class HieroglyphsManager {
 			possibilitiesLists.put(value, l);
 			
 		}
+		// Now add the actual data
 		((List)signsValues.get(gardinerCode)).add(value);
 		((PossibilitiesList)possibilitiesLists.get(value)).add(gardinerCode);
 	}
@@ -1937,6 +1957,20 @@ public class HieroglyphsManager {
 	 * @return true if the sign is a possible code.
 	 */
 	public static boolean isCorrectGardinerCode (String code) {
-		return Pattern.matches("([A-Z]|Aa|Ff)[0-9]+[a-zA-Z]*|UG\\d+M\\d+N\\d+|US\\d+([A-Z]|Aa|Ff)[0-9]+[a-zA-Z]*", code);
+		return Pattern.matches(GARDINER_CODE_REGEXP, code);
+	}
+	
+	/**
+	 * Is the given code a canonical MdC code ?
+	 * <p> We define canonical MdC codes as:
+	 * <ul>
+	 * <li> Gardiner codes (see isCorrectGardinerCode)
+	 * <li> Codes documented in the manuel de codage for the few signs wich haven't got a Gardiner code (nTrw, some numbers...)
+	 * </ul>
+	 * @param code
+	 * @return
+	 */
+	public static boolean isCorrectBasicMdcCode(String code) {
+		return Pattern.matches(GCANONICAL_CODE_REGEXP,code);
 	}
 }

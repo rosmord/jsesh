@@ -25,7 +25,7 @@ public class BzrSimpleFontBuilder implements BzrFontBuilder {
 
 	private GeneralPath path;
 
-	private double llx, lly, urx, ury;
+	private double ury;
 
 	public BzrSimpleFontBuilder() {
 		font = null;
@@ -82,9 +82,6 @@ public class BzrSimpleFontBuilder implements BzrFontBuilder {
 			double right, double up) {
 		currentChar = new ShapeChar();
 		font.setChar(code, currentChar);
-		llx = left;
-		lly = bottom;
-		urx = right;
 		ury = up;
 		// y axis goes downward.
 		currentChar.setBBox(left, up - bottom, right, 0.0);
@@ -187,14 +184,14 @@ public class BzrSimpleFontBuilder implements BzrFontBuilder {
 	 */
 	public void setBoundingBox(double param1, double param2, double param3,
 			double param4) {
-		// TODO: implement this jsesh.bzr.BzrFontBuilder method
+		
 	}
 
 	/**
 	 *  
 	 */
 	public void fontEnd() {
-		// TODO: implement this jsesh.bzr.BzrFontBuilder method
+		
 	}
 
 	private float convertX(double x) {

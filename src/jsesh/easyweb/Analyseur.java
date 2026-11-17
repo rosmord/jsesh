@@ -5,8 +5,9 @@
 package jsesh.easyweb;
 
 
-import java.io.StringReader;
 import java.util.LinkedList;
+
+import java.io.StringReader;
 
 import jsesh.mdc.MDCParserFacade;
 import jsesh.mdc.interfaces.CadratInterface;
@@ -95,9 +96,9 @@ public class Analyseur {
          * @see jsesh.mdc.interfaces.MDCBuilder#setOptionList(jsesh.mdc.interfaces.CadratInterface, jsesh.mdc.interfaces.OptionListInterface)
          */
         public void setOptionList(CadratInterface result, OptionListInterface e1) {
-            // TODO Auto-generated method stub
-            
+         
         }
+
 	}
 	
 	public static void main(String[] args) throws Exception {

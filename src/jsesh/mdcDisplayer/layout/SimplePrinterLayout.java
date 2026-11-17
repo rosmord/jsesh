@@ -6,14 +6,14 @@
  */
 package jsesh.mdcDisplayer.layout;
 
-import java.awt.print.PageFormat;
 import java.util.ArrayList;
+
+import java.awt.print.PageFormat;
 
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.mdcView.RelativePosition;
 
 /**
  * Layouter specialized for printing.
@@ -92,7 +92,7 @@ public class SimplePrinterLayout extends SimpleLayout implements PagedLayout
 			}
 
 			// Test if the element fits on the line
-			if (pageFormat != null && currentLineWidth + v.getWidth() + v.getDx() > pageWidth)
+			if (pageFormat != null && currentLineWidth + v.getWidth() + v.getPosition().x > pageWidth)
 			{
 				flushLine = true;
 			}
@@ -125,11 +125,11 @@ public class SimplePrinterLayout extends SimpleLayout implements PagedLayout
 				
 
 				// For printing, we consider the element as the first of its line.
-				v.getStartPoint().setValues(
+				/*v.getStartPoint().setValues(
 					0,
 					RelativePosition.WEST,
 					currentlineHeight + drawingSpecifications.getLineSkip(),
-					RelativePosition.PREVIOUS);
+					RelativePosition.PREVIOUS);*/
 				// We reset the dimensions  :
 				currentLineWidth = 0;					
 				currentlineHeight = 0;
@@ -149,17 +149,17 @@ public class SimplePrinterLayout extends SimpleLayout implements PagedLayout
 			if (v.getWidth() != 0)
 			{
 				// Next element position.
-				v.getNextViewPosition().setValues(
+				/*v.getNextViewPosition().setValues(
 					v.getWidth() + drawingSpecifications.getSmallSkip(),
 					RelativePosition.PREVIOUS,
 					0,
 					RelativePosition.PREVIOUS);
 				// Update data :
 				currentLineWidth += v.getWidth()
-					+ drawingSpecifications.getSmallSkip();
+					+ drawingSpecifications.getSmallSkip();*/
 			} else
 			{
-				v.getNextViewPosition().clear();
+				/*v.getNextViewPosition().clear();*/
 			}
 			if (v.getHeight() > currentlineHeight)
 				currentlineHeight = v.getHeight();

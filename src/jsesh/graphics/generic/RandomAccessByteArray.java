@@ -1,0 +1,68 @@
+package jsesh.graphics.generic;
+
+
+
+public class RandomAccessByteArray implements RandomAccessStream {
+	private static final int CHUNK_SIZE= 2048;
+	private int size= 0;
+	private int pos= 0;
+	private byte data[]= new byte[CHUNK_SIZE];
+	
+	
+	public void seek(int i) {
+		ensureExist(i);
+		pos= i;
+		if (pos > size)
+			size= pos;
+	}
+
+	private void ensureExist(int i) {
+		if (i >= data.length) {
+			byte [] newArray;
+			int newSize= data.length;
+			while (i>= newSize)
+				newSize= newSize << 1; // *2 gave far worse results. Woe to the optimizer !
+			newArray= new byte[newSize];
+			System.arraycopy(data,0,newArray,0,data.length);
+			data= newArray;
+		}
+	}
+
+
+	public void close() {
+	}
+	
+	public void write(int s0) {
+		ensureExist(pos);
+		data[pos]= (byte) s0;
+		pos++;
+		if (pos > size)
+			size= pos;
+	}
+	
+	public byte[] getByteArray() {
+		byte[] result= new byte[size];
+		System.arraycopy(data,0,result,0,size);
+		return result;
+	}
+
+	public void setLength(int i) {
+		size= i;
+		if (pos > size)
+			pos= size;
+	}
+	
+	public static void main(String[] args) {
+		RandomAccessByteArray test= new RandomAccessByteArray();
+		test.write(0);
+		test.write(10);
+		test.write(255);
+		test.seek(500);
+		test.write(128);
+		test.seek(0);
+		test.write(9);
+		byte[] b=test.getByteArray();
+		for (int i=0; i < b.length; i++)
+			System.out.println(b[i]);
+	}
+}

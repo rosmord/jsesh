@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import javax.swing.JComponent;
 
 import jsesh.bzr.simple.ShapeChar;
-import jsesh.utils.GraphicsUtils;
+import jsesh.swingUtils.GraphicsUtils;
 
 /**
  * A widget able to display a ShapeChar.

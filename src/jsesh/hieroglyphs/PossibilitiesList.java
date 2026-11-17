@@ -43,4 +43,13 @@ public class PossibilitiesList {
 	public String getCurrentSign() {
 		return (String)signs.get(pos);
 	}
+
+	/**
+	 * @return Returns the phonCode.
+	 */
+	public String getPhonCode() {
+		return phonCode;
+	}
+	
+	
 }

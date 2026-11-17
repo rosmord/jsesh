@@ -5,6 +5,12 @@
  */
 package jsesh.graphics.generic;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import java.text.AttributedCharacterIterator;
+
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
@@ -34,12 +40,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderContext;
 import java.awt.image.renderable.RenderableImage;
-import java.text.AttributedCharacterIterator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 
 /**
@@ -416,7 +417,6 @@ public abstract class BaseGraphics2D extends Graphics2D {
      *      java.awt.geom.AffineTransform)
      */
     public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
-        RenderContext context = new RenderContext(currentTransform);
         RenderedImage img1 = img.createDefaultRendering();
         drawRenderedImage(img1, xform);
     }

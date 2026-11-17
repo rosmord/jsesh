@@ -1,5 +1,7 @@
 package jsesh.mdc.constants;
 
+import java.io.Serializable;
+
 /**
  * Convenience class if you prefer to refer to constants through a class
  * rather than through an interface.
@@ -8,6 +10,6 @@ package jsesh.mdc.constants;
  * @author rosmord
  *
  */
-public class Constants implements SymbolCodes {
+public class Constants implements SymbolCodes, Serializable {
 
 }

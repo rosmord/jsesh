@@ -4,13 +4,8 @@
  **/
 package jsesh.mdc.model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-import jsesh.mdc.constants.EnumBase;
 import jsesh.mdc.model.operations.ChildOperation;
 import jsesh.mdc.model.operations.Deletion;
 import jsesh.mdc.model.operations.Insertion;
@@ -19,6 +14,7 @@ import jsesh.mdc.model.operations.ModelOperationVisitor;
 import jsesh.mdc.model.operations.Modification;
 import jsesh.mdc.model.operations.Replacement;
 import jsesh.mdc.model.operations.ZoneModification;
+import jsesh.utils.EnumBase;
 
 /**
  * A MDCMark designate a position relative to an element. It's a long-term
@@ -31,11 +27,20 @@ import jsesh.mdc.model.operations.ZoneModification;
  * <P>
  * The mark system is inspired by the tk text widget.
  * 
+ * <p>
+ * There is a problem with the mark system. When text is modified, the
+ * corresponding visit method are called. So far, so good. But now, the mark's
+ * observers are notified. The problem is that if they observe more than one
+ * mark, some of them won't have been updated by then. Hence, issues.
+ * <p>
+ * Solution : all marks should have been updated before telling the mark's
+ * observer about anything.
+ * 
  * @author rosmord
- *  
+ * 
  */
 
-public class MDCMark implements ModelOperationVisitor, Observer {
+public class MDCMark {
 
 	static public class Gravity extends EnumBase {
 
@@ -54,7 +59,7 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 
 	/**
 	 * The underlying text position.
-	 *  
+	 * 
 	 */
 
 	private MDCPosition position;
@@ -67,16 +72,17 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 
 	private Gravity gravity;
 
-	
-
 	List listeners = null;
+	
+	private MarkUpdater markUpdater;
+
 	/**
 	 * Create a mark corresponding to a specific position in a text. When text
 	 * is inserted at the mark position, the mark will move forward.
 	 * 
 	 * @param position
 	 */
-	
+
 	public MDCMark(MDCPosition position) {
 		this(position, Gravity.FORWARD);
 	}
@@ -91,8 +97,10 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 	 */
 
 	public MDCMark(MDCPosition position, Gravity gravity) {
-		setPosition(position);
+		this.position = position;
 		this.gravity = gravity;
+		markUpdater= new MarkUpdater();
+		position.getTopItemList().addMark(this);
 	}
 
 	/**
@@ -103,104 +111,113 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 	}
 
 	/**
-	 * @param newPosition The position to set.
-	 *            
-	 */
-
-	public void setPosition(MDCPosition newPosition) {
-		if (newPosition != null && !newPosition.equals(position)) {
-			position = newPosition;
-			position.getTopItemList().addObserver(this);
-			notifyChanges();
-		}
-	}
-
-	/**
 	 * Release this mark. The mark can then be lost and forgotten. As long as a
 	 * mark is not released, even if there is no handle to it, it continues to
 	 * be maintained.
 	 */
 
 	public void release() {
-		position.getTopItemList().deleteObserver(this);
+		position.getTopItemList().removeMark(this);
 		position = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitInsertion(jsesh.mdc.model.operations.Insertion)
+	/**
+	 * a method to update this mark when the model it points to is modified.
+	 * Automatically called by the model. Hence the "package" visibility.
 	 */
+	void updateMark(ModelOperation op) {
+		op.accept(markUpdater);
+	}
+	
+	private class MarkUpdater implements ModelOperationVisitor {
+		
+		/* (non-Javadoc)
+		 * @see jsesh.mdc.model.ModelElementObserver#observedElementChanged(jsesh.mdc.model.operations.ModelOperation)
+		 */
+		public void observedElementChanged(ModelOperation operation) {
+			operation.accept(this);
+		}
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitInsertion(jsesh.mdc.model.operations.Insertion)
+		 */
 
-	public void visitInsertion(Insertion insertion) {
-		if (insertion.getIndex() < position.getIndex()) {
-			advanceBy(insertion.getChildren().size());
-		} else if (insertion.getIndex() == position.getIndex()) {
-			if (gravity.equals(Gravity.FORWARD)) {
+		public void visitInsertion(Insertion insertion) {
+			if (insertion.getIndex() < position.getIndex()) {
 				advanceBy(insertion.getChildren().size());
+			} else if (insertion.getIndex() == position.getIndex()) {
+				if (gravity.equals(Gravity.FORWARD)) {
+					advanceBy(insertion.getChildren().size());
+				}
 			}
 		}
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitDeletion(jsesh.mdc.model.operations.Deletion)
-	 */
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitDeletion(jsesh.mdc.model.operations.Deletion)
+		 */
 
-	public void visitDeletion(Deletion deletion) {
-		// Note that deletion affects the element after the mark.
-		// hence the "<" below.
-		if (deletion.getEnd() <= position.getIndex()) {
-			advanceBy(-deletion.getEnd() + deletion.getStart());
-		} else if (deletion.getStart() < position.getIndex()) {
-			// The mark falls in the deleted zone.
-			setIndex(deletion.getStart());
+		public void visitDeletion(Deletion deletion) {
+			// Note that deletion affects the element after the mark.
+			// hence the "<" below.
+			if (deletion.getEnd() <= position.getIndex()) {
+				advanceBy(-deletion.getEnd() + deletion.getStart());
+			} else if (deletion.getStart() < position.getIndex()) {
+				// The mark falls in the deleted zone.
+				setIndex(deletion.getStart());
+			}
 		}
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitReplacement(jsesh.mdc.model.operations.Replacement)
-	 */
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitReplacement(jsesh.mdc.model.operations.Replacement)
+		 */
 
-	public void visitReplacement(Replacement replacement) {
-		// CURRENTLY NO-OP.
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitModification(jsesh.mdc.model.operations.Modification)
-	 */
-
-	public void visitModification(Modification modification) {
-		// CURRENTLY NO-OP.
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitChildOperation(jsesh.mdc.model.operations.ChildOperation)
-	 */
-
-	public void visitChildOperation(ChildOperation operation) {
-		// CURRENTLY NO-OP.
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-
-	public void update(Observable o, Object arg) {
-		if (arg instanceof ModelOperation) {
-			ModelOperation op = (ModelOperation) arg;
-			op.accept(this);
+		public void visitReplacement(Replacement replacement) {
+			// CURRENTLY NO-OP.
 		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitModification(jsesh.mdc.model.operations.Modification)
+		 */
+
+		public void visitModification(Modification modification) {
+			// CURRENTLY NO-OP.
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitChildOperation(jsesh.mdc.model.operations.ChildOperation)
+		 */
+
+		public void visitChildOperation(ChildOperation operation) {
+			// CURRENTLY NO-OP.
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitZoneModification(jsesh.mdc.model.operations.ZoneModification)
+		 */
+		public void visitZoneModification(ZoneModification modification) {
+			// TODO Auto-generated method stub
+		}
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.util.Observer#update(java.util.Observable,
+		 *      java.lang.Object)
+		 */
+
 	}
+
+	
 
 	/**
 	 * Returns the gravity of this mark. When data at the mark position, the
@@ -214,53 +231,24 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 	}
 
 	/**
-	 * sets the gravity.
+	 * Update the position of this mark during a text change. Marks are
+	 * immutable, but they follow the text. Hence their internal representation
+	 * change.
 	 * 
-	 * @param gravity
+	 * @param index
 	 */
-	public void setGravity(Gravity gravity) {
-		if (!gravity.equals(this.gravity)) {
-			this.gravity = gravity;
-			notifyChanges();
-		}
-	}
-
-	public void setIndex(int index) {
+	private void setIndex(int index) {
 		if (index < 0
 				|| index > position.getTopItemList().getNumberOfChildren())
 			return;
 		if (position.getIndex() != index) {
 			position = new MDCPosition(position.getTopItemList(), index);
-			notifyChanges();
+
 		}
 	}
 
-	public void advanceBy(int i) {
+	private void advanceBy(int i) {
 		setIndex(position.getIndex() + i);
-	}
-
-	private void notifyChanges() {
-		if (listeners == null)
-			return;
-		for (Iterator i = getListeners().iterator(); i.hasNext();) {
-			MDCMarkChangeListener l = (MDCMarkChangeListener) i.next();
-			l.markChanged(this);
-		}
-	}
-
-	private List getListeners() {
-		if (listeners == null) {
-			listeners = new ArrayList();
-		}
-		return listeners;
-	}
-
-	public void addMarkChangeListener(MDCMarkChangeListener l) {
-		getListeners().add(l);
-	}
-
-	public void removeMarkChangeListener(MDCMarkChangeListener l) {
-		getListeners().remove(l);
 	}
 
 	/**
@@ -286,9 +274,10 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 
 	/**
 	 * Get a position relatively to this mark.
+	 * 
 	 * @param i
 	 * @return the position <em>i</em> places from this mark.
-	 * @see MDCPosition#getNextPosition(int)  
+	 * @see MDCPosition#getNextPosition(int)
 	 */
 	public MDCPosition getNextPosition(int i) {
 		return position.getNextPosition(i);
@@ -296,6 +285,7 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 
 	/**
 	 * Get an absolute position in the list of items.
+	 * 
 	 * @param k
 	 * @return an absolute position.
 	 * @see MDCPosition#getPositionAt(int)
@@ -306,6 +296,7 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 
 	/**
 	 * returns the topitemlist to which this mark points.
+	 * 
 	 * @return the topitemlist to which this mark points.
 	 */
 	public TopItemList getTopItemList() {
@@ -320,19 +311,13 @@ public class MDCMark implements ModelOperationVisitor, Observer {
 	public String toString() {
 		return position.toString();
 	}
-	
+
 	public boolean hasNext() {
 		return position.hasNext();
 	}
-	
+
 	public boolean hasPrevious() {
 		return position.hasPrevious();
 	}
 
-	/* (non-Javadoc)
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitZoneModification(jsesh.mdc.model.operations.ZoneModification)
-	 */
-	public void visitZoneModification(ZoneModification modification) {
-		// TODO Auto-generated method stub
-	}
 }

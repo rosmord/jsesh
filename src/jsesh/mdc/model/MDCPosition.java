@@ -6,6 +6,8 @@
  */
 package jsesh.mdc.model;
 
+import java.io.Serializable;
+
 /**
  * 
  * AT THE TIME BEING, THE POSITION IS JUST A INTEGER. THE TEXT BELOW DESCRIBES
@@ -37,7 +39,7 @@ package jsesh.mdc.model;
  *  
  */
 
-public class MDCPosition implements Cloneable {
+public class MDCPosition implements Cloneable, Serializable, Comparable {
 
 	private TopItemList topItemList;
 
@@ -168,4 +170,17 @@ public class MDCPosition implements Cloneable {
 	public int hashCode() {
 		return (topItemList.hashCode() << 0xFFFF) + index; 
 	}
+
+	/**
+	 * Implementation of the Comparable interface.
+	 * 
+	 * Comparing positions in two different top items doesn't mean much.
+	 * Note: this class has a natural ordering that is inconsistent with equals, in the case where the corresponding topItemLists are differents.
+	 * @see Comparable#compareTo(java.lang.Object)
+	 */
+	public int compareTo(Object o) {
+		MDCPosition other= (MDCPosition) o;
+		return (index - other.index);
+	}
+	
 }

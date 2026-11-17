@@ -19,6 +19,7 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.Cartouche;
+import jsesh.mdc.model.ComplexLigature;
 import jsesh.mdc.model.HRule;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.OptionsMap;
@@ -27,7 +28,7 @@ import jsesh.mdc.model.Philology;
 import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TopItemState;
 import jsesh.mdc.model.ZoneStart;
-import jsesh.mdcDisplayer.mdcView.RelativePosition;
+import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 import jsesh.utils.TranslitterationUtilities;
 
@@ -57,13 +58,12 @@ public class SimpleElementDrawer extends ElementDrawer {
 		if (!postfix)
 			return;
 		if (t.getScriptCode() != ScriptCodes.COMMENT) {
-			String text= t.getText();
+			String text = t.getText();
 			// TODO : support uppercase signs.
 			if (t.getScriptCode() == 't')
-				text= TranslitterationUtilities.toLowerCase(text);
+				text = TranslitterationUtilities.toLowerCase(text);
 			g.setFont(drawingSpecifications.getFont(t.getScriptCode()));
-			g.drawString(text, 0, g.getFontMetrics()
-					.getAscent());
+			g.drawString(text, 0, g.getFontMetrics().getAscent());
 		}
 	}
 
@@ -85,6 +85,8 @@ public class SimpleElementDrawer extends ElementDrawer {
 	 */
 
 	public void visitCartouche(Cartouche c) {
+		if (!postfix)
+			return;
 		if (currentTextOrientation.isHorizontal())
 			visitHorizontalCartouche(c);
 		else
@@ -92,9 +94,7 @@ public class SimpleElementDrawer extends ElementDrawer {
 	}
 
 	public void visitHorizontalCartouche(Cartouche c) {
-		if (!postfix)
-			return;
-		Stroke s = drawingSpecifications.getCartoucheStroke(c.getType());
+		Stroke s = drawingSpecifications.buildCartoucheStroke(c.getType());
 		/*
 		 * float w1 = drawingSpecifications.getCartoucheStartWidth(c.getType(),
 		 * c .getStartPart()); float w2 =
@@ -276,10 +276,8 @@ public class SimpleElementDrawer extends ElementDrawer {
 	 * @param c
 	 */
 	public void visitVerticalCartouche(Cartouche c) {
-		if (!postfix)
-			return;
 
-		Stroke s = drawingSpecifications.getCartoucheStroke(c.getType());
+		Stroke s = drawingSpecifications.buildCartoucheStroke(c.getType());
 		/*
 		 * float w1 = drawingSpecifications.getCartoucheStartWidth(c.getType(),
 		 * c .getStartPart()); float w2 =
@@ -543,7 +541,7 @@ public class SimpleElementDrawer extends ElementDrawer {
 			}
 
 		}
-		g.setStroke(drawingSpecifications.getCartoucheStroke('s'));
+		g.setStroke(drawingSpecifications.buildCartoucheStroke('s'));
 
 	}
 
@@ -572,13 +570,14 @@ public class SimpleElementDrawer extends ElementDrawer {
 					xSign = -1;
 				if (p1.getY() > pa.getY())
 					ySign = -1;
-					// For vertical text, the sides p1-pa and p2-pb have no relationship with the 
-					// actual text orientation. We fix this here.
-				if (! currentTextDirection.isLeftToRight()) {
-					if (part == 2) 
-						part= 3;
-					else if (part== 3)
-						part= 2;
+				// For vertical text, the sides p1-pa and p2-pb have no
+				// relationship with the
+				// actual text orientation. We fix this here.
+				if (!currentTextDirection.isLeftToRight()) {
+					if (part == 2)
+						part = 3;
+					else if (part == 3)
+						part = 2;
 				}
 
 			}
@@ -642,7 +641,7 @@ public class SimpleElementDrawer extends ElementDrawer {
 	public void visitHieroglyph(Hieroglyph h) {
 		if (!postfix)
 			return;
-		// Suppressed references to scaling here. A mecanism for scaling is
+		// We have suppressed references to scaling here. A mecanism for scaling is
 		// already available in views,
 		// and one must refrain from doing the same thing twice.
 		// This corrected two bugs (which where really the same) : one for
@@ -824,9 +823,9 @@ public class SimpleElementDrawer extends ElementDrawer {
 	}
 
 	/*
-	 * 
 	 * Note that the coordinate system in any of these methods is scaled !
 	 */
+
 	public void visitCadrat(Cadrat c) {
 		if (postfix && isShadeAfter())
 			doShade(c);
@@ -843,6 +842,11 @@ public class SimpleElementDrawer extends ElementDrawer {
 		if (shading)
 			localshading = Cadrat.FULL;
 		if (localshading != Cadrat.NONE) {
+			boolean fillTopLeft = false;
+			boolean fillTopRight = false;
+			boolean fillBottomLeft = false;
+			boolean fillBottomRight = false;
+
 			Rectangle2D.Double r = new Rectangle2D.Double(0, 0, currentView
 					.getInternalWidth() / 2,
 					currentView.getInternalHeight() / 2);
@@ -852,21 +856,33 @@ public class SimpleElementDrawer extends ElementDrawer {
 			Color gray = drawingSpecifications.getGrayColor();
 			Paint currentPaint = g.getPaint();
 			g.setPaint(gray);
-			if ((localshading & Cadrat.TOP_START) != 0) {
-				// IMPORTANT : ensure this works in right-to-left environment
-				// also.
+
+			if (currentView.getParent() != null
+					&& currentView.getParent().getDirection().isLeftToRight()) {
+				fillTopLeft = (localshading & Cadrat.TOP_START) != 0;
+				fillTopRight = (localshading & Cadrat.TOP_END) != 0;
+				fillBottomLeft = (localshading & Cadrat.BOTTOM_START) != 0;
+				fillBottomRight = (localshading & Cadrat.BOTTOM_END) != 0;
+			} else {
+				fillTopLeft = (localshading & Cadrat.TOP_END) != 0;
+				fillTopRight = (localshading & Cadrat.TOP_START) != 0;
+				fillBottomLeft = (localshading & Cadrat.BOTTOM_END) != 0;
+				fillBottomRight = (localshading & Cadrat.BOTTOM_START) != 0;
+			}
+
+			if (fillTopLeft) {
 				g.fill(r);
 			}
-			if ((localshading & Cadrat.TOP_END) != 0) {
+			if (fillTopRight) {
 				r.x = currentView.getInternalWidth() / 2;
 				g.fill(r);
 			}
-			if ((localshading & Cadrat.BOTTOM_START) != 0) {
+			if (fillBottomLeft) {
 				r.x = 0;
 				r.y = currentView.getInternalHeight() / 2;
 				g.fill(r);
 			}
-			if ((localshading & Cadrat.BOTTOM_END) != 0) {
+			if (fillBottomRight) {
 				r.x = currentView.getInternalWidth() / 2;
 				r.y = currentView.getInternalHeight() / 2;
 				g.fill(r);
@@ -876,18 +892,28 @@ public class SimpleElementDrawer extends ElementDrawer {
 			// Note that it would be probably better to use a dedicated method
 			// for this (r.width computation could
 			// be much simpler, and things would be clearer).
-			if (shading
-					&& currentView.getNextViewPosition().getXAnchor() == RelativePosition.PREVIOUS) {
-				// Shade the inter-cadrat space
-				r.x = currentView.getInternalWidth();
-				r.y = 0f;
-				r.height = currentView.getInternalHeight();
-				r.width = (currentView.getNextViewPosition().getDx() - currentView
-						.getInternalWidth());
-				g.fill(r);
+
+			if (currentView.getNext() != null) {
+				MDCView nextView = currentView.getNext();
+				// if vertical borders are at the same level
+				// TODO : adapt for columns
+				if (shading && currentTextOrientation.isHorizontal()
+						&& currentView.nextIsHorizontallyAdjacent()) {
+					// Shade the inter-cadrat space
+					r.x = currentView.getInternalWidth();
+					r.y = 0f;
+					r.height = currentView.getInternalHeight();
+					r.width = (nextView.getPosition().x - currentView
+							.getInternalWidth());
+					g.fill(r);
+				}
 			}
 			g.setPaint(currentPaint);
 		}
+
+	}
+
+	public void visitComplexLigature(ComplexLigature ligature) {
 
 	}
 

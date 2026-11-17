@@ -7,6 +7,8 @@
  */
 package jsesh.mdcDisplayer.swing.groupEditor;
 
+import java.util.ArrayList;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,19 +22,19 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdcDisplayer.draw.MDCEditorKit;
-import jsesh.mdcDisplayer.draw.SimpleViewBuilder;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.layout.MDCEditorKit;
+import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
-import jsesh.utils.GraphicsUtils;
+import jsesh.swingUtils.GraphicsUtils;
 
 /**
  * Editor for groups and ligatures.
@@ -152,14 +154,14 @@ public class GroupEditor extends JPanel {
         }
     }
 
-    // The mode ??
+    // The mode
     public static final int RESIZE = 1;
 
     public static final int ROTATION = 2;
 
     /**
-     * The drawing specifications. IMPORTANT : find a good policy for drawing
-     * specifications !!!!
+     * The drawing specifications. 
+     * TODO find a good policy for drawing specifications !!!!
      */
     DrawingSpecifications drawingSpecifications = MDCEditorKit
             .getBasicMDCEditorKit().getDrawingSpecifications();
@@ -185,20 +187,23 @@ public class GroupEditor extends JPanel {
      */
     private int mode = RESIZE;
 
-    private float scale = 10;
+    private double scale = 10;
 
     // the selected sign.
     private int selected = -1;
 
-    private float sideMargin = 5;
+    private double sideMargin = 5;
 
-    private float topMargin = 5;
+    private double topMargin = 5;
 
     public GroupEditor() {
         setBackground(Color.WHITE);
         LowLevelControl control = new LowLevelControl();
         addMouseListener(control);
         addMouseMotionListener(control);
+        // TODO : fix the system so that it handle right-to-left signs. Currently, we simply force left-to-right order
+        drawingSpecifications= drawingSpecifications.copy();
+        drawingSpecifications.setTextDirection(TextDirection.LEFT_TO_RIGHT);
     }
 
     public void addGroupEditorEventListener(GroupEditorListener l) {
@@ -225,10 +230,6 @@ public class GroupEditor extends JPanel {
                     result = new GroupEditorEvent(group, p, selected,
                             handles[i].hpos, handles[i].vpos);
             }
-            // Test the selected sign
-            //if (result == null && getRectangleForSubView(subv).contains(p))
-            //    result = new GroupEditorEvent(group, p, selected);
-
         }
 
         // Test all shapes.
@@ -244,37 +245,25 @@ public class GroupEditor extends JPanel {
             // NOTE : scale and hieroglyph position computation should be centralized.
             // NOTE : currently, getting from h.getDx() to actual position is not easy. It should be. 
             Area s1 = drawingSpecifications.getHieroglyphsDrawer().getSignArea(
-                    h.getCode(), subv.getStartPoint().getDx(), subv.getStartPoint().getDy(), h.getRelativeSize()/100.0,
+                    h.getCode(), subv.getPosition().x, subv.getPosition().y, h.getRelativeSize()/100.0,
                     h.getRelativeSize()/100.0, h.getAngle(), h.isReversed());
-//            Graphics2D g= (Graphics2D) this.getGraphics();
-//            g.scale(4,4);
-//            g.draw(s1);
-//            g.setColor(Color.GREEN);
-//            g.draw(s1.getBounds2D());
-//            g.dispose();
             if (s1.contains(p)) {
                 result = new GroupEditorEvent(group, p, i);
             }         
         }
-        /*
-         * for (int i = 0; (result == null) && i < v.getNumberOfSubviews(); i++) {
-         * MDCView subv = v.getSubView(i); Rectangle2D r =
-         * getRectangleForSubView(subv); if (r.contains(p)) { result = new
-         * GroupEditorEvent(group, p, i); } }
-         */
         if (result == null) {
             result = new GroupEditorEvent(group, p, -1);
         }
         return result;
     }
 
-    private Handle buildHandle(float x, float y, float diameter, int hpos,
+    private Handle buildHandle(double x, double y, double diameter, int hpos,
             int vpos) {
         Shape shape;
         if (mode == ROTATION)
-            shape = new Ellipse2D.Float(x, y, diameter, diameter);
+            shape = new Ellipse2D.Double(x, y, diameter, diameter);
         else
-            shape = new Rectangle2D.Float(x, y, diameter, diameter);
+            shape = new Rectangle2D.Double(x, y, diameter, diameter);
         return new Handle(shape, hpos, vpos);
     }
 
@@ -304,37 +293,37 @@ public class GroupEditor extends JPanel {
     private Handle[] getHandles(MDCView v) {
         Handle result[] = new Handle[8];
         Point2D orig = getViewPosition(v);
-        float w = v.getWidth();
-        float h = v.getHeight();
-        float radius = (float) (handleSize / (2 * scale));
-        float diameter = 2 * radius;
+        double w = v.getWidth();
+        double h = v.getHeight();
+        double radius =  (handleSize / (2 * scale));
+        double diameter = 2 * radius;
         int i = 0;
 
-        result[i++] = buildHandle((float) orig.getX() - radius, (float) orig
+        result[i++] = buildHandle( orig.getX() - radius,  orig
                 .getY()
                 - radius, diameter, GroupEditorEvent.LEFT, GroupEditorEvent.TOP);
-        result[i++] = buildHandle((float) orig.getX() - radius + w / 2,
-                (float) orig.getY() - radius, diameter,
+        result[i++] = buildHandle( orig.getX() - radius + w / 2,
+                 orig.getY() - radius, diameter,
                 GroupEditorEvent.MIDDLE, GroupEditorEvent.TOP);
-        result[i++] = buildHandle((float) orig.getX() - radius + w,
-                (float) orig.getY() - radius, diameter, GroupEditorEvent.RIGHT,
+        result[i++] = buildHandle( orig.getX() - radius + w,
+                 orig.getY() - radius, diameter, GroupEditorEvent.RIGHT,
                 GroupEditorEvent.TOP);
-        result[i++] = buildHandle((float) orig.getX() - radius, (float) orig
+        result[i++] = buildHandle( orig.getX() - radius,  orig
                 .getY()
                 + h / 2 - radius, diameter, GroupEditorEvent.LEFT,
                 GroupEditorEvent.MIDDLE);
-        result[i++] = buildHandle((float) orig.getX() - radius + w,
-                (float) orig.getY() + h / 2 - radius, diameter,
+        result[i++] = buildHandle( orig.getX() - radius + w,
+                 orig.getY() + h / 2 - radius, diameter,
                 GroupEditorEvent.RIGHT, GroupEditorEvent.MIDDLE);
-        result[i++] = buildHandle((float) orig.getX() - radius, (float) orig
+        result[i++] = buildHandle( orig.getX() - radius,  orig
                 .getY()
                 + h - radius, diameter, GroupEditorEvent.LEFT,
                 GroupEditorEvent.BOTTOM);
-        result[i++] = buildHandle((float) orig.getX() - radius + w / 2,
-                (float) orig.getY() + h - radius, diameter,
+        result[i++] = buildHandle( orig.getX() - radius + w / 2,
+                 orig.getY() + h - radius, diameter,
                 GroupEditorEvent.MIDDLE, GroupEditorEvent.BOTTOM);
-        result[i++] = buildHandle((float) orig.getX() - radius + w,
-                (float) orig.getY() + h - radius, diameter,
+        result[i++] = buildHandle( orig.getX() - radius + w,
+                 orig.getY() + h - radius, diameter,
                 GroupEditorEvent.RIGHT, GroupEditorEvent.BOTTOM);
         return result;
     }
@@ -359,9 +348,9 @@ public class GroupEditor extends JPanel {
      * @return a point in model coordinates
      */
     private Point2D getModelPoint(Point p) {
-        float x = (float) (p.getX() / scale - sideMargin);
-        float y = (float) (p.getY() / scale - topMargin);
-        return new Point2D.Float(x, y);
+        double x =  (p.getX() / scale - sideMargin);
+        double y =  (p.getY() / scale - topMargin);
+        return new Point2D.Double(x, y);
     }
 
     /*
@@ -380,18 +369,7 @@ public class GroupEditor extends JPanel {
         }
     }
 
-    /**
-     * @param v
-     * @return a bounding rectangle for v.
-     */
-    private Rectangle2D getRectangleForSubView(MDCView v) {
-        Point2D p = getViewPosition(v);
-        Rectangle2D r = new Rectangle2D.Double(p.getX(), p.getY(),
-                v.getWidth(), v.getHeight());
-        return r;
-    }
-
-    public float getScale() {
+    public double getScale() {
         return scale;
     }
 
@@ -404,20 +382,19 @@ public class GroupEditor extends JPanel {
         return selected;
     }
 
-    public float getSideMargin() {
+    public double getSideMargin() {
         return sideMargin;
     }
 
-    public float getTopMargin() {
+    public double getTopMargin() {
         return topMargin;
     }
 
     private MDCView getView() {
         MDCView view = null;
         if (group != null) {
-            SimpleViewBuilder builder = new SimpleViewBuilder(
-                    drawingSpecifications);
-            view = builder.buildView(group);
+            SimpleViewBuilder builder = new SimpleViewBuilder();
+            view = builder.buildView(group,drawingSpecifications);
         } else {
             view = new MDCView(null);
         }
@@ -441,7 +418,7 @@ public class GroupEditor extends JPanel {
 
         g2d.scale(scale, scale);
         g2d.translate(this.sideMargin, this.topMargin);
-        float wd = (float) (lineWidth / g2d.getTransform().getScaleX());
+        double wd =  (lineWidth / g2d.getTransform().getScaleX());
 
         if (group != null) {
             // draw the signs
@@ -455,15 +432,12 @@ public class GroupEditor extends JPanel {
                 // (This could be a bug source, if we changed the layout for
                 // this element)
                 Point2D orig = getViewPosition(v);
-                float w = v.getWidth();
-                float h = v.getHeight();
-                float radius = (float) (handleSize / (2 * g2d.getTransform()
-                        .getScaleX()));
-                float diameter = 2 * radius;
-
+                double w = v.getWidth();
+                double h = v.getHeight();
+               
                 //g2d.setColor(new Color(255,0,0,100));
                 g2d.setColor(Color.RED);
-                g2d.setStroke(new BasicStroke(wd));
+                g2d.setStroke(new BasicStroke((float)wd));
                 // Draw the frame
                 g2d
                         .draw(new Rectangle2D.Double(orig.getX(), orig.getY(),
@@ -478,7 +452,7 @@ public class GroupEditor extends JPanel {
         g2d.setColor(Color.RED);
         // Sets the actual width for drawing :
         float f[] = { 0.5f, 1 };
-        g2d.setStroke(new BasicStroke(wd / 2, BasicStroke.CAP_ROUND,
+        g2d.setStroke(new BasicStroke((float)(wd / 2), BasicStroke.CAP_ROUND,
                 BasicStroke.JOIN_MITER, 2, f, 0));
 
         g2d.draw(new Line2D.Double(0, 0, 1000, 0));
@@ -512,7 +486,7 @@ public class GroupEditor extends JPanel {
         repaint();
     }
 
-    public void setScale(float scale) {
+    public void setScale(double scale) {
         this.scale = scale;
         revalidate();
     }
@@ -522,12 +496,12 @@ public class GroupEditor extends JPanel {
         repaint();
     }
 
-    public void setSideMargin(float sideMargin) {
+    public void setSideMargin(double sideMargin) {
         this.sideMargin = sideMargin;
         revalidate();
     }
 
-    public void setTopMargin(float topMargin) {
+    public void setTopMargin(double topMargin) {
         this.topMargin = topMargin;
         revalidate();
     }
@@ -551,6 +525,7 @@ public class GroupEditor extends JPanel {
     public void move(double dx, double dy) {
         if (selected != -1) {
             MDCView v = getView().getSubView(selected);
+            //System.out.println("moving view for " + v.getModel().toString()+ " by "+ dx + ","+ dy);
             Point2D p = getViewPosition(v);
             double x = p.getX() + dx;
             double y = p.getY() + dy;
@@ -561,6 +536,7 @@ public class GroupEditor extends JPanel {
             //System.out.println("moving to " + x + " " + y);
             Hieroglyph h = group.getHieroglyphAt(selected);
             h.setExplicitPosition((int) x, (int) y, h.getRelativeSize());
+            //System.out.println("group is " + group);
             revalidate();
             repaint();
         }
@@ -635,8 +611,8 @@ public class GroupEditor extends JPanel {
      * @return the position of subview.
      */
     private Point2D getViewPosition(MDCView subview) {
-        return new Point2D.Double(subview.getStartPoint().getDx(), subview
-                .getStartPoint().getDy());
+        return new Point2D.Double(subview.getPosition().x, subview
+                .getPosition().y);
     }
 
     /**

@@ -21,7 +21,6 @@ import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.mdcView.RelativePosition;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
@@ -37,12 +36,12 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
  * way :
  * 
  * <pre>
- *               // save :
- *               	Graphics2D tmpg= (Graphics2D)g.create();
- *               ... work on tmpg, not g.
- *                //restoration simply means using &quot;g&quot; again. 
- *                //free the resource :
- *                tmpg.dispose();
+ *                         // save :
+ *                         	Graphics2D tmpg= (Graphics2D)g.create();
+ *                         ... work on tmpg, not g.
+ *                          //restoration simply means using &quot;g&quot; again. 
+ *                          //free the resource :
+ *                          tmpg.dispose();
  * </pre>
  * 
  * We used to save the current transform instead, but it doesn't work in
@@ -231,6 +230,7 @@ public class ViewDrawer {
 	 * Highlight the view v if it belongs to the selection.
 	 * 
 	 * @param g
+	 *            a graphics2D, whose origin should be v's top left corner.
 	 * @param i
 	 *            the position in the current TopItemList
 	 * @param x
@@ -240,7 +240,7 @@ public class ViewDrawer {
 	 * @param v
 	 *            the view
 	 */
-	private void drawSelection(Graphics2D g, int i, float x, float y, MDCView v) {
+	private void drawSelection(Graphics2D g, int i, MDCView v) {
 		if (cursor != null && cursor.hasMark()) {
 			int a = Math.min(cursor.getInsert().getIndex(), cursor.getMark()
 					.getIndex());
@@ -249,29 +249,22 @@ public class ViewDrawer {
 			if (a <= i && i < b) {
 				float w = v.getWidth();
 				float h = v.getHeight();
-				
+
 				// h and w are OK, but the inter-cadrat space is not filled.
-				// To effectively fill this space, we would need to keep data on the previous "View Rectangle".
-				
-				if (v.getNextViewPosition().getXAnchor() == RelativePosition.PREVIOUS
-						&& v.getNextViewPosition().getYAnchor() == RelativePosition.PREVIOUS) {
-					if (drawingSpecifications.getTextOrientation().isHorizontal()) {
-						if (drawingSpecifications.getTextDirection().isLeftToRight())							
-							w += drawingSpecifications.getSmallSkip();
-						else {
-							w += drawingSpecifications.getSmallSkip();
-						}
-					} else {
-						h+= drawingSpecifications.getSmallSkip();						
-					}
-					// TODO : take into account vertical text ???
-					// AND right-to-left text also. Basically, use
-					// the values of dx and dy.
-					// h= h+ v.getNextViewPosition().getDy();
+
+				if (drawingSpecifications.getTextOrientation().isHorizontal()) {
+					if (v.nextIsHorizontallyAdjacent())
+						w += drawingSpecifications.getSmallSkip();
+				} else {
+					h += drawingSpecifications.getSmallSkip();
 				}
+				// TODO : take into account vertical text ???
+				// AND right-to-left text also. Basically, use
+				// the values of dx and dy.
+				// h= h+ v.getNextViewPosition().getDy();
 
 				g.setColor(new Color(0, 0, 255, 50));
-				g.fill(new Rectangle2D.Double(x, y, w, h));
+				g.fill(new Rectangle2D.Double(0, 0, w, h));
 			}
 		}
 	}
@@ -396,22 +389,28 @@ public class ViewDrawer {
 
 			for (int i = startPos; i < endPos && i < end; i++) {
 				MDCView subv = v.getSubView(i);
-				moveToReferenceNextPoint(ref, v, i);
 
-				// Graphics2D subViewG= (Graphics2D) tmpG.create();
 				Graphics2D subViewG = (Graphics2D) tmpG;
 
-				// Final translation takes the view's dx,dy into account :
-				subViewG.translate(ref.x + subv.getDx(), ref.y + subv.getDy());
-				boolean wasDrawn = drawView(subViewG, subv, depth + 1);
-				subViewG
-						.translate(-ref.x - subv.getDx(), -ref.y - subv.getDy());
-				// subViewG.setTransform(baseTransform);
-				// subViewG.dispose();
-				// When drawing the TopItemList, outline the current selection :
-				if (wasDrawn && v.getModel() instanceof TopItemList) {
-					drawSelection(tmpG, i, ref.x, ref.y, subv);
+				// Find the position of the subview's top-left point.
+				double subvx, subvy;
+				if (v.getDirection().isLeftToRight()) {
+					subvx = subv.getPosition().x;
+					subvy = subv.getPosition().y;
+				} else {
+					subvx = v.getInternalWidth() - subv.getPosition().x
+							- subv.getWidth();
+					subvy = subv.getPosition().y;
 				}
+				subViewG.translate(subvx, subvy);
+				boolean wasDrawn = drawView(subViewG, subv, depth + 1);
+				if (wasDrawn && v.getModel() instanceof TopItemList) {
+					drawSelection(tmpG, i, subv);
+				}
+				subViewG.translate(-subvx, -subvy);
+
+				// When drawing the TopItemList, outline the current selection :
+
 				// Position of the next element :
 			}
 		}
@@ -503,19 +502,17 @@ public class ViewDrawer {
 	 * @return the display coordinates of a given text position.
 	 */
 	public Point2D getPointForPosition(MDCView v, MDCPosition position) {
-		int i;
-		Point2D.Float ref = new Point2D.Float(0, 0);
-		for (i = 0; i < position.getIndex(); i++) {
-			moveToReferenceNextPoint(ref, v, i);
-		}
-		// For the last index, we should take into account only the part that
-		// corresponds to
-		// getNextViewPosition()
-		if (i > 1) {
-			RelativePosition relpos = v.getSubView(i - 1).getNextViewPosition();
-			// MDCView dummyView= new MDCView(null);
-			ref.x = relpos.computeXTranslation(v, ref.x);
-			ref.y = relpos.computeYTranslation(v, ref.y);
+		Point2D ref;
+
+		if (position.getIndex() == 0) {
+			ref = new Point2D.Float(0, 0);
+		} else if (position.getIndex() < v.getNumberOfSubviews()) {
+			MDCView subv = v.getSubView(position.getIndex());
+			ref = new Point2D.Double(subv.getPosition().x, subv.getPosition().y);
+		} else {
+			MDCView subv = v.getSubView(v.getNumberOfSubviews() - 1);
+			ref = new Point2D.Double(subv.getPosition().x + subv.getWidth(),
+					subv.getPosition().y);
 		}
 		return ref;
 	}
@@ -565,28 +562,27 @@ public class ViewDrawer {
 				e.printStackTrace();
 			}
 
-			// The current reference point :
-			Point2D.Float ref = new Point2D.Float(0, 0);
-
 			int i = 0;
 			while (pos == -1 && i < v.getNumberOfSubviews()) {
 
 				MDCView subv = v.getSubView(i);
 
-				moveToReferenceNextPoint(ref, v, i);
 				// Test if point falls into the current subview. If it's the
 				// case,
 				// sets pos :
 
-				float x, y;
-				x = ref.x + subv.getDx();
-				y = ref.y + subv.getDy();
+				double x, y;
+				x = subv.getPosition().x;
+				if (v.getDirection().equals(TextDirection.RIGHT_TO_LEFT)) {
+					x = v.getInternalWidth() - x - subv.getWidth();
+				}
+				y = subv.getPosition().y;
 
 				// First test, the same in all cases : does the point fall
 				// inside a view ?
 				if (point.x >= x && point.y >= y
 						&& point.x < x + subv.getWidth() + ds.getSmallSkip()
-						&& point.y < y + subv.getHeight()+ ds.getSmallSkip()) {
+						&& point.y < y + subv.getHeight() + ds.getSmallSkip()) {
 					// TODO : the exact position choosed depends on the text
 					// orientation.
 					if (ds.getTextOrientation().isHorizontal()) {
@@ -635,58 +631,78 @@ public class ViewDrawer {
 	}
 
 	/**
-	 * Returns A rectangle that contains parts of the signs which surround
-	 * position.
+	 * Returns A rectangle that surrounds a specific text position.
 	 * <p>
-	 * it deals with the cases where the first of these signs is a break (line
-	 * or page).
+	 * it deals with the cases where one of these signs is a break (line or
+	 * page).
 	 * 
 	 * @param v
 	 * @param position
 	 * @param specs
-	 * @return A rectangle that contains parts of the signs which surround
-	 *         position. TODO : improve this method.
+	 * @return A rectangle that contains the signs which surround position.
 	 */
 	public Rectangle2D getRectangleAroundPosition(MDCView v,
 			MDCPosition position, DrawingSpecifications specs) {
-		int i;
-		// Move to position i-1, computing the coordinates.
-		Point2D.Float ref = new Point2D.Float(0, 0);
-		for (i = 0; i < position.getIndex() && i < v.getNumberOfSubviews(); i++) {
-			moveToReferenceNextPoint(ref, v, i);
-		}
 		// position is the next index. The rectangle should include both
 		// views i-1 and i (if they exist).
-		Rectangle2D result = null;
 
-		if (i - 1 > 0) {
-			MDCView subv = v.getSubView(i - 1);
-			// Artificially place the view to the next drawing position.
-			double x = subv.getNextViewPosition().computeXTranslation(v,
-					(float) ref.getX());
-			double y = subv.getNextViewPosition().computeYTranslation(v,
-					(float) ref.getY());
-			double w = 2;
-			double h = specs.getMaxCadratHeight();
-			result = new Rectangle2D.Double(x, y, w, h);
-		}
+		int index = position.getIndex();
+		Rectangle2D result = new Rectangle2D.Float(0, 0, drawingSpecifications
+				.getSmallSkip(), drawingSpecifications.getMaxCadratHeight());
 
-		if (i < v.getNumberOfSubviews()) {
-			moveToReferenceNextPoint(ref, v, i);
-			Rectangle2D r2;
-			r2 = new Rectangle2D.Double(ref.getX(), ref.getY(), 1, specs
-					.getMaxCadratHeight());
+		// non empty view :
+		if (v.getNumberOfSubviews() != 0) {
+			boolean previousIsBreak = false;
+			boolean nextIsBreak = false;
 
-			if (result == null) {
-				result = r2;
+			Rectangle2D previousRectangle = new Rectangle2D.Float(0, 0,
+					drawingSpecifications.getSmallSkip(), drawingSpecifications
+							.getMaxCadratHeight());
+			Rectangle2D nextRectangle = new Rectangle2D.Float(0, v.getHeight()
+					- drawingSpecifications.getMaxCadratHeight(),
+					drawingSpecifications.getSmallSkip(), drawingSpecifications
+							.getMaxCadratHeight());
+
+			if (index > 0)
+				previousRectangle = new Rectangle2D.Double(v.getSubView(
+						index - 1).getPosition().x
+						+ v.getSubView(index - 1).getWidth(), v.getSubView(
+						index - 1).getPosition().y, 1, v.getSubView(index - 1)
+						.getHeight());
+			if (index < v.getNumberOfSubviews()) {
+				nextRectangle = new Rectangle2D.Double(v.getSubView(index)
+						.getPosition().x, v.getSubView(index).getPosition().y,
+						1, v.getSubView(index).getHeight());
+			}
+
+			if (index <= 0 || v.getSubView(index - 1) == null
+					|| v.getSubView(index - 1).getModel().isBreak())
+				previousIsBreak = true;
+
+			if (index >= v.getNumberOfSubviews() || v.getSubView(index) == null
+					|| v.getSubView(index).getModel().isBreak())
+				nextIsBreak = true;
+
+			if (previousIsBreak) {
+				result = nextRectangle;
+			} else if (nextIsBreak) {
+				result = previousRectangle;
 			} else {
-				result.add(r2);
+				result = previousRectangle;
+				result.add(nextRectangle);
 			}
 		}
-
-		if (result == null)
-			result = new Rectangle2D.Double();
-		// System.out.println(result);
+		// Now, the rectangle has been computed regardless of the view's
+		// direction. Correct it :
+		if (v.getDirection().equals(TextDirection.RIGHT_TO_LEFT)) {
+			double x, y, w, h;
+			x = result.getMinX();
+			y = result.getMinY();
+			w = result.getWidth();
+			h = result.getHeight();
+			x = v.getInternalWidth() - x - w;
+			result = new Rectangle2D.Double(x, y, w, h);
+		}
 		return result;
 	}
 
@@ -717,48 +733,6 @@ public class ViewDrawer {
 
 	public boolean isShadeAfter() {
 		return elementDrawer.isShadeAfter();
-	}
-
-	/**
-	 * Moves the reference point ref to the start position for subview number i
-	 * of v.
-	 * <p>
-	 * Doesn't take the subview's dx,dy into account, as they have no influence
-	 * on the current position.
-	 * 
-	 * <p>
-	 * Typically, we can use it like this :
-	 * 
-	 * <pre>
-	 * Point2D.Float ref = new Point2D.Float(0, 0);
-	 * for (int i = 0; i &lt; v.getNumberOfSubViews(); i++) {
-	 * 	moveToReferenceNextPoint(ref, v, i);
-	 * }
-	 * </pre>
-	 * 
-	 * @param ref
-	 *            the point to be moved. Should correspond to the position of
-	 *            the previous subview.
-	 * @param v
-	 * @param i
-	 */
-	private void moveToReferenceNextPoint(Point2D.Float ref, MDCView v, int i) {
-		RelativePosition previous; // position set by the previous view
-		if (i == 0) {
-			previous = v.getFirstSubViewPosition();
-		} else {
-			previous = v.getSubView(i - 1).getNextViewPosition();
-		}
-		MDCView subv = v.getSubView(i);
-		// First, move the references according to the specifications
-		// in the previous subview.
-		ref.x = previous.computeXTranslation(v, ref.x);
-		ref.y = previous.computeYTranslation(v, ref.y);
-
-		// Now, move the references according to our own specifications.
-
-		ref.x = subv.getStartPoint().computeXTranslation(v, ref.x);
-		ref.y = subv.getStartPoint().computeYTranslation(v, ref.y);
 	}
 
 	/*
@@ -838,13 +812,15 @@ public class ViewDrawer {
 		// necessary.
 
 		// We fill gaps between two adjacent cadrats.
-		if (v.getNextViewPosition().getXAnchor() == RelativePosition.PREVIOUS) {
-			Rectangle2D.Float rect = new Rectangle2D.Float();
+		if (drawingSpecifications.getTextOrientation().isHorizontal()
+				&& v.nextIsHorizontallyAdjacent()) {
+			Rectangle2D.Double rect = new Rectangle2D.Double();
 			// Shade the inter-cadrat space
 			rect.x = v.getWidth();
 			rect.y = 0f;
 			rect.height = v.getHeight();
-			rect.width = (v.getNextViewPosition().getDx() - v.getWidth());
+			rect.width = (float) (v.getNext().getPosition().x - (v
+					.getPosition().x + v.getWidth()));
 			g.fill(rect);
 		}
 
@@ -859,6 +835,11 @@ public class ViewDrawer {
 	 * have a special case. For empty text, we will write some specific code (at
 	 * upper levels ?)
 	 * 
+	 * <p>
+	 * We should change the cursor drawing system, because it's not logical.
+	 * Cursor drawing should be linked with the view that contains the cursor,
+	 * not with views around the cursor.
+	 * 
 	 * @param g
 	 * @param v
 	 */
@@ -871,51 +852,83 @@ public class ViewDrawer {
 				.getTextOrientation();
 
 		if (cursor != null && cursor.getInsert() != null) {
-			if (v.getModel() == cursor.getInsert().getPosition()
-					.getElementAfter()) {
+
+			/*
+			 * A cursor stands between two views. Should we draw the cursor
+			 * after or before the view ???
+			 */
+
+			boolean drawAfterView = false;
+			boolean drawBeforeView = false;
+
+			drawBeforeView = v.getModel() == cursor.getInsert().getPosition()
+					.getElementAfter();
+
+			drawAfterView = v.getModel() == cursor.getInsert().getPosition()
+					.getElementBefore();
+
+			// We draw cursors at regular elements, not at breaks, but between
+			// two breaks, we need to do something anyway.
+			// Hence, if there are two breaks, we favour the "draw before view"
+			// tactic.
+			// Cases "against" drawBeforeView
+
+			if (drawBeforeView) {
+				if (v.getModel() != null
+						&& v.getModel().isBreak()
+						&& (v.getPrevious() != null
+								&& v.getPrevious().getModel() != null && !v
+								.getPrevious().getModel().isBreak())) {
+					drawBeforeView = false;
+				}
+			}
+
+			// Cases "against" drawAfterView
+			if (drawAfterView) {
+				if (v.getModel().isBreak())
+					drawAfterView = false;
+			}
+
+			if (drawAfterView || drawBeforeView) {
+				Color currentColor = g.getColor();
 				g.setColor(drawingSpecifications.getCursorColor());
 				g.setStroke(drawingSpecifications.getWideStroke());
-				// IMPORTANT : get sure the cursor is correctly drawn, even if
-				// startPoint is absolute.
-				/*
-				 * g2d.draw( new Line2D.Double( v.getStartPoint().getDx(),
-				 * v.getStartPoint().getDy(), v.getStartPoint().getDx(),
-				 * drawingSpecifications.getMaxCadratHeight()));
-				 */
 
-				if (textOrientation.isHorizontal()) {
-					if (textDirection.isLeftToRight())
-						g.draw(new Double(0, -v.getDy(), 0,
-								drawingSpecifications.getMaxCadratHeight()));
-					else
-						g.draw(new Double(v.getWidth(), -v.getDy(), v
-								.getWidth(), drawingSpecifications
-								.getMaxCadratHeight()));
-				} else { // columns
+				if (drawAfterView) {
 
-					g.draw(new Double(0, v.getDy(), drawingSpecifications
-							.getMaxCadratWidth(), v.getDy()));
+					if (textOrientation.isHorizontal()) {
+						if (textDirection.isLeftToRight())
+							g
+									.draw(new Double(v.getWidth(), 0, v
+											.getWidth(), drawingSpecifications
+											.getMaxCadratHeight()));
+						else
+							g.draw(new Double(0, 0, 0, drawingSpecifications
+									.getMaxCadratHeight()));
+					} else {
+						g.draw(new Double(0, v.getHeight(),
+								drawingSpecifications.getMaxCadratWidth(), v
+										.getHeight()));
+					}
+				} else if (drawBeforeView) {
+					if (textOrientation.isHorizontal()) {
+						if (textDirection.isLeftToRight())
+							g.draw(new Double(0, 0, 0, drawingSpecifications
+									.getMaxCadratHeight()));
+						else
+							g
+									.draw(new Double(v.getWidth(), 0, v
+											.getWidth(), drawingSpecifications
+											.getMaxCadratHeight()));
+					} else { // columns
+						g.draw(new Double(0, 0, drawingSpecifications
+								.getMaxCadratWidth(), 0));
 
+					}
 				}
-			} else if (v.getModel() == cursor.getInsert().getPosition()
-					.getElementBefore()
-					&& v.getParent() != null
-					&& v == v.getParent().getLastSubView()) {
-				g.setColor(drawingSpecifications.getCursorColor());
-				g.setStroke(drawingSpecifications.getWideStroke());
-				if (textOrientation.isHorizontal()) {
-					if (textDirection.isLeftToRight())
-						g.draw(new Double(v.getWidth(), 0, v.getWidth(),
-								drawingSpecifications.getMaxCadratHeight()));
-					else
-						g.draw(new Double(0, 0, 0, drawingSpecifications
-								.getMaxCadratHeight()));
-				} else {
-					g.draw(new Double(0, v.getHeight() + v.getDy(),
-							drawingSpecifications.getMaxCadratWidth(), v
-									.getHeight()
-									+ v.getDy()));
-				}
+				// Only restore color. The stroke should be set by all those who want to draw, anyway
+				// (whereas color is contextual stuff)
+				g.setColor(currentColor);
 			}
 		}
 	}

@@ -5,17 +5,21 @@
  */
 package jsesh.mdcDisplayer.draw;
 
+import java.io.StringReader;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.StringReader;
 
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.MDCSyntaxError;
+import jsesh.mdcDisplayer.layout.MDCEditorKit;
+import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
-import jsesh.utils.GraphicsUtils;
+import jsesh.swingUtils.GraphicsUtils;
 
 /**
  * A simple class for programmers who want to draw hieroglyphs.
@@ -23,7 +27,7 @@ import jsesh.utils.GraphicsUtils;
  * TODO : reuse this class in all image creating soft.
  * 
  * @author S. Rosmorduc
- *  
+ * 
  */
 public class MDCDrawingFacade {
 
@@ -31,7 +35,9 @@ public class MDCDrawingFacade {
 
 	private DrawingSpecifications drawingSpecifications = null;
 
-	double scale = 1.0;
+	int maxWidth, maxHeight;
+
+	private int cadratHeight;
 
 	/**
 	 * Generate a picture for the manuel de codage text passed as argument.
@@ -46,6 +52,9 @@ public class MDCDrawingFacade {
 		MDCParserModelGenerator gen = new MDCParserModelGenerator();
 		gen.setPhilologyAsSigns(isPhilologySign());
 		TopItemList t = gen.parse(new StringReader(mdcCodes));
+		maxWidth = 2000;
+		maxHeight = 2000;
+		cadratHeight = 20;
 		return createImage(t);
 	}
 
@@ -55,21 +64,29 @@ public class MDCDrawingFacade {
 	 * @param t
 	 * @return a new bufferedImage.
 	 */
-	private BufferedImage createImage(TopItemList t) {
+	public BufferedImage createImage(TopItemList t) {
 		drawingSpecifications = getDrawingSpecifications();
 
-		ViewBuilder viewBuilder = new SimpleViewBuilder(drawingSpecifications);
-		MDCView v = viewBuilder.buildView(t);
+		ViewBuilder viewBuilder = new SimpleViewBuilder();
+		MDCView v = viewBuilder.buildView(t, drawingSpecifications);
 		BufferedImage result;
-		result = new BufferedImage((int) Math.ceil(v.getWidth() * scale) + 2,
-				(int) Math.ceil(v.getHeight() * scale) + 2,
-				BufferedImage.TYPE_INT_RGB);
+		double scale = getScale();
+
+		int width = (int) Math.ceil(v.getWidth() * scale) + 2;
+		int height = (int) Math.ceil(v.getHeight() * scale) + 2;
+
+		if (width > maxWidth)
+			width = maxWidth;
+		if (height > maxHeight)
+			height = maxHeight;
+
+		result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) result.getGraphics();
+		g.setBackground(Color.WHITE);
+		g.clearRect(0, 0, width, height);		
 		g.scale(scale, scale);
 		GraphicsUtils.antialias(g);
 		g.setColor(Color.BLACK);
-		g.setBackground(Color.WHITE);
-		g.clearRect(0, 0, result.getWidth(), result.getHeight());
 		ViewDrawer drawer = new ViewDrawer();
 		drawer.draw(g, v, drawingSpecifications);
 		g.dispose();
@@ -79,6 +96,10 @@ public class MDCDrawingFacade {
 
 	public boolean isPhilologySign() {
 		return philologySign;
+	}
+
+	private double getScale() {
+		return cadratHeight / drawingSpecifications.getBaseLength();
 	}
 
 	/**
@@ -106,11 +127,25 @@ public class MDCDrawingFacade {
 		this.drawingSpecifications = drawingSpecifications;
 	}
 
-	public double getScale() {
-		return scale;
+	/**
+	 * @param width
+	 * @param height
+	 */
+	public void setMaxSize(int width, int height) {
+		this.maxWidth = width;
+		this.maxHeight = height;
 	}
 
-	public void setScale(double scale) {
-		this.scale = scale;
+	/**
+	 * Set the approximative cadrat height, in pixels.
+	 * <p>
+	 * Default value is 20.
+	 * 
+	 * @param cadratHeight
+	 */
+	public void setCadratHeight(int cadratHeight) {
+		if (drawingSpecifications != null) {
+			this.cadratHeight = cadratHeight;
+		}
 	}
 }

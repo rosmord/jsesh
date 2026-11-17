@@ -8,6 +8,10 @@
  */
 package jsesh.graphics.bitmaps;
 
+import java.util.Map;
+
+import java.text.AttributedCharacterIterator;
+
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Font;
@@ -31,8 +35,6 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
-import java.text.AttributedCharacterIterator;
-import java.util.Map;
 
 import jsesh.graphics.generic.BaseGraphics2D;
 

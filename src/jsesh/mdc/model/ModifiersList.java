@@ -33,7 +33,7 @@ import jsesh.mdc.interfaces.ModifierListInterface;
  *
  */
 public class ModifiersList
-	extends ModelElement
+	extends EmbeddedModelElement
 	implements ModifierListInterface {
 
 	private static int getArity(Modifier m) {

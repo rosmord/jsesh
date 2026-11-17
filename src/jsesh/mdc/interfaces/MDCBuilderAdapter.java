@@ -14,7 +14,7 @@ import jsesh.mdc.constants.ToggleType;
  * builders ; however you should take note that its methods basically
  * do nothing. In most cases, you should completely write the builder,
  * in order to forget no construct. The only case where this class is useful is when
- * you are only interested in a construct or two.  
+ * you are only interested in one construct or two.  
  * @author rosmord
  */
 abstract public class MDCBuilderAdapter implements MDCBuilder {
@@ -132,7 +132,7 @@ abstract public class MDCBuilderAdapter implements MDCBuilder {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.interfaces.MDCBuilder#addToHorizontalList(jsesh.mdc.interfaces.HBoxInterface, jsesh.mdc.interfaces.InnerGroupInterface)
 	 */
-	public void addToHorizontalList(HBoxInterface h, InnerGroupInterface elt) {
+	public void addToHorizontalList(HBoxInterface h, HorizontalListElementInterface elt) {
 		// Auto-generated method stub
 		
 	}
@@ -348,4 +348,21 @@ abstract public class MDCBuilderAdapter implements MDCBuilder {
 		// NO OP
 
 	}
+
+	/* (non-Javadoc)
+	 * @see jsesh.mdc.interfaces.MDCBuilder#setOptionList(jsesh.mdc.interfaces.CadratInterface, jsesh.mdc.interfaces.OptionListInterface)
+	 */
+	public void setOptionList(CadratInterface result, OptionListInterface e1) {
+		// NO OP
+	}
+
+	/* (non-Javadoc)
+	 * @see jsesh.mdc.interfaces.MDCBuilder#buildComplexLigature(jsesh.mdc.interfaces.InnerGroupInterface, jsesh.mdc.interfaces.HieroglyphInterface, jsesh.mdc.interfaces.InnerGroupInterface)
+	 */
+	public ComplexLigatureInterface buildComplexLigature(InnerGroupInterface e1, HieroglyphInterface e2, InnerGroupInterface e3) {
+		// NO OP
+		return null;
+	}
+	
+	
 }

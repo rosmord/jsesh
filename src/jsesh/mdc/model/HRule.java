@@ -6,11 +6,23 @@ package jsesh.mdc.model;
  * @author rosmord
  *  
  */
+
+/**
+ * An horizontal rule.
+ * 
+ */
 public class HRule extends TopItem {
 	private char type;
 
 	private int startPos, endPos;
-
+	/**
+	 * Create an horizontal rule.
+	 * @param type type of line. 'l' for single, 'L' for double.
+     * @param startPos start of the rule, as an absolute integer position from left edge of the page (?). 
+     * 	the scale is that 200 is more or less the width of "n" (the water sign).
+     * @param endPos an absolute integer position from left edge of the page (?). 
+     * 	the scale is that 200 is more or less the width of "n" (the water sign).
+     */
 	public HRule(char type, int startPos, int endPos) {
 		this.type = type;
 		this.startPos = startPos;
@@ -36,7 +48,7 @@ public class HRule extends TopItem {
 	}
 
 	/**
-	 * Returns the type.
+	 * Returns the type : 'l' for thin lines, 'L' for wide ones.
 	 * 
 	 * @return char
 	 */

@@ -17,6 +17,7 @@ public class TabStop extends TopItem {
 	
 	/**
 	 * Returns the stopPos.
+	 * the scale is 1 unit = 1/200th of the basic sign size ("n" width).
 	 * @return int
 	 */
 	public int getStopPos() {

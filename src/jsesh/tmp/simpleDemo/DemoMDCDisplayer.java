@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
-import jsesh.utils.GraphicsUtils;
+import jsesh.swingUtils.GraphicsUtils;
 
 
 public class DemoMDCDisplayer extends JPanel {
