@@ -555,6 +555,51 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         return true;
     }
 
+    /// The innermost zone around the cursor.
+    ///
+    /// @return the zone, or empty if the cursor is not in a zone.
+    public Optional<Zone> getCurrentZone() {
+        List<Zone> zones = enclosingZones();
+        return zones.isEmpty() ? Optional.empty() : Optional.of(zones.get(0));
+    }
+
+    /// Selects the whole content of the innermost zone around the cursor.
+    ///
+    /// @return false if the cursor is not in a zone.
+    public boolean selectCurrentZone() {
+        if (enclosingZones().isEmpty()) {
+            return false;
+        }
+        possibilitiesHandler.clear();
+        TextScope contentScope = innermostZoneContentScope();
+        int size = contentScope.resolve(caret.getModel()).getNumberOfChildren();
+        caret.setInsertPosition(contentScope.positionAt(0));
+        caret.setMarkPosition(contentScope.positionAt(size));
+        clearSeparator();
+        return true;
+    }
+
+    /// Moves the cursor out of the innermost zone around it, to the place just
+    /// before this zone: the parent zone (if any) becomes the current one. Any
+    /// selection is cleared.
+    ///
+    /// @return false if the cursor is not in a zone.
+    public boolean moveToParentZone() {
+        if (enclosingZones().isEmpty()) {
+            return false;
+        }
+        possibilitiesHandler.clear();
+        // The zone's content is [... zoneIndex, 0]: the zone sits in the scope above.
+        int[] contentPath = innermostZoneContentScope().getPath();
+        int zoneIndex = contentPath[contentPath.length - 2];
+        TextScope zoneScope = TextScope.of(Arrays.copyOf(contentPath, contentPath.length - 2));
+        clearMark();
+        caret.setInsertPosition(zoneScope.positionAt(zoneIndex));
+        clearSeparator();
+        followCaret();
+        return true;
+    }
+
     // ---- dynamic tabs ----
 
     /// Inserts a dynamic tab (`%tab`) at the cursor.

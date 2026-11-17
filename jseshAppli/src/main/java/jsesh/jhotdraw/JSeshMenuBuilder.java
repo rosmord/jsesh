@@ -475,6 +475,9 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 //addToMenu(zoneMenu, a, v, ActionsID.INSERT_ZONE); the full zone is better.
                 addToMenu(zoneMenu, a, v, ActionsID.UNWRAP_ZONE);
                 addToMenu(zoneMenu, a, v, EditZoneAction.ID);
+                zoneMenu.addSeparator();
+                addToMenu(zoneMenu, a, v, ActionsID.SELECT_CURRENT_ZONE);
+                addToMenu(zoneMenu, a, v, ActionsID.MOVE_TO_PARENT_ZONE);
                 return zoneMenu;
         }
 

@@ -556,6 +556,9 @@ public class DefaultElementDrawer extends ElementDrawer {
     /// The colour of the marks of dynamic tabs.
     private static final Color TAB_COLOR = new Color(0x1E, 0x64, 0xE6);
 
+    /// The colour of the limits of the zone where the cursor stands.
+    private static final Color CURRENT_ZONE_COLOR = new Color(0xE6, 0x7E, 0x00);
+
     /// Draws the frame of the zone, if it has one, and its limits, if asked
     /// to (for editors).
     @Override
@@ -575,9 +578,11 @@ public class DefaultElementDrawer extends ElementDrawer {
         }
         if (isShowZoneLimits()) {
             double dash = jseshStyle.geometry().maxCadratHeight() / 6.0;
-            g.setColor(jseshStyle.painting().cursorColor());
-            g.setStroke(new BasicStroke((float) jseshStyle.geometry().fineLineWidth(), BasicStroke.CAP_BUTT,
-                    BasicStroke.JOIN_MITER, 10.0f, new float[] { (float) dash, (float) dash }, 0.0f));
+            boolean current = zone == getHighlightedZone();
+            g.setColor(current ? CURRENT_ZONE_COLOR : jseshStyle.painting().cursorColor());
+            g.setStroke(new BasicStroke((float) jseshStyle.geometry().fineLineWidth() * (current ? 2f : 1f),
+                    BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[] { (float) dash, (float) dash },
+                    0.0f));
             g.draw(new Rectangle2D.Double(0, 0, currentView.getWidth(), currentView.getHeight()));
         }
     }

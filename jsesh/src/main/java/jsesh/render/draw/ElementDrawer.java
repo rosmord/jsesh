@@ -147,6 +147,19 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		this.showZoneLimits = showZoneLimits;
 	}
 
+	/// The zone whose limits are drawn in a different colour (when
+	/// [#isShowZoneLimits()]), typically the one where an editor's cursor stands.
+	/// Null for none.
+	private Zone highlightedZone = null;
+
+	public Zone getHighlightedZone() {
+		return highlightedZone;
+	}
+
+	public void setHighlightedZone(Zone highlightedZone) {
+		this.highlightedZone = highlightedZone;
+	}
+
 	/// Are the dynamic tabs (`%tab`) drawn, with their stop index? Meant for
 	/// editors only: false by default, so that printing and exports never
 	/// show them.

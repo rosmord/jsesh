@@ -319,4 +319,26 @@ class JMDCEditorZoneTest {
         SelectionShape shape = geometry.selection(TextScope.of(0, 0), 0, 3);
         assertEquals(2, shape.areas().size(), shape.toString());
     }
+
+    @Test
+    void selectCurrentZoneSelectsItsWholeContent() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-%zone(B1-B2)-A2");
+        w.setCursor(pos(1, 0, 1));
+        assertTrue(w.selectCurrentZone());
+        assertEquals(pos(1, 0, 0), w.getCaret().getInsertExactPosition());
+        assertEquals(pos(1, 0, 2), w.getCaret().getMark().getPosition());
+    }
+
+    @Test
+    void moveToParentZoneGoesJustBeforeTheZone() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-%zone(B1-%zone(C1)-B2)-A2");
+        w.setCursor(pos(1, 0, 1, 0, 1));
+        assertTrue(w.moveToParentZone());
+        assertEquals(pos(1, 0, 1), w.getCaret().getInsertExactPosition());
+        assertTrue(w.moveToParentZone());
+        assertEquals(pos(1), w.getCaret().getInsertExactPosition());
+        assertFalse(w.moveToParentZone());
+        assertFalse(w.selectCurrentZone());
+        assertTrue(w.getCurrentZone().isEmpty());
+    }
 }

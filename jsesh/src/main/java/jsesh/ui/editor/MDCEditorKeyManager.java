@@ -264,6 +264,8 @@ class MDCEditorKeyManager {
             addAction(ActionsID.GROUP_AS_INSERTION, new GroupAsInsertionAction(editor));
             addDelegateAction(ActionsID.INSERT_ZONE, editor, "addZone", editorEnabler);
             addDelegateAction(ActionsID.UNWRAP_ZONE, editor, "unwrapZone", editorEnabler);
+            addDelegateAction(ActionsID.SELECT_CURRENT_ZONE, editor, "selectCurrentZone", editorEnabler);
+            addDelegateAction(ActionsID.MOVE_TO_PARENT_ZONE, editor, "moveToParentZone", editorEnabler);
             addDelegateAction(ActionsID.INSERT_TAB, editor, "insertTab", editorEnabler);
             addDelegateAction(ActionsID.TAB_TO_NEXT_STOP, editor, "moveTabToNextStop", editorEnabler);
             addDelegateAction(ActionsID.TAB_TO_PREVIOUS_STOP, editor, "moveTabToPreviousStop", editorEnabler);

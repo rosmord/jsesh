@@ -1423,6 +1423,9 @@ public class JMDCEditor extends JPanel implements Scrollable {
         drawer.setShowKerningMarks(showKerningMarks);
         drawer.setShowLineBreakMarks(showLineBreakMarks);
         drawer.setShowZoneLimits(showZoneLimits);
+        if (showZoneLimits) {
+            drawer.setHighlightedZone(workflow.getCurrentZone().orElse(null));
+        }
         drawer.setShowTabs(showTabs);
         return drawer;
     }

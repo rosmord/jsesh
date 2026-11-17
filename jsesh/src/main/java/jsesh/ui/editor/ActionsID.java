@@ -93,6 +93,8 @@ public interface ActionsID {
     String GROUP_AS_INSERTION = "text.groupAsInsertion";
     String INSERT_ZONE = "text.insertZone";
     String UNWRAP_ZONE = "text.unwrapZone";
+    String SELECT_CURRENT_ZONE = "text.selectCurrentZone";
+    String MOVE_TO_PARENT_ZONE = "text.moveToParentZone";
     /// Inserts a dynamic tab (`%tab`).
     String INSERT_TAB = "text.insertTab";
     /// Moves the tab near the cursor to the next tab stop.

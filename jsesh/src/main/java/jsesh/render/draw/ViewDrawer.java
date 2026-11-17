@@ -195,6 +195,12 @@ public class ViewDrawer {
         return elementDrawer.isShowZoneLimits();
     }
 
+    /// The zone whose limits are drawn in a different colour (if zone limits
+    /// are shown). Null (the default) for none.
+    public void setHighlightedZone(jsesh.model.Zone zone) {
+        elementDrawer.setHighlightedZone(zone);
+    }
+
     /// Should the dynamic tabs (`%tab`) be drawn, with their stop index?
     /// False by default.
     public void setShowTabs(boolean showTabs) {
