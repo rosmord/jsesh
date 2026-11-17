@@ -36,6 +36,8 @@ import jsesh.document.embeddedsigns.EmbeddedSignShapes;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.tools.HieroglyphCodesExtractor;
 import jsesh.resources.JSeshMessages;
+import jsesh.utils.preferences.JSeshPreferenceKeys;
+import jsesh.utils.preferences.JSeshPreferencesRoot;
 
 /// The user interactions on the signs embedded in a document: adding a sign
 /// from an SVG file, editing its properties, removing it, exporting the
@@ -53,7 +55,11 @@ public final class EmbeddedSignOperations {
     ///
     /// @param parent    the parent of the dialogs.
     /// @param signs     the list to add the sign to.
-    /// @param directory the directory to start from, or `null`.
+    /// The folder of the last SVG file chosen is remembered (in the user
+    /// preferences), and used as the starting point next time.
+    ///
+    /// @param directory the directory to start from if no folder has been
+    ///                  remembered yet (or if it has disappeared), or `null`.
     /// @return the new sign, or nothing if the user cancelled or the file
     ///         couldn't be read (an error message has then been shown).
     public static Optional<EmbeddedSign> addFromSvgFile(Component parent, EmbeddedSignList signs, File directory) {
@@ -61,13 +67,18 @@ public final class EmbeddedSignOperations {
         chooser.setTitle(JSeshMessages.getString("embeddedSigns.chooseSvg.title"));
         chooser.setFileFilters(new FileExtensionFilter[] {
                 new FileExtensionFilter("svg", JSeshMessages.getString("embeddedSigns.svgFiles")) });
-        if (directory != null) {
-            chooser.setCurrentDirectory(directory);
+        File startDirectory = lastSvgDirectory();
+        if (startDirectory == null) {
+            startDirectory = directory;
+        }
+        if (startDirectory != null) {
+            chooser.setCurrentDirectory(startDirectory);
         }
         if (chooser.show() != FileOperationResult.OK || chooser.getSelectedFile() == null) {
             return Optional.empty();
         }
         File file = chooser.getSelectedFile();
+        rememberSvgDirectory(file.getParentFile());
         byte[] svg;
         try {
             svg = Files.readAllBytes(file.toPath());
@@ -80,6 +91,35 @@ public final class EmbeddedSignOperations {
         }
         return askProperties(parent, JSeshMessages.getString("embeddedSigns.add.title"), null, "")
                 .map(p -> signs.add(svg, p.variantOf(), p.description()));
+    }
+
+    /// The folder SVG files were last added from, if it still exists.
+    private static File lastSvgDirectory() {
+        try {
+            String path = JSeshPreferencesRoot.getPreferences().get(JSeshPreferenceKeys.EMBEDDED_SIGNS_DIRECTORY,
+                    null);
+            if (path != null) {
+                File dir = new File(path);
+                if (dir.isDirectory()) {
+                    return dir;
+                }
+            }
+        } catch (RuntimeException e) {
+            // preferences unavailable: just start from the default folder.
+        }
+        return null;
+    }
+
+    private static void rememberSvgDirectory(File dir) {
+        if (dir == null || !dir.isDirectory()) {
+            return;
+        }
+        try {
+            JSeshPreferencesRoot.getPreferences().put(JSeshPreferenceKeys.EMBEDDED_SIGNS_DIRECTORY,
+                    dir.getAbsolutePath());
+        } catch (RuntimeException e) {
+            // not being able to remember the folder is harmless.
+        }
     }
 
     /// Lets the user change the "variant of" code and the description of a sign.

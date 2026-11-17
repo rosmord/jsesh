@@ -14,6 +14,10 @@ public class JSeshPreferenceKeys {
      */
     public static final String GLYPH_DIRECTORY = "glyphDirectory";
 
+    /// preference key for the last folder an embedded sign (SVG file) was
+    /// added from.
+    public static final String EMBEDDED_SIGNS_DIRECTORY = "embeddedSignsDirectory";
+
     private JSeshPreferenceKeys() {}
 
 }
