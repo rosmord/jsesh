@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.TreeMap;
 
@@ -34,6 +35,7 @@ import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.output.MdCModelWriter;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
@@ -171,12 +173,35 @@ public class IPDFExporter {
 
     public void exportModel(TopItemList model) throws IOException {
         try {
-            IPDFExporterAux visitor = new IPDFExporterAux();
+            // As requested by the IFAO, we save the Manuel de codage content in
+            // the picture as a comment.
+            MdCModelWriter mdCModelWriter= new MdCModelWriter();
+            StringWriter comment= new StringWriter();
+            // We output a "pseudo" mime header, because we may later have 
+            // a more complex output.
+            // jsesh2007 stands for the current version of JSesh.
+            comment.write("Content-type: application/jsesh2007\n\n");
+            mdCModelWriter.write(comment, model);
+            
+            IPDFExporterAux visitor = new IPDFExporterAux(comment.toString());
+            
             model.accept(visitor);
             visitor.close();
+            
         } catch (DocumentException e) {
             e.printStackTrace();
         }
+        
+        /*
+         It is possible to re-read the result of a pdf dump.
+        PdfReader reader= new PdfReader(new FileInputStream(file));
+        Iterator it= reader.getInfo().keySet().iterator();
+        while (it.hasNext()) {
+            String key= (String) it.next();
+            System.out.println(key +" => "+ reader.getInfo().get(key));
+        }
+        */
+        
     }
 
     /**
@@ -230,7 +255,7 @@ public class IPDFExporter {
         
        
         
-        public IPDFExporterAux() throws IOException, DocumentException {
+        public IPDFExporterAux(String comment) throws IOException, DocumentException {
             /*
              * Create various utilitary objects.
              */
@@ -272,12 +297,13 @@ public class IPDFExporter {
             pdfDocument.addSubject(subject);
             pdfDocument.addKeywords(keywords);
             pdfDocument.addCreator("JSesh");
-            
+            pdfDocument.addSubject(comment);
             currentParagraph = null;
 
             pdfDocument.open();
         }
 
+       
         /**
          * Initialize the objects which represent the various fonts used in the document.
          * @throws DocumentException
@@ -337,7 +363,7 @@ public class IPDFExporter {
         public void visitHRule(HRule h) {
         	Graphic pdfGraphics= new Graphic();
         	
-        	float lineWidth;
+        	//float lineWidth;
 			float x1;
 			float x2;
 					
@@ -543,7 +569,7 @@ public class IPDFExporter {
                 Chunk chunk= new Chunk(img,(float)templateInfo.dx, (float)templateInfo.dy, true);
                 addChunck(chunk);
                 // Add a space.
-                addChunck(new Chunk(' ').setHorizontalScaling(0.3f));
+                addChunck(new Chunk(' ').setHorizontalScaling(getInterCadratSkip()));
                 // The actual "good" size is next to impossible to compute. We should create a special drawing for it             
                 //addChunck(new Chunk(' ').setHorizontalScaling((float)(actualDrawingSpecifications.getSmallSkip()*scale)));
                 if (templateInfo.template.getLeading() > currentParagraph
@@ -554,6 +580,10 @@ public class IPDFExporter {
                 e.printStackTrace();
             }
         }
+
+		private float getInterCadratSkip() {
+			return 0.3f * lineHeight /14.0f;
+		}
 
         /**
          * Adds data to the current paragraph, creating one if needed.
@@ -679,7 +709,12 @@ public class IPDFExporter {
     
     class OptionPanel extends ExportOptionPanel implements ActionListener {
 
-        JFormattedTextField fileField;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -1571634707470234047L;
+
+		JFormattedTextField fileField;
         
         JTextField titleField;
         JTextField authorField;

@@ -14,7 +14,10 @@ abstract class MDCCommand {
 	 */
 	private boolean firstCommand;
 	
-	
+	/**
+	 * Create a command.
+	 * @param firstCommand was the command applied to a "clean" text ?
+	 */
 	protected MDCCommand(boolean firstCommand) {
 		super();
 		this.firstCommand = firstCommand;

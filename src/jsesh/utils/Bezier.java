@@ -15,8 +15,7 @@ public class Bezier {
 
   static final int MAXPTS= 8;
     
-  private String s;
-
+ 
   public Bezier()
   {
     controls= new java.awt.geom.Point2D.Double[4];

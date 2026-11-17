@@ -12,8 +12,8 @@ import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 
 /**
  * Action of adding a new sign as a new cadrat. 
- *   @author rosmord
- *
+ * @author rosmord
+ * @deprecated
  */
 public class AddNewCadratAction extends AbstractAction {
 	

@@ -12,8 +12,8 @@ import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 
 /**
  * TODO describe type 
- *   @author rosmord
- *
+ * @author rosmord
+ * @deprecated
  */
 public class BackSpaceAction extends AbstractAction {
 	

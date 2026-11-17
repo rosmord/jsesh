@@ -13,8 +13,6 @@ import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 /**
  * @author S. Rosmorduc
  *
- *TODO NEVER CALLED. We should really look at the following problem : how can we conciliate menu actions (which are linked with the application) 
- *and widget actions ????
  *
  *
  */

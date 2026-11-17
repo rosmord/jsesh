@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="3.8pt"
+   height="13.65pt"
+   id="svg1333"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22M3B.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi24_SR"
+   version="1.0">
+  <metadata
+     id="metadata1340">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22M3B</dc:title>
+        <dc:date>18/03/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:identifier>Serge Rosmorduc</dc:identifier>
+        <dc:description>pour rendre le signe M3B de la classification de Bob Richmond</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1338" />
+  <sodipodi:namedview
+     inkscape:window-height="708"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="32.172737"
+     inkscape:cx="2.3227621"
+     inkscape:cy="8.4654278"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:current-layer="svg1333" />
+  <path
+     style="fill:#000000;stroke:none"
+     d="M 4.602762,1.2844488 C 4.162183,0.57952178 3.5718052,0.22485578 2.8316332,0.22044978 C 2.0914582,0.21604378 1.4922722,0.62798578 1.0340682,1.4562758 C 0.79093818,1.8957758 0.66937418,2.3706308 0.66937418,2.8808359 C 0.66937418,3.3321709 0.76450318,3.8111729 0.95476416,4.3178409 C 1.3600982,5.3972608 1.6905332,6.4304138 1.9460672,7.4173151 L 1.9460672,7.4173151 C 1.5495482,6.4744728 1.0032282,5.6109408 0.30711121,4.8267098 L 0.042762213,4.9456668 C 1.2235192,6.5053128 1.8601552,7.6464171 1.9526772,8.3689701 C 2.0451982,9.0915217 2.0914582,10.065203 2.0914582,11.290012 L 0.88867818,8.7258407 L 0.58467521,8.9637537 L 1.9196332,12.096264 C 1.9535232,12.902862 1.9704692,13.585628 1.9704692,14.144567 C 1.9704692,14.312249 1.9689432,14.468788 1.9658932,14.614181 C 1.9526762,15.244209 1.7478082,15.682594 1.3512872,15.929319 C 0.86463318,16.041622 0.62130418,16.227084 0.62130418,16.485705 C 0.62130418,16.531457 0.62892018,16.579506 0.64415318,16.629841 C 0.74548718,16.964682 1.1354022,17.054999 1.8138942,16.900794 C 2.4213812,16.762732 2.7251252,16.488686 2.7251252,16.078666 C 2.7251252,16.030737 2.7209762,15.980959 2.7126762,15.929319 C 2.7126762,14.942411 2.7258942,14.012786 2.7523282,13.140441 C 2.7787632,12.268089 3.2369662,10.748099 4.126936,8.5804481 L 3.7965022,8.2896651 L 2.6069362,11.356098 C 2.5362482,10.976612 2.5009042,10.589271 2.5009042,10.19408 C 2.5009042,9.6532887 2.5670882,9.0977877 2.6994582,8.5275781 C 2.8746542,7.7728881 2.9622522,7.0259291 2.9622522,6.2866998 C 2.9622522,6.0592448 2.9539592,5.8325258 2.9373722,5.6065348 C 2.8668792,4.6460728 2.8316332,3.4212579 2.8316332,1.9321008 L 2.5276322,2.0246218 C 2.5084762,2.5839688 2.4988982,3.0808489 2.4988982,3.5152659 C 2.4988982,4.0800089 2.5150852,4.5391848 2.5474582,4.8927978 C 2.5609962,5.0406728 2.5677642,5.1974088 2.5677642,5.3630068 C 2.5677642,5.8980088 2.4971122,6.5255008 2.3558052,7.2454891 C 2.2324432,6.3114588 1.9835172,5.4280998 1.6090262,4.5954068 C 1.3523172,4.0246059 1.2239632,3.4827869 1.2239632,2.9699549 C 1.2239632,2.7346569 1.2509842,2.5054588 1.3050262,2.2823628 C 1.4768522,1.5730298 1.8359232,1.1170288 2.3822402,0.91436178 C 2.9285612,0.71169578 3.6687332,0.83505878 4.602762,1.2844488 z "
+     id="path1335" />
+</svg>

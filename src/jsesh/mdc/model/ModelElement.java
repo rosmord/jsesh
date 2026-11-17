@@ -59,6 +59,9 @@ import jsesh.mdc.model.operations.Replacement;
  * abstract class, EmbeddedModelElement.
  * 
  * <p>
+ * Note: this class has a natural ordering that is inconsistent with equals. We should probably move it to a comparator.
+ * Currently, equals is address-based, whereas the order is based on content.
+ * <p>
  * This file is free Software under the LGPL (c) Serge Rosmorduc
  * 
  * @author rosmord

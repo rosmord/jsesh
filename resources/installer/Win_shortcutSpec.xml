@@ -32,7 +32,20 @@
      >
      <createForPack name="Base"/>
     </shortcut>
-   
+
+  <shortcut
+     name="Sign Info Editor"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+   	 target="$INSTALL_PATH\bin\signInfoEditor.bat"
+     description="Editor for documenting hieroglyphic signs"
+     >
+     <createForPack name="Base"/>
+    </shortcut>
+       
     <shortcut
      name="JSesh_Documentation"
      programGroup="yes"

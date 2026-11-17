@@ -25,7 +25,8 @@ public class CutAction extends AbstractSelectionAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor d=  (JMDCEditor) e.getSource();
-		d.cut();
+		if (d.isEditable())
+			d.cut();
 	}
 
 }

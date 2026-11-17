@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Document   : buildDocumentation.xml.xml
+	Created on : 22 juillet 2007, 16:29
+	Author     : rosmord
+	Description:
+	Ant file for building JSesh documentation.
+-->
+
+<project>
+
+	<property file="${basedir}/resources/builder/local.prop"></property>
+
+	<target name="jseshHtmlDoc-jar" depends="HTMLDocumentation">
+		<jar jarfile="dist/jseshHtmlDoc.jar" excludes="**/CVS/**">
+			<fileset dir="dist">
+				<include name="jseshResources/userdoc/**" />
+			</fileset>
+		 </jar>
+	</target>
+
+	<target name="HTMLDocumentation" depends="jseshDoc.xml,-doc-version"
+		unless="htmlDocumentationOk" if="GENERATE_DOC">
+		<mkdir dir="${htmlDoc}" />
+
+		<xslt style="${WEB_XSL}" basedir="${docdir}"
+			destdir="${htmlDoc}">
+			<!-- Information found on http://www.oasis-open.org/archives/docbook-apps/200508/msg00231.html -->
+			<!-- My "plain" ant (not the one running in eclipse) has problems with the xsl parsers. 
+				To solve this, we simply need to put SAXON in the classpath, and it works.
+			-->
+			<classpath path="${PATH_TO_SAXON}" />
+
+			<!-- When using SAXON, the base.dir is very important, and MUST contain a trailing slash -->
+			<param name="base.dir" expression="${htmlDoc}/" />
+			<filename name="jseshDoc.xml" />
+
+			<!--
+				<xmlcatalog>
+				<dtd publicId="-//OASIS//DTD DocBook XML V4.4//EN" location="${DOCBOOK_DTD}" /> 
+				<dtd base="file://${DOCBOOK_DTD}"/>
+				<dtd base="file:///home/rosmord/Prog/BibliothequesJava/DOCBOOK"/>
+				</xmlcatalog>
+			-->
+
+			<xmlcatalog>
+				<dtd publicId="-//OASIS//DTD DocBook XML V4.4//EN"
+					location="${DOCBOOK_DTD}" />
+
+			</xmlcatalog>
+		</xslt>
+
+		<copy todir="${htmlDoc}">
+			<fileset dir="${docdir}">
+				<include name="images/**" />
+				<include name="mdc/**" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!--
+		Build the xml source file from the "real" xml source and the version.
+	-->
+	<target name="jseshDoc.xml" depends="jseshDocOk"
+		unless="jseshDocOk">
+		<echo message="Copying jseshDoc_src.xml" />
+
+		<copy file="${docdir}/jseshDoc_src.xml"
+			tofile="${docdir}/jseshDoc.xml" overwrite="true">
+			<filterset refid="versionfilter" />
+		</copy>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+		target: jseshDocOk  
+		Tests if JSesh doc is up to date                    
+		- - - - - - - - - - - - - - - - - -->
+	<target name="jseshDocOk">
+		<uptodate property="jseshDocOk"
+			targetfile="${docdir}/jseshDoc.xml">
+			<srcfiles dir="${docdir}">
+				<filename name="jseshDoc_src.xml" />
+			</srcfiles>
+			<srcfiles file="${versionFile}" />
+		</uptodate>
+	</target>
+
+	<target name="htmlDocumentationOk" depends="jseshDocOk">
+		<uptodate property="htmlDocumentationOk"
+			targetfile="${htmlDoc}/index.html">
+			<srcfiles dir="${docdir}">
+				<filename name="jseshDoc.xml" />
+			</srcfiles>
+		</uptodate>
+	</target>
+
+	<target name="pdfDocumentationOk" depends="jseshDocOk">
+		<uptodate property="pdfDocumentationOk"
+			targetfile="${docdir}/jseshDoc.pdf">
+			<srcfiles dir="${docdir}">
+				<filename name="jseshDoc.xml" />
+			</srcfiles>
+		</uptodate>
+	</target>
+
+
+	<!-- path for Apache FOP -->
+	<path id="fop_path">
+		<fileset dir="${FOP_DIR}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${FOP_DIR}/build">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="-doc-version">
+		<echo message="copying index of user documentation" />
+		<copy file="resources/templates/indexUserDoc.html"
+			tofile="${docdir}/index.html" overwrite="true">
+			<filterset refid="versionfilter" />
+		</copy>
+	</target>
+
+
+	<target name="PDFDocumentation"
+		depends="jseshDoc.xml,pdfDocumentationOk" unless="pdfDocumentationOk"
+		if="GENERATE_DOC">
+		<xslt style="${FO_XSL}" basedir="${docdir}" destdir="${docdir}"
+			extension=".fo">
+			<classpath path="${PATH_TO_SAXON}" />
+			<filename name="jseshDoc.xml" />
+			<xmlcatalog>
+				<dtd publicId="-//OASIS//DTD DocBook XML V4.4//EN"
+					location="${DOCBOOK_DTD}" />
+			</xmlcatalog>
+		</xslt>
+
+		<java classname="org.apache.fop.apps.Fop"
+			classpathref="fop_path" dir="${docdir}" fork="true">
+			<arg line="jseshDoc.fo -pdf jseshDoc.pdf" />
+		</java>
+
+		<delete file="${docdir}/jseshDoc.fo"></delete>
+	</target>
+
+</project>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="7.521176"
+   height="17.977446"
+   id="svg4709"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22R36VARA.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonteUS22\US22_33">
+  <metadata
+     id="metadata4716">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:date>6/12/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas
+</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc
+</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>stand for ritual bowl 
+FCDp. 290 ( gn ) : Urk. IV 1296,5. Urk. IV 207,2.</dc:description>
+        <dc:title></dc:title>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4714" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.970721"
+     inkscape:cx="3.7605879"
+     inkscape:cy="8.9887228"
+     inkscape:window-x="111"
+     inkscape:window-y="25"
+     inkscape:current-layer="svg4709" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 7.521176 0  Q 5.640882 2.407694 4.379709 5.778465  L 4.379709 14.446161  Q 4.95297 15.844917 6.60396 17.220741  L 6.60396 17.977446  L 0.963077 17.977446  L 0.963077 17.197811  Q 2.384763 15.913709 3.164397 14.446161  L 3.164397 5.732604  Q 1.880294 2.407694 0 0  L 7.521176 0  Z  M 1.972016 1.008938  Q 3.210258 2.407694 3.760588 4.631944  Q 4.333848 2.407694 5.572091 1.008938  L 1.972016 1.008938  Z  M 5.52623 17.220741  Q 4.310918 16.280596 3.760588 14.9277  Q 3.256119 16.257664 1.926155 17.220741  L 5.52623 17.220741  Z "
+     id="path4711" />
+</svg>

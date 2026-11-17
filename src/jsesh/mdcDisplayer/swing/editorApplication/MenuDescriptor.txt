@@ -164,6 +164,7 @@ viewMenu
 	toggleSmallSignsCentered
 	
 hieroglyphsMenu
+	showPalette
 	hieroglyphsAMenu
 	hieroglyphsBMenu
 	hieroglyphsCMenu

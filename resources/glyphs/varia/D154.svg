@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="15.5pt"
+   height="6.2600002pt"
+   id="svg2590"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22D154.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi26_SR"
+   version="1.0">
+  <metadata
+     id="metadata2597">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22D154</dc:title>
+        <dc:date>17/04/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>pour rendre le groupe D154 de la classification de Bob Richmond
+valeur phonétique :jawr</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2595" />
+  <sodipodi:namedview
+     inkscape:window-height="708"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="23.036796"
+     inkscape:cx="16.031348"
+     inkscape:cy="-2.5026358"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:current-layer="svg2590" />
+  <g
+     id="g2630"
+     transform="translate(-3.429296,-0.217044)">
+    <path
+       id="path2592"
+       d="M 14.800148,3.3852762 C 16.243228,3.3852762 17.686305,3.6393399 19.129382,4.1474672 L 19.129382,4.3014272 C 17.671875,4.8146359 16.214368,5.0712402 14.75686,5.0712402 C 13.299348,5.0712402 11.841837,4.8146359 10.384329,4.3014272 L 10.384329,4.1782592 C 11.85627,3.6496039 13.32821,3.3852762 14.800148,3.3852762 z M 14.749158,2.1921452 C 12.84516,2.1921452 10.938594,2.6386355 9.0294608,3.5316162 L 7.1203288,3.8087482 C 6.7713475,4.0961455 6.7713475,4.3938059 7.1203288,4.7017292 L 9.0294608,4.9172772 C 10.938594,5.8205225 12.847727,6.2721452 14.75686,6.2721452 C 16.665984,6.2721452 18.575116,5.8205225 20.484256,4.9172772 L 22.177843,4.7017292 C 22.588408,4.3938059 22.588408,4.0961455 22.177843,3.8087482 L 20.453471,3.5316162 C 18.554597,2.6386355 16.65316,2.1921452 14.749158,2.1921452 z "
+       style="fill:#000000;stroke:none" />
+    <path
+       sodipodi:nodetypes="ccc"
+       id="path2437"
+       d="M 4.011468,7.590087 C 3.4457069,7.6566471 3.4041068,6.7872055 3.9615478,6.6915253 C 4.5938691,6.6665653 4.7103493,7.577607 4.011468,7.590087 z "
+       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
+    <path
+       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+       d="M 4.0548768,6.2878225 C 3.4891157,6.3543826 3.4475156,5.484941 4.0049566,5.3892608 C 4.6372779,5.3643008 4.7537581,6.2753425 4.0548768,6.2878225 z "
+       id="path2618"
+       sodipodi:nodetypes="ccc" />
+    <path
+       sodipodi:nodetypes="ccc"
+       id="path2620"
+       d="M 4.1416944,4.8119228 C 3.5759333,4.8784829 3.5343332,4.0090413 4.0917742,3.9133611 C 4.7240955,3.8884011 4.8405757,4.7994428 4.1416944,4.8119228 z "
+       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
+    <path
+       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+       d="M 4.7494178,3.3794319 C 4.1836567,3.445992 4.1420566,2.5765504 4.6994976,2.4808702 C 5.3318189,2.4559102 5.4482991,3.3669519 4.7494178,3.3794319 z "
+       id="path2622"
+       sodipodi:nodetypes="ccc" />
+    <path
+       sodipodi:nodetypes="ccc"
+       id="path2624"
+       d="M 5.878047,2.1639851 C 5.3122859,2.2305452 5.2706858,1.3611036 5.8281268,1.2654234 C 6.4604481,1.2404634 6.5769283,2.1515051 5.878047,2.1639851 z "
+       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
+    <path
+       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+       d="M 7.2671291,1.5562617 C 6.701368,1.6228218 6.6597679,0.75338021 7.2172089,0.65770001 C 7.8495302,0.63274001 7.9660104,1.5437817 7.2671291,1.5562617 z "
+       id="path2626"
+       sodipodi:nodetypes="ccc" />
+    <path
+       sodipodi:nodetypes="ccc"
+       id="path2628"
+       d="M 8.916664,1.2958089 C 8.3509029,1.362369 8.3093028,0.49292731 8.8667438,0.39724711 C 9.4990651,0.37228711 9.6155453,1.2833289 8.916664,1.2958089 z "
+       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
+  </g>
+</svg>

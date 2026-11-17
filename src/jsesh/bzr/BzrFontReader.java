@@ -1,5 +1,6 @@
 package jsesh.bzr;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -29,7 +30,7 @@ public class BzrFontReader implements BzrCodes {
 	public void read(InputStream in) throws BzrFormatException, IOException
 	{
 		builder.reset();
-		this.in = new BzrPortableFile(in);
+		this.in = new BzrPortableFile(new BufferedInputStream(in));
 		readHeader();
 		readChars();
 		readPostFace();

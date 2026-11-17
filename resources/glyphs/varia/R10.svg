@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="14.349321"
+   height="17.977417"
+   id="svg1333"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22R10B.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi20_SR">
+  <metadata
+     id="metadata1340">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22R10B</dc:title>
+        <dc:date>29/01/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>optimisation du signe précédent de Jsesh et refonte avec le nouveau signe nTr</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1338" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="7.1746605"
+     inkscape:cy="9.0561839"
+     inkscape:window-x="192"
+     inkscape:window-y="66"
+     inkscape:current-layer="svg1333" />
+  <g
+     id="g1392">
+    <path
+       sodipodi:nodetypes="ccccsccccccccccccccccccccccccccccccc"
+       id="path1335"
+       d="M 5.645969,17.202879 L 8.560675,17.202879 C 9.144975,17.012642 9.654539,16.645757 10.089367,16.102222 L 11.210407,14.512382 C 11.753942,13.588373 12.202359,13.068617 12.555656,12.953116 C 12.908954,12.837615 13.289429,12.834217 13.69708,12.942924 C 14.145496,13.105985 14.36291,13.765021 14.349321,14.920033 L 14.349321,17.977417 L 0,17.977417 L 1.426779,12.596421 L 4.443398,12.596421 L 5.645969,17.202879 z M 13.737844,17.202879 L 13.737844,14.695825 C 13.737844,14.057171 13.574784,13.663108 13.248663,13.513637 C 12.868189,13.445695 12.52848,13.64952 12.229535,14.125113 C 11.808296,14.845297 11.475381,15.382038 11.23079,15.735335 C 10.700843,16.550637 10.279604,17.039818 9.967072,17.202879 L 13.737844,17.202879 z M 5.09564,17.202879 L 4.096894,13.411724 L 3.5058,14.369704 L 4.21919,17.202879 L 5.09564,17.202879 z M 3.994982,13.044838 L 1.875195,13.044838 L 2.690498,14.369704 L 1.977108,17.202879 L 3.893069,17.202879 L 3.179679,14.369704 L 3.994982,13.044838 z M 2.364377,14.369704 L 1.773283,13.411724 L 0.754155,17.202879 L 1.650987,17.202879 L 2.364377,14.369704 z "
+       style="fill:#000000; stroke:none" />
+    <path
+       sodipodi:nodetypes="cssccccssccccccccccccccccccccccccccscccccccccccccccssscccccccc"
+       id="path1390"
+       d="M 4.3347285,0.6877985 C 4.9761085,0.6885609 6.3288512,0.6735149 6.7061741,0.8506345 C 6.7672054,0.8792833 6.8223069,0.8881305 6.8571805,0.9087105 C 6.8638957,0.9126641 6.8687445,0.9147953 6.8719653,0.9157513 L 6.8719653,0.9157513 L 6.8899469,3.8333937 L 6.8899469,3.8333937 C 6.5820597,3.4142641 6.1380685,3.1505937 5.6795957,2.9942401 C 5.2273333,2.8399985 4.7631785,2.7849281 4.4117885,2.7899889 L 1.9479458,2.8254737 L 1.9479458,2.8254737 L 1.9479458,2.8254737 L 1.9479458,2.8254737 L 1.9479458,2.8254737 L 1.9479458,2.8254737 L 1.9408948,2.4302441 L 1.9408948,2.4302441 L 5.5526429,2.4154873 L 5.5516901,2.2084809 C 5.5516901,2.2084809 2.6583468,2.2208985 1.9372008,2.2232481 L 1.9372018,2.2232481 L 1.9303168,1.8373641 L 1.9303168,1.8373641 L 5.5394909,1.8081497 L 5.5379029,1.6011481 L 1.9266248,1.6303793 L 1.9266248,1.6303793 L 1.9196938,1.2419265 L 1.9196938,1.2419265 L 5.5450429,1.2109361 L 5.5431373,1.0039368 L 1.9160008,1.0349425 L 1.9160008,1.0349425 L 1.9108018,0.7435449 L 1.9108018,0.7435449 C 2.2656248,0.7277745 4.3193461,0.6877801 4.3347285,0.6877985 z M 6.8899469,3.8333937 L 6.8899469,3.8333937 C 6.8899469,3.8333937 6.8899469,3.8333937 6.8899469,3.8333937 L 6.8899469,3.8333937 L 6.8899469,3.8333937 z M 8.5860725,0.0139736 L 1.6695568,0.4412233 L 1.5249248,0.4501089 L 1.5281078,0.4539256 L 1.1496868,0.4539256 L 1.1601428,3.0854081 L 1.6724488,3.1334081 L 1.6737748,3.1159801 L 1.9531958,3.1272649 L 1.9529928,3.1152417 C 1.9529928,3.1152417 4.3758349,3.0798361 4.4106701,3.0798361 C 4.7321525,3.0798361 5.1644365,3.1247361 5.5861581,3.2685753 C 6.0374933,3.4225233 6.4797181,3.6894217 6.7505477,4.1475225 C 6.7973869,4.2267473 6.8391317,4.3118241 6.8748909,4.4032057 L 6.8748909,4.4032057 L 6.8781085,16.115138 L 6.6073221,17.555907 L 8.5599837,17.555629 L 8.1601813,16.132408 L 8.1565301,0.7993329 L 8.5860725,0.0139736 z "
+       style="fill:#000000;stroke:none" />
+  </g>
+</svg>

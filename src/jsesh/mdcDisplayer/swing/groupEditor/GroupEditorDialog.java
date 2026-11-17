@@ -24,7 +24,7 @@ import javax.swing.SwingConstants;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.output.ModelWriter;
+import jsesh.mdc.output.MdCModelWriter;
 
 /**
  * Dialog panel for editing groups.
@@ -127,7 +127,7 @@ public class GroupEditorDialog extends JPanel {
              * @see java.awt.event.WindowAdapter#windowClosed(java.awt.event.WindowEvent)
              */
             public void windowClosing(WindowEvent e) {
-                ModelWriter m= new ModelWriter();
+                MdCModelWriter m= new MdCModelWriter();
                 TopItemList l= new TopItemList();
                 editor.getGroup().compact();
                 l.addTopItem(editor.getGroup().buildTopItem());            

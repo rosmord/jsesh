@@ -10,7 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import javax.swing.JToolBar;
 
-import jsesh.uiFramework.PropertyButtonModel;
+import org.qenherkhopeshef.guiFramework.PropertyButtonModel;
+
 
 
 public class TestPropertyButtons {

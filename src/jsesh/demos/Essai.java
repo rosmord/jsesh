@@ -2,7 +2,8 @@ package jsesh.demos;
 
 import java.beans.PropertyChangeSupport;
 
-import jsesh.uiFramework.PropertyHolder;
+import org.qenherkhopeshef.guiFramework.PropertyHolder;
+
 
 /**
  * Test class for PropertyButtonModel.

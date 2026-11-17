@@ -12,8 +12,8 @@ import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 
 /**
  * Action of adding an element to the lower level of a cadrat. 
- *   @author rosmord
- *
+ * @author rosmord
+ * @deprecated
  */
 public class AddLowerLevelAction extends AbstractAction {
 	

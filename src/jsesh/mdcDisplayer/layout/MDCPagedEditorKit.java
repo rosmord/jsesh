@@ -10,8 +10,9 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
  * @author Serge Rosmorduc
- *
+ * 
  * This file is free software under the Gnu Lesser Public License.
+ * @deprecated
  */
 public abstract class MDCPagedEditorKit
 {

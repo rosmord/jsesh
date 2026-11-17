@@ -21,10 +21,13 @@ import jsesh.mdc.parser.MDCParse;
  * Fa�ade for the Parser process for java.  This is still a rather
  * low-level system. It can't do anything without the help of a
  * builder class. It's a brick for advanced programmers.
- *
+ * 
+ * For most uses, you want MDCParserModelGenerator.
+ * 
  * <p> A number of useful simple parser will be provided for usual
  * needs.
  *
+ * @see MDCParserModelGenerator
  */
 public class MDCParserFacade {
 

@@ -41,6 +41,7 @@ public abstract class TopItemSimpleDrawer {
 
 	/**
 	 * Utility method to draw a list of model elements.
+	 * <p>This method uses buildGraphics to create the drawing device.
 	 */
 	
 	public void drawTopItemList(TopItemList list) {
@@ -74,7 +75,7 @@ public abstract class TopItemSimpleDrawer {
 	/**
 	 * Utility method to draws a model element.
 	 * 
-	 * This method uses an auxiliary class, GraphicsGenerator.
+	 * <p>This method uses buildGraphics to create the drawing device.
 	 * @param elt
 	 */
 
@@ -84,6 +85,13 @@ public abstract class TopItemSimpleDrawer {
 		drawTopItemList(smallModel);
 	}
 
+	/**
+	 * Method to create the actual drawing device.
+	 * <p> You need to write it when extending this class.
+	 * <p> Note that when this method is called, the layout is already done. So one can call 
+	 * getCurrentView, getScaledHeight(), getScaledWidth... 
+	 * @return
+	 */
 	protected abstract Graphics2D buildGraphics();
 
 	public ViewBuilder getBuilder() {
@@ -113,7 +121,12 @@ public abstract class TopItemSimpleDrawer {
 	 * @return Returns the currentView.
 	 */
 	public MDCView getCurrentView() {
-		return currentView;
+		return currentView;    /*
+	     * (non-Javadoc)
+	     * 
+	     * @see java.awt.Graphics2D#draw(java.awt.Shape)
+	     */
+
 	}
 	
 	/**

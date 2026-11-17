@@ -19,7 +19,16 @@ public class SVGLowLevel {
 	public SVGLowLevel(Writer writer, Dimension dimensions) throws IOException {
 		this.writer = writer;
 		writer.write("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>");
-		generateStartTag("svg", null);
+		
+		// SVG opening tag MUST contain the following namespace declarations: 
+		// <svg xmlns="http://www.w3.org/2000/svg"
+		//     xmlns:xlink="http://www.w3.org/1999/xlink">
+		
+		String[][] attributes= new String[][] {
+				{"xmlns", "http://www.w3.org/2000/svg"},
+				{"xmlns:xlink","http://www.w3.org/1999/xlink"}
+		};
+		generateStartTag("svg", attributes);
 	}
 
 	public void drawLine(double x, double y, double x2, double y2)

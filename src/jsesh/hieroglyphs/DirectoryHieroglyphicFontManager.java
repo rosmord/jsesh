@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.TreeMap;
 
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.externalFonts.model.SVGSignSource;
@@ -25,7 +26,7 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 
 	File directory;
 
-	HashMap codeMap;
+	TreeMap codeMap= new TreeMap(GardinerCode.getCodeComparator());
 
 	HashMap signsMap;
 
@@ -42,7 +43,7 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 	public DirectoryHieroglyphicFontManager(File directory) {
 		super();
 		this.directory = directory;
-		codeMap = new HashMap();
+	
 		signsMap = new HashMap();
 		hasNewSigns = true;
 		lastRefreshed = System.currentTimeMillis();

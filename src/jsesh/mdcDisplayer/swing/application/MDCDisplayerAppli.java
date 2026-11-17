@@ -1,6 +1,5 @@
 package jsesh.mdcDisplayer.swing.application;
 
-
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.InputEvent;
@@ -9,11 +8,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -32,7 +31,11 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.qenherkhopeshef.utils.PlatformDetection;
+
 import jsesh.Version;
+import jsesh.hieroglyphs.DefaultHieroglyphsManager;
+import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdcDisplayer.swing.application.actions.AboutAction;
 import jsesh.mdcDisplayer.swing.application.actions.DisplayJavaPropertiesAction;
@@ -51,7 +54,6 @@ import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener;
 import jsesh.mdcDisplayer.swing.splash.SplashScreen;
 import jsesh.resources.ResourcesManager;
-import jsesh.utils.PlatformDetection;
 
 /**
  * An application to load, display and edit MDC files This file is free Software
@@ -87,8 +89,6 @@ public class MDCDisplayerAppli {
 
 	private JMenuBar menubar;
 
-	SplashScreen splash;
-
 	/**
 	 * Constructor for MDCDisplayerAppli.
 	 */
@@ -104,12 +104,10 @@ public class MDCDisplayerAppli {
 		// TODO IMPORTANT clean up the relations between these two.
 		workflow.setFrame(frame);
 
-		
 		menubar = buildMenuBar();
 		frame.setJMenuBar(menubar);
 		frame.addWindowListener(new WindowAdapter() {
 
-			
 			/*
 			 * (non-Javadoc)
 			 * 
@@ -127,13 +125,14 @@ public class MDCDisplayerAppli {
 			Reader r = ResourcesManager.getInstance().getDemoData();
 			// Reader r= new
 			// FileReader("/home/rosmord/HieroFinal/inBase/amenemope.hie");
-			 //r= new StringReader("r:a-ra-m-!-t:A-p*t:pt-n\\200:(x:t)*U30\\200-xAst-!-s-r:D-A1");
-			//r= new StringReader("<h-m-p*t:pt->");
-			data.readModel(r);
+			// r= new
+			// StringReader("r:a-ra-m-!-t:A-p*t:pt-n\\200:(x:t)*U30\\200-xAst-!-s-r:D-A1");
+			// r= new StringReader("<h-m-p*t:pt->");
+			data.readTopItemList(r);
 			r.close();
 			// Test :
 			/*
-			 * ModelWriter w = new ModelWriter(); OutputStreamWriter outw = new
+			 * MdCModelWriter w = new MdCModelWriter(); OutputStreamWriter outw = new
 			 * OutputStreamWriter(System.out); w.write(outw, data.getModel());
 			 * outw.flush();
 			 */
@@ -153,23 +152,35 @@ public class MDCDisplayerAppli {
 
 		menu.setMnemonic(KeyEvent.VK_F);
 
-		addWithMnemonics(menu,new NewTextAction("New", workflow), new Integer('N'));
-		addWithMnemonics(menu, new OpenTextAction("Open", workflow), new Integer('O'));
-		addWithMnemonics(menu, new SaveTextAction("Save",workflow), new Integer('S'));
-		
-		JMenu exportMenu= new JMenu("Export as");
+		addWithMnemonics(menu, new NewTextAction("New", workflow), new Integer(
+				'N'));
+		addWithMnemonics(menu, new OpenTextAction("Open", workflow),
+				new Integer('O'));
+		addWithMnemonics(menu, new SaveTextAction("Save", workflow),
+				new Integer('S'));
+
+		JMenu exportMenu = new JMenu("Export as");
 		menu.add(exportMenu);
 		menu.addSeparator();
-		addWithMnemonics(menu, new ExitAction("Exit", workflow), new Integer('X'));
+		addWithMnemonics(menu, new ExitAction("Exit", workflow), new Integer(
+				'X'));
 		menubar.add(menu);
 
-		exportMenu.add(new WorkflowMethodAction("Export as Bitmap", "exportAsBitmap", workflow));
-		exportMenu.add(new WorkflowMethodAction("Export as Wmf", "exportAsWMF", workflow,true));
-		exportMenu.add(new WorkflowMethodAction("Export as SVG", "exportAsSVG", workflow,true));
-		exportMenu.add(new WorkflowMethodAction("Export as Html", "exportAsHtml", workflow));
-		exportMenu.add(new WorkflowMethodAction("Export as Pdf", "exportAsPdf", workflow));
-		exportMenu.add(new WorkflowMethodAction("Export as Rtf", "exportAsRtf", workflow));
-				
+		exportMenu.add(new WorkflowMethodAction("Export as Bitmap",
+				"exportAsBitmap", workflow));
+		exportMenu.add(new WorkflowMethodAction("Export as Wmf", "exportAsWMF",
+				workflow, true));
+		exportMenu.add(new WorkflowMethodAction("Export as Mac Pict",
+				"exportAsMacPict", workflow, true));
+		exportMenu.add(new WorkflowMethodAction("Export as SVG", "exportAsSVG",
+				workflow, true));
+		exportMenu.add(new WorkflowMethodAction("Export as Html",
+				"exportAsHtml", workflow));
+		exportMenu.add(new WorkflowMethodAction("Export as Pdf", "exportAsPdf",
+				workflow));
+		exportMenu.add(new WorkflowMethodAction("Export as Rtf", "exportAsRtf",
+				workflow));
+
 		JMenu edit = new JMenu("Edit");
 		edit.setMnemonic(KeyEvent.VK_E);
 		addWithShortCut(edit, workflow.getCutAction(), KeyEvent.VK_X);
@@ -185,13 +196,18 @@ public class MDCDisplayerAppli {
 		addWithShortCut(edit, workflow.getSetItalicModeAction(), KeyEvent.VK_I);
 		addWithShortCut(edit, workflow.getSetTransliterationModeAction(),
 				KeyEvent.VK_T);
-		addWithShortCut(edit,workflow.getSetLinePageNumberModeAction(), KeyEvent.VK_EXCLAMATION_MARK);
+		addWithShortCut(edit, workflow.getSetLinePageNumberModeAction(),
+				KeyEvent.VK_EXCLAMATION_MARK);
 		edit.addSeparator();
 		//
 		// Selection of the copy and paste configuration.
-		ButtonGroup group= new ButtonGroup();
-		JRadioButtonMenuItem copyAndPaste1= new JRadioButtonMenuItem(new SelectCopyPasteConfigurationAction("copy : large size",workflow,0));
-		JRadioButtonMenuItem copyAndPaste2= new JRadioButtonMenuItem(new SelectCopyPasteConfigurationAction("copy : small size",workflow,1));
+		ButtonGroup group = new ButtonGroup();
+		JRadioButtonMenuItem copyAndPaste1 = new JRadioButtonMenuItem(
+				new SelectCopyPasteConfigurationAction("copy : large size",
+						workflow, 0));
+		JRadioButtonMenuItem copyAndPaste2 = new JRadioButtonMenuItem(
+				new SelectCopyPasteConfigurationAction("copy : small size",
+						workflow, 1));
 		group.add(copyAndPaste1);
 		group.add(copyAndPaste2);
 		edit.add(copyAndPaste1);
@@ -202,13 +218,21 @@ public class MDCDisplayerAppli {
 
 		JMenu manipulate = new JMenu("Text Manipulation");
 		manipulate.setMnemonic(KeyEvent.VK_T);
-		addWithShortCut(manipulate, workflow.getGroupHorizontallyAction(),
-				KeyEvent.VK_H);
+		// For mac, command-H is usually used by the system (hides windows).
+
+		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
+			addWithShortCut(manipulate, workflow.getGroupHorizontallyAction(),
+					KeyEvent.VK_J);
+		} else
+			addWithShortCut(manipulate, workflow.getGroupHorizontallyAction(),
+					KeyEvent.VK_H);
 		addWithShortCut(manipulate, workflow.getGroupVerticallyAction(),
 				KeyEvent.VK_G);
 		addWithShortCut(manipulate, workflow.getLigatureAction(), KeyEvent.VK_L);
-		addWithShortCut(manipulate, workflow.getLigatureBeforeAction(), KeyEvent.VK_K);
-		addWithShortCut(manipulate, workflow.getLigatureAfterAction(), KeyEvent.VK_M);
+		addWithShortCut(manipulate, workflow.getLigatureBeforeAction(),
+				KeyEvent.VK_K);
+		addWithShortCut(manipulate, workflow.getLigatureAfterAction(),
+				KeyEvent.VK_M);
 		addWithShortCut(manipulate, workflow.getExplodeGroupAction(),
 				KeyEvent.VK_E);
 		manipulate.addSeparator();
@@ -218,13 +242,18 @@ public class MDCDisplayerAppli {
 				KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK);
 		addWithShortCut(manipulate, workflow.getInsertPageBreakAction(),
 				KeyEvent.VK_ENTER, InputEvent.SHIFT_DOWN_MASK);
-		addWithShortCut(manipulate, workflow.getInsertRedPointAction(),
-				KeyEvent.VK_O);
-		addWithShortCut(manipulate, workflow.getInsertBlackPointAction(),
-				KeyEvent.VK_O, InputEvent.SHIFT_DOWN_MASK);
+		
+		manipulate.add(workflow.getInsertRedPointAction());
+		manipulate.add(workflow.getInsertBlackPointAction());
+		
+//		addWithShortCut(manipulate, workflow.getInsertRedPointAction(),
+//				KeyEvent.VK_O);
+//		addWithShortCut(manipulate, workflow.getInsertBlackPointAction(),
+//				KeyEvent.VK_O, InputEvent.SHIFT_DOWN_MASK);
+		
 		manipulate.addSeparator();
 		addWithShortCut(manipulate, workflow.getShadeZoneAction(),
-				KeyEvent.VK_Z);
+				KeyEvent.VK_O); // doesn't work on mac
 		addWithShortCut(manipulate, workflow.getUnShadeZoneAction(),
 				KeyEvent.VK_Z, InputEvent.SHIFT_DOWN_MASK);
 		// manipulate.add(workflow.getInsertPageBreakAction());
@@ -243,7 +272,7 @@ public class MDCDisplayerAppli {
 		JMenu size = new JMenu("Size");
 		size.setMnemonic(KeyEvent.VK_S);
 		// Sizes : 200 144 120 100 70 50 35 25
-		int sizes[] = { 240, 200, 144, 120, 100, 70, 50, 35, 25 ,1};
+		int sizes[] = { 240, 200, 144, 120, 100, 70, 50, 35, 25, 1 };
 		for (int i = 0; i < sizes.length; i++) {
 			size.add(workflow.buildSizeAction(sizes[i]));
 		}
@@ -281,10 +310,10 @@ public class MDCDisplayerAppli {
 		view.add(workflow.getResetZoomAction());
 		view.addSeparator();
 		// FIXME : design a cleaner system for actions (xml definition file ?)
-		JMenu orientationMenu= new JMenu("Orientation");
-		JMenu directionMenu= new JMenu("Direction");
+		JMenu orientationMenu = new JMenu("Orientation");
+		JMenu directionMenu = new JMenu("Direction");
 		view.add(orientationMenu);
-		view.add(directionMenu);		
+		view.add(directionMenu);
 		view.addSeparator();
 		// Small signs on base line ?
 		view
@@ -292,22 +321,30 @@ public class MDCDisplayerAppli {
 						.getSelectCenteredSignsAction()));
 		menubar.add(view);
 
-		ButtonGroup orientationGroup= new ButtonGroup();
-		JRadioButtonMenuItem horizontalButton = new JRadioButtonMenuItem(new ForwardedAction(workflow, "Horizontal", MDCEditorKeyManager.SELECT_HORIZONTAL_ORIENTATION));
-		JRadioButtonMenuItem verticalButton= new JRadioButtonMenuItem(new ForwardedAction(workflow, "Vertical", MDCEditorKeyManager.SELECT_VERTICAL_ORIENTATION));
+		ButtonGroup orientationGroup = new ButtonGroup();
+		JRadioButtonMenuItem horizontalButton = new JRadioButtonMenuItem(
+				new ForwardedAction(workflow, "Horizontal",
+						MDCEditorKeyManager.SELECT_HORIZONTAL_ORIENTATION));
+		JRadioButtonMenuItem verticalButton = new JRadioButtonMenuItem(
+				new ForwardedAction(workflow, "Vertical",
+						MDCEditorKeyManager.SELECT_VERTICAL_ORIENTATION));
 		orientationGroup.add(horizontalButton);
 		orientationGroup.add(verticalButton);
 		orientationMenu.add(horizontalButton);
 		orientationMenu.add(verticalButton);
-		
-		ButtonGroup directionGroup= new ButtonGroup();
-		JRadioButtonMenuItem leftToRightButton=new JRadioButtonMenuItem(new ForwardedAction(workflow, "Left to Right", MDCEditorKeyManager.SELECT_L2R_DIRECTION));
-		JRadioButtonMenuItem rightToLeftButton = new JRadioButtonMenuItem(new ForwardedAction(workflow, "Right to Left", MDCEditorKeyManager.SELECT_R2L_DIRECTION));
+
+		ButtonGroup directionGroup = new ButtonGroup();
+		JRadioButtonMenuItem leftToRightButton = new JRadioButtonMenuItem(
+				new ForwardedAction(workflow, "Left to Right",
+						MDCEditorKeyManager.SELECT_L2R_DIRECTION));
+		JRadioButtonMenuItem rightToLeftButton = new JRadioButtonMenuItem(
+				new ForwardedAction(workflow, "Right to Left",
+						MDCEditorKeyManager.SELECT_R2L_DIRECTION));
 		directionGroup.add(rightToLeftButton);
 		directionGroup.add(leftToRightButton);
 		directionMenu.add(leftToRightButton);
 		directionMenu.add(rightToLeftButton);
-		
+
 		buildHieroglyphicMenus(menubar);
 
 		buildToolsMenus(menubar);
@@ -315,16 +352,17 @@ public class MDCDisplayerAppli {
 		menubar.add(Box.createHorizontalGlue());
 		JMenu help = new JMenu("Help");
 		help.setMnemonic(KeyEvent.VK_L);
-		help.add(new AboutAction("About JSesh",frame));
+		help.add(new AboutAction("About JSesh", frame));
 		help.add(new DocumentationAction("JSesh user documentation"));
-		help.add(new DisplayJavaPropertiesAction("Display java properties", frame));
+		help.add(new DisplayJavaPropertiesAction("Display java properties",
+				frame));
 		menubar.add(help);
 		return menubar;
 	}
 
-	
 	/**
 	 * Add a menu item with a specific mnemonic
+	 * 
 	 * @param menu
 	 * @param action
 	 * @param keyCode
@@ -336,11 +374,14 @@ public class MDCDisplayerAppli {
 
 	private void buildToolsMenus(JMenuBar menubar2) {
 		JMenu tools = new JMenu("Tools");
+		tools.add(new WorkflowMethodAction("Hide/Show hieroglyph palette",
+				"toggleHieroglyphPalette", workflow));
+
 		tools.add(workflow.getAddNewSignsAction());
 
 		tools.addSeparator();
 		// JMenuItem prefs= new JMenuItem("Edit preferences");
-		tools.add(new EditPreferencesAction("Edit preferences",workflow));
+		tools.add(new EditPreferencesAction("Edit preferences", workflow));
 		menubar2.add(tools);
 	}
 
@@ -429,39 +470,20 @@ public class MDCDisplayerAppli {
 	 * @param menubar
 	 */
 	private void buildHieroglyphicMenus(JMenuBar menubar) {
-		String families[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "K",
-				"L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
-				"X", "Y", "Z", "Aa", "Ff" };
-		String titles[] = { "A. Man and his occupations",
-				"B. Woman and her occupations", "C. Anthropomorphic Deities",
-				"D. Parts of the human body", "E. Mammals",
-				"F. Parts of Mammals", "G. Birds", "H. Parts of Birds",
-				"I. Amphibious animals, reptiles, etc.",
-				"K. Fishes and parts of fishes",
-				"L. Invertebrata and lesser animals", "M. Trees and plants",
-				"N. Sky, earth, water",
-				"O. Buildings, parts of buildings, etc.",
-				"P. Ships and parts of ships",
-				"Q. Domestic and funerary furniture",
-				"R. Temple furniture and sacred emblems",
-				"S. Crowns, Dress, Staves, etc.",
-				"T. Warfare, hunting, butchery",
-				"U. Agriculture, crafts, and professions",
-				"V. Rope, Fibre, baskets, bags, etc.",
-				"W. Vessels of stone and earthenware", "X. Loaves and cakes",
-				"Y. Writings, games, music", "Z. Strokes",
-				"Aa. Unclassified (J)",
-				"Ff. Hieratic signs, Gardiner, JEA 15 (&)" };
+		List families = DefaultHieroglyphsManager.getInstance().getFamilies();
 
 		JMenu hieroglyphs = new JMenu("Hieroglyphs");
-		hieroglyphs.getPopupMenu().setLayout(new GridLayout(14, 2));
-		for (int i = 0; i < families.length; i++) {
 
-			HieroglyphicMenu fmenu = new HieroglyphicMenu(titles[i],
-					families[i], 6);
+		hieroglyphs.getPopupMenu().setLayout(new GridLayout(14, 2));
+		for (int i = 0; i < families.size(); i++) {
+			HieroglyphFamily family = (HieroglyphFamily) families.get(i);
+
+			HieroglyphicMenu fmenu = new HieroglyphicMenu(family.getCode()
+					+ ". " + family.getDescription(), family.getCode(), 6);
+
 			fmenu.setHieroglyphicMenuListener(new HieroglyphicMenuMediator());
 			if (i < 25)
-				fmenu.setMnemonic(families[i].toUpperCase().charAt(0));
+				fmenu.setMnemonic(family.getCode().toUpperCase().charAt(0));
 			else if (i == 25) {
 				fmenu.setMnemonic(KeyEvent.VK_J);
 			} else if (i == 26)
@@ -469,6 +491,7 @@ public class MDCDisplayerAppli {
 			hieroglyphs.add(fmenu);
 		}
 		hieroglyphs.setMnemonic(KeyEvent.VK_H);
+
 		menubar.add(hieroglyphs);
 
 	}
@@ -503,21 +526,12 @@ public class MDCDisplayerAppli {
 			workflow.setMessage("");
 		}
 	}
-	
+
 	/**
 	 * @param f
 	 */
-	public void setInitialFile(File f) {
-		try {
-			Reader r = new FileReader(f);
+	public void openFile(File f) {
 			workflow.loadFile(f);
-			r.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	/**
@@ -575,84 +589,144 @@ public class MDCDisplayerAppli {
 			splash.dispose();
 		}
 	}
-	
-	
 
-	public static void main(String[] args) {
-	
+	public static void prepareApplication() {
 		// We should have a more flexible look and feel system.
 		// However, for Linux, I like liquid.
 		try {
 			if (PlatformDetection.getPlatform() == PlatformDetection.UNIX) {
-	
+
 				// UIManager.setLookAndFeel(new KunststoffLookAndFeel());
 				// UIManager.setLookAndFeel(new LiquidLookAndFeel());
 				// UIManager.setLookAndFeel(new MetouiaLookAndFeel());
-				//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
-				
-				//UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
-				//OyoahaLookAndFeel lnf = new OyoahaLookAndFeel();
-				//UIManager.setLookAndFeel(lnf);
+				// UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+
+				// UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
+				// OyoahaLookAndFeel lnf = new OyoahaLookAndFeel();
+				// UIManager.setLookAndFeel(lnf);
 				// For fun, napkin is real nice :-)
-				//UIManager.setLookAndFeel("net.sourceforge.napkinlaf.NapkinLookAndFeel");
+				// UIManager.setLookAndFeel("net.sourceforge.napkinlaf.NapkinLookAndFeel");
 			} else if (PlatformDetection.getPlatform() == PlatformDetection.WINDOWS) {
-	
+
 				UIManager
 						.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
-				//UIManager.setLookAndFeel("net.java.plaf.windows.WindowsLookAndFeel;");
+				// UIManager.setLookAndFeel("net.java.plaf.windows.WindowsLookAndFeel;");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		try {
-			SplashScreen splash = new SplashScreen();
-			splash.display();
-			UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
-			
-			MDCDisplayerAppli a = new MDCDisplayerAppli();
-			boolean noTextWasLoaded= true;
-			
-			if (args.length > 0) {
-				File f= new File(args[0]);
-				if (f.exists()) {
-					a.setInitialFile(f);
-					noTextWasLoaded= false;
-				}
-			}
-			
-			if (noTextWasLoaded) {
-				a.loadDemo();
-			}
-			// Swing commands should be performed in the graphical thread.
-			// Hence we create a runnable to actually start the program.
-	
-			a.frame.addWindowListener(new SplashCloser(splash));
-	
-			StartMe run = new StartMe(a.frame);
-			SwingUtilities.invokeLater(run);
-			// SwingUtilities.invokeLater(run);
-			// In order to have a nice splash screen, we should do more work
-			// * move splash screen creation out of MDCDisplayerAppli
-			// constructor
-			// * probably move some of MDCDisplayerAppli's creation work out of
-			// the graphical thread.
-			// run.run();
-		} catch (Exception e) {
-			String message = "An unexpected error occurred when starting jsesh.\n"
-					+ "can you please note the message and send a mail to rosmord@iut.univ-paris8.fr about it?\n"
-					+ e.getMessage();
-			StringWriter string = new StringWriter();
-			PrintWriter out = new PrintWriter(string);
-			e.printStackTrace(out);
-			JTextArea textArea = new JTextArea(e.getMessage() + "\n"
-					+ string.toString());
-			JScrollPane pane = new JScrollPane(textArea);
-			pane.setPreferredSize(new Dimension(640, 400));
-			JOptionPane.showMessageDialog(null, pane, "Problem",
-					JOptionPane.ERROR_MESSAGE);
+
+		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX
+				&& !System.getProperty("java.version").startsWith("1.4")) {
+			System.setProperty("apple.laf.useScreenMenuBar", "true");
 		}
+		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
+			System.setProperty("apple.awt.fractionalmetrics", "on");
+		}
+		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
+
 	}
 
+	public static MDCDisplayerAppli startAppli(String args[]) {
+		
+		MDCDisplayerAppli a = new MDCDisplayerAppli();
+		
+		boolean noTextWasLoaded = true;
+
+		if (args.length > 0) {
+			File f = new File(args[0]);
+			if (f.exists()) {
+				a.openFile(f);
+				noTextWasLoaded = false;
+			}
+		}
+
+		if (noTextWasLoaded) {
+			a.loadDemo();
+		}
+
+		if (! DefaultHieroglyphsManager.getInstance().isUserFileCorrect()) {
+			JOptionPane.showMessageDialog(a.frame, "I had difficulties reading the signs definitions\n" +
+					"Maybe it's because of the file "+ DefaultHieroglyphsManager.getUserSignDefinitionFile()+"\n" +
+							"Error message was : \""+ DefaultHieroglyphsManager.getInstance().getUserFileMessage()+"\"","Error loading signs definition",JOptionPane.ERROR_MESSAGE);
+		}
+		StartMe run = new StartMe(a.frame);
+		SwingUtilities.invokeLater(run);
+		return a;
+	}
+
+	/**
+	 * The application should be built more carefully regarding threads.
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		final SplashScreen splash = new SplashScreen();
+		final String[] arguments = args;
+		splash.display();
+		// Quick hack.
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+		}
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					// Swing commands should be performed in the graphical
+					// thread.
+					// Hence we create a runnable to actually start the program.
+
+					MDCDisplayerAppli a = startAppli(arguments);
+					a.setSplash(splash);
+
+					// SwingUtilities.invokeLater(run);
+					// In order to have a nice splash screen, we should do more
+					// work
+					// * move splash screen creation out of MDCDisplayerAppli
+					// constructor
+					// * probably move some of MDCDisplayerAppli's creation work
+					// out of
+					// the graphical thread.
+					// run.run();
+				} catch (Exception e) {
+					displayErrorMessage(e);
+				}
+			}
+		});
+	}
+
+	private static void displayErrorMessage(Exception e) {
+		final String message = "An unexpected error occurred when starting jsesh.\n"
+				+ "can you please note the message and send a mail to serge.rosmorduc AT qenherkhopeshef.org about it?\n"
+				+ e.getMessage();
+		StringWriter string = new StringWriter();
+		PrintWriter out = new PrintWriter(string);
+		e.printStackTrace(out);
+		final String stackTrace = string.toString();
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				JTextArea textArea = new JTextArea(message + "\n" + stackTrace);
+				JScrollPane pane = new JScrollPane(textArea);
+				pane.setPreferredSize(new Dimension(640, 400));
+				JOptionPane.showMessageDialog(null, pane, "Problem",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		});
+	}
+
+	public void quit() {
+		workflow.exit();
+	}
+
+	public void setVisible(boolean b) {
+		frame.setVisible(true);
+	}
+	
+	public void setSplash(SplashScreen splash) {
+		frame.addWindowListener(new SplashCloser(splash));
+	}
+
+	
 
 }

@@ -20,6 +20,16 @@ public class RandomAccessFileAdapter implements RandomAccessStream {
 		}
 	}
 
+	public int tell() {
+		try {
+		return (int) randomAccessFile.getFilePointer();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public void close() {
 		try {
 			randomAccessFile.close();

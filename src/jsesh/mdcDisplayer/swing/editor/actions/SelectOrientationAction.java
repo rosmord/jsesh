@@ -30,7 +30,8 @@ public class SelectOrientationAction extends AbstractAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor d=  (JMDCEditor) e.getSource();
-		d.setTextOrientation(orientation);
+		if (d.isEditable())
+			d.setTextOrientation(orientation);
 	}
 
 }

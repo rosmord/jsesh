@@ -210,9 +210,9 @@ public class ModifiersList
 			}
 		} else if (m.getValue() != null) {
 			if (m.getName().equals("r")) {
-				angle = m.getValue().intValue() * 90;
+				angle = (360 - m.getValue().intValue() * 90) % 360;
 			} else if (m.getName().equals("t")) {
-				angle = m.getValue().intValue() * 90;
+				angle = (360 - m.getValue().intValue() * 90) % 360;
 				reversed = true;
 			} else if (m.getName().equals("R")) {
 				angle = m.getValue().intValue() % 360;

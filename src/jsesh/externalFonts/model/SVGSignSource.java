@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -47,8 +49,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * <p>
  * <b>Ligature zones </b> TODO : write doc.
  * <ul>
- * <li> TODO implement a larger part type filter textof SVG (static graphics, ignoring spurious
- * stuff like animation).
+ * <li> TODO implement a larger part type filter textof SVG (static graphics,
+ * ignoring spurious stuff like animation).
  * <li> TODO take viewBox into account (not a priority)
  * <li>
  * </ul>
@@ -79,8 +81,24 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		try {
 			initSVGSignSource(file.toURI().toURL());
 		} catch (Exception e) {
-			e.printStackTrace();
+			String errorSource = file.getPath();
+			processError(e, errorSource);
 		}
+	}
+
+	/**
+	 * Error processing. Do not stop the software from working, but indicate
+	 * that the sign can't be read.
+	 * 
+	 * @param e
+	 * @param errorSource
+	 */
+	private void processError(Exception e, String errorSource) {
+		System.err.println("Error reading " + errorSource);
+		e.printStackTrace();
+		this.code = "Error " + errorSource;
+		this.shape = new ShapeChar();
+		this.shape.setShape(new Rectangle2D.Double(0, 0, 14, 14));
 	}
 
 	/*
@@ -105,13 +123,33 @@ public class SVGSignSource implements SimpleSignSourceModel {
 	 * beforeFirst(); }
 	 */
 	public SVGSignSource(URL url) {
-		initSVGSignSource(url);
+		try {
+			initSVGSignSource(url);
+		} catch (Exception e) {
+			String errorSource = url.toExternalForm();
+			processError(e, errorSource);
+		}
 	}
 
-	private void initSVGSignSource(URL url) {
+	public SVGSignSource(String signCode, InputStream in) {
 		try {
-			// look if file names might correspond to a code.
-			code = getCodeForURL(url);
+			initSVGSignSource(signCode, in, signCode);
+		} catch (Exception e) {
+			String errorSource = signCode;
+			processError(e, errorSource);
+		}
+	}
+
+	private void initSVGSignSource(URL url) throws IOException {
+		String ressourceName = url.toString();
+		// look if file names might correspond to a code.
+		InputStream in = url.openStream();
+		initSVGSignSource(ressourceName, in, getCodeForURL(url));
+	}
+
+	private void initSVGSignSource(String ressourceName, InputStream in, String signCode) throws FactoryConfigurationError {
+		try {
+			code= signCode;
 			if (code == null)
 				code = "";
 			// read SVG
@@ -124,7 +162,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			SAXParser parser = parserFactory.newSAXParser();
 
 			SVGReader handler = new SVGReader();
-			parser.parse(url.openStream(), handler);
+			parser.parse(in, handler);
 			shape = new ShapeChar();
 			if (handler.getZones() != null) {
 				for (int i = 0; i < handler.getZones().length; i++) {
@@ -132,7 +170,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 				}
 			}
 			shape.setShape(handler.getGeneralPath());
-			//shape.fixShape();
+			// shape.fixShape();
 			// A1 sign is supposed to be 1800px high.
 			// however, in old versions, it was 18px high
 			// Hence this conditional scaling.
@@ -142,13 +180,15 @@ public class SVGSignSource implements SimpleSignSourceModel {
 				shape.scaleToHeight(newHeight);
 			}
 			simplifyShape();
+			shape.setAuthor(handler.author);
+			shape.setDocumentation(handler.description);
 		} catch (ParserConfigurationException e) {
+			processError(e, ressourceName);
 			// In a future life, throw some kind of "BadFontException".
-			e.printStackTrace();
 		} catch (SAXException e) {
-			e.printStackTrace();
+			processError(e, ressourceName);
 		} catch (IOException e) {
-			e.printStackTrace();
+			processError(e, ressourceName);
 		}
 		beforeFirst();
 	}
@@ -338,10 +378,13 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		}
 	}
 
+	// We currently use SAX. However, as we start using the extra information provided by the DUBLIN CORE,
+	// We may find it useful to go to DOM one of these days.
+	
 	class SVGReader extends DefaultHandler {
 
 		public static final String INKSCAPE_NAMESPACES = "http://www.inkscape.org/namespaces/inkscape";
-
+		public static final String DUBLIN_CORE_NAMESPACE = "http://purl.org/dc/elements/1.1/";
 		/**
 		 * For ligature zones. Defined as anchor tags in the source, with title
 		 * either "zone1" or "zone2".
@@ -350,6 +393,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		 * label may contain additionnal information (like gravity anchor
 		 * point). TODO : add a "gravity" system.
 		 */
+		
 		private String zoneName = null;
 
 		private LigatureZone[] zones;
@@ -357,13 +401,30 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		private Area area;
 
 		private Stack styles;
+		
+		boolean inPattern= false; // don't take into account paths in pattern definition. 
+		
+		String description= "";
+		
+		String author="";
+		
+		String license;
 
+		StringBuffer currentText= new StringBuffer();
+		
+		boolean recordText= false;
+		
 		public SVGReader() {
 			area = new Area();
 			styles = new Stack();
 			zones = null;
 		}
 
+		public void characters(char[] ch, int start, int length) throws SAXException {
+			if (recordText)
+				currentText.append(ch, start, length);	
+		}
+		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -437,10 +498,30 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					}
 					addPathToArea(style, subPath);
 				}
+			} else if ("pattern".equals(localName)) {
+				inPattern= true;
+			} else if (isDCDescription(uri, localName)) {
+				// dc:description
+				recordText= true;
+				currentText.setLength(0);
+			} else if (isDCCreator(uri, localName)) {
+				recordText= true;
+				currentText.setLength(0);
 			}
 		}
 
+		private boolean isDCDescription(String uri, String localName) {
+			return "description".equals(localName) && DUBLIN_CORE_NAMESPACE.equals(uri);
+		}
+		
+		private boolean isDCCreator(String uri, String localName) {
+			return "creator".equals(localName) && DUBLIN_CORE_NAMESPACE.equals(uri);
+		}
+
 		private void addPathToArea(Style style, GeneralPath subPath) {
+			// No path defined inside a pattern should be taken into account
+			if (inPattern)
+				return;
 			if (style.outlined) {
 				area.add(new Area(new BasicStroke(style.strokeWidth)
 						.createStrokedShape(subPath)));
@@ -552,6 +633,19 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			// End of anchor.
 			if ("a".equals(localName))
 				this.zoneName = null;
+			else if ("pattern".equals(localName)) {
+				inPattern= false;
+			} else if (isDCDescription(uri, localName)) {
+				recordText= false;
+				description= currentText.toString().trim();
+				currentText.setLength(0);
+				
+			} else if (isDCCreator(uri, localName)) {
+				recordText= false;
+				author= currentText.toString().trim();
+				currentText.setLength(0);
+				
+			}
 			styles.pop();
 
 		}
@@ -676,8 +770,8 @@ public class SVGSignSource implements SimpleSignSourceModel {
 						cy = currentPos.y;
 					}
 					result.curveTo(cx, cy, args[0], args[1], args[2], args[3]);
-					previousCubicControlPoint = new Point2D.Float(args[1],
-							args[2]);
+					previousCubicControlPoint = new Point2D.Float(args[0],
+							args[1]);
 				}
 					break;
 				case 'q':
@@ -835,9 +929,13 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			String real = "[-+]?(?:\\d*\\.\\d+|\\d+\\.?)(?:[eE][-+]?\\d+)?";
 			String keys = "[aAtTQqSsCcVvHhLlZzMm]";
 			String command = "(" + real + "|" + keys + ")";
+			// According to profilers, compiling the pattern costs nothing
+			// compared to using it...
+			// So we don't bother to keep it static.
 			Pattern p = Pattern.compile(command);
 			Matcher m = p.matcher(pathData);
 			ArrayList result = new ArrayList();
+			// here is the complex part.
 			while (m.find()) {
 				result.add(m.group());
 			}
@@ -912,11 +1010,10 @@ public class SVGSignSource implements SimpleSignSourceModel {
 	private String getCodeForURL(URL url) {
 		String path = url.getPath();
 		int id = path.lastIndexOf('/');
-		String code= GardinerCode.getCodeForFileName(path.substring(id + 1));
-		if (code== null)
-		{
-			code= path.substring(id+1);
-			code= code.substring(0,code.indexOf('.'));
+		String code = GardinerCode.getCodeForFileName(path.substring(id + 1));
+		if (code == null) {
+			code = path.substring(id + 1);
+			code = code.substring(0, code.indexOf('.'));
 		}
 		return code;
 	}

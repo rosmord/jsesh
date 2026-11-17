@@ -120,7 +120,7 @@ public class RTFExporterUI {
 		 * @return
 		 */
 		private int getCadratHeight() {
-			return (int)(((Double)form.cadratHeightField.getValue()).doubleValue() * ((LengthUnit)form.unitField.getSelectedItem()).getPointsValue());
+			return (int)(((Number)form.cadratHeightField.getValue()).doubleValue() * ((LengthUnit)form.unitField.getSelectedItem()).getPointsValue());
 		}
 	}
 

@@ -199,6 +199,9 @@ public class BitmapExporter {
 			return g;
 		}
 
+		public void writeGraphics() throws IOException {
+			// NO-OP.
+		}
 	}
 
 	private boolean getEffectiveTransparency() {
@@ -240,6 +243,10 @@ public class BitmapExporter {
 
 		public void setDimension(Dimension scaledDimensions) {
 			this.scaledDimensions= scaledDimensions;
+		}
+		
+		public void writeGraphics() throws IOException {
+			// NO-OP
 		}
 	}
 

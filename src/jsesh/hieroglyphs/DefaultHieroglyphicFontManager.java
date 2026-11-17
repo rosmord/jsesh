@@ -33,7 +33,7 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 		directoryManager = new DirectoryHieroglyphicFontManager(new File(""));
 		composite.addHieroglyphicFontManager(directoryManager);
 		resourcesHieroglyphicFontManager = new ResourcesHieroglyphicFontManager(
-				"/jseshResources/glyphs");
+				"/jseshGlyphs");
 		composite.addHieroglyphicFontManager(resourcesHieroglyphicFontManager);
 		composite
 				.addHieroglyphicFontManager(new MemoryHieroglyphicFontManager());
@@ -66,9 +66,7 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 		// associate glyphs codes to drawings ;
 		// a code manager should associate mdc codes to glyphs codes.
 		if (! GardinerCode.isCanonicalCode(code))
-			newCode= HieroglyphsManager.getInstance().getCanonicalCode(code);
-		if (newCode==null)
-			newCode= code;
+			newCode= DefaultHieroglyphsManager.getInstance().getCanonicalCode(code);
 		return composite.get(newCode);
 	}
 

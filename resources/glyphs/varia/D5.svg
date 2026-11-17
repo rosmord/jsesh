@@ -1,3 +1,85 @@
-<?xml version="1.0" encoding ="US-ASCII" standalone="yes"?>
-<svg width="17.107599" height="6">
-<path style="fill:#000000; stroke:none" d=" M 7.860759 4.917723  Q 9.759494 4.841773 10.870254 4.424052  Q 11.981013 4.00633 13.158229 3.227849  Q 11.259496 2.867088 8.92405 2.164557  Q 9.360761 4.215189 7.860759 4.917723  Z  M 2.050632 4.386076  L 2.240507 4.632912  Q 3.474684 4.518987 4.822786 4.727849  Q 6.170887 4.936709 6.493671 4.917723  Q 4.974684 4.215189 5.430381 2.164557  Q 4.310126 2.696202 3.825949 3.199368  Q 3.341772 3.702532 2.050632 4.386076  Z  M 7.29114 1.822785  Q 6.170887 2.012658 6.018988 2.914557  Q 5.867089 3.816456 6.54114 4.205696  Q 7.21519 4.594936 7.851265 4.205696  Q 8.487341 3.816456 8.392405 2.914557  Q 8.297467 2.012658 7.29114 1.822785  Z  M 2.183543 3.265823  L 0.949367 1.139241  L 1.936708 0.531646  L 3.132912 2.525317  Q 3.36076 2.392405 3.987341 1.86076  Q 4.613924 1.329114 6.180381 1.025316  Q 7.746833 0.721519 9.360761 1.253165  Q 10.974681 1.78481 12.094938 1.936708  L 12.911395 0  L 13.91772 0.322785  L 13.120255 2.297468  L 15.550634 2.620253  L 17.107599 2.620253  L 17.107599 3.379747  L 15.531649 3.379747  Q 14.696204 3.550634 13.063293 4.462025  Q 11.430381 5.373417 9.46519 5.658228  Q 7.5 5.943039 6.189874 5.810128  Q 4.879747 5.677216 3.702532 5.525317  Q 2.525317 5.373417 0.607595 6  L 0 4.727849  L 1.291139 3.892406  Q 2.069621 3.341772 2.183543 3.265823  Z "/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="D5.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Distribution"
+   inkscape:version="0.44"
+   sodipodi:version="0.32"
+   id="svg1290"
+   height="18.000000px"
+   width="18.000000px">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:window-y="459"
+     inkscape:window-x="171"
+     inkscape:window-height="583"
+     inkscape:window-width="1010"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="-1.1918401"
+     inkscape:cx="12.554788"
+     inkscape:zoom="18.216962"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/" />
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Karnak Hypostyle Hall
+</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       style="fill:#000000;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:0.79547155;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;display:inline"
+       d="M 2.5 11.84375 L 1.65625 12.375 L 3.125 14.8125 C 2.8108682 15.093199 2.5066381 15.384295 2.25 15.71875 C 1.7933612 16.208712 1.1177487 16.358571 0.5 16.53125 C 0.031214694 16.430043 -0.228811 17.193551 0.28125 17.3125 C 0.70425257 17.39203 1.1341458 17.276105 1.5625 17.3125 C 2.8384357 17.295045 4.1176806 17.414282 5.34375 17.78125 C 6.6164902 18.09549 7.968882 18.230812 9.25 17.875 C 11.707644 17.312264 14.109241 16.474209 16.625 16.1875 C 16.972971 16.14629 17.306625 16.117041 17.65625 16.09375 C 18.093653 15.985901 17.961894 15.201871 17.5 15.3125 C 16.255546 15.301941 15.026867 15.029049 13.84375 14.65625 L 15.21875 12.34375 L 14.34375 11.84375 L 12.875 14.3125 C 12.603993 14.213215 12.329431 14.137296 12.0625 14.03125 C 10.563223 13.467228 8.9947223 12.976565 7.375 13.03125 C 6.1419435 13.090741 4.9326504 13.504838 3.90625 14.1875 L 2.5 11.84375 z M 6.5625 14.0625 C 5.8168345 14.768433 5.4551991 16.300443 6.9375 17.15625 C 5.9530806 17.051966 4.7922378 16.785082 3.8125 16.65625 C 3.2905169 16.618896 2.772373 16.668621 2.25 16.65625 C 2.6856939 16.459338 3.015976 16.112777 3.3125 15.75 C 4.1815377 14.860105 5.3575377 14.314625 6.5625 14.0625 z M 8.9375 14.15625 C 10.130977 14.297713 11.33508 14.502461 12.4375 15 C 13.263181 15.315061 14.106689 15.585838 14.96875 15.78125 C 13.633896 16.015588 12.30394 16.214995 11 16.59375 C 10.434177 16.728101 9.848991 16.842984 9.28125 16.96875 C 10.288498 15.961502 10.055529 14.863373 8.9375 14.15625 z "
+       id="path2103" />
+  </g>
+</svg>

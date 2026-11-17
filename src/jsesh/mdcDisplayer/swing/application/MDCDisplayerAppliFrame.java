@@ -103,9 +103,10 @@ public class MDCDisplayerAppliFrame extends JFrame {
 		separatorField.setToolTipText("Manuel de codage separator to use");
 
 		JScrollPane scroll = new JScrollPane(editor);
+		scroll.getVerticalScrollBar().setUnitIncrement(20); 
 		// scroll.
 		// scroll.getHorizontalScrollBar().setFocusable(false);
-		// scroll.getVerticalScrollBar().setFocusable(false);
+		// scroll.get	VerticalScrollBar().setFocusable(false);
 
 		messageField = new StringDisplayer(workflow.getMessage(), 30);
 		messageField.setToolTipText("Various messages");

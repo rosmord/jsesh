@@ -25,7 +25,8 @@ public class GroupHorizontalAction extends AbstractSelectionAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor d=  (JMDCEditor) e.getSource();
-		d.getWorkflow().groupHorizontal();	
+		if (d.isEditable())
+			d.getWorkflow().groupHorizontal();	
 	}
 	
 	

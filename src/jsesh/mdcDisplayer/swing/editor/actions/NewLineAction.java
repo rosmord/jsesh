@@ -25,7 +25,8 @@ public class NewLineAction extends AbstractAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor d = (JMDCEditor) e.getSource();
-		d.getWorkflow().insertNewLine();
+		if (d.isEditable())
+			d.getWorkflow().insertNewLine();
 	}
 	
 

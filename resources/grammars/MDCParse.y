@@ -14,7 +14,7 @@ package jsesh.mdc.parser;
 //import java.util.*;
 import jsesh.mdc.lex.*;
 import jsesh.mdc.constants.*;
-import jsesh.mdc.utils.*;
+import jsesh.mdc.*;
 import jsesh.mdc.interfaces.*;
 
 /**
@@ -269,11 +269,11 @@ topitems ::= topitems:e1 optSeparator zoneStart:e2
  :};
 
 
-topitems ::= topitems:e1 error SEPARATOR
-{:
- doError("unexpected or unknown item.");
- RESULT= e1;
- :};
+//topitems ::= topitems:e1 error SEPARATOR
+//{:
+// doError("unexpected or unknown item.");
+// RESULT= e1;
+// :};
 
 optShading ::=
 {:
@@ -285,6 +285,13 @@ optShading ::= SHADING:e
  RESULT= new Integer(e.getShading());
 :};
 
+
+cadrat ::= error
+{:
+ doError("unexpected or unknown item.");
+ RESULT= null;
+:};
+ 
 cadrat ::= verticalStack:e
 {:
  // BUILDER CadratInterface buildCadrat(VBoxInterface e)

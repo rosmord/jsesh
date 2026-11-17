@@ -3,7 +3,9 @@ package jsesh.graphics.generic;
 
 
 public class RandomAccessByteArray implements RandomAccessStream {
-	private static final int CHUNK_SIZE= 2048;
+	//private static final int CHUNK_SIZE= 2048;
+	private static final int CHUNK_SIZE= 1 << 20; // 1 mo.
+	
 	private int size= 0;
 	private int pos= 0;
 	private byte data[]= new byte[CHUNK_SIZE];
@@ -16,6 +18,10 @@ public class RandomAccessByteArray implements RandomAccessStream {
 			size= pos;
 	}
 
+	public int tell() {
+		return pos;
+	}
+	
 	private void ensureExist(int i) {
 		if (i >= data.length) {
 			byte [] newArray;
@@ -41,11 +47,16 @@ public class RandomAccessByteArray implements RandomAccessStream {
 	}
 	
 	public byte[] getByteArray() {
-		byte[] result= new byte[size];
-		System.arraycopy(data,0,result,0,size);
+		return getByteArray(0);
+	}
+
+	public byte[] getByteArray(int first) {
+		byte[] result= new byte[size-first];
+		System.arraycopy(data,first,result,0,size-first);
 		return result;
 	}
 
+	
 	public void setLength(int i) {
 		size= i;
 		if (pos > size)

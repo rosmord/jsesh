@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import jsesh.bzr.simple.ShapeChar;
+import jsesh.hieroglyphs.DefaultHieroglyphsManager;
 
 public class MakeGlyphsIndex {
 	static final String USAGE = "usage : " +
@@ -31,7 +32,7 @@ public class MakeGlyphsIndex {
 		if (! "png".equals(format) && ! "svg".equals(format))
 			displayUsage();
 				
-		String codes[]= jsesh.hieroglyphs.HieroglyphsManager.getInstance().getCodesForFamily(family, false);
+		String codes[]= DefaultHieroglyphsManager.getInstance().getCodesForFamily(family, false);
 		for (int i=0; i< codes.length; i++) {
 			dumpSign(codes[i], format);
 		}

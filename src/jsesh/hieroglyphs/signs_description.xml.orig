@@ -1,0 +1,2959 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE signs PUBLIC "-//ORG/QENHERKHOPESHEF//DTD SIGNDESCRIPTION 1.0" "sign_description.dtd">
+<signs>
+
+
+<!-- First part : tag descriptions -->
+ 
+<!-- Used for men -->
+
+<tagLabel tag="seated" label="seated"/>
+<tagLabel tag="seated" label="assis" lang="fr"/>
+<tagLabel tag="seated on chair" label="seated on chair"/>
+<tagLabel tag="seated on nothing" label="seated like 'child' sign"/>
+<tagLabel tag="standing" label="standing"/>
+<tagLabel tag="holding something" label="holding something"/>
+<tagLabel tag="holding nothing" label="holding nothing"/>
+<tagLabel tag="working" label="working"/>
+<tagLabel tag="ennemy" label="ennemy"/>
+<tagLabel tag="fallen" label="fallen"/>
+
+
+<signDescription sign="A1">
++s-A1+l has various values : it's used as determinative for people,+s!
++land as ideogram for the =i suffix pronoun.+s!
++lit has many variants in both uses+s!
++bbibliography+s!
+?800-+lsee any grammar+l
+</signDescription>
+
+<hasTag sign="A1" tag="seated"/>
+<hasTag sign="A1" tag="holding nothing"/>
+
+<!-- Sign values -->
+<hasTransliteration sign="A1" transliteration="i" type="ideogram"/>
+
+<signDescription sign="A2">
++lstandard sign. see grammars.
+</signDescription>
+<hasTag sign="A2" tag="seated"/>
+<hasTag sign="A2" tag="holding nothing"/>
+
+
+<signDescription sign="A3">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A3" transliteration="Hms"/>
+<hasTransliteration sign="A3" transliteration="Hmsi"/>
+<hasTag sign="A3" tag="seated"/>
+<hasTag sign="A3" tag="holding nothing"/>
+
+<signDescription sign="A4">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A4" transliteration="dwA"/>
+<hasTransliteration sign="A4" transliteration="imn"/>
+<hasTag sign="A4" tag="seated"/>
+<hasTag sign="A4" tag="holding nothing"/>
+
+<variantOf sign="A4B" baseSign="A4"/>
+
+<signDescription sign="A5">
++l+lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A5" transliteration="imn"/>
+<!-- verify grammar for the next line. -->
+<contains partCode="Aa5"/>
+<contains partCode="O38"/>
+<hasTag sign="A5" tag="holding nothing"/>
+
+<variantOf sign="A5" baseSign="A4" linguistic="partial"/>
+
+<variantOf sign="A5A" baseSign="A5"/>
+
+
+<signDescription sign="A6">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A6" transliteration="wab"/>
+<contains partCode="W54"/>
+<hasTag sign="A6" tag="seated"/>
+<hasTag sign="A6" tag="holding nothing"/>
+
+<variantOf sign="A6D" baseSign="A6"/>
+<contains partCode="W14"/>
+
+
+<signDescription sign="A7">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A7" transliteration="wrd"/>
+<hasTag sign="A7" tag="seated"/>
+<hasTag sign="A7" tag="holding nothing"/>
+
+<signDescription sign="A8">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A8" transliteration="hnw"/>
+<hasTag sign="A8" tag="holding nothing"/>
+
+<signDescription sign="A9">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A9" transliteration="ATp"/>
+<hasTransliteration sign="A9" transliteration="Atp"/>
+<hasTransliteration sign="A9" transliteration="fAi"/>
+<hasTransliteration sign="A9" transliteration="fA"/>
+<hasTransliteration sign="A9" transliteration="kAt"/>
+<hasTag sign="A9" tag="seated"/>
+<hasTag sign="A9" tag="holding something"/>
+<contains partCode="W10"/>
+
+
+<signDescription sign="A10">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A10" transliteration="sqdw"/>
+<hasTransliteration sign="A10" transliteration="sqd"/>
+<hasTag sign="A10" tag="seated"/>
+<hasTag sign="A10" tag="holding something"/>
+<contains partCode="P8"/>
+
+<signDescription sign="A11">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A11"  transliteration="xnms"/>
+<hasTag sign="A11" tag="holding something"/>
+<contains partCode="S42"/>
+
+
+<signDescription sign="A12">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A12" transliteration="mnfyt"/>
+<hasTransliteration sign="A12" transliteration="mSa"/>
+<hasTag sign="A12" tag="holding something"/>
+<contains partCode="T9"/>
+<contains partCode="H6"/>
+
+<signDescription sign="A13">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A13" transliteration="sbi"/>
+<hasTransliteration sign="A13" transliteration="xfty"/>
+<hasTag sign="A13" tag="holding nothing"/>
+<hasTag sign="A13" tag="ennemy"/>
+
+<variantOf sign="A13E" baseSign="A13"/>
+
+
+<signDescription sign="A14">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A14" transliteration="mwt"/>
+<hasTransliteration sign="A14" transliteration="sbi"/>
+<hasTransliteration sign="A14" transliteration="xfty"/>
+<hasTag sign="A14" tag="fallen"/>
+<hasTag sign="A14" tag="holding something"/>
+<hasTag sign="A14" tag="ennemy"/>
+
+
+<hasTransliteration sign="A14A" transliteration="mwt"/>
+<hasTransliteration sign="A14A" transliteration="sbi"/>
+<hasTransliteration sign="A14A" transliteration="xfty"/>
+<hasTag sign="A14A" tag="fallen"/>
+<hasTag sign="A14A" tag="holding something"/>
+<hasTag sign="A14A" tag="ennemy"/>
+<variantOf sign="A14A" baseSign="A14"/>
+<contains partCode="T7"/>
+
+<signDescription sign="A15">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A15" transliteration="xr"/>
+<hasTag sign="A15" tag="fallen"/>
+<hasTag sign="A15" tag="holding nothing"/>
+
+<variantOf sign="A15A" baseSign="A15"/>
+
+<signDescription sign="A16">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A16" transliteration="ks"/>
+<hasTransliteration sign="A16" transliteration="ksi"/>
+<hasTransliteration sign="A16" transliteration="ksw"/>
+<hasTag sign="A16" tag="standing"/>
+<hasTag sign="A16" tag="holding nothing"/>
+
+<signDescription sign="A17">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A17" transliteration="nmH"/>
+<hasTransliteration sign="A17" transliteration="nni"/>
+<hasTransliteration sign="A17" transliteration="Sri"/>
+<hasTransliteration sign="A17" transliteration="Xrd"/>
+<hasTag sign="A17" tag="holding nothing"/>
+<hasTag sign="A17" tag="seated on nothing"/>
+
+
+<hasTransliteration sign="A17A" transliteration="Hms"/>
+<hasTransliteration sign="A17A" transliteration="Hmsi"/>
+<hasTransliteration sign="A17A" transliteration="msw"/>
+
+<!-- is A17A a true variant of A17 ? Graphically, it is similar. Linguistically, it's a variant of A3 -->
+
+<hasTransliteration sign="A18" transliteration="inp"/>
+<variantOf sign="A18" baseSign="A17"/>
+
+<signDescription sign="A19">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A19" transliteration="iAw"/>
+<hasTransliteration sign="A19" transliteration="ikw"/>
+<hasTransliteration sign="A19" transliteration="rhn"/>
+<hasTransliteration sign="A19" transliteration="smsw"/>
+<hasTransliteration sign="A19" transliteration="tni"/>
+<hasTransliteration sign="A19" transliteration="wr"/>
+<hasTag sign="A19" tag="holding something"/>
+<hasTag sign="A19" tag="standing"/>
+
+<hasTransliteration sign="A20" transliteration="smsw"/>
+<hasTag sign="A20" tag="holding something"/>
+<hasTag sign="A20" tag="standing"/>
+<variantOf sign="A20" baseSign="A19"/>
+
+<signDescription sign="A21">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A21" transliteration="smr"/>
+<hasTransliteration sign="A21" transliteration="sr"/>
+<hasTag sign="A21" tag="holding something"/>
+<hasTag sign="A21" tag="standing"/>
+
+<variantOf sign="A21A" baseSign="A21"/>
+
+<signDescription sign="A22">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A22" transliteration="twt"/>
+<hasTransliteration sign="A22" transliteration="Xnti"/>
+<hasTag sign="A22" tag="holding something"/>
+<hasTag sign="A22" tag="standing"/>
+
+
+<signDescription sign="A23">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A23" transliteration="ity"/>
+<hasTag sign="A23" tag="holding something"/>
+<hasTag sign="A23" tag="standing"/>
+
+<signDescription sign="A24">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A24" transliteration="Hwi"/>
+<hasTransliteration sign="A24" transliteration="nxt"/>
+<hasTransliteration sign="A24" transliteration="sbA"/>
+<hasTag sign="A24" tag="holding something"/>
+<hasTag sign="A24" tag="standing"/>
+
+
+<signDescription sign="A25">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A25" transliteration="Hwi"/>
+<hasTag sign="A25" tag="holding something"/>
+<hasTag sign="A25" tag="standing"/>
+<variantOf sign="A25" baseSign="A24"/>
+
+<signDescription sign="A26">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A26" transliteration="aS"/>
+<hasTransliteration sign="A26" transliteration="i"/>
+<hasTransliteration sign="A26" transliteration="nis"/>
+<hasTag sign="A26" tag="holding nothing"/>
+<hasTag sign="A26" tag="standing"/>
+
+
+<signDescription sign="A27">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A27" transliteration="in"/>
+<hasTag sign="A27" tag="holding nothing"/>
+<hasTag sign="A27" tag="standing"/>
+
+
+<signDescription sign="A28">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A28" transliteration="Hai"/>
+<hasTransliteration sign="A28" transliteration="HAi"/>
+<hasTransliteration sign="A28" transliteration="iAs"/>
+<hasTransliteration sign="A28" transliteration="qAi"/>
+<hasTransliteration sign="A28" transliteration="qA"/>
+<hasTag sign="A28" tag="holding nothing"/>
+<hasTag sign="A28" tag="standing"/>
+
+<signDescription sign="A29">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A29" transliteration="sxr"/>
+<hasTag sign="A29" tag="holding nothing"/>
+<hasTag sign="A29" tag="fallen"/>
+
+<signDescription sign="A30">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A30" transliteration="dwA"/>
+<hasTransliteration sign="A30" transliteration="iAw"/>
+<hasTransliteration sign="A30" transliteration="tr"/>
+<hasTransliteration sign="A30" transliteration="twA"/>
+<hasTag sign="A30" tag="holding nothing"/>
+<hasTag sign="A30" tag="standing"/>
+
+
+<signDescription sign="A31">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A31" transliteration="anw"/>
+<hasTag sign="A31" tag="holding nothing"/>
+<hasTag sign="A31" tag="standing"/>
+
+<variantOf sign="A31B" baseSign="A31"/>
+
+<signDescription sign="A32">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A32" transliteration="hy-hnw"/>
+<hasTransliteration sign="A32" transliteration="xbi"/>
+<hasTag sign="A32" tag="holding nothing"/>
+<hasTag sign="A32" tag="standing"/>
+
+<variantOf sign="A32B" baseSign="A32"/>
+<hasTag sign="A32B" tag="holding nothing"/>
+<hasTag sign="A32B" tag="standing"/>
+
+
+<signDescription sign="A33">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A33" transliteration="mniw"/>
+<hasTransliteration sign="A33" transliteration="SmAw"/>
+<hasTag sign="A33" tag="holding something"/>
+<hasTag sign="A33" tag="standing"/>
+<hasTag sign="A33" tag="working"/>
+
+
+<signDescription sign="A34">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A34" transliteration="xwsi"/>
+<hasTag sign="A34" tag="holding something"/>
+<hasTag sign="A34" tag="standing"/>
+<hasTag sign="A34" tag="working"/>
+
+<signDescription sign="A35">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="A35" transliteration="qd"/>
+<hasTag sign="A35" tag="holding something"/>
+<hasTag sign="A35" tag="standing"/>
+<hasTag sign="A35" tag="working"/>
+<contains partCode="O36"/>
+
+<variantOf sign="A35C" baseSign="A35"/>
+<hasTag sign="A35C" tag="holding something"/>
+<hasTag sign="A35C" tag="standing"/>
+<hasTag sign="A35C" tag="working"/>
+<contains partCode="O36"/>
+
+<hasTransliteration sign="A35C" transliteration="qd" use="palette"/>
+
+<hasTransliteration sign="A36" transliteration="afti"/>
+<hasTransliteration sign="A37" transliteration="afti"/>
+<hasTransliteration sign="A38" transliteration="qis"/>
+<hasTransliteration sign="A38" transliteration="qiz"/>
+<hasTransliteration sign="A39" transliteration="qis"/>
+<hasTransliteration sign="A39" transliteration="qiz"/>
+<hasTransliteration sign="A40" transliteration="nTr"/>
+<hasTransliteration sign="A41" transliteration="Hm"/>
+<hasTransliteration sign="A41" transliteration="nsw"/>
+<hasTransliteration sign="A42" transliteration="Hm"/>
+<hasTransliteration sign="A42" transliteration="nsw"/>
+<hasTransliteration sign="A43" transliteration="nsw"/>
+<hasTransliteration sign="A43" transliteration="wsir"/>
+<hasTransliteration sign="A44" transliteration="nsw"/>
+<hasTransliteration sign="A44" transliteration="wsir"/>
+<hasTransliteration sign="A45" transliteration="bity"/>
+<hasTransliteration sign="A46" transliteration="bity"/>
+<hasTransliteration sign="A47" transliteration="iry"/>
+<hasTransliteration sign="A47" transliteration="mniw"/>
+<hasTransliteration sign="A47" transliteration="sAw"/>
+<hasTransliteration sign="A48" transliteration="iry"/>
+<hasTransliteration sign="A48" transliteration="mniw"/>
+<hasTransliteration sign="A48" transliteration="sAw"/>
+<hasTransliteration sign="A49" transliteration="aAmw"/>
+<hasTransliteration sign="A50" transliteration="Sps"/>
+<hasTransliteration sign="A50" transliteration="Spsi"/>
+<hasTransliteration sign="A51" transliteration="Sps"/>
+<hasTransliteration sign="A51" transliteration="Spsi"/>
+<hasTransliteration sign="A52" transliteration="saH"/>
+<hasTransliteration sign="A52" transliteration="Sps"/>
+<hasTransliteration sign="A52" transliteration="Spsi"/>
+<hasTransliteration sign="A53" transliteration="qi"/>
+<hasTransliteration sign="A53" transliteration="twt"/>
+<hasTransliteration sign="A53" transliteration="wi"/>
+<hasTransliteration sign="A54" transliteration="mni"/>
+<hasTransliteration sign="A54" transliteration="nb-anx"/>
+<hasTransliteration sign="A55" transliteration="sDr"/>
+<hasTransliteration sign="A55" transliteration="XAt"/>
+<hasTransliteration sign="A59" transliteration="sHr"/>
+
+
+<hasTransliteration sign="Aa10" transliteration="drf"/>
+<hasTransliteration sign="Aa11" transliteration="mAa"/>
+<hasTransliteration sign="Aa12" transliteration="mAa"/>
+<hasTransliteration sign="Aa13" transliteration="gs"/>
+<hasTransliteration sign="Aa13" transliteration="im"/>
+<hasTransliteration sign="Aa13" transliteration="m"/>
+<hasTransliteration sign="Aa14" transliteration="gs"/>
+<hasTransliteration sign="Aa14" transliteration="im"/>
+<hasTransliteration sign="Aa14" transliteration="m"/>
+<hasTransliteration sign="Aa15" transliteration="gs"/>
+<hasTransliteration sign="Aa15" transliteration="im"/>
+<hasTransliteration sign="Aa15" transliteration="m"/>
+<hasTransliteration sign="Aa16" transliteration="gs"/>
+<hasTransliteration sign="Aa17" transliteration="sA"/>
+<hasTransliteration sign="Aa17" transliteration="zA"/>
+<hasTransliteration sign="Aa18" transliteration="sA"/>
+<hasTransliteration sign="Aa18" transliteration="zA"/>
+<hasTransliteration sign="Aa19" transliteration="Hr"/>
+<hasTransliteration sign="Aa1" transliteration="x"/>
+<hasTransliteration sign="Aa20" transliteration="apr"/>
+<hasTransliteration sign="Aa21" transliteration="sTS"/>
+<hasTransliteration sign="Aa21" transliteration="wDa"/>
+<hasTransliteration sign="Aa22" transliteration="sTS"/>
+<hasTransliteration sign="Aa22" transliteration="wDa"/>
+<hasTransliteration sign="Aa23" transliteration="mDd"/>
+<hasTransliteration sign="Aa24" transliteration="mDd"/>
+<hasTransliteration sign="Aa25" transliteration="smA"/>
+<hasTransliteration sign="Aa26" transliteration="sbi"/>
+<hasTransliteration sign="Aa27" transliteration="nD"/>
+<hasTransliteration sign="Aa28" transliteration="qd"/>
+<hasTransliteration sign="Aa29" transliteration="qd"/>
+<hasTransliteration sign="Aa2" transliteration="gA"/>
+<hasTransliteration sign="Aa2" transliteration="Hsb"/>
+<hasTransliteration sign="Aa2" transliteration="wHA"/>
+<hasTransliteration sign="Aa2" transliteration="Xpw"/>
+<hasTransliteration sign="Aa30" transliteration="Xkr"/>
+<hasTransliteration sign="Aa31" transliteration="Xkr"/>
+<hasTransliteration sign="Aa32" transliteration="sti"/>
+<hasTransliteration sign="Aa3" transliteration="Hsb"/>
+<hasTransliteration sign="Aa4" transliteration="ab"/>
+<hasTransliteration sign="Aa4" transliteration="Hnt"/>
+<hasTransliteration sign="Aa4" transliteration="iab"/>
+<hasTransliteration sign="Aa4" transliteration="sxw"/>
+<hasTransliteration sign="Aa4" transliteration="wsx"/>
+<hasTransliteration sign="Aa5" transliteration="Hp"/>
+<hasTransliteration sign="Aa6" transliteration="tmA"/>
+<hasTransliteration sign="Aa6" transliteration="TmA"/>
+<hasTransliteration sign="Aa7" transliteration="sqr"/>
+<hasTransliteration sign="Aa8" transliteration="DA"/>
+<hasTransliteration sign="Aa8" transliteration="DAt"/>
+<hasTransliteration sign="Aa8" transliteration="qn"/>
+<hasTransliteration sign="Aa8" transliteration="spAt"/>
+<hasTransliteration sign="Aa9" transliteration="xwd"/>
+<hasTransliteration sign="B1" transliteration="st"/>
+<hasTransliteration sign="B2" transliteration="bkA"/>
+<hasTransliteration sign="B2" transliteration="iwr"/>
+<hasTransliteration sign="B3" transliteration="ms"/>
+<hasTransliteration sign="B3" transliteration="msi"/>
+<hasTransliteration sign="B4" transliteration="ms"/>
+<hasTransliteration sign="B4" transliteration="msi"/>
+<hasTransliteration sign="B5" transliteration="mnat"/>
+<hasTransliteration sign="B6" transliteration="rnn"/>
+
+<!-- As C is the most complete part of JSesh fonts now, we try to cover it fully. -->
+
+<tagLabel tag="human-headed deity" label="human-headed deity"/>
+<tagLabel tag="hawk-headed deity" label="hawk-headed deity"/>
+<tagLabel tag="ibis-headed deity" label="ibis-headed deity"/>
+<tagLabel tag="ram-headed deity" label="ram-headed deity"/>
+
+<sign sign="C1">
+	<signDescription>
++lstandard sign. see grammars.
+	</signDescription>
+	<hasTransliteration sign="C1" transliteration="ra"/>
+	<hasTag tag="human-headed deity"/>
+	<hasTag tag="seated"/>
+	<contains partCode="N6"/>
+</sign>
+
+<sign sign="C1A">
+	<variantOf baseSign="C1"/>
+	<hasTag tag="human-headed deity"/>
+	<hasTag tag="seated"/>
+	<contains partCode="N6"/>
+	<contains partCode="S40"/>
+</sign>
+
+<variantOf sign="C1B" baseSign="C1"/>
+<hasTag tag="human-headed deity"/>
+<hasTag tag="seated"/>
+<contains partCode="N5"/>
+<contains partCode="S40"/>
+
+<variantOf sign="C1D" baseSign="C1"/>
+<hasTag tag="seated"/>
+<hasTag tag="human-headed deity"/>
+<contains partCode="N5"/>
+
+<signDescription sign="C2">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="C2" transliteration="ra"/>
+<hasTag tag="seated"/>
+<hasTag tag="hawk-headed deity"/>
+<contains partCode="N5"/>
+<contains partCode="S34"/>
+
+<variantOf sign="C2A" baseSign="C2"/>
+<hasTag tag="seated"/>
+<hasTag tag="hawk-headed deity"/>
+<contains partCode="N5"/>
+
+<variantOf sign="C2B" baseSign="C2"/>
+<hasTag tag="hawk-headed deity"/>
+<hasTag tag="seated"/>
+<contains partCode="N5"/>
+<contains partCode="S40"/>
+
+<variantOf sign="C2C" baseSign="C2"/>
+<hasTag tag="hawk-headed deity"/>
+<hasTag tag="seated"/>
+<contains partCode="N5"/>
+<contains partCode="T19"/>
+
+<variantOf sign="C2D" baseSign="C2"/>
+<hasTag tag="seated"/>
+<hasTag tag="hawk-headed deity"/>
+<contains partCode="N5"/>
+<contains partCode="S42"/>
+
+<variantOf sign="C2E" baseSign="C2"/>
+<hasTag tag="hawk-headed deity"/>
+<hasTag tag="seated"/>
+<contains partCode="N5"/>
+<contains partCode="W14"/>
+
+<variantOf sign="C2F" baseSign="C2"/>
+<hasTag tag="hawk-headed deity"/>
+<hasTag tag="seated"/>
+<contains partCode="N5"/>
+<contains partCode="S38"/>
+
+<variantOf sign="C2G" baseSign="C2"/>
+<hasTag tag="hawk-headed deity"/>
+<hasTag tag="seated"/>
+<contains partCode="N5"/>
+<contains partCode="D10"/>
+
+<variantOf sign="C2h" baseSign="C2"/>
+<hasTag tag="hawk-headed deity"/>
+<hasTag tag="seated"/>
+<contains partCode="N5"/>
+<contains partCode="T30"/>
+
+<variantOf sign="C2I" baseSign="C2"/>
+<hasTag tag="hawk-headed deity"/>
+<hasTag tag="seated"/>
+<contains partCode="N5"/>
+<contains partCode="H6"/>
+
+<signDescription sign="C3">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="C3" transliteration="DHwty"/>
+<hasTag tag="seated"/>
+<hasTag tag="ibis-headed deity"/>
+
+<variantOf sign="C3B" baseSign="C3"/>
+<hasTag tag="seated"/>
+<hasTag tag="ibis-headed deity"/>
+<contains partCode="S34"/>
+
+<variantOf sign="C3C" baseSign="C3"/>
+<hasTag tag="seated"/>
+<hasTag tag="ibis-headed deity"/>
+<contains partCode="T30"/>
+
+<variantOf sign="C3D" baseSign="C3"/>
+<hasTag tag="seated"/>
+<hasTag tag="ibis-headed deity"/>
+<contains partCode="W24"/>
+
+
+<signDescription sign="C4">
++lstandard sign. see grammars.
+</signDescription>
+<hasTransliteration sign="C4" transliteration="Xnmw"/>
+
+<signDescription sign="C5">
++lstandard sign. see grammars.
+</signDescription>
+<variantOf sign="C5" baseSign="C4"/>
+<hasTransliteration sign="C5" transliteration="Xnmw"/>
+
+<hasTransliteration sign="C6" transliteration="inpw"/>
+<hasTransliteration sign="C7" transliteration="stX"/>
+<hasTransliteration sign="C8" transliteration="mnw"/>
+<hasTransliteration sign="C9" transliteration="Hwt-Hr"/>
+<hasTransliteration sign="C10A" transliteration="mAat"/>
+<hasTransliteration sign="C10" transliteration="mAat"/>
+<hasTransliteration sign="C11" transliteration="HH"/>
+<hasTransliteration sign="C12" transliteration="imn"/>
+<hasTransliteration sign="C17" transliteration="mnTw"/>
+<hasTransliteration sign="C18" transliteration="TA-tnn"/>
+<hasTransliteration sign="C19" transliteration="ptH"/>
+<hasTransliteration sign="C20" transliteration="ptH"/>
+<hasTransliteration sign="C98" transliteration="wsir"/>
+
+<hasTransliteration sign="D10" transliteration="wDAt"/>
+<hasTransliteration sign="D12" transliteration="DfD"/>
+<hasTransliteration sign="D12" transliteration="ir"/>
+<hasTransliteration sign="D12" transliteration="mA"/>
+<hasTransliteration sign="D17" transliteration="tit"/>
+<hasTransliteration sign="D18" transliteration="msDr"/>
+<hasTransliteration sign="D19" transliteration="fnd"/>
+<hasTransliteration sign="D19" transliteration="fnD"/>
+<hasTransliteration sign="D19" transliteration="xnt"/>
+<hasTransliteration sign="D1" transliteration="DADA"/>
+<hasTransliteration sign="D1" transliteration="tp"/>
+<hasTransliteration sign="D20" transliteration="fnd"/>
+<hasTransliteration sign="D20" transliteration="fnD"/>
+<hasTransliteration sign="D20" transliteration="xnt"/>
+<hasTransliteration sign="D21" transliteration="r"/>
+<hasTransliteration sign="D21" transliteration="rA"/>
+<hasTransliteration sign="D22" transliteration="rAwi"/>
+<hasTransliteration sign="D23" transliteration="xmt-rAw"/>
+<hasTransliteration sign="D24" transliteration="spt"/>
+<hasTransliteration sign="D25" transliteration="spty"/>
+<hasTransliteration sign="D26" transliteration="bSi"/>
+<hasTransliteration sign="D26" transliteration="psg"/>
+<hasTransliteration sign="D26" transliteration="snf"/>
+<hasTransliteration sign="D27A" transliteration="mnai"/>
+<hasTransliteration sign="D27A" transliteration="mnD"/>
+<hasTransliteration sign="D27A" transliteration="snq"/>
+<hasTransliteration sign="D27" transliteration="mnai"/>
+<hasTransliteration sign="D27" transliteration="mnD"/>
+<hasTransliteration sign="D27" transliteration="snq"/>
+<hasTransliteration sign="D28" transliteration="kA"/>
+<hasTransliteration sign="D29" transliteration="kA"/>
+<hasTransliteration sign="D2" transliteration="Hr"/>
+<hasTransliteration sign="D30" transliteration="nHb-kAw"/>
+<hasTransliteration sign="D31" transliteration="Hm-kA"/>
+<hasTransliteration sign="D32" transliteration="Hpt"/>
+<hasTransliteration sign="D32" transliteration="pgA"/>
+<hasTransliteration sign="D33" transliteration="Xn"/>
+<hasTransliteration sign="D33" transliteration="Xni"/>
+<hasTransliteration sign="D34A" transliteration="aHA"/>
+<hasTransliteration sign="D34" transliteration="aHA"/>
+<hasTransliteration sign="D35" transliteration="n"/>
+<hasTransliteration sign="D35" transliteration="smx"/>
+<hasTransliteration sign="D35" transliteration="xm"/>
+<hasTransliteration sign="D36" transliteration="a"/>
+<hasTransliteration sign="D37" transliteration="d"/>
+<hasTransliteration sign="D37" transliteration="D"/>
+<hasTransliteration sign="D37" transliteration="di"/>
+<hasTransliteration sign="D37" transliteration="imi"/>
+<hasTransliteration sign="D37" transliteration="m"/>
+<hasTransliteration sign="D37" transliteration="mi"/>
+<hasTransliteration sign="D37" transliteration="rdi"/>
+<hasTransliteration sign="D38" transliteration="m"/>
+<hasTransliteration sign="D38" transliteration="mi"/>
+<hasTransliteration sign="D39" transliteration="Hnk"/>
+<hasTransliteration sign="D3" transliteration="Sni"/>
+<hasTransliteration sign="D3" transliteration="Sny"/>
+<hasTransliteration sign="D3" transliteration="wS"/>
+<hasTransliteration sign="D40" transliteration="nxt"/>
+<hasTransliteration sign="D40" transliteration="xAi"/>
+<hasTransliteration sign="D41" transliteration="gbA"/>
+<hasTransliteration sign="D41" transliteration="ni"/>
+<hasTransliteration sign="D41" transliteration="rmn"/>
+<hasTransliteration sign="D42" transliteration="mH"/>
+<hasTransliteration sign="D43" transliteration="xw"/>
+<hasTransliteration sign="D43" transliteration="xwi"/>
+<hasTransliteration sign="D44" transliteration="xrp"/>
+<hasTransliteration sign="D45" transliteration="Dsr"/>
+<hasTransliteration sign="D46A" transliteration="idt"/>
+<hasTransliteration sign="D46" transliteration="d"/>
+<hasTransliteration sign="D46" transliteration="Drt"/>
+<hasTransliteration sign="D47" transliteration="Drt"/>
+<hasTransliteration sign="D48" transliteration="Ssp"/>
+<hasTransliteration sign="D49" transliteration="Amm"/>
+<hasTransliteration sign="D4" transliteration="ir"/>
+<hasTransliteration sign="D4" transliteration="irt"/>
+<hasTransliteration sign="D4" transliteration="mA"/>
+<hasTransliteration sign="D50" transliteration="Dba"/>
+<hasTransliteration sign="D51" transliteration="ant"/>
+<hasTransliteration sign="D51" transliteration="dqr"/>
+<hasTransliteration sign="D52" transliteration="mt"/>
+<hasTransliteration sign="D53" transliteration="bAH"/>
+<hasTransliteration sign="D53" transliteration="mt"/>
+<hasTransliteration sign="D54" transliteration="iw"/>
+<hasTransliteration sign="D54" transliteration="nmtt"/>
+<hasTransliteration sign="D55" transliteration="ann"/>
+<hasTransliteration sign="D56" transliteration="gH"/>
+<hasTransliteration sign="D56" transliteration="gHs"/>
+<hasTransliteration sign="D56" transliteration="rd"/>
+<hasTransliteration sign="D56" transliteration="sbq"/>
+<hasTransliteration sign="D57" transliteration="iAt"/>
+<hasTransliteration sign="D57" transliteration="iAT"/>
+<hasTransliteration sign="D57" transliteration="siAT"/>
+<hasTransliteration sign="D58" transliteration="b"/>
+<hasTransliteration sign="D58" transliteration="bw"/>
+<hasTransliteration sign="D59" transliteration="ab"/>
+<hasTransliteration sign="D5" transliteration="dgi"/>
+<hasTransliteration sign="D5" transliteration="pti"/>
+<hasTransliteration sign="D5" transliteration="ptr"/>
+<hasTransliteration sign="D5" transliteration="Sp"/>
+<hasTransliteration sign="D60" transliteration="wab"/>
+<hasTransliteration sign="D61" transliteration="sAH"/>
+<hasTransliteration sign="D62" transliteration="sAH"/>
+<hasTransliteration sign="D63" transliteration="sAH"/>
+<hasTransliteration sign="D6" transliteration="dgi"/>
+<hasTransliteration sign="D6" transliteration="pti"/>
+<hasTransliteration sign="D6" transliteration="ptr"/>
+<hasTransliteration sign="D6" transliteration="Sp"/>
+<hasTransliteration sign="D7" transliteration="an"/>
+<hasTransliteration sign="D7" transliteration="ptr"/>
+<hasTransliteration sign="D8" transliteration="an"/>
+<hasTransliteration sign="D8" transliteration="anw"/>
+<hasTransliteration sign="D9" transliteration="rmi"/>
+<hasTransliteration sign="E10" transliteration="bA"/>
+<hasTransliteration sign="E10" transliteration="Xnmw"/>
+<hasTransliteration sign="E11" transliteration="bA"/>
+<hasTransliteration sign="E11" transliteration="Xnmw"/>
+<hasTransliteration sign="E12" transliteration="rri"/>
+<hasTransliteration sign="E13" transliteration="miw"/>
+<hasTransliteration sign="E14" transliteration="iw"/>
+<hasTransliteration sign="E14" transliteration="Tsm"/>
+<hasTransliteration sign="E15" transliteration="Hry_sStA"/>
+<hasTransliteration sign="E15" transliteration="inpw"/>
+<hasTransliteration sign="E16" transliteration="Hry_sStA"/>
+<hasTransliteration sign="E16" transliteration="inpw"/>
+<hasTransliteration sign="E17" transliteration="sAb"/>
+<hasTransliteration sign="E17" transliteration="zAb"/>
+<hasTransliteration sign="E18" transliteration="wp_wAwt"/>
+<hasTransliteration sign="E19" transliteration="wp_wAwt"/>
+<hasTransliteration sign="E1" transliteration="iH"/>
+<hasTransliteration sign="E1" transliteration="kA"/>
+<hasTransliteration sign="E20" transliteration="stX"/>
+<hasTransliteration sign="E20" transliteration="Xnnw"/>
+<hasTransliteration sign="E21" transliteration="nSni"/>
+<hasTransliteration sign="E21" transliteration="stX"/>
+<hasTransliteration sign="E22" transliteration="mAi"/>
+<hasTransliteration sign="E23" transliteration="l"/>
+<hasTransliteration sign="E23" transliteration="rw"/>
+<hasTransliteration sign="E24" transliteration="Aby"/>
+<hasTransliteration sign="E25" transliteration="db"/>
+<hasTransliteration sign="E26" transliteration="Abw"/>
+<hasTransliteration sign="E27" transliteration="mmi"/>
+<hasTransliteration sign="E27" transliteration="sr"/>
+<hasTransliteration sign="E28" transliteration="mA_HD"/>
+<hasTransliteration sign="E29" transliteration="gHs"/>
+<hasTransliteration sign="E2" transliteration="kA"/>
+<hasTransliteration sign="E2" transliteration="smA"/>
+<hasTransliteration sign="E30" transliteration="niAw"/>
+<hasTransliteration sign="E31" transliteration="saH"/>
+<hasTransliteration sign="E32" transliteration="iac"/>
+<hasTransliteration sign="E32" transliteration="ky"/>
+<hasTransliteration sign="E32" transliteration="qnd"/>
+<hasTransliteration sign="E33" transliteration="gif"/>
+<hasTransliteration sign="E34" transliteration="wn"/>
+<hasTransliteration sign="E3" transliteration="bHs"/>
+<hasTransliteration sign="E4" transliteration="HsAt"/>
+<hasTransliteration sign="E5" transliteration="Ams"/>
+<hasTransliteration sign="E6" transliteration="ibr"/>
+<hasTransliteration sign="E6" transliteration="ssmt"/>
+<hasTransliteration sign="E6" transliteration="zzmt"/>
+<hasTransliteration sign="E7" transliteration="aA"/>
+<hasTransliteration sign="E8A" transliteration="ib"/>
+<hasTransliteration sign="E8" transliteration="ib"/>
+<hasTransliteration sign="E9" transliteration="iw"/>
+<hasTransliteration sign="F10" transliteration="Am"/>
+<hasTransliteration sign="F10" transliteration="Htyt"/>
+<hasTransliteration sign="F10" transliteration="xx"/>
+<hasTransliteration sign="F11" transliteration="Am"/>
+<hasTransliteration sign="F11" transliteration="Htyt"/>
+<hasTransliteration sign="F11" transliteration="xx"/>
+<hasTransliteration sign="F12" transliteration="wsr"/>
+<hasTransliteration sign="F13" transliteration="ip"/>
+<hasTransliteration sign="F13" transliteration="wp"/>
+<hasTransliteration sign="F13" transliteration="wpt"/>
+<hasTransliteration sign="F14" transliteration="wpt_rnpt"/>
+<hasTransliteration sign="F15" transliteration="wpt_rnpt"/>
+<hasTransliteration sign="F16" transliteration="ab"/>
+<hasTransliteration sign="F16" transliteration="db"/>
+<hasTransliteration sign="F17" transliteration="abw"/>
+<hasTransliteration sign="F18" transliteration="bH"/>
+<hasTransliteration sign="F18" transliteration="bi"/>
+<hasTransliteration sign="F18" transliteration="biA"/>
+<hasTransliteration sign="F18" transliteration="Hw"/>
+<hasTransliteration sign="F18" transliteration="ibH"/>
+<hasTransliteration sign="F18" transliteration="nHDt"/>
+<hasTransliteration sign="F18" transliteration="psH"/>
+<hasTransliteration sign="F19" transliteration="art"/>
+<hasTransliteration sign="F1" transliteration="iH"/>
+<hasTransliteration sign="F20" transliteration="dp"/>
+<hasTransliteration sign="F20" transliteration="imy_rA"/>
+<hasTransliteration sign="F20" transliteration="mr"/>
+<hasTransliteration sign="F20" transliteration="ns"/>
+<hasTransliteration sign="F21" transliteration="anx"/>
+<hasTransliteration sign="F21" transliteration="DrD"/>
+<hasTransliteration sign="F21" transliteration="idn"/>
+<hasTransliteration sign="F21" transliteration="msDr"/>
+<hasTransliteration sign="F21" transliteration="sDm"/>
+<hasTransliteration sign="F22" transliteration="kfA"/>
+<hasTransliteration sign="F22" transliteration="pH"/>
+<hasTransliteration sign="F23" transliteration="msxtiw"/>
+<hasTransliteration sign="F23" transliteration="xpS"/>
+<hasTransliteration sign="F24" transliteration="msxtiw"/>
+<hasTransliteration sign="F24" transliteration="xpS"/>
+<hasTransliteration sign="F25" transliteration="wHm"/>
+<hasTransliteration sign="F26" transliteration="Xn"/>
+<hasTransliteration sign="F27" transliteration="dHr"/>
+<hasTransliteration sign="F27" transliteration="pnw"/>
+<hasTransliteration sign="F28" transliteration="Ab"/>
+<hasTransliteration sign="F28" transliteration="sAb"/>
+<hasTransliteration sign="F29" transliteration="sT"/>
+<hasTransliteration sign="F29" transliteration="sti"/>
+<hasTransliteration sign="F29" transliteration="st"/>
+<hasTransliteration sign="F2" transliteration="Dnd"/>
+<hasTransliteration sign="F30" transliteration="Sd"/>
+<hasTransliteration sign="F31" transliteration="ms"/>
+<hasTransliteration sign="F31" transliteration="msi"/>
+<hasTransliteration sign="F32" transliteration="X"/>
+<hasTransliteration sign="F32" transliteration="Xt"/>
+<hasTransliteration sign="F33" transliteration="sd"/>
+<hasTransliteration sign="F34" transliteration="HAty"/>
+<hasTransliteration sign="F34" transliteration="ib"/>
+<hasTransliteration sign="F35" transliteration="nfr"/>
+<hasTransliteration sign="F36" transliteration="smA"/>
+<hasTransliteration sign="F36" transliteration="zmA"/>
+<hasTransliteration sign="F37B" transliteration="iAt"/>
+<hasTransliteration sign="F37B" transliteration="psD"/>
+<hasTransliteration sign="F37B" transliteration="sm"/>
+<hasTransliteration sign="F37" transliteration="iAt"/>
+<hasTransliteration sign="F37" transliteration="psD"/>
+<hasTransliteration sign="F37" transliteration="sm"/>
+<hasTransliteration sign="F38" transliteration="psD"/>
+<hasTransliteration sign="F39" transliteration="imAx"/>
+<hasTransliteration sign="F39" transliteration="psD"/>
+<hasTransliteration sign="F3" transliteration="At"/>
+<hasTransliteration sign="F40" transliteration="Aw"/>
+<hasTransliteration sign="F41" transliteration="psD"/>
+<hasTransliteration sign="F41" transliteration="Sat"/>
+<hasTransliteration sign="F42" transliteration="spr"/>
+<hasTransliteration sign="F43" transliteration="spHt"/>
+<hasTransliteration sign="F44" transliteration="isw"/>
+<hasTransliteration sign="F44" transliteration="iwa"/>
+<hasTransliteration sign="F45" transliteration="id"/>
+<hasTransliteration sign="F45" transliteration="idt"/>
+<hasTransliteration sign="F46" transliteration="pXr"/>
+<hasTransliteration sign="F46" transliteration="qAb"/>
+<hasTransliteration sign="F46" transliteration="wDb"/>
+<hasTransliteration sign="F47" transliteration="pXr"/>
+<hasTransliteration sign="F47" transliteration="qAb"/>
+<hasTransliteration sign="F47" transliteration="wDb"/>
+<hasTransliteration sign="F48" transliteration="pXr"/>
+<hasTransliteration sign="F48" transliteration="qAb"/>
+<hasTransliteration sign="F48" transliteration="wDb"/>
+<hasTransliteration sign="F49" transliteration="pXr"/>
+<hasTransliteration sign="F49" transliteration="qAb"/>
+<hasTransliteration sign="F49" transliteration="wDb"/>
+<hasTransliteration sign="F4" transliteration="HAt"/>
+<hasTransliteration sign="F50" transliteration="spXr"/>
+<hasTransliteration sign="F51" transliteration="As"/>
+<hasTransliteration sign="F51" transliteration="at"/>
+<hasTransliteration sign="F51" transliteration="Haw"/>
+<hasTransliteration sign="F51" transliteration="iw"/>
+<hasTransliteration sign="F51" transliteration="iwf"/>
+<hasTransliteration sign="F51" transliteration="nHbt"/>
+<hasTransliteration sign="F51" transliteration="ws"/>
+<hasTransliteration sign="F52" transliteration="Hs"/>
+<hasTransliteration sign="F5" transliteration="SsA"/>
+<hasTransliteration sign="F6" transliteration="SsA"/>
+<hasTransliteration sign="F7" transliteration="Sfyt"/>
+<hasTransliteration sign="F8" transliteration="Sfyt"/>
+<hasTransliteration sign="F9" transliteration="At"/>
+<hasTransliteration sign="F9" transliteration="pHty"/>
+<hasTransliteration sign="G10" transliteration="Hnw"/>
+<hasTransliteration sign="G10" transliteration="skr"/>
+<hasTransliteration sign="G11" transliteration="aSm"/>
+<hasTransliteration sign="G11" transliteration="axm"/>
+<hasTransliteration sign="G11" transliteration="aXm"/>
+<hasTransliteration sign="G11" transliteration="Snbt"/>
+<hasTransliteration sign="G12" transliteration="aSm"/>
+<hasTransliteration sign="G12" transliteration="axm"/>
+<hasTransliteration sign="G12" transliteration="aXm"/>
+<hasTransliteration sign="G12" transliteration="Snbt"/>
+<hasTransliteration sign="G13" transliteration="Hr"/>
+<hasTransliteration sign="G13" transliteration="nxny"/>
+<hasTransliteration sign="G13" transliteration="spdw"/>
+<hasTransliteration sign="G14" transliteration="mt"/>
+<hasTransliteration sign="G14" transliteration="mwt"/>
+<hasTransliteration sign="G14" transliteration="nr"/>
+<hasTransliteration sign="G14" transliteration="nrt"/>
+<hasTransliteration sign="G15" transliteration="mwt"/>
+<hasTransliteration sign="G16" transliteration="nbty"/>
+<hasTransliteration sign="G17" transliteration="m"/>
+<hasTransliteration sign="G18" transliteration="mm"/>
+<hasTransliteration sign="G19" transliteration="m"/>
+<hasTransliteration sign="G19" transliteration="mi"/>
+<hasTransliteration sign="G1" transliteration="A"/>
+<hasTransliteration sign="G20" transliteration="m"/>
+<hasTransliteration sign="G20" transliteration="mi"/>
+<hasTransliteration sign="G21" transliteration="nH"/>
+<hasTransliteration sign="G22" transliteration="Db"/>
+<hasTransliteration sign="G23" transliteration="rxyt"/>
+<hasTransliteration sign="G24" transliteration="rxyt"/>
+<hasTransliteration sign="G25" transliteration="Ax"/>
+<hasTransliteration sign="G26A" transliteration="DHwty"/>
+<hasTransliteration sign="G26A" transliteration="hb"/>
+<hasTransliteration sign="G26A" transliteration="HHwti"/>
+<hasTransliteration sign="G26" transliteration="DHwty"/>
+<hasTransliteration sign="G26" transliteration="hb"/>
+<hasTransliteration sign="G26" transliteration="HHwti"/>
+<hasTransliteration sign="G27" transliteration="dSr"/>
+<hasTransliteration sign="G28" transliteration="gm"/>
+<hasTransliteration sign="G29" transliteration="bA"/>
+<hasTransliteration sign="G2" transliteration="AA"/>
+<hasTransliteration sign="G30" transliteration="bAw"/>
+<hasTransliteration sign="G31" transliteration="bnw"/>
+<hasTransliteration sign="G32" transliteration="baHi"/>
+<hasTransliteration sign="G32" transliteration="baH"/>
+<hasTransliteration sign="G33" transliteration="sdA"/>
+<hasTransliteration sign="G34" transliteration="niw"/>
+<hasTransliteration sign="G35" transliteration="aq"/>
+<hasTransliteration sign="G36" transliteration="wr"/>
+<hasTransliteration sign="G37" transliteration="bin"/>
+<hasTransliteration sign="G37" transliteration="nDs"/>
+<hasTransliteration sign="G38" transliteration="Apd"/>
+<hasTransliteration sign="G38" transliteration="gb"/>
+<hasTransliteration sign="G38" transliteration="Htm"/>
+<hasTransliteration sign="G38" transliteration="Trp"/>
+<hasTransliteration sign="G38" transliteration="wdf"/>
+<hasTransliteration sign="G38" transliteration="wfA"/>
+<hasTransliteration sign="G38" transliteration="wsf"/>
+<hasTransliteration sign="G39" transliteration="sA"/>
+<hasTransliteration sign="G39" transliteration="zA"/>
+<hasTransliteration sign="G3" transliteration="mA"/>
+<hasTransliteration sign="G40" transliteration="pA"/>
+<hasTransliteration sign="G41" transliteration="pA"/>
+<hasTransliteration sign="G41" transliteration="qmA"/>
+<hasTransliteration sign="G41" transliteration="qmyt"/>
+<hasTransliteration sign="G41" transliteration="sHw"/>
+<hasTransliteration sign="G41" transliteration="Tn"/>
+<hasTransliteration sign="G41" transliteration="xn"/>
+<hasTransliteration sign="G42" transliteration="DfA"/>
+<hasTransliteration sign="G42" transliteration="wSA"/>
+<hasTransliteration sign="G43" transliteration="w"/>
+<hasTransliteration sign="G44" transliteration="ww"/>
+<hasTransliteration sign="G45" transliteration="wa"/>
+<hasTransliteration sign="G46" transliteration="mAw"/>
+<hasTransliteration sign="G47" transliteration="TA"/>
+<hasTransliteration sign="G48" transliteration="sS"/>
+<hasTransliteration sign="G49" transliteration="sS"/>
+<hasTransliteration sign="G4" transliteration="tw"/>
+<hasTransliteration sign="G4" transliteration="tyw"/>
+<hasTransliteration sign="G50" transliteration="rxti"/>
+<hasTransliteration sign="G51" transliteration="HAm"/>
+<hasTransliteration sign="G52" transliteration="snm"/>
+<hasTransliteration sign="G53" transliteration="bA"/>
+<hasTransliteration sign="G54" transliteration="snD"/>
+<hasTransliteration sign="G54" transliteration="wSn"/>
+<hasTransliteration sign="G5" transliteration="Hr"/>
+<hasTransliteration sign="G6" transliteration="bik"/>
+<hasTransliteration sign="G7B" transliteration="nmti"/>
+<hasTransliteration sign="G7A" transliteration="nmti"/>
+<hasTransliteration sign="G7" transliteration="Hr"/>
+<hasTransliteration sign="G7" transliteration="nsw"/>
+<hasTransliteration sign="G7" transliteration="nTr"/>
+<hasTransliteration sign="G8" transliteration="Hr_nbw"/>
+<hasTransliteration sign="G9" transliteration="ra"/>
+<hasTransliteration sign="H1" transliteration="Apd"/>
+<hasTransliteration sign="H1" transliteration="wnS"/>
+<hasTransliteration sign="H2" transliteration="mAa"/>
+<hasTransliteration sign="H2" transliteration="pAq"/>
+<hasTransliteration sign="H2" transliteration="pq"/>
+<hasTransliteration sign="H2" transliteration="wSm"/>
+<hasTransliteration sign="H3" transliteration="pAq"/>
+<hasTransliteration sign="H3" transliteration="pq"/>
+<hasTransliteration sign="H4" transliteration="nr"/>
+<hasTransliteration sign="H4" transliteration="rm"/>
+<hasTransliteration sign="H4" transliteration="rmT"/>
+<hasTransliteration sign="H5" transliteration="DnH"/>
+<hasTransliteration sign="H5" transliteration="pAi"/>
+<hasTransliteration sign="H6A" transliteration="mAat"/>
+<hasTransliteration sign="H6A" transliteration="Sw"/>
+<hasTransliteration sign="H6" transliteration="mAat"/>
+<hasTransliteration sign="H6" transliteration="Sw"/>
+<hasTransliteration sign="H7" transliteration="SA"/>
+<hasTransliteration sign="H7" transliteration="SAt"/>
+<hasTransliteration sign="H8" transliteration="mrwt"/>
+<hasTransliteration sign="H8" transliteration="sA"/>
+<hasTransliteration sign="H8" transliteration="swHt"/>
+<hasTransliteration sign="I10" transliteration="d"/>
+<hasTransliteration sign="I10" transliteration="D"/>
+<hasTransliteration sign="I10" transliteration="Dt"/>
+<hasTransliteration sign="I11" transliteration="DD"/>
+<hasTransliteration sign="I12" transliteration="iart"/>
+<hasTransliteration sign="I12" transliteration="nsrt"/>
+<hasTransliteration sign="I13" transliteration="WADyt"/>
+<hasTransliteration sign="I14" transliteration="HfAw"/>
+<hasTransliteration sign="I15" transliteration="HfAw"/>
+<hasTransliteration sign="I1" transliteration="aSA"/>
+<hasTransliteration sign="I2" transliteration="Styw"/>
+<hasTransliteration sign="I3" transliteration="Ad"/>
+<hasTransliteration sign="I3" transliteration="it"/>
+<hasTransliteration sign="I3" transliteration="msH"/>
+<hasTransliteration sign="I3" transliteration="mzH"/>
+<hasTransliteration sign="I3" transliteration="xnti"/>
+<hasTransliteration sign="I4" transliteration="sbk"/>
+<hasTransliteration sign="I5A" transliteration="sAq"/>
+<hasTransliteration sign="I5" transliteration="sAq"/>
+<hasTransliteration sign="I5" transliteration="sbk"/>
+<hasTransliteration sign="I6" transliteration="km"/>
+<hasTransliteration sign="I7" transliteration="Hqt"/>
+<hasTransliteration sign="I7" transliteration="qrr"/>
+<hasTransliteration sign="I7" transliteration="wHm_anx"/>
+<hasTransliteration sign="I8" transliteration="Hfn"/>
+<hasTransliteration sign="I9" transliteration="f"/>
+<hasTransliteration sign="I9" transliteration="it"/>
+<hasTransliteration sign="K1" transliteration="in"/>
+<hasTransliteration sign="K2" transliteration="bw"/>
+<hasTransliteration sign="K3" transliteration="ad"/>
+<hasTransliteration sign="K3" transliteration="aD"/>
+<hasTransliteration sign="K3" transliteration="adw"/>
+<hasTransliteration sign="K4" transliteration="XA"/>
+<hasTransliteration sign="K5" transliteration="bs"/>
+<hasTransliteration sign="K5" transliteration="bz"/>
+<hasTransliteration sign="K5" transliteration="rmw"/>
+<hasTransliteration sign="K6" transliteration="nSmt"/>
+<hasTransliteration sign="K7" transliteration="Spt"/>
+<hasTransliteration sign="L1" transliteration="xpr"/>
+<hasTransliteration sign="L2" transliteration="bit"/>
+<hasTransliteration sign="L3" transliteration="aff"/>
+<hasTransliteration sign="L4" transliteration="snHm"/>
+<hasTransliteration sign="L5" transliteration="spA"/>
+<hasTransliteration sign="L6" transliteration="xA"/>
+<hasTransliteration sign="L7" transliteration="srqt"/>
+<hasTransliteration sign="M10" transliteration="nHbt"/>
+<hasTransliteration sign="M11" transliteration="wdn"/>
+<hasTransliteration sign="M12" transliteration="xA"/>
+<hasTransliteration sign="M13" transliteration="wAD"/>
+<hasTransliteration sign="M14" transliteration="wAD"/>
+<hasTransliteration sign="M15" transliteration="Ax"/>
+<hasTransliteration sign="M15" transliteration="Dyt"/>
+<hasTransliteration sign="M15" transliteration="mHw"/>
+<hasTransliteration sign="M15" transliteration="wAx"/>
+<hasTransliteration sign="M16" transliteration="HA"/>
+<hasTransliteration sign="M16" transliteration="mHw"/>
+<hasTransliteration sign="M17" transliteration="i"/>
+<hasTransliteration sign="M18" transliteration="ii"/>
+<hasTransliteration sign="M19" transliteration="aAbt"/>
+<hasTransliteration sign="M1" transliteration="iAm"/>
+<hasTransliteration sign="M1" transliteration="im"/>
+<hasTransliteration sign="M1" transliteration="imA"/>
+<hasTransliteration sign="M1" transliteration="nbs"/>
+<hasTransliteration sign="M1" transliteration="nht"/>
+<hasTransliteration sign="M20" transliteration="sm"/>
+<hasTransliteration sign="M20" transliteration="sxt"/>
+<hasTransliteration sign="M21" transliteration="sm"/>
+<hasTransliteration sign="M22" transliteration="n"/>
+<hasTransliteration sign="M22" transliteration="nxb"/>
+<hasTransliteration sign="M22" transliteration="nxbt"/>
+<hasTransliteration sign="M23" transliteration="sw"/>
+<hasTransliteration sign="M24" transliteration="rs"/>
+<hasTransliteration sign="M24" transliteration="rsi"/>
+<hasTransliteration sign="M24" transliteration="rsw"/>
+<hasTransliteration sign="M25" transliteration="rs"/>
+<hasTransliteration sign="M25" transliteration="rsi"/>
+<hasTransliteration sign="M25" transliteration="rsw"/>
+<hasTransliteration sign="M26" transliteration="Sma"/>
+<hasTransliteration sign="M27" transliteration="Sma"/>
+<hasTransliteration sign="M28" transliteration="mD_Sma"/>
+<hasTransliteration sign="M29" transliteration="nDm"/>
+<hasTransliteration sign="M2" transliteration="Hn"/>
+<hasTransliteration sign="M2" transliteration="Hrrt"/>
+<hasTransliteration sign="M2" transliteration="i"/>
+<hasTransliteration sign="M2" transliteration="is"/>
+<hasTransliteration sign="M30" transliteration="bnr"/>
+<hasTransliteration sign="M31" transliteration="rd"/>
+<hasTransliteration sign="M32" transliteration="rd"/>
+<hasTransliteration sign="M33" transliteration="it"/>
+<hasTransliteration sign="M34" transliteration="bdt"/>
+<hasTransliteration sign="M34" transliteration="bti"/>
+<hasTransliteration sign="M35" transliteration="aHaw"/>
+<hasTransliteration sign="M36" transliteration="Dr"/>
+<hasTransliteration sign="M37" transliteration="Dr"/>
+<hasTransliteration sign="M38" transliteration="dmA"/>
+<hasTransliteration sign="M38" transliteration="mHa"/>
+<hasTransliteration sign="M39" transliteration="rnpt"/>
+<hasTransliteration sign="M3" transliteration="Da"/>
+<hasTransliteration sign="M3" transliteration="xt"/>
+<hasTransliteration sign="M40" transliteration="is"/>
+<hasTransliteration sign="M40" transliteration="iz"/>
+<hasTransliteration sign="M41" transliteration="wan"/>
+<hasTransliteration sign="M42" transliteration="wn"/>
+<hasTransliteration sign="M42" transliteration="wnm"/>
+<hasTransliteration sign="M43" transliteration="irp"/>
+<hasTransliteration sign="M43" transliteration="spd"/>
+<hasTransliteration sign="M44" transliteration="spd"/>
+<hasTransliteration sign="M44" transliteration="srt"/>
+<hasTransliteration sign="M4" transliteration="rnp"/>
+<hasTransliteration sign="M4" transliteration="rnpt"/>
+<hasTransliteration sign="M4" transliteration="tr"/>
+<hasTransliteration sign="M5" transliteration="ti"/>
+<hasTransliteration sign="M5" transliteration="tr"/>
+<hasTransliteration sign="M6" transliteration="ri"/>
+<hasTransliteration sign="M6" transliteration="ti"/>
+<hasTransliteration sign="M6" transliteration="tr"/>
+<hasTransliteration sign="M7" transliteration="rnp"/>
+<hasTransliteration sign="M7" transliteration="rnpi"/>
+<hasTransliteration sign="M8" transliteration="Axt"/>
+<hasTransliteration sign="M8" transliteration="SA"/>
+<hasTransliteration sign="M9" transliteration="sSn"/>
+<hasTransliteration sign="M9" transliteration="zSn"/>
+<hasTransliteration sign="N10" transliteration="psD"/>
+<hasTransliteration sign="N10" transliteration="pzD"/>
+<hasTransliteration sign="N11" transliteration="Abd"/>
+<hasTransliteration sign="N11" transliteration="iaH"/>
+<hasTransliteration sign="N11" transliteration="Ssp"/>
+<hasTransliteration sign="N12" transliteration="iaH"/>
+<hasTransliteration sign="N13" transliteration="smdt"/>
+<hasTransliteration sign="N14" transliteration="dwa"/>
+<hasTransliteration sign="N14" transliteration="sbA"/>
+<hasTransliteration sign="N14" transliteration="wnwt"/>
+<hasTransliteration sign="N15" transliteration="dAt"/>
+<hasTransliteration sign="N15" transliteration="dwAt"/>
+<hasTransliteration sign="N16" transliteration="Dt"/>
+<hasTransliteration sign="N16" transliteration="tA"/>
+<hasTransliteration sign="N17" transliteration="Dt"/>
+<hasTransliteration sign="N17" transliteration="tA"/>
+<hasTransliteration sign="N18" transliteration="axt"/>
+<hasTransliteration sign="N18" transliteration="dAiw"/>
+<hasTransliteration sign="N18" transliteration="iw"/>
+<hasTransliteration sign="N19" transliteration="Axty"/>
+<hasTransliteration sign="N1" transliteration="Hr"/>
+<hasTransliteration sign="N1" transliteration="pt"/>
+<hasTransliteration sign="N20" transliteration="idb"/>
+<hasTransliteration sign="N20" transliteration="wDb"/>
+<hasTransliteration sign="N21" transliteration="idb"/>
+<hasTransliteration sign="N21" transliteration="wDb"/>
+<hasTransliteration sign="N22" transliteration="idb"/>
+<hasTransliteration sign="N22" transliteration="sxt"/>
+<hasTransliteration sign="N22" transliteration="wDb"/>
+<hasTransliteration sign="N23" transliteration="tA"/>
+<hasTransliteration sign="N24" transliteration="Hsp"/>
+<hasTransliteration sign="N24" transliteration="spAt"/>
+<hasTransliteration sign="N24" transliteration="tA-wr"/>
+<hasTransliteration sign="N25" transliteration="xAst"/>
+<hasTransliteration sign="N26" transliteration="Dw"/>
+<hasTransliteration sign="N27" transliteration="Axt"/>
+<hasTransliteration sign="N28" transliteration="xa"/>
+<hasTransliteration sign="N29" transliteration="q"/>
+<hasTransliteration sign="N29" transliteration="qAA"/>
+<hasTransliteration sign="N2" transliteration="grH"/>
+<hasTransliteration sign="N2" transliteration="kkw"/>
+<hasTransliteration sign="N30" transliteration="iAt"/>
+<hasTransliteration sign="N31" transliteration="Hr"/>
+<hasTransliteration sign="N31" transliteration="mTn"/>
+<hasTransliteration sign="N31" transliteration="wa"/>
+<hasTransliteration sign="N31" transliteration="wAt"/>
+<hasTransliteration sign="N32" transliteration="sin"/>
+<hasTransliteration sign="N32" transliteration="sinw"/>
+<hasTransliteration sign="N33A" transliteration="3"/>
+<hasTransliteration sign="N33A" transliteration="msdmt"/>
+<hasTransliteration sign="N33A" transliteration="nbw"/>
+<hasTransliteration sign="N33A" transliteration="Sai"/>
+<hasTransliteration sign="N33" transliteration="msdmt"/>
+<hasTransliteration sign="N33" transliteration="nbw"/>
+<hasTransliteration sign="N33" transliteration="Sai"/>
+<hasTransliteration sign="N34" transliteration="biA"/>
+<hasTransliteration sign="N34" transliteration="Hmt"/>
+<hasTransliteration sign="N35A" transliteration="mw"/>
+<hasTransliteration sign="N35" transliteration="n"/>
+<hasTransliteration sign="N35" transliteration="nt"/>
+<hasTransliteration sign="N36" transliteration="mi"/>
+<hasTransliteration sign="N36" transliteration="mr"/>
+<hasTransliteration sign="N37" transliteration="S"/>
+<hasTransliteration sign="N37" transliteration="sn"/>
+<hasTransliteration sign="N38" transliteration="S"/>
+<hasTransliteration sign="N38" transliteration="sn"/>
+<hasTransliteration sign="N39" transliteration="S"/>
+<hasTransliteration sign="N39" transliteration="sn"/>
+<hasTransliteration sign="N3" transliteration="grH"/>
+<hasTransliteration sign="N3" transliteration="kkw"/>
+<hasTransliteration sign="N40" transliteration="Sm"/>
+<hasTransliteration sign="N41" transliteration="biA"/>
+<hasTransliteration sign="N41" transliteration="Hm"/>
+<hasTransliteration sign="N41" transliteration="id"/>
+<hasTransliteration sign="N41" transliteration="idt"/>
+<hasTransliteration sign="N42" transliteration="Hm"/>
+<hasTransliteration sign="N4" transliteration="iAdt"/>
+<hasTransliteration sign="N4" transliteration="idt"/>
+<hasTransliteration sign="N4" transliteration="Snyt"/>
+<hasTransliteration sign="N5" transliteration="hrw"/>
+<hasTransliteration sign="N5" transliteration="ra"/>
+<hasTransliteration sign="N5" transliteration="sw"/>
+<hasTransliteration sign="N5" transliteration="wnwt"/>
+<hasTransliteration sign="N5" transliteration="zw"/>
+<hasTransliteration sign="N6" transliteration="ra"/>
+<hasTransliteration sign="N7" transliteration="Xrt-hrw"/>
+<hasTransliteration sign="N8" transliteration="Axw"/>
+<hasTransliteration sign="N8" transliteration="Hnmmt"/>
+<hasTransliteration sign="N8" transliteration="psD"/>
+<hasTransliteration sign="N9" transliteration="psD"/>
+<hasTransliteration sign="N9" transliteration="pzD"/>
+<hasTransliteration sign="nn" transliteration="nn"/>
+<hasTransliteration sign="nTrw" transliteration="nTrw"/>
+<hasTransliteration sign="O10" transliteration="Hwt-Hr"/>
+<hasTransliteration sign="O11" transliteration="aH"/>
+<hasTransliteration sign="O12" transliteration="aH"/>
+<hasTransliteration sign="O13" transliteration="sbxt"/>
+<hasTransliteration sign="O14" transliteration="sbxt"/>
+<hasTransliteration sign="O15" transliteration="wsxt"/>
+<hasTransliteration sign="O16" transliteration="tA"/>
+<hasTransliteration sign="O16" transliteration="tAyt"/>
+<hasTransliteration sign="O17" transliteration="tA"/>
+<hasTransliteration sign="O17" transliteration="tAyt"/>
+<hasTransliteration sign="O18" transliteration="kAr"/>
+<hasTransliteration sign="O19" transliteration="itrt"/>
+<hasTransliteration sign="O19" transliteration="pr-wr"/>
+<hasTransliteration sign="O1" transliteration="p"/>
+<hasTransliteration sign="O1" transliteration="pr"/>
+<hasTransliteration sign="O20" transliteration="itrt"/>
+<hasTransliteration sign="O20" transliteration="pr-nw"/>
+<hasTransliteration sign="O21" transliteration="sH"/>
+<hasTransliteration sign="O21" transliteration="zH"/>
+<hasTransliteration sign="O22" transliteration="HAb"/>
+<hasTransliteration sign="O22" transliteration="sH"/>
+<hasTransliteration sign="O22" transliteration="zH"/>
+<hasTransliteration sign="O23" transliteration="Hb-sd"/>
+<hasTransliteration sign="O24" transliteration="mr"/>
+<hasTransliteration sign="O25" transliteration="txn"/>
+<hasTransliteration sign="O26" transliteration="aHaw"/>
+<hasTransliteration sign="O26" transliteration="wD"/>
+<hasTransliteration sign="O27" transliteration="xA"/>
+<hasTransliteration sign="O28" transliteration="iwn"/>
+<hasTransliteration sign="O29" transliteration="a"/>
+<hasTransliteration sign="O29" transliteration="aA"/>
+<hasTransliteration sign="O29v" transliteration="aA"/>
+<hasTransliteration sign="O2" transliteration="pr-HD"/>
+<hasTransliteration sign="O30" transliteration="sxnt"/>
+<hasTransliteration sign="O30" transliteration="zxnt"/>
+<hasTransliteration sign="O31" transliteration="aA"/>
+<hasTransliteration sign="O31" transliteration="wn"/>
+<hasTransliteration sign="O32" transliteration="sbA"/>
+<hasTransliteration sign="O33" transliteration="srx"/>
+<hasTransliteration sign="O34" transliteration="s"/>
+<hasTransliteration sign="O34" transliteration="z"/>
+<hasTransliteration sign="O35" transliteration="is"/>
+<hasTransliteration sign="O35" transliteration="iz"/>
+<hasTransliteration sign="O35" transliteration="sb"/>
+<hasTransliteration sign="O35" transliteration="zb"/>
+<hasTransliteration sign="O36" transliteration="inb"/>
+<hasTransliteration sign="O37" transliteration="gsA"/>
+<hasTransliteration sign="O37" transliteration="sXnn"/>
+<hasTransliteration sign="O37" transliteration="whn"/>
+<hasTransliteration sign="O38" transliteration="arrt"/>
+<hasTransliteration sign="O38" transliteration="qnbt"/>
+<hasTransliteration sign="O38" transliteration="tm"/>
+<hasTransliteration sign="O39" transliteration="inr"/>
+<hasTransliteration sign="O3" transliteration="prt-xrw"/>
+<hasTransliteration sign="O40" transliteration="rwd"/>
+<hasTransliteration sign="O41" transliteration="iar"/>
+<hasTransliteration sign="O42" transliteration="Ssp"/>
+<hasTransliteration sign="O42" transliteration="Szp"/>
+<hasTransliteration sign="O43" transliteration="Ssp"/>
+<hasTransliteration sign="O43" transliteration="Szp"/>
+<hasTransliteration sign="O44" transliteration="iAt"/>
+<hasTransliteration sign="O45" transliteration="ipAt"/>
+<hasTransliteration sign="O45" transliteration="ipt"/>
+<hasTransliteration sign="O46" transliteration="ipAt"/>
+<hasTransliteration sign="O46" transliteration="ipt"/>
+<hasTransliteration sign="O47" transliteration="nxn"/>
+<hasTransliteration sign="O48" transliteration="nxn"/>
+<hasTransliteration sign="O49" transliteration="niwt"/>
+<hasTransliteration sign="O4" transliteration="h"/>
+<hasTransliteration sign="O50" transliteration="sp"/>
+<hasTransliteration sign="O50" transliteration="zp"/>
+<hasTransliteration sign="O51" transliteration="Snwt"/>
+<hasTransliteration sign="O5" transliteration="mr"/>
+<hasTransliteration sign="O5" transliteration="mrrt"/>
+<hasTransliteration sign="O5" transliteration="nm"/>
+<hasTransliteration sign="O6" transliteration="Htt"/>
+<hasTransliteration sign="O6" transliteration="Hwt"/>
+<hasTransliteration sign="O7" transliteration="Hwt"/>
+<hasTransliteration sign="O8" transliteration="Hwt-aAt"/>
+<hasTransliteration sign="O9" transliteration="nbt-Hwt"/>
+<hasTransliteration sign="P10" transliteration="Hmw"/>
+<hasTransliteration sign="P11" transliteration="mnit"/>
+<hasTransliteration sign="P1" transliteration="aHaw"/>
+<hasTransliteration sign="P1A" transliteration="pna"/>
+<hasTransliteration sign="P1" transliteration="dpt"/>
+<hasTransliteration sign="P1" transliteration="imw"/>
+<hasTransliteration sign="P2" transliteration="xnti"/>
+<hasTransliteration sign="P2" transliteration="xnt"/>
+<hasTransliteration sign="P3" transliteration="DAi"/>
+<hasTransliteration sign="P3" transliteration="DA"/>
+<hasTransliteration sign="P3" transliteration="nSmt"/>
+<hasTransliteration sign="P3" transliteration="wiA"/>
+<hasTransliteration sign="P4" transliteration="wHa"/>
+<hasTransliteration sign="P5" transliteration="nfw"/>
+<hasTransliteration sign="P5" transliteration="TAw"/>
+<hasTransliteration sign="P6" transliteration="aHa"/>
+<hasTransliteration sign="P7" transliteration="aHa"/>
+<hasTransliteration sign="P8" transliteration="wsr"/>
+<hasTransliteration sign="P8" transliteration="xrw"/>
+<hasTransliteration sign="P9" transliteration="xrwi-fi"/>
+<hasTransliteration sign="Q1" transliteration="As"/>
+<hasTransliteration sign="Q1" transliteration="Htm"/>
+<hasTransliteration sign="Q1" transliteration="st"/>
+<hasTransliteration sign="Q1" transliteration="ws"/>
+<hasTransliteration sign="Q1" transliteration="wz"/>
+<hasTransliteration sign="Q2" transliteration="st"/>
+<hasTransliteration sign="Q2" transliteration="ws"/>
+<hasTransliteration sign="Q2" transliteration="wz"/>
+<hasTransliteration sign="Q3" transliteration="p"/>
+<hasTransliteration sign="Q4" transliteration="wrs"/>
+<hasTransliteration sign="Q5" transliteration="hn"/>
+<hasTransliteration sign="Q6" transliteration="qrs"/>
+<hasTransliteration sign="Q6" transliteration="qrsw"/>
+<hasTransliteration sign="Q7" transliteration="nsr"/>
+<hasTransliteration sign="Q7" transliteration="psi"/>
+<hasTransliteration sign="Q7" transliteration="ps"/>
+<hasTransliteration sign="Q7" transliteration="srf"/>
+<hasTransliteration sign="Q7" transliteration="tA"/>
+<hasTransliteration sign="Q7" transliteration="xt"/>
+<hasTransliteration sign="R10" transliteration="Xrt-nTr"/>
+<hasTransliteration sign="R11" transliteration="dd"/>
+<hasTransliteration sign="R11" transliteration="Dd"/>
+<hasTransliteration sign="R12" transliteration="iAt"/>
+<hasTransliteration sign="R13" transliteration="imnt"/>
+<hasTransliteration sign="R14" transliteration="imnt"/>
+<hasTransliteration sign="R14" transliteration="wnmi"/>
+<hasTransliteration sign="R15" transliteration="Ab"/>
+<hasTransliteration sign="R15" transliteration="iAb"/>
+<hasTransliteration sign="R16" transliteration="wx"/>
+<hasTransliteration sign="R17" transliteration="tA-wr"/>
+<hasTransliteration sign="R18" transliteration="tA-wr"/>
+<hasTransliteration sign="R19" transliteration="wAs"/>
+<hasTransliteration sign="R19" transliteration="wAst"/>
+<hasTransliteration sign="R1" transliteration="xAt"/>
+<hasTransliteration sign="R1" transliteration="xAwt"/>
+<hasTransliteration sign="R20" transliteration="sSAt"/>
+<hasTransliteration sign="R21" transliteration="sSAt"/>
+<hasTransliteration sign="R22" transliteration="mnw"/>
+<hasTransliteration sign="R22" transliteration="xm"/>
+<hasTransliteration sign="R23" transliteration="mnw"/>
+<hasTransliteration sign="R23" transliteration="xm"/>
+<hasTransliteration sign="R24" transliteration="nit"/>
+<hasTransliteration sign="R24" transliteration="nrt"/>
+<hasTransliteration sign="R24" transliteration="nt"/>
+<hasTransliteration sign="R25" transliteration="nit"/>
+<hasTransliteration sign="R25" transliteration="nrt"/>
+<hasTransliteration sign="R25" transliteration="nt"/>
+<hasTransliteration sign="R2" transliteration="xAwt"/>
+<hasTransliteration sign="R3" transliteration="wDHw"/>
+<hasTransliteration sign="R4" transliteration="Htp"/>
+<hasTransliteration sign="R5" transliteration="kAp"/>
+<hasTransliteration sign="R5" transliteration="kp"/>
+<hasTransliteration sign="R6" transliteration="kAp"/>
+<hasTransliteration sign="R6" transliteration="kp"/>
+<hasTransliteration sign="R7" transliteration="snTr"/>
+<hasTransliteration sign="R8" transliteration="nTr"/>
+<hasTransliteration sign="R9" transliteration="bd"/>
+<hasTransliteration sign="S1" transliteration="HDt"/>
+<hasTransliteration sign="S1" transliteration="Smas"/>
+<hasTransliteration sign="S2" transliteration="HDt"/>
+<hasTransliteration sign="S3" transliteration="dSrt"/>
+<hasTransliteration sign="S3" transliteration="n"/>
+<hasTransliteration sign="S4" transliteration="n"/>
+<hasTransliteration sign="S4" transliteration="nt"/>
+<hasTransliteration sign="S5" transliteration="sxmty"/>
+<hasTransliteration sign="S6" transliteration="sxmty"/>
+<hasTransliteration sign="S6" transliteration="wrrt"/>
+<hasTransliteration sign="S7" transliteration="xprS"/>
+<hasTransliteration sign="S8" transliteration="Atf"/>
+<hasTransliteration sign="S9" transliteration="Swty"/>
+<hasTransliteration sign="S10" transliteration="mDH"/>
+<hasTransliteration sign="S10" transliteration="wAHw"/>
+<hasTransliteration sign="S11" transliteration="wsx"/>
+<hasTransliteration sign="S12" transliteration="nbw"/>
+<hasTransliteration sign="S13" transliteration="nbi"/>
+<hasTransliteration sign="S14A" transliteration="Dam"/>
+<hasTransliteration sign="S14" transliteration="HD"/>
+<hasTransliteration sign="S15" transliteration="tHn"/>
+<hasTransliteration sign="S15" transliteration="THn"/>
+<hasTransliteration sign="S15" transliteration="THnt"/>
+<hasTransliteration sign="S16" transliteration="tHn"/>
+<hasTransliteration sign="S16" transliteration="THn"/>
+<hasTransliteration sign="S16" transliteration="THnt"/>
+<hasTransliteration sign="S17A" transliteration="Ssm"/>
+<hasTransliteration sign="S17A" transliteration="Ssmtt"/>
+<hasTransliteration sign="S17" transliteration="tHn"/>
+<hasTransliteration sign="S17" transliteration="THn"/>
+<hasTransliteration sign="S17" transliteration="THnt"/>
+<hasTransliteration sign="S18" transliteration="mnit"/>
+<hasTransliteration sign="S19" transliteration="sDAw"/>
+<hasTransliteration sign="S19" transliteration="sDAwty"/>
+<hasTransliteration sign="S19" transliteration="xtm"/>
+<hasTransliteration sign="S19" transliteration="xtmty"/>
+<hasTransliteration sign="S20" transliteration="Dbat"/>
+<hasTransliteration sign="S20" transliteration="sDAwty"/>
+<hasTransliteration sign="S20" transliteration="xtm"/>
+<hasTransliteration sign="S20" transliteration="xtmty"/>
+<hasTransliteration sign="S21" transliteration="iwaw"/>
+<hasTransliteration sign="S22" transliteration="st"/>
+<hasTransliteration sign="S22" transliteration="sT"/>
+<hasTransliteration sign="S22" transliteration="tAwr"/>
+<hasTransliteration sign="S23" transliteration="dmd"/>
+<hasTransliteration sign="S23" transliteration="dmD"/>
+<hasTransliteration sign="S24" transliteration="Ts"/>
+<hasTransliteration sign="S24" transliteration="Tst"/>
+<hasTransliteration sign="S24" transliteration="Tz"/>
+<hasTransliteration sign="S26" transliteration="Sndyt"/>
+<hasTransliteration sign="S27" transliteration="mnxt"/>
+<hasTransliteration sign="S28" transliteration="HAy"/>
+<hasTransliteration sign="S28" transliteration="Hbs"/>
+<hasTransliteration sign="S28" transliteration="kfy"/>
+<hasTransliteration sign="S29" transliteration="s"/>
+<hasTransliteration sign="S30" transliteration="sf"/>
+<hasTransliteration sign="S31" transliteration="smA"/>
+<hasTransliteration sign="S32" transliteration="siA"/>
+<hasTransliteration sign="S32" transliteration="siAt"/>
+<hasTransliteration sign="S33" transliteration="Tb"/>
+<hasTransliteration sign="S33" transliteration="Tbt"/>
+<hasTransliteration sign="S34" transliteration="anx"/>
+<hasTransliteration sign="S35" transliteration="sryt"/>
+<hasTransliteration sign="S35" transliteration="Swt"/>
+<hasTransliteration sign="S36" transliteration="Hpwi"/>
+<hasTransliteration sign="S37" transliteration="xw"/>
+<hasTransliteration sign="S38" transliteration="HqA"/>
+<hasTransliteration sign="S38" transliteration="HqAt"/>
+<hasTransliteration sign="S39" transliteration="awt"/>
+<hasTransliteration sign="S40" transliteration="Dam"/>
+<hasTransliteration sign="S40" transliteration="wAb"/>
+<hasTransliteration sign="S40" transliteration="wAs"/>
+<hasTransliteration sign="S41" transliteration="Dam"/>
+<hasTransliteration sign="S42" transliteration="abA"/>
+<hasTransliteration sign="S42" transliteration="sxm"/>
+<hasTransliteration sign="S42" transliteration="xrp"/>
+<hasTransliteration sign="S43" transliteration="md"/>
+<hasTransliteration sign="S43" transliteration="mdw"/>
+<hasTransliteration sign="S44" transliteration="Ams"/>
+<hasTransliteration sign="S45" transliteration="nxAxA"/>
+<hasTransliteration sign="S45" transliteration="nxxw"/>
+<hasTransliteration sign="S56" transliteration="k"/>
+<hasTransliteration sign="T1" transliteration="mn"/>
+<hasTransliteration sign="T1" transliteration="mnw"/>
+<hasTransliteration sign="T10" transliteration="pD"/>
+<hasTransliteration sign="T11" transliteration="sin"/>
+<hasTransliteration sign="T11" transliteration="sSr"/>
+<hasTransliteration sign="T11" transliteration="swn"/>
+<hasTransliteration sign="T11" transliteration="sXr"/>
+<hasTransliteration sign="T11" transliteration="zin"/>
+<hasTransliteration sign="T11" transliteration="zwn"/>
+<hasTransliteration sign="T12" transliteration="Ai"/>
+<hasTransliteration sign="T12" transliteration="Ar"/>
+<hasTransliteration sign="T12" transliteration="rwd"/>
+<hasTransliteration sign="T12" transliteration="rwD"/>
+<hasTransliteration sign="T13" transliteration="rs"/>
+<hasTransliteration sign="T14" transliteration="am"/>
+<hasTransliteration sign="T14" transliteration="nHsi"/>
+<hasTransliteration sign="T14" transliteration="qmA"/>
+<hasTransliteration sign="T14" transliteration="THnw"/>
+<hasTransliteration sign="T15" transliteration="am"/>
+<hasTransliteration sign="T15" transliteration="nHsi"/>
+<hasTransliteration sign="T15" transliteration="qmA"/>
+<hasTransliteration sign="T15" transliteration="THnw"/>
+<hasTransliteration sign="T16" transliteration="xpS"/>
+<hasTransliteration sign="T17" transliteration="wrrt"/>
+<hasTransliteration sign="T18" transliteration="Sms"/>
+<hasTransliteration sign="T19" transliteration="gn"/>
+<hasTransliteration sign="T19" transliteration="qrs"/>
+<hasTransliteration sign="T19" transliteration="qs"/>
+<hasTransliteration sign="T19" transliteration="twi"/>
+<hasTransliteration sign="T19" transliteration="twr"/>
+<hasTransliteration sign="T20" transliteration="gn"/>
+<hasTransliteration sign="T20" transliteration="qrs"/>
+<hasTransliteration sign="T20" transliteration="qs"/>
+<hasTransliteration sign="T20" transliteration="twi"/>
+<hasTransliteration sign="T20" transliteration="twr"/>
+<hasTransliteration sign="T21" transliteration="wa"/>
+<hasTransliteration sign="T22" transliteration="sn"/>
+<hasTransliteration sign="T22" transliteration="snw"/>
+<hasTransliteration sign="T23" transliteration="sn"/>
+<hasTransliteration sign="T23" transliteration="snw"/>
+<hasTransliteration sign="T24" transliteration="aH"/>
+<hasTransliteration sign="T24" transliteration="iH"/>
+<hasTransliteration sign="T25" transliteration="DbA"/>
+<hasTransliteration sign="T26" transliteration="sxt"/>
+<hasTransliteration sign="T27" transliteration="sxt"/>
+<hasTransliteration sign="T28" transliteration="Xr"/>
+<hasTransliteration sign="T29" transliteration="nmt"/>
+<hasTransliteration sign="T2" transliteration="sqr"/>
+<hasTransliteration sign="T30" transliteration="dm"/>
+<hasTransliteration sign="T30" transliteration="dmt"/>
+<hasTransliteration sign="T30" transliteration="ds"/>
+<hasTransliteration sign="T30" transliteration="Sad"/>
+<hasTransliteration sign="T31" transliteration="sSm"/>
+<hasTransliteration sign="T32" transliteration="sSm"/>
+<hasTransliteration sign="T33" transliteration="sSm"/>
+<hasTransliteration sign="T34" transliteration="nm"/>
+<hasTransliteration sign="T35" transliteration="nm"/>
+<hasTransliteration sign="T3" transliteration="HD"/>
+<hasTransliteration sign="T4" transliteration="HD"/>
+<hasTransliteration sign="T5" transliteration="HD"/>
+<hasTransliteration sign="T6" transliteration="HDD"/>
+<hasTransliteration sign="T7A" transliteration="AqHw"/>
+<hasTransliteration sign="T7" transliteration="mDH"/>
+<hasTransliteration sign="T8A" transliteration="tp"/>
+<hasTransliteration sign="T8" transliteration="tp"/>
+<hasTransliteration sign="T9A" transliteration="pd"/>
+<hasTransliteration sign="T9A" transliteration="pD"/>
+<hasTransliteration sign="T9A" transliteration="pDt"/>
+<hasTransliteration sign="T9" transliteration="pd"/>
+<hasTransliteration sign="T9" transliteration="pD"/>
+<hasTransliteration sign="T9" transliteration="pDt"/>
+<hasTransliteration sign="U10" transliteration="it"/>
+<hasTransliteration sign="U11" transliteration="HqAt"/>
+<hasTransliteration sign="U12" transliteration="HqAt"/>
+<hasTransliteration sign="U13" transliteration="hb"/>
+<hasTransliteration sign="U13" transliteration="skA"/>
+<hasTransliteration sign="U13" transliteration="Sna"/>
+<hasTransliteration sign="U14" transliteration="Sna"/>
+<hasTransliteration sign="U15" transliteration="tm"/>
+<hasTransliteration sign="U16" transliteration="biA"/>
+<hasTransliteration sign="U17" transliteration="grg"/>
+<hasTransliteration sign="U18" transliteration="grg"/>
+<hasTransliteration sign="U19" transliteration="nw"/>
+<hasTransliteration sign="U1" transliteration="mA"/>
+<hasTransliteration sign="U20" transliteration="nw"/>
+<hasTransliteration sign="U21" transliteration="stp"/>
+<hasTransliteration sign="U22" transliteration="mnx"/>
+<hasTransliteration sign="U23" transliteration="Ab"/>
+<hasTransliteration sign="U23" transliteration="mr"/>
+<hasTransliteration sign="U24" transliteration="Hmt"/>
+<hasTransliteration sign="U25" transliteration="Hmt"/>
+<hasTransliteration sign="U26" transliteration="wbA"/>
+<hasTransliteration sign="U27" transliteration="wbA"/>
+<hasTransliteration sign="U28" transliteration="DA"/>
+<hasTransliteration sign="U28" transliteration="wDA"/>
+<hasTransliteration sign="U29" transliteration="DA"/>
+<hasTransliteration sign="U29" transliteration="wDA"/>
+<hasTransliteration sign="U2" transliteration="mA"/>
+<hasTransliteration sign="U30" transliteration="tA"/>
+<hasTransliteration sign="U31" transliteration="itH"/>
+<hasTransliteration sign="U31" transliteration="rtH"/>
+<hasTransliteration sign="U31" transliteration="rtHti"/>
+<hasTransliteration sign="U31" transliteration="xni"/>
+<hasTransliteration sign="U31" transliteration="xnr"/>
+<hasTransliteration sign="U32" transliteration="dns"/>
+<hasTransliteration sign="U32" transliteration="HmAt"/>
+<hasTransliteration sign="U32" transliteration="smn"/>
+<hasTransliteration sign="U32" transliteration="zmn"/>
+<hasTransliteration sign="U33" transliteration="ti"/>
+<hasTransliteration sign="U33" transliteration="tit"/>
+<hasTransliteration sign="U34" transliteration="xsf"/>
+<hasTransliteration sign="U35" transliteration="xsf"/>
+<hasTransliteration sign="U36" transliteration="Hm"/>
+<hasTransliteration sign="U36" transliteration="Hmww"/>
+<hasTransliteration sign="U37" transliteration="Xaq"/>
+<hasTransliteration sign="U38" transliteration="mxAt"/>
+<hasTransliteration sign="U39" transliteration="Ts"/>
+<hasTransliteration sign="U39" transliteration="wTs"/>
+<hasTransliteration sign="U39" transliteration="wTst"/>
+<hasTransliteration sign="U3" transliteration="mA"/>
+<hasTransliteration sign="U40" transliteration="rs"/>
+<hasTransliteration sign="U40" transliteration="Ts"/>
+<hasTransliteration sign="U40" transliteration="wTs"/>
+<hasTransliteration sign="U40" transliteration="wTst"/>
+<hasTransliteration sign="U41" transliteration="tx"/>
+<hasTransliteration sign="U4" transliteration="mAa"/>
+<hasTransliteration sign="U5" transliteration="mAa"/>
+<hasTransliteration sign="U6" transliteration="mr"/>
+<hasTransliteration sign="U7" transliteration="mr"/>
+<hasTransliteration sign="U8" transliteration="Hn"/>
+<hasTransliteration sign="U8" transliteration="Hnn"/>
+<hasTransliteration sign="U9" transliteration="bdt"/>
+<hasTransliteration sign="U9" transliteration="xAi"/>
+<hasTransliteration sign="V10" transliteration="Snw"/>
+<hasTransliteration sign="V1" transliteration="100"/>
+<hasTransliteration sign="V11" transliteration="dni"/>
+<hasTransliteration sign="V11" transliteration="pxA"/>
+<hasTransliteration sign="V12" transliteration="arq"/>
+<hasTransliteration sign="V12" transliteration="fx"/>
+<hasTransliteration sign="V12" transliteration="Sfdw"/>
+<hasTransliteration sign="V13" transliteration="T"/>
+<hasTransliteration sign="V14" transliteration="T"/>
+<hasTransliteration sign="V15" transliteration="iT"/>
+<hasTransliteration sign="V15" transliteration="iTi"/>
+<hasTransliteration sign="V16" transliteration="sA"/>
+<hasTransliteration sign="V17" transliteration="sA"/>
+<hasTransliteration sign="V18" transliteration="sA"/>
+<hasTransliteration sign="V19" transliteration="mDt"/>
+<hasTransliteration sign="V19" transliteration="tmA"/>
+<hasTransliteration sign="V19" transliteration="TmA"/>
+<hasTransliteration sign="V19" transliteration="XAr"/>
+<hasTransliteration sign="V1" transliteration="Snt"/>
+<hasTransliteration sign="V1" transliteration="St"/>
+<hasTransliteration sign="V20" transliteration="10"/>
+<hasTransliteration sign="V20" transliteration="mD"/>
+<hasTransliteration sign="V20" transliteration="mDw"/>
+<hasTransliteration sign="V21" transliteration="mD"/>
+<hasTransliteration sign="V22" transliteration="mH"/>
+<hasTransliteration sign="V23" transliteration="mH"/>
+<hasTransliteration sign="V24" transliteration="wd"/>
+<hasTransliteration sign="V24" transliteration="wD"/>
+<hasTransliteration sign="V25" transliteration="wd"/>
+<hasTransliteration sign="V25" transliteration="wD"/>
+<hasTransliteration sign="V26" transliteration="ad"/>
+<hasTransliteration sign="V26" transliteration="aD"/>
+<hasTransliteration sign="V26" transliteration="anD"/>
+<hasTransliteration sign="V27" transliteration="aD"/>
+<hasTransliteration sign="V28" transliteration="H"/>
+<hasTransliteration sign="V29" transliteration="sk"/>
+<hasTransliteration sign="V29" transliteration="wAH"/>
+<hasTransliteration sign="V2" transliteration="As"/>
+<hasTransliteration sign="V2" transliteration="sTA"/>
+<hasTransliteration sign="V30" transliteration="nb"/>
+<hasTransliteration sign="V31A" transliteration="k"/>
+<hasTransliteration sign="V31" transliteration="k"/>
+<hasTransliteration sign="V32" transliteration="gAw"/>
+<hasTransliteration sign="V32" transliteration="msn"/>
+<hasTransliteration sign="V33" transliteration="g"/>
+<hasTransliteration sign="V33" transliteration="Ss"/>
+<hasTransliteration sign="V33" transliteration="sSr"/>
+<hasTransliteration sign="V34" transliteration="g"/>
+<hasTransliteration sign="V34" transliteration="Ss"/>
+<hasTransliteration sign="V34" transliteration="sSr"/>
+<hasTransliteration sign="V35" transliteration="g"/>
+<hasTransliteration sign="V35" transliteration="Ss"/>
+<hasTransliteration sign="V35" transliteration="sSr"/>
+<hasTransliteration sign="V36" transliteration="Hn"/>
+<hasTransliteration sign="V37" transliteration="idr"/>
+<hasTransliteration sign="V38" transliteration="wt"/>
+<hasTransliteration sign="V39" transliteration="tit"/>
+<hasTransliteration sign="V3" transliteration="sTAw"/>
+<hasTransliteration sign="V4" transliteration="wA"/>
+<hasTransliteration sign="V5" transliteration="snT"/>
+<hasTransliteration sign="V6" transliteration="g"/>
+<hasTransliteration sign="V6" transliteration="Ss"/>
+<hasTransliteration sign="V6" transliteration="Ssr"/>
+<hasTransliteration sign="V7" transliteration="Sn"/>
+<hasTransliteration sign="V8" transliteration="Sn"/>
+<hasTransliteration sign="V9" transliteration="Snw"/>
+<hasTransliteration sign="W10A" transliteration="ab"/>
+<hasTransliteration sign="W10" transliteration="ab"/>
+<hasTransliteration sign="W10A" transliteration="bA"/>
+<hasTransliteration sign="W10A" transliteration="Hnt"/>
+<hasTransliteration sign="W10A" transliteration="iab"/>
+<hasTransliteration sign="W10A" transliteration="sxw"/>
+<hasTransliteration sign="W10A" transliteration="wsx"/>
+<hasTransliteration sign="W10" transliteration="Hnt"/>
+<hasTransliteration sign="W10" transliteration="iab"/>
+<hasTransliteration sign="W10" transliteration="sxw"/>
+<hasTransliteration sign="W10" transliteration="wsx"/>
+<hasTransliteration sign="W11" transliteration="g"/>
+<hasTransliteration sign="W11" transliteration="nst"/>
+<hasTransliteration sign="W12" transliteration="g"/>
+<hasTransliteration sign="W12" transliteration="nst"/>
+<hasTransliteration sign="W13" transliteration="dSrt"/>
+<hasTransliteration sign="W14" transliteration="Hs"/>
+<hasTransliteration sign="W14" transliteration="Hz"/>
+<hasTransliteration sign="W15" transliteration="qbb"/>
+<hasTransliteration sign="W15" transliteration="qbH"/>
+<hasTransliteration sign="W16" transliteration="qbb"/>
+<hasTransliteration sign="W16" transliteration="qbH"/>
+<hasTransliteration sign="W17" transliteration="xnt"/>
+<hasTransliteration sign="W18" transliteration="xnt"/>
+<hasTransliteration sign="W19" transliteration="mi"/>
+<hasTransliteration sign="W1" transliteration="mrHt"/>
+<hasTransliteration sign="W20" transliteration="irtt"/>
+<hasTransliteration sign="W20" transliteration="irTt"/>
+<hasTransliteration sign="W21" transliteration="irp"/>
+<hasTransliteration sign="W22" transliteration="Hnqt"/>
+<hasTransliteration sign="W22" transliteration="wdpw"/>
+<hasTransliteration sign="W23" transliteration="qrHt"/>
+<hasTransliteration sign="W23" transliteration="wdpw"/>
+<hasTransliteration sign="W24" transliteration="nw"/>
+<hasTransliteration sign="W25" transliteration="in"/>
+<hasTransliteration sign="W25" transliteration="ini"/>
+<hasTransliteration sign="W2" transliteration="bAs"/>
+<hasTransliteration sign="W3" transliteration="Hb"/>
+<hasTransliteration sign="W3" transliteration="Hbt"/>
+<hasTransliteration sign="W4" transliteration="Hb"/>
+<hasTransliteration sign="W5" transliteration="XriHbt"/>
+<hasTransliteration sign="W6" transliteration="wHAt"/>
+<hasTransliteration sign="W7" transliteration="Ab"/>
+<hasTransliteration sign="W7" transliteration="Abw"/>
+<hasTransliteration sign="W7" transliteration="mAt"/>
+<hasTransliteration sign="W7" transliteration="mAT"/>
+<hasTransliteration sign="W8" transliteration="Ab"/>
+<hasTransliteration sign="W8" transliteration="Abw"/>
+<hasTransliteration sign="W8" transliteration="mAt"/>
+<hasTransliteration sign="W8" transliteration="mAT"/>
+<hasTransliteration sign="W9" transliteration="Xnm"/>
+<hasTransliteration sign="X1" transliteration="t"/>
+<hasTransliteration sign="X2" transliteration="DHwty"/>
+<hasTransliteration sign="X2" transliteration="it"/>
+<hasTransliteration sign="X2" transliteration="t"/>
+<hasTransliteration sign="X3" transliteration="DHwty"/>
+<hasTransliteration sign="X3" transliteration="it"/>
+<hasTransliteration sign="X3" transliteration="t"/>
+<hasTransliteration sign="X4" transliteration="fqA"/>
+<hasTransliteration sign="X4" transliteration="sn"/>
+<hasTransliteration sign="X4" transliteration="snw"/>
+<hasTransliteration sign="X4" transliteration="zn"/>
+<hasTransliteration sign="X5" transliteration="sn"/>
+<hasTransliteration sign="X5" transliteration="sni"/>
+<hasTransliteration sign="X6" transliteration="pAt"/>
+<hasTransliteration sign="X7" transliteration="gsw"/>
+<hasTransliteration sign="X7" transliteration="snw"/>
+<hasTransliteration sign="X8" transliteration="d"/>
+<hasTransliteration sign="X8" transliteration="di"/>
+<hasTransliteration sign="X8" transliteration="rdi"/>
+<hasTransliteration sign="Y1" transliteration="dmD"/>
+<hasTransliteration sign="Y1" transliteration="mDAt"/>
+<hasTransliteration sign="Y1v" transliteration="mDAt"/>
+<hasTransliteration sign="Y2" transliteration="dmD"/>
+<hasTransliteration sign="Y2" transliteration="mDAt"/>
+<hasTransliteration sign="Y3" transliteration="mnhd"/>
+<hasTransliteration sign="Y3" transliteration="naa"/>
+<hasTransliteration sign="Y3" transliteration="snaa"/>
+<hasTransliteration sign="Y3" transliteration="sS"/>
+<hasTransliteration sign="Y3" transliteration="zS"/>
+<hasTransliteration sign="Y4" transliteration="mnhd"/>
+<hasTransliteration sign="Y4" transliteration="naa"/>
+<hasTransliteration sign="Y4" transliteration="snaa"/>
+<hasTransliteration sign="Y4" transliteration="sS"/>
+<hasTransliteration sign="Y4" transliteration="zS"/>
+<hasTransliteration sign="Y5" transliteration="mn"/>
+<hasTransliteration sign="Y6" transliteration="ibA"/>
+<hasTransliteration sign="Y7" transliteration="bnt"/>
+<hasTransliteration sign="Y8" transliteration="sSSt"/>
+<hasTransliteration sign="Y8" transliteration="sxm"/>
+<hasTransliteration sign="Y8" transliteration="zSSt"/>
+<hasTransliteration sign="Z10" transliteration="Sbn"/>
+<hasTransliteration sign="Z10" transliteration="sD"/>
+<hasTransliteration sign="Z10" transliteration="swA"/>
+<hasTransliteration sign="Z10" transliteration="wp"/>
+<hasTransliteration sign="Z10" transliteration="wr"/>
+<hasTransliteration sign="Z10" transliteration="xbs"/>
+<hasTransliteration sign="Z1" transliteration="1"/>
+<hasTransliteration sign="Z11" transliteration="imi"/>
+<hasTransliteration sign="Z11" transliteration="wnm"/>
+<hasTransliteration sign="Z202" transliteration="2"/>
+<hasTransliteration sign="Z204" transliteration="4"/>
+<hasTransliteration sign="Z2" transliteration="3"/>
+<hasTransliteration sign="Z3" transliteration="3"/>
+<hasTransliteration sign="Z3A" transliteration="3"/>
+<hasTransliteration sign="Z4A" transliteration="2"/>
+<hasTransliteration sign="Z4" transliteration="y"/>
+<hasTransliteration sign="Z5" transliteration="ms"/>
+<hasTransliteration sign="Z6" transliteration="mwt"/>
+<hasTransliteration sign="Z7" transliteration="w"/>
+<hasTransliteration sign="Z8" transliteration="Snw"/>
+<hasTransliteration sign="Z9" transliteration="Sbn"/>
+<hasTransliteration sign="Z9" transliteration="sD"/>
+<hasTransliteration sign="Z9" transliteration="swA"/>
+<hasTransliteration sign="Z9" transliteration="wp"/>
+<hasTransliteration sign="Z9" transliteration="wr"/>
+<hasTransliteration sign="Z9" transliteration="xbs"/>
+
+<!-- Declare standard signs as... standard ... -->
+
+
+<sign sign="A1" alwaysDisplay="y"/>
+<sign sign="A10" alwaysDisplay="y"/>
+<sign sign="A11" alwaysDisplay="y"/>
+<sign sign="A12" alwaysDisplay="y"/>
+<sign sign="A13" alwaysDisplay="y"/>
+<sign sign="A14" alwaysDisplay="y"/>
+<sign sign="A14A" alwaysDisplay="y"/>
+<sign sign="A15" alwaysDisplay="y"/>
+<sign sign="A16" alwaysDisplay="y"/>
+<sign sign="A17" alwaysDisplay="y"/>
+<sign sign="A17A" alwaysDisplay="y"/>
+<sign sign="A18" alwaysDisplay="y"/>
+<sign sign="A19" alwaysDisplay="y"/>
+<sign sign="A2" alwaysDisplay="y"/>
+<sign sign="A20" alwaysDisplay="y"/>
+<sign sign="A21" alwaysDisplay="y"/>
+<sign sign="A22" alwaysDisplay="y"/>
+<sign sign="A23" alwaysDisplay="y"/>
+<sign sign="A24" alwaysDisplay="y"/>
+<sign sign="A25" alwaysDisplay="y"/>
+<sign sign="A26" alwaysDisplay="y"/>
+<sign sign="A27" alwaysDisplay="y"/>
+<sign sign="A28" alwaysDisplay="y"/>
+<sign sign="A29" alwaysDisplay="y"/>
+<sign sign="A3" alwaysDisplay="y"/>
+<sign sign="A30" alwaysDisplay="y"/>
+<sign sign="A31" alwaysDisplay="y"/>
+<sign sign="A32" alwaysDisplay="y"/>
+<sign sign="A33" alwaysDisplay="y"/>
+<sign sign="A34" alwaysDisplay="y"/>
+<sign sign="A35" alwaysDisplay="y"/>
+<sign sign="A36" alwaysDisplay="y"/>
+<sign sign="A37" alwaysDisplay="y"/>
+<sign sign="A38" alwaysDisplay="y"/>
+<sign sign="A39" alwaysDisplay="y"/>
+<sign sign="A4" alwaysDisplay="y"/>
+<sign sign="A40" alwaysDisplay="y"/>
+<sign sign="A41" alwaysDisplay="y"/>
+<sign sign="A42" alwaysDisplay="y"/>
+<sign sign="A43" alwaysDisplay="y"/>
+<sign sign="A44" alwaysDisplay="y"/>
+<sign sign="A45" alwaysDisplay="y"/>
+<sign sign="A46" alwaysDisplay="y"/>
+<sign sign="A47" alwaysDisplay="y"/>
+<sign sign="A48" alwaysDisplay="y"/>
+<sign sign="A49" alwaysDisplay="y"/>
+<sign sign="A5" alwaysDisplay="y"/>
+<sign sign="A50" alwaysDisplay="y"/>
+<sign sign="A51" alwaysDisplay="y"/>
+<sign sign="A52" alwaysDisplay="y"/>
+<sign sign="A53" alwaysDisplay="y"/>
+<sign sign="A54" alwaysDisplay="y"/>
+<sign sign="A55" alwaysDisplay="y"/>
+<sign sign="A59" alwaysDisplay="y"/>
+<sign sign="A6" alwaysDisplay="y"/>
+<sign sign="A7" alwaysDisplay="y"/>
+<sign sign="A8" alwaysDisplay="y"/>
+<sign sign="A9" alwaysDisplay="y"/>
+<sign sign="Aa1" alwaysDisplay="y"/>
+<sign sign="Aa10" alwaysDisplay="y"/>
+<sign sign="Aa11" alwaysDisplay="y"/>
+<sign sign="Aa12" alwaysDisplay="y"/>
+<sign sign="Aa13" alwaysDisplay="y"/>
+<sign sign="Aa14" alwaysDisplay="y"/>
+<sign sign="Aa15" alwaysDisplay="y"/>
+<sign sign="Aa16" alwaysDisplay="y"/>
+<sign sign="Aa17" alwaysDisplay="y"/>
+<sign sign="Aa18" alwaysDisplay="y"/>
+<sign sign="Aa19" alwaysDisplay="y"/>
+<sign sign="Aa2" alwaysDisplay="y"/>
+<sign sign="Aa20" alwaysDisplay="y"/>
+<sign sign="Aa21" alwaysDisplay="y"/>
+<sign sign="Aa22" alwaysDisplay="y"/>
+<sign sign="Aa23" alwaysDisplay="y"/>
+<sign sign="Aa24" alwaysDisplay="y"/>
+<sign sign="Aa25" alwaysDisplay="y"/>
+<sign sign="Aa26" alwaysDisplay="y"/>
+<sign sign="Aa27" alwaysDisplay="y"/>
+<sign sign="Aa28" alwaysDisplay="y"/>
+<sign sign="Aa29" alwaysDisplay="y"/>
+<sign sign="Aa3" alwaysDisplay="y"/>
+<sign sign="Aa30" alwaysDisplay="y"/>
+<sign sign="Aa31" alwaysDisplay="y"/>
+<sign sign="Aa32" alwaysDisplay="y"/>
+<sign sign="Aa4" alwaysDisplay="y"/>
+<sign sign="Aa5" alwaysDisplay="y"/>
+<sign sign="Aa6" alwaysDisplay="y"/>
+<sign sign="Aa7" alwaysDisplay="y"/>
+<sign sign="Aa8" alwaysDisplay="y"/>
+<sign sign="Aa9" alwaysDisplay="y"/>
+<sign sign="B1" alwaysDisplay="y"/>
+<sign sign="B2" alwaysDisplay="y"/>
+<sign sign="B3" alwaysDisplay="y"/>
+<sign sign="B4" alwaysDisplay="y"/>
+<sign sign="B5" alwaysDisplay="y"/>
+<sign sign="B6" alwaysDisplay="y"/>
+<sign sign="B7" alwaysDisplay="y"/>
+<sign sign="C1" alwaysDisplay="y"/>
+<sign sign="C10" alwaysDisplay="y"/>
+<sign sign="C10A" alwaysDisplay="y"/>
+<sign sign="C11" alwaysDisplay="y"/>
+<sign sign="C12" alwaysDisplay="y"/>
+<sign sign="C17" alwaysDisplay="y"/>
+<sign sign="C18" alwaysDisplay="y"/>
+<sign sign="C19" alwaysDisplay="y"/>
+<sign sign="C2" alwaysDisplay="y"/>
+<sign sign="C20" alwaysDisplay="y"/>
+<sign sign="C3" alwaysDisplay="y"/>
+<sign sign="C4" alwaysDisplay="y"/>
+<sign sign="C5" alwaysDisplay="y"/>
+<sign sign="C6" alwaysDisplay="y"/>
+<sign sign="C7" alwaysDisplay="y"/>
+<sign sign="C8" alwaysDisplay="y"/>
+<sign sign="C9" alwaysDisplay="y"/>
+<sign sign="C98" alwaysDisplay="y"/>
+<sign sign="D1" alwaysDisplay="y"/>
+<sign sign="D10" alwaysDisplay="y"/>
+<sign sign="D11" alwaysDisplay="y"/>
+<sign sign="D12" alwaysDisplay="y"/>
+<sign sign="D13" alwaysDisplay="y"/>
+<sign sign="D14" alwaysDisplay="y"/>
+<sign sign="D15" alwaysDisplay="y"/>
+<sign sign="D16" alwaysDisplay="y"/>
+<sign sign="D17" alwaysDisplay="y"/>
+<sign sign="D18" alwaysDisplay="y"/>
+<sign sign="D19" alwaysDisplay="y"/>
+<sign sign="D2" alwaysDisplay="y"/>
+<sign sign="D20" alwaysDisplay="y"/>
+<sign sign="D21" alwaysDisplay="y"/>
+<sign sign="D22" alwaysDisplay="y"/>
+<sign sign="D23" alwaysDisplay="y"/>
+<sign sign="D24" alwaysDisplay="y"/>
+<sign sign="D25" alwaysDisplay="y"/>
+<sign sign="D26" alwaysDisplay="y"/>
+<sign sign="D27" alwaysDisplay="y"/>
+<sign sign="D27A" alwaysDisplay="y"/>
+<sign sign="D28" alwaysDisplay="y"/>
+<sign sign="D29" alwaysDisplay="y"/>
+<sign sign="D3" alwaysDisplay="y"/>
+<sign sign="D30" alwaysDisplay="y"/>
+<sign sign="D31" alwaysDisplay="y"/>
+<sign sign="D32" alwaysDisplay="y"/>
+<sign sign="D33" alwaysDisplay="y"/>
+<sign sign="D34" alwaysDisplay="y"/>
+<sign sign="D34A" alwaysDisplay="y"/>
+<sign sign="D35" alwaysDisplay="y"/>
+<sign sign="D36" alwaysDisplay="y"/>
+<sign sign="D37" alwaysDisplay="y"/>
+<sign sign="D38" alwaysDisplay="y"/>
+<sign sign="D39" alwaysDisplay="y"/>
+<sign sign="D4" alwaysDisplay="y"/>
+<sign sign="D40" alwaysDisplay="y"/>
+<sign sign="D41" alwaysDisplay="y"/>
+<sign sign="D42" alwaysDisplay="y"/>
+<sign sign="D43" alwaysDisplay="y"/>
+<sign sign="D44" alwaysDisplay="y"/>
+<sign sign="D45" alwaysDisplay="y"/>
+<sign sign="D46" alwaysDisplay="y"/>
+<sign sign="D46A" alwaysDisplay="y"/>
+<sign sign="D47" alwaysDisplay="y"/>
+<sign sign="D48" alwaysDisplay="y"/>
+<sign sign="D49" alwaysDisplay="y"/>
+<sign sign="D5" alwaysDisplay="y"/>
+<sign sign="D50" alwaysDisplay="y"/>
+<sign sign="D51" alwaysDisplay="y"/>
+<sign sign="D52" alwaysDisplay="y"/>
+<sign sign="D53" alwaysDisplay="y"/>
+<sign sign="D54" alwaysDisplay="y"/>
+<sign sign="D55" alwaysDisplay="y"/>
+<sign sign="D56" alwaysDisplay="y"/>
+<sign sign="D57" alwaysDisplay="y"/>
+<sign sign="D58" alwaysDisplay="y"/>
+<sign sign="D59" alwaysDisplay="y"/>
+<sign sign="D6" alwaysDisplay="y"/>
+<sign sign="D60" alwaysDisplay="y"/>
+<sign sign="D61" alwaysDisplay="y"/>
+<sign sign="D62" alwaysDisplay="y"/>
+<sign sign="D63" alwaysDisplay="y"/>
+<sign sign="D7" alwaysDisplay="y"/>
+<sign sign="D8" alwaysDisplay="y"/>
+<sign sign="D9" alwaysDisplay="y"/>
+<sign sign="E1" alwaysDisplay="y"/>
+<sign sign="E10" alwaysDisplay="y"/>
+<sign sign="E11" alwaysDisplay="y"/>
+<sign sign="E12" alwaysDisplay="y"/>
+<sign sign="E13" alwaysDisplay="y"/>
+<sign sign="E14" alwaysDisplay="y"/>
+<sign sign="E15" alwaysDisplay="y"/>
+<sign sign="E16" alwaysDisplay="y"/>
+<sign sign="E17" alwaysDisplay="y"/>
+<sign sign="E18" alwaysDisplay="y"/>
+<sign sign="E19" alwaysDisplay="y"/>
+<sign sign="E2" alwaysDisplay="y"/>
+<sign sign="E20" alwaysDisplay="y"/>
+<sign sign="E21" alwaysDisplay="y"/>
+<sign sign="E22" alwaysDisplay="y"/>
+<sign sign="E23" alwaysDisplay="y"/>
+<sign sign="E24" alwaysDisplay="y"/>
+<sign sign="E25" alwaysDisplay="y"/>
+<sign sign="E26" alwaysDisplay="y"/>
+<sign sign="E27" alwaysDisplay="y"/>
+<sign sign="E28" alwaysDisplay="y"/>
+<sign sign="E29" alwaysDisplay="y"/>
+<sign sign="E3" alwaysDisplay="y"/>
+<sign sign="E30" alwaysDisplay="y"/>
+<sign sign="E31" alwaysDisplay="y"/>
+<sign sign="E32" alwaysDisplay="y"/>
+<sign sign="E33" alwaysDisplay="y"/>
+<sign sign="E34" alwaysDisplay="y"/>
+<sign sign="E4" alwaysDisplay="y"/>
+<sign sign="E5" alwaysDisplay="y"/>
+<sign sign="E6" alwaysDisplay="y"/>
+<sign sign="E7" alwaysDisplay="y"/>
+<sign sign="E8" alwaysDisplay="y"/>
+<sign sign="E8A" alwaysDisplay="y"/>
+<sign sign="E9" alwaysDisplay="y"/>
+<sign sign="F1" alwaysDisplay="y"/>
+<sign sign="F10" alwaysDisplay="y"/>
+<sign sign="F11" alwaysDisplay="y"/>
+<sign sign="F12" alwaysDisplay="y"/>
+<sign sign="F13" alwaysDisplay="y"/>
+<sign sign="F14" alwaysDisplay="y"/>
+<sign sign="F15" alwaysDisplay="y"/>
+<sign sign="F16" alwaysDisplay="y"/>
+<sign sign="F17" alwaysDisplay="y"/>
+<sign sign="F18" alwaysDisplay="y"/>
+<sign sign="F19" alwaysDisplay="y"/>
+<sign sign="F2" alwaysDisplay="y"/>
+<sign sign="F20" alwaysDisplay="y"/>
+<sign sign="F21" alwaysDisplay="y"/>
+<sign sign="F22" alwaysDisplay="y"/>
+<sign sign="F23" alwaysDisplay="y"/>
+<sign sign="F24" alwaysDisplay="y"/>
+<sign sign="F25" alwaysDisplay="y"/>
+<sign sign="F26" alwaysDisplay="y"/>
+<sign sign="F27" alwaysDisplay="y"/>
+<sign sign="F28" alwaysDisplay="y"/>
+<sign sign="F29" alwaysDisplay="y"/>
+<sign sign="F3" alwaysDisplay="y"/>
+<sign sign="F30" alwaysDisplay="y"/>
+<sign sign="F31" alwaysDisplay="y"/>
+<sign sign="F32" alwaysDisplay="y"/>
+<sign sign="F33" alwaysDisplay="y"/>
+<sign sign="F34" alwaysDisplay="y"/>
+<sign sign="F35" alwaysDisplay="y"/>
+<sign sign="F36" alwaysDisplay="y"/>
+<sign sign="F37" alwaysDisplay="y"/>
+<sign sign="F37B" alwaysDisplay="y"/>
+<sign sign="F38" alwaysDisplay="y"/>
+<sign sign="F39" alwaysDisplay="y"/>
+<sign sign="F4" alwaysDisplay="y"/>
+<sign sign="F40" alwaysDisplay="y"/>
+<sign sign="F41" alwaysDisplay="y"/>
+<sign sign="F42" alwaysDisplay="y"/>
+<sign sign="F43" alwaysDisplay="y"/>
+<sign sign="F44" alwaysDisplay="y"/>
+<sign sign="F45" alwaysDisplay="y"/>
+<sign sign="F46" alwaysDisplay="y"/>
+<sign sign="F47" alwaysDisplay="y"/>
+<sign sign="F48" alwaysDisplay="y"/>
+<sign sign="F49" alwaysDisplay="y"/>
+<sign sign="F5" alwaysDisplay="y"/>
+<sign sign="F50" alwaysDisplay="y"/>
+<sign sign="F51" alwaysDisplay="y"/>
+<sign sign="F52" alwaysDisplay="y"/>
+<sign sign="F6" alwaysDisplay="y"/>
+<sign sign="F7" alwaysDisplay="y"/>
+<sign sign="F8" alwaysDisplay="y"/>
+<sign sign="F9" alwaysDisplay="y"/>
+<sign sign="G1" alwaysDisplay="y"/>
+<sign sign="G10" alwaysDisplay="y"/>
+<sign sign="G11" alwaysDisplay="y"/>
+<sign sign="G12" alwaysDisplay="y"/>
+<sign sign="G13" alwaysDisplay="y"/>
+<sign sign="G14" alwaysDisplay="y"/>
+<sign sign="G15" alwaysDisplay="y"/>
+<sign sign="G16" alwaysDisplay="y"/>
+<sign sign="G17" alwaysDisplay="y"/>
+<sign sign="G18" alwaysDisplay="y"/>
+<sign sign="G19" alwaysDisplay="y"/>
+<sign sign="G2" alwaysDisplay="y"/>
+<sign sign="G20" alwaysDisplay="y"/>
+<sign sign="G21" alwaysDisplay="y"/>
+<sign sign="G22" alwaysDisplay="y"/>
+<sign sign="G23" alwaysDisplay="y"/>
+<sign sign="G24" alwaysDisplay="y"/>
+<sign sign="G25" alwaysDisplay="y"/>
+<sign sign="G26" alwaysDisplay="y"/>
+<sign sign="G26A" alwaysDisplay="y"/>
+<sign sign="G27" alwaysDisplay="y"/>
+<sign sign="G28" alwaysDisplay="y"/>
+<sign sign="G29" alwaysDisplay="y"/>
+<sign sign="G3" alwaysDisplay="y"/>
+<sign sign="G30" alwaysDisplay="y"/>
+<sign sign="G31" alwaysDisplay="y"/>
+<sign sign="G32" alwaysDisplay="y"/>
+<sign sign="G33" alwaysDisplay="y"/>
+<sign sign="G34" alwaysDisplay="y"/>
+<sign sign="G35" alwaysDisplay="y"/>
+<sign sign="G36" alwaysDisplay="y"/>
+<sign sign="G37" alwaysDisplay="y"/>
+<sign sign="G38" alwaysDisplay="y"/>
+<sign sign="G39" alwaysDisplay="y"/>
+<sign sign="G4" alwaysDisplay="y"/>
+<sign sign="G40" alwaysDisplay="y"/>
+<sign sign="G41" alwaysDisplay="y"/>
+<sign sign="G42" alwaysDisplay="y"/>
+<sign sign="G43" alwaysDisplay="y"/>
+<sign sign="G44" alwaysDisplay="y"/>
+<sign sign="G45" alwaysDisplay="y"/>
+<sign sign="G46" alwaysDisplay="y"/>
+<sign sign="G47" alwaysDisplay="y"/>
+<sign sign="G48" alwaysDisplay="y"/>
+<sign sign="G49" alwaysDisplay="y"/>
+<sign sign="G5" alwaysDisplay="y"/>
+<sign sign="G50" alwaysDisplay="y"/>
+<sign sign="G51" alwaysDisplay="y"/>
+<sign sign="G52" alwaysDisplay="y"/>
+<sign sign="G53" alwaysDisplay="y"/>
+<sign sign="G54" alwaysDisplay="y"/>
+<sign sign="G6" alwaysDisplay="y"/>
+<sign sign="G7" alwaysDisplay="y"/>
+<sign sign="G7A" alwaysDisplay="y"/>
+<sign sign="G7B" alwaysDisplay="y"/>
+<sign sign="G8" alwaysDisplay="y"/>
+<sign sign="G9" alwaysDisplay="y"/>
+<sign sign="H1" alwaysDisplay="y"/>
+<sign sign="H2" alwaysDisplay="y"/>
+<sign sign="H3" alwaysDisplay="y"/>
+<sign sign="H4" alwaysDisplay="y"/>
+<sign sign="H5" alwaysDisplay="y"/>
+<sign sign="H6" alwaysDisplay="y"/>
+<sign sign="H6A" alwaysDisplay="y"/>
+<sign sign="H7" alwaysDisplay="y"/>
+<sign sign="H8" alwaysDisplay="y"/>
+<sign sign="I1" alwaysDisplay="y"/>
+<sign sign="I10" alwaysDisplay="y"/>
+<sign sign="I11" alwaysDisplay="y"/>
+<sign sign="I12" alwaysDisplay="y"/>
+<sign sign="I13" alwaysDisplay="y"/>
+<sign sign="I14" alwaysDisplay="y"/>
+<sign sign="I15" alwaysDisplay="y"/>
+<sign sign="I2" alwaysDisplay="y"/>
+<sign sign="I3" alwaysDisplay="y"/>
+<sign sign="I4" alwaysDisplay="y"/>
+<sign sign="I5" alwaysDisplay="y"/>
+<sign sign="I5A" alwaysDisplay="y"/>
+<sign sign="I6" alwaysDisplay="y"/>
+<sign sign="I7" alwaysDisplay="y"/>
+<sign sign="I8" alwaysDisplay="y"/>
+<sign sign="I9" alwaysDisplay="y"/>
+<sign sign="K1" alwaysDisplay="y"/>
+<sign sign="K2" alwaysDisplay="y"/>
+<sign sign="K3" alwaysDisplay="y"/>
+<sign sign="K4" alwaysDisplay="y"/>
+<sign sign="K5" alwaysDisplay="y"/>
+<sign sign="K6" alwaysDisplay="y"/>
+<sign sign="K7" alwaysDisplay="y"/>
+<sign sign="L1" alwaysDisplay="y"/>
+<sign sign="L2" alwaysDisplay="y"/>
+<sign sign="L3" alwaysDisplay="y"/>
+<sign sign="L4" alwaysDisplay="y"/>
+<sign sign="L5" alwaysDisplay="y"/>
+<sign sign="L6" alwaysDisplay="y"/>
+<sign sign="L7" alwaysDisplay="y"/>
+<sign sign="M1" alwaysDisplay="y"/>
+<sign sign="M10" alwaysDisplay="y"/>
+<sign sign="M11" alwaysDisplay="y"/>
+<sign sign="M12" alwaysDisplay="y"/>
+<sign sign="M13" alwaysDisplay="y"/>
+<sign sign="M14" alwaysDisplay="y"/>
+<sign sign="M15" alwaysDisplay="y"/>
+<sign sign="M16" alwaysDisplay="y"/>
+<sign sign="M17" alwaysDisplay="y"/>
+<sign sign="M18" alwaysDisplay="y"/>
+<sign sign="M19" alwaysDisplay="y"/>
+<sign sign="M2" alwaysDisplay="y"/>
+<sign sign="M20" alwaysDisplay="y"/>
+<sign sign="M21" alwaysDisplay="y"/>
+<sign sign="M22" alwaysDisplay="y"/>
+<sign sign="M23" alwaysDisplay="y"/>
+<sign sign="M24" alwaysDisplay="y"/>
+<sign sign="M25" alwaysDisplay="y"/>
+<sign sign="M26" alwaysDisplay="y"/>
+<sign sign="M27" alwaysDisplay="y"/>
+<sign sign="M28" alwaysDisplay="y"/>
+<sign sign="M29" alwaysDisplay="y"/>
+<sign sign="M3" alwaysDisplay="y"/>
+<sign sign="M30" alwaysDisplay="y"/>
+<sign sign="M31" alwaysDisplay="y"/>
+<sign sign="M32" alwaysDisplay="y"/>
+<sign sign="M33" alwaysDisplay="y"/>
+<sign sign="M34" alwaysDisplay="y"/>
+<sign sign="M35" alwaysDisplay="y"/>
+<sign sign="M36" alwaysDisplay="y"/>
+<sign sign="M37" alwaysDisplay="y"/>
+<sign sign="M38" alwaysDisplay="y"/>
+<sign sign="M39" alwaysDisplay="y"/>
+<sign sign="M4" alwaysDisplay="y"/>
+<sign sign="M40" alwaysDisplay="y"/>
+<sign sign="M41" alwaysDisplay="y"/>
+<sign sign="M42" alwaysDisplay="y"/>
+<sign sign="M43" alwaysDisplay="y"/>
+<sign sign="M44" alwaysDisplay="y"/>
+<sign sign="M5" alwaysDisplay="y"/>
+<sign sign="M6" alwaysDisplay="y"/>
+<sign sign="M7" alwaysDisplay="y"/>
+<sign sign="M8" alwaysDisplay="y"/>
+<sign sign="M9" alwaysDisplay="y"/>
+<sign sign="N1" alwaysDisplay="y"/>
+<sign sign="N10" alwaysDisplay="y"/>
+<sign sign="N11" alwaysDisplay="y"/>
+<sign sign="N12" alwaysDisplay="y"/>
+<sign sign="N13" alwaysDisplay="y"/>
+<sign sign="N14" alwaysDisplay="y"/>
+<sign sign="N15" alwaysDisplay="y"/>
+<sign sign="N16" alwaysDisplay="y"/>
+<sign sign="N17" alwaysDisplay="y"/>
+<sign sign="N18" alwaysDisplay="y"/>
+<sign sign="N19" alwaysDisplay="y"/>
+<sign sign="N2" alwaysDisplay="y"/>
+<sign sign="N20" alwaysDisplay="y"/>
+<sign sign="N21" alwaysDisplay="y"/>
+<sign sign="N22" alwaysDisplay="y"/>
+<sign sign="N23" alwaysDisplay="y"/>
+<sign sign="N24" alwaysDisplay="y"/>
+<sign sign="N25" alwaysDisplay="y"/>
+<sign sign="N26" alwaysDisplay="y"/>
+<sign sign="N27" alwaysDisplay="y"/>
+<sign sign="N28" alwaysDisplay="y"/>
+<sign sign="N29" alwaysDisplay="y"/>
+<sign sign="N3" alwaysDisplay="y"/>
+<sign sign="N30" alwaysDisplay="y"/>
+<sign sign="N31" alwaysDisplay="y"/>
+<sign sign="N32" alwaysDisplay="y"/>
+<sign sign="N33" alwaysDisplay="y"/>
+<sign sign="N33A" alwaysDisplay="y"/>
+<sign sign="N34" alwaysDisplay="y"/>
+<sign sign="N35" alwaysDisplay="y"/>
+<sign sign="N35A" alwaysDisplay="y"/>
+<sign sign="N36" alwaysDisplay="y"/>
+<sign sign="N37" alwaysDisplay="y"/>
+<sign sign="N38" alwaysDisplay="y"/>
+<sign sign="N39" alwaysDisplay="y"/>
+<sign sign="N4" alwaysDisplay="y"/>
+<sign sign="N40" alwaysDisplay="y"/>
+<sign sign="N41" alwaysDisplay="y"/>
+<sign sign="N42" alwaysDisplay="y"/>
+<sign sign="N5" alwaysDisplay="y"/>
+<sign sign="N6" alwaysDisplay="y"/>
+<sign sign="N7" alwaysDisplay="y"/>
+<sign sign="N8" alwaysDisplay="y"/>
+<sign sign="N9" alwaysDisplay="y"/>
+<sign sign="O1" alwaysDisplay="y"/>
+<sign sign="O10" alwaysDisplay="y"/>
+<sign sign="O11" alwaysDisplay="y"/>
+<sign sign="O12" alwaysDisplay="y"/>
+<sign sign="O13" alwaysDisplay="y"/>
+<sign sign="O14" alwaysDisplay="y"/>
+<sign sign="O15" alwaysDisplay="y"/>
+<sign sign="O16" alwaysDisplay="y"/>
+<sign sign="O17" alwaysDisplay="y"/>
+<sign sign="O18" alwaysDisplay="y"/>
+<sign sign="O19" alwaysDisplay="y"/>
+<sign sign="O2" alwaysDisplay="y"/>
+<sign sign="O20" alwaysDisplay="y"/>
+<sign sign="O21" alwaysDisplay="y"/>
+<sign sign="O22" alwaysDisplay="y"/>
+<sign sign="O23" alwaysDisplay="y"/>
+<sign sign="O24" alwaysDisplay="y"/>
+<sign sign="O25" alwaysDisplay="y"/>
+<sign sign="O26" alwaysDisplay="y"/>
+<sign sign="O27" alwaysDisplay="y"/>
+<sign sign="O28" alwaysDisplay="y"/>
+<sign sign="O29" alwaysDisplay="y"/>
+<sign sign="O29v" alwaysDisplay="y"/>
+<sign sign="O3" alwaysDisplay="y"/>
+<sign sign="O30" alwaysDisplay="y"/>
+<sign sign="O31" alwaysDisplay="y"/>
+<sign sign="O32" alwaysDisplay="y"/>
+<sign sign="O33" alwaysDisplay="y"/>
+<sign sign="O34" alwaysDisplay="y"/>
+<sign sign="O35" alwaysDisplay="y"/>
+<sign sign="O36" alwaysDisplay="y"/>
+<sign sign="O37" alwaysDisplay="y"/>
+<sign sign="O38" alwaysDisplay="y"/>
+<sign sign="O39" alwaysDisplay="y"/>
+<sign sign="O4" alwaysDisplay="y"/>
+<sign sign="O40" alwaysDisplay="y"/>
+<sign sign="O41" alwaysDisplay="y"/>
+<sign sign="O42" alwaysDisplay="y"/>
+<sign sign="O43" alwaysDisplay="y"/>
+<sign sign="O44" alwaysDisplay="y"/>
+<sign sign="O45" alwaysDisplay="y"/>
+<sign sign="O46" alwaysDisplay="y"/>
+<sign sign="O47" alwaysDisplay="y"/>
+<sign sign="O48" alwaysDisplay="y"/>
+<sign sign="O49" alwaysDisplay="y"/>
+<sign sign="O5" alwaysDisplay="y"/>
+<sign sign="O50" alwaysDisplay="y"/>
+<sign sign="O51" alwaysDisplay="y"/>
+<sign sign="O6" alwaysDisplay="y"/>
+<sign sign="O7" alwaysDisplay="y"/>
+<sign sign="O8" alwaysDisplay="y"/>
+<sign sign="O9" alwaysDisplay="y"/>
+<sign sign="P1" alwaysDisplay="y"/>
+<sign sign="P10" alwaysDisplay="y"/>
+<sign sign="P11" alwaysDisplay="y"/>
+<sign sign="P1A" alwaysDisplay="y"/>
+<sign sign="P2" alwaysDisplay="y"/>
+<sign sign="P3" alwaysDisplay="y"/>
+<sign sign="P4" alwaysDisplay="y"/>
+<sign sign="P5" alwaysDisplay="y"/>
+<sign sign="P6" alwaysDisplay="y"/>
+<sign sign="P7" alwaysDisplay="y"/>
+<sign sign="P8" alwaysDisplay="y"/>
+<sign sign="P9" alwaysDisplay="y"/>
+<sign sign="Q1" alwaysDisplay="y"/>
+<sign sign="Q2" alwaysDisplay="y"/>
+<sign sign="Q3" alwaysDisplay="y"/>
+<sign sign="Q4" alwaysDisplay="y"/>
+<sign sign="Q5" alwaysDisplay="y"/>
+<sign sign="Q6" alwaysDisplay="y"/>
+<sign sign="Q7" alwaysDisplay="y"/>
+<sign sign="R1" alwaysDisplay="y"/>
+<sign sign="R10" alwaysDisplay="y"/>
+<sign sign="R11" alwaysDisplay="y"/>
+<sign sign="R12" alwaysDisplay="y"/>
+<sign sign="R13" alwaysDisplay="y"/>
+<sign sign="R14" alwaysDisplay="y"/>
+<sign sign="R15" alwaysDisplay="y"/>
+<sign sign="R16" alwaysDisplay="y"/>
+<sign sign="R17" alwaysDisplay="y"/>
+<sign sign="R18" alwaysDisplay="y"/>
+<sign sign="R19" alwaysDisplay="y"/>
+<sign sign="R2" alwaysDisplay="y"/>
+<sign sign="R20" alwaysDisplay="y"/>
+<sign sign="R21" alwaysDisplay="y"/>
+<sign sign="R22" alwaysDisplay="y"/>
+<sign sign="R23" alwaysDisplay="y"/>
+<sign sign="R24" alwaysDisplay="y"/>
+<sign sign="R25" alwaysDisplay="y"/>
+<sign sign="R3" alwaysDisplay="y"/>
+<sign sign="R4" alwaysDisplay="y"/>
+<sign sign="R5" alwaysDisplay="y"/>
+<sign sign="R6" alwaysDisplay="y"/>
+<sign sign="R7" alwaysDisplay="y"/>
+<sign sign="R8" alwaysDisplay="y"/>
+<sign sign="R9" alwaysDisplay="y"/>
+<sign sign="S1" alwaysDisplay="y"/>
+<sign sign="S10" alwaysDisplay="y"/>
+<sign sign="S11" alwaysDisplay="y"/>
+<sign sign="S12" alwaysDisplay="y"/>
+<sign sign="S13" alwaysDisplay="y"/>
+<sign sign="S14" alwaysDisplay="y"/>
+<sign sign="S14A" alwaysDisplay="y"/>
+<sign sign="S15" alwaysDisplay="y"/>
+<sign sign="S16" alwaysDisplay="y"/>
+<sign sign="S17" alwaysDisplay="y"/>
+<sign sign="S17A" alwaysDisplay="y"/>
+<sign sign="S18" alwaysDisplay="y"/>
+<sign sign="S19" alwaysDisplay="y"/>
+<sign sign="S2" alwaysDisplay="y"/>
+<sign sign="S20" alwaysDisplay="y"/>
+<sign sign="S21" alwaysDisplay="y"/>
+<sign sign="S22" alwaysDisplay="y"/>
+<sign sign="S23" alwaysDisplay="y"/>
+<sign sign="S24" alwaysDisplay="y"/>
+<sign sign="S25" alwaysDisplay="y"/>
+<sign sign="S26" alwaysDisplay="y"/>
+<sign sign="S27" alwaysDisplay="y"/>
+<sign sign="S28" alwaysDisplay="y"/>
+<sign sign="S29" alwaysDisplay="y"/>
+<sign sign="S3" alwaysDisplay="y"/>
+<sign sign="S30" alwaysDisplay="y"/>
+<sign sign="S31" alwaysDisplay="y"/>
+<sign sign="S32" alwaysDisplay="y"/>
+<sign sign="S33" alwaysDisplay="y"/>
+<sign sign="S34" alwaysDisplay="y"/>
+<sign sign="S35" alwaysDisplay="y"/>
+<sign sign="S36" alwaysDisplay="y"/>
+<sign sign="S37" alwaysDisplay="y"/>
+<sign sign="S38" alwaysDisplay="y"/>
+<sign sign="S39" alwaysDisplay="y"/>
+<sign sign="S4" alwaysDisplay="y"/>
+<sign sign="S40" alwaysDisplay="y"/>
+<sign sign="S41" alwaysDisplay="y"/>
+<sign sign="S42" alwaysDisplay="y"/>
+<sign sign="S43" alwaysDisplay="y"/>
+<sign sign="S44" alwaysDisplay="y"/>
+<sign sign="S45" alwaysDisplay="y"/>
+<sign sign="S5" alwaysDisplay="y"/>
+<sign sign="S6" alwaysDisplay="y"/>
+<sign sign="S7" alwaysDisplay="y"/>
+<sign sign="S8" alwaysDisplay="y"/>
+<sign sign="S9" alwaysDisplay="y"/>
+<sign sign="T1" alwaysDisplay="y"/>
+<sign sign="T10" alwaysDisplay="y"/>
+<sign sign="T11" alwaysDisplay="y"/>
+<sign sign="T12" alwaysDisplay="y"/>
+<sign sign="T13" alwaysDisplay="y"/>
+<sign sign="T14" alwaysDisplay="y"/>
+<sign sign="T15" alwaysDisplay="y"/>
+<sign sign="T16" alwaysDisplay="y"/>
+<sign sign="T17" alwaysDisplay="y"/>
+<sign sign="T18" alwaysDisplay="y"/>
+<sign sign="T19" alwaysDisplay="y"/>
+<sign sign="T2" alwaysDisplay="y"/>
+<sign sign="T20" alwaysDisplay="y"/>
+<sign sign="T21" alwaysDisplay="y"/>
+<sign sign="T22" alwaysDisplay="y"/>
+<sign sign="T23" alwaysDisplay="y"/>
+<sign sign="T24" alwaysDisplay="y"/>
+<sign sign="T25" alwaysDisplay="y"/>
+<sign sign="T26" alwaysDisplay="y"/>
+<sign sign="T27" alwaysDisplay="y"/>
+<sign sign="T28" alwaysDisplay="y"/>
+<sign sign="T29" alwaysDisplay="y"/>
+<sign sign="T3" alwaysDisplay="y"/>
+<sign sign="T30" alwaysDisplay="y"/>
+<sign sign="T31" alwaysDisplay="y"/>
+<sign sign="T32" alwaysDisplay="y"/>
+<sign sign="T33" alwaysDisplay="y"/>
+<sign sign="T34" alwaysDisplay="y"/>
+<sign sign="T35" alwaysDisplay="y"/>
+<sign sign="T4" alwaysDisplay="y"/>
+<sign sign="T5" alwaysDisplay="y"/>
+<sign sign="T6" alwaysDisplay="y"/>
+<sign sign="T7" alwaysDisplay="y"/>
+<sign sign="T7A" alwaysDisplay="y"/>
+<sign sign="T8" alwaysDisplay="y"/>
+<sign sign="T8A" alwaysDisplay="y"/>
+<sign sign="T9" alwaysDisplay="y"/>
+<sign sign="T9A" alwaysDisplay="y"/>
+<sign sign="U1" alwaysDisplay="y"/>
+<sign sign="U10" alwaysDisplay="y"/>
+<sign sign="U11" alwaysDisplay="y"/>
+<sign sign="U12" alwaysDisplay="y"/>
+<sign sign="U13" alwaysDisplay="y"/>
+<sign sign="U14" alwaysDisplay="y"/>
+<sign sign="U15" alwaysDisplay="y"/>
+<sign sign="U16" alwaysDisplay="y"/>
+<sign sign="U17" alwaysDisplay="y"/>
+<sign sign="U18" alwaysDisplay="y"/>
+<sign sign="U19" alwaysDisplay="y"/>
+<sign sign="U2" alwaysDisplay="y"/>
+<sign sign="U20" alwaysDisplay="y"/>
+<sign sign="U21" alwaysDisplay="y"/>
+<sign sign="U22" alwaysDisplay="y"/>
+<sign sign="U23" alwaysDisplay="y"/>
+<sign sign="U24" alwaysDisplay="y"/>
+<sign sign="U25" alwaysDisplay="y"/>
+<sign sign="U26" alwaysDisplay="y"/>
+<sign sign="U27" alwaysDisplay="y"/>
+<sign sign="U28" alwaysDisplay="y"/>
+<sign sign="U29" alwaysDisplay="y"/>
+<sign sign="U3" alwaysDisplay="y"/>
+<sign sign="U30" alwaysDisplay="y"/>
+<sign sign="U31" alwaysDisplay="y"/>
+<sign sign="U32" alwaysDisplay="y"/>
+<sign sign="U33" alwaysDisplay="y"/>
+<sign sign="U34" alwaysDisplay="y"/>
+<sign sign="U35" alwaysDisplay="y"/>
+<sign sign="U36" alwaysDisplay="y"/>
+<sign sign="U37" alwaysDisplay="y"/>
+<sign sign="U38" alwaysDisplay="y"/>
+<sign sign="U39" alwaysDisplay="y"/>
+<sign sign="U4" alwaysDisplay="y"/>
+<sign sign="U40" alwaysDisplay="y"/>
+<sign sign="U41" alwaysDisplay="y"/>
+<sign sign="U5" alwaysDisplay="y"/>
+<sign sign="U6" alwaysDisplay="y"/>
+<sign sign="U7" alwaysDisplay="y"/>
+<sign sign="U8" alwaysDisplay="y"/>
+<sign sign="U9" alwaysDisplay="y"/>
+<sign sign="V1" alwaysDisplay="y"/>
+<sign sign="V10" alwaysDisplay="y"/>
+<sign sign="V11" alwaysDisplay="y"/>
+<sign sign="V12" alwaysDisplay="y"/>
+<sign sign="V13" alwaysDisplay="y"/>
+<sign sign="V14" alwaysDisplay="y"/>
+<sign sign="V15" alwaysDisplay="y"/>
+<sign sign="V16" alwaysDisplay="y"/>
+<sign sign="V17" alwaysDisplay="y"/>
+<sign sign="V18" alwaysDisplay="y"/>
+<sign sign="V19" alwaysDisplay="y"/>
+<sign sign="V2" alwaysDisplay="y"/>
+<sign sign="V20" alwaysDisplay="y"/>
+<sign sign="V21" alwaysDisplay="y"/>
+<sign sign="V22" alwaysDisplay="y"/>
+<sign sign="V23" alwaysDisplay="y"/>
+<sign sign="V24" alwaysDisplay="y"/>
+<sign sign="V25" alwaysDisplay="y"/>
+<sign sign="V26" alwaysDisplay="y"/>
+<sign sign="V27" alwaysDisplay="y"/>
+<sign sign="V28" alwaysDisplay="y"/>
+<sign sign="V29" alwaysDisplay="y"/>
+<sign sign="V3" alwaysDisplay="y"/>
+<sign sign="V30" alwaysDisplay="y"/>
+<sign sign="V31" alwaysDisplay="y"/>
+<sign sign="V31A" alwaysDisplay="y"/>
+<sign sign="V32" alwaysDisplay="y"/>
+<sign sign="V33" alwaysDisplay="y"/>
+<sign sign="V34" alwaysDisplay="y"/>
+<sign sign="V35" alwaysDisplay="y"/>
+<sign sign="V36" alwaysDisplay="y"/>
+<sign sign="V37" alwaysDisplay="y"/>
+<sign sign="V38" alwaysDisplay="y"/>
+<sign sign="V39" alwaysDisplay="y"/>
+<sign sign="V4" alwaysDisplay="y"/>
+<sign sign="V5" alwaysDisplay="y"/>
+<sign sign="V6" alwaysDisplay="y"/>
+<sign sign="V7" alwaysDisplay="y"/>
+<sign sign="V8" alwaysDisplay="y"/>
+<sign sign="V9" alwaysDisplay="y"/>
+<sign sign="W1" alwaysDisplay="y"/>
+<sign sign="W10" alwaysDisplay="y"/>
+<sign sign="W10A" alwaysDisplay="y"/>
+<sign sign="W11" alwaysDisplay="y"/>
+<sign sign="W12" alwaysDisplay="y"/>
+<sign sign="W13" alwaysDisplay="y"/>
+<sign sign="W14" alwaysDisplay="y"/>
+<sign sign="W15" alwaysDisplay="y"/>
+<sign sign="W16" alwaysDisplay="y"/>
+<sign sign="W17" alwaysDisplay="y"/>
+<sign sign="W18" alwaysDisplay="y"/>
+<sign sign="W19" alwaysDisplay="y"/>
+<sign sign="W2" alwaysDisplay="y"/>
+<sign sign="W20" alwaysDisplay="y"/>
+<sign sign="W21" alwaysDisplay="y"/>
+<sign sign="W22" alwaysDisplay="y"/>
+<sign sign="W23" alwaysDisplay="y"/>
+<sign sign="W24" alwaysDisplay="y"/>
+<sign sign="W25" alwaysDisplay="y"/>
+<sign sign="W3" alwaysDisplay="y"/>
+<sign sign="W4" alwaysDisplay="y"/>
+<sign sign="W5" alwaysDisplay="y"/>
+<sign sign="W6" alwaysDisplay="y"/>
+<sign sign="W7" alwaysDisplay="y"/>
+<sign sign="W8" alwaysDisplay="y"/>
+<sign sign="W9" alwaysDisplay="y"/>
+<sign sign="X1" alwaysDisplay="y"/>
+<sign sign="X2" alwaysDisplay="y"/>
+<sign sign="X3" alwaysDisplay="y"/>
+<sign sign="X4" alwaysDisplay="y"/>
+<sign sign="X5" alwaysDisplay="y"/>
+<sign sign="X6" alwaysDisplay="y"/>
+<sign sign="X7" alwaysDisplay="y"/>
+<sign sign="X8" alwaysDisplay="y"/>
+<sign sign="Y1" alwaysDisplay="y"/>
+<sign sign="Y1v" alwaysDisplay="y"/>
+<sign sign="Y2" alwaysDisplay="y"/>
+<sign sign="Y3" alwaysDisplay="y"/>
+<sign sign="Y4" alwaysDisplay="y"/>
+<sign sign="Y5" alwaysDisplay="y"/>
+<sign sign="Y6" alwaysDisplay="y"/>
+<sign sign="Y7" alwaysDisplay="y"/>
+<sign sign="Y8" alwaysDisplay="y"/>
+<sign sign="Z1" alwaysDisplay="y"/>
+<sign sign="Z10" alwaysDisplay="y"/>
+<sign sign="Z11" alwaysDisplay="y"/>
+<sign sign="Z12" alwaysDisplay="y"/>
+<sign sign="Z2" alwaysDisplay="y"/>
+<sign sign="Z3" alwaysDisplay="y"/>
+<sign sign="Z30" alwaysDisplay="y"/>
+<sign sign="Z3A" alwaysDisplay="y"/>
+<sign sign="Z4" alwaysDisplay="y"/>
+<sign sign="Z4A" alwaysDisplay="y"/>
+<sign sign="Z5" alwaysDisplay="y"/>
+<sign sign="Z6" alwaysDisplay="y"/>
+<sign sign="Z7" alwaysDisplay="y"/>
+<sign sign="Z8" alwaysDisplay="y"/>
+<sign sign="Z9" alwaysDisplay="y"/>
+<sign sign="Ff1" alwaysDisplay="y"/>
+<sign sign="Ff2" alwaysDisplay="y"/>
+<sign sign="Ff8" alwaysDisplay="y"/>
+<sign sign="Ff8A" alwaysDisplay="y"/>
+<sign sign="Ff100" alwaysDisplay="y"/>
+<sign sign="Ff101" alwaysDisplay="y"/>
+<sign sign="Ff110" alwaysDisplay="y"/>
+<sign sign="Ff301" alwaysDisplay="y"/>
+<sign sign="Ff302" alwaysDisplay="y"/>
+<sign sign="Ff303" alwaysDisplay="y"/>
+<sign sign="Ff304" alwaysDisplay="y"/>
+
+
+<!-- tests for the various extensions -->
+<variantOf sign="Y2" baseSign="Y1" linguistic="full"/>
+<contains partCode="H6"/>
+
+<sign sign="A1">
+<hasTransliteration sign="A1" transliteration="z" type="ideogram" use="palette"/>
+</sign>
+<sign sign="A4">
+<hasTag sign="A4" tag="praying"/>
+</sign>
+<sign sign="A4B">
+<hasTag sign="A4B" tag="holding nothing"/>
+<hasTag sign="A4B" tag="kneeled"/>
+</sign>
+<sign sign="A5">
+<hasTag sign="A5" tag="seated"/>
+<hasTag sign="A5" tag="curled up"/>
+</sign>
+<sign sign="A5A">
+<hasTag sign="A5A" tag="seated"/>
+<hasTag sign="A5A" tag="holding nothing"/>
+</sign>
+<sign sign="A6D">
+<hasTag sign="A6D" tag="curled up"/>
+<hasTag sign="A6D" tag="holding something"/>
+<contains partCode="W15" sign="A6D"/>
+</sign>
+<sign sign="A8">
+<hasTag sign="A8" tag="kneeled"/>
+</sign>
+<sign sign="A11">
+<hasTag sign="A11" tag="kneeled"/>
+</sign>
+<sign sign="A12">
+<hasTag sign="A12" tag="kneeled"/>
+</sign>
+<sign sign="A13">
+<hasTag sign="A13" tag="kneeled"/>
+</sign>
+<sign sign="A13E">
+<hasTag sign="A13E" tag="ennemy"/>
+<hasTag sign="A13E" tag="kneeled"/>
+<hasTag sign="A13E" tag="holding nothing"/>
+</sign>
+<sign sign="A14">
+<variantOf baseSign="A13" isSimilar="n" linguistic="partial" sign="A14"/>
+</sign>
+<sign sign="A15A">
+<hasTag sign="A15A" tag="fallen"/>
+<hasTag sign="A15A" tag="holding nothing"/>
+</sign>
+<sign sign="A17A">
+<variantOf baseSign="A17" isSimilar="n" linguistic="other" sign="A17A"/>
+<hasTag sign="A17A" tag="seated on nothing"/>
+<hasTag sign="A17A" tag="holding nothing"/>
+<signDescription lang="en" sign="A17A">
++lReally quite different from +s-A17-+l in its normal meaning. +s</signDescription>
+</sign>
+<sign sign="A18">
+<hasTag sign="A18" tag="seated on nothing"/>
+<hasTag sign="A18" tag="holding nothing"/>
+<contains partCode="S3" sign="A18"/>
+<hasTag sign="A18" tag="child"/>
+</sign>
+<sign sign="A21">
+<variantOf baseSign="A19" isSimilar="y" linguistic="partial" sign="A21"/>
+</sign>
+<sign sign="A21A">
+<hasTag sign="A21A" tag="standing"/>
+<hasTag sign="A21A" tag="holding something"/>
+</sign>
+<sign sign="A22">
+<contains partCode="S42" sign="A22"/>
+</sign>
+<sign sign="A23">
+<contains partCode="T3" sign="A23"/>
+<contains partCode="I12" sign="A23"/>
+</sign>
+<sign sign="A30">
+<hasTag sign="A30" tag="praying"/>
+</sign>
+<sign sign="A31">
+<hasTag sign="A31" tag="praying"/>
+</sign>
+<sign sign="A31B">
+<hasTag sign="A31B" tag="holding nothing"/>
+<hasTag sign="A31B" tag="praying"/>
+<hasTag sign="A31B" tag="standing"/>
+</sign>
+<sign sign="A36">
+<hasTag sign="A36" tag="standing"/>
+<hasTag sign="A36" tag="working"/>
+</sign>
+<sign sign="A36C">
+<hasTag sign="A36C" tag="standing"/>
+<hasTag sign="A36C" tag="holding something"/>
+<hasTag sign="A36C" tag="working"/>
+<variantOf baseSign="A36" isSimilar="y" linguistic="full" sign="A36C"/>
+</sign>
+<sign sign="A37">
+<hasTag sign="A37" tag="standing"/>
+<hasTag sign="A37" tag="working"/>
+<hasTag sign="A37" tag="holding something"/>
+</sign>
+<sign sign="A38">
+<hasTag sign="A38" tag="holding something"/>
+<hasTag sign="A38" tag="standing"/>
+<hasTag sign="A38" tag="man with animal"/>
+</sign>
+<sign sign="A39">
+<variantOf baseSign="A38" isSimilar="n" linguistic="full" sign="A39"/>
+<hasTag sign="A39" tag="standing"/>
+<hasTag sign="A39" tag="holding something"/>
+<hasTag sign="A39" tag="man with animal"/>
+</sign>
+<sign sign="A40">
+<hasTag sign="A40" tag="seated"/>
+<hasTag sign="A40" tag="holding nothing"/>
+<contains partCode="D156" sign="A40"/>
+</sign>
+<sign sign="A41">
+<contains partCode="D156" sign="A41"/>
+<contains partCode="I12" sign="A41"/>
+<hasTag sign="A41" tag="seated"/>
+<hasTag sign="A41" tag="holding nothing"/>
+</sign>
+<sign sign="A42">
+<contains partCode="D156" sign="A42"/>
+<contains partCode="I12" sign="A42"/>
+<contains partCode="S45" sign="A42"/>
+<hasTag sign="A42" tag="seated"/>
+<hasTag sign="A42" tag="holding something"/>
+<variantOf baseSign="A41" isSimilar="y" linguistic="full" sign="A42"/>
+</sign>
+<sign sign="A42C">
+<contains partCode="D156" sign="A42C"/>
+<contains partCode="I12" sign="A42C"/>
+<hasTag sign="A42C" tag="seated"/>
+<hasTag sign="A42C" tag="holding something"/>
+<contains partCode="S34" sign="A42C"/>
+<variantOf baseSign="A42" isSimilar="y" linguistic="unspecified" sign="A42C"/>
+</sign>
+<sign sign="A43">
+<contains partCode="S1" sign="A43"/>
+<contains partCode="I12" sign="A43"/>
+<hasTag sign="A43" tag="seated"/>
+<hasTag sign="A43" tag="holding nothing"/>
+</sign>
+<sign sign="A44">
+<contains partCode="S1" sign="A44"/>
+<contains partCode="I12" sign="A44"/>
+<hasTag sign="A44" tag="seated"/>
+<contains partCode="S45" sign="A44"/>
+<variantOf baseSign="A43" isSimilar="y" linguistic="full" sign="A44"/>
+<hasTag sign="A44" tag="holding something"/>
+</sign>
+<sign sign="A45">
+<contains partCode="S3" sign="A45"/>
+<hasTag sign="A45" tag="seated"/>
+<hasTag sign="A45" tag="holding nothing"/>
+<contains partCode="D156" sign="A45"/>
+</sign>
+<sign sign="A46">
+<hasTag sign="A46" tag="holding something"/>
+<hasTag sign="A46" tag="seated"/>
+<contains partCode="S3" sign="A46"/>
+<contains partCode="S45" sign="A46"/>
+<contains partCode="D156" sign="A46"/>
+</sign>
+<sign sign="A47">
+<contains partCode="V12" sign="A47"/>
+<hasTag sign="A47" tag="seated"/>
+<hasTag sign="A47" tag="holding something"/>
+</sign>
+<sign sign="A48">
+<variantOf baseSign="A47" isSimilar="y" linguistic="full" sign="A48"/>
+<hasTag sign="A48" tag="holding something"/>
+<hasTag sign="A48" tag="seated"/>
+</sign>
+<sign sign="A48A">
+<variantOf baseSign="A48" isSimilar="y" linguistic="full" sign="A48A"/>
+<hasTag sign="A48A" tag="seated"/>
+<hasTag sign="A48A" tag="holding something"/>
+</sign>
+<sign sign="A49">
+<hasTag sign="A49" tag="holding something"/>
+<hasTag sign="A49" tag="seated"/>
+<contains partCode="T14" sign="A49"/>
+</sign>
+<sign sign="A50">
+<hasTag sign="A50" tag="seated on chair"/>
+<hasTag sign="A50" tag="holding nothing"/>
+<hasTag sign="A50" tag="mummyform"/>
+</sign>
+<sign sign="A51">
+<variantOf baseSign="A50" isSimilar="y" linguistic="full" sign="A51"/>
+<contains partCode="S45" sign="A51"/>
+<hasTag sign="A51" tag="holding something"/>
+<hasTag sign="A51" tag="seated on chair"/>
+<hasTag sign="A51" tag="mummyform"/>
+</sign>
+<sign sign="A51A">
+<contains partCode="S45" sign="A51A"/>
+<contains partCode="D156" sign="A51A"/>
+<contains partCode="Q12" sign="A51A"/>
+<hasTag sign="A51A" tag="holding something"/>
+<hasTag sign="A51A" tag="seated on chair"/>
+<variantOf baseSign="A51" isSimilar="y" linguistic="full" sign="A51A"/>
+</sign>
+<sign sign="A52">
+<contains partCode="S45" sign="A52"/>
+<variantOf baseSign="A50" isSimilar="n" linguistic="partial" sign="A52"/>
+<hasTag sign="A52" tag="seated"/>
+<hasTag sign="A52" tag="holding something"/>
+</sign>
+<sign sign="A52C">
+<hasTag sign="A52C" tag="mummyform"/>
+<contains partCode="D156" sign="A52C"/>
+</sign>
+<sign sign="A53">
+<hasTag sign="A53" tag="standing"/>
+<hasTag sign="A53" tag="holding nothing"/>
+<hasTag sign="A53" tag="mummyform"/>
+<contains partCode="D156" sign="A53"/>
+</sign>
+<sign sign="A54">
+<hasTag sign="A54" tag="mummyform"/>
+<hasTag sign="A54" tag="lying down"/>
+<hasTag sign="A54" tag="holding nothing"/>
+<contains partCode="D156" sign="A54"/>
+</sign>
+<sign sign="A55">
+<hasTag sign="A55" tag="lying down"/>
+<hasTag sign="A55" tag="holding nothing"/>
+<hasTag sign="A55" tag="mummyform"/>
+<contains partCode="D156" sign="A55"/>
+<contains partCode="Q19" sign="A55"/>
+</sign>
+<sign sign="A55A">
+<hasTransliteration sign="A55A" transliteration="sDr" type="phonogram" use="keyboard"/>
+<hasTransliteration sign="A55A" transliteration="XAt" type="phonogram" use="keyboard"/>
+<hasTag sign="A55A" tag="lying down"/>
+<hasTag sign="A55A" tag="holding nothing"/>
+<hasTag sign="A55A" tag="mummyform"/>
+<contains partCode="D156" sign="A55A"/>
+<contains partCode="Q19" sign="A55A"/>
+<variantOf baseSign="A55" isSimilar="y" linguistic="full" sign="A55A"/>
+</sign>
+<sign sign="A56">
+<hasTag sign="A56" tag="holding something"/>
+<hasTag sign="A56" tag="kneeled"/>
+</sign>
+<sign sign="A57">
+<hasTag sign="A57" tag="holding something"/>
+<hasTag sign="A57" tag="standing"/>
+<contains partCode="R4" sign="A57"/>
+<contains partCode="S3" sign="A57"/>
+</sign>
+<sign sign="A58">
+<contains partCode="U6" sign="A58"/>
+<hasTag sign="A58" tag="standing"/>
+<hasTag sign="A58" tag="holding something"/>
+<hasTag sign="A58" tag="working"/>
+</sign>
+<sign sign="A59">
+<hasTag sign="A59" tag="standing"/>
+<hasTag sign="A59" tag="holding something"/>
+</sign>
+<sign sign="A60">
+<hasTag sign="A60" tag="holding something"/>
+<hasTag sign="A60" tag="standing"/>
+<hasTag sign="A60" tag="working"/>
+</sign>
+<sign sign="A61">
+<hasTag sign="A61" tag="standing"/>
+<hasTag sign="A61" tag="holding nothing"/>
+<hasTag sign="A61" tag="looking backward"/>
+</sign>
+<sign sign="A63A">
+<hasTag sign="A63A" tag="seated on chair"/>
+<hasTag sign="A63A" tag="mummyform"/>
+<hasTag sign="A63A" tag="holding nothing"/>
+<contains partCode="D156" sign="A63A"/>
+<contains partCode="Q12" sign="A63A"/>
+<variantOf baseSign="A50" isSimilar="y" linguistic="full" sign="A63A"/>
+</sign>
+<sign sign="A68">
+<hasTag sign="A68" tag="kneeled"/>
+<hasTag sign="A68" tag="holding nothing"/>
+</sign>
+<sign sign="A359">
+<signDescription lang="en" sign="A359">
++lman pointing to himself, "ink". Similar , but slightly different signs, may have the value "Hp", to hide.+s-!
++bBibliography:+s-!
++lSee D. Meeks, "La paléographie hiéroglyphique",  +s-+iÉgypte, Afrique et Orient +s-+l46, p. 12 +s-!
++l(figure 6b).+s-!
+</signDescription>
+<hasTransliteration sign="A359" transliteration="ink" type="ideogram" use="informative"/>
+</sign>
+<sign sign="B33">
+<hasTransliteration sign="B33" transliteration="smswt" type="ideogram" use="palette"/>
+<contains partCode="F36" sign="B33"/>
+<hasTag sign="B33" tag="standing"/>
+<hasTag sign="B33" tag="holding something"/>
+<signDescription lang="en" sign="B33">
++lBibliography:+s-!
+?200-+lLeitz, QzAR I, p. 156+s-!
+?200-+lCauville, Fond Hiéroglyphique, p. 30+s-!
+</signDescription>
+</sign>
+<sign sign="C1">
+<contains partCode="A40" sign="C1"/>
+<hasTag sign="C1" tag="holding nothing"/>
+</sign>
+<sign sign="C2">
+<variantOf baseSign="C1" isSimilar="n" linguistic="full" sign="C2"/>
+<hasTag sign="C2" tag="holding something"/>
+</sign>
+<sign sign="C3">
+<hasTag sign="C3" tag="holding nothing"/>
+</sign>
+<sign sign="C4">
+<hasTag sign="C4" tag="ram-headed deity"/>
+<hasTag sign="C4" tag="seated"/>
+<hasTag sign="C4" tag="holding nothing"/>
+<signDescription lang="en" sign="C4"/>
+</sign>
+<sign sign="C5">
+<signDescription lang="en" sign="C5"/>
+<hasTag sign="C5" tag="ram-headed deity"/>
+<hasTag sign="C5" tag="seated"/>
+<hasTag sign="C5" tag="holding nothing"/>
+<signDescription lang="en" sign="C5"/>
+<contains partCode="S34" sign="C5"/>
+</sign>
+<sign sign="C8">
+<contains partCode="S45" sign="C8"/>
+</sign>
+<sign sign="C17">
+<hasTag sign="C17" tag="hawk-headed deity"/>
+<hasTag sign="C17" tag="holding something"/>
+<hasTag sign="C17" tag="seated"/>
+<contains partCode="S34" sign="C17"/>
+</sign>
+<sign sign="G1">
+<hasTag sign="G1" tag="vulture"/>
+</sign>
+<sign sign="U22">
+<signDescription lang="en" sign="U22">
+U22-m-D17</signDescription>
+</sign>
+<tagCategory tag="child"/>
+<tagLabel label="child" lang="en" tag="child"/>
+<tagLabel label="enfant" lang="fr" tag="child"/>
+<tagCategory tag="curled up"/>
+<tagLabel label="curled up" lang="en" tag="curled up"/>
+<tagLabel label="recroquevillé" lang="fr" tag="curled up"/>
+<tagLabel label="ennemi" lang="fr" tag="ennemy"/>
+<tagCategory tag="kneeled"/>
+<tagLabel label="kneeled" lang="en" tag="kneeled"/>
+<tagLabel label="à genoux" lang="fr" tag="kneeled"/>
+<tagCategory tag="looking backward"/>
+<tagCategory tag="lying down"/>
+<tagLabel label="lying down" lang="en" tag="lying down"/>
+<tagLabel label="allongé" lang="fr" tag="lying down"/>
+<tagCategory tag="man with animal"/>
+<tagLabel label="man with animal" lang="en" tag="man with animal"/>
+<tagLabel label="homme avec un/des animaux" lang="fr" tag="man with animal"/>
+<tagCategory tag="mummyform"/>
+<tagLabel label="mummyform" lang="en" tag="mummyform"/>
+<tagLabel label="momieforme" lang="fr" tag="mummyform"/>
+<tagCategory tag="praying"/>
+<tagCategory tag="vulture"/>
+<tagLabel label="vulture" lang="en" tag="vulture"/>
+<tagLabel label="vautour" lang="fr" tag="vulture"/>
+
+<sign alwaysDisplay="y" sign="F51B"><hasTransliteration sign="F51B" transliteration="iwf" type="phonogram" use="keyboard"/></sign>
+<sign sign="Ff301"><signDescription lang="en" sign="Ff301">+lSign for numbers in hieratic texts. Often, hieratic distinguishes between the ideogram marker+s-!
+Z1-+land the unit digits, the later being much larger. If carelessly rendering the text in standardised hieroglyphs,+s-!
++lthis distinction is lost. Consider +s-h:r-W:ra-Z1-Z1\200-Z1\200-+l for hrw 2.+s</signDescription><hasTransliteration sign="Ff301" transliteration="1" type="abbreviation" use="keyboard"/></sign>
+<sign sign="Ff302"><signDescription lang="en" sign="Ff302">+lSign for numbers in hieratic texts. Often, hieratic distinguishes between the ideogram marker+s-!
+Z1-+land the unit digits, the later being much larger. If carelessly rendering the text in standardised hieroglyphs,+s-!
++lthis distinction is lost. Consider +s-h:r-W:ra-Z1-Z1\200-Z1\200-+l for hrw 2.+s</signDescription><hasTransliteration sign="Ff302" transliteration="2" type="abbreviation" use="keyboard"/></sign>
+<sign sign="Ff303"><signDescription lang="en" sign="Ff303">+lSign for numbers in hieratic texts. Often, hieratic distinguishes between the ideogram marker+s-!
+Z1-+land the unit digits, the later being much larger. If carelessly rendering the text in standardised hieroglyphs,+s-!
++lthis distinction is lost. Consider +s-h:r-W:ra-Z1-Z1\200-Z1\200-+l for hrw 2.+s</signDescription><hasTransliteration sign="Ff303" transliteration="3" type="abbreviation" use="keyboard"/></sign>
+<sign sign="Ff304"><signDescription lang="en" sign="Ff304">+lSign for numbers in hieratic texts. Often, hieratic distinguishes between the ideogram marker+s-!
+Z1-+land the unit digits, the later being much larger. If carelessly rendering the text in standardised hieroglyphs,+s-!
++lthis distinction is lost. Consider +s-h:r-W:ra-Z1-Z1\200-Z1\200-+l for hrw 2.+s</signDescription><hasTransliteration sign="Ff304" transliteration="4" type="abbreviation" use="keyboard"/></sign>
+<tagCategory tag="long narrow sign"/><tagLabel label="long narrow sign" lang="en" tag="long narrow sign"/><tagCategory tag="low broad sign"/><tagLabel label="low broad sign" lang="en" tag="low broad sign"/><tagCategory tag="tall narrow sign"/><tagLabel label="tall narrow sign" lang="en" tag="tall narrow sign"/>
+</signs>

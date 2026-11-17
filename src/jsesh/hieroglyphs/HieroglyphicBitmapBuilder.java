@@ -5,6 +5,9 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.swingUtils.GraphicsUtils;
 
@@ -52,9 +55,18 @@ public class HieroglyphicBitmapBuilder {
 		maxSize = A1.getBbox().getHeight();
 		size = 50;
 		transparent = false;
-		border=4;
+		border = 4;
 	}
 
+	/**
+	 * 
+	 * @param maxSize
+	 *            size of the hightest sign, in model coordinates.
+	 * @param imageSize
+	 *            size of the bitmap.
+	 * @param transparent
+	 *            should the picture be transparent.
+	 */
 	public HieroglyphicBitmapBuilder(double maxSize, int imageSize,
 			boolean transparent) {
 		super();
@@ -93,16 +105,19 @@ public class HieroglyphicBitmapBuilder {
 		int actualHeight = size;
 
 		if (isFit()) {
-			actualWidth = border+ (int) (1 + glyph.getBbox().getWidth() * scale);
-			actualHeight = border+ (int) ( 1+ glyph.getBbox().getHeight() * scale);
+			actualWidth = border
+					+ (int) (1 + glyph.getBbox().getWidth() * scale);
+			actualHeight = border
+					+ (int) (1 + glyph.getBbox().getHeight() * scale);
 		}
 
 		double mx = (actualWidth - scale * glyph.getBbox().getWidth()) / 2.0;
 		double my = (actualHeight - scale * glyph.getBbox().getHeight()) / 2.0;
 
 		BufferedImage img;
-		if (component != null) {
-			img = component.getGraphicsConfiguration().createCompatibleImage(actualWidth,actualHeight);
+		if (component != null && component.getGraphicsConfiguration() != null ) {
+			img = component.getGraphicsConfiguration().createCompatibleImage(
+					actualWidth, actualHeight);
 		} else
 			img = new BufferedImage(actualWidth, actualHeight, colorModel);
 		Graphics2D g = img.createGraphics();
@@ -185,6 +200,13 @@ public class HieroglyphicBitmapBuilder {
 		return fit;
 	}
 
+	/**
+	 * declare that the icon will be used in a given component. If this is used,
+	 * the icon will get the correct depth for the component, and rendering will
+	 * be faster.
+	 * 
+	 * @param component
+	 */
 	public void setComponent(Component component) {
 		this.component = component;
 
@@ -198,10 +220,47 @@ public class HieroglyphicBitmapBuilder {
 	}
 
 	/**
-	 * @param border The border to set.
+	 * @param border
+	 *            The border to set.
 	 */
 	public void setBorder(int border) {
 		this.border = border;
 	}
-	
+
+	/**
+	 * Creates an icon for a particular hieroglyph.
+	 * 
+	 * @param code
+	 * @param size :
+	 *            the icon size
+	 * @param border :
+	 *            the size of the icon's border
+	 * @param container
+	 *            the container that will display the icons, or null if none is
+	 *            known. May speed up display if correctly set.
+	 * @return an icon for the glyph.
+	 */
+	public static Icon createHieroglyphIcon(String code, int size, int border,
+			Component container) {
+
+		// HieroglyphicBitmapBuilder builder = new HieroglyphicBitmapBuilder(20,
+		// 30, false);
+		HieroglyphicBitmapBuilder builder = new HieroglyphicBitmapBuilder();
+		builder.setSize(size);
+		builder.setTransparent(false);
+		builder.setBorder(border);
+		builder.setFit(true);
+		builder.setComponent(container);
+
+		HieroglyphicFontManager manager = DefaultHieroglyphicFontManager
+				.getInstance();
+		jsesh.bzr.simple.ShapeChar glyph = manager.get(code);
+		if (glyph == null) {
+			System.err.println("Could not build "+ code);
+			return createHieroglyphIcon("A1", size, border, container);
+		}
+		BufferedImage img = builder.buildSignBitmap(glyph);
+		return new ImageIcon(img);
+	}
+
 }

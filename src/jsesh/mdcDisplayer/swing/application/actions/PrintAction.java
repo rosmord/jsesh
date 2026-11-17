@@ -16,8 +16,9 @@ import jsesh.mdcDisplayer.swing.application.actions.generic.BasicAction;
 /**
  * Rather outdated printing class. Should be rewritten. Use PDF instead.
  * @author rosmord
- *
+ * @deprecated
  */
+
 public class PrintAction extends BasicAction {
 	public PrintAction(String name, MDCDisplayerAppliWorkflow workflow) {
 		super(name,workflow);

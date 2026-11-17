@@ -39,7 +39,7 @@ public class InsertCommand extends MDCCommand {
 	}
 
 	public void undoCommand() {
-		topItemList.removeTopItems(position.getIndex(), newCadrats.size());
+		topItemList.removeTopItems(position.getIndex(), position.getIndex()+ newCadrats.size());
 	}
 
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16.17185"
+   height="17.977446"
+   id="svg3629"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22O175A.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonteUS22">
+  <metadata
+     id="metadata3636">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:title>US22O175A</dc:title>
+        <dc:date>5/11/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>extended library</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3634" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.970721"
+     inkscape:cx="8.0859251"
+     inkscape:cy="8.9887228"
+     inkscape:window-x="22"
+     inkscape:window-y="29"
+     inkscape:current-layer="svg3629" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 9.813016 2.826149  Q 9.656008 3.140165 9.656008 3.571938  L 9.656008 16.603622  Q 9.656008 17.388664 9.813016 17.977446  L 8.301811 17.977446  Q 8.478446 17.388664 8.478446 16.603622  L 8.478446 7.732657  Q 7.791535 6.123322 3.670068 6.08407  L 3.670068 3.336426  Q 6.358834 3.297174 9.813016 2.826149  Z  M 8.498072 3.70932  Q 6.241078 3.748572 4.376605 3.768198  L 4.376605 4.121467  L 7.595274 4.121467  L 7.595274 4.298101  L 4.376605 4.298101  L 4.376605 4.612118  L 7.595274 4.612118  L 7.595274 4.788752  L 4.376605 4.788752  L 4.376605 5.122395  L 7.595274 5.122395  L 7.595274 5.299029  L 4.376605 5.299029  L 4.376605 5.652297  Q 7.889665 5.652297 8.498072 6.535469  L 8.498072 3.70932  Z  M 8.085925 0  Q 12.599913 0.157008 14.385881 1.913538  Q 16.17185 3.670068 16.17185 7.12425  L 16.17185 17.957819  L 14.660646 17.957819  L 14.660646 7.12425  Q 14.660646 4.572865 13.375141 3.169604  Q 12.089636 1.766343 8.066299 1.491578  L 8.085925 1.491578  Q 4.082215 1.648587 2.786897 3.110726  Q 1.491578 4.572865 1.491578 7.12425  L 1.491578 17.957819  L 0 17.957819  L 0 7.12425  Q 0 3.670068 1.776156 1.913538  Q 3.552312 0.157008 8.066299 0  L 8.085925 0  Z "
+     id="path3631" />
+</svg>

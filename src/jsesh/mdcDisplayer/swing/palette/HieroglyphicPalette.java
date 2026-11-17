@@ -1,13 +1,14 @@
 package jsesh.mdcDisplayer.swing.palette;
 
-import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * A Dialogue for choosing hieroglyphs
  * @author rosmord
- *
+ * @deprecated
  */
-public class HieroglyphicPalette extends JDialog {
+public class HieroglyphicPalette {
 	/**
 	 * 
 	 */
@@ -15,9 +16,17 @@ public class HieroglyphicPalette extends JDialog {
 	
 	HieroglyphPaletteListener hieroglyphPaletteListener;
 	
+	JPanel panel;
+	public HieroglyphicPalette() {
+		panel= new JPanel();
+		panel.add(new JTextField(10));
+	}
 	
 	public void setHieroglyphPaletteListener(HieroglyphPaletteListener hieroglyphPaletteListener) {
 		this.hieroglyphPaletteListener= hieroglyphPaletteListener;
 	}
 	
+	public JPanel getPanel() {
+		return panel;
+	}
 }

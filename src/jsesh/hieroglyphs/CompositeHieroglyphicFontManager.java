@@ -3,6 +3,7 @@ package jsesh.hieroglyphs;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import jsesh.bzr.simple.ShapeChar;
@@ -19,7 +20,7 @@ import jsesh.bzr.simple.ShapeChar;
 public class CompositeHieroglyphicFontManager implements HieroglyphicFontManager {
 	List managers;
 
-	Set codes;
+	SortedSet codes;
 
 	public CompositeHieroglyphicFontManager() {
 		managers = new ArrayList();

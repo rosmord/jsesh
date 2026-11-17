@@ -8,7 +8,9 @@ package jsesh.graphics.generic;
 public interface RandomAccessStream {
 
 	void seek(int i);
-
+	
+	int tell() ;
+	
 	void close();
 
 	void write(int s0);

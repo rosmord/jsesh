@@ -1,80 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://web.resource.org/cc/"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="18.080553"
-   height="16.32"
-   id="svg1333"
+   width="1800"
+   height="1800"
+   id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.43"
-   sodipodi:docname="US22U4B.svg"
-   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi21_SR">
+   inkscape:version="0.44"
+   version="1.0"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Distribution"
+   sodipodi:docname="U4.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.10394569"
+     inkscape:cx="1756.8602"
+     inkscape:cy="577.05094"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     width="1800px"
+     height="1800px"
+     inkscape:window-width="1010"
+     inkscape:window-height="624"
+     inkscape:window-x="298"
+     inkscape:window-y="467" />
   <metadata
-     id="metadata1340">
+     id="metadata7">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>US22U4B</dc:title>
-        <dc:date>05/02/2006</dc:date>
-        <dc:publisher>
+        <dc:title>U1</dc:title>
+        <dc:creator>
           <cc:Agent>
             <dc:title>Serge Rosmorduc</dc:title>
           </cc:Agent>
-        </dc:publisher>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Serge Thomas</dc:title>
-          </cc:Agent>
         </dc:creator>
-        <dc:description>valeur: maA</dc:description>
-        <cc:license
-           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:description>U1 sign from a Sethi the 1st relief in the Louvre.
+</dc:description>
       </cc:Work>
-      <cc:License
-         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits
-           rdf:resource="http://web.resource.org/cc/Reproduction" />
-        <cc:permits
-           rdf:resource="http://web.resource.org/cc/Distribution" />
-        <cc:requires
-           rdf:resource="http://web.resource.org/cc/Notice" />
-        <cc:permits
-           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
-        <cc:requires
-           rdf:resource="http://web.resource.org/cc/ShareAlike" />
-        <cc:requires
-           rdf:resource="http://web.resource.org/cc/SourceCode" />
-      </cc:License>
     </rdf:RDF>
   </metadata>
-  <defs
-     id="defs1338" />
-  <sodipodi:namedview
-     inkscape:window-height="542"
-     inkscape:window-width="811"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
-     pagecolor="#ffffff"
-     id="base"
-     inkscape:zoom="22.855393"
-     inkscape:cx="9.0402767"
-     inkscape:cy="5.3099134"
-     inkscape:window-x="88"
-     inkscape:window-y="116"
-     inkscape:current-layer="svg1333" />
-  <path
-     style="fill:#000000; stroke:none"
-     d="M 9.217763,0.496087 C 9.6926497,0.15688233 10.188737,-0.00848 10.706026,0 C 11.223313,0.00848 11.70244,0.17384233 12.143406,0.496087 L 11.380196,1.513702 L 11.380196,4.286703 L 17.409563,4.286703 C 18.325417,4.3545437 18.304217,5.1431953 17.345963,6.652658 C 16.387708,8.16212 14.704404,9.7521433 12.296049,11.422728 C 9.887693,13.093312 7.0716367,14.725736 1.84788,16.32 C 0.83026533,16.150396 0.72850367,15.73487 1.542595,15.073421 C 4.6972017,13.818363 6.0377163,12.788028 7.564139,11.982417 C 9.090561,11.176804 10.426181,10.349992 11.570998,9.50198 C 12.715814,8.6539667 13.737669,7.51763 14.636562,6.09297 L 9.75201,6.09297 C 9.921612,5.2279973 9.9555327,3.6846147 9.853772,1.462822 L 9.217763,0.496087 z M 10.871387,4.948153 L 10.871387,1.259298 L 11.380196,0.750491 C 10.905309,0.51304767 10.447382,0.50456767 10.006413,0.725051 L 10.438902,1.259298 L 10.438902,5.406079 L 15.552419,5.406079 C 15.993383,5.4399997 15.654177,6.1311303 14.534801,7.479471 C 13.415426,8.8278103 12.313009,9.8666253 11.227552,10.595916 C 10.142096,11.325207 9.001519,12.003616 7.805821,12.631145 C 6.6101243,13.258675 5.4264927,14.166049 2.254926,15.353268 L 2.305807,15.531347 C 3.9509517,15.005582 4.9578537,14.565605 7.195253,13.423856 C 9.4020697,12.297714 11.329314,11.282806 12.753975,10.163429 C 14.178637,9.044053 15.289533,7.9501173 16.086664,6.881622 C 16.883795,5.8131253 17.223,5.1601553 17.104279,4.922712 L 10.871387,4.948153 z M 1.313632,9.705503 L 10.28626,9.705503 L 10.28626,7.543072 L 3.501504,7.543072 L 1.313632,9.705503 z M 3.145339,8.94229 L 3.806789,8.306282 L 9.523047,8.306282 L 9.523047,8.916851 L 3.145339,8.94229 z "
-     id="path1335"
-     sodipodi:nodetypes="csccccssccsscccccccccccsssccssscccccccccccc" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="dessin"
+     style="display:inline">
+    <path
+       style="fill:black;stroke:none"
+       d="M 15.25,1053.5 C 433.0625,1053.5 850.875,1053.5 1268.6875,1053.5 C 1268.6875,964.54167 1268.6875,875.58333 1268.6875,786.625 C 940.875,786.625 613.0625,786.625 285.25,786.625 C 195.25,875.58333 105.25,964.54167 15.25,1053.5 z M 309.1875,842 C 610.5625,842 911.9375,842 1213.3125,842 C 1213.3125,892.70833 1213.3125,943.41667 1213.3125,994.125 C 857.01107,995.74799 500.70765,996.8978 144.40625,998.53125 C 198.66616,946.35365 252.92118,894.17093 307.1875,842 L 308.1875,842 L 309.1875,842 z "
+       id="path1896" />
+    <path
+       style="opacity:1;fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:60.21629715;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 1170.5938,1.28125 C 1194.0627,213.81257 1141.7294,421.98313 1079.2188,623.40625 C 1204.7709,599.65501 1315.7526,603.33399 1439.3438,638.15625 C 1481.9793,653.27914 1515.3258,673.84286 1534.6562,696.40625 C 1553.9867,718.96964 1561.2988,741.73354 1554.625,773.53125 C 1502.4477,1022.1336 1259.7495,1347.8276 986.71875,1482.5312 C 873.02216,1538.625 665.68887,1605.1734 472.9375,1650.2812 C 360.80735,1676.5223 253.7017,1688.2272 171.4375,1696.9062 C 118.08364,1706.9554 -2.9377448,1692.6454 -4.0625,1767.9062 C 11.854566,1815.8846 99.801455,1808.4834 139.5625,1808.3438 C 219.47134,1807.8272 330.52126,1798.5349 450.90625,1778.8438 C 704.28856,1737.3988 1007.0059,1655.6744 1177.5938,1549.8125 C 1583.5223,1296.7569 1882.3035,933.38533 2015.75,471.1875 C 1785.7838,520.60656 1558.4843,519.66696 1334.375,448.90625 C 1328.7973,302.9647 1367.8889,168.20504 1418.375,33.375 C 1327.3999,42.885808 1256.2621,28.005949 1170.5938,1.28125 z M 1236.3125,83.46875 C 1269.1306,91.431821 1297.5051,94.769685 1331.7188,95.34375 C 1287.9623,222.23647 1267.7717,355.20456 1276.3125,489.1875 C 1490.2563,589.86842 1703.7333,573.30468 1930.625,546.15625 C 1790.783,980.46501 1481.5537,1290.3048 1145.8125,1498.6562 C 991.06118,1594.6905 689.41861,1678.8038 441.1875,1719.4062 C 436.53636,1720.167 431.99783,1720.8023 427.375,1721.5312 C 446.91247,1717.6889 466.62332,1713.5944 486.65625,1708.9062 C 682.77896,1663.0094 890.81295,1596.9989 1013.375,1536.5312 C 1307.5806,1391.3807 1556.0474,1059.9409 1613.5625,785.90625 C 1623.7578,737.33018 1609.64,691.37814 1580.375,657.21875 C 1551.11,623.05936 1508.6857,598.85249 1459.5,581.40625 C 1374.1066,551.11708 1266.9047,541.15984 1164.0312,550.8125 C 1210.9491,390.9115 1241.834,240.79369 1236.3125,83.46875 z "
+       id="path1883"
+       sodipodi:nodetypes="ccsssscssscccccccccccsccsssscc" />
+  </g>
 </svg>

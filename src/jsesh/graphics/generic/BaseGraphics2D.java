@@ -44,12 +44,11 @@ import java.util.Properties;
 /**
  * Basic class for creating customs Graphics2D.
  * <p>
- * We now use IText for
- * pdf export (and soon rtf !), so the freehep library 
+ * We now use IText for pdf export (and soon rtf !), so the freehep library 
  * wasn't very useful anymore.
  * We have decided to write this class to allow
- * the wmf export to be stand alone. We took some of the principles from
- * freehep.
+ * the wmf export to be stand alone.
+ *  We took some of the principles from freehep.
  * 
  * <p>
  * This class defines most of Graphics2D methods in terms of a few selected
@@ -210,12 +209,15 @@ public abstract class BaseGraphics2D extends Graphics2D {
      */
     abstract public void dispose();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.Graphics2D#draw(java.awt.Shape)
+    /**
+     * Draws a shape.
+     * <p>A basic, probably very suboptimal implementation of draw, which calls fill(shape).
+     * For the sake of efficiency, you should probably rewrite it.
+     * @see Graphics2D#draw(Shape)
      */
-    abstract public void draw(Shape s);
+    public void draw(Shape s) {
+    	 fill(getStroke().createStrokedShape(s));
+     }
 
     /*
      * (non-Javadoc)
@@ -586,13 +588,7 @@ public abstract class BaseGraphics2D extends Graphics2D {
         return composite;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.Graphics2D#getDeviceConfiguration()
-     */
-    abstract public GraphicsConfiguration getDeviceConfiguration();
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -611,13 +607,7 @@ public abstract class BaseGraphics2D extends Graphics2D {
         return new SimpleFontMetrics(f);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.Graphics2D#getFontRenderContext()
-     */
-    abstract public FontRenderContext getFontRenderContext();
-
+   
     /*
      * (non-Javadoc)
      * 
@@ -790,9 +780,12 @@ public abstract class BaseGraphics2D extends Graphics2D {
      */
     public void setPaint(Paint paint) {
         if (paint != null) {
-            currentPaint = paint;
-            if (paint instanceof Color)
+            if (paint instanceof Color) {
                 currentForeground= (Color) paint;
+                currentPaint= null;
+            }
+            else
+            	currentPaint= paint;
         }
     }
 
@@ -913,4 +906,14 @@ public abstract class BaseGraphics2D extends Graphics2D {
     public boolean canMultiPage() {
         return false;
     }
+
+	public GraphicsConfiguration getDeviceConfiguration() {
+		return new StreamGraphicsConfiguration(
+				new Rectangle(0, 0, 10000, 10000), new AffineTransform());
+	}
+
+	public FontRenderContext getFontRenderContext() {
+		// IMPORTANT :
+		return new FontRenderContext(getTransform(), false, true);
+	}
 }

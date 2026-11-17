@@ -12,14 +12,19 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
 import jsesh.mdcDisplayer.swing.palette.HieroglyphPaletteListener;
-import jsesh.mdcDisplayer.swing.palette.HieroglyphicPalette;
-import jsesh.uiFramework.ActionActivationManager;
-import jsesh.uiFramework.AppDefaults;
-import jsesh.uiFramework.PropertyHolder;
 
+import org.qenherkhopeshef.guiFramework.ActionActivationManager;
+import org.qenherkhopeshef.guiFramework.AppDefaults;
+import org.qenherkhopeshef.guiFramework.PropertyHolder;
+
+/**
+ * 
+ * @author rosmord
+ * @deprecated
+ */
 public class MDCEditorApplicationWorkflow implements PropertyHolder {
 
-	public class SessionChanger extends InternalFrameAdapter {
+	private class SessionChanger extends InternalFrameAdapter {
 
 		public void internalFrameActivated(InternalFrameEvent e) {
 			updateActionsStatus();
@@ -48,7 +53,7 @@ public class MDCEditorApplicationWorkflow implements PropertyHolder {
 	 */
 	private List editingSessions;
 
-	private HieroglyphicPalette hieroglyphicPalette;
+	
 
 	private boolean smallSignsCentered = false;
 
@@ -75,14 +80,15 @@ public class MDCEditorApplicationWorkflow implements PropertyHolder {
 		this.defaults = defaults;
 		editingSessions= new ArrayList();
 		actionActivationManager = new ActionActivationManager();
-		hieroglyphicPalette = new HieroglyphicPalette();
-		hieroglyphicPalette
+		
+		mainWindow.getHieroglyphicPalette()
 				.setHieroglyphPaletteListener(new HieroglyphPaletteListener() {
 
 					public void signSelected(String code) {
 						addCode(code);
 					}
 				});
+		
 	}
 
 	public void addCode(String code) {
@@ -284,6 +290,10 @@ public class MDCEditorApplicationWorkflow implements PropertyHolder {
 	
 	public void sessionDeactivated() {
 		
+	}
+	
+	public void showPalette() {
+		mainWindow.showPalette(true);
 	}
 
 	public ActionActivationManager getActionActivationManager() {

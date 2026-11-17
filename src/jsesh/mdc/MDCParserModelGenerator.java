@@ -8,6 +8,7 @@ package jsesh.mdc;
 
 import java.io.Reader;
 
+import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.model.MDCModelBuilder;
 import jsesh.mdc.model.TopItemList;
 
@@ -25,8 +26,16 @@ public class MDCParserModelGenerator {
 		facade = new MDCParserFacade(new MDCModelBuilder());
 	}
 
+	/**
+	 * 
+	 * @param dialect a dialect for the Manuel de codage
+	 * @see Dialect
+	 */
+	public MDCParserModelGenerator(int dialect) {
+		facade = new MDCParserFacade(new MDCModelBuilder(dialect));
+	}
+
 	public TopItemList parse(Reader in) throws MDCSyntaxError {
-		TopItemList result;
 		facade.parse(in);
 		return ((MDCModelBuilder) facade.getBuilder()).getResult();
 	}

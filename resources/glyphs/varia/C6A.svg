@@ -12,8 +12,8 @@
    id="svg1356"
    sodipodi:version="0.32"
    inkscape:version="0.43"
-   sodipodi:docname="US22C6A.svg"
-   sodipodi:docbase="C:\PROGRA~1\JSesh\fonts\envoi23_SR"
+   sodipodi:docname="C6A1.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts"
    version="1.0">
   <metadata
      id="metadata1363">
@@ -23,37 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>US22C6A</dc:title>
-        <dc:date>2/03/06</dc:date>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Serge Thomas</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:publisher>
-          <cc:Agent>
-            <dc:title>Serge Rosmorduc</dc:title>
-          </cc:Agent>
-        </dc:publisher>
-        <dc:description>association Anubis &amp; ankh</dc:description>
-        <cc:license
-           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
       </cc:Work>
-      <cc:License
-         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits
-           rdf:resource="http://web.resource.org/cc/Reproduction" />
-        <cc:permits
-           rdf:resource="http://web.resource.org/cc/Distribution" />
-        <cc:requires
-           rdf:resource="http://web.resource.org/cc/Notice" />
-        <cc:permits
-           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
-        <cc:requires
-           rdf:resource="http://web.resource.org/cc/ShareAlike" />
-        <cc:requires
-           rdf:resource="http://web.resource.org/cc/SourceCode" />
-      </cc:License>
     </rdf:RDF>
   </metadata>
   <defs

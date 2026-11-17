@@ -511,6 +511,12 @@ public class HTMLExporter {
 	}
 
 	class OptionPanel extends ExportOptionPanel implements ActionListener {
+	
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4257399135647530503L;
+
 		JTextField baseNameField;
 
 		JFormattedTextField directoryField;

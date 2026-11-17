@@ -4,9 +4,10 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 
 import jsesh.swingUtils.ImageIconFactory;
-import jsesh.uiFramework.AppDefaults;
-import jsesh.uiFramework.BundledAction;
-import jsesh.uiFramework.PropertyHolder;
+
+import org.qenherkhopeshef.guiFramework.AppDefaults;
+import org.qenherkhopeshef.guiFramework.BundledAction;
+import org.qenherkhopeshef.guiFramework.PropertyHolder;
 
 /**
  * Variant of Bundled Action for JSesh.

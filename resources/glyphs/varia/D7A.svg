@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="D7A.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Distribution"
+   inkscape:version="0.44"
+   sodipodi:version="0.32"
+   id="svg1290"
+   height="1800"
+   width="1800"
+   version="1.0">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:window-y="377"
+     inkscape:window-x="207"
+     inkscape:window-height="701"
+     inkscape:window-width="1010"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="-98.483244"
+     inkscape:cx="995.65964"
+     inkscape:zoom="0.074086535"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     width="1800px"
+     height="1800px"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/" />
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Modified from D4 sign on Karnak Hypostyle Hall
+</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       style="fill:black;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.79547155;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline"
+       d="M 641.28125 824.09375 C 360.76935 824.09372 142.40738 951.73227 12.78125 1103.5312 L 88.84375 1168.4688 C 200.48745 1037.7281 391.07681 924.09375 641.28125 924.09375 C 774.91602 924.09372 857.48659 949.84612 966.125 997.53125 C 1074.7634 1045.2164 1207.2011 1115.5172 1423.6562 1197.0625 C 1528.7912 1236.67 1660.9742 1276.4688 1817.4688 1276.4688 L 1817.4688 1176.4688 C 1677.89 1176.4687 1558.8401 1141.148 1458.9062 1103.5 C 1247.6001 1023.8946 1120.5037 956.09119 1006.3125 905.96875 C 892.12128 855.84628 788.5664 824.09375 641.28125 824.09375 z M 781.375 1298.0625 C 773.77641 1298.0877 766.18179 1298.2115 758.5625 1298.4688 C 559.14409 1308.0901 366.89443 1410.2342 245.5 1568.4375 C 199.67464 1617.6069 130.96205 1630.8586 68.96875 1648.1875 C 21.924455 1638.031 -5.6864582 1716.0317 45.5 1727.9688 C 87.949831 1735.95 131.29436 1724.1915 174.28125 1727.8438 C 302.32598 1726.0922 431.30327 1738.2048 554.34375 1775.0312 C 682.0678 1806.5665 818.06019 1821.5195 946.625 1785.8125 C 1193.2585 1729.34 1433.8157 1643.4285 1686.2812 1614.6562 C 1721.2012 1610.5206 1756.2264 1607.2749 1791.3125 1604.9375 C 1835.2075 1594.1145 1820.6341 1515.773 1774.2812 1526.875 C 1585.6444 1525.2743 1403.1303 1466.9733 1229.4375 1397.9688 C 1086.0324 1344.0204 935.87969 1297.5499 781.375 1298.0625 z M 677 1401.9688 C 602.16981 1472.8117 565.18327 1626.7417 713.9375 1712.625 C 615.14745 1702.1598 499.82022 1674.8662 401.5 1661.9375 C 349.11713 1658.1887 296.67202 1663.4915 244.25 1662.25 C 287.97346 1642.4892 320.774 1606.4059 350.53125 1570 C 437.74231 1480.6957 556.0777 1427.2704 677 1401.9688 z M 915.34375 1411.375 C 1035.1135 1425.5713 1155.6807 1446.9764 1266.3125 1496.9062 C 1349.1725 1528.5237 1434.1141 1554.8272 1520.625 1574.4375 C 1386.6676 1597.9541 1251.6675 1617.9593 1120.8125 1655.9688 C 1064.0301 1669.4514 1006.8186 1681.004 949.84375 1693.625 C 1050.9248 1592.5441 1027.542 1482.3373 915.34375 1411.375 z "
+       id="path1894" />
+  </g>
+</svg>

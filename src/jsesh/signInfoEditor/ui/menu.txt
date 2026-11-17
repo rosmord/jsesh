@@ -1,0 +1,22 @@
+fileMenu
+	openDefault
+	save
+#	-------
+	newFile
+#	newFileWithoutDefault
+#	open
+#	saveAs
+#	--------
+#	resetDefault
+#	-------
+	quit
+editMenu
+	copy
+	paste
+navigateMenu
+	nextSign
+	previousSign
+toolsMenu
+	displayPalette
+	displayTagEditor
+

@@ -61,6 +61,14 @@ public class MDCCaret {
 		return insert;
 	}
 
+	public MDCPosition getInsertPosition() {
+		return insert.getPosition();
+	}
+	
+	public MDCPosition getMarkPosition() {
+		return mark.getPosition();
+	}
+	
 	public void setInsert(MDCMark insert) {
 		/*
 		if (this.insert != null) {

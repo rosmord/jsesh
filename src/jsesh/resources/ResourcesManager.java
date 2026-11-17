@@ -13,12 +13,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import jsesh.utils.PlatformDetection;
+import org.qenherkhopeshef.utils.PlatformDetection;
+
 
 /**
  * A container for various resources (like fonts).
@@ -126,10 +128,15 @@ public class ResourcesManager {
 	}
 
 	public Reader getDemoData() {
-		Reader in;
-		in = new InputStreamReader(ResourcesManager.class
-				.getResourceAsStream("/jseshResources/data/allmdc.gly"));
-		return in;
+		try {
+			Reader in;
+			in = new InputStreamReader(ResourcesManager.class
+					.getResourceAsStream("/jseshResources/data/allmdc.gly"),"UTF-8");
+			return in;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);// Should not happen.
+		}
 	}
 
 	/**
@@ -143,6 +150,7 @@ public class ResourcesManager {
 			result = new File(result, "Library");
 			result = new File(result, "Preferences");
 			result = new File(result, "JSesh");
+			System.err.println("Looking for "+ result);
 		} else if (PlatformDetection.getPlatform() == PlatformDetection.WINDOWS) {
 			result = new File(result, "JSeshData");
 		} else { // Unix

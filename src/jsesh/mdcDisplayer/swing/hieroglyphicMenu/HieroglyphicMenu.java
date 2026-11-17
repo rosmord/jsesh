@@ -5,18 +5,15 @@
  */
 package jsesh.mdcDisplayer.swing.hieroglyphicMenu;
 
-
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -25,18 +22,23 @@ import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
+import org.qenherkhopeshef.utils.PlatformDetection;
+
+import jsesh.hieroglyphs.DefaultHieroglyphsManager;
 import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
-import jsesh.hieroglyphs.HieroglyphicFontManager;
-import jsesh.hieroglyphs.HieroglyphsManager;
 
 /**
  * A menu that displays hieroglyphs.
  * 
  * @author S. Rosmorduc
- *  
+ * 
  */
 public class HieroglyphicMenu extends JMenu {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -88729059102316882L;
 
 	/**
 	 * The dimensions of a basic icon
@@ -53,119 +55,118 @@ public class HieroglyphicMenu extends JMenu {
 	private String family;
 
 	private HieroglyphicMenuListener hieroglyphicMenuListener = null;
-	
-	private boolean menuFilled= false;
+
+	private boolean menuFilled = false;
 
 	public HieroglyphicMenu(String title, String family, int ncols) {
 		super(title);
 		this.ncols = ncols;
-		this.family= family;
+		this.family = family;
 		addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("menu selected");
 			}
-			
-		});
-		getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
-
-			public void popupMenuCanceled(PopupMenuEvent e) {
-				
-			}
-
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-				
-			}
-
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-				fillMenu();
-			}
-			
-		});
-		addMenuListener(new MenuListener() {
-
-			public void menuCanceled(MenuEvent e) {
-				flushMenu();
-			}
-
-			public void menuDeselected(MenuEvent e) {
-				flushMenu();
-			}
-
-			public void menuSelected(MenuEvent e) {
-			}
 
 		});
+
+		// The popup system doesn't work on the mac if the menu is application
+		// level.
+		// In fact it's not very useful anymore, as menus are not really
+		// supposed to change.
+		// Anyway.
+//if (PlatformDetection.getPlatform() != PlatformDetection.MACOSX )) {
+		
+		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX && "true".equals(System.getProperty("apple.laf.useScreenMenuBar"))) {
+			fillMenu();
+		} else {
+			getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
+
+				public void popupMenuCanceled(PopupMenuEvent e) {
+
+				}
+
+				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+
+				}
+
+				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+					fillMenu();
+				}
+
+			});
+
+			addMenuListener(new MenuListener() {
+
+				public void menuCanceled(MenuEvent e) {
+					flushMenu();
+				}
+
+				public void menuDeselected(MenuEvent e) {
+					flushMenu();
+				}
+
+				public void menuSelected(MenuEvent e) {
+				}
+
+			});
+		}
+
 	}
 
 	private void fillMenu() {
-	
-			if (menuFilled)
-				return;
-			
-			menuFilled= true;
-			
-			String codes[] = HieroglyphsManager.getInstance()
-            .getCodesForFamily(family,true);
 
-			CodeSelector menuEnter = new CodeSelector();
+		if (menuFilled)
+			return;
+
+		menuFilled = true;
+
+		List codes = DefaultHieroglyphsManager.getInstance()
+				.getBasicGardinerCodesForFamily(family);
+		CodeSelector menuEnter = new CodeSelector();
 			JPopupMenu pm = getPopupMenu();
 			pm.setLayout(new GridLayout(0, ncols));
-			for (int i = 0; i < codes.length; i++) {
-				Action a = new HieroglyphAction(codes[i]);
-				JMenuItem jm = new JMenuItem(a);
-				jm.addMouseListener(menuEnter);
-				add(jm);
-			}
+		for (int i = 0; i < codes.size(); i++) {
+			Action a = new HieroglyphAction((String) codes.get(i));
+			JMenuItem jm = new JMenuItem(a);
+			jm.addMouseListener(menuEnter);
+			add(jm);
+		}
 	}
-	
-	private void flushMenu() {		
+
+	private void flushMenu() {
 		removeAll();
-		menuFilled= false;
+		menuFilled = false;
 	}
 
 	/**
 	 * Sets the listener which will be warned about actions in this menu.
+	 * 
 	 * @param hieroglyphicMenuListener
 	 */
 	public void setHieroglyphicMenuListener(
 			HieroglyphicMenuListener hieroglyphicMenuListener) {
 		this.hieroglyphicMenuListener = hieroglyphicMenuListener;
 	}
-	
-	/**
-	 * Creates an icon for a particular hieroglyph.
-	 * 
-	 * @param code
-	 * @param size :
-	 *            the icon size
-	 * @param border :
-	 *            the size of the icon's border
-	 * @return an icon for the glyph.
-	 */
-	public Icon createHieroglyphIcon(String code, int size, int border) {
-		HieroglyphicFontManager manager = DefaultHieroglyphicFontManager
-		.getInstance();
-		jsesh.bzr.simple.ShapeChar glyph = manager.get(code);
-		HieroglyphicBitmapBuilder builder= new HieroglyphicBitmapBuilder(20,30,false);
-		builder.setBorder(2);
-		builder.setFit(true);
-		builder.setComponent(this);
-		BufferedImage img = builder.buildSignBitmap(glyph);
-		return new ImageIcon(img);
-	}
 
 	class HieroglyphAction extends AbstractAction {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 3149637635116611380L;
 
 		String code;
 
 		/**
 		 * Build an action that can insert a given glyph.
+		 * 
 		 * @param code
 		 * 
 		 */
 		public HieroglyphAction(String code) {
-			super(code, createHieroglyphIcon(code, size, border));
+			super(code, HieroglyphicBitmapBuilder.createHieroglyphIcon(code,
+					size, border, HieroglyphicMenu.this));
 			this.code = code;
 		}
 

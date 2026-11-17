@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 
+import jsesh.hieroglyphs.DefaultHieroglyphsManager;
 import jsesh.hieroglyphs.GardinerCode;
 import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.mdc.MDCParserFacade;
@@ -12,11 +13,17 @@ import jsesh.mdc.interfaces.HieroglyphInterface;
 import jsesh.mdc.interfaces.MDCBuilderAdapter;
 import jsesh.mdc.interfaces.ModifierListInterface;
 
+/**
+ * An extractor is able to fetch codes from a manuel de codage text, and, if needed to normalize them.
+ * @author rosmord
+ *
+ */
 public class CodeExtractor {
 	private boolean normalize= true;
 	
+	private boolean suppressNonGlyphs= true;
+	
 	public String[] getCodes(String manuelDeCodageText) throws MDCSyntaxError {
-
 		SignListBuilder builder = new SignListBuilder();
 		MDCParserFacade parser = new MDCParserFacade(builder);
 		parser.parse(new StringReader(manuelDeCodageText));
@@ -43,8 +50,10 @@ public class CodeExtractor {
 			String actualCode= code;
 			if (GardinerCode.isCanonicalCode(code))
 				result.add(actualCode);
-			else if (HieroglyphsManager.getInstance().isKnownCode(actualCode)) {
-				result.add(HieroglyphsManager.getInstance().getCanonicalCode(code));
+			else  {
+				String canonicalCode = DefaultHieroglyphsManager.getInstance().getCanonicalCode(code);
+				if (!suppressNonGlyphs || GardinerCode.isCanonicalCode(canonicalCode))
+					result.add(canonicalCode);
 			}
 			return null;
 		}
@@ -65,16 +74,34 @@ public class CodeExtractor {
 
 	/**
 	 * Should we normalize the codes to "Gardiner" code ?
-	 * @param normalize the normalize to set
+	 * Note that currently, the codes are always normalized. We are not really
+	 * interested in non normalized codes, so if you need the alternative, write it.
+	 * @param normalize 
 	 */
 	public void setNormalize(boolean normalize) {
 		this.normalize = normalize;
 	}
 	
+
 	
+	public boolean isSuppressNonGlyphs() {
+		return suppressNonGlyphs;
+	}
+
+
+	/**
+	 * Should we suppress codes that are not in Gardiner form (for instance codes for parenthesis or dots) ?
+	 * @param suppressNonGlyphs
+	 */
+	public void setSuppressNonGlyphs(boolean suppressNonGlyphs) {
+		this.suppressNonGlyphs = suppressNonGlyphs;
+	}
+
+
+
 	public static void main(String[] args) throws MDCSyntaxError {
 		CodeExtractor codeExtractor= new CodeExtractor();
-		String[] l = codeExtractor.getCodes("i-w-r:a-ra-[[-m-]]-p*t:pt");
+		String[] l = codeExtractor.getCodes("i-w-r:a-O-$b-ra-[[-m-]]-p*t:pt-$r");
 		for (int i=0; i < l.length; i++)
 			System.out.print(l[i]+ " ");
 		System.out.println();

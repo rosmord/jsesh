@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24.181622"
+   height="10.56"
+   id="svg2331"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22Q5.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonteUS22\US22_33">
+  <metadata
+     id="metadata2338">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:date>6/12/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>
+optimisation de signe Jsesh</dc:description>
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2336" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="35.316077"
+     inkscape:cx="12.090811"
+     inkscape:cy="5.2800002"
+     inkscape:window-x="1"
+     inkscape:window-y="-1"
+     inkscape:current-layer="svg2331" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 22.131891 7.290811  L 22.131891 9.496216  L 23.143784 9.496216  L 23.143784 1.037838  L 1.037838 1.037838  L 1.037838 9.496216  L 2.04973 9.496216  L 2.04973 7.290811  L 22.131891 7.290811  Z  M 3.087568 8.276756  L 3.087568 10.56  L 0 10.56  L 0 0  L 24.181622 0  L 24.181622 10.534054  L 21.094053 10.534054  L 21.094053 8.276756  L 3.087568 8.276756  Z "
+     id="path2333" />
+</svg>

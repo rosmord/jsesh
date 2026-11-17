@@ -5,6 +5,10 @@
   See below for copyright notice, license, and disclaimer.
   New releases from http://www.cs.princeton.edu/~appel/modern/java/JLex/
 
+
+  1/9/06 [S. Rosmorduc for JSesh] : small change. Made everything which used 
+    unpackFromString static, in order to improve performances.
+    
   Version 1.2.6, 2/7/03, [C. Scott Ananian]
    Renamed 'assert' function 'ASSERT' to accomodate Java 1.4's new keyword.
    Fixed a bug which certain forms of comment in the JLex directives section
@@ -1072,7 +1076,7 @@ class CEmit
 	// Added 6/24/98 Raimondas Lencevicius
 	// May be made more efficient by replacing String operations
 	// Assumes correctly formed input String. Performs no error checking
-	m_outstream.println("\tprivate int[][] unpackFromString"+
+	m_outstream.println("\tstatic private int[][] unpackFromString"+
 			    "(int size1, int size2, String st) {");
 	m_outstream.println("\t\tint colonIndex = -1;");
 	m_outstream.println("\t\tString lengthString;");
@@ -1216,13 +1220,13 @@ class CEmit
 	int[] yy_cmap = new int[m_spec.m_ccls_map.length];
 	for (i = 0; i < m_spec.m_ccls_map.length; ++i)
 	    yy_cmap[i] = m_spec.m_col_map[m_spec.m_ccls_map[i]];
-	m_outstream.print("\tprivate int yy_cmap[] = unpackFromString(");
+	m_outstream.print("\tstatic private int yy_cmap[] = unpackFromString(");
 	emit_table_as_string(new int[][] { yy_cmap });
 	m_outstream.println(")[0];");
 	m_outstream.println();
 
 	// CSA: modified yy_rmap to use string packing 9-Aug-1999
-	m_outstream.print("\tprivate int yy_rmap[] = unpackFromString(");
+	m_outstream.print("\tstatic private int yy_rmap[] = unpackFromString(");
 	emit_table_as_string(new int[][] { m_spec.m_row_map });
 	m_outstream.println(")[0];");
 	m_outstream.println();
@@ -1238,7 +1242,7 @@ class CEmit
 	    yy_nxt[elem] = dtrans.m_dtrans;
 	}
 	m_outstream.print
-	  ("\tprivate int yy_nxt[][] = unpackFromString(");
+	  ("\tstatic private int yy_nxt[][] = unpackFromString(");
 	emit_table_as_string(yy_nxt);
 	m_outstream.println(");");
 	m_outstream.println();

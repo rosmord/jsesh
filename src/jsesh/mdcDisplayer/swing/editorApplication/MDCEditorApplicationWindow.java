@@ -6,16 +6,34 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
+import jsesh.mdcDisplayer.swing.palette.HieroglyphicPalette;
+
+import org.qenherkhopeshef.guiFramework.AppDefaults;
+
+/**
+ * @deprecated
+ * @author rosmord
+ *
+ */
 public class MDCEditorApplicationWindow extends JFrame {
 
 	private JDesktopPane desktopPane;
 
-	public MDCEditorApplicationWindow(String title) {
-		super(title);
+	private HieroglyphicPalette hieroglyphicPalette;
+	
+	
+	public MDCEditorApplicationWindow(AppDefaults defaults) {
+		super(defaults.getString("JSESH.LABEL"));
 		desktopPane= new JDesktopPane();
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(desktopPane,BorderLayout.CENTER);
+		buildPalette(defaults);
+		getContentPane().add(hieroglyphicPalette.getPanel(), BorderLayout.EAST);
 		setSize(800,600);
+	}
+
+	private void buildPalette(AppDefaults defaults) {
+		hieroglyphicPalette = new HieroglyphicPalette();
 	}
 	
 	public JDesktopPane getDesktopPane() {
@@ -30,5 +48,14 @@ public class MDCEditorApplicationWindow extends JFrame {
 	
 	public JInternalFrame getCurrentSession() {
 		return desktopPane.getSelectedFrame();
+	}
+	
+	public HieroglyphicPalette getHieroglyphicPalette() {
+		return hieroglyphicPalette;
+	}
+	
+	public void showPalette(boolean b) {
+		boolean bo= hieroglyphicPalette.getPanel().isVisible();
+		hieroglyphicPalette.getPanel().setVisible(! bo);
 	}
 }

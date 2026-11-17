@@ -77,7 +77,15 @@
 			<description>The base files</description>
 			<!-- copy the jar files, except cupruntime, which is included in jsesh.jar. -->
 			<!-- cupruntime is useful during development, in order to be able to run the project without building jsesh.jar -->
-			<file src="jsesh.jar" targetdir="$INSTALL_PATH/libs"/>
+			<!-- The only jar files in the dist directory must be those which will be copied. This solves the problem of macSpecific.jar
+			<file src="../dist/jsesh.jar" targetdir="$INSTALL_PATH/libs"/>
+			<file src="../dist/jseshGlyphs.jar" targetdir="$INSTALL_PATH/libs"/>
+			<file src="../dist/jseshHtmlDoc.jar" targetdir="$INSTALL_PATH/libs"/>
+			 -->
+			<fileset targetdir="$INSTALL_PATH/libs" dir="../dist">
+				<include name="*.jar"/>
+			</fileset>
+			
 			<fileset targetdir="$INSTALL_PATH/libs" dir="../lib">
 				<exclude name="cupruntime.jar" />
 			</fileset>
@@ -85,6 +93,37 @@
 			<fileset dir="../resources/images" targetdir="$INSTALL_PATH/icons"/>			
 			<fileset dir="../resources/licenses" targetdir="$INSTALL_PATH/licenses"/>
 			<file src="../resources/fonts/MDCTranslitLC.ttf" targetdir="$INSTALL_PATH/fonts"/>
+			<!-- files related to the sign information editor -->
+			
+			<file src="../resources/signInfoScripts/signInfoEditor.command" targetdir="$INSTALL_PATH/bin">
+				<os family="mac"/>
+			</file>
+			<file src="../resources/signInfoScripts/signInfoEditor.bat" targetdir="$INSTALL_PATH/bin">
+				<os family="windows"/>
+			</file>
+			<file src="../resources/signInfoScripts/signInfoEditor.sh" targetdir="$INSTALL_PATH/bin">
+				<os family="unix"/>
+			</file>
+
+			<parsable targetfile="$INSTALL_PATH/bin/signInfoEditor.command">
+				<os family="mac"/>
+			</parsable>
+			<executable targetfile="$INSTALL_PATH/bin/signInfoEditor.command">
+				<os family="mac"/>
+			</executable>
+			<parsable targetfile="$INSTALL_PATH/bin/signInfoEditor.bat">
+			<os family="windows"/>
+			</parsable>
+			<executable targetfile="$INSTALL_PATH/bin/signInfoEditor.bat">
+			<os family="windows"/>
+			</executable>
+			<parsable targetfile="$INSTALL_PATH/bin/signInfoEditor.sh">
+				<os family="unix"/>
+			</parsable>
+			<executable targetfile="$INSTALL_PATH/bin/signInfoEditor.sh">
+				<os family="unix"/>
+			</executable>
+			
 			<!-- Post processing for macosx : make JSesh a true Mac Application. -->
 			<file src="../macdist/JSesh.app" targetdir="$INSTALL_PATH" os="mac"/>
 			<file src="copyStub.jar" targetdir="$INSTALL_PATH" os="mac"/>

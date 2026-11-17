@@ -1,3 +1,76 @@
-<?xml version="1.0" encoding ="US-ASCII" standalone="yes"?>
-<svg width="18.149765" height="6">
-<path style="fill:#000000; stroke:none" d=" M 18.149765 2.912218  Q 18.149765 3.126648 16.777412 2.826446  Q 15.662383 2.461916 14.418698 2.526245  Q 13.175009 2.590575 10.837726 2.944382  Q 8.500446 3.298191 6.849342 3.244584  Q 5.198234 3.190976 3.590017 2.204601  Q 2.860957 1.947286 2.410654 2.311816  Q 0.995421 3.619835 0.973978 5.656913  Q 0.952535 6 0.459348 6  Q -0.012397 6 0.009046 5.656913  Q -0.141054 3.212419 2.196225 1.625642  Q 2.582198 1.325441 3.590017 1.046683  Q 5.198234 0.060308 6.849342 0.006701  Q 8.500446 -0.046906 10.827003 0.328345  Q 13.153564 0.703596 14.397257 0.746482  Q 15.640945 0.789368 16.777412 0.446281  Q 18.149765 0.14608 18.149765 0.360509  L 18.149765 2.912218  Z  M 17.506475 2.354702  L 17.506475 0.939468  Q 16.434328 1.132455 15.190639 1.218226  Q 13.946951 1.303998 12.553163 1.153898  Q 10.151551 0.639267 8.382507 0.617824  Q 6.61347 0.596381 5.348336 0.842975  Q 4.083202 1.089569 4.083202 1.625642  Q 4.083202 2.161715 5.348336 2.408309  Q 6.61347 2.654903 8.382507 2.63346  Q 10.151551 2.612017 12.553163 2.097386  Q 13.946951 1.947286 15.190639 2.033058  Q 16.434328 2.11883 17.506475 2.354702  Z "/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17.385309"
+   height="6"
+   id="svg4106"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22R5.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonteUS22\US22_33">
+  <metadata
+     id="metadata4113">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22R5</dc:title>
+        <dc:date>6/12/06</dc:date>
+        <dc:description>optimisation du signe R5 de Jsesh</dc:description>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Szerge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4111" />
+  <sodipodi:namedview
+     inkscape:window-height="480"
+     inkscape:window-width="640"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 16.786745 1.07732  Q 14.309925 1.758446 11.925985 1.325002  Q 9.542047 0.891558 7.818592 0.736757  Q 6.095138 0.581956 5.02185 1.05668  Q 3.948561 1.531404 3.948561 1.758446  Q 3.948561 1.985487 5.02185 2.460211  Q 6.095138 2.934935 7.818592 2.780134  Q 9.542047 2.625333 11.925985 2.191889  Q 14.309925 1.758446 16.786745 2.439571  L 16.786745 1.07732  Z  M 3.453197 1.1186  Q 5.414013 -0.20237 7.46771 0.034992  Q 9.521406 0.272353 11.079739 0.581956  Q 12.638071 0.891558 13.732 0.891558  Q 15.424494 0.891558 17.385309 0.189793  L 17.385309 3.327098  Q 15.424494 2.625333 13.732 2.645973  Q 12.638071 2.645973 11.079739 2.945255  Q 9.521406 3.244538 7.46771 3.49222  Q 5.414013 3.739902 3.453197 2.418931  Q 3.081674 2.088688 2.441828 2.398291  Q 0.935096 3.739902 0.873176 5.721358  Q 0.873176 6.01032 0.439732 6  Q 0.006289 5.98968 0.006289 5.721358  Q -0.117552 3.657341 2.111586 1.758446  Q 2.689511 1.386922 3.453197 1.1186  L 3.453197 1.1186  Z "
+     id="path4108" />
+</svg>

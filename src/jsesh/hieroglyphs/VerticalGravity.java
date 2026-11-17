@@ -4,6 +4,11 @@ import jsesh.utils.EnumBase;
 
 public class VerticalGravity extends EnumBase {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8473962859514820194L;
+
 	public static final VerticalGravity TOP = new VerticalGravity(0, "TOP", 't');
 
 	public static final VerticalGravity CENTER = new VerticalGravity(1,

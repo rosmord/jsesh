@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 
 import jsesh.graphicExport.RTFExportPreferences.RTFExportGranularity;
 import jsesh.graphics.generic.RandomAccessByteArray;
-import jsesh.graphics.wmfexport.WMFGraphics2D;
+import jsesh.graphics.wmf.WMFGraphics2D;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElementDeepAdapter;
@@ -350,6 +350,7 @@ public class RTFExporter {
 
 		protected WMFSimpleDrawer(ViewBuilder viewBuilder, double cadratHeight) {
 			super(viewBuilder, drawingSpecifications, cadratHeight);
+			setShadeAfter(false);
 		}
 
 		protected Graphics2D buildGraphics() {

@@ -6,6 +6,7 @@
 package jsesh.hieroglyphs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,8 +27,18 @@ public class PossibilitiesList {
 		pos= 0;
 	}
 
-	void add(String gardinerCode) {
-		signs.add(gardinerCode);
+	/**
+	 * Copy constructor.
+	 * @param possibilitiesList
+	 */
+	public PossibilitiesList(PossibilitiesList possibilitiesList) {
+		this(possibilitiesList.getPhonCode());
+		signs.addAll(possibilitiesList.signs);
+	}
+
+	public void add(String gardinerCode) {
+		if (! signs.contains(gardinerCode))
+			signs.add(gardinerCode);
 	}
 	
 	/**
@@ -51,5 +62,15 @@ public class PossibilitiesList {
 		return phonCode;
 	}
 	
-	
+	/**
+	 * Returns the possibilityList as an immutable list of codes.
+	 * @return a list of Strings.
+	 */
+	public List asList() {
+		return Collections.unmodifiableList(signs);
+	}
+
+	public boolean isEmpty() {
+		return signs.isEmpty();
+	}
 }

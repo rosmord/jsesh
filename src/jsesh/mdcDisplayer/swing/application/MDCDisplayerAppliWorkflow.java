@@ -6,10 +6,14 @@ package jsesh.mdcDisplayer.swing.application;
  */
 
 import java.awt.event.ActionEvent;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
@@ -27,26 +31,31 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import org.qenherkhopeshef.utils.PlatformDetection;
+
 import jsesh.externalFonts.ExternalSignImporter;
 import jsesh.graphicExport.BitmapExporter;
 import jsesh.graphicExport.CaretBroker;
 import jsesh.graphicExport.ExportData;
 import jsesh.graphicExport.HTMLExporter;
 import jsesh.graphicExport.IPDFExporter;
+import jsesh.graphicExport.MacPictExporter;
 import jsesh.graphicExport.RTFExportPreferences;
 import jsesh.graphicExport.RTFExporterUI;
 import jsesh.graphicExport.SVGExporter;
 import jsesh.graphicExport.WMFExporter;
 import jsesh.graphicExport.RTFExportPreferences.RTFExportGranularity;
+import jsesh.hieroglyphs.DefaultHieroglyphsManager;
 import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.output.ModelWriter;
+import jsesh.mdc.output.MdCModelWriter;
 import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 import jsesh.mdcDisplayer.secondaryData.MDCCaret;
@@ -66,6 +75,8 @@ import jsesh.mdcDisplayer.swing.editor.HieroglyphicTextModel;
 import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
 import jsesh.mdcDisplayer.swing.editor.MDCModelTransferableBroker;
 import jsesh.mdcDisplayer.swing.groupEditor.GroupEditorDialog;
+import jsesh.mdcDisplayer.swing.palette.HieroglyphPaletteListener;
+import jsesh.mdcDisplayer.swing.palette.HieroglyphicPaletteDialog;
 import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesEditor;
 import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesFacade;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
@@ -134,6 +145,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 * The directory where the source for SVG, TTF fonts and the like are read.
 	 */
 	private File currentHieroglyphsSource;
+
+	private HieroglyphicPaletteDialog paletteDialog;
 
 	private AbstractAction cutAction;
 
@@ -410,7 +423,9 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	};
 
 	private WMFExporter wmfExporter;
-	
+
+	private MacPictExporter macPictExporter;
+
 	private SVGExporter svgExporter;
 
 	private List preferencesListeners;
@@ -443,7 +458,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		preferedUnit = LengthUnit.POINT;
 
 		wmfExporter = new WMFExporter();
-		svgExporter= new SVGExporter();
+		macPictExporter = new MacPictExporter();
+		svgExporter = new SVGExporter();
 		setPhilologySign(true);
 		this.frame = null;
 		String dir = System.getProperty("user.dir");
@@ -753,7 +769,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 */
 	public void displaySignInfo(String code) {
 		String info = code + " : ";
-		List l = HieroglyphsManager.getInstance().getValuesFor(code);
+		List l = DefaultHieroglyphsManager.getInstance().getValuesFor(code);
 		if (l != null) {
 			Iterator i = l.iterator();
 			while (i.hasNext())
@@ -1164,7 +1180,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 * 
 	 */
 	public void loadText() {
-		MdcFileDialog dialog = new MdcFileDialog(currentMDCDirectory, "choose a manuel de codage text");
+		MdcFileDialog dialog = new MdcFileDialog(currentMDCDirectory,
+				"choose a manuel de codage text");
 		int result = dialog.showOpenDialog(frame);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			getEditor().clearText();
@@ -1180,7 +1197,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 * @param file
 	 */
 	public void loadFile(File file) {
-		loadFile(file, SystemUtils.getDefaultEncoding());
+		loadFile(file, null); // last arg used to be
+								// SystemUtils.getDefaultEncoding().
 	}
 
 	/**
@@ -1190,31 +1208,85 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 * @param encoding
 	 */
 	public void loadFile(File file, String encoding) {
+		// Mac specific stuff. Will compile anywhere, though.
+		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX && file != null) {
+			// Sets the "file" icon...
+			if (file.exists()) {
+				// Works only on leopard !! shame... (and untested, as I don't have leopard)
+				//frame.getRootPane().putClientProperty("Window.alpha", new Float(0.75));
+				frame.getRootPane().putClientProperty("Window.documentFile", 
+						file);
+				//frame.getRootPane().putClientProperty("Window.documentModified", Boolean.TRUE);
+				//System.out.println("printing file "+ file);
+			}
+			
+		}
+		// End of Mac specific stuff
 		StringBuffer buffer = new StringBuffer();
+		String actualEncoding = encoding;
+		int dialect= Dialect.OTHERS;
 		try {
+			// first byte to actually include in the text read
+			int firstByte = 0;
+			int numberOfBytes;
 			// We read the file in memory,
 			// because we need to suppress non manuel de codage headers, if
 			// any.
-
-			Reader r = new InputStreamReader(new FileInputStream(file),
-					encoding);
+			InputStream inputStream = new BufferedInputStream(
+					new FileInputStream(file));
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			int c;
-			while ((c = r.read()) != -1) {
-				buffer.append((char) c);
+			while ((c = inputStream.read()) != -1) {
+				byteArrayOutputStream.write(c);
 			}
-			r.close();
+			inputStream.close();
+			byte[] bytes = byteArrayOutputStream.toByteArray();
+			numberOfBytes = bytes.length;
 
-			if (buffer.length() != 0 && buffer.charAt(0) == '@') {
-				int first = buffer.indexOf("\n");
-				if (first == -1)
-					first = buffer.length();
-				buffer.replace(0, first, "");
+			// texts starting with BOM = UTF8 EF BB BF... even if encoding is
+			// null, let it be UTF-8 and suppress BOM.
+			if (startsWith(bytes, firstByte, new byte[] { (byte)0xEF, (byte)0xBB, (byte)0xBF })) {
+				actualEncoding = "UTF-8";
+				firstByte += 3;
 			}
+
+			// Now the file is in memory.
+			// if no encoding is given, try to guess.
+			if (startsWith(bytes, firstByte, "@")) {
+				// text starting with "@" : winglyph. Try windows codepage 312.
+				if (actualEncoding == null)
+					actualEncoding = "windows-1252";
+				// skip the line (for compatibility sake, skip until we find
+				// either \n, \r or \r\n
+				firstByte = nextLineIndex(bytes, firstByte);
+
+			} else if (startsWith(bytes, firstByte, "++Created by: MacScribe")) {
+				if (actualEncoding == null)
+					actualEncoding = "MacRoman";
+				dialect= Dialect.MACSCRIBE;
+				// (and advance until we find a line not starting with "++"...
+				// we should rather set a flag so that end-of-line go back to
+				// the "+s" state).
+				while (startsWith(bytes, firstByte, "++") || startsWith(bytes, firstByte, "+O")) {
+					firstByte = nextLineIndex(bytes, firstByte);
+				}
+			}
+
+			if (actualEncoding == null)
+				actualEncoding = SystemUtils.getDefaultEncoding();
+
+			Reader r;
+			if (firstByte == -1)
+				r= new StringReader("");
+			else
+				r = new InputStreamReader(new ByteArrayInputStream(bytes,
+					firstByte, numberOfBytes - firstByte), actualEncoding);
+			//System.out.println(new String(bytes, firstByte, numberOfBytes -firstByte, actualEncoding));
 			// handle the difference between winglyph and tksesh about
 			// philology.
 			setPhilologySign(!file.getName().endsWith(".hie"));
 
-			data.readModel(new StringReader(buffer.toString()));
+			data.readTopItemList(r,dialect);
 			currentFile = file;
 		} catch (MDCSyntaxError e) {
 			String msg = "error at line " + e.getLine();
@@ -1227,16 +1299,91 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 				supPos = buffer.length();
 			else
 				supPos = e.getCharPos() + 10;
-			msg += ". Wrong text : " + buffer.substring(infPos, supPos);
+			// msg += ". Wrong text line : "+ buffer.substring(infPos, supPos);
+			msg += " near token: " + e.getToken();
 			JOptionPane.showMessageDialog(frame, msg, "Syntax Error",
 					JOptionPane.ERROR_MESSAGE);
-			e.getCharPos();
-			e.printStackTrace();
+			System.out.println(e.getCharPos());
+			// e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * returns the index of the next line, or -1 if none.
+	 * Helper method (to move in an utility class)
+	 * @param bytes
+	 * @param firstByte
+	 * @return
+	 */
+	private static int nextLineIndex(byte[] bytes, int firstByte) {
+		int c;
+		int pos= firstByte;
+		boolean inFirstLine= true;
+		while ((c= getByteAt(bytes, pos)) != 0 && inFirstLine) {
+			// try \r\n, \r, and \n
+			if (c == '\r') {
+				if (getByteAt(bytes, +1) == '\n') {
+					pos+= 2;
+				} else {
+					pos++;
+				}
+				inFirstLine= false;
+			} else if (c== '\n') {
+				pos++;
+				inFirstLine= false;
+			} else 
+				pos++;
+		}
+		if (c==0)
+			return -1;
+		else
+			return pos;
+	}
+
+	/**
+	 * Uses C-like conventions.
+	 * @param bytes
+	 * @param pos
+	 * @return
+	 */
+	private static byte getByteAt(byte[] bytes, int pos) {
+		if (pos < bytes.length) {
+			return bytes[pos];
+		} else
+			return 0;
+	}
+	
+	/**
+	 * Method for working in ASCII.
+	 * @param bytes
+	 * @param firstByte
+	 * @param string
+	 * @return
+	 */
+	private static boolean startsWith(byte[] bytes, int firstByte, String string) {
+		byte[] values= new byte[string.length()];
+		for (int i= 0; i < string.length(); i++) {
+			values[i]= (byte) string.charAt(i);
+		}
+		// TODO Auto-generated method stub
+		return startsWith(bytes, firstByte, values);
+	}
+
+	private static boolean startsWith(byte[] bytes, int firstByte, byte [] values) {
+		// test size.
+		if (values.length + firstByte > bytes.length)
+			return false;
+		boolean result= true;
+		int i= 0;
+		while (result && i < values.length) {
+			result= bytes[firstByte+i] == values[i];
+			i++;                                     
+		}
+		return result;
+	}
+	
 	/**
 	 * Switch between a text in which philological signs are a kind of
 	 * parenthesis and a text in which it's a simple sign. The current system is
@@ -1268,6 +1415,12 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		// wmf export :
 		wmfExporter.setExportFile(new File(preferences.get("wmfExportFile",
 				new File(currentOutputDirectory, "unnamed.wmf").getPath())));
+
+		// Mac Pict export:
+		macPictExporter.setExportFile(new File(preferences.get(
+				"macpictExportFile", new File(currentOutputDirectory,
+						"unnamed.pct").getPath())));
+
 		// directory looked for loading external hieroglyph fonts
 		path = preferences.get("currentHieroglyphsSource",
 				currentHieroglyphsSource.getAbsolutePath());
@@ -1301,6 +1454,9 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 				.getAbsolutePath());
 		preferences.put("wmfExportFile", wmfExporter.getExportFile()
 				.getAbsolutePath());
+		preferences.put("macpictExportFile", macPictExporter.getExportFile()
+				.getAbsolutePath());
+
 		preferences.put("currentHieroglyphsSource", currentHieroglyphsSource
 				.getAbsolutePath());
 		// Save cut and paste preferences
@@ -1319,11 +1475,11 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	}
 
 	public void saveText() {
-		MdcFileDialog fc= new MdcFileDialog(currentMDCDirectory, "Save to");
-				
+		MdcFileDialog fc = new MdcFileDialog(currentMDCDirectory, "Save to");
+
 		if (currentFile != null)
 			fc.setSelectedFile(currentFile);
-	
+
 		int result = fc.showSaveDialog(frame);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			if ((!currentFile.equals(fc.getSelectedFile()))
@@ -1340,7 +1496,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	}
 
 	public void saveFile(File file, String encoding) {
-
+		try {
 		String correctExtension = null;
 
 		if (data.isPhilologyIsSign())
@@ -1348,13 +1504,18 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		else
 			correctExtension = "hie";
 
-		currentFile = FileUtils.buildFileWithExtension(file, correctExtension);
+		// Ensure there is an encoding !
 		
-		Writer f= null;
+		if (encoding == null)
+			encoding= SystemUtils.getDefaultEncoding();
+		
+		currentFile = FileUtils.buildFileWithExtension(file, correctExtension);
+
+		Writer f = null;
 		try {
-			f= new OutputStreamWriter(
-					new FileOutputStream(currentFile), encoding);
-			ModelWriter w = new ModelWriter();
+			f = new OutputStreamWriter(new FileOutputStream(currentFile),
+					encoding);
+			MdCModelWriter w = new MdCModelWriter();
 			w.write(f, data.getModel());
 			f.close();
 		} catch (IOException e) {
@@ -1364,12 +1525,18 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 				message += " (no write permission)";
 			JOptionPane.showMessageDialog(frame, message);
 		} finally {
-			if (f!= null)
+			if (f != null)
 				try {
 					f.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+		}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error when saving file.\n You might have a problem because the file you want to write to is not writable,\n" +
+					"But if the error has another cause, you should mail the software author\n" +
+					"and probably refrain from using JSesh until you get an answer.\n" +
+					"The technical error message is "+ e.getClass().getName() + " "+ e.getMessage(), "Error when saving file", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -1526,6 +1693,15 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		}
 	}
 
+	public void exportAsMacPict() {
+		if (getCaret().hasSelection()
+				&& macPictExporter.askUser() == JOptionPane.OK_OPTION) {
+			ExportData exportData = new ExportData(getDrawingSpecifications(),
+					getCaret(), getData().getModel(), 1f);
+			macPictExporter.export(exportData);
+		}
+	}
+
 	public void exportAsSVG() {
 		if (getCaret().hasSelection()
 				&& svgExporter.askUser() == JOptionPane.OK_OPTION) {
@@ -1534,6 +1710,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 			svgExporter.export(exportData);
 		}
 	}
+
 	/**
 	 * 
 	 */
@@ -1609,6 +1786,22 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 			currentOutputDirectory = rtfExporterUI.getFile().getParentFile();
 		}
 
+	}
+
+	public void toggleHieroglyphPalette() {
+		if (paletteDialog == null) {
+			paletteDialog = new HieroglyphicPaletteDialog(frame);
+			paletteDialog
+					.setHieroglyphPaletteListener(new HieroglyphPaletteListener() {
+
+						public void signSelected(String code) {
+							insert(code);
+						}
+
+					});
+		}
+		paletteDialog.getDialog().setVisible(
+				!paletteDialog.getDialog().isVisible());
 	}
 
 	/**

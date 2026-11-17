@@ -26,9 +26,17 @@ public class TTFSignSource implements SimpleSignSourceModel {
 	        in.close();
 	
 	        shapes= new ArrayList();
-	        int max= Character.MAX_VALUE;
-	        for (int i = 0; i <= max; i++) {
+                // Maximum number of signs in this font.
+                // 1.4 seems to get it wrong.
+	        int max= Math.max(256,f.getNumGlyphs());
+                // Number of usable glyphs detected.
+                int currentlyKnown= 0;
+	        // DO SOMETHING TO HAVE A "REASONABLE" SYSTEM HERE.
+	        for (int i = 0; i <= 0xFFFF; i++) {
 	            if (f.canDisplay((char)i)) {
+                        currentlyKnown++;
+                        if (currentlyKnown> max)
+                            break;
 	            	ShapeChar s= new ShapeChar();
 	            	Shape shape= f.createGlyphVector(new FontRenderContext(null,false,true), ""+(char)i).getOutline();
 	            	s.setShape(shape);

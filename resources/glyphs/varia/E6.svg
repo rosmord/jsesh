@@ -11,9 +11,10 @@
    height="16.799999"
    id="svg1071"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="0.45.1"
    sodipodi:docname="E6.svg"
-   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Distribution">
+   sodipodi:docbase="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/E"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs1075" />
   <metadata
@@ -34,13 +35,13 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="38.091171"
-     inkscape:cx="15.748443"
-     inkscape:cy="9.870336"
-     inkscape:window-width="1253"
-     inkscape:window-height="976"
-     inkscape:window-x="25"
-     inkscape:window-y="0"
+     inkscape:zoom="30.059526"
+     inkscape:cx="8.6406802"
+     inkscape:cy="8.3999995"
+     inkscape:window-width="1024"
+     inkscape:window-height="708"
+     inkscape:window-x="106"
+     inkscape:window-y="22"
      inkscape:current-layer="svg1071" />
   <path
      style="fill:#000000; stroke:none"
@@ -48,13 +49,11 @@
      id="path1072"
      sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" />
   <rect
-     style="opacity:1;fill:none;fill-opacity:1;stroke:red;stroke-width:0.0956255;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     style="opacity:1;color:#000000;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
      id="zone2"
-     width="9.6089172"
-     height="5.1017604"
-     x="7.691875"
-     y="0.020100201"
-     rx="0.073018678"
-     ry="0.054605905"
-     inkscape:label="gravity:st" />
+     width="13.406731"
+     height="4.8570294"
+     x="7.485148"
+     y="0.033267561"
+     inkscape:label="gravity:ts" />
 </svg>

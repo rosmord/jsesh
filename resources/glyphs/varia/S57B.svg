@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/SThomasDetail/Selection"
+   sodipodi:docname="US22S10B.svg"
+   inkscape:version="0.41.1"
+   sodipodi:version="0.32"
+   id="svg2"
+   height="15.84"
+   width="10.377271">
+  <metadata
+     id="metadata9">
+    <rdf:RDF
+       id="RDF11">
+      <cc:Work
+         id="Work13"
+         rdf:about="">
+        <dc:format
+           id="format15">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type17" />
+        <dc:creator
+           id="creator1298">
+          <cc:Agent
+             id="Agent1300">
+            <dc:title
+               id="title1302">SJP Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description
+           id="description1304">Signe créé par SJP. Thomas d'après un modèle de l'IFAO.
+S. Rosmorduc : renommage en S57B.
+</dc:description>
+        <dc:title
+           id="title1306">US22S10B</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     inkscape:current-layer="svg2"
+     inkscape:window-y="27"
+     inkscape:window-x="0"
+     inkscape:cy="7.9200001"
+     inkscape:cx="5.1886355"
+     inkscape:zoom="22.979798"
+     inkscape:window-height="542"
+     inkscape:window-width="848"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <path
+     id="path4"
+     d=" M 4.434495 0.73622  C 6.501843 0.73622 8.61237 2.314728 8.567476 4.057987  L 8.539488 7.658324  L 6.88377 7.729282  L 6.954728 12.909325  C 6.363399 13.981603 5.488231 14.628122 4.873251 14.706968  L 4.754984 6.475666  C 5.141321 6.341632 5.456696 6.065677 5.843032 5.31666  C 6.032255 4.504569 5.866682 3.929007 5.511887 3.400754  C 5.241541 3.250563 4.987504 3.148055 4.735444 3.148055  C 4.590543 3.148055 4.446294 3.181931 4.299977 3.260099  C 3.965523 3.488746 3.778584 3.889826 3.737899 4.441494  C 3.595979 4.441494 3.572327 4.41784 3.430408 4.41784  C 3.233057 3.930272 3.397365 3.770056 2.708353 3.335393  C 2.370821 3.147875 1.995353 3.05607 1.611241 3.05607  C 1.43009 3.05607 1.247016 3.076489 1.065091 3.116916  C 1.769458 1.400993 3.092885 0.73622 4.434495 0.73622  Z  M 4.608271 0  C 2.951686 0 0.151944 1.044654 0 3.899443  C -0.007376 4.038018 1.946903 3.933394 2.158311 4.045181  C 2.503688 4.227807 2.721346 4.50791 2.849952 4.93525  C 2.95731 5.291988 2.981627 5.35176 3.300251 5.35176  C 3.35816 5.35176 3.42579 5.349786 3.505406 5.347261  C 3.533262 5.346378 3.562861 5.346038 3.593562 5.346038  C 3.697609 5.346038 3.814314 5.349953 3.918709 5.349953  C 4.08586 5.349953 4.221451 5.339913 4.222994 5.28768  C 4.253976 4.239034 4.586162 4.105723 4.804179 4.105723  C 4.870187 4.105723 4.925728 4.117944 4.959278 4.12068  C 5.185842 4.139158 5.506337 5.200248 4.179482 5.931178  C 4.0722 5.990275 4.074684 6.030473 4.070376 6.879678  C 4.067928 7.362228 4.168179 15.024931 4.165555 15.155349  C 4.159528 15.454895 4.249033 15.778173 4.355115 15.84  C 5.584871 15.790542 7.851817 14.172612 7.736147 12.400208  C 7.732759 12.34831 7.643527 8.638785 7.661593 8.565066  C 7.663809 8.556022 8.413969 8.53012 8.484723 8.522016  C 8.561062 8.513269 8.618114 8.507116 8.670695 8.507116  C 8.771511 8.507116 8.855897 8.52973 9.028319 8.600039  C 9.147339 8.648576 9.702546 9.121512 9.764775 9.156082  C 9.808151 9.180174 9.853103 9.190903 9.898065 9.190903  C 10.196432 9.190903 10.495276 8.718461 10.337293 8.544317  C 10.183839 8.375164 9.603118 7.81988 9.54552 7.780754  C 9.462815 7.724574 9.429484 7.63202 9.387006 7.340567  C 9.339119 7.012011 9.436951 3.657393 9.419985 3.529292  C 9.095691 1.080752 6.258266 0.000204 4.608735 0  C 4.60858 0 4.608425 0 4.608271 0  Z "
+     style="fill:#000000; stroke:none" />
+</svg>

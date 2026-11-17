@@ -25,7 +25,16 @@ import jsesh.mdc.ParserErrorManager;
 
 public class MDCLex implements java_cup.runtime.Scanner, ParserErrorManager {
 
-	MDCLexAux implementation;
+        /**
+         *
+         */
+    
+	private MDCLexAux implementation;
+	/**
+	 * The last token read by the lexer.
+	 * May be null.
+	 */
+	private Symbol lastToken;
 	
 	/**
 	 * @param in
@@ -52,25 +61,21 @@ public class MDCLex implements java_cup.runtime.Scanner, ParserErrorManager {
 	 * @see java_cup.runtime.Scanner#next_token()
 	 */
 	public Symbol next_token() throws IOException {
+		
 		// Get the next symbol
-		Symbol result= implementation.next_token();
+		lastToken= implementation.next_token();
 		// see if spaces are now meaningful.
-		implementation.fixExpect(result);
-		return result;
+		implementation.fixExpect(lastToken);
+		return lastToken;
 	}
 
-	/* (non-Javadoc)
-	 * @see jsesh.mdc.utils.ParserErrorManager#buildError()
-	 */
-	public MDCSyntaxError buildError() {
-		return implementation.buildError();
-	}
+	
 
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.utils.ParserErrorManager#buildError(java.lang.String)
 	 */
 	public MDCSyntaxError buildError(String message) {
-		return implementation.buildError(message);
+		return implementation.buildError(message, lastToken.toString());
 	}
 
 	/**

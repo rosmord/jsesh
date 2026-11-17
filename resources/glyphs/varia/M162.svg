@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800"
+   height="1800"
+   id="svg1333"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docname="M162.svg"
+   sodipodi:docbase="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/M"
+   version="1.0"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata1340">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22M162B</dc:title>
+        <dc:date>optimisation du signe de Jsesh
+02/03/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>optimisation du signe sw de Jsesh (SR) combiné avec O49 (ST)</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1338" />
+  <sodipodi:namedview
+     inkscape:window-height="708"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="0.28055556"
+     inkscape:cx="900"
+     inkscape:cy="911.85997"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:current-layer="svg1333"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     showgrid="false"
+     width="1800px"
+     height="1800px" />
+  <g
+     id="g1455"
+     transform="matrix(72.97945,0,0,72.97945,2.5592342e-5,-81.79718)">
+    <path
+       sodipodi:nodetypes="ccccccccccccccccccccccccc"
+       id="path1335"
+       d="M 0.71208764,1.2027968 C 0.23250863,1.3239791 0.52763069,1.902205 0.97501185,1.8241316 C 1.8182385,1.9211783 2.8563387,1.9748655 3.4933377,2.4527968 C 4.3383635,3.3738435 3.9587052,5.2879073 4.0570877,6.1965468 C 4.0641413,6.2454728 4.0670877,9.8673801 4.0670877,11.702796 C 2.8875615,11.137658 1.4878896,10.977956 0.22583764,11.231546 C -0.26991002,11.491961 0.44045514,11.834914 0.76559789,11.749532 C 1.997765,11.882701 3.3987566,12.212834 4.0245877,13.359046 C 4.2293692,14.046224 3.3312826,13.239232 2.9620877,13.296546 C 2.0706861,13.104012 1.1052492,13.070093 0.22008835,13.222996 C -0.24907433,13.532717 0.44156012,13.815366 0.76559789,13.749532 C 2.0232639,13.901203 3.4149985,14.242157 4.0245877,15.390296 C 4.0315451,16.666676 4.0241992,16.40021 4.0583377,17.574046 L 4.9933376,17.586554 C 4.9846388,16.42997 4.9020797,16.524773 5.0537344,15.402916 C 5.35964,14.144337 7.5433388,13.95119 8.8995877,13.640296 C 9.2397141,13.24043 8.41963,13.12949 8.0870877,13.171546 C 7.033732,13.090772 5.9393351,13.246963 4.9933377,13.734046 C 4.9611641,12.975438 5.7082261,12.538942 6.2433377,12.234046 C 7.0878836,11.870815 8.0176674,11.83515 8.8995877,11.640296 C 9.255947,11.330895 8.5741308,11.077029 8.2502036,11.149359 C 7.132296,11.041789 5.9809967,11.20666 4.9720877,11.702796 C 4.9887614,8.8376265 5.0351769,6.0647699 4.9529492,3.3544098 C 4.8869209,2.5163659 4.4040689,1.7471838 3.5918254,1.4965691 C 2.704638,1.0929775 1.6642125,1.0839462 0.71208764,1.2027968 z "
+       style="fill:#000000;stroke:none" />
+    <path
+       id="path1409"
+       d="M 9.044446,21.3569 C 9.0581493,20.315419 8.6436116,19.315049 7.800833,18.355789 C 6.9580556,17.39653 5.878889,16.9169 4.563333,16.9169 C 3.1518516,16.9169 2.0384256,17.375974 1.2230556,18.294122 C 0.40768564,19.21227 -3.5555066e-07,20.219493 -3.5555066e-07,21.315789 C -3.5555066e-07,22.549122 0.47620364,23.600881 1.4286106,24.471066 C 2.3810186,25.341252 3.4122226,25.783196 4.522223,25.7969 C 5.8651856,25.783196 6.9580556,25.320697 7.800833,24.409401 C 8.6436116,23.498104 9.065001,22.4669 9.065001,21.315789 L 9.044446,21.3569 z M 4.563333,22.179123 L 2.4461106,24.296345 C 2.0898146,24.077085 1.8294446,23.809863 1.6649996,23.494678 L 3.7822216,21.398012 L 1.5622216,19.178011 C 1.7129626,18.821715 1.9801846,18.568196 2.3638886,18.417456 L 4.563333,20.6169 L 6.762778,18.417456 C 7.0916673,18.568196 7.3520376,18.828567 7.543889,19.198567 L 5.365,21.398012 L 7.523334,23.556345 C 7.345186,23.912641 7.077964,24.173011 6.721668,24.337456 L 4.563333,22.179123 z M 4.604445,19.548012 L 2.9805556,17.944678 C 4.0083336,17.478752 5.0772226,17.478752 6.187222,17.944678 L 4.604445,19.548012 z M 8.016667,19.774123 C 8.482593,20.884123 8.482593,21.953012 8.016667,22.98079 L 6.413334,21.377457 L 8.016667,19.774123 z M 4.604445,23.186345 L 6.207778,24.789678 C 5.1662966,25.255604 4.0974076,25.255604 3.0011116,24.789678 L 4.604445,23.186345 z M 1.0894446,22.898568 C 0.62351864,21.788567 0.62351864,20.719678 1.0894446,19.6919 L 2.6927776,21.295233 L 1.0894446,22.898568 z "
+       style="fill:#000000;stroke:none" />
+  </g>
+</svg>

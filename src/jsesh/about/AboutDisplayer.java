@@ -23,8 +23,12 @@ import javax.swing.JScrollPane;
  */
 public class AboutDisplayer extends JDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7646798089863153268L;
+	
 	private JEditorPane textField;
-	private Frame frame;
 	
 	public AboutDisplayer(Frame frame) {
 		super(frame,"About JSesh",true);

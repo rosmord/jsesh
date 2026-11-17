@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import jsesh.graphics.generic.BaseGraphics2D;
-import jsesh.graphics.wmfexport.WMFGraphics2D;
+import jsesh.graphics.wmf.WMFGraphics2D;
 
 /**
  * Expert able to export the selection to an WMF file.
@@ -36,7 +36,7 @@ public class WMFExporter implements
 	private Dimension scaledDimension;
 
 	// private MDCView view;
-
+	
 
 	public WMFExporter() {
 		exportFile= new File(".");
@@ -127,5 +127,9 @@ public class WMFExporter implements
 	public BaseGraphics2D buildGraphics()
 			throws IOException {
 		return new WMFGraphics2D(exportFile, scaledDimension);
+	}
+	
+	public void writeGraphics() throws IOException {
+		// NO-OP. the file is writen has it is created.
 	}
 }

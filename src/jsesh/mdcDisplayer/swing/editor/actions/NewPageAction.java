@@ -26,7 +26,8 @@ public class NewPageAction extends AbstractAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor d = (JMDCEditor) e.getSource();
-		d.getWorkflow().insertPageBreak();
+		if (d.isEditable())
+			d.getWorkflow().insertPageBreak();
 	
 	}
 	

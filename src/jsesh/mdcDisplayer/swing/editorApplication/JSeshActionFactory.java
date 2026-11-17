@@ -2,10 +2,11 @@ package jsesh.mdcDisplayer.swing.editorApplication;
 
 import java.util.Map;
 
-import jsesh.uiFramework.ActionFactory;
-import jsesh.uiFramework.AppDefaults;
-import jsesh.uiFramework.BundledAction;
-import jsesh.uiFramework.PropertyHolder;
+import org.qenherkhopeshef.guiFramework.ActionFactory;
+import org.qenherkhopeshef.guiFramework.AppDefaults;
+import org.qenherkhopeshef.guiFramework.BundledAction;
+import org.qenherkhopeshef.guiFramework.PropertyHolder;
+
 
 public class JSeshActionFactory extends ActionFactory {
 

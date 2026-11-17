@@ -22,6 +22,7 @@ public class GroupVerticalAction extends AbstractSelectionAction {
 	
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor d=  (JMDCEditor) e.getSource();
-		d.getWorkflow().groupVertical();	
+		if (d.isEditable())
+			d.getWorkflow().groupVertical();	
 	}
 }

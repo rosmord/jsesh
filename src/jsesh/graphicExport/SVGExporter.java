@@ -122,4 +122,8 @@ public class SVGExporter implements BaseGraphics2DFactory {
 			throws IOException {
 		return new SVGGraphics2D(exportFile, scaledDimension);
 	}
+	
+	public void writeGraphics() throws IOException {
+		// NO OP.
+	}
 }

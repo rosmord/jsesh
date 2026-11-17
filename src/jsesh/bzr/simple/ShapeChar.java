@@ -19,7 +19,7 @@ import jsesh.utils.DoubleUtils;
 
 /**
  * A glyph in a BzrSimpleFont (basically a shape which can be painted).
- * 
+ * TODO : move out of the Bzr package, as it's no longer even mainly used.
  * 
  * Created: Mon Jun 10 10:49:26 2002
  * 
@@ -282,6 +282,10 @@ public class ShapeChar implements Cloneable {
 	 * Saves the drawing of this sign as an SVG file. Note that the output
 	 * should be in ASCII (or UTF-8) encoding for best portability.
 	 * 
+	 * <p> About the jseshg namespace (http://jsesh.qenherkhopeshef.org/jseshg/1.0)
+	 * This namespace is currently used for informations which are not plain SVG.
+	 * This includes author and the like.
+	 * 
 	 * @param out
 	 * @param encoding
 	 *            the name of the encoding to use. We suggest "UTF-8".
@@ -299,6 +303,10 @@ public class ShapeChar implements Cloneable {
 		out.write("' height='");
 		out.write(DoubleUtils.writeInDecimal(bbox.getHeight()));
 		out.write("' ");
+		// Necessary according to firefox site.
+		out.write("xmlns='http://www.w3.org/2000/svg' ");
+		out.write("xmlns:xlink='http://www.w3.org/1999/xlink' ");
+			
 		out
 				.write("xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'");
 		out.write(">\n");
@@ -460,6 +468,54 @@ public class ShapeChar implements Cloneable {
 	 */
 	public boolean hasZones() {
 		return (zones != null);
+	}
+
+
+	/**
+	 * @return the author
+	 */
+	public String getAuthor() {
+		return author;
+	}
+
+
+	/**
+	 * @param author the author to set
+	 */
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+
+	/**
+	 * @return the documentation
+	 */
+	public String getDocumentation() {
+		return documentation;
+	}
+
+
+	/**
+	 * @param documentation the documentation to set
+	 */
+	public void setDocumentation(String documentation) {
+		this.documentation = documentation;
+	}
+
+
+	/**
+	 * @return the license
+	 */
+	public String getLicense() {
+		return license;
+	}
+
+
+	/**
+	 * @param license the license to set
+	 */
+	public void setLicense(String license) {
+		this.license = license;
 	}
 
 } // ShapeChar

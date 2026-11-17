@@ -12,6 +12,5 @@ package jsesh.mdc;
  */
 
 public interface ParserErrorManager {
-    MDCSyntaxError buildError();
     MDCSyntaxError buildError(String message);
 }// ParserErrorManager

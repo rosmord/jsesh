@@ -16,7 +16,7 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
-/*
+/**
  * This class builds a view for a hieroglyphic text in which each page
  * stands in a different subview.
  * 
@@ -26,6 +26,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
  * @author Serge Rosmorduc
  *
  * This file is free software under the Gnu Lesser Public License.
+ * @deprecated
  */
 public class PagedViewBuilder implements ViewBuilder
 {

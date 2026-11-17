@@ -16,6 +16,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -27,6 +28,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import jsesh.mdc.MDCSyntaxError;
@@ -61,6 +63,8 @@ public class JMDCEditor extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -5312716856062578743L;
+
+	private static final int BOTTOM_MARGIN = 5;
 
 	private JMDCModelEditionListener mdcModelEditionListener;
 
@@ -119,11 +123,13 @@ public class JMDCEditor extends JPanel {
 	/**
 	 * States that the caret has changed since last redraw.
 	 * <p>
-	 * The purporse of this variable is to ensure that scrolls to the caret
+	 * The purpose of this variable is to ensure that scrolls to the caret
 	 * position are only done <em>after</em> view updates.
 	 */
 	private boolean caretChanged = true;
 
+	private boolean editable= true;
+	
 	// FIXME : choose a reasonable method to share drawing specifications.
 	private DrawingSpecifications drawingSpecifications= MDCEditorKit.getBasicMDCEditorKit().getDrawingSpecifications();
 
@@ -196,7 +202,7 @@ public class JMDCEditor extends JPanel {
 				v.setWidth(14);
 				v.setHeight(14);
 			}
-			return new Dimension((int) (scale * v.getWidth()), (int) (scale * v
+			return new Dimension((int) (scale * v.getWidth()), BOTTOM_MARGIN+ (int) (scale * v
 					.getHeight()));
 		}
 	}
@@ -273,12 +279,19 @@ public class JMDCEditor extends JPanel {
 		workflow.setMark(pos);
 	}
 
-	protected void paintComponent(Graphics g) {
+	/**
+	 * Preliminary etap for drawing this component.
+	 * @param g
+	 */
+	protected void drawBaseComponent(Graphics g) {
 		super.paintComponent(g);
-
-		// boolean canDraw= true;
-
-		// if (canDraw) {
+		Insets insets= getInsets();
+		g.clipRect(insets.left, insets.top, getWidth() - insets.left - insets.right, getHeight()- insets.top - insets.bottom);
+	}
+	
+	protected void paintComponent(Graphics g) {
+		drawBaseComponent(g);
+		
 		Graphics2D g2d = (Graphics2D) g;
 		GraphicsUtils.antialias(g2d);
 		g2d.scale(scale, scale);
@@ -364,6 +377,7 @@ public class JMDCEditor extends JPanel {
 	/**
 	 * Returns a rectangle describing the current cursor position.
 	 * 
+	 * The rectangle coordinates are given in screen coordinates, not model coordinates.
 	 * @return a rectangle describing the current cursor position.
 	 */
 	Rectangle getPointerRectangle() {
@@ -576,6 +590,12 @@ public class JMDCEditor extends JPanel {
 		}
 	}
 	
+	/**
+	 * Sets the content of this element, giving it a text in manuel de codage format.
+	 * @param mdcText
+	 * @throws a RuntimeException encapsulating a MDCSyntaxError 
+	 */
+	
 	public void setMDCText(String mdcText)  {
 		try {
 			getWorkflow().setMDCCode(mdcText);
@@ -587,5 +607,20 @@ public class JMDCEditor extends JPanel {
 	public String getMDCText() {
 		return getWorkflow().getMDCCode();
 	}
+
+	/**
+	 * @return the editable
+	 */
+	public boolean isEditable() {
+		return editable;
+	}
+
+	/**
+	 * @param editable the editable to set
+	 */
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+	
 	
 }

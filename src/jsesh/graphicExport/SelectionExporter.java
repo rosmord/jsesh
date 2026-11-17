@@ -39,11 +39,11 @@ public class SelectionExporter {
     
     /**
      * @param exportData
-     * @param gf
+     * @param graphicsFactory
      */
-    public SelectionExporter(ExportData exportData, BaseGraphics2DFactory gf) {
+    public SelectionExporter(ExportData exportData, BaseGraphics2DFactory graphicsFactory) {
         this.exportData = exportData;
-        this.graphicsFactory = gf;
+        this.graphicsFactory = graphicsFactory;
         this.background= Color.WHITE;
     }
 
@@ -107,6 +107,7 @@ public class SelectionExporter {
 		// draw !
 		drawer.draw(g, view, exportData.getDrawingSpecifications());
 		g.dispose();
+		graphicsFactory.writeGraphics();
 	}
 	
     /**

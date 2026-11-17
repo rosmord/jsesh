@@ -15,6 +15,8 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import org.qenherkhopeshef.utils.PlatformDetection;
+
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdcDisplayer.swing.editor.actions.CopyAction;
@@ -29,9 +31,11 @@ import jsesh.mdcDisplayer.swing.editor.actions.GroupVerticalAction;
 import jsesh.mdcDisplayer.swing.editor.actions.NewLineAction;
 import jsesh.mdcDisplayer.swing.editor.actions.NewPageAction;
 import jsesh.mdcDisplayer.swing.editor.actions.PasteAction;
+import jsesh.mdcDisplayer.swing.editor.actions.RedoAction;
 import jsesh.mdcDisplayer.swing.editor.actions.SelectOrientationAction;
 import jsesh.mdcDisplayer.swing.editor.actions.SelectTextDirectionAction;
-import jsesh.utils.PlatformDetection;
+import jsesh.mdcDisplayer.swing.editor.actions.SetModeAction;
+import jsesh.mdcDisplayer.swing.editor.actions.UndoAction;
 
 /**
  * Manages input for an MDC Editor. It might be interesting to make it public.
@@ -63,6 +67,10 @@ public class MDCEditorKeyManager extends KeyAdapter {
 
 	public static final String CUT = "CUT";
 
+	public static final String UNDO = "UNDO";
+	
+	public static final String REDO = "REDO";
+	
 	public static final String GROUP_HORIZONTAL = "GROUP HORIZONTAL";
 
 	public static final String GROUP_VERTICAL = "GROUP VERTICAL";
@@ -86,6 +94,11 @@ public class MDCEditorKeyManager extends KeyAdapter {
 	public static final String SELECT_L2R_DIRECTION = "SELECT_L2R_DIRECTION";
 
 	public static final String SELECT_R2L_DIRECTION = "SELECT_R2L_DIRECTION";
+
+	public static final String SET_MODE_LATIN = "SET_MODE_LATIN";
+	public static final String SET_MODE_HIEROGLYPHS = "SET_MODE_HIEROGLYPHS";
+	public static final String SET_MODE_ITALIC = "SET_MODE_ITALIC";
+	public static final String SET_MODE_BOLD = "SET_MODE_BOLD";
 
 	/**
 	 */
@@ -134,12 +147,10 @@ public class MDCEditorKeyManager extends KeyAdapter {
 		addAction(GO_DOWN, new GoDownAction());
 		addAction(GO_UP, new GoUpAction());
 		addAction(BEGINNING_OF_LINE, new AbstractAction("Beginning of line") {
-
 			public void actionPerformed(ActionEvent e) {
 				JMDCEditor ed = (JMDCEditor) e.getSource();
 				ed.getWorkflow().cursorToBeginningOfLine();
 			}
-
 		});
 
 		addAction(END_OF_LINE, new AbstractAction("End Of line") {
@@ -148,7 +159,6 @@ public class MDCEditorKeyManager extends KeyAdapter {
 				JMDCEditor ed = (JMDCEditor) e.getSource();
 				ed.getWorkflow().cursorToEndOfLine();
 			}
-
 		});
 		// addAction(BACK_SPACE, new BackSpaceAction());
 		// addAction(ADD_LOWER_LEVEL, new AddLowerLevelAction());
@@ -171,6 +181,12 @@ public class MDCEditorKeyManager extends KeyAdapter {
 				TextDirection.LEFT_TO_RIGHT));
 		addAction(SELECT_R2L_DIRECTION, new SelectTextDirectionAction(
 				TextDirection.RIGHT_TO_LEFT));
+		addAction(UNDO, new UndoAction());
+		addAction(REDO, new RedoAction());
+		addAction(SET_MODE_LATIN, new SetModeAction('l'));
+		addAction(SET_MODE_HIEROGLYPHS, new SetModeAction('s'));
+		addAction(SET_MODE_ITALIC, new SetModeAction('i'));
+		addAction(SET_MODE_BOLD, new SetModeAction('b'));
 	}
 
 	private void addInput(String code, String command) {
@@ -195,6 +211,9 @@ public class MDCEditorKeyManager extends KeyAdapter {
 
 		addInput("shift ENTER", NEW_PAGE);
 		addInput("ENTER", NEW_LINE);
+		addInput(controlKey + " Z", UNDO);
+		addInput(controlKey + " Y", REDO);
+
 		addInput(controlKey + " C", COPY);
 		addInput(controlKey + " X", CUT);
 		addInput(controlKey + " V", PASTE);
@@ -203,6 +222,10 @@ public class MDCEditorKeyManager extends KeyAdapter {
 
 		addInput("shift LEFT", EXPAND_SELECTION_LEFT);
 		addInput("shift RIGHT", EXPAND_SELECTION_RIGHT);
+		addInput(controlKey+ " N", SET_MODE_HIEROGLYPHS);
+		addInput(controlKey+ " D", SET_MODE_LATIN);
+		addInput(controlKey+ " I", SET_MODE_ITALIC);
+		addInput(controlKey+ " B", SET_MODE_BOLD);
 
 	}
 
@@ -226,16 +249,24 @@ public class MDCEditorKeyManager extends KeyAdapter {
 	 * @see java.awt.event.KeyAdapter#keyTyped(java.awt.event.KeyEvent)
 	 */
 	public void keyTyped(KeyEvent e) {
-		if (e.isActionKey() || e.isControlDown() || e.isMetaDown()|| e.isAltDown())
-			return;
+		// On the mac, the "Alt" key is used to generate a number of characters (e.g. square []).
+		// On other architectures, it is used as a shortcut for menus. So we behave differently.
+		
+		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
+			if (e.isActionKey() || e.isControlDown() || e.isMetaDown())
+				return;			
+		} else
+			if (e.isActionKey() || e.isControlDown() || e.isMetaDown()|| e.isAltDown())
+				return;
 
 		// Codes handled by actions.
 		if (e.getKeyChar() == '\n')
 			return;
 		if (e.getSource() instanceof JMDCEditor) {
 			JMDCEditor editor = (JMDCEditor) e.getSource();
+			if (! editor.isEditable())
+				return;
 			editor.getWorkflow().keyTyped(e.getKeyChar());
 		}
 	}
-
 }

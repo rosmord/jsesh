@@ -22,6 +22,11 @@ import javax.swing.JPanel;
  */
 public class LabeledField extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1431028853567089282L;
+	
 	public static final String NORTH= BorderLayout.NORTH;
 	public static final String SOUTH= BorderLayout.SOUTH;
 	public static final String EAST= BorderLayout.EAST;

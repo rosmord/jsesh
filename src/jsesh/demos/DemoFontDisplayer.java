@@ -73,6 +73,8 @@ public class DemoFontDisplayer extends JFrame {
 		}
 	}
 
+	
+
 	private void loadFont() {
 		FileDialog file = new FileDialog(this, "choose a bzr font");
 		file.setVisible(true);
@@ -120,6 +122,7 @@ public class DemoFontDisplayer extends JFrame {
 				loadFont();
 			}
 		});
+		
 		menu.add(new AbstractAction("Exit") {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);

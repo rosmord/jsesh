@@ -34,4 +34,14 @@ public interface BaseGraphics2DFactory {
      */
     BaseGraphics2D buildGraphics() throws IOException;
 
+    /**
+     * Method to save the graphic whereever it must be saved.
+     * <p>In a number of cases, the method will be empty, as the drawing will directly take place
+     * on the destination file.
+     * <p> When the picture is built in-memory, however, it might be interesting to be able to 
+     * call writeGraphics to write them.
+     * The method will be called after a graphic has been disposed of.
+     */
+	void writeGraphics() throws IOException;
+
 }

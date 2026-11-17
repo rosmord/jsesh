@@ -9,8 +9,11 @@ import java.util.List;
 class  CompositeCommand extends MDCCommand {
 	private List commands= new ArrayList();
 	
-	
-	protected CompositeCommand(boolean firstCommand) {
+	/**
+	 * Create an empty composite command.
+	 * @param firstCommand was the command applied to a clean text ?
+	 */
+	public CompositeCommand(boolean firstCommand) {
 		super(firstCommand);
 	}
 	
@@ -24,7 +27,7 @@ class  CompositeCommand extends MDCCommand {
 	}
 	
 	public void undoCommand() {
-		for (int i= commands.size()-1; i >=0 ; i++) {
+		for (int i= commands.size()-1; i >=0 ; i--) {
 			MDCCommand c= (MDCCommand)commands.get(i);
 			c.undoCommand();
 		}

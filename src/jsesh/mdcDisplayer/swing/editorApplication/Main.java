@@ -2,8 +2,14 @@ package jsesh.mdcDisplayer.swing.editorApplication;
 
 import javax.swing.UIManager;
 
-import jsesh.utils.PlatformDetection;
+import org.qenherkhopeshef.utils.PlatformDetection;
 
+
+/**
+ * @deprecated
+ * @author rosmord
+ *
+ */
 public class Main {
 	public static void main(String[] args)  {
 		// We should have a more flexible look and feel system.

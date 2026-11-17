@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="14.504401"
+   height="18.182392"
+   id="svg1994"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   version="1.0"
+   sodipodi:docbase="C:\Program Files\JSesh\fonteUS22\US22_33"
+   sodipodi:docname="US22T89.svg">
+  <defs
+     id="defs1996" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="28.379105"
+     inkscape:cx="7.2522003"
+     inkscape:cy="9.0911969"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showborder="true"
+     showgrid="false"
+     gridspacingx="1px"
+     gridspacingy="1px"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1024"
+     inkscape:window-height="708"
+     inkscape:window-x="127"
+     inkscape:window-y="98">
+    <sodipodi:guide
+       orientation="horizontal"
+       position="0.048701364"
+       id="guide2010" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata1999">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas
+</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:date>6/12/06</dc:date>
+        <dc:title>US22T89</dc:title>
+        <dc:description>pour exprimer le signe T89 de l'extended library</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(1.272899,1.042559)"
+     sodipodi:insensitive="true">
+    <path
+       id="path1992"
+       style="color:black;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:black;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+       d="M 4.816501,-0.76469447 C 4.966753,3.10046 3.8883008,13.692617 3.5371006,16.879831 M 2.156501,-0.76469447 C 2.2034418,3.8925124 0.4703754,12.48732 -1.0228994,16.879831 M 3.556501,-0.76469447 C 3.706753,4.9256244 2.4725828,12.728379 1.0771006,16.879831 M 5.981501,-0.75873972 L 5.981501,16.870306 M 7.142101,-0.76469397 C 6.991849,3.1004606 8.070301,13.692618 8.421502,16.879832 M 9.802101,-0.76469397 C 9.75516,3.892513 11.488227,12.467321 12.981502,16.859832 M 8.402101,-0.76469397 C 8.251849,4.9256249 9.486019,12.72838 10.881502,16.879832 M 5.977101,-0.75873927 L 5.977101,16.870307 M 2.1379905,-0.79255947 L 9.768537,-0.79255947 M -0.872899,16.889832 L 12.727101,16.889832 M 2.067101,2.5498315 L 9.947101,2.5498315 M 1.487101,6.4898315 L 10.427101,6.4898315 M 0.727101,10.169832 L 11.107101,10.169832 M -0.112899,14.129832 L 12.007101,14.129832"
+       sodipodi:nodetypes="cccccccccccccccccccccccccccc" />
+  </g>
+</svg>

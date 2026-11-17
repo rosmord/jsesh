@@ -284,7 +284,11 @@ public class ViewDrawer {
 	private boolean drawView(Graphics2D g, MDCView v, int startPos, int endPos,
 			int depth) {
 
-		Graphics2D currentG = g;
+		// Is safer...
+		//Graphics2D currentG = (Graphics2D) g.create();
+		
+		Graphics2D currentG = (Graphics2D) g;
+		
 		// For top level items, with bitmap output, we may use caching.
 		// with caching, the picture of a view is drawn into a bitmap,
 		// which is then copied to g.
@@ -351,12 +355,18 @@ public class ViewDrawer {
 								.getTransform().getScaleY());
 					}
 				}
-			}
+			} // End of caching code.
+			
 			TopItem topItem = (TopItem) v.getModel();
 			elementDrawer.setDrawingState(topItem.getState());
 			// For all Top Items, and only for them :
 			if (topItem.getState().isShaded()) {
-				g.setBackground(drawingSpecifications.getGrayColor());
+				// Set background to grey = hence, the content of the glyphs will be shaded,
+				// Which alleviate the limitations of systems like WMF or PICT (which have no transparency)
+				// Note that we leave this code here, and don't put it in shadeview,
+				// as we want to remember that we must restore the BG afterwards.
+				// (ok, we might as well systematically save and restore the BG and the FG before and after drawing).
+				currentG.setBackground(drawingSpecifications.getGrayColor());
 				shadeView(currentG, v);
 			}
 		}
@@ -648,8 +658,8 @@ public class ViewDrawer {
 		// views i-1 and i (if they exist).
 
 		int index = position.getIndex();
-		Rectangle2D result = new Rectangle2D.Float(0, 0, drawingSpecifications
-				.getSmallSkip(), drawingSpecifications.getMaxCadratHeight());
+		Rectangle2D result = new Rectangle2D.Float(0, 0, specs
+				.getSmallSkip(), specs.getMaxCadratHeight());
 
 		// non empty view :
 		if (v.getNumberOfSubviews() != 0) {
@@ -657,11 +667,11 @@ public class ViewDrawer {
 			boolean nextIsBreak = false;
 
 			Rectangle2D previousRectangle = new Rectangle2D.Float(0, 0,
-					drawingSpecifications.getSmallSkip(), drawingSpecifications
+					specs.getSmallSkip(), specs
 							.getMaxCadratHeight());
 			Rectangle2D nextRectangle = new Rectangle2D.Float(0, v.getHeight()
-					- drawingSpecifications.getMaxCadratHeight(),
-					drawingSpecifications.getSmallSkip(), drawingSpecifications
+					- specs.getMaxCadratHeight(),
+					specs.getSmallSkip(), specs
 							.getMaxCadratHeight());
 
 			if (index > 0)

@@ -30,7 +30,8 @@ public class SelectTextDirectionAction extends AbstractAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor d=  (JMDCEditor) e.getSource();
-		d.setTextDirection(direction);
+		if (d.isEditable())
+			d.setTextDirection(direction);
 	}
 	
 	

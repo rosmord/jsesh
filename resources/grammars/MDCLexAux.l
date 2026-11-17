@@ -1,5 +1,5 @@
 package jsesh.mdc.lex;
-import jsesh.mdc.utils.*;
+import jsesh.mdc.*;
 import jsesh.mdc.constants.*;
 import java_cup.runtime.Symbol;
 
@@ -194,13 +194,11 @@ import java_cup.runtime.Symbol;
         return skip;
     }
 
-    public MDCSyntaxError buildError() {
-        return buildError("error");
-    }
+   
 
-    public MDCSyntaxError buildError(String msg) {
+    public MDCSyntaxError buildError(String msg, String token) {
             String res= msg + " line " + yyline + " char " + yychar + " at token '" + yytext()+ "'";
-            return new MDCSyntaxError(res, yyline, yychar, yytext());
+            return new MDCSyntaxError(res, yyline, yychar, token);
     }
 
 %}
@@ -218,7 +216,7 @@ import java_cup.runtime.Symbol;
 
 %char
 
-%implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, ParserErrorManager
+%implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner
 
 %unicode
 

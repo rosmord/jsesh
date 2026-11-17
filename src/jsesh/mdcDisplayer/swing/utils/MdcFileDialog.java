@@ -70,7 +70,8 @@ public class MdcFileDialog {
 		String encoding= mdcFileOptionPanel.getEncoding();
 		if (encoding == null || "Default".equals(encoding)) {
 			// jdk 1.5 proposes a defaultCharSet() method.
-			encoding= SystemUtils.getDefaultEncoding();
+			// encoding= SystemUtils.getDefaultEncoding();
+			encoding= null; // we use "null" for default value.
 		} 
 		return encoding;
 	}

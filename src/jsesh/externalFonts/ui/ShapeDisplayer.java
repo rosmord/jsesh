@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
+import java.awt.geom.Line2D;
 
 import javax.swing.JComponent;
 
@@ -22,6 +24,8 @@ public class ShapeDisplayer extends JComponent {
 	 * The height, in model coordinates, of the displayer window.
 	 */
 	private double displayHeight;
+	
+	private double normalSignTop= 18;
 
 	/**
 	 * The scale applied to the original shape.
@@ -43,6 +47,11 @@ public class ShapeDisplayer extends JComponent {
 		GraphicsUtils.antialias(g2d);
 		double s= getHeight()/ displayHeight ;
 		g2d.scale(s, s);
+		Stroke stroke = g2d.getStroke();
+		g2d.setStroke(new BasicStroke(0.25f, BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND, 10f,new float[] {1.5f,1f},0f));		
+		g2d.setColor(Color.BLUE);
+		g2d.draw(new Line2D.Double(0,displayHeight-normalSignTop, getWidth()*s,displayHeight-normalSignTop));
+		g2d.setStroke(stroke);
 		g2d.setColor(Color.BLACK);		
 		if (shape != null) {
 			g2d.translate(0, displayHeight - shape.getBbox().getHeight()*shapeScale);
@@ -105,6 +114,7 @@ public class ShapeDisplayer extends JComponent {
 	 */
 	public void setShapeScale(double shapeScale) {
 		this.shapeScale = shapeScale;
+		repaint();
 	}
 	
 	

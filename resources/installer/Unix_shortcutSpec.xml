@@ -21,6 +21,21 @@
      <createForPack name="Base"/>
    </shortcut>
    
+    <shortcut
+     name="Sign info editor"
+     programGroup="yes"
+     desktop="yes"
+     startMenu="yes"
+     startup="no"
+     target="$INSTALL_PATH/bin/signInfoEditor.sh"
+     type="Application"
+	 description="Sign info editor"
+	 encoding="UTF-8"
+     > 
+     
+     <createForPack name="Base"/>
+   </shortcut>
+   
    <shortcut
      name="JSesh_Documentation"
      programGroup="yes"

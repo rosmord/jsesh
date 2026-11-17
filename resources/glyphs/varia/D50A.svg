@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="19.766056"
+   height="5.04"
+   id="svg1566"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22D50A.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi26_SR">
+  <metadata
+     id="metadata1573">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:title>US22D50A</dc:title>
+        <dc:date>17/04/06</dc:date>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>pour rendre le signe :  D50A de la classification de Bob Richmond inspiré de signe fonte Holzhausen
+</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1571" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="36.426083"
+     inkscape:cx="9.883028"
+     inkscape:cy="2.52"
+     inkscape:window-x="44"
+     inkscape:window-y="58"
+     inkscape:current-layer="svg1566" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 0.837798 2.151146  L 4.06205 2.155385  C 4.133092 2.155479 3.225807 3.067414 1.425056 3.124503  C 1.42371 3.124545 1.422364 3.124567 1.421018 3.124567  C 1.134282 3.124567 0.837798 2.151147 0.837798 2.151146  Z  M 11.656128 0.687474  C 12.364552 0.687474 13.33244 0.708383 14.78001 0.746245  L 19.099779 0.772129  L 19.099779 2.377544  L 13.329858 2.349404  C 12.636668 2.34141 12.111886 2.336346 11.702145 2.336346  C 10.598213 2.336346 10.329306 2.373098 9.85151 2.488281  C 9.441534 2.587114 6.956093 4.116073 5.75881 4.352373  C 5.539577 4.398944 4.676154 4.428971 3.935933 4.428971  C 3.541158 4.428971 3.181427 4.42043 2.97315 4.401304  C 2.033046 4.314978 1.764956 4.227383 1.415677 3.892414  C 1.127663 3.616196 1.150783 3.581462 1.622651 3.581462  C 1.839121 3.581462 2.152176 3.553807 2.318326 3.520006  C 3.047646 3.371633 3.937355 2.909343 4.874011 2.445214  C 7.107353 1.338536 8.832116 0.950362 9.479178 0.841515  C 10.116024 0.734387 10.594997 0.687474 11.656128 0.687474  Z  M 11.577692 0  C 10.794615 0 10.368296 0.015924 10.086668 0.048653  C 8.73923 0.205241 7.493768 0.655485 6.272154 1.025541  C 5.045172 1.397228 4.917185 1.50324 3.272601 1.50324  C 3.132134 1.50324 2.980604 1.502467 2.816381 1.501019  L 0.320919 1.479027  C 0.319264 1.479012 0.317616 1.479006 0.315976 1.479006  C -0.465269 1.479006 0.432347 3.130347 0.537707 3.39378  C 0.752965 3.932008 0.778771 5.032044 3.369635 5.032044  C 3.432482 5.032044 3.496839 5.031397 3.562747 5.030078  C 3.67347 5.037216 3.853224 5.04 4.065228 5.04  C 4.636283 5.04 5.441338 5.019801 5.761604 5.010078  C 7.207068 4.965617 9.189854 3.411235 9.75353 3.25272  C 10.448979 3.057147 11.043743 2.980792 12.065106 2.980792  C 12.322701 2.980792 12.607429 2.985649 12.927738 2.994674  C 13.553079 3.012295 19.766056 3.074086 19.766056 3.074086  L 19.766056 0.028855  L 14.309694 0.031114  C 13.087118 0.010529 12.214456 0 11.577692 0  Z "
+     id="path1568" />
+</svg>

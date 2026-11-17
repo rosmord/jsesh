@@ -36,6 +36,7 @@ public class ResourcesHieroglyphicFontManager extends Object implements
 		this.resourcePath = resourcePath;
 		signs = new HashMap();
 		try {
+			System.out.println("Opening "+ resourcePath+"/"+ LIST_FILE);
 			InputStream ins = getClass().getResourceAsStream(
 					resourcePath + "/" + LIST_FILE);
 			if (ins != null) {
@@ -47,6 +48,8 @@ public class ResourcesHieroglyphicFontManager extends Object implements
 					signs.put(fields[0], fields[1]);
 				}
 				r.close();
+			} else {
+				System.err.println("Could not load" + resourcePath);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

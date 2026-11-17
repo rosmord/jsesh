@@ -27,7 +27,8 @@ public class PasteAction extends AbstractAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor editor = (JMDCEditor) e.getSource();
-		editor.paste();
+		if (editor.isEditable())
+			editor.paste();
 	}
 
 }

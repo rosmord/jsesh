@@ -46,9 +46,9 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class MakeSVGIndex {
 
 	static final String USAGE = "usage : \n"
-			+ "java jsesh.softwares.MakeSVGIndex DIRECTORY [DIRECTORY ...]\n"
+			+ "java jsesh.softwares.MakeSVGIndex [-links] DIRECTORY [DIRECTORY ...]\n"
 			+ "or\n"
-			+ "java jsesh.softwares.MakeSVGIndex FILE \n"
+			+ "java jsesh.softwares.MakeSVGIndex [-links] FILE \n"
 			+ "build an index.html with png pictures of the svg files in a directory."
 			+ "\nalso create a zipped version of the directory."
 			+ "\nif a file README.html is available, it will be inserted at the beginning of the file."
@@ -57,7 +57,9 @@ public class MakeSVGIndex {
 			+ "\nThe software can also use the 'description' field of SVG files (see inkscape, document preferences)"
 			+ "\n"
 			+ "If a file is given as argument, it is supposed to be a text file, \n"
-			+ "and each line is supposed to contain the name of a font directory.";
+			+ "and each line is supposed to contain the name of a font directory.\n"
+			+ " if '-links' is specified, a link to each individual SVG file will be built."
+			;
 
 	private static final String XSLFILTER = ""
 			+ "<xsl:stylesheet version=\"1.0\"  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"  xmlns:dc='http://purl.org/dc/elements/1.1/' >"
@@ -69,6 +71,8 @@ public class MakeSVGIndex {
 			+ "<xsl:template match='//dc:description'>"
 			+ "<xsl:value-of select='.'/>" + "</xsl:template>"
 			+ "</xsl:stylesheet>";
+
+	private static boolean buildLinks= false;
 
 	/**
 	 * Read a file, containing a number of directory names.
@@ -167,15 +171,18 @@ public class MakeSVGIndex {
 
 				buffer.append("<li>");
 				buffer.append(files[i].getName());
-				buffer.append("<a href=\"");
-				buffer.append(files[i].getName());
-				buffer.append("\"> ");
+				if (buildLinks) {
+					buffer.append("<a href=\"");
+					buffer.append(files[i].getName());
+					buffer.append("\"> ");
+				}
 				buffer.append("<img src=\"");
 				buffer.append(imageFile.getName());
 				File commentFile = FileUtils.buildFileWithExtension(files[i],
 						"txt");
 				buffer.append("\"> ");
-				buffer.append("</a>\n");
+				if (buildLinks)
+					buffer.append("</a>\n");
 				buffer.append(extractXMLInfo(files[i]));
 				if (commentFile.exists()) {
 					Reader commentReader = new FileReader(commentFile);
@@ -203,7 +210,7 @@ public class MakeSVGIndex {
 			} catch (Exception e) {
 				System.err.println("Could not build " + imageFile);
 				e.printStackTrace();
-			} 
+			}
 		}
 		buffer.append("</ul>\n");
 		zipOut.close();
@@ -262,6 +269,7 @@ public class MakeSVGIndex {
 		if (imageFile.exists() && imageFile.length() > 0
 				&& imageFile.lastModified() > svgFile.lastModified())
 			return;
+		System.err.println("working on "+ svgFile);
 		SVGSignSource source = new SVGSignSource(svgFile);
 		if (source.hasNext()) {
 			source.next();
@@ -311,8 +319,13 @@ public class MakeSVGIndex {
 		if (args.length == 0) {
 			displayUsage();
 		}
+		int start = 0;
+		if ("-links".equals(args[0])) {
+			buildLinks= true;
+			start=1;
+		}
 		File directories[] = new File[args.length];
-		for (int i = 0; i < args.length; i++) {
+		for (int i = start; i < args.length; i++) {
 			directories[i] = new File(args[i]);
 			if (!directories[i].isDirectory()) {
 				if (!directories[i].exists()) {

@@ -1,5 +1,6 @@
 package jsesh.mdc.model;
 
+import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.ToggleType;
 import jsesh.mdc.constants.WordEndingCode;
 import jsesh.mdc.interfaces.AbsoluteGroupInterface;
@@ -33,14 +34,26 @@ public class MDCModelBuilder implements MDCBuilder
 
 	private TopItemList result;
 	private TopItemState currentState;
+	private int dialect= Dialect.OTHERS; 
 
 	/**
 	 * Constructor for MDCModelBuilder.
 	 */
 	public MDCModelBuilder()
 	{
+		this(Dialect.OTHERS);
+	}
+
+	/**
+	 * Create a builder for manuel de codage data.
+	 * @param dialect a dialect for the Manuel de codage
+	 * @see Dialect
+	 */
+	public MDCModelBuilder(int dialect)
+	{
 		result= null;
 		currentState= new TopItemState();
+		this.dialect= dialect;
 	}
 
 	private void addToTop(TopItemListInterface l, TopItem elt) {
@@ -103,7 +116,15 @@ public class MDCModelBuilder implements MDCBuilder
 	 */
 	public void addModifierToModifierList(ModifierListInterface mods, String name, Integer value)
 	{
-		((ModifiersList) mods).includeModifier(new Modifier(name, value));
+		String actualName= name;
+		Integer actualValue= value;
+		// Deal with incompatibility between Winglyph and MacScribe
+		if ("r".equals(name) && dialect == Dialect.MACSCRIBE)
+		{
+			// Then, r is the same as "R".
+			actualName= "R";
+		}
+		((ModifiersList) mods).includeModifier(new Modifier(actualName, actualValue));
 	}
 
 	/*

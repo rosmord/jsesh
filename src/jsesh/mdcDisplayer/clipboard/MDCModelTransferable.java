@@ -12,13 +12,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import jsesh.graphicExport.MacRTFExporter;
 import jsesh.graphicExport.RTFExportPreferences;
 import jsesh.graphicExport.RTFExporter;
+import jsesh.graphics.pict.MacPictGraphics2D;
 import jsesh.mdc.model.ListOfTopItems;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.output.ModelWriter;
+import jsesh.mdc.output.MdCModelWriter;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
+import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
@@ -45,6 +50,9 @@ public class MDCModelTransferable implements Transferable {
 	// DataFlavor.imageFlavor, DataFlavor.stringFlavor};
 	// private DataFlavor[] flavors= {TopItemListFlavor, RTFFlavor,
 	// DataFlavor.imageFlavor};
+
+	private static final DataFlavor MACPictFlavor = new DataFlavor(
+			"image/x-macpict", null);
 
 	private TopItemList topItemList;
 
@@ -76,11 +84,12 @@ public class MDCModelTransferable implements Transferable {
 		DataFlavor[] result;
 
 		result = new DataFlavor[] { ListOfTopItemsFlavor, RTFFlavor,
-				DataFlavor.stringFlavor, ListOfTopItemsFlavor };
-
+				 DataFlavor.stringFlavor, ListOfTopItemsFlavor };
+		//result= new DataFlavor[] {MACPictFlavor};
 		if (bitmapWanted) {
 			result = new DataFlavor[] { ListOfTopItemsFlavor, RTFFlavor,
-					DataFlavor.imageFlavor, DataFlavor.stringFlavor };
+					DataFlavor.imageFlavor,
+					DataFlavor.stringFlavor };
 		}
 
 		return result;
@@ -116,24 +125,35 @@ public class MDCModelTransferable implements Transferable {
 
 			// FIXME : WHEN text is too large, RTF cut and paste fails because
 			// of timing issues.
-			if (topItemList.getNumberOfChildren() < 1000) {
+			if (topItemList.getNumberOfChildren() < 5000) {
 				DrawingSpecifications drawingSpecifications = getDrawingSpecifications();
 				drawingSpecifications.setTopMargin(0);
 				drawingSpecifications.setLeftMargin(0);
-				RTFExporter rtfExporter = new RTFExporter();
-				rtfExporter.setDrawingSpecifications(drawingSpecifications);
-				rtfExporter.setViewBuilder(new SimpleViewBuilder());
-				rtfExporter.setRtfPreferences(rtfPreferences);
-				rtfExporter.ExportModelTo(topItemList, outputStream);
-				result = new ByteArrayInputStream(outputStream.toByteArray());
+				if (false) {
+					RTFExporter rtfExporter = new RTFExporter();
+					rtfExporter.setDrawingSpecifications(drawingSpecifications);
+					rtfExporter.setViewBuilder(new SimpleViewBuilder());
+					rtfExporter.setRtfPreferences(rtfPreferences);
+					rtfExporter.ExportModelTo(topItemList, outputStream);
+					result = new ByteArrayInputStream(outputStream
+							.toByteArray());
+				} else {
+					MacRTFExporter rtfExporter = new MacRTFExporter();
+					rtfExporter.setDrawingSpecifications(drawingSpecifications);
+					rtfExporter.setViewBuilder(new SimpleViewBuilder());
+					rtfExporter.setRtfPreferences(rtfPreferences);
+					rtfExporter.ExportModelTo(topItemList, outputStream);
+					result = new ByteArrayInputStream(outputStream
+							.toByteArray());
+				}
 			} else {
-				String data="{\\rtf1\\ansi\\ansicpg1252Jsesh : sorry, data too large for RTF cut and paste. Please copy a smaller part of your text.\\par}";
+				String data = "{\\rtf1\\ansi\\ansicpg1252Jsesh : sorry, data too large for RTF cut and paste. Please copy a smaller part of your text.\\par}";
 				result = new ByteArrayInputStream(data.getBytes("US-ASCII"));
 			}
 		} else if (DataFlavor.stringFlavor.equals(flavor)) {
 			StringWriter writer = new StringWriter();
-			ModelWriter modelWriter = new ModelWriter();
-			modelWriter.write(writer, topItemList);
+			MdCModelWriter mdCModelWriter = new MdCModelWriter();
+			mdCModelWriter.write(writer, topItemList);
 			return writer.toString();
 		} else if (ListOfTopItemsFlavor.equals(flavor)) {
 			ListOfTopItems l = new ListOfTopItems();
@@ -149,6 +169,17 @@ public class MDCModelTransferable implements Transferable {
 			facade.setCadratHeight(rtfPreferences.getCadratHeight());
 			result = facade.createImage(topItemList);
 
+		} else if (MACPictFlavor.equals(flavor)) {
+			// Just to try...
+			// Won't last...
+			// TODO : suppress this or generalize the system for creating files (the simpleFacade) to 
+			// all formats...
+			MacPictGraphics2D g= new MacPictGraphics2D();
+			ViewBuilder simpleBuilder= new SimpleViewBuilder();
+			MDCView view = simpleBuilder.buildView(topItemList, getDrawingSpecifications());
+			ViewDrawer drawer= new ViewDrawer();
+			drawer.draw(g, view, getDrawingSpecifications());
+			result = new ByteArrayInputStream(g.getAsArray());
 		} else {
 			throw new UnsupportedFlavorException(flavor);
 		}

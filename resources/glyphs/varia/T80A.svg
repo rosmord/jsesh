@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800"
+   height="1800"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   version="1.0"
+   sodipodi:docbase="/Users/rosmord/Travail/Gsigns/Distribution"
+   sodipodi:docname="T80A.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.20821293"
+     inkscape:cx="-967.75086"
+     inkscape:cy="1240.6079"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     width="1800px"
+     height="1800px"
+     inkscape:window-width="1255"
+     inkscape:window-height="800"
+     inkscape:window-x="0"
+     inkscape:window-y="22" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:title>T80</dc:title>
+        <dc:description>spear. Freely drawn version. We need to find an original.
+Possible sources: see KRI II, 54, 8 (Luxor Pylon). K1 version is much damaged.</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.16844463px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 188.71876,1799.5312 L 99.812515,1526.9062 L 153.46876,1436.2187 L 153.46876,4.843735 L 223.93751,4.843735 L 223.93751,1436.1874 L 277.62501,1526.9062 L 188.71876,1799.5312 z "
+       id="path1876" />
+  </g>
+</svg>

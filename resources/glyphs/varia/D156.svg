@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="7.302132"
+   height="17.981342"
+   id="svg4270"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22D156.svg"
+   sodipodi:docbase="C:\Program Files\Inkscape\envoi31\D">
+  <metadata
+     id="metadata4277">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:title>US22D156</dc:title>
+        <dc:date>30/09/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>déjà créé antérieurement
+
+FCD p. 173 
+ Hnskt = Hnkt 
+PT 724 (?)
+PT 360 Pepi Ier
+</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4275" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.966177"
+     inkscape:cx="3.6510662"
+     inkscape:cy="8.9906713"
+     inkscape:window-x="22"
+     inkscape:window-y="29"
+     inkscape:current-layer="svg4270" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 4.21275 0  L 7.302132 0  L 7.302132 14.307137  Q 7.272138 16.196758 5.532486 17.261545  Q 3.792835 18.326332 2.023189 17.816433  Q 0.253543 17.306536 0.028588 15.341928  Q -0.196367 13.377322 1.348324 12.417514  Q 2.893015 11.457706 4.152762 12.53749  L 4.21275 0  Z  M 6.642264 0.659868  L 4.872618 0.659868  L 4.872618 14.067184  Q 4.872618 15.356926 4.182756 15.881821  Q 3.492895 16.406715 2.66806 16.181761  Q 1.843225 15.956806 1.723249 14.952007  Q 1.603273 13.947208 2.593075 13.58728  L 2.593075 14.427112  Q 2.323129 15.326932 3.012991 15.551887  Q 3.702852 15.776842 4.092774 14.652067  Q 4.482697 13.527292 3.597873 12.927412  Q 2.713051 12.327533 1.588276 13.122374  Q 0.463501 13.917214 0.748444 15.431911  Q 1.033387 16.946608 2.398114 17.246548  Q 3.762841 17.546488 5.157561 16.706656  Q 6.552282 15.866824 6.642264 14.277143  L 6.642264 0.659868  Z "
+     id="path4272" />
+</svg>
