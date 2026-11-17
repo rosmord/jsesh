@@ -6,7 +6,7 @@ package jsesh.graphics.pictExport;
 
 /**
  * Collection of OpCodes used in mac pict binary pictures (version 2).
- * <p> See Appendix A
+ * <p> See Appendix A of the macintosh documentation.
  */
 public interface MacPictOpcodes {
 	int NOP= 0;

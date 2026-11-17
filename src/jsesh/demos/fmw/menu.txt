@@ -1,0 +1,20 @@
+# This file uses the actions described in demo8n.properties
+fileMenu
+	open
+	# A comment. Below, you see a separating line.
+	---------
+	saveAsMenu
+		saveAs_HTML
+		saveAs_Text
+	-------
+	exit
+changeMenu
+	increase_one
+	increase_minusOne
+	--
+	setIncrementValue_1
+	setIncrementValue_10
+	setIncrementValue_30
+	resetIncrement
+	--
+	toggleReadOnly

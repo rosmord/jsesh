@@ -1,0 +1,31 @@
+# If you want a particular destination directory for the application, uncomment
+# DESTDIR (and modify if necessary) 
+#DESTDIR=/usr/local
+#DESTDIR=/Applications
+#DESTDIR=/where/you/want
+
+# The directory where the IzPack installer builder is installed
+#IZPACK=/home/rosmord/IzPack
+
+# The path for the mac application bundler 
+#JARBUNDLER=/home/rosmord/lib/java/jarbundler-1.4.jar
+
+# The argument for using the netbeans profiler
+#PROFILING_ARGS=-agentpath:/usr/local/netbeans-5.0/profiler1/lib/deployed/jdk15/linux/libprofilerinterface.so=/usr/local/netbeans-5.0/profiler1/lib,5140
+
+
+################################################
+# Properties used for building the documentation
+
+# Uncomment to build documentation.
+#GENERATE_DOC=true
+
+
+# PATH TO THE SAXON XSL ENGINE (for doc. generation)
+#PATH_TO_SAXON=/usr/share/java/saxon.jar
+
+#docbook 4.4 dtd
+#DOCBOOK_DTD=/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd
+
+# script for generating the html documentation
+#WEB_XSL=/usr/share/xml/docbook/stylesheet/nwalsh/html/chunk.xsl

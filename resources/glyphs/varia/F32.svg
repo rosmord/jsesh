@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="F32.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Ramessides/Fontes"
+   inkscape:version="0.41.1"
+   sodipodi:version="0.32"
+   id="svg1290"
+   height="1800.000000px"
+   width="1800.000000px">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:guide-bbox="true"
+     showguides="true"
+     inkscape:window-y="0"
+     inkscape:window-x="0"
+     inkscape:window-height="944"
+     inkscape:window-width="1273"
+     inkscape:current-layer="layer2"
+     inkscape:document-units="px"
+     inkscape:cy="797.69062"
+     inkscape:cx="342.45533"
+     inkscape:zoom="0.36859822"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         id="Work6"
+         rdf:about="">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type9" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/"
+           id="license1300" />
+        <dc:subject
+           id="subject1316">
+          <rdf:Bag
+             id="Bag1318">
+            <rdf:li
+               id="li1350">JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator
+           id="creator2069">
+          <cc:Agent
+             id="Agent2071">
+            <dc:title
+               id="title2073">Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description
+           id="description1332">Sign from a Sethy the Ist relief in the Louvre.
+</dc:description>
+      </cc:Work>
+      <cc:License
+         id="License1302"
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           id="permits1304"
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           id="permits1306"
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           id="requires1308"
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           id="requires1310"
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           id="permits1312"
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           id="requires1314"
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1" />
+  <g
+     style="display:inline"
+     inkscape:label="dessin"
+     id="layer2"
+     inkscape:groupmode="layer">
+    <path
+       id="use6997"
+       d="M 294.66973,1260.8416 C 285.05432,1260.7722 275.22568,1263.2955 266.70746,1268.5397 C 243.09701,1283.0748 236.03851,1302.9101 248.66435,1326.2289 C 192.22577,1368.8566 123.10830,1445.6875 111.46978,1500.6050 C 77.376293,1501.5987 35.907099,1502.8353 26.518058,1503.0392 C 10.547033,1503.2650 -2.2961513,1516.2763 -2.2961513,1532.2489 C -2.2961503,1548.2215 10.547033,1561.2329 26.518058,1561.4586 C 35.906977,1561.6626 77.376295,1562.8992 111.46978,1563.8928 C 123.10120,1618.8111 192.22189,1695.6386 248.66435,1738.2690 C 236.03851,1761.5878 243.09701,1781.4230 266.70746,1795.9582 C 289.42268,1809.9427 321.55744,1804.6192 333.67693,1782.2358 C 397.21286,1806.4297 463.37787,1808.9692 534.70700,1784.6698 C 539.49376,1803.7187 577.50359,1810.1482 598.96846,1795.9582 C 621.66330,1780.9544 624.53376,1758.9548 614.42530,1746.5148 C 676.53284,1701.7912 731.81714,1654.6332 767.47226,1591.3986 C 788.84315,1592.9727 807.30285,1594.5281 819.50214,1596.0236 C 1066.1852,1626.2642 1222.9020,1656.3838 1470.3016,1650.3050 C 1522.1853,1649.0303 1599.2434,1648.6937 1665.9765,1636.7652 C 1699.3431,1630.8008 1730.3372,1622.2636 1755.9487,1606.6730 C 1781.5602,1591.0822 1802.7452,1563.9662 1802.7452,1530.9710 C 1802.7452,1498.2858 1781.1923,1471.6616 1755.6140,1456.5470 C 1730.0356,1441.4323 1699.1385,1433.1825 1665.8244,1427.3982 C 1599.1964,1415.8293 1522.1852,1415.4677 1470.3016,1414.1928 C 1454.8391,1413.8129 1439.7333,1413.5684 1424.9352,1413.4626 C 1202.9641,1411.8757 1050.7675,1440.1238 819.50214,1468.4742 C 807.30286,1469.9698 788.84315,1471.5251 767.47226,1473.0992 C 731.81714,1409.8646 676.53284,1362.7067 614.42530,1317.9832 C 624.53376,1305.5431 621.66330,1283.5435 598.96846,1268.5397 C 577.50359,1254.3497 539.49376,1260.8096 534.70700,1279.8583 C 463.37787,1255.5592 397.21286,1258.0987 333.67693,1282.2925 C 326.10224,1268.3030 310.69538,1260.9573 294.66973,1260.8416 z M 436.70217,1339.4342 C 548.59030,1339.4341 638.29691,1413.1266 699.25530,1477.3286 C 614.96584,1482.1965 506.12761,1487.0678 397.90796,1491.1118 C 319.46542,1494.0433 246.11060,1496.4427 182.57727,1498.4447 C 222.66087,1424.7130 320.81003,1339.4342 436.70217,1339.4342 z M 1424.5092,1471.8820 C 1438.9789,1471.9861 1453.7425,1472.2102 1468.8716,1472.5820 C 1521.7036,1473.8800 1596.6801,1474.6927 1655.8444,1484.9658 C 1685.4266,1490.1022 1710.8684,1497.9498 1725.9174,1506.8425 C 1740.9665,1515.7352 1744.3256,1521.0496 1744.3256,1530.9710 C 1744.3256,1541.8700 1740.5987,1547.6321 1725.5827,1556.7730 C 1710.5668,1565.9139 1685.2218,1573.9496 1655.6924,1579.2280 C 1596.6332,1589.7849 1521.7035,1590.6180 1468.8716,1591.9159 C 1226.8066,1597.8636 1074.9745,1568.4751 826.62202,1538.0300 C 810.72005,1536.0806 788.19296,1534.1449 761.59987,1532.2489 C 788.19297,1530.3531 810.72003,1528.4173 826.62202,1526.4679 C 1059.4524,1497.9254 1207.4636,1470.3213 1424.5092,1471.8820 z M 182.57727,1566.0532 C 246.11065,1568.0552 319.46542,1570.4546 397.90796,1573.3860 C 506.12761,1577.4301 614.96584,1582.3014 699.25530,1587.1693 C 638.29691,1651.3713 548.59030,1725.0637 436.70217,1725.0637 C 320.80460,1725.0637 222.65730,1639.7874 182.57727,1566.0532 z "
+       style="color:#000000;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:60.000000;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" />
+  </g>
+</svg>

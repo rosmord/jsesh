@@ -6,9 +6,8 @@
  */
 package jsesh.mdcDisplayer.layout;
 
-import java.util.ArrayList;
-
 import java.awt.print.PageFormat;
+import java.util.ArrayList;
 
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.PageBreak;

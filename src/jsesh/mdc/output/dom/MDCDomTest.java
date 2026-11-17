@@ -14,8 +14,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.utils.MDCSyntaxError;
 
 import org.w3c.dom.Document;
 

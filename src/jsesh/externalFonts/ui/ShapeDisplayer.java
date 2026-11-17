@@ -23,10 +23,15 @@ public class ShapeDisplayer extends JComponent {
 	 */
 	private double displayHeight;
 
+	/**
+	 * The scale applied to the original shape.
+	 */
+	private double shapeScale;
 	
 	public ShapeDisplayer() {
 		shape= null;
 		displayHeight= 24;
+		shapeScale= 1.0;
 		setPreferredSize(new Dimension(100,100));
 		setBackground(Color.WHITE);		
 	}
@@ -40,11 +45,11 @@ public class ShapeDisplayer extends JComponent {
 		g2d.scale(s, s);
 		g2d.setColor(Color.BLACK);		
 		if (shape != null) {
-			g2d.translate(0, displayHeight - shape.getBbox().getHeight());
-			shape.draw(g2d, 0, 0, 1, 1, 0);
-			//g2d.draw(shape.getShape());
+			g2d.translate(0, displayHeight - shape.getBbox().getHeight()*shapeScale);
+			shape.draw(g2d, 0, 0, shapeScale, shapeScale, 0);			
 			g2d.setStroke(new BasicStroke(0.25f));
 			g2d.setColor(Color.RED);
+			g2d.scale(shapeScale, shapeScale);
 			g2d.draw(shape.getBbox());
 			//g2d.fill(shape.getShape());
 		}
@@ -85,4 +90,22 @@ public class ShapeDisplayer extends JComponent {
 		double scale= displayHeight/getHeight();
 		return displayHeight- (y*scale);
 	}
+
+	/**
+	 * gets the scaling applied to the original shape.
+	 * @return the shapeScale
+	 */
+	public double getShapeScale() {
+		return shapeScale;
+	}
+
+	/**
+	 * sets the scaling applied to the original shape.
+	 * @param shapeScale the shapeScale to set
+	 */
+	public void setShapeScale(double shapeScale) {
+		this.shapeScale = shapeScale;
+	}
+	
+	
 }

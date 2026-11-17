@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="13.048386"
+   height="11.28"
+   id="svg1774"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22T32B.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\Envoi22_SR">
+  <metadata
+     id="metadata1781">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22T32B</dc:title>
+        <dc:date>17/02/06</dc:date>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>optimisation du signe T32 de Jsesh</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1779" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="33.067377"
+     inkscape:cx="6.5241928"
+     inkscape:cy="5.6399999"
+     inkscape:window-x="66"
+     inkscape:window-y="87"
+     inkscape:current-layer="svg1774" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 11.111642 4.97422  Q 11.647326 7.300622 12.24423 6.91799  Q 12.841136 6.535358 11.111642 4.97422  Z  M 10.453514 4.698724  L 1.392781 1.04076  Q 2.571289 2.402931 4.247219 3.627353  Q 5.923146 4.851777 7.43837 5.211452  Q 8.953595 5.571126 10.453514 4.698724  Z  M 6.795548 5.831316  Q 7.239401 7.086348 6.887379 8.180679  Q 6.535358 9.275005 6.122115 9.97905  Q 6.229252 10.958589 5.632347 10.912673  Q 5.111967 10.805536 4.48445 10.958589  Q 3.856933 11.111642 3.198805 10.882063  Q 3.137584 10.575956 3.512563 10.468819  Q 3.887543 10.361682 4.430882 10.139756  Q 4.97422 9.91783 5.341547 9.649986  Q 5.708874 9.382144 5.816011 8.517395  Q 5.923146 7.652644 5.632347 5.372158  L 4.071208 4.362009  Q 1.454003 2.617205 0 0  L 11.249389 4.407923  Q 13.912507 6.458831 12.634514 7.354191  Q 11.356525 8.249551 10.637177 5.280325  Q 9.734165 5.969062 8.570964 5.999673  Q 9.060733 7.346539 8.716364 8.471478  Q 8.371995 9.596417 8.570964 9.948441  Q 8.877068 10.820841 8.188331 10.866755  Q 7.285317 11.081032 6.841464 11.211125  Q 6.39761 11.341221 6.114462 11.226432  Q 5.831316 11.111642 6.175683 10.843798  Q 6.520052 10.575956 7.094001 10.254545  Q 7.667949 9.933134 7.713866 9.045426  Q 7.759781 8.157721 7.423065 5.969062  L 6.795548 5.831316  Z "
+     id="path1776" />
+</svg>

@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-
 import jsesh.bzr.BzrFormatException;
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
@@ -19,11 +16,14 @@ public class ExternalSignImporterModel {
 	private SimpleSignSourceModel newSigns;
 
 	private ShapeChar referenceShape;
+	
+	private double shapeScale;
 
 	public ExternalSignImporterModel() {
 			HieroglyphicFontManager db= DefaultHieroglyphicFontManager.getInstance();
 			referenceShape = db.get("A1");
 			sourceDirectory= new File(".");
+			shapeScale= 1.0;
 	}
 
 	public boolean hasNext() {
@@ -52,9 +52,14 @@ public class ExternalSignImporterModel {
 	}
 
 	public void insertSign(String text) {
-			
-			DefaultHieroglyphicFontManager.getInstance().insertNewSign(text, getShapeChar());
-			
+			try {
+				ShapeChar insertedShape= (ShapeChar) getShapeChar().clone();
+				insertedShape.scaleGlyph(shapeScale);
+				DefaultHieroglyphicFontManager.getInstance().insertNewSign(text, insertedShape);
+			} catch (CloneNotSupportedException e) {
+				// Should not happen.
+				throw new RuntimeException(e);
+			}
 	}
 
 	public void previousSign() {
@@ -67,6 +72,21 @@ public class ExternalSignImporterModel {
 		if (newSigns != null) {
 			newSigns.next();
 		}
+	}
+
+	
+	/**
+	 * @return the shapeScale
+	 */
+	public double getShapeScale() {
+		return shapeScale;
+	}
+
+	/**
+	 * @param shapeScale the shapeScale to set
+	 */
+	public void setShapeScale(double shapeScale) {
+		this.shapeScale = shapeScale;
 	}
 
 	public void loadSigns(File file) throws IOException {
@@ -140,27 +160,13 @@ public class ExternalSignImporterModel {
 	}
 
 	public void flipHorizontally() {
-		Shape s = getShapeChar().getShape();
-		s = new AffineTransform(-1, 0, 0, 1, (float) getShapeChar().getBbox()
-				.getWidth(), 0).createTransformedShape(s);
-		getShapeChar().setShape(s);
+		getShapeChar().flipHorizontally();
 	}
 
 	public void flipVertically() {
-		Shape s = getShapeChar().getShape();
-		s = new AffineTransform(1, 0, 0, -1, 0, (float) getShapeChar()
-				.getBbox().getHeight()).createTransformedShape(s);
-		getShapeChar().setShape(s);
+		getShapeChar().flipVertically();
 	}
 
-	public void resizeVerticallyTo(double height) {
-		double currentHeight = getShapeChar().getBbox().getHeight();
-		double scale = height / currentHeight;
-		Shape s = AffineTransform.getScaleInstance(scale, scale)
-				.createTransformedShape(getShapeChar().getShape());
-		getShapeChar().setShape(s);
-		getShapeChar().fixShape();
-	}
 
 	/**
 	 * return the sign code proposed by the source.
@@ -187,5 +193,13 @@ public class ExternalSignImporterModel {
 		this.sourceDirectory = sourceDirectory;
 	}
 	
+	/**
+	 * Change the scale of the signs so that the current sign height is "height".
+	 * @param height
+	 */
+	public void resizeVerticallyTo(double height) {
+		double currentHeight = getShapeChar().getBbox().getHeight();
+		shapeScale= height / currentHeight;
+	}
 	
 }

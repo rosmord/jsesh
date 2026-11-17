@@ -12,10 +12,9 @@ package jsesh.hieroglyphs;
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
  */
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Set;
-
-import java.io.InputStream;
 
 import jsesh.bzr.BzrFontReader;
 import jsesh.bzr.simple.BzrSimpleFont;
@@ -434,7 +433,7 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 		set("G6", fonts['G' - 'A'].getChar(6 + 31));
 		set("G7", fonts['G' - 'A'].getChar(7 + 31));
 		set("G7A", fonts['G' - 'A'].getChar(8 + 31));
-		set("G7AA", fonts['G' - 'A'].getChar(9 + 31));
+		set("G7B", fonts['G' - 'A'].getChar(9 + 31));
 		set("G8", fonts['G' - 'A'].getChar(10 + 31));
 		set("G9", fonts['G' - 'A'].getChar(11 + 31));
 		set("G10", fonts['G' - 'A'].getChar(12 + 31));

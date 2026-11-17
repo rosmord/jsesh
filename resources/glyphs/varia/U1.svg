@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="20.008358"
+   height="17.977417"
+   id="svg1587"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22U1B.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi21_SR">
+  <metadata
+     id="metadata1594">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22U1B</dc:title>
+        <dc:date>05/02/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>KV 57 - pour s'associer avec divers signes créés le même jour</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1592" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="10.004179"
+     inkscape:cy="8.9887085"
+     inkscape:window-x="44"
+     inkscape:window-y="58"
+     inkscape:current-layer="svg1587" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 10.223003 0.549897  Q 11.0126 -0.0141 11.872696 0  Q 12.732792 0.0141 13.465988 0.549897  L 12.619992 1.677892  L 12.619992 4.751678  L 19.303362 4.751678  Q 20.769754 4.751678 19.190561 7.261467  Q 17.61137 9.771255 13.592888 12.534842  Q 9.574407 15.298429 0.917047 17.977417  Q -0.746746 17.808218 0.606848 16.708424  Q 2.750038 15.975226 4.301031 15.298429  Q 5.852024 14.621633 8.390012 13.282139  Q 10.928 11.942645 12.831491 10.532651  Q 14.734982 9.122658 16.229576 6.753869  L 10.815201 6.753869  Q 11.097199 5.315675 10.928 1.621493  L 10.223003 0.549897  Z  M 12.055995 5.484875  L 12.055995 1.395894  L 12.619992 0.831896  Q 11.830396 0.437098 11.097199 0.803696  L 11.576597 1.395894  L 11.576597 5.992472  L 17.244772 5.992472  Q 17.977968 6.048872 16.046276 8.276662  Q 14.114586 10.504452 12.337994 11.674747  Q 10.561402 12.84504 8.615611 13.944836  Q 6.66982 15.044631 1.396444 17.018621  L 1.452844 17.216021  Q 4.188231 16.341825 7.981114 14.734432  Q 11.773996 13.127039 14.142785 11.265848  Q 16.511574 9.404656 17.836967 7.628065  Q 19.162363 5.851473 18.964964 5.456675  L 12.055995 5.484875  Z "
+     id="path1589" />
+</svg>

@@ -1,12 +1,10 @@
 package jsesh.graphics.wmfexport;
 
-import java.util.ArrayList;
-
-import java.io.IOException;
-import java.io.RandomAccessFile;
-
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 import jsesh.graphics.generic.RandomAccessFileAdapter;
 import jsesh.graphics.generic.RandomAccessStream;

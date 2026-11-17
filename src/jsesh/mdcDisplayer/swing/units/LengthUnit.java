@@ -7,6 +7,7 @@ package jsesh.mdcDisplayer.swing.units;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 
 
 /**
@@ -60,9 +61,19 @@ public class LengthUnit {
 		return pointsValue;
 	}
 	
-	/*
+	/**
 	 * Configure a combobox to display units.
-	 * @param combobox
+	 * 
+	 * Note that the fields containing lengths should be attached to this combobox using 
+	 * the method UnitMaintainter.linkUnitsToValueField.
+	 * 
+	 * <p> We could have used a custom type extending JCombobox for this. But It would have 
+	 * required more configuration for our GUI generator.
+	 * 
+	 * @param combobox the JCombobox
+	 * @param unit the initial value to display.
+	 * 
+	 * @see UnitMaintainter#linkUnitsToValueField(JComboBox, JFormattedTextField)
 	 */
 	static public void attachToCombobox(JComboBox combobox, LengthUnit unit) {
 		combobox.setModel(new DefaultComboBoxModel(LengthUnit.UNITS));

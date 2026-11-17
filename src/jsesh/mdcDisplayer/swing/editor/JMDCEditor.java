@@ -12,8 +12,6 @@
 
 package jsesh.mdcDisplayer.swing.editor;
 
-import java.io.IOException;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -26,25 +24,26 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.ListOfTopItems;
 import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
-import jsesh.mdcDisplayer.draw.MDCCaret;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
+import jsesh.mdcDisplayer.secondaryData.MDCCaret;
 import jsesh.swingUtils.GraphicsUtils;
 
 /**
@@ -57,6 +56,11 @@ import jsesh.swingUtils.GraphicsUtils;
  */
 
 public class JMDCEditor extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5312716856062578743L;
 
 	private JMDCModelEditionListener mdcModelEditionListener;
 
@@ -269,7 +273,7 @@ public class JMDCEditor extends JPanel {
 		workflow.setMark(pos);
 	}
 
-	public void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
 		// boolean canDraw= true;
@@ -562,6 +566,26 @@ public class JMDCEditor extends JPanel {
 	public void setMdcModelTransferableBroker(
 			MDCModelTransferableBroker mdcModelTransferableBroker) {
 		this.mdcModelTransferableBroker = mdcModelTransferableBroker;
+	}
+
+	public void clearText() {
+		try {
+			getWorkflow().setMDCCode("");
+		} catch (MDCSyntaxError e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setMDCText(String mdcText)  {
+		try {
+			getWorkflow().setMDCCode(mdcText);
+		} catch (MDCSyntaxError e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public String getMDCText() {
+		return getWorkflow().getMDCCode();
 	}
 	
 }

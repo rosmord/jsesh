@@ -659,6 +659,7 @@ public class SimpleElementDrawer extends ElementDrawer {
 		case SymbolCodes.REDPOINT: {
 			Color col = g.getColor();
 			g.setColor(drawingSpecifications.getRedColor());
+			g.scale(drawingSpecifications.getSignScale(), drawingSpecifications.getSignScale());
 			drawingSpecifications.getHieroglyphsDrawer().draw(g, h.getCode(),
 					0, currentView);
 			g.setColor(col);
@@ -683,8 +684,6 @@ public class SimpleElementDrawer extends ElementDrawer {
 			break;
 		// NOTE : Obviously, it would be better to create some kind of "symbol"
 		// class for signs which are not hieroglyphs.
-		case SymbolCodes.BEGINERASE:
-		case SymbolCodes.ENDERASE:
 		case SymbolCodes.BEGINEDITORADDITION:
 		case SymbolCodes.ENDEDITORADDITION:
 		case SymbolCodes.BEGINEDITORSUPERFLUOUS:
@@ -698,8 +697,17 @@ public class SimpleElementDrawer extends ElementDrawer {
 			g.drawString(txt, 0, g.getFontMetrics().getAscent());
 		}
 			break;
+			// CLEAN THIS PART. ALL SYMBOLS SHOULD BE DRAWN REALLY AS SIGNS.
+		case SymbolCodes.BEGINERASE:
+		case SymbolCodes.ENDERASE:			
 		default:
-			String c = h.getCode();
+			String c;
+			if (h.getType() == SymbolCodes.BEGINERASE)
+				c= "BEGINERASE";
+			else if (h.getType() == SymbolCodes.ENDERASE)
+				c= "ENDERASE";
+			else
+				c = h.getCode();
 			// g.setStroke(drawingSpecifications.getNullStroke());
 			// The operator below is xor.
 			boolean reversed = (h.isReversed() ^ currentTextDirection
@@ -715,14 +723,18 @@ public class SimpleElementDrawer extends ElementDrawer {
 			if (h.getModifiers().isFillX()) {
 			}
 			if (drawingSpecifications.getHieroglyphsDrawer().isKnown(c)) {
+				g.scale(drawingSpecifications.getSignScale(), drawingSpecifications.getSignScale());
 				drawingSpecifications.getHieroglyphsDrawer().draw(g, c,
 						h.getAngle(), currentView);
+				g.scale(1/drawingSpecifications.getSignScale(), 1/drawingSpecifications.getSignScale());
 			} else {
 				g.setFont(drawingSpecifications.getSuperScriptFont());
-
+				Color color= g.getColor();
+				g.setColor(drawingSpecifications.getRedColor());
 				Dimension2D r = drawingSpecifications
 						.getSuperScriptDimensions(c);
 				g.drawString(c, 0, (float) r.getHeight());
+				g.setColor(color);
 			}
 			break;
 
@@ -934,4 +946,5 @@ public class SimpleElementDrawer extends ElementDrawer {
 	public void visitOptionList(OptionsMap list) {
 
 	}
+	
 }

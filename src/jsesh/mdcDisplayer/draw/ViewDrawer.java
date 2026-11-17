@@ -22,6 +22,7 @@ import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
+import jsesh.mdcDisplayer.secondaryData.MDCCaret;
 
 /**
  * Knows how to draw a view and its subviews.

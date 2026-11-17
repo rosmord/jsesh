@@ -92,11 +92,6 @@ public class ExternalSignImporterUI {
 	}
 
 	private JPanel build() {
-		/*
-		 * JPanel panel= new JPanel(); panel.setLayout(new
-		 * BoxLayout(panel,BoxLayout.Y_AXIS)); panel.add(importButton);
-		 * panel.add(importedSignDisplay); return panel;
-		 */
 		mainPanel = new JPanel();
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				buildDisplayPanel(), buildFormPanel());
@@ -280,11 +275,9 @@ public class ExternalSignImporterUI {
 	private class ResizerListener extends MouseAdapter implements
 			MouseMotionListener {
 
-		//private boolean resizing = false;
 
 		public void mouseClicked(MouseEvent e) {
 			if (importedSignDisplay.inResizeArea(e.getX(), e.getY())) {
-				//resizing = true;
 			}
 		}
 

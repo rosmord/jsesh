@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17.0187"
+   height="2.4"
+   id="svg1340"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22R22.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\transmis à Serge Rosmorduc\envoi13_SR">
+  <metadata
+     id="metadata1347">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22R22</dc:title>
+        <dc:date>7/01/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier>US22</dc:identifier>
+        <dc:description>optimisation de R22</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1345" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="42.306405"
+     inkscape:cx="8.5093498"
+     inkscape:cy="1.2"
+     inkscape:window-x="132"
+     inkscape:window-y="174"
+     inkscape:current-layer="svg1340" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 8.504706 0.671398  C 8.774627 0.671398 9.01143 0.879098 9.01143 1.149031  C 9.040527 1.558117 8.703559 1.671106 8.514843 1.671184  L 8.514702 1.671184  C 8.230057 1.671184 7.957129 1.29553 8.055277 1.050176  C 8.128894 0.817052 8.259306 0.671398 8.504706 0.671398  Z  M 5.095941 0.575629  C 5.882546 0.575629 6.470063 0.641607 6.466164 0.793129  C 6.458584 1.08776 6.466441 1.290328 6.466441 1.437562  C 6.466441 1.698085 5.576768 1.810161 4.523655 1.810161  C 2.996363 1.810161 1.125339 1.574437 1.125865 1.213948  C 1.139949 0.841016 3.518328 0.575629 5.095941 0.575629  Z  M 11.922769 0.575629  C 13.500362 0.575629 15.878753 0.841016 15.892837 1.213948  C 15.893365 1.574437 14.022327 1.810161 12.495036 1.810161  C 11.441936 1.810161 10.552261 1.698085 10.552261 1.437562  C 10.552261 1.290328 10.560119 1.08776 10.55254 0.793129  C 10.548637 0.641607 11.13616 0.575629 11.922769 0.575629  Z  M 8.568442 0.099994  C 8.544819 0.099994 8.520709 0.100569 8.496104 0.10174  C 7.715628 0.139528 7.452659 0.79813 7.467208 1.201268  C 7.49381 1.938512 8.203175 2.263894 8.489268 2.267845  C 8.496056 2.267944 8.502801 2.267992 8.509522 2.267992  C 9.273501 2.267992 9.58436 1.633053 9.596519 1.223531  C 9.622584 0.795869 9.390673 0.099994 8.568442 0.099994  Z  M 6.035699 0  C 2.808746 0 1.578841 0.079337 0.243833 0.794235  C -0.094744 0.946225 -0.111492 1.456518 0.374874 1.71252  C 1.157867 2.225538 1.884718 2.4 4.305334 2.4  C 5.032353 2.4 5.91216 2.384262 6.992163 2.357233  C 7.457876 2.345577 7.383356 2.276928 7.294373 1.808686  C 7.075174 1.666757 7.046641 0.966402 7.220476 0.626112  C 7.400179 0.274342 7.14713 0.148977 7.036704 0.001742  C 6.682823 0.000752 6.349797 0 6.035699 0  Z  M 10.983 0  C 10.668899 0 10.335875 0.000752 9.981995 0.001742  C 9.871569 0.148977 9.61853 0.274342 9.798231 0.626112  C 9.972067 0.966403 9.943533 1.666757 9.724333 1.808686  C 9.635347 2.276928 9.560833 2.345577 10.026541 2.357233  C 11.106548 2.384262 11.986349 2.4 12.713351 2.4  C 15.133973 2.4 15.860831 2.225538 16.643835 1.71252  C 17.13019 1.456518 17.113443 0.946225 16.77487 0.794235  C 15.439853 0.079337 14.209946 0 10.983 0  Z "
+     id="path1342" />
+</svg>

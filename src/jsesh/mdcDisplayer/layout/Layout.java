@@ -16,7 +16,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
  * 
  * <p> An actual base for implementation can be found in the SimpleLayout class. 
  * 
- * @see jsesh.mdcDisplayer.layout.ViewBuilder
+ * @see jsesh.mdcDisplayer.mdcView.ViewBuilder
  * @see jsesh.mdcDisplayer.layout.SimpleLayout
  * (c) Serge Rosmorduc
  * @author Serge Rosmorduc

@@ -6,7 +6,7 @@
 package jsesh.mdcDisplayer.swing.editor;
 
 import jsesh.mdc.model.operations.ModelOperation;
-import jsesh.mdcDisplayer.draw.MDCCaret;
+import jsesh.mdcDisplayer.secondaryData.MDCCaret;
 
 /**
  * @author S. Rosmorduc

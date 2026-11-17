@@ -1,17 +1,18 @@
-/*
- * Created on 29 nov. 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package jsesh;
 
 /**
+ * Encapsulate the version number.
+ * <p>We used to have the version as a public constant,
+ * but the java compiler did too smart optimisations: it included 
+ * the constant in files which used it, and the ant depend target
+ * did not understand this, and did not recompile the relevant files
+ * (mainly MDCDisplayerAppli).
  * @author rosmord
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class Version {
-	public static final String VERSION="2.2alpha1";
+	private static final String VERSION="2.3.6";
+	
+	public static String getVersion() {
+		return VERSION;
+	}
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="14.79709"
+   height="17.977417"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="S47.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/SThomasDetail/FullFont/S">
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     inkscape:window-height="583"
+     inkscape:window-width="1009"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="16"
+     inkscape:cx="13.219726"
+     inkscape:cy="13.430863"
+     inkscape:window-x="137"
+     inkscape:window-y="169"
+     inkscape:current-layer="svg2" />
+  <path
+     style="fill:#000000; stroke:none"
+     d="M 10.321779,0 C 10.791528,0.050783333 11.026403,0.272962 11.026403,0.666536 L 11.026403,0.704623 C 11.026403,0.83158233 10.823268,1.333071 10.416999,2.209089 C 10.201168,2.7296217 9.9783521,3.5564683 9.7791811,4.7514967 C 9.4175257,7.278575 8.1174442,9.3890055 6.627268,11.331105 L 14.492388,11.331105 L 14.492388,11.997641 L 8.531655,11.997641 L 8.531655,17.977417 L 7.922252,17.977417 L 7.922252,15.901635 L 4.932364,11.997641 L 0,11.997641 L 0,11.331105 L 6.322566,11.331105 C 6.005658,11.155312 5.3837227,10.957956 5.465592,10.56935 C 5.5590167,10.125894 5.9548216,9.8791868 5.922645,9.73142 C 5.8227853,9.2728275 5.7482558,9.5180115 5.256109,9.845683 C 4.8179993,9.3110438 4.4750082,8.8001842 3.656424,8.741138 C 3.656424,8.0555587 3.94843,7.1668447 4.532442,6.074996 C 4.9767987,5.2751533 5.7194537,4.3215016 6.817707,3.275546 C 7.319139,2.7979916 7.8235494,2.5600365 8.131734,2.304309 C 9.0169661,1.5697551 9.4457613,0.914106 9.560024,0.533228 C 9.661592,0.17774267 9.9155103,0 10.321779,0 z M 4.322959,8.11269 C 4.6697926,8.5039183 5.1817966,8.7699012 5.617943,9.064884 C 5.617943,9.064884 5.7915041,9.0030944 5.99882,9.04584 C 6.2533185,9.0983139 6.3855131,9.1796911 6.398742,9.445762 C 6.4189619,9.8524415 6.1448706,10.175644 6.017864,10.531262 C 6.017864,10.683613 6.132617,10.616235 6.424623,10.641626 C 6.8181963,10.400404 7.0397969,10.119579 7.3227317,9.6141029 C 8.3787814,7.7274216 9.122575,6.0791691 9.48385,3.955248 C 9.643056,3.0192823 10.055166,1.8536033 10.397955,1.142632 C 10.563722,0.84314886 10.567089,0.52312322 10.416999,0.514185 C 9.9160751,0.48435375 9.8648524,1.1045476 9.617156,1.409247 C 8.9981313,2.1707292 8.377398,2.7931603 7.731813,3.199371 C 7.2474613,3.5041316 6.4749173,4.234088 5.484636,5.50368 C 4.7101847,6.6844 4.322959,7.55407 4.322959,8.11269 z M 5.865513,11.997641 L 5.865513,12.035728 L 7.922252,14.873265 L 7.922252,11.997641 L 5.865513,11.997641 z "
+     id="path4"
+     sodipodi:nodetypes="ccccccccccccccccsscccssscccssccsscsssccccccc" />
+</svg>

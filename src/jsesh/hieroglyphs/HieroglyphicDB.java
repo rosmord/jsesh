@@ -4,11 +4,8 @@
 
 package jsesh.hieroglyphs;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
-
+import java.awt.geom.GeneralPath;
+import java.awt.geom.PathIterator;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
@@ -18,9 +15,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import java.awt.geom.GeneralPath;
-import java.awt.geom.PathIterator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 import jsesh.bzr.simple.ShapeChar;
 
@@ -278,7 +276,8 @@ public class HieroglyphicDB implements HieroglyphicFontManager {
 		}
 		ShapeChar result = new ShapeChar();
 		result.setShape(path);
-		result.setBbox(path.getBounds2D());
+		//result.setBbox(path.getBounds2D());
+		//result.fixShape();
 		return result;
 	}
 

@@ -1,16 +1,15 @@
 package jsesh.mdcDisplayer.swing.editor;
 
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.List;
 import java.util.Observable;
 
-import java.io.Reader;
-import java.io.StringReader;
-
 import jsesh.mdc.MDCParserModelGenerator;
+import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.ModelElementObserver;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
-import jsesh.mdc.utils.MDCSyntaxError;
 
 /**
  * The model of a hieroglyphic text.

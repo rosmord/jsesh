@@ -5,7 +5,7 @@
 package jsesh.mdcDisplayer.swing.editor;
 
 import jsesh.mdc.model.operations.ModelOperation;
-import jsesh.mdcDisplayer.draw.MDCCaretChangeListener;
+import jsesh.mdcDisplayer.secondaryData.MDCCaretChangeListener;
 
 /**
  * MDC editing listeners are warned about any change in the process of editing a hieroglyphic text.

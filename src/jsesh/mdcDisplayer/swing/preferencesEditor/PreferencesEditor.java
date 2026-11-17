@@ -34,7 +34,7 @@ public class PreferencesEditor {
 				new FontChooserPresenter("Fonts selection"),
 				new RTFPreferencesPresenter("Export Preferences (large size)", facade.getRTFPreference(0)),
 				new RTFPreferencesPresenter("Export Preferences (small size)", facade.getRTFPreference(1)),
-				//new DrawingSpecificationsPresenter("Drawing preferences")
+				new DrawingSpecificationsPresenter("Drawing preferences")
 		};
 		
 		for (int i= 0; i < formPresenters.length; i++) {

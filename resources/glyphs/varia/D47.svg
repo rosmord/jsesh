@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="20.080721"
+   height="7.2"
+   id="svg1480"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22D47.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi26_SR">
+  <metadata
+     id="metadata1487">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22D47</dc:title>
+        <dc:date>17/04/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>pour rendre le signe : D47 de la classification de Bob Richmond</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1485" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="35.855286"
+     inkscape:cx="10.04036"
+     inkscape:cy="3.5999999"
+     inkscape:window-x="44"
+     inkscape:window-y="58"
+     inkscape:current-layer="svg1480" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 20.080721 2.588138  L 15.357984 2.588138  Q 12.638014 0.815421 11.677229 0.598905  Q 10.716442 0.38239 9.613569 0.524478  Q 8.510694 0.666566 7.461948 0.186173  Q 6.413203 -0.29422 6.0546 0.463583  Q 5.695997 1.221386 6.203454 1.810037  Q 6.710912 2.398687 9.085812 2.804653  Q 11.460711 3.210619 11.196836 3.921059  Q 10.932957 4.6315 7.340159 4.320259  Q 3.747361 4.009018 1.568677 3.183555  Q 0.296651 2.939975 0.032773 3.975188  Q -0.231105 5.010401 1.629572 5.984719  Q 3.490249 6.959037 7.99647 7.182318  Q 12.502692 7.4056 15.357984 5.010401  L 20.080721 5.010401  L 20.080721 2.588138  Z  M 19.160534 3.386538  L 19.160534 4.279662  L 15.209131 4.279662  Q 11.744889 6.85078 7.157475 6.32979  Q 2.57006 5.808801 1.507783 4.922443  Q 0.445505 4.036084 1.595742 3.981954  Q 3.61204 4.766821 6.007238 5.010401  Q 8.402436 5.25398 10.208983 5.179554  Q 12.015532 5.105126 12.150855 3.907527  Q 12.286176 2.709928 10.716442 2.385155  Q 9.146708 2.060383 8.043834 1.837101  Q 6.940959 1.61382 6.866532 1.140193  Q 6.792105 0.666566 7.664932 0.998105  Q 8.537758 1.329644 9.978936 1.241685  Q 11.420115 1.153725 12.617715 1.810037  Q 13.815315 2.466348 15.209131 3.386538  L 19.160534 3.386538  Z "
+     id="path1482" />
+</svg>

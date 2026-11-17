@@ -193,6 +193,10 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 		return (ModifiersList) getChildAt(0);
 	}
 
+	/**
+	 * Return the scale (as an integer percentage) of this sign.
+	 * @return
+	 */
 	public int getRelativeSize()
 	{
 		return getModifiers().getScale();
@@ -328,5 +332,13 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 			result+= " [" + getX() + "," + getY() + ", "+ getRelativeSize() + "%]";
 		result+= ")";
 		return result;
+	}
+	
+	public boolean containsOnlyOneSign() {
+		return true;
+	}
+	
+	public Hieroglyph getLoneSign() {
+		return this;
 	}
 } // end Hieroglyph

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800"
+   height="1800"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   version="1.0"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Ramessides/Fontes"
+   sodipodi:docname="M1A.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.14809444"
+     inkscape:cx="1360.5208"
+     inkscape:cy="1682.6576"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     width="1800px"
+     height="1800px"
+     inkscape:window-width="1280"
+     inkscape:window-height="959"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/2.5/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/2.5/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="gfhfg">
+    <path
+       style="fill:black;fill-opacity:1;stroke:none;stroke-width:60;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 929.71875,3.6875 C 880.31913,3.6875003 838.40646,33.887093 802.90625,74.6875 C 691.88781,214.74846 636.74559,393.81432 575.03125,559.3125 C 516.01725,733.13411 439.86504,925.52171 437.125,1111 C 472.74681,1267.8911 658.26887,1258.7495 740.625,1377.9062 C 750.41506,1407.7407 755.30956,1440.7058 756.96875,1475.3125 C 731.49106,1475.617 707.40677,1475.9419 686.59375,1476.3125 C 540.88219,1482.6251 396.3934,1440.7184 250.90625,1456.7812 C 221.24205,1469.6774 209.19212,1507.1731 192.71875,1534.4062 C 229.92146,1528.8952 243.11679,1502.1614 288.15625,1503.3125 C 371.2501,1504.8104 453.65313,1517.476 536.28125,1525.75 C 482.87382,1619.4997 336.92744,1648.9042 240.6875,1641.9062 C 149.3647,1635.2658 119.52138,1525.0957 95.90625,1447.3438 L 94.8125,1447.625 C 78.838564,1451.4023 62.833541,1455.0994 46.84375,1458.8125 C 65.388644,1577.8976 119.17833,1681.9437 243.25,1708.8438 C 395.60178,1733.53 531.75574,1671.5219 633.8125,1560.6562 C 669.78647,1552.8575 717.92844,1557.0316 755.8125,1556.7188 C 750.23632,1642.7221 733.38425,1731.6391 726.96875,1803.75 L 1132.4375,1803.75 C 1126.8091,1729.5894 1109.3979,1640.9976 1103.6875,1554.9688 C 1140.2224,1550.9975 1375.9081,1556.2348 1366.5938,1567.8125 C 1329.8619,1612.1003 1293.9259,1657.1468 1255.9375,1700.2188 C 1281.6088,1715.6553 1307.2791,1731.097 1332.9688,1746.5 C 1374.7745,1702.6048 1406.5261,1646.7708 1457.7812,1613.875 C 1518.2925,1585.1199 1586.7582,1588.3537 1652.1875,1582.1875 C 1652.1875,1545.3778 1652.1875,1508.5597 1652.1875,1471.75 C 1527.1403,1472.11 1309.2985,1472.245 1102.5938,1473 C 1104.3216,1439.6129 1109.2185,1407.5509 1118.7812,1377.9062 C 1192.5837,1263.9574 1398.2791,1260.5472 1422.2812,1111 C 1414.528,924.84151 1348.6807,733.17569 1284.375,559.3125 C 1219.9432,393.46345 1169.4386,215.64089 1056.5,74.6875 C 1020.9998,33.887095 979.11839,3.6874997 929.71875,3.6875 z M 929.71875,63.6875 C 953.79919,63.6875 981.57919,79.993095 1011.25,114.09375 C 1116.4827,249.31823 1169.0391,422.04081 1228.3438,580.8125 C 1284.2486,746.34692 1357.9486,931.4078 1362.375,1107.8438 C 1301.8338,1228.0648 1137.7842,1236.4614 1063.9062,1353.7188 C 1049.5482,1392.9121 1043.1742,1432.904 1041.7188,1473.25 C 961.16046,1473.6 884.44207,1474.0687 817.0625,1474.6875 C 815.53236,1434.9643 809.30538,1394.8895 795.53125,1353.7188 C 742.38537,1222.7545 546.67703,1236.234 497.03125,1107.8438 C 507.4492,929.49972 569.4039,747.57383 631.0625,580.8125 C 694.12789,422.21457 739.94951,249.66116 848.15625,114.09375 C 877.82706,79.993093 905.63833,63.6875 929.71875,63.6875 z M 1044.5312,1555.0938 C 1049.9959,1614.1658 1061.4442,1673.4162 1069.4375,1731.5625 L 789.96875,1731.5625 C 798.20046,1671.3842 809.24017,1613.6888 814.46875,1556.2812 C 884.5462,1555.7762 965.13527,1555.3109 1044.5312,1555.0938 z "
+       id="path1911"
+       sodipodi:nodetypes="cccccccccccscccscccccccccccccccccccccccccccccccccc" />
+  </g>
+</svg>

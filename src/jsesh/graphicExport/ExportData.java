@@ -10,12 +10,13 @@ package jsesh.graphicExport;
 
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.draw.MDCCaret;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
+import jsesh.mdcDisplayer.secondaryData.MDCCaret;
 
 /**
  * Data needed for text exportation.
  * 
+ * Note that there is currently a small logical bug. It should be possible to state that we are not interested in a range of text.
  * @author rosmord
  */
 public class ExportData {
@@ -37,6 +38,30 @@ public class ExportData {
 	public ExportData(DrawingSpecifications drawingSpecifications,
 			MDCPosition start, MDCPosition end, TopItemList data, double scale) {
 		super();
+		init(drawingSpecifications, start, end, data, scale);
+
+	}
+
+	/**
+	 * @param drawingSpecifications
+	 * @param caretProvider
+	 * @param data
+	 */
+	public ExportData(DrawingSpecifications drawingSpecifications,
+			MDCCaret caret, TopItemList data, double scale) {	
+		MDCPosition start;
+		MDCPosition end;
+		if (caret.getMark() == null) {
+			start= new MDCPosition(data,0);
+			end= new MDCPosition(data, data.getNumberOfChildren());
+		} else {
+			start= caret.getInsert().getPosition();
+			end= caret.getMark().getPosition();
+		}
+		init(drawingSpecifications, start, end, data, scale);
+	}
+	
+	private void init(DrawingSpecifications drawingSpecifications, MDCPosition start, MDCPosition end, TopItemList data, double scale) {
 		this.drawingSpecifications = drawingSpecifications;
 		this.topItemList = data;
 		this.scale = scale;
@@ -48,19 +73,9 @@ public class ExportData {
 			this.start = start;
 			this.end = end;
 		}
-
 	}
 
-	/**
-	 * @param drawingSpecifications
-	 * @param caretProvider
-	 * @param data
-	 */
-	public ExportData(DrawingSpecifications drawingSpecifications,
-			MDCCaret caret, TopItemList data, double scale) {
-		this(drawingSpecifications, caret.getInsert().getPosition(), caret
-				.getMark().getPosition(), data, scale);
-	}
+
 
 	public TopItemList getTopItemList() {
 		return topItemList;

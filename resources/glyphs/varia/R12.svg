@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="14.834715"
+   height="10.08"
+   id="svg1324"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22R12C.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\transmis à Serge Rosmorduc\envoi13_SR">
+  <metadata
+     id="metadata1331">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22R12C</dc:title>
+        <dc:date>7/12/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier>US22</dc:identifier>
+        <dc:description>optimisation définitive du porte-enseigne que j'utiliserai pour tous les autres signes combinés</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1329" />
+  <sodipodi:namedview
+     inkscape:window-height="708"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="37.003969"
+     inkscape:cx="7.4173574"
+     inkscape:cy="5.04"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:current-layer="svg1324" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 14.834715 2.250566  L 9.446037 2.250566  L 9.446037 10.08  L 8.764527 10.08  L 8.764527 6.418867  L 5.89585 2.250566  L 4.02566 2.250566  L 3.391696 3.455094  L 1.283773 3.455094  L 0.633962 2.250566  L 0 2.250566  L 0 1.569056  Q 0.047547 0.142641 1.458113 0  Q 2.85283 0.142641 2.963772 1.569056  L 14.834715 1.569056  L 14.834715 2.250566  Z  M 8.780375 2.250566  L 6.719999 2.250566  L 8.780375 5.246037  L 8.780375 2.250566  Z  M 2.298113 1.569056  Q 2.266415 0.744906 1.458113 0.633962  Q 0.633962 0.744906 0.633962 1.569056  L 2.298113 1.569056  Z  M 3.391696 2.250566  L 1.283773 2.250566  L 1.584905 2.805282  L 3.074717 2.805282  L 3.391696 2.250566  Z "
+     id="path1326" />
+</svg>

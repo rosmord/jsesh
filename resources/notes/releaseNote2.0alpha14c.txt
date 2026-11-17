@@ -1,0 +1,3 @@
+Mostly small bug correction. Improvement of SVG import.
+
+

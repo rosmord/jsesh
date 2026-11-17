@@ -1,6 +1,6 @@
 /*
  * This file is distributed according to the GNU Lesser Public Licence.
- * Created on 23 déc. 2004
+ * Created on 23 dec. 2004
  *
  */
 package jsesh.mdcDisplayer.layout;
@@ -57,7 +57,7 @@ public class LineLayout extends TopItemLayout {
 	 * the position that will be used to place the current zone
 	 */
 
-	private Point2D.Double zoneStart;
+	private Point2D.Double zoneOriginPosition;
 
 	private DrawingSpecifications drawingSpecifications;
 
@@ -141,7 +141,7 @@ public class LineLayout extends TopItemLayout {
 		documentView.setDirection(currentTextDirection);
 		insertionPoint.setLocation(0f, 0f);
 		zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
-		zoneStart = new Point2D.Double();
+		zoneOriginPosition = new Point2D.Double();
 	}
 
 	/**
@@ -157,34 +157,44 @@ public class LineLayout extends TopItemLayout {
 	 * <em>updates insertionPoint and documentArea.</em>
 	 */
 	private void flushZone() {
-		// Normally, the zone upper left point is (0,0). It can change if the
-		// zone
-		// is highter than expected. Correct this position :
 
+		// We are supposed to add a new line to the text.
+		// In the line coord. system, 0,0 is supposed to be the upper left
+		// point.
+		// However, some large signs (cartouches, for instance) can be highter
+		// than expected,
+		// which causes the minimal y values to be negative.
+
+		// Now, we don't want this to cause problems, such as very small line
+		// skips, or, worse
+		// parts of cartouches being cut.
+
+		// Compute the margins we want.
 		float marginx = 0f, marginy = 0f;
 
 		if (addTopMargin) {
 			marginy = drawingSpecifications.getTopMargin();
 		}
-		
+
 		marginx = drawingSpecifications.getLeftMargin();
 
-		zoneStart.y= zoneStart.y + marginy  -zone.getMinY();
-		zoneStart.x= marginx -zone.getMinX();
+		// change the zoneStart for this zone, so that the real top
+		// of the zone is separated from the previous line by at least margin.
+		double minx = zone.getMinX();
+		double miny = zone.getMinY();
 
-		// update the zone
-		
-		zone.translateBy(zoneStart);
-		
-		
-		// flush the zone
-		// (move part of this to zone ?
-		documentArea.add(new Rectangle2D.Double(zoneStart.x
-		/* + zone.getMinX() */, zoneStart.y
-		/* + zone.getMinY() */, zone.getWidth(), zone.getHeight()));
+		zoneOriginPosition.y = zoneOriginPosition.y + marginy - miny;
+		zoneOriginPosition.x = marginx - minx;
 
-		// zone.getLastPoint().translate(documentView,subView,insertionPoint);
-		// IMPROVE THE ZONE HANDLING. ZONES
+		// fix the coordinates of the views in the zone to their final value.
+
+		zone.translateBy(zoneOriginPosition);
+
+		// flush the zone. Add it to the current document area.
+		
+		documentArea.add(new Rectangle2D.Double(zoneOriginPosition.x + minx, zoneOriginPosition.y
+				+ miny, zone.getWidth(), zone.getHeight()));
+
 	}
 
 	/**
@@ -222,7 +232,7 @@ public class LineLayout extends TopItemLayout {
 			// zone).
 			// that is : this line's height, plus the necessary skip, plus extra
 			// spacing for -!=...% notation.
-			double verticalSkip =  (zone.getHeight() + zone.getMinY() + drawingSpecifications
+			double verticalSkip = (zone.getHeight() + zone.getMinY() + drawingSpecifications
 					.getLineSkip());
 			if (b.getSpacing() != 100)
 				verticalSkip = verticalSkip * b.getSpacing() / 100f;
@@ -234,7 +244,7 @@ public class LineLayout extends TopItemLayout {
 
 			// create a new zone.
 			zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
-			zoneStart.y+= verticalSkip;
+			zoneOriginPosition.y += verticalSkip;
 			// Next view position is computed relatively to the zone (SOLVE
 			// THIS.)
 			// nextViewPosition = new RelativePosition(0, RelativePosition.WEST,
@@ -256,7 +266,7 @@ public class LineLayout extends TopItemLayout {
 
 			// build a zone containing only the page break.
 			zone = new Zone(0f, 0f);
-			zoneStart.y+= drawingSpecifications.getLineSkip() + dh;
+			zoneOriginPosition.y += drawingSpecifications.getLineSkip() + dh;
 
 			subView.setWidth(32f);
 			subView.setHeight(drawingSpecifications.getLineSkip());

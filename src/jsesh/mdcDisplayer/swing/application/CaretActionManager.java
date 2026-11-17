@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.Action;
 
-import jsesh.mdcDisplayer.draw.MDCCaret;
+import jsesh.mdcDisplayer.secondaryData.MDCCaret;
 import jsesh.mdcDisplayer.swing.editor.JMDCEditorWorkflow;
 import jsesh.mdcDisplayer.swing.editor.MDCModelEditionAdapter;
 

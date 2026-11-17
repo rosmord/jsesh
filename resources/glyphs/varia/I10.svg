@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800.000000px"
+   height="1800.000000px"
+   id="svg1290"
+   sodipodi:version="0.32"
+   inkscape:version="0.41.1"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Ramessides/Fontes"
+   sodipodi:docname="I10.svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.43555556"
+     inkscape:cx="900.00000"
+     inkscape:cy="914.36939"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1273"
+     inkscape:window-height="944"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           id="license1300"
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/" />
+        <dc:subject
+           id="subject1316">
+          <rdf:Bag
+             id="Bag1318">
+            <rdf:li
+               id="li1350">JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator
+           id="creator2069">
+          <cc:Agent
+             id="Agent2071">
+            <dc:title
+               id="title2073">Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/2.0/"
+         id="License1302">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction"
+           id="permits1304" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution"
+           id="permits1306" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice"
+           id="requires1308" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution"
+           id="requires1310" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks"
+           id="permits1312" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike"
+           id="requires1314" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     style="display:inline"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:nodetypes="cssssssssssssssscssscssssscsssssssscsss"
+       id="path2070"
+       d="M 190.72343,-1.6446609 C 137.94534,0.92654220 84.888353,17.150153 39.191234,43.715965 C -8.5314419,71.459325 29.807294,125.24363 62.100679,148.97706 C 97.570426,175.04489 138.25716,199.10534 184.76182,188.85627 C 215.07286,182.17609 282.25967,166.07812 285.03472,187.31453 C 293.49341,252.04574 224.50159,330.58790 252.33352,405.38709 C 275.15494,466.72038 327.39450,522.40538 397.23390,527.44137 C 589.11641,541.27764 779.37910,505.09355 970.80503,501.80958 C 1289.2950,496.38465 1448.9439,661.06378 1484.8727,762.72507 C 1519.1105,859.60178 1543.8081,961.07794 1535.1392,1064.2257 C 1524.7088,1188.3343 1506.4656,1313.5545 1516.6307,1437.7253 C 1525.5972,1547.2554 1563.6453,1653.4924 1589.6317,1759.7325 C 1602.3362,1811.6725 1665.4824,1809.2649 1663.2063,1752.4933 C 1657.8095,1615.6157 1626.3080,1498.6453 1629.9233,1372.3860 C 1633.0305,1263.8737 1660.8203,1159.4129 1667.2193,1050.5755 C 1674.6387,924.37965 1709.7653,499.34714 1365.5183,375.61411 C 1105.4005,282.11973 661.93944,367.58887 379.76820,336.78744 C 398.73407,269.24430 435.01136,210.35226 426.56575,139.91613 C 419.89160,84.253856 359.03565,63.429574 312.74175,50.785258 C 268.36569,38.664764 238.64651,-3.9793416 190.72343,-1.6446609 z M 190.72343,56.888285 C 227.07915,65.260353 255.75055,95.861033 293.52543,106.38613 C 325.31309,115.24303 377.52075,127.04759 366.61507,173.57476 C 352.06231,235.66164 310.31411,295.75278 323.40074,360.73350 C 332.95250,408.16212 393.07318,405.10751 430.92271,404.81028 C 1062.5607,399.85002 1350.7371,337.73958 1511.1707,554.76837 C 1676.4482,778.34983 1619.8813,1001.9886 1578.7684,1284.2915 C 1590.2754,1117.7194 1645.5249,855.32483 1474.2875,628.70217 C 1401.9421,532.95730 1279.3084,492.73692 1166.4646,464.27221 C 966.63357,413.86512 506.83743,490.11626 381.92695,466.18716 C 333.91541,456.98959 299.65911,397.84496 303.88229,348.78661 C 309.48269,283.72981 360.77954,223.33655 341.52750,157.64020 C 326.83602,107.50646 262.34833,124.01638 222.16994,126.06153 C 180.17635,128.19908 139.93648,139.26943 102.44547,106.27301 C 59.724617,68.673727 184.43655,55.440529 190.72343,56.888285 z M 181.81089,73.017226 C 161.85229,72.421243 109.77845,97.239893 157.49822,97.455149 C 174.38258,97.531303 235.95414,108.51983 197.79091,82.197937 C 192.76628,78.732346 188.22686,73.208813 181.81089,73.017226 z "
+       style="color:#000000;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:59.332535;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" />
+  </g>
+</svg>

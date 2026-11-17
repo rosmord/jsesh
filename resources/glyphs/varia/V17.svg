@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="6.568672"
+   height="17.977417"
+   id="svg1433"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22V17B.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi24_SR">
+  <metadata
+     id="metadata1440">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:date>18/03/06</dc:date>
+        <dc:title>US22V17B</dc:title>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>à partir d'un original relevé sur bloc du temple de Merenptah</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1438" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="3.2843361"
+     inkscape:cy="8.9887085"
+     inkscape:window-x="121"
+     inkscape:window-y="125"
+     inkscape:current-layer="svg1433" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 1.286845 17.977417  L 0 17.977417  Q 1.843838 12.86845 2.112731 9.853007  L 1.709391 9.853007  L 1.402085 6.664705  L 1.920664 6.664705  Q 1.344465 5.012934 1.267638 3.437989  L 0.23048 3.437989  L 0.23048 1.709391  L 1.363672 1.709391  Q 1.594151 0.153653 3.341956 0  Q 5.070553 0.153653 5.32024 1.709391  L 6.434225 1.709391  L 6.434225 3.437989  L 5.416273 3.437989  Q 5.339447 5.012934 4.74404 6.664705  L 5.26262 6.664705  L 4.955314 9.853007  L 4.551974 9.853007  Q 4.840074 12.86845 6.568672 17.977417  L 5.26262 17.977417  Q 4.071808 12.86845 3.649262 9.853007  L 3.034649 9.853007  Q 2.612103 12.86845 1.286845 17.977417  Z  M 2.842583 6.664705  L 3.822122 6.664705  Q 4.763247 3.668469 4.446338 2.3144  Q 4.129428 0.960332 3.341956 0.960332  Q 2.45845 0.960332 2.189557 2.3144  Q 1.920664 3.668469 2.842583 6.664705  Z  M 0.653026 2.996236  L 1.267638 2.996236  Q 1.229225 2.57369 1.286845 2.131937  L 0.653026 2.131937  L 0.653026 2.996236  Z  M 5.416273 2.996236  L 6.011679 2.996236  L 6.011679 2.131937  L 5.37786 2.131937  Q 5.454686 2.57369 5.416273 2.996236  Z  M 1.863044 6.972011  L 1.901458 7.240904  L 4.782454 7.240904  L 4.801661 6.972011  L 1.863044 6.972011  Z  M 1.920664 7.54821  L 1.959077 7.817103  L 4.724834 7.817103  L 4.763247 7.54821  L 1.920664 7.54821  Z  M 1.978284 8.12441  L 2.016697 8.374096  L 4.667214 8.374096  L 4.705627 8.12441  L 1.978284 8.12441  Z  M 2.035904 8.700609  L 2.074317 8.950295  L 4.609594 8.950295  L 4.648007 8.700609  L 2.035904 8.700609  Z  M 2.093524 9.257602  L 2.112731 9.526494  L 4.551974 9.526494  L 4.590387 9.257602  L 2.093524 9.257602  Z "
+     id="path1435" />
+</svg>

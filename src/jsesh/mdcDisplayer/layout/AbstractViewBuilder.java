@@ -6,6 +6,8 @@
  */
 package jsesh.mdcDisplayer.layout;
 
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+
 
 /**
  * A base for implementing view builders.

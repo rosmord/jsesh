@@ -1,15 +1,5 @@
 package jsesh.graphics.wmfexport;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,6 +20,14 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
 
 import jsesh.graphics.generic.BaseGraphics2D;
 import jsesh.graphics.generic.RandomAccessFileAdapter;

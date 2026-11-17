@@ -5,31 +5,27 @@ package jsesh.mdcDisplayer.swing.application;
  * 2004/04/28 : modified saveText so that all texts get an extension.
  */
 
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.prefs.Preferences;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
-
-import java.awt.event.ActionEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 
 import jsesh.externalFonts.ExternalSignImporter;
 import jsesh.graphicExport.BitmapExporter;
@@ -38,28 +34,33 @@ import jsesh.graphicExport.ExportData;
 import jsesh.graphicExport.HTMLExporter;
 import jsesh.graphicExport.IPDFExporter;
 import jsesh.graphicExport.RTFExportPreferences;
-import jsesh.graphicExport.RTFExporter;
 import jsesh.graphicExport.RTFExporterUI;
+import jsesh.graphicExport.SVGExporter;
 import jsesh.graphicExport.WMFExporter;
 import jsesh.graphicExport.RTFExportPreferences.RTFExportGranularity;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphsManager;
+import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.output.ModelWriter;
-import jsesh.mdc.utils.MDCSyntaxError;
 import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
-import jsesh.mdcDisplayer.draw.MDCCaret;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
+import jsesh.mdcDisplayer.secondaryData.MDCCaret;
 import jsesh.mdcDisplayer.swing.actionsUtils.PreferenceBoundAction;
 import jsesh.mdcDisplayer.swing.actionsUtils.PreferencesChangeListener;
+import jsesh.mdcDisplayer.swing.application.actions.AddNewSignAction;
+import jsesh.mdcDisplayer.swing.application.actions.AddPhilologyAction;
+import jsesh.mdcDisplayer.swing.application.actions.CartoucheAction;
+import jsesh.mdcDisplayer.swing.application.actions.EditGroupAction;
+import jsesh.mdcDisplayer.swing.application.actions.InsertElementAction;
+import jsesh.mdcDisplayer.swing.application.actions.InsertElementIconAction;
+import jsesh.mdcDisplayer.swing.application.actions.RotationAction;
+import jsesh.mdcDisplayer.swing.application.actions.ShadeAction;
+import jsesh.mdcDisplayer.swing.application.actions.SizeAction;
 import jsesh.mdcDisplayer.swing.application.actions.generic.ForwardedAction;
 import jsesh.mdcDisplayer.swing.editor.HieroglyphicTextModel;
 import jsesh.mdcDisplayer.swing.editor.JMDCEditor;
@@ -67,14 +68,17 @@ import jsesh.mdcDisplayer.swing.editor.MDCModelTransferableBroker;
 import jsesh.mdcDisplayer.swing.groupEditor.GroupEditorDialog;
 import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesEditor;
 import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesFacade;
-import jsesh.mdcDisplayer.swing.preferencesEditor.RTFPreferencesForm;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
+import jsesh.mdcDisplayer.swing.utils.MdcFileDialog;
 import jsesh.utils.FileUtils;
 import jsesh.utils.SimpleStringModel;
+import jsesh.utils.SystemUtils;
 
 /**
  * This class represents the top-level logic of the editor. This file is free
  * Software under the GNU LESSER GENERAL PUBLIC LICENCE.
+ * 
+ * Patterns: Mediator
  * 
  * IMPORTANT : this class is WAY TOO LARGE. WE SHOULD CLEAN UP THE
  * INITIALIZATION PROCESS OF ALL DATA.
@@ -92,203 +96,10 @@ import jsesh.utils.SimpleStringModel;
 public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		MDCModelTransferableBroker {
 
-	class CartoucheAction extends MDCIconAction {
-		private int end;
-
-		private int start;
-
-		private int type;
-
-		/**
-		 * @param mdcText
-		 * @param type
-		 * @param start
-		 * @param end
-		 */
-		public CartoucheAction(int type, int start, int end, String mdcText) {
-			super(mdcText);
-			this.type = type;
-			this.start = start;
-			this.end = end;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().addCartouche(type, start, end);
-		}
-
-	}
-
-	/**
-	 * A simple class for easy text addition.
-	 * 
-	 * @author S. Rosmorduc
-	 * 
-	 */
-	class InsertElementAction extends MDCIconAction {
-
-		ModelElement element;
-
-		/**
-		 * @param element
-		 * @param mdcText
-		 * 
-		 */
-		public InsertElementAction(ModelElement element, String mdcText) {
-			super(mdcText);
-			this.element = element;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().insertElement(element);
-		}
-
-	}
-
-	class RotationAction extends AbstractAction {
-		private int angle;
-
-		public RotationAction(int angle) {
-			super("" + angle + "deg.");
-			this.angle = angle;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().changeAngle(angle);
-		}
-	}
-
-	// IMPORTANT : UNIFY THE ACTION HERE AND IN the action package
-	// actions are either linked to an editor object or to the application.
-	// they could be independant.
-
-	class ShadeAction extends MDCIconAction {
-
-		/**
-		 * The shading to apply to the current cadrat.
-		 */
-		private int shade;
-
-		/**
-		 * @param shade
-		 * @param mdc
-		 */
-		public ShadeAction(int shade, String mdc) {
-			super(mdc);
-			this.shade = shade;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().doShade(shade);
-		}
-	}
-
-	class SizeAction extends AbstractAction {
-		private int size;
-
-		public SizeAction(int size) {
-			super("" + size + "%");
-			this.size = size;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().resizeSign(size);
-		}
-	}
-
-	private PreferenceBoundAction addNewSignsAction = new PreferenceBoundAction(
-			"Add new signs") {
-
-		public void actionPerformed(ActionEvent e) {
-			ExternalSignImporter importer = new ExternalSignImporter();
-			importer.setSourceDirectory(currentHieroglyphsSource);
-			JOptionPane.showMessageDialog(frame, importer.getPanel(),
-					"Import new signs", JOptionPane.PLAIN_MESSAGE);
-			currentHieroglyphsSource = importer.getSourceDirectory();
-		}
-
-		public void preferencesChanged() {
-			File directory = DefaultHieroglyphicFontManager.getInstance()
-					.getDirectory();
-			setEnabled(directory.isDirectory());
-		}
-	};
-
-	private AbstractAction bitmapExportAction;
+	private PreferenceBoundAction addNewSignsAction = new AddNewSignAction(
+			"Add new signs", this);
 
 	private BitmapExporter bitmapExporter = null;
-
-	private AbstractAction buildAddedSignsBlock = new MDCIconAction(
-			"[&-gm-D3-&]") {
-
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().addPhilologicalMarkup(
-					SymbolCodes.EDITORADDITION);
-		}
-
-	};
-
-	private AbstractAction buildErasedSignBlock = new MDCIconAction(
-			"[[-gm-D3-]]") {
-
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().addPhilologicalMarkup(
-					SymbolCodes.ERASEDSIGNS);
-
-		}
-
-	};
-
-	private AbstractAction buildPreviouslyReadableBlock = new MDCIconAction(
-			"[\"-gm-D3-\"]") {
-
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().addPhilologicalMarkup(
-					SymbolCodes.PREVIOUSLYREADABLE);
-		}
-
-	};
-
-	private AbstractAction buildScribeAdditionBlock = new MDCIconAction(
-			"['-gm-D3-']") {
-
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().addPhilologicalMarkup(
-					SymbolCodes.SCRIBEADDITION);
-
-		}
-
-	};
-
-	private AbstractAction buildSuperfluousSignsBlock = new MDCIconAction(
-			"[{-gm-D3-}]") {
-
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().addPhilologicalMarkup(
-					SymbolCodes.EDITORSUPERFLUOUS);
-
-		}
-
-	};
 
 	private CaretActionManager caretActionManager;
 
@@ -309,9 +120,9 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	/**
 	 * The current RTF export file.
 	 */
-	
-	private File currentRTFExportFile=null;
-	
+
+	private File currentRTFExportFile = null;
+
 	/**
 	 * The current directory for outputing results, such as pdf files, png
 	 * files...
@@ -332,24 +143,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	private AbstractAction doubleZoomAction;
 
-	private AbstractAction editGroupAction = new AbstractAction("Edit group") {
-
-		public void actionPerformed(ActionEvent e) {
-			AbsoluteGroup g = getEditor().getWorkflow().buildAbsoluteGroup();
-			if (g != null) {
-				GroupEditorDialog d = new GroupEditorDialog();
-				d.setGroup(g);
-				JOptionPane
-						.showConfirmDialog(frame, d, "Group editor",
-								JOptionPane.OK_CANCEL_OPTION,
-								JOptionPane.PLAIN_MESSAGE);
-				getEditor().getWorkflow().fixAbsoluteGroup(g);
-			}
-		}
-
-	};
-
-	private AbstractAction exitAction;
+	private AbstractAction editGroupAction = new EditGroupAction("Edit group",
+			this);
 
 	private AbstractAction explodeGroupAction;
 
@@ -361,42 +156,24 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	private AbstractAction halfZoomAction;
 
-	private AbstractAction htmlExportAction;
-
 	// Data for HTML export (created on request).
 	private HTMLExporter htmlExporter = null;
 
-	private AbstractAction insertBlackPointAction = new InsertElementAction(
-			new Hieroglyph(SymbolCodes.BLACKPOINT), "O");
+	private AbstractAction insertBlackPointAction = new InsertElementIconAction(
+			new Hieroglyph(SymbolCodes.BLACKPOINT), "O", this);
 
-	private AbstractAction insertHalfSpaceAction = new AbstractAction(
-			"Insert Half Space") {
-
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().insertHalfSpace();
-		}
-
-	};
+	private InsertElementAction insertHalfSpaceAction = new InsertElementAction(
+			"Insert Half Space", new Hieroglyph(SymbolCodes.HALFSPACE), this);
 
 	// Data for PDF export using IText (created on request too)
 
 	private AbstractAction insertPageBreakAction;
 
-	private AbstractAction insertRedPointAction = new InsertElementAction(
-			new Hieroglyph(SymbolCodes.REDPOINT), "o");
+	private AbstractAction insertRedPointAction = new InsertElementIconAction(
+			new Hieroglyph(SymbolCodes.REDPOINT), "o", this);
 
-	private AbstractAction insertSpaceAction = new AbstractAction(
-			"Insert Space") {
-
-		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().insertSpace();
-		}
-
-	};
-
-	private AbstractAction ipdfExportAction;
-
-	private AbstractAction rtfExportAction;
+	private AbstractAction insertSpaceAction = new InsertElementAction(
+			"Insert Space", new Hieroglyph(SymbolCodes.FULLSPACE), this);
 
 	private IPDFExporter iPDFExporter = null;
 
@@ -427,15 +204,11 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	};
 
-	private AbstractAction loadTextAction;
-
 	/**
 	 * Informations to display.
 	 * 
 	 */
 	private SimpleStringModel message;
-
-	private AbstractAction newAction;
 
 	private AbstractAction paintBlackAction = new AbstractAction(
 			"Paint zone in black") {
@@ -476,8 +249,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	};
 
 	private AbstractAction[] rotationActions = null;
-
-	private AbstractAction saveTextAction;
 
 	private AbstractAction selectAllAction;
 
@@ -522,6 +293,15 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 		public void actionPerformed(ActionEvent e) {
 			getEditor().getWorkflow().setMode('t');
+		}
+
+	};
+
+	private AbstractAction setLinePageNumberModeAction = new AbstractAction(
+			"Edit line/page number") {
+
+		public void actionPerformed(ActionEvent e) {
+			getEditor().getWorkflow().setMode('|');
 		}
 
 	};
@@ -629,9 +409,9 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	};
 
-	private AbstractAction wmfExportAction;
-
 	private WMFExporter wmfExporter;
+	
+	private SVGExporter svgExporter;
 
 	private List preferencesListeners;
 
@@ -663,6 +443,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		preferedUnit = LengthUnit.POINT;
 
 		wmfExporter = new WMFExporter();
+		svgExporter= new SVGExporter();
 		setPhilologySign(true);
 		this.frame = null;
 		String dir = System.getProperty("user.dir");
@@ -686,6 +467,62 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		firePreferencesChange();
 	}
 
+	/**
+	 * 
+	 */
+	public void editGroup() {
+		AbsoluteGroup g = getEditor().getWorkflow().buildAbsoluteGroup();
+		if (g != null) {
+			GroupEditorDialog d = new GroupEditorDialog();
+			d.setGroup(g);
+			JOptionPane.showConfirmDialog(frame, d, "Group editor",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			getEditor().getWorkflow().fixAbsoluteGroup(g);
+		}
+	}
+
+	/**
+	 * Import new signs in the sign database.
+	 */
+	public void importNewSign() {
+		ExternalSignImporter importer = new ExternalSignImporter();
+		importer.setSourceDirectory(currentHieroglyphsSource);
+		JOptionPane.showMessageDialog(frame, importer.getPanel(),
+				"Import new signs", JOptionPane.PLAIN_MESSAGE);
+		currentHieroglyphsSource = importer.getSourceDirectory();
+
+	}
+
+	/**
+	 * @param shade
+	 */
+	public void doShade(int shade) {
+		getEditor().getWorkflow().doShade(shade);
+	}
+
+	/**
+	 * @param code
+	 */
+	public void addPhilologicalMarkup(int code) {
+		getEditor().getWorkflow().addPhilologicalMarkup(code);
+	}
+
+	/**
+	 * @param element
+	 */
+	public void insertElement(ModelElement element) {
+		getEditor().getWorkflow().insertElement(element);
+	}
+
+	/**
+	 * @param type
+	 * @param start
+	 * @param end
+	 */
+	public void addCartouche(int type, int start, int end) {
+		getEditor().getWorkflow().addCartouche(type, start, end);
+	}
+
 	private File getDefaultFile() {
 		return new File(currentMDCDirectory, "default.gly");
 	}
@@ -701,32 +538,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	}
 
 	private void buildActions() {
-		loadTextAction = new AbstractAction("Open") {
-			public void actionPerformed(ActionEvent e) {
-				loadText();
-			}
-		};
-		loadTextAction.putValue(Action.MNEMONIC_KEY, new Integer('O'));
 
-		saveTextAction = new AbstractAction("Save") {
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
-			public void actionPerformed(ActionEvent e) {
-				saveText();
-			}
-		};
-		saveTextAction.putValue(Action.MNEMONIC_KEY, new Integer('S'));
-
-		exitAction = new AbstractAction("Exit") {
-			public void actionPerformed(ActionEvent e) {
-				exit();
-			}
-		};
-
-		exitAction.putValue(Action.MNEMONIC_KEY, new Integer('x'));
 		halfZoomAction = new AbstractAction("unzoom") {
 			/*
 			 * (non-Javadoc)
@@ -761,145 +573,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 			}
 
 		};
-
-		htmlExportAction = new AbstractAction("export as HTML") {
-
-			public void actionPerformed(ActionEvent e) {
-				if (htmlExporter == null) {
-					htmlExporter = new HTMLExporter();
-					// htmlExporter.setDirectory(new
-					// File(currentMDCDirectory,"testhtml"));
-					htmlExporter.setDirectory(new File(currentOutputDirectory,
-							"testhtml"));
-					htmlExporter.setBaseName("test");
-				}
-				if (htmlExporter.getOptionPanel(frame, "Export as HTML")
-						.askAndSet() == JOptionPane.OK_OPTION) {
-					htmlExporter
-							.setDrawingSpecifications(getDrawingSpecifications());
-					htmlExporter.exportModel(data.getModel());
-				}
-			}
-
-		};
-
-		bitmapExportAction = new AbstractAction("Export as Bitmap picture") {
-
-			public void actionPerformed(ActionEvent e) {
-				if (bitmapExporter == null) {
-					bitmapExporter = new BitmapExporter();
-
-				}
-				// bitmapExporter.setOptions()
-				boolean selectionOnly = getCaret().hasSelection();
-				if (bitmapExporter.askUser(selectionOnly) == JOptionPane.OK_OPTION) {
-					// TODO : choose DrawingSpecifications from a better place.
-					ExportData exportData = new ExportData(
-							getDrawingSpecifications(), getCaret(), getData()
-									.getModel(), 2f);
-					/*
-					 * new ExportData(frame.editor .getDrawingSpecifications(),
-					 * MDCDisplayerAppliWorkflow.this, data, 2.0f);
-					 */
-					// exportData= new ExportData(getDrawingSpecifications(), )
-					bitmapExporter.export(exportData);
-				}
-			}
-
-		};
-
-		wmfExportAction = new AbstractAction("Export as WMF") {
-
-			public void actionPerformed(ActionEvent e) {
-				if (getCaret().hasSelection()
-						&& wmfExporter.askUser() == JOptionPane.OK_OPTION) {
-					/*
-					 * DrawingSpecifications ds = frame.editor
-					 * .getDrawingSpecifications().copy(); ds.setTopMargin(1f);
-					 * ds.setLeftMargin(1f); new ExportData(ds,
-					 * MDCDisplayerAppliWorkflow.this, data, 2.0f)
-					 */
-					ExportData exportData = new ExportData(
-							getDrawingSpecifications(), getCaret(), getData()
-									.getModel(), 1f);
-					wmfExporter.export(exportData);
-				}
-			}
-		};
-
-		wmfExportAction.putValue(Action.MNEMONIC_KEY, new Integer('w'));
-
-		ipdfExportAction = new AbstractAction("Export as PDF") {
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
-			public void actionPerformed(ActionEvent e) {
-				if (iPDFExporter == null) {
-					iPDFExporter = new IPDFExporter();
-					iPDFExporter.setFile(new File(currentOutputDirectory,
-							"default.pdf"));
-				}
-				if (iPDFExporter.getOptionPanel(frame, "Export as PDF")
-						.askAndSet() == JOptionPane.OK_OPTION)
-					try {
-						iPDFExporter.exportModel(data.getModel());
-						currentOutputDirectory = iPDFExporter.getFile()
-								.getParentFile();
-					} catch (IOException e1) {
-						JOptionPane.showMessageDialog(null,
-								"Error while exporting to pdf "
-										+ e1.getMessage(),
-								"Problem when exporting",
-								JOptionPane.ERROR_MESSAGE);
-						e1.printStackTrace();
-					}
-			}
-
-		};
-
-		rtfExportAction = new AbstractAction("Export as RTF") {
-
-			public void actionPerformed(ActionEvent e) {
-				RTFExporterUI rtfExporterUI;
-				rtfExporterUI = new RTFExporterUI(currentRTFExportFile,
-						rtfExportPreferences[2]);
-
-				if (rtfExporterUI.getOptionPanel(frame, "Export as RTF")
-						.askAndSet() == JOptionPane.OK_OPTION) {
-					// try {
-					rtfExporterUI.exportModel(drawingSpecifications, data
-							.getModel());
-					currentOutputDirectory = rtfExporterUI.getFile()
-							.getParentFile();
-					/*
-					 * } catch (IOException e1) {
-					 * JOptionPane.showMessageDialog(null, "Error while
-					 * exporting to RTF " + e1.getMessage(), "Problem when
-					 * exporting", JOptionPane.ERROR_MESSAGE);
-					 * e1.printStackTrace(); }
-					 */
-				}
-
-			}
-
-		};
-		/*
-		 * wmfExportAction = new WMFExporter(data, frame, this, "Export as wmf",
-		 * currentOutputDirectory);
-		 */
-
-		newAction = new AbstractAction("New") {
-
-			public void actionPerformed(ActionEvent e) {
-				getEditor().getWorkflow().clear();
-				currentFile = getDefaultFile();
-			}
-
-		};
-
-		newAction.putValue(Action.MNEMONIC_KEY, new Integer('N'));
 
 		selectAllAction = new AbstractAction("Select All") {
 
@@ -959,64 +632,75 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 				270, 300, 315, 330 };
 		rotationActions = new AbstractAction[angles.length];
 		for (int i = 0; i < rotationActions.length; i++)
-			rotationActions[i] = new RotationAction(angles[i]);
+			rotationActions[i] = new RotationAction(angles[i], this);
 
+	}
+
+	/**
+	 * Clear the current text and prepare for a new one.
+	 */
+	public void newText() {
+		getEditor().getWorkflow().clear();
+		currentFile = getDefaultFile();
 	}
 
 	private void buildCartoucheActions() {
 		cartoucheActions = new CartoucheAction[23];
 		int i = 0;
+
 		cartoucheActions[i++] = new CartoucheAction('c', 1, 2,
-				"<-ra-mn:n-xpr\\R270->");
+				"<-ra-mn:n-xpr\\R270->", this);
+
 		cartoucheActions[i++] = new CartoucheAction('c', 1, 1,
-				"<1-ra-mn:n-xpr\\R270-1>");
+				"<1-ra-mn:n-xpr\\R270-1>", this);
 		cartoucheActions[i++] = new CartoucheAction('c', 2, 1,
-				"<2-ra-mn:n-xpr\\R270-1>");
+				"<2-ra-mn:n-xpr\\R270-1>", this);
 		cartoucheActions[i++] = new CartoucheAction('c', 2, 1,
-				"<2-ra-mn:n-xpr\\R270-2>");
+				"<2-ra-mn:n-xpr\\R270-2>", this);
 		cartoucheActions[i++] = new CartoucheAction('c', 0, 1,
-				"<0-ra-mn:n-xpr\\R270-1>");
+				"<0-ra-mn:n-xpr\\R270-1>", this);
 		cartoucheActions[i++] = new CartoucheAction('c', 1, 0,
-				"<1-ra-mn:n-xpr\\R270-0>");
+				"<1-ra-mn:n-xpr\\R270-0>", this);
 		cartoucheActions[i++] = new CartoucheAction('c', 2, 0,
-				"<2-ra-mn:n-xpr\\R270-0>");
+				"<2-ra-mn:n-xpr\\R270-0>", this);
 		cartoucheActions[i++] = new CartoucheAction('c', 0, 2,
-				"<0-ra-mn:n-xpr\\R270-2>");
+				"<0-ra-mn:n-xpr\\R270-2>", this);
 
 		cartoucheActions[i++] = new CartoucheAction('s', 1, 2,
-				"<s-E1:D40-xa:M-R19->");
+				"<s-E1:D40-xa:M-R19->", this);
 		cartoucheActions[i++] = new CartoucheAction('s', 2, 1,
-				"<s2-E1:D40-xa:M-R19-s1>");
+				"<s2-E1:D40-xa:M-R19-s1>", this);
 
 		cartoucheActions[i++] = new CartoucheAction('h', 1, 2,
-				"<h1-ra-xa-f-h2>");
+				"<h1-ra-xa-f-h2>", this);
 		cartoucheActions[i++] = new CartoucheAction('h', 1, 3,
-				"<h1-ra-xa-f-h3>");
+				"<h1-ra-xa-f-h3>", this);
 		cartoucheActions[i++] = new CartoucheAction('h', 1, 1,
-				"<h1-ra-xa-f-h1>");
+				"<h1-ra-xa-f-h1>", this);
 		cartoucheActions[i++] = new CartoucheAction('h', 1, 0,
-				"<h1-ra-xa-f-h0>");
+				"<h1-ra-xa-f-h0>", this);
 
 		cartoucheActions[i++] = new CartoucheAction('h', 2, 1,
-				"<h2-ra-xa-f-h1>");
+				"<h2-ra-xa-f-h1>", this);
 		cartoucheActions[i++] = new CartoucheAction('h', 2, 0,
-				"<h2-ra-xa-f-h0>");
+				"<h2-ra-xa-f-h0>", this);
 
 		cartoucheActions[i++] = new CartoucheAction('h', 3, 1,
-				"<h3-ra-xa-f-h1>");
+				"<h3-ra-xa-f-h1>", this);
 		cartoucheActions[i++] = new CartoucheAction('h', 3, 0,
-				"<h3-ra-xa-f-h0>");
+				"<h3-ra-xa-f-h0>", this);
 
 		cartoucheActions[i++] = new CartoucheAction('h', 0, 2,
-				"<h0-ra-xa-f-h2>");
+				"<h0-ra-xa-f-h2>", this);
 		cartoucheActions[i++] = new CartoucheAction('h', 0, 3,
-				"<h0-ra-xa-f-h3>");
+				"<h0-ra-xa-f-h3>", this);
 		cartoucheActions[i++] = new CartoucheAction('h', 0, 1,
-				"<h0-ra-xa-f-h1>");
+				"<h0-ra-xa-f-h1>", this);
 		cartoucheActions[i++] = new CartoucheAction('h', 0, 0,
-				"<h0-ra-xa-f-h0>");
+				"<h0-ra-xa-f-h0>", this);
 
-		cartoucheActions[i++] = new CartoucheAction('F', 1, 2, "<F-ra-xa-f->");
+		cartoucheActions[i++] = new CartoucheAction('F', 1, 2, "<F-ra-xa-f->",
+				this);
 
 	}
 
@@ -1025,34 +709,34 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 */
 	private void buildShadeActions() {
 		shadeActions = new ShadeAction[16];
-		shadeActions[0] = new ShadeAction(Cadrat.NONE, "..");
-		shadeActions[1] = new ShadeAction(Cadrat.TOP_START, "..#1");
-		shadeActions[2] = new ShadeAction(Cadrat.TOP_END, "..#2");
+		shadeActions[0] = new ShadeAction(Cadrat.NONE, "..", this);
+		shadeActions[1] = new ShadeAction(Cadrat.TOP_START, "..#1", this);
+		shadeActions[2] = new ShadeAction(Cadrat.TOP_END, "..#2", this);
 		shadeActions[3] = new ShadeAction(Cadrat.TOP_END | Cadrat.TOP_START,
-				"..#12");
-		shadeActions[4] = new ShadeAction(Cadrat.BOTTOM_START, "..#3");
+				"..#12", this);
+		shadeActions[4] = new ShadeAction(Cadrat.BOTTOM_START, "..#3", this);
 		shadeActions[5] = new ShadeAction(Cadrat.BOTTOM_START
-				| Cadrat.TOP_START, "..#13");
+				| Cadrat.TOP_START, "..#13", this);
 		shadeActions[6] = new ShadeAction(Cadrat.BOTTOM_START | Cadrat.TOP_END,
-				"..#23");
+				"..#23", this);
 		shadeActions[7] = new ShadeAction(Cadrat.BOTTOM_START | Cadrat.TOP_END
-				| Cadrat.TOP_START, "..#123");
-		shadeActions[8] = new ShadeAction(Cadrat.BOTTOM_END, "..#4");
+				| Cadrat.TOP_START, "..#123", this);
+		shadeActions[8] = new ShadeAction(Cadrat.BOTTOM_END, "..#4", this);
 		shadeActions[9] = new ShadeAction(Cadrat.BOTTOM_END | Cadrat.TOP_START,
-				"..#14");
+				"..#14", this);
 		shadeActions[10] = new ShadeAction(Cadrat.BOTTOM_END | Cadrat.TOP_END,
-				"..#24");
+				"..#24", this);
 		shadeActions[11] = new ShadeAction(Cadrat.BOTTOM_END | Cadrat.TOP_END
-				| Cadrat.TOP_START, "..#124");
+				| Cadrat.TOP_START, "..#124", this);
 		shadeActions[12] = new ShadeAction(Cadrat.BOTTOM_END
-				| Cadrat.BOTTOM_START, "..#34");
+				| Cadrat.BOTTOM_START, "..#34", this);
 		shadeActions[13] = new ShadeAction(Cadrat.BOTTOM_END
-				| Cadrat.BOTTOM_START | Cadrat.TOP_START, "..#134");
+				| Cadrat.BOTTOM_START | Cadrat.TOP_START, "..#134", this);
 		shadeActions[14] = new ShadeAction(Cadrat.BOTTOM_END
-				| Cadrat.BOTTOM_START | Cadrat.TOP_END, "..#234");
+				| Cadrat.BOTTOM_START | Cadrat.TOP_END, "..#234", this);
 		shadeActions[15] = new ShadeAction(Cadrat.BOTTOM_END
 				| Cadrat.BOTTOM_START | Cadrat.TOP_END | Cadrat.TOP_START,
-				"..#1234");
+				"..#1234", this);
 	}
 
 	/**
@@ -1061,7 +745,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 * @return a size action for the given size.
 	 */
 	public AbstractAction buildSizeAction(int size) {
-		return new SizeAction(size);
+		return new SizeAction(size, this);
 	}
 
 	/**
@@ -1091,10 +775,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 */
 	public AbstractAction getAddNewSignsAction() {
 		return addNewSignsAction;
-	}
-
-	public AbstractAction getBitmapExportAction() {
-		return bitmapExportAction;
 	}
 
 	/*
@@ -1172,16 +852,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	}
 
 	/**
-	 * Returns the exitAction.
-	 * 
-	 * @return AbstractAction
-	 * 
-	 */
-	public AbstractAction getExitAction() {
-		return exitAction;
-	}
-
-	/**
 	 * @return an explode group Action.
 	 */
 	public AbstractAction getExplodeGroupAction() {
@@ -1204,10 +874,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	public AbstractAction getHalfZoomAction() {
 		return halfZoomAction;
-	}
-
-	public AbstractAction getHtmlExportAction() {
-		return htmlExportAction;
 	}
 
 	/**
@@ -1246,34 +912,10 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	}
 
 	/**
-	 * @return the action for exporting files to PDF.
-	 */
-	public AbstractAction getIPDFExportAction() {
-		return ipdfExportAction;
-	}
-
-	/**
-	 * @return Returns the rtfExportAction.
-	 */
-	public AbstractAction getRtfExportAction() {
-		return rtfExportAction;
-	}
-
-	/**
 	 * @return a LigatureAction
 	 */
 	public AbstractAction getLigatureAction() {
 		return ligatureAction;
-	}
-
-	/**
-	 * Returns the loadTextAction.
-	 * 
-	 * @return AbstractAction
-	 * 
-	 */
-	public AbstractAction getLoadTextAction() {
-		return loadTextAction;
 	}
 
 	/**
@@ -1282,13 +924,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 */
 	public SimpleStringModel getMessage() {
 		return message;
-	}
-
-	/**
-	 * @return a new document action.
-	 */
-	public AbstractAction getNewAction() {
-		return newAction;
 	}
 
 	/**
@@ -1322,31 +957,46 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	public AbstractAction[] getPhilologyActions() {
 		if (philologicalActions == null) {
+
+			AbstractAction buildAddedSignsBlock = new AddPhilologyAction(
+					"[&-gm-D3-&]", SymbolCodes.EDITORADDITION, this);
+
+			AbstractAction buildErasedSignBlock = new AddPhilologyAction(
+					"[[-gm-D3-]]", SymbolCodes.ERASEDSIGNS, this);
+
+			AbstractAction buildPreviouslyReadableBlock = new AddPhilologyAction(
+					"[\"-gm-D3-\"]", SymbolCodes.PREVIOUSLYREADABLE, this);
+
+			AbstractAction buildScribeAdditionBlock = new AddPhilologyAction(
+					"['-gm-D3-']", SymbolCodes.SCRIBEADDITION, this);
+
+			AbstractAction buildSuperfluousSignsBlock = new AddPhilologyAction(
+					"[{-gm-D3-}]", SymbolCodes.EDITORSUPERFLUOUS, this);
+
 			List l = new ArrayList();
 			AbstractAction block[] = { buildErasedSignBlock,
 					buildAddedSignsBlock, buildSuperfluousSignsBlock,
 					buildPreviouslyReadableBlock, buildScribeAdditionBlock };
+
 			l.addAll(Arrays.asList(block));
-			l.add(new InsertElementAction(
-					new Hieroglyph(SymbolCodes.BEGINERASE), "[["));
-			l.add(new InsertElementAction(new Hieroglyph(SymbolCodes.ENDERASE),
-					"]]"));
-			l.add(new InsertElementAction(new Hieroglyph(
-					SymbolCodes.BEGINEDITORADDITION), "[&"));
-			l.add(new InsertElementAction(new Hieroglyph(
-					SymbolCodes.ENDEDITORADDITION), "&]"));
-			l.add(new InsertElementAction(new Hieroglyph(
-					SymbolCodes.BEGINEDITORSUPERFLUOUS), "[{"));
-			l.add(new InsertElementAction(new Hieroglyph(
-					SymbolCodes.ENDEDITORSUPERFLUOUS), "}]"));
-			l.add(new InsertElementAction(new Hieroglyph(
-					SymbolCodes.BEGINPREVIOUSLYREADABLE), "[\""));
-			l.add(new InsertElementAction(new Hieroglyph(
-					SymbolCodes.ENDPREVIOUSLYREADABLE), "\"]"));
-			l.add(new InsertElementAction(new Hieroglyph(
-					SymbolCodes.BEGINSCRIBEADDITION), "['"));
-			l.add(new InsertElementAction(new Hieroglyph(
-					SymbolCodes.ENDSCRIBEADDITION), "']"));
+			l.add(new InsertElementIconAction(SymbolCodes.BEGINERASE, this));
+			l.add(new InsertElementIconAction(SymbolCodes.ENDERASE, this));
+			l.add(new InsertElementIconAction(SymbolCodes.BEGINEDITORADDITION,
+					this));
+			l.add(new InsertElementIconAction(SymbolCodes.ENDEDITORADDITION,
+					this));
+			l.add(new InsertElementIconAction(
+					SymbolCodes.BEGINEDITORSUPERFLUOUS, this));
+			l.add(new InsertElementIconAction(SymbolCodes.ENDEDITORSUPERFLUOUS,
+					this));
+			l.add(new InsertElementIconAction(
+					SymbolCodes.BEGINPREVIOUSLYREADABLE, this));
+			l.add(new InsertElementIconAction(
+					SymbolCodes.ENDPREVIOUSLYREADABLE, this));
+			l.add(new InsertElementIconAction(SymbolCodes.BEGINSCRIBEADDITION,
+					this));
+			l.add(new InsertElementIconAction(SymbolCodes.ENDSCRIBEADDITION,
+					this));
 			philologicalActions = (AbstractAction[]) l
 					.toArray(new AbstractAction[l.size()]);
 		}
@@ -1373,13 +1023,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 */
 	public AbstractAction[] getRotations() {
 		return rotationActions;
-	}
-
-	/**
-	 * @return Returns the saveTextAction.
-	 */
-	public AbstractAction getSaveTextAction() {
-		return saveTextAction;
 	}
 
 	/**
@@ -1422,6 +1065,13 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 */
 	public AbstractAction getSetTransliterationModeAction() {
 		return setTransliterationModeAction;
+	}
+
+	/**
+	 * @return Returns the setLinePageNumberModeAction.
+	 */
+	public AbstractAction getSetLinePageNumberModeAction() {
+		return setLinePageNumberModeAction;
 	}
 
 	public AbstractAction[] getShadeActions() {
@@ -1492,13 +1142,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	}
 
 	/**
-	 * @return Returns the wmfExportAction.
-	 */
-	public AbstractAction getWmfExportAction() {
-		return wmfExportAction;
-	}
-
-	/**
 	 * @param code
 	 */
 	public void insert(String code) {
@@ -1516,49 +1159,45 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		return data.isPhilologyIsSign();
 	}
 
+	/**
+	 * Open a file selection dialog, and load the corresponding text.
+	 * 
+	 */
 	public void loadText() {
-
-		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle("choose a manuel de codage text");
-		FileFilter filter = new FileFilter() {
-
-			public boolean accept(File pathname) {
-				return pathname.getName().endsWith(".hie")
-						|| pathname.getName().endsWith(".HIE")
-						|| pathname.getName().endsWith(".gly")
-						|| pathname.getName().endsWith(".GLY")
-						|| pathname.isDirectory();
-			}
-
-			public String getDescription() {
-				return "Manuel de codage files";
-			}
-		};
-
-		fc.addChoosableFileFilter(filter);
-		fc.setCurrentDirectory(currentMDCDirectory);
-		int result = fc.showOpenDialog(frame);
+		MdcFileDialog dialog = new MdcFileDialog(currentMDCDirectory, "choose a manuel de codage text");
+		int result = dialog.showOpenDialog(frame);
 		if (result == JFileChooser.APPROVE_OPTION) {
-			try {
-				// Erase the old text.
-				// NOTE : this is a
-				getEditor().getWorkflow().setMDCCode("");
-			} catch (MDCSyntaxError e1) {
-				e1.printStackTrace();
-			}
-			currentMDCDirectory = fc.getCurrentDirectory();
-			File file = fc.getSelectedFile();
-			loadFile(file);
+			getEditor().clearText();
+			currentMDCDirectory = dialog.getCurrentDirectory();
+			File file = dialog.getSelectedFile();
+			loadFile(file, dialog.getEncoding());
 		}
 	}
 
+	/**
+	 * Open a file.
+	 * 
+	 * @param file
+	 */
 	public void loadFile(File file) {
+		loadFile(file, SystemUtils.getDefaultEncoding());
+	}
+
+	/**
+	 * Open a file in a given encoding.
+	 * 
+	 * @param file
+	 * @param encoding
+	 */
+	public void loadFile(File file, String encoding) {
 		StringBuffer buffer = new StringBuffer();
 		try {
 			// We read the file in memory,
 			// because we need to suppress non manuel de codage headers, if
 			// any.
-			Reader r = new FileReader(file);
+
+			Reader r = new InputStreamReader(new FileInputStream(file),
+					encoding);
 			int c;
 			while ((c = r.read()) != -1) {
 				buffer.append((char) c);
@@ -1606,7 +1245,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 * 
 	 */
 	public void philologyToggle() {
-		// IMPORTANT : write this.
+		// TODO : write this.
 	}
 
 	/**
@@ -1622,7 +1261,9 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		String outputPath = preferences.get("currentOutputDirectory",
 				currentOutputDirectory.getAbsolutePath());
 		currentOutputDirectory = new File(outputPath);
-		currentRTFExportFile= new File(preferences.get("RTFExportFile", new File(currentOutputDirectory,"unnamed.rtf").getAbsolutePath()));
+		currentRTFExportFile = new File(preferences.get("RTFExportFile",
+				new File(currentOutputDirectory, "unnamed.rtf")
+						.getAbsolutePath()));
 
 		// wmf export :
 		wmfExporter.setExportFile(new File(preferences.get("wmfExportFile",
@@ -1678,25 +1319,11 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	}
 
 	public void saveText() {
-		JFileChooser fc = new JFileChooser(currentMDCDirectory);
-		fc.setDialogTitle("save to");
-		FileFilter filter = new FileFilter() {
-
-			public boolean accept(File pathname) {
-				return pathname.getName().endsWith(".hie")
-						|| pathname.getName().endsWith(".gly")
-						|| pathname.getName().endsWith(".GLY")
-						|| pathname.isDirectory();
-			}
-
-			public String getDescription() {
-				return "Manuel de codage files";
-			}
-		};
+		MdcFileDialog fc= new MdcFileDialog(currentMDCDirectory, "Save to");
+				
 		if (currentFile != null)
 			fc.setSelectedFile(currentFile);
-		fc.addChoosableFileFilter(filter);
-
+	
 		int result = fc.showSaveDialog(frame);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			if ((!currentFile.equals(fc.getSelectedFile()))
@@ -1708,28 +1335,41 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 				if (opt == JOptionPane.NO_OPTION)
 					return;
 			}
+			saveFile(fc.getSelectedFile(), fc.getEncoding());
+		}
+	}
 
-			String correctExtension = null;
-			if (data.isPhilologyIsSign())
-				correctExtension = "gly";
-			else
-				correctExtension = "hie";
+	public void saveFile(File file, String encoding) {
 
-			currentFile = FileUtils.buildFileWithExtension(
-					fc.getSelectedFile(), correctExtension);
-			// currentFile = fc.getSelectedFile();
-			try {
-				Writer f = new FileWriter(currentFile);
-				ModelWriter w = new ModelWriter();
-				w.write(f, data.getModel());
-				f.close();
-			} catch (IOException e) {
-				String message = "Could not write to "
-						+ currentFile.getAbsolutePath();
-				if (!currentFile.canWrite())
-					message += " (no write permission)";
-				JOptionPane.showMessageDialog(frame, message);
-			}
+		String correctExtension = null;
+
+		if (data.isPhilologyIsSign())
+			correctExtension = "gly";
+		else
+			correctExtension = "hie";
+
+		currentFile = FileUtils.buildFileWithExtension(file, correctExtension);
+		
+		Writer f= null;
+		try {
+			f= new OutputStreamWriter(
+					new FileOutputStream(currentFile), encoding);
+			ModelWriter w = new ModelWriter();
+			w.write(f, data.getModel());
+			f.close();
+		} catch (IOException e) {
+			String message = "Could not write to "
+					+ currentFile.getAbsolutePath();
+			if (!currentFile.canWrite())
+				message += " (no write permission)";
+			JOptionPane.showMessageDialog(frame, message);
+		} finally {
+			if (f!= null)
+				try {
+					f.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 
@@ -1759,7 +1399,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		caretActionManager = new CaretActionManager(getEditor().getWorkflow());
 		caretActionManager.addAction(cutAction);
 		caretActionManager.addAction(copyAction);
-		caretActionManager.addAction(wmfExportAction);
+		// TODO : register this action as interested in the caret.
+		// caretActionManager.addAction(wmfExportAction);
 		caretActionManager.addAction(groupHorizontallyAction);
 		caretActionManager.addAction(groupVerticallyAction);
 		caretActionManager.addAction(shadeZoneAction);
@@ -1795,7 +1436,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 */
 	public void editPreferences() {
 		PreferencesFacade preferencesFacade = new PreferencesFacade(
-				preferedUnit, rtfExportPreferences);
+				getDrawingSpecifications(), preferedUnit, rtfExportPreferences);
 		// Maybe facade should be an interface, and the workflow itself would be
 		// the facade.
 		PreferencesEditor preferencesEditor = new PreferencesEditor(frame,
@@ -1807,6 +1448,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 			preferencesEditor.updatePreferences(preferencesFacade);
 			firePreferencesChange();
 		}
+		getEditor().invalidateView();
 	}
 
 	/**
@@ -1867,5 +1509,115 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		result
 				.setRtfPreferences(rtfExportPreferences[rtfExportPreferencesIndex]);
 		return result;
+	}
+
+	public void exportAsWMF() {
+		if (getCaret().hasSelection()
+				&& wmfExporter.askUser() == JOptionPane.OK_OPTION) {
+			/*
+			 * DrawingSpecifications ds = frame.editor
+			 * .getDrawingSpecifications().copy(); ds.setTopMargin(1f);
+			 * ds.setLeftMargin(1f); new ExportData(ds,
+			 * MDCDisplayerAppliWorkflow.this, data, 2.0f)
+			 */
+			ExportData exportData = new ExportData(getDrawingSpecifications(),
+					getCaret(), getData().getModel(), 1f);
+			wmfExporter.export(exportData);
+		}
+	}
+
+	public void exportAsSVG() {
+		if (getCaret().hasSelection()
+				&& svgExporter.askUser() == JOptionPane.OK_OPTION) {
+			ExportData exportData = new ExportData(getDrawingSpecifications(),
+					getCaret(), getData().getModel(), 1f);
+			svgExporter.export(exportData);
+		}
+	}
+	/**
+	 * 
+	 */
+	public void exportAsBitmap() {
+		if (bitmapExporter == null) {
+			bitmapExporter = new BitmapExporter();
+
+		}
+
+		boolean selectionOnly = getCaret().hasSelection();
+		if (bitmapExporter.askUser(selectionOnly) == JOptionPane.OK_OPTION) {
+			if (selectionOnly) {
+				ExportData exportData = new ExportData(
+						getDrawingSpecifications(), getCaret(), getData()
+								.getModel(), 2f);
+				bitmapExporter.export(exportData);
+			} else {
+				ExportData exportData = new ExportData(
+						getDrawingSpecifications(), getCaret(), getData()
+								.getModel(), 2f);
+				try {
+					bitmapExporter.exportAll(exportData);
+				} catch (IOException exception) {
+					exception.printStackTrace();
+				}
+			}
+
+		}
+	}
+
+	public void exportAsHtml() {
+		if (htmlExporter == null) {
+			htmlExporter = new HTMLExporter();
+			// htmlExporter.setDirectory(new
+			// File(currentMDCDirectory,"testhtml"));
+			htmlExporter.setDirectory(new File(currentOutputDirectory,
+					"testhtml"));
+			htmlExporter.setBaseName("test");
+		}
+		if (htmlExporter.getOptionPanel(frame, "Export as HTML").askAndSet() == JOptionPane.OK_OPTION) {
+			htmlExporter.setDrawingSpecifications(getDrawingSpecifications());
+			htmlExporter.exportModel(data.getModel());
+		}
+	}
+
+	public void exportAsPdf() {
+		if (iPDFExporter == null) {
+			iPDFExporter = new IPDFExporter();
+			iPDFExporter
+					.setFile(new File(currentOutputDirectory, "default.pdf"));
+		}
+
+		iPDFExporter.setDrawingSpecifications(getDrawingSpecifications());
+		if (iPDFExporter.getOptionPanel(frame, "Export as PDF").askAndSet() == JOptionPane.OK_OPTION)
+			try {
+				iPDFExporter.exportModel(data.getModel());
+				currentOutputDirectory = iPDFExporter.getFile().getParentFile();
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(null,
+						"Error while exporting to pdf " + e1.getMessage(),
+						"Problem when exporting", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			}
+	}
+
+	public void exportAsRtf() {
+		RTFExporterUI rtfExporterUI;
+		rtfExporterUI = new RTFExporterUI(currentRTFExportFile,
+				rtfExportPreferences[2]);
+
+		if (rtfExporterUI.getOptionPanel(frame, "Export as RTF").askAndSet() == JOptionPane.OK_OPTION) {
+			rtfExporterUI.exportModel(drawingSpecifications, data.getModel());
+			currentOutputDirectory = rtfExporterUI.getFile().getParentFile();
+		}
+
+	}
+
+	/**
+	 * Registers an action as being interested by the caret's manager
+	 * informations.
+	 * 
+	 * @param a
+	 */
+	public void registerCaretAwareAction(Action a) {
+		caretActionManager.addAction(a);
 	}
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="8.399843"
+   height="17.977417"
+   id="svg1333"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22M24A.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi23_SR">
+  <metadata
+     id="metadata1340">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22M24A</dc:title>
+        <dc:date>02/03/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>optimisation du signe M24 de Jsesh
+valeur s dans rsy ; sud</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1338" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="4.1999216"
+     inkscape:cy="8.9887083"
+     inkscape:window-x="88"
+     inkscape:window-y="116"
+     inkscape:current-layer="svg1333" />
+  <path
+     style="fill:#000000;stroke:none"
+     d="M 0.96875,-0.0625 C 0.60074202,-0.18513188 0.008081756,0.16060557 0.42375,0.4975 C 1.2376813,0.75892496 2.3055467,0.5935125 3,1.03125 C 3.8562439,1.4949888 3.770374,2.6785256 3.78125,3.56875 C 3.78125,5.74375 3.78125,7.91875 3.78125,10.09375 C 2.691882,9.4746422 1.3735653,9.4363963 0.15625,9.5625 C -0.387213,9.7566419 0.12103889,10.194241 0.51643337,10.09971 C 1.7534221,10.250099 3.116452,10.555242 3.71875,11.6875 C 3.9036144,12.388385 2.9811921,11.510216 2.5883772,11.580534 C 1.7451055,11.459785 0.80033677,11.329458 0,11.59375 C -0.34395082,11.969181 0.44293126,12.070247 0.71875,12.0625 C 1.8845481,12.253144 3.1658628,12.525782 3.71875,13.625 C 3.6373515,14.108005 4.0577582,15.089757 3.454839,15.178666 C 2.3932435,15.415305 1.3726346,15.87783 0.59375,16.625 C 2.0252737,17.875859 4.1669766,18.550812 5.9657959,17.676844 C 6.5904534,17.411336 7.1784141,17.077781 7.6875,16.625 C 6.8420079,15.855596 5.7884209,15.26949 4.625,15.125 C 4.680005,14.331871 4.4600932,13.350065 5.2811738,12.875061 C 6.1000876,12.233054 7.3540007,12.148604 8.40625,11.9375 C 8.7635004,11.614759 8.0695905,11.42809 7.7569402,11.476511 C 6.7033456,11.37966 5.593698,11.521047 4.65625,12.03125 C 4.6190625,11.298561 5.3530465,10.862205 5.875,10.59375 C 6.6840441,10.255951 7.5852781,10.226527 8.40625,10 C 8.7547221,9.558426 7.8580825,9.5481905 7.525,9.53125 C 6.5310782,9.4793216 5.512828,9.6232193 4.625,10.09375 C 4.5856184,7.3341459 4.7053586,4.5676028 4.5625,1.8125 C 4.4210205,0.5671337 3.1274793,-0.010727941 1.990726,-0.067027088 C 1.6560427,-0.13194012 1.3062759,-0.077193914 0.96875,-0.0625 z M 4.40625,16.09375 C 5.0223399,16.129758 5.6239453,16.328081 6.15625,16.625 C 4.920498,17.326904 3.3296334,17.325047 2.09375,16.625 C 2.7852616,16.235723 3.6069063,16.021791 4.40625,16.09375 z "
+     id="path1335" />
+</svg>

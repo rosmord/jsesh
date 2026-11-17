@@ -11,7 +11,7 @@ import jsesh.utils.TranslitterationUtilities;
  * This code is published under the GNU LGPL.
  */
 
-public class AlphabeticText extends BasicItem {
+public class AlphabeticText extends BasicItem implements TextContainer {
 
 	private char scriptCode;
 

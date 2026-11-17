@@ -29,6 +29,8 @@ import jsesh.mdcDisplayer.swing.editor.actions.GroupVerticalAction;
 import jsesh.mdcDisplayer.swing.editor.actions.NewLineAction;
 import jsesh.mdcDisplayer.swing.editor.actions.NewPageAction;
 import jsesh.mdcDisplayer.swing.editor.actions.PasteAction;
+import jsesh.mdcDisplayer.swing.editor.actions.SelectOrientationAction;
+import jsesh.mdcDisplayer.swing.editor.actions.SelectTextDirectionAction;
 import jsesh.utils.PlatformDetection;
 
 /**

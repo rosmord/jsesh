@@ -5,6 +5,7 @@
 package jsesh.mdcDisplayer.swing.preferencesEditor;
 
 import jsesh.graphicExport.RTFExportPreferences;
+import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
 
 /**
@@ -16,13 +17,16 @@ public class PreferencesFacade {
 	private RTFExportPreferences rtfExportPreferences[];
 
 	private LengthUnit preferedUnit;
+
+	private DrawingSpecifications drawingSpecifications;
 	
 	
 	/**
 	 * @param unit
 	 * @param preferences
 	 */
-	public PreferencesFacade(LengthUnit unit, RTFExportPreferences[] preferences) {
+	public PreferencesFacade(DrawingSpecifications drawingSpecifications, LengthUnit unit, RTFExportPreferences[] preferences) {
+		this.drawingSpecifications= drawingSpecifications;
 		preferedUnit = unit;
 		rtfExportPreferences = preferences;
 		for (int i=0; i< rtfExportPreferences.length; i++)
@@ -48,6 +52,13 @@ public class PreferencesFacade {
 	 */
 	public void setPreferedUnit(LengthUnit preferedUnit) {
 		this.preferedUnit = preferedUnit;
+	}
+
+	/**
+	 * @return
+	 */
+	public DrawingSpecifications getDrawingSpecifications() {
+		return drawingSpecifications;
 	}
 	
 }

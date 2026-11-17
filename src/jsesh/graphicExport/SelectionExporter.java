@@ -8,10 +8,9 @@
  */
 package jsesh.graphicExport;
 
-import java.io.IOException;
-
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.IOException;
 
 import jsesh.graphics.generic.BaseGraphics2D;
 import jsesh.mdc.model.PageBreak;
@@ -33,6 +32,8 @@ public class SelectionExporter {
     private BaseGraphics2DFactory graphicsFactory;
 
     private Color background;
+    
+    private boolean clearBeforeDrawing= true;
     
     private DrawingSpecifications actualDrawingSpecifications;
     
@@ -94,9 +95,10 @@ public class SelectionExporter {
 		BaseGraphics2D g = graphicsFactory
 		        .buildGraphics();
 
-		//g.setBackground(Color.WHITE);
+		
 		g.setBackground(background);
-		g.clearRect(0,0,(int)getScaledDimensions(view).getWidth(), (int)getScaledDimensions(view).getHeight());
+		if (clearBeforeDrawing)
+			g.clearRect(0,0,(int)getScaledDimensions(view).getWidth(), (int)getScaledDimensions(view).getHeight());
 		g.scale(exportData.getScale(), exportData.getScale());
 		// Prepare to draw.
 		ViewDrawer drawer = new ViewDrawer();
@@ -149,4 +151,23 @@ public class SelectionExporter {
     public void setTransparency(boolean transparency) {        
     }
 
+	/**
+	 * Should the drawing surface be cleared before drawing.
+	 *
+	 * @return the clearBeforeDrawing
+	 */
+	public boolean isClearBeforeDrawing() {
+		return clearBeforeDrawing;
+	}
+
+	/**
+	 * Selects if the drawing surface should be cleared before drawing.
+	 * Usually, this is true for bitmap pictures, and false for vector.
+	 * @param clearBeforeDrawing the clearBeforeDrawing to set
+	 */
+	public void setClearBeforeDrawing(boolean clearBeforeDrawing) {
+		this.clearBeforeDrawing = clearBeforeDrawing;
+	}
+
+    
 }

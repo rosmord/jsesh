@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="10.853325"
+   height="17.977417"
+   id="svg1532"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22C17B.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi21_SR">
+  <metadata
+     id="metadata1539">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22C17B</dc:title>
+        <dc:date>5/02/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc et ajout Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>j'ai repris votre signe d'Horus et je lui ai greffé double plume et disque solaire pour exprimer C17</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1537" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="5.4266624"
+     inkscape:cy="8.9887085"
+     inkscape:window-x="129"
+     inkscape:window-y="67"
+     inkscape:current-layer="svg1532" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 10.853325 12.480602  L 10.4547 12.480602  L 10.433721 17.977417  L 3.132607 17.977417  Q 2.859865 17.368992 4.076717 15.774495  Q 2.754964 12.480602 2.37732 11.137869  Q 1.684973 11.116888 1.538112 10.781205  Q 1.39125 10.445521 2.146538 10.193759  L 1.852815 7.508293  Q 0.887725 7.634174 0.216358 8.074759  Q -0.077365 7.529273 0.027537 6.962807  Q 0.866745 7.130649 1.705953 6.920846  Q 0.195378 5.368311 0.803804 4.508122  Q 1.41223 3.647934 2.272419 4.24587  Q 3.132607 4.843806 2.251439 6.836926  Q 3.006726 6.690064 3.845935 6.29144  Q 4.139657 6.794965 4.055737 7.340451  Q 3.132607 7.23555 2.314379 7.445352  L 2.964766 10.088859  Q 3.762014 10.361601 6.40552 13.907256  Q 6.40552 10.844146 7.097867 9.543373  L 6.048857 7.843976  L 5.587292 8.074759  L 5.587292 7.508293  Q 5.692193 6.962807 6.300619 6.564183  L 6.279639 6.564183  L 6.40552 1.088348  Q 6.447481 0.144239 7.076887 0.028848  Q 7.706293 -0.086543 8.020996 0.354041  Q 8.35668 -0.086543 8.996576 0.018358  Q 9.636473 0.123259 9.678432 1.067368  L 9.573532 6.417322  Q 10.014116 6.773985 10.41274 7.917407  Q 10.811364 9.060828 10.853325 12.480602  Z  M 6.762184 7.906917  L 7.454531 8.913966  L 7.580412 8.913966  L 7.580412 8.30554  Q 8.524522 7.885936 8.419621 7.23555  Q 8.314719 6.585163 7.769234 6.501243  Q 7.223748 6.417322 6.615322 6.962807  Q 7.097867 7.445352 6.762184 7.906917  Z  M 8.419621 9.33357  Q 9.090987 8.641224 9.972156 9.543373  Q 9.804315 7.550253 9.090987 6.962807  Q 9.090987 8.410441 8.314719 8.788085  L 8.419621 9.33357  Z  M 4.181618 17.075268  L 9.762354 17.075268  L 9.762354 10.424541  Q 9.42667 9.816115 8.965106 9.837095  L 8.965106 12.480602  L 7.811194 12.480602  L 7.811194 10.046898  Q 7.118847 10.718265 7.202768 15.774495  L 3.908875 11.893156  Q 3.111627 11.200809 3.468291 12.354721  L 4.852985 15.648614  L 4.181618 17.075268  Z  M 2.713003 11.24277  Q 2.964766 10.886106 3.447311 10.844146  Q 2.817904 10.27768 2.251439 10.529443  Q 1.684973 10.781205 2.198988 10.760225  Q 2.713003 10.739244 2.713003 11.24277  Z  M 1.936736 6.522223  Q 2.3983 4.990667 1.968206 4.696944  Q 1.538112 4.403222 1.254879 4.833316  Q 0.971646 5.26341 1.936736 6.522223  Z  M 6.111797 7.340451  L 6.300619 7.340451  L 6.174738 7.109668  L 6.111797 7.340451  Z  M 7.118847 7.109668  Q 7.265709 6.711044 7.538452 6.721535  Q 7.811194 6.732025 7.842665 7.004767  Q 7.874135 7.27751 7.601392 7.403391  Q 7.32865 7.529273 7.118847 7.109668  Z  M 8.188838 3.731855  Q 9.111967 3.878716 9.195889 4.927727  Q 9.111967 6.186539 7.874135 6.186539  Q 6.783164 6.060658 6.741204 4.906746  Q 6.846105 3.815776 7.748254 3.731855  L 7.811194 1.088348  Q 7.811194 0.458942 7.32865 0.458942  Q 6.867085 0.458942 6.825124 1.067368  L 6.720223 6.24948  L 7.706293 5.913796  L 8.146877 5.913796  L 9.132947 6.29144  L 9.258829 1.088348  Q 9.216868 0.479922 8.744814 0.469432  Q 8.272758 0.458942 8.251779 1.067368  L 8.188838 3.731855  L 8.188838 3.731855  Z  M 8.902165 4.927727  Q 8.797264 4.109499 7.979036 4.025578  Q 7.181788 4.046558 7.097867 4.927727  Q 7.076887 5.724975 7.916095 5.892817  Q 8.818244 5.808896 8.902165 4.927727  Z "
+     id="path1534" />
+</svg>

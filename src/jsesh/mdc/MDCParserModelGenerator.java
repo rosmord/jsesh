@@ -1,5 +1,5 @@
 /*
- * Created on 24 déc. 2003 by rosmord.
+ * Created on 24 dï¿½c. 2003 by rosmord.
  *
  * This code is distributed under the LGPL.
  *  
@@ -10,7 +10,6 @@ import java.io.Reader;
 
 import jsesh.mdc.model.MDCModelBuilder;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.utils.MDCSyntaxError;
 
 /**
  * A Parser for MdC code which generates a model (TopItemList)

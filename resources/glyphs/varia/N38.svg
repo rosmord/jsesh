@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="N38.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Ramessides/Fontes"
+   inkscape:version="0.41.1"
+   sodipodi:version="0.32"
+   id="svg1290"
+   height="1800.0000px"
+   width="1800.0000px">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:window-y="212"
+     inkscape:window-x="263"
+     inkscape:window-height="541"
+     inkscape:window-width="816"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="-110.80015"
+     inkscape:cx="900.00000"
+     inkscape:zoom="0.21166667"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         id="Work6"
+         rdf:about="">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type9" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/"
+           id="license1300" />
+        <dc:subject
+           id="subject1316">
+          <rdf:Bag
+             id="Bag1318">
+            <rdf:li
+               id="li1350">JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator
+           id="creator3369">
+          <cc:Agent
+             id="Agent3371">
+            <dc:title
+               id="title3373">Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description
+           id="description3375">Sign from Karnak Hypostyle Hall
+</dc:description>
+      </cc:Work>
+      <cc:License
+         id="License1302"
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           id="permits1304"
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           id="permits1306"
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           id="requires1308"
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           id="requires1310"
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           id="permits1312"
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           id="requires1314"
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       sodipodi:nodetypes="ccccccccccccccccccccccc"
+       id="path1363"
+       d="M -1.0625000,1485.3538 L -1.0625000,1799.0101 L 1809.2500,1799.0101 L 1809.2500,1485.3538 L -1.0625000,1485.3538 z M 89.625000,1545.3538 L 1720.4062,1545.3538 C 1698.0925,1572.6153 1674.7226,1597.0410 1647.8750,1620.1038 L 171.03125,1620.1038 C 140.28749,1600.6348 113.51051,1574.9778 89.625000,1545.3538 z M 58.937500,1601.8851 C 73.860561,1618.5464 89.953682,1634.2173 107.59375,1648.3538 C 90.205113,1661.8469 74.224101,1676.2314 58.937500,1691.8226 L 58.937500,1601.8851 z M 1749.2500,1603.9476 L 1749.2500,1688.8226 C 1735.4917,1674.8381 1721.1548,1661.4945 1705.8125,1648.7288 C 1721.1797,1634.3796 1735.5126,1619.4813 1749.2500,1603.9476 z M 166.00000,1680.1038 L 1648.9062,1680.1038 C 1673.0339,1698.3448 1694.3013,1717.5928 1714.4688,1739.0101 L 96.531250,1739.0101 C 117.59287,1716.7121 139.74029,1697.9129 166.00000,1680.1038 z "
+       style="fill:#000000;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:60.000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;display:inline" />
+  </g>
+</svg>

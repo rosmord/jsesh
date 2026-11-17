@@ -1,7 +1,9 @@
 package jsesh.mdc.lex;
-import jsesh.mdc.utils.*;
-import jsesh.mdc.constants.*;
 import java_cup.runtime.Symbol;
+import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdc.ParserErrorManager;
+import jsesh.mdc.constants.SymbolCodes;
+import jsesh.mdc.constants.ToggleType;
 
 
 class MDCLexAux implements MDCSymbols, SymbolCodes, java_cup.runtime.Scanner, ParserErrorManager {

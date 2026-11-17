@@ -30,7 +30,7 @@ public class HBox extends EmbeddedModelElement implements HBoxInterface {
 	}
 
 	public HorizontalListElement getHorizontalListElementAt(int i) {
-		return (InnerGroup) getChildAt(i);
+		return (HorizontalListElement) getChildAt(i);
 	}
 	
 	public void accept(ModelElementVisitor v) {

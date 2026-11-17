@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="18.080553"
+   height="16.32"
+   id="svg1333"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22U4B.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi21_SR">
+  <metadata
+     id="metadata1340">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22U4B</dc:title>
+        <dc:date>05/02/2006</dc:date>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>valeur: maA</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1338" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="22.855393"
+     inkscape:cx="9.0402767"
+     inkscape:cy="5.3099134"
+     inkscape:window-x="88"
+     inkscape:window-y="116"
+     inkscape:current-layer="svg1333" />
+  <path
+     style="fill:#000000; stroke:none"
+     d="M 9.217763,0.496087 C 9.6926497,0.15688233 10.188737,-0.00848 10.706026,0 C 11.223313,0.00848 11.70244,0.17384233 12.143406,0.496087 L 11.380196,1.513702 L 11.380196,4.286703 L 17.409563,4.286703 C 18.325417,4.3545437 18.304217,5.1431953 17.345963,6.652658 C 16.387708,8.16212 14.704404,9.7521433 12.296049,11.422728 C 9.887693,13.093312 7.0716367,14.725736 1.84788,16.32 C 0.83026533,16.150396 0.72850367,15.73487 1.542595,15.073421 C 4.6972017,13.818363 6.0377163,12.788028 7.564139,11.982417 C 9.090561,11.176804 10.426181,10.349992 11.570998,9.50198 C 12.715814,8.6539667 13.737669,7.51763 14.636562,6.09297 L 9.75201,6.09297 C 9.921612,5.2279973 9.9555327,3.6846147 9.853772,1.462822 L 9.217763,0.496087 z M 10.871387,4.948153 L 10.871387,1.259298 L 11.380196,0.750491 C 10.905309,0.51304767 10.447382,0.50456767 10.006413,0.725051 L 10.438902,1.259298 L 10.438902,5.406079 L 15.552419,5.406079 C 15.993383,5.4399997 15.654177,6.1311303 14.534801,7.479471 C 13.415426,8.8278103 12.313009,9.8666253 11.227552,10.595916 C 10.142096,11.325207 9.001519,12.003616 7.805821,12.631145 C 6.6101243,13.258675 5.4264927,14.166049 2.254926,15.353268 L 2.305807,15.531347 C 3.9509517,15.005582 4.9578537,14.565605 7.195253,13.423856 C 9.4020697,12.297714 11.329314,11.282806 12.753975,10.163429 C 14.178637,9.044053 15.289533,7.9501173 16.086664,6.881622 C 16.883795,5.8131253 17.223,5.1601553 17.104279,4.922712 L 10.871387,4.948153 z M 1.313632,9.705503 L 10.28626,9.705503 L 10.28626,7.543072 L 3.501504,7.543072 L 1.313632,9.705503 z M 3.145339,8.94229 L 3.806789,8.306282 L 9.523047,8.306282 L 9.523047,8.916851 L 3.145339,8.94229 z "
+     id="path1335"
+     sodipodi:nodetypes="csccccssccsscccccccccccsssccssscccccccccccc" />
+</svg>

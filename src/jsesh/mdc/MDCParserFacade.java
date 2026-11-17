@@ -6,7 +6,6 @@ import java_cup.runtime.Symbol;
 import jsesh.mdc.interfaces.MDCBuilder;
 import jsesh.mdc.lex.MDCLex;
 import jsesh.mdc.parser.MDCParse;
-import jsesh.mdc.utils.MDCSyntaxError;
 
 /**
  * MDCParserFacade.java
@@ -19,7 +18,7 @@ import jsesh.mdc.utils.MDCSyntaxError;
  */
 
 /**
- * Façade for the Parser process for java.  This is still a rather
+ * Faï¿½ade for the Parser process for java.  This is still a rather
  * low-level system. It can't do anything without the help of a
  * builder class. It's a brick for advanced programmers.
  *

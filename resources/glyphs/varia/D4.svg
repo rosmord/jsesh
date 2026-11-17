@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="D4.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Ramessides/Fontes"
+   inkscape:version="0.41.1"
+   sodipodi:version="0.32"
+   id="svg1290"
+   height="18.000000px"
+   width="18.000000px">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:window-y="292"
+     inkscape:window-x="174"
+     inkscape:window-height="541"
+     inkscape:window-width="761"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="2.4701314"
+     inkscape:cx="6.5017315"
+     inkscape:zoom="6.4531854"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         id="Work6"
+         rdf:about="">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type9" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/"
+           id="license1300" />
+        <dc:subject
+           id="subject1316">
+          <rdf:Bag
+             id="Bag1318">
+            <rdf:li
+               id="li1350">JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator
+           id="creator3298">
+          <cc:Agent
+             id="Agent3300">
+            <dc:title
+               id="title3302">Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description
+           id="description3304">Karnak Hypostyle Hall
+</dc:description>
+      </cc:Work>
+      <cc:License
+         id="License1302"
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           id="permits1304"
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           id="permits1306"
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           id="requires1308"
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           id="requires1310"
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           id="permits1312"
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           id="requires1314"
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       sodipodi:nodetypes="cccccccccccccccccccccccc"
+       id="path2103"
+       d="M 7.3750000,13.031250 C 5.3878428,13.127124 3.4721981,14.144969 2.2625311,15.721428 C 1.8058922,16.211390 1.1213287,16.343511 0.50358005,16.516190 C 0.034794728,16.414983 -0.24040998,17.191996 0.26965102,17.310945 C 0.69265360,17.390476 1.1245666,17.273392 1.5529208,17.309787 C 2.8288565,17.292333 4.1141789,17.413149 5.3402483,17.780117 C 6.6129883,18.094357 7.9679819,18.243295 9.2490999,17.887483 C 11.706744,17.324748 14.103901,16.468505 16.619660,16.181796 C 16.967630,16.140585 17.316671,16.108469 17.666296,16.085178 C 18.103699,15.977329 17.958387,15.196442 17.496493,15.307071 C 15.616770,15.291121 13.798235,14.710313 12.067427,14.022700 C 10.568150,13.458678 8.9947223,12.976565 7.3750000,13.031250 z M 6.5625000,14.062500 C 5.8168345,14.768433 5.4481812,16.302385 6.9304821,17.158192 C 5.9460625,17.053908 4.7967897,16.781760 3.8170519,16.652928 C 3.2950688,16.615573 2.7723730,16.668621 2.2500000,16.656250 C 2.6856939,16.459338 3.0125373,16.099674 3.3090613,15.736897 C 4.1780990,14.847002 5.3575377,14.314625 6.5625000,14.062500 z M 8.9375000,14.156250 C 10.130977,14.297713 11.332228,14.510977 12.434648,15.008516 C 13.260329,15.323577 14.106689,15.585838 14.968750,15.781250 C 13.633896,16.015588 12.288906,16.214909 10.984966,16.593664 C 10.419143,16.728015 9.8489910,16.842984 9.2812500,16.968750 C 10.288498,15.961502 10.055529,14.863373 8.9375000,14.156250 z "
+       style="fill:#000000;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:0.79547155;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;display:inline" />
+  </g>
+</svg>

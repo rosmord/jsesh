@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="18.000000px"
+   height="18.000000px"
+   id="svg1290"
+   sodipodi:version="0.32"
+   inkscape:version="0.41.1"
+   sodipodi:docbase="/home/rosmord/Desktop/lien vers Gsigns/Others"
+   sodipodi:docname="V49A.svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="19.944444"
+     inkscape:cx="9.0000000"
+     inkscape:cy="8.3508671"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1278"
+     inkscape:window-height="948"
+     inkscape:window-x="0"
+     inkscape:window-y="26" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           id="license1300"
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/" />
+        <dc:subject
+           id="subject1316">
+          <rdf:Bag
+             id="Bag1318">
+            <rdf:li
+               id="li1350">JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description
+           id="description2319">V49A sign. Code given in the Hieroglyphica to Gardiner's Ff2. This sign is the representation of a hieratic ligature, and not a real hieroglyph. See Gardiner, JEA 15, p. 53</dc:description>
+        <dc:creator
+           id="creator2321">
+          <cc:Agent
+             id="Agent2323">
+            <dc:title
+               id="title2325">Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/2.0/"
+         id="License1302">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction"
+           id="permits1304" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution"
+           id="permits1306" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice"
+           id="requires1308" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution"
+           id="requires1310" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks"
+           id="permits1312" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike"
+           id="requires1314" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:nodetypes="ccccccccccccccccccccccccccccccc"
+       id="path1536"
+       d="M 2.6906059,-0.049442897 C 2.2830611,-0.049442897 1.8705616,0.11582666 1.6087736,0.44510903 C 1.3469856,0.77439141 1.2378595,1.2343687 1.2378596,1.8360363 C 1.2378596,2.5305031 1.6340238,3.3769438 2.1033255,4.3087960 C 2.1833040,4.4676024 2.2669611,4.6111593 2.3506015,4.7724384 C 1.9885802,5.4643998 1.6104076,6.1719903 1.3305881,6.8124651 L 1.8869590,7.0597411 C 2.0175233,6.7608943 2.2067191,6.4093797 2.3815110,6.0706372 L 2.3815110,17.509027 L 0.0014798050,17.509027 L 0.0014798050,18.063522 L 5.3488228,18.156250 L 5.3488228,17.509027 L 2.9687914,17.509027 L 2.9687914,6.0088182 C 3.1559566,6.3702713 3.3561505,6.7436402 3.4942528,7.0597411 L 4.0197138,6.8124651 C 3.7432864,6.1797535 3.3576419,5.4872607 2.9997009,4.8033479 C 3.0882623,4.6327579 3.1624197,4.4766939 3.2469768,4.3087960 C 3.7162784,3.3769438 4.1433518,2.5305030 4.1433518,1.8360363 C 4.1433518,1.2399385 4.0289448,0.77823782 3.7724383,0.44510903 C 3.5159319,0.11198025 3.1185992,-0.049442897 2.6906059,-0.049442897 z M 2.6906059,0.53783752 C 2.9907312,0.53783752 3.1692151,0.63474732 3.3087958,0.81602298 C 3.4483766,0.99729863 3.5251623,1.3158031 3.5251623,1.8360363 C 3.5251621,2.2695898 3.1820815,3.1161036 2.7215154,4.0306105 C 2.7071867,4.0590619 2.7051179,4.0947354 2.6906059,4.1233390 C 2.6739924,4.0906255 2.6451626,4.0631263 2.6287869,4.0306105 C 2.1682207,3.1161036 1.8251400,2.2695897 1.8251400,1.8360363 C 1.8251399,1.3188054 1.9257494,1.0005032 2.0724160,0.81602298 C 2.2190826,0.63154276 2.4195014,0.53783752 2.6906059,0.53783752 z "
+       style="color:#000000;fill:#000000;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:0.60000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" />
+  </g>
+</svg>

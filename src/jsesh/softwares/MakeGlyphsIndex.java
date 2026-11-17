@@ -1,8 +1,7 @@
 package jsesh.softwares;
 
-import java.io.IOException;
-
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
@@ -49,7 +48,7 @@ public class MakeGlyphsIndex {
 			ImageIO.write(bitmap, "png", new java.io.File(code + ".png"));
 		} else if ("svg".equals(format)) {
 			java.io.FileOutputStream out= new java.io.FileOutputStream(code+ ".svg");
-			s.exportToSVG(out, "US-ASCII");
+			s.exportToSVG(out, "UTF-8");
 		}
 		
 	}

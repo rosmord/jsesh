@@ -1,9 +1,8 @@
 package jsesh.externalFonts.control;
 
-import java.io.File;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
+import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -12,12 +11,15 @@ import javax.swing.filechooser.FileFilter;
 import jsesh.externalFonts.model.ExternalSignImporterModel;
 import jsesh.externalFonts.ui.ExternalSignImporterUI;
 import jsesh.externalFonts.ui.UIEventListener;
-import jsesh.hieroglyphs.HieroglyphsManager;
+import jsesh.hieroglyphs.GardinerCode;
 
 /**
  * Presenter for the external font importer.
  * Gets events, update GUI, modify model. 
- * This use the design pattern Model/View/Presenter.
+ * <p>This use the design pattern Model/View/Presenter.
+ *  Basically: all input is sent to the presenter, which is responsible
+ *  both for updating the model and the view. Data is mostly copied between
+ *  the model and the views, which is often practical for forms.
  * @author rosmord
  *
  */
@@ -62,7 +64,8 @@ public class ExternalSignImporterPresenter implements UIEventListener {
 		} else if (src== ui.getFlipVerticallyButton()) {
 			model.flipVertically();
 		} else if (src== ui.getFullCadratHeightButton()) {
-			model.resizeVerticallyTo(model.getReferenceShape().getBbox().getHeight());
+			//model.resizeVerticallyTo(model.getReferenceShape().getBbox().getHeight());
+			resizeVerticallyTo(model.getReferenceShape().getBbox().getHeight());
 		}
 		if (signChanged)
 		{
@@ -96,7 +99,7 @@ public class ExternalSignImporterPresenter implements UIEventListener {
 					model.setSourceDirectory(selected);
 				}
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(ui.getPanel(), "Could not load file " + fileChooser.getSelectedFile().getPath(),"File not loaded",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(ui.getPanel(), "Could not load file " + fileChooser.getSelectedFile().getPath() + "\nbecause: "+e.getMessage(),"File not loaded",JOptionPane.ERROR_MESSAGE);
 			} 
 		}		
 	}
@@ -123,7 +126,7 @@ public class ExternalSignImporterPresenter implements UIEventListener {
 		String txt= ui.getCodeField().getText();
 		return
 		(!"".equals(txt) ) && (model.getShapeChar() != null)
-			&& HieroglyphsManager.isCorrectBasicMdcCode(txt);
+			&& GardinerCode.isCanonicalCode(txt);
 	}
 
 	public void focusGained(FocusEvent e) {				
@@ -136,6 +139,7 @@ public class ExternalSignImporterPresenter implements UIEventListener {
 	
 	public void resizeVerticallyTo(double y) {
 		model.resizeVerticallyTo(y);
+		ui.getImportedSignDisplay().setShapeScale(model.getShapeScale());
 		refreshUI();
 	}
 	

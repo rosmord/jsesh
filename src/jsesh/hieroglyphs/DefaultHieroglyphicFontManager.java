@@ -1,10 +1,9 @@
 package jsesh.hieroglyphs;
 
-import java.util.Set;
-import java.util.prefs.Preferences;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
+import java.util.prefs.Preferences;
 
 import jsesh.bzr.simple.ShapeChar;
 
@@ -66,7 +65,7 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 		// TODO Awfull patch for now. This should move to another class. The font manager should 
 		// associate glyphs codes to drawings ;
 		// a code manager should associate mdc codes to glyphs codes.
-		if (! HieroglyphsManager.isCorrectBasicMdcCode(code))
+		if (! GardinerCode.isCanonicalCode(code))
 			newCode= HieroglyphsManager.getInstance().getCanonicalCode(code);
 		if (newCode==null)
 			newCode= code;

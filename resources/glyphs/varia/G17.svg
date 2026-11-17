@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="15.534093"
+   height="17.040001"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22G17B.svg"
+   sodipodi:docbase="C:\DOCUME~1\MRTHOM~1\LOCALS~1\Temp">
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22G17B</dc:title>
+        <dc:date>11/01/2006</dc:date>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier>US22</dc:identifier>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>utilisation de votre création de splendide tête de chouette sur un corps d'origine mais optimisé</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="21.88967"
+     inkscape:cx="7.7670465"
+     inkscape:cy="8.5200005"
+     inkscape:window-x="66"
+     inkscape:window-y="87"
+     inkscape:current-layer="svg2" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 6.389999 13.198716  Q 6.226154 12.17923 4.569487 9.41205  Q 4.915384 12.015385 4.860768 13.125896  Q 5.00641 13.198716 6.389999 13.198716  Z  M 6.826922 13.162306  Q 6.590256 14.218204 6.371795 14.436666  Q 5.570769 13.799486 4.915384 14.036153  L 4.587691 15.620001  Q 5.71641 15.911281 6.535641 15.620001  Q 7.172821 14.036153 6.826922 13.162306  Z  M 3.932307 0.910256  L 2.967436 0.801026  L 2.566923 1.401795  Q 2.858205 1.037692 3.222308 1.037692  Q 3.58641 1.037692 3.932307 1.693077  Q 4.29641 1.037692 4.660512 1.055897  Q 5.04282 1.037692 5.315897 1.401795  L 4.915384 0.78282  L 3.932307 0.910256  Z  M 3.531794 15.547177  Q 4.114358 14.545897 4.050642 12.579742  Q 3.986923 10.613588 3.759359 9.02064  Q 3.531794 7.427692 2.59423 6.144231  Q 1.656667 4.860768 1.547436 3.058461  Q 1.583846 1.49282 2.657948 0.03641  Q 3.477179 0.254872 3.932307 0.254872  Q 4.423845 0.254872 5.206666 0  Q 6.335384 1.49282 6.35359 3.786666  Q 8.73846 5.04282 10.3041 7.473204  Q 11.869743 9.903588 13.781281 12.96205  Q 14.45487 13.59923 15.064742 14.45487  Q 15.674614 15.310513 15.492562 15.456152  Q 15.401536 15.656408 14.618716 14.764359  Q 13.835896 13.872306 13.835896 13.890512  L 15.12846 16.603075  Q 14.928205 16.985382 13.672051 17.040001  Q 12.415897 17.094612 11.505641 16.184359  Q 9.921793 13.690255 9.248203 12.688973  Q 9.248203 13.963332 9.011538 15.001024  Q 8.392564 14.27282 7.95564 14.072563  Q 7.518718 15.073845 7.427692 16.220768  Q 7.700768 16.657692 6.899743 16.703203  Q 6.098718 16.748714 4.605896 16.603075  Q 3.331538 16.384613 0.946667 16.621281  Q 0.345897 16.421022 0 16.785128  Q 0 16.184359 0.873846 15.674614  L 3.531794 15.547177  Z  M 7.318461 12.92564  Q 7.427692 13.162306 7.992053 13.362563  Q 8.556409 13.56282 8.510896 12.698076  Q 8.465384 11.833333 8.865896 11.724103  Q 9.26641 11.614873 10.140255 12.70718  Q 10.72282 13.70846 11.733205 15.210383  Q 12.743589 16.712305 14.27282 16.275385  Q 13.544616 14.400255 11.542052 12.470512  Q 9.539486 11.050513 7.391282 9.457562  Q 5.243076 7.864615 4.551281 5.843846  Q 4.624102 4.878973 6.207949 4.806154  Q 6.535641 4.933589 6.672179 5.142949  Q 6.808718 5.352308 5.934872 5.525257  Q 5.061025 5.698205 5.588974 6.681282  Q 6.116922 7.664359 7.709872 8.956923  Q 9.30282 10.249486 12.543333 12.397692  Q 11.050513 9.939999 10.031025 8.356153  Q 9.011538 6.772308 7.91923 5.698205  Q 6.826922 4.624102 5.425128 4.278204  Q 5.843846 3.349744 5.60718 2.712564  L 5.406923 2.712564  Q 4.678718 2.13 3.932307 3.058461  Q 3.076667 2.13 2.457692 2.712564  L 2.257436 2.712564  Q 2.221025 4.496666 2.967436 5.588974  Q 3.713846 6.681282 6.080513 10.486153  Q 7.02718 11.997179 7.318461 12.92564  Z  M 5.516154 2.13  Q 5.061025 1.292564 4.569487 1.274359  Q 4.387436 1.401795 3.950512 2.075384  Q 3.458974 1.401795 3.295128 1.292564  Q 2.80359 1.292564 2.330256 2.13  Q 3.076667 2.002564 3.932307 2.694359  Q 4.696922 2.002564 5.516154 2.13  Z  M 5.352308 2.894616  L 5.352308 3.058461  Q 5.15205 3.058461 4.860768 3.249616  Q 4.569487 3.440769 4.205384 3.022051  L 4.205384 2.985641  Q 4.314615 2.985641 4.414743 2.812693  Q 4.514871 2.639743 4.696922 2.648846  Q 4.878973 2.657948 5.170255 2.894616  L 5.352308 2.894616  Z  M 3.932307 3.058461  L 4.36923 3.932307  L 3.932307 4.569487  L 3.495384 3.932307  L 3.932307 3.058461  Z  M 2.512307 2.912821  L 2.512307 3.094872  Q 2.712564 3.094872 3.003846 3.276923  Q 3.295128 3.458974 3.659231 3.040257  L 3.659231 3.022051  Q 3.55 3.022051 3.458974 2.849102  Q 3.367949 2.676154 3.176795 2.685256  Q 2.985641 2.694359 2.694359 2.931026  L 2.512307 2.912821  Z "
+     id="path4" />
+</svg>

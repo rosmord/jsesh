@@ -11,6 +11,7 @@ import java.util.List;
 import jsesh.mdc.model.BasicItem;
 import jsesh.mdc.model.BasicItemList;
 import jsesh.mdc.model.Cadrat;
+import jsesh.mdc.model.ComplexLigature;
 import jsesh.mdc.model.HBox;
 import jsesh.mdc.model.InnerGroup;
 import jsesh.mdc.model.ModelElement;
@@ -57,6 +58,13 @@ public class HorizontalGrouper {
 			result.addHorizontalListElement(g);
 		}
 		
+		/**
+		 * Embed complex ligatures in a cadrat
+		 */
+		public void visitComplexLigature(ComplexLigature ligature) {
+			SubCadrat c= new SubCadrat(ligature.buildCadrat());
+			result.addHorizontalListElement(c);
+		}
 		/**
 		 * Fetch InnerGroups from a cadrat. If the cadrat is limited to a single 
 		 * hbox, dig into it a fetch the hbox elements.

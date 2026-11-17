@@ -1,10 +1,5 @@
 package jsesh.bzr.simple;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -12,7 +7,14 @@ import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
+import jsesh.hieroglyphs.HorizontalGravity;
+import jsesh.hieroglyphs.LigatureZone;
+import jsesh.hieroglyphs.VerticalGravity;
 import jsesh.utils.DoubleUtils;
 
 /**
@@ -24,17 +26,45 @@ import jsesh.utils.DoubleUtils;
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC
  *         </a>
  * 
+ * 
+ * TODO: Include documentation about the signs (author, license, etc.)
+ * TODO: get sure "fixShape" is always called when necessary (make it private?). The problem is that fixShape should only be called *after* setting both shape and ligature zones.
  */
 
-public class ShapeChar {
+public class ShapeChar implements Cloneable {
+
 	private Shape shape;
+
 	private Rectangle2D bbox;
-	private Rectangle2D zones[];
+
+	private LigatureZone zones[];
+
+	private String license; // the sign license, if any.
+
+	private String documentation; // sign description
+
+	private String author; // sign creator
 
 	public ShapeChar() {
 	}
 
 	
+	public Object clone() throws CloneNotSupportedException {
+		ShapeChar result = (ShapeChar) super.clone();
+		if (shape != null)
+			result.shape = new GeneralPath(shape);
+		if (bbox != null)
+			result.bbox = (Rectangle2D) bbox.clone();
+		if (zones != null) {
+			result.zones = (LigatureZone[]) zones.clone();
+			for (int i = 0; i < zones.length; i++) {
+				if (result.zones[i] != null)
+					result.zones[i] = (LigatureZone) result.zones[i].clone();
+			}
+		}
+		// The rest of the fields are immutable.
+		return result;
+	}
 
 	/**
 	 * Get the value of bbox.
@@ -66,7 +96,7 @@ public class ShapeChar {
 	 *            a <code>double</code> value
 	 * @param ury
 	 *            a <code>double</code> value
-	 *  
+	 * 
 	 */
 	public void setBBox(double llx, double lly, double urx, double ury) {
 		this.bbox = new Rectangle2D.Double(llx, ury, urx - llx, lly - ury);
@@ -89,6 +119,7 @@ public class ShapeChar {
 	 */
 	public void setShape(Shape v) {
 		this.shape = v;
+		fixShape();
 	}
 
 	/**
@@ -103,8 +134,8 @@ public class ShapeChar {
 	 */
 	public void draw(Graphics2D g, double x, double y, double xscale,
 			double yscale, float angle) {
-		//AffineTransform tr;
-		//tr= g.getTransform();
+		// AffineTransform tr;
+		// tr= g.getTransform();
 		Graphics2D tmpG = (Graphics2D) g.create();
 		tmpG.translate(x, y);
 		Shape s = getShape();
@@ -120,184 +151,315 @@ public class ShapeChar {
 		}
 		// The following line doesn't do what it's supposed to do.
 		tmpG.fill(s);
-		//g.setTransform(tr);
+		// g.setTransform(tr);
 		tmpG.dispose();
 	}
 
-	
 	public Shape getTransformedShape(double x, double y, double xscale,
 			double yscale, double angle) {
-	    Shape result= getShape();
-	    if (angle != 0) {
-	        AffineTransform tr0= AffineTransform.getRotateInstance(angle);
-	        result= tr0.createTransformedShape(getShape());
-	        // Move the top-left of this shape to 0,0.
-	        Rectangle2D r = result.getBounds2D();
-	        x= x - r.getMinX()*xscale;
-	        y= y - r.getMinY()*yscale;
-	    } 
-	    AffineTransform tr= AffineTransform.getTranslateInstance(x,y);
-	    // scale and turn.
-	    tr.concatenate(AffineTransform.getScaleInstance(xscale, yscale));
-	    result= tr.createTransformedShape(result);
-	    return result;
+		Shape result = getShape();
+		if (angle != 0) {
+			AffineTransform tr0 = AffineTransform.getRotateInstance(angle);
+			result = tr0.createTransformedShape(getShape());
+			// Move the top-left of this shape to 0,0.
+			Rectangle2D r = result.getBounds2D();
+			x = x - r.getMinX() * xscale;
+			y = y - r.getMinY() * yscale;
+		}
+		AffineTransform tr = AffineTransform.getTranslateInstance(x, y);
+		// scale and turn.
+		tr.concatenate(AffineTransform.getScaleInstance(xscale, yscale));
+		result = tr.createTransformedShape(result);
+		return result;
 	}
-	
-	public Area getSignArea(double x, double y, double xscale,
-			double yscale, double angle) {
-	     	Area s1 = new Area();
-	     	Shape s= getTransformedShape(x,y,xscale, yscale, angle);
-	        PathIterator iter = s.getPathIterator(null);
-	        GeneralPath current = null;
-	        while (!iter.isDone()) {
-	            float coords[] = new float[6];
-	            int type = iter.currentSegment(coords);
-	            switch (type) {
-	            case PathIterator.SEG_CLOSE:
-	                current.closePath();
-	            	s1.add(new Area(current));
-	            	current= null;
-	                break;
-	            case PathIterator.SEG_CUBICTO:
-	                current.curveTo(coords[0], coords[1], coords[2], coords[3],
-	                        coords[4], coords[5]);
-	                break;
-	            case PathIterator.SEG_LINETO:
-	                current.lineTo(coords[0], coords[1]);
-	                break;
-	            case PathIterator.SEG_MOVETO:
-	                if (current != null)
-	                    s1.add(new Area(current));
-	                current= new GeneralPath(iter.getWindingRule());
-	            	current.moveTo(coords[0], coords[1]);
-	                break;
-	            case PathIterator.SEG_QUADTO:
-	                current.quadTo(coords[0], coords[1], coords[2], coords[3]);
-	                break;
-	            }
-	            iter.next();
-	        }
-	        if (current != null)
-	            s1.add(new Area(current));
-	        return s1;
+
+	public Area getSignArea(double x, double y, double xscale, double yscale,
+			double angle) {
+		Area s1 = new Area();
+		Shape s = getTransformedShape(x, y, xscale, yscale, angle);
+		PathIterator iter = s.getPathIterator(null);
+		GeneralPath current = null;
+		while (!iter.isDone()) {
+			float coords[] = new float[6];
+			int type = iter.currentSegment(coords);
+			switch (type) {
+			case PathIterator.SEG_CLOSE:
+				current.closePath();
+				s1.add(new Area(current));
+				current = null;
+				break;
+			case PathIterator.SEG_CUBICTO:
+				current.curveTo(coords[0], coords[1], coords[2], coords[3],
+						coords[4], coords[5]);
+				break;
+			case PathIterator.SEG_LINETO:
+				current.lineTo(coords[0], coords[1]);
+				break;
+			case PathIterator.SEG_MOVETO:
+				if (current != null)
+					s1.add(new Area(current));
+				current = new GeneralPath(iter.getWindingRule());
+				current.moveTo(coords[0], coords[1]);
+				break;
+			case PathIterator.SEG_QUADTO:
+				current.quadTo(coords[0], coords[1], coords[2], coords[3]);
+				break;
+			}
+			iter.next();
+		}
+		if (current != null)
+			s1.add(new Area(current));
+		return s1;
 	}
 
 	/**
-	 * fixShape ensures the shapeChar is correct, using the shape as starting point. 
-	 * <p>Fixes both the bounding box and the sign origin.
+	 * fixShape ensures the shapeChar is correct, using the shape as starting
+	 * point.
+	 * <p>
+	 * Fixes both the bounding box and the sign origin.
 	 */
-	public void fixShape() {
+	private void fixShape() {
 		// Just to be sure of the bounding box...
-		PathIterator it= shape.getPathIterator(null, 0.01);
-		GeneralPath p= new GeneralPath();
+		PathIterator it = shape.getPathIterator(null, 0.01);
+		GeneralPath p = new GeneralPath();
 		p.append(it, false);
-		Rectangle2D r= p.getBounds2D();
-		AffineTransform transform= AffineTransform.getTranslateInstance(-r.getMinX(), -r.getMinY());
-		shape= transform.createTransformedShape(shape);
-		if (zones!= null) {
-			for (int i=0; i < zones.length; i++) {
-				if (zones[i]!= null) {
-					zones[i]= new Rectangle2D.Double(zones[i].getMinX() - r.getMinX(), zones[i].getMinY() - r.getMinY(), zones[i].getWidth(), zones[i].getHeight());
+		Rectangle2D r = p.getBounds2D();
+		AffineTransform transform = AffineTransform.getTranslateInstance(-r
+				.getMinX(), -r.getMinY());
+		shape = transform.createTransformedShape(shape);
+		if (zones != null) {
+			for (int i = 0; i < zones.length; i++) {
+				if (zones[i] != null) {
+					Rectangle2D rect = new Rectangle2D.Double(zones[i]
+							.getMinX()
+							- r.getMinX(), zones[i].getMinY() - r.getMinY(),
+							zones[i].getWidth(), zones[i].getHeight());
+					zones[i].setBox(rect);
 				}
 			}
 		}
 		setBBox(0, r.getMaxY() - r.getMinY(), r.getMaxX() - r.getMinX(), 0);
 	}
 
-	
 	/**
-	 * Modify a shape char in order to get an height of exactly h units.
-	 * Should be used only in the context of sign importation and/or modifications.
-	 * @param h : the height of the sign.
+	 * Modify a shape char in order to get an height of exactly h units. Should
+	 * be used only in the context of sign importation and/or modifications.
+	 * 
+	 * @param h :
+	 *            the height of the sign.
 	 */
 	public void scaleToHeight(double h) {
 		double s = h / getBbox().getHeight();
-		setShape(AffineTransform.getScaleInstance(s, s)
-				.createTransformedShape(getShape()));
-		if (zones!= null) {
-			for (int i=0; i < zones.length; i++) {
-				if (zones[i]!= null) {
-					zones[i]= new Rectangle2D.Double(zones[i].getMinX() *s, zones[i].getMinY() *s, zones[i].getWidth()*s, zones[i].getHeight()*s);
+		scaleGlyph(s);
+	}
+
+	/**
+	 * Scale a sign globally.
+	 * This scales all instances of the sign, and is a font manipulation operation,
+	 * not to be used in simple drawing.
+	 */
+	
+	public void scaleGlyph(double scale) {
+		
+		// scale zones.
+		if (zones != null) {
+			for (int i = 0; i < zones.length; i++) {
+				if (zones[i] != null) {
+					zones[i].setBox(new Rectangle2D.Double(zones[i].getMinX()
+							* scale, zones[i].getMinY() * scale, zones[i].getWidth()
+							* scale, zones[i].getHeight() * scale));
 				}
 			}
 		}
-		fixShape();	
+		// Scale shape
+		setShape(AffineTransform.getScaleInstance(scale, scale).createTransformedShape(
+				getShape()));
+		
+		//fixShape();
 	}
+	
 	/**
-	 * Saves the drawing of this sign as an SVG file.
-	 * Note that the output should be in ASCII (or UTF-8) encoding for best portability.
+	 * Saves the drawing of this sign as an SVG file. Note that the output
+	 * should be in ASCII (or UTF-8) encoding for best portability.
+	 * 
 	 * @param out
-	 * @param encoding the name of the encoding to use. We suggest "UTF-8".
+	 * @param encoding
+	 *            the name of the encoding to use. We suggest "UTF-8".
 	 */
 	public void exportToSVG(OutputStream o, String encoding) throws IOException {
-		Writer out= new OutputStreamWriter(o, encoding);
-		out.write("<?xml version=\"1.0\" ");
-		if (! "".equals(encoding)) {
-			out.write("encoding =\""+ encoding+ "\" ");
+		final String ZONE_STYLE = "fill:none;stroke:red;stroke-width:0.2;stroke-opacity:1";
+		Writer out = new OutputStreamWriter(o, encoding);
+		out.write("<?xml version='1.0' ");
+		if (!"".equals(encoding)) {
+			out.write("encoding ='" + encoding + "' ");
 		}
-		out.write("standalone=\"yes\"?>\n");
-		out.write("<svg width=\"");
+		out.write("standalone='yes'?>\n");
+		out.write("<svg width='");
 		out.write(DoubleUtils.writeInDecimal(bbox.getWidth()));
-		out.write("\" height=\"");
+		out.write("' height='");
 		out.write(DoubleUtils.writeInDecimal(bbox.getHeight()));
-		out.write("\">\n");
-		out.write("<path style=\"fill:#000000; stroke:none\" d=\"");
-		PathIterator iter= shape.getPathIterator(null);
-		while (! iter.isDone()) {
+		out.write("' ");
+		out
+				.write("xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'");
+		out.write(">\n");
+		out.write("<path style='fill:#000000; stroke:none' d='");
+		PathIterator iter = shape.getPathIterator(null);
+		while (!iter.isDone()) {
 			float coords[] = new float[6];
-            int type = iter.currentSegment(coords);
-            switch (type) {
-            case PathIterator.SEG_CLOSE:
-            	            out.write(" Z ");	
-                break;
-            case PathIterator.SEG_CUBICTO:
-                out.write(" C ");
-                outputNumbers(out, coords, 6);
-                break;
-            case PathIterator.SEG_LINETO:
-            	out.write(" L ");
-            	outputNumbers(out, coords, 2);
-                break;
-            case PathIterator.SEG_MOVETO:    
-            	out.write(" M ");
-            	outputNumbers(out, coords, 2);
-                break;
-            case PathIterator.SEG_QUADTO:
-            	out.write(" Q ");
-            	outputNumbers(out, coords, 4);
-                break;
-            }
-            iter.next();
+			int type = iter.currentSegment(coords);
+			switch (type) {
+			case PathIterator.SEG_CLOSE:
+				out.write(" Z ");
+				break;
+			case PathIterator.SEG_CUBICTO:
+				out.write(" C ");
+				outputNumbers(out, coords, 6);
+				break;
+			case PathIterator.SEG_LINETO:
+				out.write(" L ");
+				outputNumbers(out, coords, 2);
+				break;
+			case PathIterator.SEG_MOVETO:
+				out.write(" M ");
+				outputNumbers(out, coords, 2);
+				break;
+			case PathIterator.SEG_QUADTO:
+				out.write(" Q ");
+				outputNumbers(out, coords, 4);
+				break;
+			}
+			iter.next();
 		}
-		out.write("\"/>");
+		out.write("'/>");
+		// The ligature zones.
+		if (zones != null) {
+			for (int i = 0; i < zones.length; i++) {
+				if (zones[i] != null) {
+					out.write("<rect");
+					out.write(' ');
+					out.write("style='" + ZONE_STYLE + "'");
+					out.write(' ');
+					out.write("id='zone" + (i + 1) + "'");
+					out.write(' ');
+					out.write("width='" + zones[i].getWidth() + "'");
+					out.write(' ');
+					out.write("height='" + zones[i].getHeight() + "'");
+					out.write(' ');
+					out.write("x='" + zones[i].getMinX() + "'");
+					out.write(' ');
+					out.write("y='" + zones[i].getMinY() + "'");
+					out.write(' ');
+					String gravity = "";
+					if (!zones[i].getHorizontalGravity().equals(
+							HorizontalGravity.CENTER))
+						gravity += zones[i].getHorizontalGravity().getCode();
+					if (!zones[i].getVerticalGravity().equals(
+							VerticalGravity.CENTER))
+						gravity += zones[i].getVerticalGravity().getCode();
+					if (gravity.length() > 0)
+						out.write("inkscape:label='gravity:" + gravity + "'");
+					out.write("/>");
+				}
+			}
+		}
 		out.write("</svg>\n");
 		out.close();
 	}
 
-	private void outputNumbers(Writer out, float[] coords, int max) throws IOException {
-		for (int i=0; i< max; i++) {
+	private void outputNumbers(Writer out, float[] coords, int max)
+			throws IOException {
+		for (int i = 0; i < max; i++) {
 			out.write(DoubleUtils.writeInDecimal(coords[i]));
 			out.write(' ');
 		}
-		
+
 	}
 
-	
-	public void setZone(int i, Rectangle2D rect) {
-		if (zones==null) {
-			zones= new Rectangle2D[3];
+	public void setZone(int i, LigatureZone z) {
+		if (zones == null) {
+			zones = new LigatureZone[3];
 		}
-		zones[i]= rect;
+		zones[i] = z;
 	}
+
 	/**
-	 * Return an empty area suitable to fit ligatured group on this sign. 
-	 * @param i ordinal number of the area. Currently : 0 or 1 ("before" or "after").
+	 * Return an empty area suitable to fit ligatured group on this sign.
+	 * 
+	 * @param i
+	 *            ordinal number of the area. Currently : 0 or 1 ("before" or
+	 *            "after").
 	 * @return a rectangle, or null
 	 */
-	public Rectangle2D getZone(int i) {
+	public LigatureZone getZone(int i) {
 		if (zones == null)
 			return null;
 		else
 			return zones[i];
 	}
+
+
+	
+	/**
+	 * Transform a sign globally; font changing method, not for use while drawing.
+	 */
+	public void flipHorizontally() {
+		Shape newShape = new AffineTransform(-1, 0, 0, 1, (float) getBbox()
+		.getWidth(), 0).createTransformedShape(shape);
+		if (zones != null) {
+			double w= getBbox().getWidth();
+			for (int i=0; i<zones.length; i++) {
+				if (zones[i] != null) {
+					Rectangle2D r = zones[i].getBox();
+					// Apply symetry to the rectangle. Note that the "x" value is the x of the former right corner. 
+					Rectangle2D.Double newRectangle= new Rectangle2D.Double(
+							w- r.getMaxX(),
+							r.getMinY(),
+							r.getWidth(),
+							r.getHeight()
+					);
+					zones[i].setBox(newRectangle);
+					zones[i].setHorizontalGravity(zones[i].getHorizontalGravity().flip());
+				}
+			}
+		}
+		setShape(newShape);
+		//fixShape();
+	}
+
+	/**
+	 * Transform a sign globally; font changing method, not for use while drawing.
+	 */
+	public void flipVertically() {
+		Shape newShape = new AffineTransform(1, 0, 0, -1, 0, (float) getBbox().getHeight()).createTransformedShape(shape);
+		if (zones != null) {
+			double h= getBbox().getHeight();
+			for (int i=0; i<zones.length; i++) {
+				if (zones[i] != null) {
+					Rectangle2D r = zones[i].getBox();
+					// Apply symetry to the rectangle. Note that the "x" value is the x of the former right corner. 
+					Rectangle2D.Double newRectangle= new Rectangle2D.Double(
+							r.getMinX(),
+							h- r.getMaxY(),
+							r.getWidth(),
+							r.getHeight()
+					);
+					zones[i].setBox(newRectangle);
+					zones[i].setVerticalGravity(zones[i].getVerticalGravity().flip());
+				}
+			}
+		}
+		setShape(newShape);
+		//fixShape();
+	}
+	
+	/**
+	 * Are there ligatures zones for this sign ?
+	 * <p> Ligature zones can be either computed or set in the sign description.
+	 * If this method returns false, the software can create ligature zones for the sign.
+	 * @return true if ligature zones are either defined or explicitely non existant. 
+	 */
+	public boolean hasZones() {
+		return (zones != null);
+	}
+
 } // ShapeChar

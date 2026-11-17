@@ -1,8 +1,7 @@
 package jsesh.utils;
 
-import java.util.List;
-
 import java.awt.geom.Point2D;
+import java.util.List;
 
 /**
  * Utility class for geometry.

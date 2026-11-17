@@ -3,8 +3,6 @@
  */
 package jsesh.mdcDisplayer.swing.groupEditor;
 
-import java.io.OutputStreamWriter;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.OutputStreamWriter;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;

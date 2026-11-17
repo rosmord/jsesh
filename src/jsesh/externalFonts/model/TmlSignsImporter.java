@@ -1,15 +1,13 @@
 package jsesh.externalFonts.model;
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import java.io.IOException;
-import java.io.Reader;
-
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.utils.TclImporter;
@@ -117,7 +115,7 @@ public class TmlSignsImporter implements SimpleSignSourceModel {
 		}
 		GeneralPath finalPath= new GeneralPath(); finalPath.append(area.getPathIterator(AffineTransform.getScaleInstance(1, -1)), false);
 		newSign.setShape(finalPath);
-		newSign.fixShape();
+		//newSign.fixShape();
 	
 		String stdCode= "UG"+ uid+ "M"+ mid+ "N"+ id; 
 		signs.put(stdCode, newSign);

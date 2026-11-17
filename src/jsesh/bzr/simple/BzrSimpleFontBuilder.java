@@ -169,6 +169,7 @@ public class BzrSimpleFontBuilder implements BzrFontBuilder {
 	 */
 	public void charEnd() {
 		currentChar.setShape(path);
+		//currentChar.fixShape();
 	}
 
 	/**

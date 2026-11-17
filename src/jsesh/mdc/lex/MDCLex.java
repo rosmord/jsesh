@@ -11,8 +11,8 @@ import java.io.InputStream;
 import java.io.Reader;
 
 import java_cup.runtime.Symbol;
-import jsesh.mdc.utils.MDCSyntaxError;
-import jsesh.mdc.utils.ParserErrorManager;
+import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdc.ParserErrorManager;
 
 /**
  * Lexical analyser for manuel de codage files.

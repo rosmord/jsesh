@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16.84284"
+   height="8.64"
+   id="svg1333"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22R4B.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\transmis à Serge Rosmorduc\envoi18_SR">
+  <metadata
+     id="metadata1340">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22R4B</dc:title>
+        <dc:date>22/01/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier>US22</dc:identifier>
+        <dc:source>KV57 Seite 41</dc:source>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:relation>valeur : Htp</dc:relation>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1338" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     showgrid="true"
+     inkscape:zoom="55.394458"
+     inkscape:cx="2.436149"
+     inkscape:cy="1.4229683"
+     inkscape:window-x="-9"
+     inkscape:window-y="69"
+     inkscape:current-layer="svg1333"
+     gridspacingx="0px"
+     gridspacingy="0px">
+    <sodipodi:guide
+       orientation="horizontal"
+       position="2.3648575"
+       id="guide1360" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="1.8052347"
+       id="guide1362" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="1.4080831"
+       id="guide1364" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="7.6180905"
+       id="guide1366" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="5.1810237"
+       id="guide1368" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="7.6361429"
+       id="guide1370" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="7.0043107"
+       id="guide1372" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="9.2969588"
+       id="guide1374" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="9.874634"
+       id="guide1376" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="15.416705"
+       id="guide1378" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="14.820977"
+       id="guide1380" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="2.0218629"
+       id="guide1382" />
+  </sodipodi:namedview>
+  <path
+     style="fill:#000000; stroke:none"
+     d="M 8.809818,1.025473 C 8.860029,1.5775574 8.930183,1.891043 8.963328,2.432187 L 9.083662,3.576564 L 9.694116,4.052518 L 7.297477,4.052518 L 7.834142,3.58989 C 7.8977417,3.219691 7.9613413,2.849492 8.024941,2.479293 C 8.081562,1.9953547 8.138183,1.5114163 8.194804,1.027478 C 8.1818733,0.4507211 8.718655,0.02310872 8.809818,1.025473 z M 16.238026,8.074189 L 15.444136,8.079669 L 15.444136,8.059669 L 15.448019,6.863702 L 16.238026,6.859388 L 16.238026,8.074189 z M 14.839578,8.08146 L 9.87533,8.0746647 L 9.87533,6.84751 L 14.843465,6.84512 L 14.839578,8.08146 z M 9.500793,4.511913 C 9.2094249,4.6109004 9.2221637,4.686495 9.082849,4.773786 L 8.9500033,5.3634561 L 8.4777112,5.9291297 L 8.4673501,6.2510863 L 8.793244,6.850394 L 9.310783,6.848927 L 9.310783,6.848927 L 9.310783,6.848927 L 9.310783,6.848927 L 9.310783,6.848927 L 9.310783,8.0481522 L 7.654662,8.0480986 L 7.654662,6.850877 L 8.063786,6.850398 L 8.815796,6.850398 L 8.8041101,6.3161793 L 8.476375,6.2725901 L 8.5165975,5.9385683 L 8.011109,5.3024 L 7.91596,4.790389 C 7.91596,4.790389 7.8282111,4.6007594 7.426209,4.511913 C 8.117737,4.511913 8.809265,4.511913 9.500793,4.511913 z M 7.030115,6.851283 L 7.030115,8.041942 L 2.01412,8.087179 L 2.01412,6.857703 L 7.030115,6.851283 z M 1.429572,6.838108 L 1.429572,6.838108 L 1.429572,6.838108 L 1.429572,8.092485 L 0.610845,8.090021 L 0.619025,6.859407 L 1.429572,6.858108 L 1.429572,6.838108 z M 8.51483,0 C 8.502289,0 8.489565,0.000284 8.476659,0.000862 C 8.472871,0.0010303333 8.469083,0.0011986667 8.465295,0.001367 C 8.4615597,0.002033 8.4578243,0.002699 8.454089,0.003365 C 8.201037,0.048392 7.7555366,0.17126997 7.739294,0.947514 C 7.7377933,0.95269067 7.7362927,0.95786733 7.734792,0.963044 C 7.7342883,0.96849767 7.7337847,0.97395133 7.733281,0.979405 C 7.694193,1.399665 7.616942,1.8379803 7.54098,2.45608 L 7.366306,3.463846 L 6.4761564,4.1226965 L 6.4987263,4.5383571 C 6.5066436,4.5292102 7.4525831,4.9266674 7.474582,4.946809 L 7.474582,4.946809 L 7.557131,5.391032 L 7.891249,6.043086 L 7.891249,6.306056 L 7.891249,6.306056 L 0.000303,6.295319 L 0,8.64 L 16.842573,8.657313 L 16.84284,6.273337 L 9.124694,6.305145 L 9.124694,6.305145 L 9.124639,6.004255 L 9.42,5.37301 L 9.520746,4.932762 L 9.520746,4.932762 L 10.427596,4.532242 L 10.408067,4.11507 L 9.537748,3.459116 L 9.426591,2.403422 C 9.39314,1.854606 9.2862019,1.528665 9.268482,0.96215 C 9.2427023,0.13796089 8.772914,0 8.51483,0 z "
+     id="path1335"
+     sodipodi:nodetypes="ccccccccsccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccsc" />
+</svg>

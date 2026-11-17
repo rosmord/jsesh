@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/SThomasDetail/12"
+   sodipodi:docname="US22S42B.svg"
+   inkscape:version="0.41.1"
+   sodipodi:version="0.32"
+   id="svg2"
+   height="17.977417px"
+   width="18.000000px">
+  <metadata
+     id="metadata9">
+    <rdf:RDF
+       id="RDF4">
+      <cc:Work
+         id="Work6"
+         rdf:about="">
+        <dc:format
+           id="format8">image/svg+xml</dc:format>
+        <dc:type
+           id="type10"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title
+           id="title12">US22S42B</dc:title>
+        <dc:date
+           id="date14">5/01/2006</dc:date>
+        <dc:creator
+           id="creator16">
+          <cc:Agent
+             id="Agent18">
+            <dc:title
+               id="title20">Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher
+           id="publisher22">
+          <cc:Agent
+             id="Agent24">
+            <dc:title
+               id="title26">Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier
+           id="identifier28">US22</dc:identifier>
+        <dc:description
+           id="description30">optimisation de S42 auquel est accolé un flagellum peut servir de déterminatif à Ams</dc:description>
+        <cc:license
+           id="license32"
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         id="License34"
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           id="permits36"
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           id="permits38"
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           id="requires40"
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           id="permits42"
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           id="requires44"
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           id="requires46"
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     inkscape:current-layer="svg2"
+     inkscape:window-y="-4"
+     inkscape:window-x="-4"
+     inkscape:cy="11.880518"
+     inkscape:cx="3.0025589"
+     inkscape:zoom="41.496506"
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1024"
+     inkscape:window-height="708" />
+  <g
+     id="g1538">
+    <path
+       style="fill:#000000; stroke:none"
+       d=" M 2.993633 0  Q 4.06478 0 4.207599 0.374901  Q 4.546796 1.035442 4.653911 3.454449  Q 4.761025 5.873456 5.974992 6.926751  Q 6.099959 7.355209 5.707205 7.373062  L 4.511091 7.248095  Q 3.439944 8.872667 3.26142 11.37201  L 3.582763 17.102648  Q 3.582763 17.852449 3.243567 17.977417  L 2.761551 17.977417  Q 2.422354 17.852449 2.422354 17.102648  L 2.743698 11.37201  Q 2.565174 8.872667 1.494027 7.248095  L 0.297913 7.373062  Q -0.094841 7.355209 0.030126 6.926751  Q 1.261945 5.873456 1.360134 3.454449  Q 1.458322 1.035442 1.815371 0.357049  Q 1.940338 0 2.993633 0  Z  M 1.833223 6.212653  L 4.136189 6.212653  Q 3.85055 3.534785 3.672026 1.071147  Q 3.618469 0.678393 2.993633 0.678393  Q 2.386649 0.678393 2.297387 1.124704  Q 2.190272 3.552638 1.833223 6.212653  Z  M 2.225977 7.123127  Q 2.583026 8.801258 3.011485 8.801258  Q 3.439944 8.801258 3.796993 7.123127  L 2.225977 7.123127  Z "
+       id="path4" />
+    <path
+       style="fill:#000000"
+       d="M 4.4607949,6.2281314 L 7.9786374,0.96674237 L 10.215141,5.0709095 L 9.9263285,5.1670279 L 9.7849835,4.9068814 L 9.6625661,4.9630268 L 9.8094006,5.2783049 L 9.6004619,5.3537272 L 9.4494183,5.044253 L 9.3094323,5.1154585 L 9.4349525,5.4402245 L 9.2069753,5.5187515 L 9.0887881,5.2084085 L 8.9173786,5.2821047 L 9.0015398,5.6054689 L 8.7441831,5.7071017 L 7.8483471,2.1172116 L 4.8790702,6.6242581 L 4.4607949,6.2281314 z M 9.5739798,4.6198584 L 8.0715515,1.8366818 L 8.8554903,4.9344473 L 9.5739798,4.6198584 z "
+       id="path1445"
+       sodipodi:nodetypes="ccccccccccccccccccccccc" />
+  </g>
+</svg>

@@ -1,19 +1,18 @@
 /*
- * Created on 15 déc. 2003
+ * Created on 15 dï¿½c. 2003
  *
  */
 package jsesh.easyweb;
 
-import java.io.StringReader;
-
 import java.awt.Graphics2D;
+import java.io.StringReader;
 
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.mdc.MDCParserFacade;
-import jsesh.mdc.utils.MDCSyntaxError;
-import jsesh.tmp.simpleDemo.HieroglyphicDrawer;
-import jsesh.tmp.simpleDemo.HieroglyphicText;
-import jsesh.tmp.simpleDemo.HieroglyphicTextBuilder;
+import jsesh.mdc.MDCSyntaxError;
+import jsesh.simpleDemo.HieroglyphicDrawer;
+import jsesh.simpleDemo.HieroglyphicText;
+import jsesh.simpleDemo.HieroglyphicTextBuilder;
 
 /**
  * @author rosmord

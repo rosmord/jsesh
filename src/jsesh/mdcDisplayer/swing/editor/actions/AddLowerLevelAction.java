@@ -22,7 +22,7 @@ public class AddLowerLevelAction extends AbstractAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JMDCEditor d=  (JMDCEditor) e.getSource();
-		d.getWorkflow().addLowerLevel();
+		d.getWorkflow().addSignInLowerLevel();
 	}
 
 }

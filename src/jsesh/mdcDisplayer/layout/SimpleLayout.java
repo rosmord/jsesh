@@ -10,6 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
+import jsesh.hieroglyphs.LigatureZone;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;
@@ -23,6 +24,7 @@ import jsesh.mdc.model.ComplexLigature;
 import jsesh.mdc.model.HBox;
 import jsesh.mdc.model.HRule;
 import jsesh.mdc.model.Hieroglyph;
+import jsesh.mdc.model.HorizontalListElement;
 import jsesh.mdc.model.Ligature;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
@@ -36,8 +38,7 @@ import jsesh.mdc.model.SubCadrat;
 import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.draw.HieroglyphsDrawer;
-import jsesh.mdcDisplayer.draw.LigatureManager;
+import jsesh.mdcDisplayer.mdcView.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewIterator;
 import jsesh.mdcDisplayer.mdcView.ViewSide;
@@ -264,7 +265,7 @@ public class SimpleLayout extends AbstractLayout {
 		float maxWidth = drawingSpecifications.getMaxCadratWidth();
 
 		// First, we make sure that no hbox is too wide.
-		// Except when there is only one HBox ; in this case,
+		// Except when there is only one hbox ; in this case,
 		// the cadrat is "flat" and it's better not to scale it.
 		// We don't scale, either, if one of the hboxes contains
 		// a "large" sign (a sign which can grow horizontally).
@@ -278,7 +279,8 @@ public class SimpleLayout extends AbstractLayout {
 				i.next().scaleForMaxWidth(maxWidth);
 			}
 		}
-
+		
+		// Streched cadrats
 		if (wide) {
 			float maxw;
 			if (honourMaxWidth)
@@ -290,6 +292,34 @@ public class SimpleLayout extends AbstractLayout {
 					currentView.getSubView(k).scaleToWidth(maxw);
 				}
 			}
+		} else if (drawingSpecifications.isEnlargeLargeLoneSigns()){
+			// Keep the current width as the cadrat width,
+			// but scale wide lone signs so that they will fill their line.
+			float width = currentView.getMaximalWidthOfSubView();
+			if (honourMaxWidth && (!embedded) && width < maxWidth) {
+				width = maxWidth;
+			}
+
+			for (int k = 0; k < currentView.getNumberOfSubviews(); k++) {
+				if (currentView.getSubView(k).getSubViews().size() == 1) {
+					HorizontalListElement elt = c.getHBox(k).getHorizontalListElementAt(0);
+					if (elt.containsOnlyOneSign()) {
+						Hieroglyph hiero = elt.getLoneSign();
+						MDCView subSubView = currentView.getSubView(k).getSubView(0); 
+						// Ok. Now we have the lone sign. Is it an unscaled wide narrow sign ?
+						// (large "square" signs can probably be small and centered).
+						if (hiero.getRelativeSize() == 100 
+								&& subSubView.getInternalWidth() >= drawingSpecifications.getLargeSignSize() * drawingSpecifications.getBaseLength()
+								&& subSubView.getInternalHeight() <= drawingSpecifications.getSmallSignSize() * drawingSpecifications.getBaseLength()
+							)
+						{
+							// The sign is a narrow broad sign. Good. Enlarge it, and enlarge the hbox view.
+							subSubView.reScale(width/subSubView.getWidth());
+							currentView.getSubView(k).fitToSubViews(true);
+						}
+					}
+				}
+			}			
 		}
 
 		// CADRAT HEIGHT
@@ -312,7 +342,7 @@ public class SimpleLayout extends AbstractLayout {
 		currentView.setHeight(h);
 
 		// CADRAT WIDTH
-		// We now proceed to the cadrat's width :
+		// We now proceed to the actual cadrat's width (after fixing the height).
 		// Compute "natural" width
 		float w = currentView.getMaximalWidthOfSubView();
 
@@ -394,16 +424,16 @@ public class SimpleLayout extends AbstractLayout {
 
 		if (currentTextOrientation.isHorizontal()) {
 			currentView.setWidth(subView.getWidth() + longDim);
-			currentView.setHeight(Math.max(subView.getHeight(),
-					drawingSpecifications.getMaxCadratHeight())
-					+ smallDim);
+			currentView.setHeight(Math.max(subView.getHeight()+ smallDim,
+					drawingSpecifications.getMaxCadratHeight()+ smallDim)
+					);
 			// Position the cartouche's inner part :
 			subView.getPosition().setLocation(dLong, dSmall);
 
 		} else {
 			currentView.setHeight(subView.getHeight() + longDim);
 			// Maybe temporary :
-			if (subView.getWidth() < drawingSpecifications.getMaxCadratWidth())
+			if (subView.getWidth() < drawingSpecifications.getMaxCadratWidth()+ smallDim)
 				currentView.setWidth(drawingSpecifications.getMaxCadratWidth()
 						+ smallDim);
 			else
@@ -427,7 +457,6 @@ public class SimpleLayout extends AbstractLayout {
 		} else {
 			currentView.setDeltaBaseY(0);
 			currentView.setDeltaBaseX(-dSmall);
-
 		}
 
 		// Reset centering conditions (potentially changed in preLayoutHook)
@@ -438,13 +467,13 @@ public class SimpleLayout extends AbstractLayout {
 	public void visitComplexLigature(ComplexLigature ligature) {
 
 		HieroglyphsDrawer d = drawingSpecifications.getHieroglyphsDrawer();
-		Rectangle2D zone1 = d.getLigatureArea(0, ligature.getHieroglyph()
+		LigatureZone zone1 = d.getLigatureZone(0, ligature.getHieroglyph()
 				.getCode());
 
-		Rectangle2D zone3 = d.getLigatureArea(2, ligature.getHieroglyph()
+		LigatureZone zone3 = d.getLigatureZone(2, ligature.getHieroglyph()
 				.getCode());
 
-		Rectangle2D zone2 = d.getLigatureArea(1, ligature.getHieroglyph()
+		LigatureZone zone2 = d.getLigatureZone(1, ligature.getHieroglyph()
 				.getCode());
 		int index = 0;
 		// The order of subviews will be view for : beforegroup,
@@ -454,12 +483,8 @@ public class SimpleLayout extends AbstractLayout {
 		if (ligature.getBeforeGroup() != null) {
 			MDCView beforeGroupView = currentView.getSubView(index);
 			if (zone1 != null) {
-				beforeGroupView.scaleToFitDimensions(zone1.getWidth(), zone1
-						.getHeight());
-				beforeGroupView.getPosition().setLocation(
-						zone1.getMinX()
-								+ (zone1.getWidth() - beforeGroupView
-										.getWidth()), zone1.getMinY());
+				zone1.placeView(beforeGroupView);
+				
 			} else {
 				// No zone : ^^^ operator has then the same value as "*".
 			}
@@ -473,6 +498,8 @@ public class SimpleLayout extends AbstractLayout {
 			MDCView afterGroupView = currentView.getSubView(index);
 			// If there is a "bottom" zone, we prefer it to the "after" zone.
 			if (zone3 != null) {
+				zone3.placeView(afterGroupView);
+				/*
 				afterGroupView.scaleToFitDimensions(zone3.getWidth(), zone3
 						.getHeight());
 				afterGroupView.getPosition()
@@ -483,15 +510,14 @@ public class SimpleLayout extends AbstractLayout {
 								zone3.getMinY()
 										+ (zone3.getHeight() - afterGroupView
 												.getHeight()) / 3);
+												*/
 			} else if (zone2 != null) {
-				afterGroupView.scaleToFitDimensions(zone2.getWidth(), zone2
+				zone2.placeView(afterGroupView);
+				/*afterGroupView.scaleToFitDimensions(zone2.getWidth(), zone2
 						.getHeight());
-				/*
-				 * afterGroupView.getPosition().setLocation( zone2.getMaxX() -
-				 * afterGroupView.getWidth(), (float) zone2.getMinY());
-				 */
 				afterGroupView.getPosition().setLocation(zone2.getMinX(),
 						zone2.getMinY());
+						*/
 
 			} else {
 				// No zone : &&& operator has then the same value as "*".
@@ -541,24 +567,50 @@ public class SimpleLayout extends AbstractLayout {
 	 * @see jsesh.mdc.model.ModelElementVisitor#visitHBox(jsesh.mdc.model.HBox)
 	 */
 	public void visitHBox(HBox b) {
+		
+		float h = currentView.getMaximalHeightOfSubView();
+
+		// First, enlarge high signs which stand alone. The 
+		// idea, especially in vertical texts, is to deal with 
+		// cases like sw*i*i:Z2
+		// in this example, we want the "sw" sign to be as high as 
+		// the whole cadrat.
+		if (drawingSpecifications.isEnlargeLargeLoneSigns()) {
+			for (ViewIterator iter = currentView.iterator(); iter.hasNext();) {
+
+				MDCView subView = iter.next();
+				HorizontalListElement group = (HorizontalListElement) subView
+						.getModel();
+				// If the group is a lone hight sign, scale it to match the
+				// height.
+				
+				// Something might also be done for subcadrats in a later version.
+				if (group.containsOnlyOneSign()
+						&& subView.getHeight() > drawingSpecifications
+								.getLargeSignSize()
+								* drawingSpecifications.getBaseLength()) {
+					// we limit scaling to the cases where the sign is not explicitely scaled.
+					Hieroglyph hiero = group.getLoneSign();
+					if (hiero.getRelativeSize() == 100) {
+						float scale = h / subView.getHeight();
+						subView.reScale(scale);
+					}
+				}
+				new ViewVerticalEnlarger().enlarge(subView, h);
+			}
+		}
+
 		// Compute the correct box dimensions
 		float w = currentView.getSumOfSubViewsWidths();
 		w += (currentView.getNumberOfSubviews() - 1)
 				* drawingSpecifications.getSmallSkip();
 
-		float h = currentView.getMaximalHeightOfSubView();
 		currentView.setHeight(h);
 		currentView.setWidth(w);
 
 		// The task of setting the positions of this view's subviews is dealt
 		// with in the cadrat.
-
-		// TODO : add code here that will set subviews to the right size
-		// (specifically :
-		// subviews for subcadrats will be given "h" as height,
-		// and in those, the elements which are really cadrats of more than one
-		// layer will also be given this size.
-		// then those cadrat's internal layers will be placed correctly.
+		
 		for (ViewIterator iter = currentView.iterator(); iter.hasNext();) {
 			MDCView subView = iter.next();
 			new ViewVerticalEnlarger().enlarge(subView, h);
@@ -591,13 +643,23 @@ public class SimpleLayout extends AbstractLayout {
 			currentView
 					.setHeight(drawingSpecifications.getMaxCadratHeight() / 2f);
 			break;
+		case SymbolCodes.BEGINERASE:
+		case SymbolCodes.ENDERASE:			
 		case SymbolCodes.REDPOINT:
 		case SymbolCodes.BLACKPOINT:
 		case SymbolCodes.MDCCODE: {
 			HieroglyphsDrawer d = drawingSpecifications.getHieroglyphsDrawer();
 			Rectangle2D s;
-			if (d.isKnown(h.getCode())) {
-				s = d.getBBox(h.getCode());
+			
+			String code = h.getCode();
+			if (h.getType() == SymbolCodes.BEGINERASE)
+				code= "BEGINERASE";
+			if (h.getType() == SymbolCodes.ENDERASE)
+				code= "ENDERASE";
+			
+			
+			if (d.isKnown(code)) {
+				s = d.getBBox(code);
 				currentView.setWidth((float) s.getWidth());
 				currentView.setHeight((float) s.getHeight());
 				// TODO : maybe use the bounding box x and y as dx,dy for the
@@ -606,7 +668,7 @@ public class SimpleLayout extends AbstractLayout {
 					// TODO : centralize decisions about the rotations.
 					// (rotation is found both here and in the drawing class).
 					Shape shape = drawingSpecifications.getHieroglyphsDrawer()
-							.getShape(h.getCode());
+							.getShape(code);
 					AffineTransform rot = AffineTransform.getRotateInstance(h
 							.getAngle()
 							* Math.PI / 180f);
@@ -615,9 +677,13 @@ public class SimpleLayout extends AbstractLayout {
 					currentView.setHeight((float) r.getHeight());
 					currentView.setWidth((float) r.getWidth());
 				}
+				currentView.setHeight(currentView.getHeight()
+						* drawingSpecifications.getSignScale());
+				currentView.setWidth(currentView.getWidth()
+						* drawingSpecifications.getSignScale());
 			} else {
 				Dimension2D r = drawingSpecifications
-						.getSuperScriptDimensions(h.getCode());
+						.getSuperScriptDimensions(code);
 				currentView.setHeight((float) r.getHeight());
 				currentView.setWidth((float) r.getWidth());
 			}
@@ -625,8 +691,6 @@ public class SimpleLayout extends AbstractLayout {
 			break;
 		// NOTE : Obviously, it would be better to create some kind of "symbol"
 		// class for signs which are not hieroglyphs.
-		case SymbolCodes.BEGINERASE:
-		case SymbolCodes.ENDERASE:
 		case SymbolCodes.BEGINEDITORADDITION:
 		case SymbolCodes.ENDEDITORADDITION:
 		case SymbolCodes.BEGINEDITORSUPERFLUOUS:
@@ -707,48 +771,56 @@ public class SimpleLayout extends AbstractLayout {
 				}
 				if (ligPos == 2
 						&& drawingSpecifications.getHieroglyphsDrawer()
-								.getLigatureArea(ligPos,
+								.getLigatureZone(ligPos,
 										l.getHieroglyphAt(larger).getCode()) == null)
 					ligPos = 1;
-				Rectangle2D rect = drawingSpecifications.getHieroglyphsDrawer()
-						.getLigatureArea(ligPos,
+				LigatureZone ligatureZone = drawingSpecifications.getHieroglyphsDrawer()
+						.getLigatureZone(ligPos,
 								l.getHieroglyphAt(larger).getCode());
-				if (rect != null) {
+				if (ligatureZone != null) {
 					currentView.getSubView(larger).resetPos();
+					
+					/*
 					currentView.getSubView(smaller).scaleToFitDimensions(
-							rect.getWidth(), rect.getHeight());
-					currentView.getSubView(smaller).getPosition().y = rect
+							ligatureZone.getWidth(), ligatureZone.getHeight());
+					currentView.getSubView(smaller).getPosition().y = ligatureZone
 							.getMinY();
 					if (smaller == 0) {
-						currentView.getSubView(smaller).getPosition().x = rect
+						currentView.getSubView(smaller).getPosition().x = ligatureZone
 								.getMinX();
 					} else {
-						currentView.getSubView(smaller).getPosition().x = rect
+						currentView.getSubView(smaller).getPosition().x = ligatureZone
 								.getMaxX()
 								- currentView.getSubView(smaller).getWidth();
-					}
-					currentView.fitToSubViews(true);
+					}*/
+					// NEW code for the new complex ligature system.
+					ligatureZone.placeView(currentView.getSubView(smaller));
+					// End of new code.
+					//DONE ANYWAY					currentView.fitToSubViews(true);
 				}
 			} else if (l.getNumberOfChildren() == 3) {
 				// We try a ligature centered around the 2nd sign.
 				String code = l.getHieroglyphAt(1).getCode();
-				Rectangle2D r1, r2;
+				LigatureZone r1, r2;
 				r1 = drawingSpecifications.getHieroglyphsDrawer()
-						.getLigatureArea(0, code);
+						.getLigatureZone(0, code);
 				r2 = drawingSpecifications.getHieroglyphsDrawer()
-						.getLigatureArea(1, code);
-				if (r1!= null && r2 != null) {
+						.getLigatureZone(1, code);
+				if (r1 != null && r2 != null) {
 					currentView.getSubView(1).resetPos();
+					/*
 					currentView.getSubView(0).scaleToFitDimensions(
 							r1.getWidth(), r1.getHeight());
 					currentView.getSubView(2).scaleToFitDimensions(
 							r2.getWidth(), r2.getHeight());
-					currentView.getSubView(0).getPosition().y= r1.getMinY();
-					currentView.getSubView(2).getPosition().y= r2.getMinY();
-					currentView.getSubView(0).getPosition().x= r1.getMinX();
-					currentView.getSubView(2).getPosition().x= r2.getMaxX() - currentView.getSubView(2).getWidth();
-					
-					
+					currentView.getSubView(0).getPosition().y = r1.getMinY();
+					currentView.getSubView(2).getPosition().y = r2.getMinY();
+					currentView.getSubView(0).getPosition().x = r1.getMinX();
+					currentView.getSubView(2).getPosition().x = r2.getMaxX()
+							- currentView.getSubView(2).getWidth();
+							*/
+					r1.placeView(currentView.getSubView(0));
+					r2.placeView(currentView.getSubView(2));
 				}
 			}
 		}

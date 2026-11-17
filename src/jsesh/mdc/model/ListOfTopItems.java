@@ -4,9 +4,8 @@
  */
 package jsesh.mdc.model;
 
-import java.util.ArrayList;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * A simple class for lists of top items.

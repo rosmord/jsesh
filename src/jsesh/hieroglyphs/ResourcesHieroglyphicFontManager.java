@@ -1,8 +1,5 @@
 package jsesh.hieroglyphs;
 
-import java.util.HashMap;
-import java.util.Set;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
@@ -11,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.Set;
 
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.externalFonts.model.SVGSignSource;
@@ -55,7 +54,7 @@ public class ResourcesHieroglyphicFontManager extends Object implements
 	}
 
 	/**
-	 * /* fill the resource bundle with the relevant files. should be called
+	 * Fill the resource bundle with the relevant files. should be called
 	 * when building the software.
 	 * 
 	 * @param src
@@ -87,10 +86,15 @@ public class ResourcesHieroglyphicFontManager extends Object implements
 			} else {
 				System.out.println(svgs[i].getName());
 				// Add the sign code to list.txt
-				String code = SVGSignSource.getCodeForFileName(svgs[i]
+				String code = GardinerCode.getCodeForFileName(svgs[i]
 						.getName());
 				if (code != null) {
 					out.write(code);
+					out.write('\t');
+					out.write(svgs[i].getName());
+					out.write('\n');
+				} else {
+					out.write(svgs[i].getName().substring(0, svgs[i].getName().indexOf('.')));
 					out.write('\t');
 					out.write(svgs[i].getName());
 					out.write('\n');

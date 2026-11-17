@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="Ff100.svg"
+   sodipodi:docbase="/home/rosmord/Desktop/lien vers Gsigns/signesDemotiques"
+   inkscape:version="0.41.1"
+   sodipodi:version="0.32"
+   id="svg2"
+   height="18.000000px"
+   width="18.000000px">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:window-y="98"
+     inkscape:window-x="256"
+     inkscape:window-height="682"
+     inkscape:window-width="822"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="9.0000000"
+     inkscape:cx="9.0000000"
+     inkscape:zoom="27.777778"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         id="Work6"
+         rdf:about="">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type9" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/"
+           id="license1311" />
+        <dc:description
+           id="description1327">dot space-filler sign for transcription of hieratic texts</dc:description>
+      </cc:Work>
+      <cc:License
+         id="License1313"
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           id="permits1315"
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           id="permits1317"
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           id="requires1319"
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           id="requires1321"
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           id="permits1323"
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           id="requires1325"
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       id="path2066"
+       d="M 2.7738927,12.586082 C 3.5898766,12.325863 4.4512956,12.673329 5.1086289,13.165789 C 5.9355525,13.785399 6.8104128,14.389765 7.4243914,15.229780 C 7.6819554,15.582267 7.4872311,16.029713 7.2395127,16.345795 C 6.8288397,16.869639 6.5317767,17.529240 5.9388702,17.876258 C 5.5187371,18.122219 5.0483269,17.869802 4.6137930,17.806406 C 4.0301583,17.721221 3.4936801,17.473018 2.9713608,17.209393 C 2.1365195,16.788040 1.1864721,16.532664 0.50486548,15.852259 C -0.11910219,15.229511 -0.066538480,14.162006 0.45220314,13.504019 C 0.73715192,13.142565 1.1150511,12.819130 1.5545078,12.677634 C 1.9470050,12.551290 2.3778714,12.712335 2.7738927,12.586082 z "
+       style="fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000" />
+  </g>
+</svg>

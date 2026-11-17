@@ -1,15 +1,9 @@
 /*
  * This file is distributed according to the GNU Lesser Public Licence.
- * Created on 12 févr. 2005
+ * Created on 12 fï¿½vr. 2005
  *
  */
 package jsesh.graphics.generic;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
-import java.text.AttributedCharacterIterator;
 
 import java.awt.Color;
 import java.awt.Composite;
@@ -41,6 +35,10 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
+import java.text.AttributedCharacterIterator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**

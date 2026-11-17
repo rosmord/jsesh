@@ -4,11 +4,6 @@
  */
 package jsesh.deprecated;
 
-import java.util.Properties;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -16,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Properties;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;

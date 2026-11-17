@@ -1,11 +1,9 @@
 /*
  * This file is distributed according to the GNU Lesser Public Licence.
- * Created on 12 déc. 2004
+ * Created on 12 dï¿½c. 2004
  *
  */
 package jsesh.mdcDisplayer.swing.splash;
-
-import java.net.URL;
 
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -15,6 +13,7 @@ import java.awt.MediaTracker;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -69,7 +68,7 @@ public class SplashScreen extends Frame  {
      */
     private void buildImage() {
         URL imgURL = getClass().getResource("/jseshResources/images/splash.png");
-        img = new ImageIcon(imgURL).getImage();
+        img = new ImageIcon(imgURL).getImage(); 
     }
 
     private void center() {

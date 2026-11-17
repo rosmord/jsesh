@@ -7,8 +7,6 @@
  */
 package jsesh.mdcDisplayer.swing.groupEditor;
 
-import java.util.ArrayList;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,6 +20,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;

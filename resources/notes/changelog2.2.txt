@@ -1,0 +1,18 @@
+For users:
+* Cut and paste in RTF added ! You can now paste text into word or openoffice !
+* After calling "New", the file name is now reset to default file name. I've just lost a looong file because of the previous behaviour :-(
+* bug fixes : Jsesh acted in a strange way when working at the end of a document (see in developer section for the gory details).
+* better scrolling with the keyboard.
+
+For developpers:
+* cleanup of ViewBuilder. The drawingSpecifications are no longer part of the builder object.
+* Important bug fix. There was a nasty bug when text was suppressed at the end of a document.
+		Technical detail : marks in the text (insert and selection cursors) were updated after some components (like the drawing window)
+		were warned of the text change. Thus, Jsesh attempted to draw parts which were no longer there.
+* Improved reactivity. Better experience when navigating through the text using the keyboard.
+		Tech. detail : we used to change the drawing view and the MDC text window immediatly when the document was changed.
+		The result was that the scrolling wasn't smooth when navigating using the keyboard arrows. Now, 
+		these changes are made using SwingUtilities.invokeLater(), and the scrolling is much better.
+* Objects of class ModelElement no longer extend Observable. Instead a new, simpler Observer pattern is set. See ModelElement for more info.
+* Lots of things are left to cleanup.
+* change in the "run" target of the build.xml file. JSesh now runs in netbeans.

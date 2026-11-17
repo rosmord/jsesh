@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="9.919492"
+   height="17.977417"
+   id="svg1315"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22S35A.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\transmis à Serge Rosmorduc\envoi14_SR">
+  <metadata
+     id="metadata1322">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22S35A</dc:title>
+        <dc:date>9/01/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier>US22</dc:identifier>
+        <dc:description>optimisation de S35 de Jsesh</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1320" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="4.9597459"
+     inkscape:cy="8.9887085"
+     inkscape:window-x="88"
+     inkscape:window-y="116"
+     inkscape:current-layer="svg1315" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 6.036795 4.653917  L 3.90929 4.653917  Q 3.90929 3.164664 4.973043 3.164664  Q 6.063389 3.164664 6.036795 4.653917  Z  M 3.483789 4.653917  L 0.691439 4.653917  Q 0.957377 0.718033 4.973043 0.691439  Q 8.962114 0.718033 9.201459 4.653917  L 6.435702 4.653917  Q 6.435702 2.765756 4.973043 2.79235  Q 3.510383 2.765756 3.483789 4.653917  Z  M 3.590165 5.292169  L 6.355921 5.292169  Q 6.701641 5.770857 6.781422 6.143171  Q 6.887797 6.542078 6.329327 5.850639  Q 5.770857 5.318762 5.531513 5.797451  Q 5.265575 6.169765 4.973043 6.355921  Q 4.680511 6.169765 4.387979 5.797451  Q 4.175229 5.318762 3.616758 5.850639  Q 3.058288 6.568672 3.164664 6.143171  Q 3.244445 5.770857 3.590165 5.292169  Z  M 5.345356 6.83461  Q 5.824045 5.558107 6.302733 6.143171  Q 6.621859 6.728234 6.914391 6.48889  Q 7.153736 6.27614 6.754828 5.292169  L 9.919492 5.292169  Q 9.83971 0 4.973043 0  Q 0.106375 0 0 5.292169  L 3.164664 5.292169  Q 2.79235 6.27614 3.031695 6.48889  Q 3.297633 6.728234 3.616758 6.143171  Q 4.095447 5.611294 4.600729 6.83461  L 4.600729 17.977417  L 5.345356 17.977417  L 5.345356 6.83461  Z "
+     id="path1317" />
+</svg>

@@ -1,7 +1,12 @@
 package jsesh.mdcDisplayer.swing.application;
 
-import java.util.Properties;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,20 +15,11 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.print.PrinterJob;
-
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -37,12 +33,18 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import jsesh.Version;
-import jsesh.about.AboutDisplayer;
-import jsesh.docdisplayer.DocDisplayer;
-import jsesh.mdc.utils.MDCSyntaxError;
-import jsesh.mdcDisplayer.draw.ViewPrinter;
+import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdcDisplayer.swing.application.actions.AboutAction;
+import jsesh.mdcDisplayer.swing.application.actions.DisplayJavaPropertiesAction;
+import jsesh.mdcDisplayer.swing.application.actions.DocumentationAction;
+import jsesh.mdcDisplayer.swing.application.actions.EditPreferencesAction;
+import jsesh.mdcDisplayer.swing.application.actions.ExitAction;
+import jsesh.mdcDisplayer.swing.application.actions.NewTextAction;
+import jsesh.mdcDisplayer.swing.application.actions.OpenTextAction;
+import jsesh.mdcDisplayer.swing.application.actions.SaveTextAction;
 import jsesh.mdcDisplayer.swing.application.actions.SelectCopyPasteConfigurationAction;
 import jsesh.mdcDisplayer.swing.application.actions.generic.ForwardedAction;
+import jsesh.mdcDisplayer.swing.application.actions.generic.WorkflowMethodAction;
 import jsesh.mdcDisplayer.swing.editor.HieroglyphicTextModel;
 import jsesh.mdcDisplayer.swing.editor.MDCEditorKeyManager;
 import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenu;
@@ -87,34 +89,6 @@ public class MDCDisplayerAppli {
 
 	SplashScreen splash;
 
-	AbstractAction printAction = new AbstractAction("Print") {
-
-		public void actionPerformed(ActionEvent e) {
-			String message = "Please note that the printing facilities still suffer from some bugs.\n";
-			message += "(page layout problems; shading don't print well)\n";
-			message += "\nI suggest you use export as pdf instead.\n";
-			message += "Do you want to continue printing ?";
-			int ok = JOptionPane.showConfirmDialog(null, message, "warning",
-					JOptionPane.YES_NO_OPTION);
-			if (ok == JOptionPane.YES_OPTION) {
-				// IMPORTANT : we need some central drawer somewhere.
-				PrinterJob printJob = PrinterJob.getPrinterJob();
-				ViewPrinter printer = new ViewPrinter();
-
-				printJob.setPageable(printer);
-				printer.setModel(data.getModel());
-				if (printJob.printDialog()) {
-					try {
-						printJob.print();
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-				}
-			}
-		}
-
-	};
-
 	/**
 	 * Constructor for MDCDisplayerAppli.
 	 */
@@ -125,15 +99,17 @@ public class MDCDisplayerAppli {
 		data.setPhilologyIsSign(true);
 
 		workflow = new MDCDisplayerAppliWorkflow(data);
-		String title = "JSesh MDC Editor v. " + Version.VERSION;
+		String title = "JSesh MDC Editor v. " + Version.getVersion();
 		frame = new MDCDisplayerAppliFrame(title, workflow);
 		// TODO IMPORTANT clean up the relations between these two.
 		workflow.setFrame(frame);
 
+		
 		menubar = buildMenuBar();
 		frame.setJMenuBar(menubar);
 		frame.addWindowListener(new WindowAdapter() {
 
+			
 			/*
 			 * (non-Javadoc)
 			 * 
@@ -177,26 +153,23 @@ public class MDCDisplayerAppli {
 
 		menu.setMnemonic(KeyEvent.VK_F);
 
-		menu.add(workflow.getNewAction());
-		menu.add(workflow.getLoadTextAction());
-		menu.add(workflow.getSaveTextAction());
+		addWithMnemonics(menu,new NewTextAction("New", workflow), new Integer('N'));
+		addWithMnemonics(menu, new OpenTextAction("Open", workflow), new Integer('O'));
+		addWithMnemonics(menu, new SaveTextAction("Save",workflow), new Integer('S'));
 		
 		JMenu exportMenu= new JMenu("Export as");
 		menu.add(exportMenu);
-		// menu.add(exportGraphicsAction);
-		// menu.add(exportPDFAction);
-		//menu.add(printAction);
 		menu.addSeparator();
-		menu.add(workflow.getExitAction());
+		addWithMnemonics(menu, new ExitAction("Exit", workflow), new Integer('X'));
 		menubar.add(menu);
 
-		exportMenu.add(workflow.getBitmapExportAction());
-		exportMenu.add(workflow.getWmfExportAction());
-		exportMenu.add(workflow.getHtmlExportAction());
-		exportMenu.add(workflow.getIPDFExportAction());
-		exportMenu.add(workflow.getRtfExportAction());
-	
-		
+		exportMenu.add(new WorkflowMethodAction("Export as Bitmap", "exportAsBitmap", workflow));
+		exportMenu.add(new WorkflowMethodAction("Export as Wmf", "exportAsWMF", workflow,true));
+		exportMenu.add(new WorkflowMethodAction("Export as SVG", "exportAsSVG", workflow,true));
+		exportMenu.add(new WorkflowMethodAction("Export as Html", "exportAsHtml", workflow));
+		exportMenu.add(new WorkflowMethodAction("Export as Pdf", "exportAsPdf", workflow));
+		exportMenu.add(new WorkflowMethodAction("Export as Rtf", "exportAsRtf", workflow));
+				
 		JMenu edit = new JMenu("Edit");
 		edit.setMnemonic(KeyEvent.VK_E);
 		addWithShortCut(edit, workflow.getCutAction(), KeyEvent.VK_X);
@@ -212,6 +185,7 @@ public class MDCDisplayerAppli {
 		addWithShortCut(edit, workflow.getSetItalicModeAction(), KeyEvent.VK_I);
 		addWithShortCut(edit, workflow.getSetTransliterationModeAction(),
 				KeyEvent.VK_T);
+		addWithShortCut(edit,workflow.getSetLinePageNumberModeAction(), KeyEvent.VK_EXCLAMATION_MARK);
 		edit.addSeparator();
 		//
 		// Selection of the copy and paste configuration.
@@ -268,7 +242,6 @@ public class MDCDisplayerAppli {
 
 		JMenu size = new JMenu("Size");
 		size.setMnemonic(KeyEvent.VK_S);
-		// TODO : move this table to the workflow.
 		// Sizes : 200 144 120 100 70 50 35 25
 		int sizes[] = { 240, 200, 144, 120, 100, 70, 50, 35, 25 ,1};
 		for (int i = 0; i < sizes.length; i++) {
@@ -293,7 +266,6 @@ public class MDCDisplayerAppli {
 		sign.add(workflow.getSignIsInWordAction());
 		sign.add(workflow.getToggleIgnoredSignAction());
 
-		//        
 		// manipulate.add(sign);
 		buildShadingMenu(manipulate);
 		buildCartoucheMenu(manipulate);
@@ -343,38 +315,23 @@ public class MDCDisplayerAppli {
 		menubar.add(Box.createHorizontalGlue());
 		JMenu help = new JMenu("Help");
 		help.setMnemonic(KeyEvent.VK_L);
-		help.add(new AbstractAction("About JSesh"){
-
-			public void actionPerformed(ActionEvent e) {
-				AboutDisplayer about= new AboutDisplayer(frame);
-				//JOptionPane.showMessageDialog(frame,about,"About JSesh",JOptionPane.PLAIN_MESSAGE);
-				about.show();
-			}
-		});
-		help.add(new AbstractAction("JSesh user documentation") {
-
-			public void actionPerformed(ActionEvent e) {
-				DocDisplayer.getInstance().setVisible(true);
-
-			}
-
-		});
-		help.add(new AbstractAction("Display java properties") {
-
-			public void actionPerformed(ActionEvent e) {
-				Properties props = System.getProperties();
-				StringWriter string = new StringWriter();
-				PrintWriter out = new PrintWriter(string);
-				props.list(out);
-				JTextArea textArea = new JTextArea(string.toString());
-				JScrollPane pane = new JScrollPane(textArea);
-				pane.setPreferredSize(new Dimension(320, 200));
-				JOptionPane.showMessageDialog(frame, pane);
-			}
-
-		});
+		help.add(new AboutAction("About JSesh",frame));
+		help.add(new DocumentationAction("JSesh user documentation"));
+		help.add(new DisplayJavaPropertiesAction("Display java properties", frame));
 		menubar.add(help);
 		return menubar;
+	}
+
+	
+	/**
+	 * Add a menu item with a specific mnemonic
+	 * @param menu
+	 * @param action
+	 * @param keyCode
+	 */
+	private void addWithMnemonics(JMenu menu, Action action, Integer keyCode) {
+		action.putValue(Action.MNEMONIC_KEY, keyCode);
+		menu.add(action);
 	}
 
 	private void buildToolsMenus(JMenuBar menubar2) {
@@ -383,13 +340,7 @@ public class MDCDisplayerAppli {
 
 		tools.addSeparator();
 		// JMenuItem prefs= new JMenuItem("Edit preferences");
-		tools.add(new AbstractAction("Edit preferences") {
-
-			public void actionPerformed(ActionEvent e) {
-				workflow.editPreferences();
-			}
-
-		});
+		tools.add(new EditPreferencesAction("Edit preferences",workflow));
 		menubar2.add(tools);
 	}
 
@@ -551,7 +502,6 @@ public class MDCDisplayerAppli {
 		public void exit(String code) {
 			workflow.setMessage("");
 		}
-
 	}
 	
 	/**
@@ -643,7 +593,8 @@ public class MDCDisplayerAppli {
 				//UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
 				//OyoahaLookAndFeel lnf = new OyoahaLookAndFeel();
 				//UIManager.setLookAndFeel(lnf);
-				
+				// For fun, napkin is real nice :-)
+				//UIManager.setLookAndFeel("net.sourceforge.napkinlaf.NapkinLookAndFeel");
 			} else if (PlatformDetection.getPlatform() == PlatformDetection.WINDOWS) {
 	
 				UIManager

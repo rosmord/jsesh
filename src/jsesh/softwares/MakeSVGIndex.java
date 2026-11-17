@@ -1,25 +1,25 @@
 package jsesh.softwares;
 
-import java.util.Arrays;
-import java.util.zip.ZipOutputStream;
-
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
-
-import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
@@ -27,6 +27,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.externalFonts.model.SVGSignSource;
+import jsesh.hieroglyphs.GardinerCode;
 import jsesh.utils.FileUtils;
 
 import org.xml.sax.EntityResolver;
@@ -45,43 +46,53 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class MakeSVGIndex {
 
 	static final String USAGE = "usage : \n"
-			+ "java jsesh.softwares.MakeSVGIndex DIRECTORY \n"
+			+ "java jsesh.softwares.MakeSVGIndex DIRECTORY [DIRECTORY ...]\n"
+			+ "or\n"
+			+ "java jsesh.softwares.MakeSVGIndex FILE \n"
 			+ "build an index.html with png pictures of the svg files in a directory."
 			+ "\nalso create a zipped version of the directory."
 			+ "\nif a file README.html is available, it will be inserted at the beginning of the file."
 			+ "\nThe README.html file should not contain <html> or <body> tags"
 			+ "\n\tfor each sign, if a .txt file with the same name of the sign is found, it's used as a commentary."
-			+ "\nThe software can also use the 'description' field of SVG files (see inkscape, document preferences)";
+			+ "\nThe software can also use the 'description' field of SVG files (see inkscape, document preferences)"
+			+ "\n"
+			+ "If a file is given as argument, it is supposed to be a text file, \n"
+			+ "and each line is supposed to contain the name of a font directory.";
 
 	private static final String XSLFILTER = ""
 			+ "<xsl:stylesheet version=\"1.0\"  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"  xmlns:dc='http://purl.org/dc/elements/1.1/' >"
 			+ "<xsl:output method='text'/>"
 			// Erase text
-			+ "<xsl:template match='text()|@*'>" + "</xsl:template>"
+			+ "<xsl:template match='text()|@*'>"
+			+ "</xsl:template>"
 			// get description
 			+ "<xsl:template match='//dc:description'>"
 			+ "<xsl:value-of select='.'/>" + "</xsl:template>"
 			+ "</xsl:stylesheet>";
 
 	/**
-	 * @param args
-	 * @throws IOException
+	 * Read a file, containing a number of directory names.
+	 * 
+	 * @param file
 	 */
-	public static void main(String[] args) throws IOException {
-		if (args.length == 0) {
-			displayUsage();
-		}
-		File directories[] = new File[args.length];
-		for (int i = 0; i < args.length; i++) {
-			directories[i] = new File(args[i]);
-			if (!directories[i].isDirectory()) {
-				System.err.println(directories[i].getName() +" is not a directory");
-				displayUsage();
+	private static void parseDirectoryList(File file) {
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				File dir = new File(line);
+				if (dir.isDirectory()) {
+					System.out.println("working on " + dir);
+					makeIndex(dir);
+				} else {
+					System.err.println("" + dir
+							+ " does not exists or is not a directory");
+				}
 			}
-		}
-		for (int i = 0; i < args.length; i++) {
-			System.out.println("working on "+ directories[i].getName());
-			makeIndex(directories[i]);
+		} catch (FileNotFoundException e) {
+			System.err.println(e.getLocalizedMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -91,8 +102,10 @@ public class MakeSVGIndex {
 		makeReadme(directory, buffer);
 		makeBody(directory, buffer);
 		makeFooter(buffer);
-		java.io.FileWriter index = new java.io.FileWriter(new File(directory,
+		FileOutputStream binary = new FileOutputStream(new File(directory,
 				"index.html"));
+		java.io.OutputStreamWriter index = new OutputStreamWriter(binary,
+				"UTF-8");
 		index.write(buffer.toString());
 		index.close();
 	}
@@ -106,6 +119,8 @@ public class MakeSVGIndex {
 	private static void makeHeader(StringBuffer buffer) {
 		buffer.append("<html>\n");
 		buffer.append("<head>");
+		buffer
+				.append("<META HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=UTF-8'>");
 		buffer.append("<title>");
 		buffer.append("SVG hieroglyphs");
 		buffer.append("</title>");
@@ -126,45 +141,69 @@ public class MakeSVGIndex {
 				new java.io.FileOutputStream(
 						new File(directory, "svgsigns.zip")));
 
-		Arrays.sort(files);
+		Arrays.sort(files, new Comparator() {
+
+			public int compare(Object o1, Object o2) {
+				File f1 = (File) o1;
+				File f2 = (File) o2;
+				String s1 = GardinerCode.getCodeForFileName(f1.getName());
+				if (s1 == null)
+					s1 = f1.getName();
+				String s2 = GardinerCode.getCodeForFileName(f2.getName());
+				if (s2 == null)
+					s2 = f2.getName();
+				return GardinerCode.compareCodes(s1, s2);
+
+			}
+
+		});
 		buffer.append("<ul>\n");
 		for (int i = 0; i < files.length; i++) {
-			buffer.append("<li>");
-			buffer.append(files[i].getName());
-			buffer.append("<a href=\"");
-			buffer.append(files[i].getName());
-			buffer.append("\"> ");
-			buffer.append("<img src=\"");
 			File imageFile = FileUtils.buildFileWithExtension(files[i], "png");
-			buffer.append(imageFile.getName());
-			buildImageFile(files[i], imageFile);
-			File commentFile = FileUtils
-					.buildFileWithExtension(files[i], "txt");
-			buffer.append("\"> ");
-			buffer.append("</a>\n");
-			buffer.append(extractXMLInfo(files[i]));
-			if (commentFile.exists()) {
-				Reader commentReader = new FileReader(commentFile);
-				int c;
-				while ((c = commentReader.read()) != -1) {
-					buffer.append((char) c);
+
+			try {
+
+				buildImageFile(files[i], imageFile);
+
+				buffer.append("<li>");
+				buffer.append(files[i].getName());
+				buffer.append("<a href=\"");
+				buffer.append(files[i].getName());
+				buffer.append("\"> ");
+				buffer.append("<img src=\"");
+				buffer.append(imageFile.getName());
+				File commentFile = FileUtils.buildFileWithExtension(files[i],
+						"txt");
+				buffer.append("\"> ");
+				buffer.append("</a>\n");
+				buffer.append(extractXMLInfo(files[i]));
+				if (commentFile.exists()) {
+					Reader commentReader = new FileReader(commentFile);
+					int c;
+					while ((c = commentReader.read()) != -1) {
+						buffer.append((char) c);
+					}
+					commentReader.close();
 				}
-				commentReader.close();
-			}
-			java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry(
-					"svgsigns/" + files[i].getName());
-			zipOut.putNextEntry(entry);
-			java.io.FileInputStream svgin = new java.io.FileInputStream(
-					files[i]);
-			byte[] bytes = new byte[(int) files[i].length()]; // a svg file
-			// too long for
-			// an int can
-			// not exist.
-			// really.
-			svgin.read(bytes);
-			svgin.close();
-			zipOut.write(bytes);
-			zipOut.closeEntry();
+				java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry(
+						"svgsigns/" + files[i].getName());
+				zipOut.putNextEntry(entry);
+				java.io.FileInputStream svgin = new java.io.FileInputStream(
+						files[i]);
+				byte[] bytes = new byte[(int) files[i].length()];
+				// a svg file
+				// too long for
+				// an int can
+				// not exist.
+				// really.
+				svgin.read(bytes);
+				svgin.close();
+				zipOut.write(bytes);
+				zipOut.closeEntry();
+			} catch (Exception e) {
+				System.err.println("Could not build " + imageFile);
+				e.printStackTrace();
+			} 
 		}
 		buffer.append("</ul>\n");
 		zipOut.close();
@@ -173,55 +212,56 @@ public class MakeSVGIndex {
 	}
 
 	/**
+	 * Extract Sign description from the sign XML file.
+	 * 
 	 * @param file
 	 */
 	private static String extractXMLInfo(File file) {
 		String result = "";
-		
-		// We use XSLT to transform our file. Alas, it's awfully difficult to 
+
+		// We use XSLT to transform our file. Alas, it's awfully difficult to
 		// switch out validation when the file contains a DOCTYPE declaration.
-		// I know there are cases where validation is needed, but this is upsetting.
+		// I know there are cases where validation is needed, but this is
+		// upsetting.
 		// 
 		// We should probably simply use SAX to parse the file.
 		TransformerFactory factory2 = TransformerFactory.newInstance();
-	
 		Source source = new StreamSource(new StringReader(XSLFILTER));
 		try {
+			// We start building a transformer to modify our file.
 			Transformer f = factory2.newTransformer(source);
 			StringWriter stringWriter = new StringWriter();
 			StreamResult outputTarget = new StreamResult(stringWriter);
-			
-			
 			XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+			// We create a dummy resolver to replace all dtds...
 			xmlReader.setEntityResolver(new EntityResolver() {
+				public InputSource resolveEntity(String publicId,
+						String systemId) throws SAXException, IOException {
+					return new InputSource(new StringReader(
+							"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
 
-				public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-						return new InputSource(new StringReader(
-								"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
-					
 				}
 			});
-			SAXSource source1= new SAXSource(xmlReader, new InputSource(new FileInputStream(file)));
+			SAXSource source1 = new SAXSource(xmlReader, new InputSource(
+					new FileInputStream(file)));
+			// The transformer is ready. Apply it.
 			f.transform(source1, outputTarget);
-			
 			result = stringWriter.toString().trim();
-		} catch (TransformerConfigurationException exception) {
-			exception.printStackTrace();
-		} catch (TransformerException exception) {		
-			exception.printStackTrace();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
+			System.err.println("problem reading information for"
+					+ file.getAbsolutePath());
 			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			result = "";
 		}
-
 		return result;
 	}
 
 	private static void buildImageFile(File svgFile, File imageFile)
 			throws IOException {
+		// Do not recreate existing png...
+		if (imageFile.exists() && imageFile.length() > 0
+				&& imageFile.lastModified() > svgFile.lastModified())
+			return;
 		SVGSignSource source = new SVGSignSource(svgFile);
 		if (source.hasNext()) {
 			source.next();
@@ -233,28 +273,13 @@ public class MakeSVGIndex {
 			builder.setFit(true);
 			builder.setTransparent(true);
 			BufferedImage b = builder.buildSignBitmap(shapeChar);
-			/*
-			 * // On crée l'image. final int HEIGHT = 56; final double SCALE=
-			 * 2.5;
-			 * 
-			 * BufferedImage image = new BufferedImage(HEIGHT, HEIGHT,
-			 * BufferedImage.TYPE_INT_ARGB); Graphics2D g =
-			 * image.createGraphics(); g.setBackground(new Color(0, 0, 0, 1));
-			 * g.clearRect(0, 0, HEIGHT, HEIGHT); GraphicsUtils.antialias(g);
-			 * g.scale(SCALE, SCALE);
-			 * 
-			 * double h = shapeChar.getBbox().getHeight(); double w =
-			 * shapeChar.getBbox().getWidth();
-			 * 
-			 * g.translate((HEIGHT/SCALE)/2.0-w/2.0, HEIGHT/SCALE-h-2);
-			 * g.setColor(Color.BLACK); g.fill(shapeChar.getShape());
-			 * g.dispose(); String format = "png";
-			 */
 			ImageIO.write(b, "png", imageFile);
 		}
 	}
 
 	/**
+	 * Create the Readme header.
+	 * 
 	 * @param directory
 	 * @param buffer
 	 * @throws FileNotFoundException
@@ -276,6 +301,32 @@ public class MakeSVGIndex {
 	private static void displayUsage() {
 		System.err.println(USAGE);
 		System.exit(1);
+	}
+
+	/**
+	 * @param args
+	 * @throws IOException
+	 */
+	public static void main(String[] args) throws IOException {
+		if (args.length == 0) {
+			displayUsage();
+		}
+		File directories[] = new File[args.length];
+		for (int i = 0; i < args.length; i++) {
+			directories[i] = new File(args[i]);
+			if (!directories[i].isDirectory()) {
+				if (!directories[i].exists()) {
+					System.err
+							.println(directories[i].getName()
+									+ " is not a directory or a text file with a list of directories in it.");
+					displayUsage();
+				} else
+					parseDirectoryList(directories[i]);
+			} else {
+				System.out.println("working on " + directories[i].getName());
+				makeIndex(directories[i]);
+			}
+		}
 	}
 
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1431"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   width="5.2800002pt"
+   height="14.890001pt"
+   version="1.0"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi25_SR"
+   sodipodi:docname="US22M13A.svg">
+  <metadata
+     id="metadata1436">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:date>03/04/06</dc:date>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>US22M13A</dc:title>
+        <dc:description>variante optimisée du signe de Jsesh</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1434" />
+  <sodipodi:namedview
+     inkscape:window-height="708"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="28.996935"
+     inkscape:cx="2.9893064"
+     inkscape:cy="9.2759147"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:current-layer="svg1431" />
+  <path
+     sodipodi:nodetypes="ccscccsccsccccccccccc"
+     style="fill:#000000;stroke:none"
+     d="M 5.9077434,1.2568837 C 4.9806344,2.027299 4.2298054,3.2220954 3.6552584,4.8412727 C 3.6552584,5.5725147 3.8021604,7.5601217 4.0959624,9.5840937 C 4.3897644,11.608066 4.4648474,13.854022 4.3212104,16.321962 C 3.9555894,17.993371 3.5116224,18.757258 2.9893064,18.613622 C 2.4669914,18.757258 2.0230234,17.993371 1.6574024,16.321962 C 1.5007084,13.854022 1.5692624,11.608066 1.8630644,9.5840937 C 2.1568664,7.5601217 2.3037674,5.5725147 2.3037674,4.8412727 C 1.7422794,3.2220954 0.99797943,2.027299 0.070869426,1.2568837 C 0.68459043,0.44729502 1.6574024,0.042500692 2.9893064,0.042500692 C 4.3081534,0.042500692 5.2809654,0.44729502 5.9077434,1.2568837 z M 4.7717084,1.2568837 C 4.2755084,0.9957264 3.6813744,0.8390317 2.9893064,0.7867997 C 2.2972384,0.8520897 1.6965764,1.0087844 1.1873184,1.2568837 C 1.8402124,2.027299 2.4408754,3.0784587 2.9893064,4.4103627 C 3.5246804,3.0784587 4.1188134,2.027299 4.7717084,1.2568837 z M 2.9893064,5.8402017 C 2.5714544,9.6008717 2.3559994,12.659225 2.3429414,13.795262 C 2.3559994,15.701713 2.5714544,16.968328 2.9893064,17.595107 C 3.3941014,16.968328 3.6095564,15.701713 3.6356714,13.795262 C 3.6095564,12.672284 3.3941014,9.6139304 2.9893064,5.8402017 z "
+     id="path1622" />
+</svg>

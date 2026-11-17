@@ -7,13 +7,10 @@ package jsesh.hieroglyphs;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence.
@@ -21,18 +18,10 @@ import java.util.regex.Pattern;
  * @author S. Rosmorduc
  *  
  */
+
 public class HieroglyphsManager {
 
-	/**
-	 * Regexp which covers all possible signs codes, except for phonetic codes.and numbers
-	 */
-	private static final String GARDINER_CODE_REGEXP = "(US\\d+)?(NL|NU|[A-Z]|Aa|Ff)[0-9]+[a-zA-Z]*|UG\\d+M\\d+N\\d+";
 	
-	/**
-	 * Regexp like GARDINER_CODE_REGEXP, but which covers also the signs which don't have official "Gardiner codes"
-	 */
-	private static final String	GCANONICAL_CODE_REGEXP= GARDINER_CODE_REGEXP + 
-		"|nTrw|nn|[2456789]|[2-9]00*";
 	private static HieroglyphsManager instance = null;
 
 	HashMap canonical;
@@ -602,7 +591,7 @@ public class HieroglyphsManager {
 		addValue("G54", "wSn");
 		addValue("G5", "Hr");
 		addValue("G6", "bik");
-		addValue("G7AA", "nmti");
+		addValue("G7B", "nmti");
 		addValue("G7A", "nmti");
 		addValue("G7", "Hr");
 		addValue("G7", "nsw");
@@ -1843,58 +1832,14 @@ public class HieroglyphsManager {
 				l.add(c);
 			} else if (userCodes && c.matches("US"+ "[0-9]+"+ family + "[0-9]+.*")) {
 				l.add(c);
-			} else if ("".equals(family)&& isCorrectGardinerCode(c) && ! c.startsWith("UG")) {
+			} else if ("".equals(family)&& GardinerCode.isCorrectGardinerCode(c) && ! c.startsWith("UG")) {
 				l.add(c);
 			}
 		}
-		Collections.sort(l, getCodeComparator());
+		Collections.sort(l, GardinerCode.getCodeComparator());
 		return (String[]) l.toArray(new String[l.size()]);
 	}
 
-	/**
-	 * Returns a comparator able to compare two gardiner codes and to order
-	 * them.
-	 * 
-	 * @return a comparator able to compare two gardiner codes and to order them.
-	 */
-	private Comparator getCodeComparator() {
-		return new Comparator() {
-
-			Pattern p = Pattern.compile("(US[0-9]+)?([A-Za-z]+)([0-9]+)(.*)");
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see java.util.Comparator#compare(java.lang.Object,
-			 *      java.lang.Object)
-			 */
-			public int compare(Object o1, Object o2) {
-				String c1 = (String) o1;
-				String c2 = (String) o2;
-			
-				Matcher m1 = p.matcher(c1);
-				m1.matches();
-				String fam1 = m1.group(2);
-				int num1 = Integer.parseInt(m1.group(3));
-				String tail1 = m1.group(4);
-
-				Matcher m2 = p.matcher(c2);
-				m2.matches();
-				String fam2 = m2.group(2);
-				int num2 = Integer.parseInt(m2.group(3));
-				String tail2 = m2.group(4);
-
-				int result = fam1.compareTo(fam2);
-				if (result == 0) {
-					result = num1 - num2;
-					if (result == 0)
-						result = tail1.compareTo(tail2);
-				}
-				return result;
-			}
-		};
-	}
-	
 	public void addValue(String gardinerCode, String value) {
 		// create a value entry for the sign if necessary
 		if (! signsValues.containsKey(gardinerCode)) {
@@ -1934,43 +1879,12 @@ public class HieroglyphsManager {
 		return (List)signsValues.get(gardinerCode);
 	}
 	
-	public boolean isKnownCode(String code) {
-		return canonical.containsKey(code);
-	}
-	
 	/**
-	 * Tells if a given string has the correct form for a manuel de codage code.
-	 * The code can be :
-	 * <ul>
-	 * 	<li> a "Gardiner-like" code, as defined in the manuel
-	 * 	<li> a tksesh user sign code of the form UG<em>n0</em>M<em>n1</em>N<em>n2</em>
-	 *  <li> a user sign code of the form US + number + gardiner sign code.
-	 * where 
-	 * <ul>
-	 * <li> n0 is the user id (an integer)
-	 * <li> n1 is an arbitrary machine id (usually 0)
-	 * <li> n2 is the sign id (an integer)
-	 * </ul>
-	 * </ul> 
-	 * Note that translitteration codes are not dealt with here. 
-	 * @param code
-	 * @return true if the sign is a possible code.
-	 */
-	public static boolean isCorrectGardinerCode (String code) {
-		return Pattern.matches(GARDINER_CODE_REGEXP, code);
-	}
-	
-	/**
-	 * Is the given code a canonical MdC code ?
-	 * <p> We define canonical MdC codes as:
-	 * <ul>
-	 * <li> Gardiner codes (see isCorrectGardinerCode)
-	 * <li> Codes documented in the manuel de codage for the few signs wich haven't got a Gardiner code (nTrw, some numbers...)
-	 * </ul>
+	 * Returns true if the sign is either a sign in Gardiner's grammar list, or if the sign code corresponds to a standard translitteration.
 	 * @param code
 	 * @return
 	 */
-	public static boolean isCorrectBasicMdcCode(String code) {
-		return Pattern.matches(GCANONICAL_CODE_REGEXP,code);
+	public boolean isKnownCode(String code) {
+		return canonical.containsKey(code);
 	}
 }

@@ -8,9 +8,8 @@
  */
 package jsesh.graphicExport;
 
-import java.io.IOException;
-
 import java.awt.Dimension;
+import java.io.IOException;
 
 import jsesh.graphics.generic.BaseGraphics2D;
 

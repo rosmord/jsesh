@@ -1,17 +1,15 @@
 package jsesh.externalFonts.model;
 
-import java.util.ArrayList;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Shape;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import jsesh.bzr.simple.ShapeChar;
 
@@ -34,14 +32,14 @@ public class TTFSignSource implements SimpleSignSourceModel {
 	            	ShapeChar s= new ShapeChar();
 	            	Shape shape= f.createGlyphVector(new FontRenderContext(null,false,true), ""+(char)i).getOutline();
 	            	s.setShape(shape);
-	            	s.fixShape();
+	            	//s.fixShape();
 	            	Rectangle2D bbox= s.getBbox();
 	            	if (bbox.getWidth() != 0 || bbox.getHeight() != 0)
 	            		shapes.add(s);
 	            }            
 	        }			
 		} catch (FontFormatException e) {
-			throw new IOException("Error in File");
+			throw new IOException(e.getMessage());
 		}
 		beforeFirst();
 	}

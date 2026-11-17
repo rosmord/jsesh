@@ -4,9 +4,8 @@
  **/
 package jsesh.resources;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,9 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-
-import java.awt.Font;
-import java.awt.FontFormatException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
@@ -33,6 +31,7 @@ public class ResourcesManager {
 
 	private Font transliterationFont;
 
+	private Font unicodeFont;
 	/**
 	 * Name of the file (in the package ResourcesManager) which contains the definitions for the various icons.
 	 * A global convention shall be that inactive icons will have " inactive" in their names.
@@ -78,6 +77,13 @@ public class ResourcesManager {
 				throw new FileNotFoundException("file not found");
 			transliterationFont = Font.createFont(Font.TRUETYPE_FONT, in);
 			transliterationFont = transliterationFont.deriveFont(12f);
+			in.close();
+
+			in = ResourcesManager.class
+			.getResourceAsStream("/jseshResources/fonts/EgyptoSerif.ttf");
+			unicodeFont= Font.createFont(Font.TRUETYPE_FONT, in);
+			unicodeFont= unicodeFont.deriveFont(12f);
+			in.close();
 		} catch (FontFormatException e) {
 			System.err.println("problem with font file format " + e);
 			e.printStackTrace();
@@ -155,4 +161,15 @@ public class ResourcesManager {
 			return  (ImageIcon) iconMap.get("Dummy");
 		}
 	}
+
+	/**
+	 * Return the unicode font.
+	 * (this is a testing feature)
+	 * @return the unicodeFont
+	 */
+	public Font getUnicodeFont() {
+		return unicodeFont;
+	}
+	
+	
 }

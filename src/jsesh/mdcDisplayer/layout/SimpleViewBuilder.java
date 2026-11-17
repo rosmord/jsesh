@@ -6,6 +6,7 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**

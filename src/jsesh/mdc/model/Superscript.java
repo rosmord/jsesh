@@ -8,7 +8,7 @@ package jsesh.mdc.model;
  *This code is published under the GNU LGPL.
  */
 
-public class Superscript extends TopItem {
+public class Superscript extends TopItem implements TextContainer {
 	private String text;
 	
 	public Superscript(String text) {
@@ -30,6 +30,7 @@ public class Superscript extends TopItem {
 	 */
 	public void setText(String text) {
 		this.text= text;
+		notifyModification();
 	}
 
 	/*

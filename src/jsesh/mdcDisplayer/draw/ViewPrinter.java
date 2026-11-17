@@ -15,6 +15,7 @@ import java.awt.print.PrinterException;
 
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.layout.MDCPagedEditorKit;
+import jsesh.mdcDisplayer.layout.PagedViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
@@ -174,7 +175,7 @@ public class ViewPrinter implements Pageable, Printable {
 	 * @param specification
 	 */
 	public void setDrawingSpecifications(DrawingSpecifications specification) {
-		this.drawingSpecifications= drawingSpecifications; 
+		this.drawingSpecifications= specification; 
 	}
 
 	/**

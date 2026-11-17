@@ -4,12 +4,11 @@
  */
 package jsesh.graphicExport;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
-
-import java.awt.Dimension;
-import java.awt.Graphics2D;
 
 import jsesh.graphicExport.RTFExportPreferences.RTFExportGranularity;
 import jsesh.graphics.generic.RandomAccessByteArray;
@@ -20,7 +19,7 @@ import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.layout.ViewBuilder;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 import jsesh.utils.TranslitterationUtilities;
 
@@ -93,7 +92,6 @@ public class RTFExporter {
 		// small as the wished size.
 		// so...
 		WMFSimpleDrawer simpleDrawer = buildSimpleDrawer(b);
-
 		simpleDrawer.drawTopItemList(model);
 
 		try {
@@ -346,6 +344,7 @@ public class RTFExporter {
 		protected WMFSimpleDrawer(ViewBuilder viewBuilder, double cadratHeight,
 				RandomAccessByteArray b) {
 			super(viewBuilder, drawingSpecifications, cadratHeight);
+			setShadeAfter(false);
 			this.b = b;
 		}
 

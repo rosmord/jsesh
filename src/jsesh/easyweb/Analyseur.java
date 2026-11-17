@@ -1,13 +1,12 @@
 /*
- * Created on 15 déc. 2003
+ * Created on 15 dï¿½c. 2003
  *
  */
 package jsesh.easyweb;
 
 
-import java.util.LinkedList;
-
 import java.io.StringReader;
+import java.util.LinkedList;
 
 import jsesh.mdc.MDCParserFacade;
 import jsesh.mdc.interfaces.CadratInterface;
@@ -26,7 +25,7 @@ public class Analyseur {
 	
 	
 	/**
-	 * Crée un analyseur.
+	 * Crï¿½e un analyseur.
 	 */
 	public Analyseur() {
 		builder= new SignListBuilder();

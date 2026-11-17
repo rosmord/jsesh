@@ -5,11 +5,10 @@
  */
 package jsesh.docdisplayer;
 
-import java.io.IOException;
-import java.net.URL;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

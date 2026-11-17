@@ -19,8 +19,8 @@ import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdcDisplayer.draw.HieroglyphsDrawer;
-import jsesh.mdcDisplayer.draw.SimpleHieroglyphicDrawer;
+import jsesh.mdcDisplayer.mdcView.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.mdcView.SimpleHieroglyphicDrawer;
 import jsesh.resources.ResourcesManager;
 import jsesh.utils.DoubleDimensions;
 
@@ -155,6 +155,29 @@ public class DrawingSpecifications implements Cloneable {
 
 	private Color backgroundColor= Color.WHITE;
 
+	/**
+     * The desired height of a standard "high" sign (like A1), in points.
+     */
+	private float standardSignHeight;
+
+	/**
+	 * When a hight sign is alone in a column (resp. a wide sign alone in a row),
+	 * it will be enlarged so as to fill the entire height (resp. width).
+	 */
+	private boolean enlargeLargeLoneSigns;
+	
+	/**
+	 * Ratio to base size a sign should have to be considered a "large" sign.
+	 */
+	private double largeSignSize= 0.8;
+
+	/**
+	 * Ratio to base size a sign should have to be considered a "small" sign.
+	 * i.e. if a sign size is smaller than getBaseLangth() * getSmallSize(), 
+	 * this sign is small.
+	 */
+	private double smallSignSize= 0.4;
+
     //private float
     public DrawingSpecifications() {
         fontRenderContext = new FontRenderContext(new AffineTransform(), true,
@@ -175,6 +198,7 @@ public class DrawingSpecifications implements Cloneable {
         topMargin = smallSkip + getCartoucheLineWidth() + getCartoucheMargin();
         leftMargin = 3 * smallSkip;
 
+        standardSignHeight= getBaseLength();
         //		TODO : ensure system independance for font ?.
         //latinFont= Font.createFont(Font.TRUETYPE_FONT, in);
         // IMPORTANT : Load fonts only once !
@@ -183,6 +207,7 @@ public class DrawingSpecifications implements Cloneable {
         superScriptFont = new Font(null, Font.PLAIN, 5);
         cursorColor = new Color(0, 0, 255, 100);       
         pageFormat= null;
+        enlargeLargeLoneSigns= true;
     }
 
     /**
@@ -190,7 +215,8 @@ public class DrawingSpecifications implements Cloneable {
      */
     private void buildFontMap() {
         fontMap = new Font[256];
-        fontMap[ScriptCodes.LATIN] = new Font("Serif", Font.PLAIN, 12);
+        //fontMap[ScriptCodes.LATIN] = new Font("Serif", Font.PLAIN, 12);
+        fontMap[ScriptCodes.LATIN] = ResourcesManager.getInstance().getUnicodeFont();
         fontMap[ScriptCodes.BOLD] = new Font("Serif", Font.BOLD, 12);
         fontMap[ScriptCodes.ITALIC] = new Font("Serif", Font.ITALIC, 12);
         fontMap[ScriptCodes.TRANSLITERATION] = ResourcesManager.getInstance()
@@ -317,8 +343,7 @@ public class DrawingSpecifications implements Cloneable {
 
    
     /**
-     * The height of an A1 sign.
-     * 
+     * The height of an A1 sign in the current fonts (in font units).
      * @return The height of an A1 sign.
      */
     public float getBaseLength() {
@@ -329,6 +354,24 @@ public class DrawingSpecifications implements Cloneable {
         return baseLength;
     }
 
+    
+    /**
+     * The desired height of a standard "high" sign (like A1), in points.
+     * @return the standard sign height.
+     */
+    
+    public float getStandardSignHeight() {
+    	return standardSignHeight;
+    }
+    
+    /**
+     * Sets the desired height (in points) of a standard "high" sign like A1.
+	 * @param standardSignHeight The standardSignHeight to set.
+	 */
+	public void setStandardSignHeight(float standardSignHeight) {
+		this.standardSignHeight = standardSignHeight;
+	}
+    
     /*
      * (non-Javadoc)
      * 
@@ -821,5 +864,53 @@ public class DrawingSpecifications implements Cloneable {
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
+	
+	/**
+	 * Returns the scale which should be applied to the current font to obtain the desired sign height.
+	 * @return the scale to apply to the current glyph font.
+	 */
+	public float getSignScale() {
+		return getStandardSignHeight() / getBaseLength();
+	}
+
+	/**
+	 * @return the enlargeLargeLoneSigns
+	 */
+	public boolean isEnlargeLargeLoneSigns() {
+		return enlargeLargeLoneSigns;
+	}
+
+	/**
+	 * @param enlargeLargeLoneSigns the enlargeLargeLoneSigns to set
+	 */
+	public void setEnlargeLargeLoneSigns(boolean enlargeLargeLoneSigns) {
+		this.enlargeLargeLoneSigns = enlargeLargeLoneSigns;
+	}
+
+	/**
+	 * return the ratio to base size a sign should have to be considered a "large" sign.
+	 * @return the largeSignSize
+	 */
+	public double getLargeSignSize() {
+		return largeSignSize;
+	}
+
+	/**
+	 * @param largeSignSize the largeSignSize to set
+	 */
+	public void setLargeSignSize(double largeSignSize) {
+		this.largeSignSize = largeSignSize;
+	}
+
+	/**
+	 * Return the ratio to base size a sign should have to be considered a "small" sign.
+	 * i.e. if a sign size is smaller than getBaseLangth() * getSmallSize(), 
+	 * this sign is small.
+	 * @return a ratio.
+	 */
+	public double getSmallSignSize() {
+		return smallSignSize;
+	}
+	
 	
 }

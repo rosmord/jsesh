@@ -6,14 +6,6 @@
  */
 package jsesh.graphicExport;
 
-import java.util.ArrayList;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.text.DecimalFormat;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -23,6 +15,12 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -345,8 +343,9 @@ public class HTMLExporter {
 				Graphics2D g = image.createGraphics();
 				GraphicsUtils.antialias(g);
 
-				g.setBackground(backgroundColor);
-				g.clearRect(0, 0, image.getWidth(), image.getHeight());
+				g.setColor(backgroundColor);
+				g.fillRect(0, 0,image.getWidth(), image.getHeight());
+				g.setColor(drawingSpecifications.getBlackColor());
 				g.translate(1, 1 + pictureMargin);
 
 				g.scale(scale, scale);

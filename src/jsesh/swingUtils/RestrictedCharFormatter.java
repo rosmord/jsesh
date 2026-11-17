@@ -6,9 +6,8 @@
  */
 package jsesh.swingUtils;
 
-import java.util.HashSet;
-
 import java.text.ParseException;
+import java.util.HashSet;
 
 import javax.swing.text.DefaultFormatter;
 

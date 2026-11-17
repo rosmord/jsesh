@@ -6,19 +6,17 @@
  */
 package jsesh.graphicExport;
 
-import java.util.TreeMap;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Field;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.TreeMap;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,7 +35,6 @@ import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
@@ -102,7 +99,7 @@ public class IPDFExporter {
     
     private boolean showPageNumbers;
     
-    private DrawingSpecifications drawingSpecifications= MDCEditorKit.getBasicMDCEditorKit().getDrawingSpecifications();
+    private DrawingSpecifications drawingSpecifications= new DrawingSpecifications();
     
 
     private Color backgroundColor = Color.WHITE;
@@ -463,7 +460,14 @@ public class IPDFExporter {
         public void flushParagraph() {
             if (currentParagraph != null)
                 try {
-                    pdfDocument.add(currentParagraph);
+                	float space = drawingSpecifications.getLineSkip();
+                	//if (currentParagraph.getMultipliedLeading() < space)
+                		//currentParagraph.setLeading(space);
+                	//currentParagraph.setLeading(0,1);
+                	//currentParagraph.setSpacingAfter(space/2);
+                	//currentParagraph.setSpacingBefore(space/2);
+                	currentParagraph.setLeading(space+currentParagraph.leading());
+                	pdfDocument.add(currentParagraph);
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 }
@@ -479,15 +483,15 @@ public class IPDFExporter {
         private void drawElement(TopItem elt) {
 
             TemplateInfo templateInfo = (TemplateInfo) imageCache.get(elt);
+            // scale Compute
+
+            double scale = (double) lineHeight / actualDrawingSpecifications.getMaxCadratHeight();
 
             if (templateInfo == null) {
                 TopItemList smallModel = new TopItemList();
                 smallModel.addTopItem((TopItem)(elt.deepCopy()));
 
-                // scale Compute
-
-                double scale = (double) lineHeight / actualDrawingSpecifications.getMaxCadratHeight();
-
+              
                 MDCView view = builder.buildView(smallModel,actualDrawingSpecifications);
 
                 if (view.getWidth() == 0 || view.getHeight() == 0)
@@ -526,9 +530,9 @@ public class IPDFExporter {
                 // Vertical ajustment (for cartouches for instance).
                 double deltay = 0;
                 if (view.getFirstSubView() != null)
-                    deltay = view.getFirstSubView().getDeltaBaseY();
-                //c= new Chunk(Image.getInstance(tp), 0, /*-6*/ deltay);
-                //c.setTextRise(-6+deltay);
+                    {
+                		deltay = view.getFirstSubView().getDeltaBaseY()*scale;
+                    }
                 templateInfo.dx = 0; 
                 templateInfo.dy = -6f + deltay;
                 templateInfo.template.setLeading((float) (view.getHeight()*scale));
@@ -536,10 +540,12 @@ public class IPDFExporter {
             }
             try {
                 Image img = Image.getInstance(templateInfo.template);
-                            
-                
-                addChunck(new Chunk(img, (float)templateInfo.dx, (float)templateInfo.dy, true));
-                addChunck(new Chunk(' ').setHorizontalScaling(0.25f));
+                Chunk chunk= new Chunk(img,(float)templateInfo.dx, (float)templateInfo.dy, true);
+                addChunck(chunk);
+                // Add a space.
+                addChunck(new Chunk(' ').setHorizontalScaling(0.3f));
+                // The actual "good" size is next to impossible to compute. We should create a special drawing for it             
+                //addChunck(new Chunk(' ').setHorizontalScaling((float)(actualDrawingSpecifications.getSmallSkip()*scale)));
                 if (templateInfo.template.getLeading() > currentParagraph
                         .leading())
                     currentParagraph.setLeading(templateInfo.template
@@ -823,4 +829,13 @@ public class IPDFExporter {
 	public void setShowPageNumbers(boolean includePageNumber) {
 		this.showPageNumbers = includePageNumber;
 	}
+
+	public DrawingSpecifications getDrawingSpecifications() {
+		return drawingSpecifications;
+	}
+
+	public void setDrawingSpecifications(DrawingSpecifications drawingSpecifications) {
+		this.drawingSpecifications = drawingSpecifications;
+	}
+
 }

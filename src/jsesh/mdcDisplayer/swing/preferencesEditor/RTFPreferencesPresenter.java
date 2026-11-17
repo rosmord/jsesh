@@ -4,10 +4,6 @@
  */
 package jsesh.mdcDisplayer.swing.preferencesEditor;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 
@@ -24,8 +20,6 @@ public class RTFPreferencesPresenter extends FormPresenter {
 
 	private RTFPreferencesForm form;
 	
-	private LengthUnit currentUnit;
-	
 	private RTFExportPreferences preferences;
 	
 	/**
@@ -36,7 +30,6 @@ public class RTFPreferencesPresenter extends FormPresenter {
 		super(title);
 		form= new RTFPreferencesForm();
 		this.preferences= preferences;
-		currentUnit= LengthUnit.POINT;
 		
 		// Fill with default values
 		form.exportModeField.setModel(new DefaultComboBoxModel(RTFExportPreferences.exportModes));
@@ -75,37 +68,22 @@ public class RTFPreferencesPresenter extends FormPresenter {
 	}
 
 	private int getCadratHeightInPoints() {
+		LengthUnit currentUnit= ((LengthUnit)form.unitField.getSelectedItem());
 		int pointValue= (int)(((Number)form.cadratHeightField.getValue()).doubleValue() * currentUnit.getPointsValue());
 		return pointValue;		
 	}
 	
 	private void setCadratHeightInPoints(double heightInPoints) {
+		LengthUnit currentUnit= ((LengthUnit)form.unitField.getSelectedItem());
 		form.cadratHeightField.setValue(new Double(heightInPoints/currentUnit.getPointsValue()));
 		
 	}
 	
-	private void unitChanged() {		
-		double height= getCadratHeightInPoints();
-		currentUnit= (LengthUnit) form.unitField.getSelectedItem();
-		setCadratHeightInPoints(height);
-	}
 	
 	private RTFExportPreferences.RTFExportGranularity getExportGranularity() {
 		RTFExportGranularity result= (RTFExportGranularity) form.exportModeField.getSelectedItem();
 		if (result== null)
 			result= RTFExportGranularity.ONE_PICTURE_PER_CADRAT;
 		return result;
-	}
-	/**
-	 * Callback to update the displayed value of the height field when the unit is changed.
-	 */
-	private class UnitMaintainterOLD implements ItemListener {
-		public void itemStateChanged(ItemEvent e) {
-			if (e.getStateChange() == ItemEvent.SELECTED) {
-				if (e.getItem() != null) {
-					unitChanged();
-				}
-			}
-		}
 	}
 }

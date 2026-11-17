@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="19.131636"
+   height="3.12"
+   id="svg2796"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22T9A.svg"
+   sodipodi:docbase="C:\Program Files\Inkscape\envoi31\Jseshopt">
+  <metadata
+     id="metadata2803">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:title>US22T9A</dc:title>
+        <dc:date>30/09/06</dc:date>
+        <dc:description>variante optimisée du signe Jsesh T9A</dc:description>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title></dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2801" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="44.638107"
+     inkscape:cx="9.5658178"
+     inkscape:cy="1.5599999"
+     inkscape:window-x="22"
+     inkscape:window-y="-6"
+     inkscape:current-layer="svg2796" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 18.503305 1.625  Q 18.546644 1.148332 18.048307 1.169999  Q 17.268303 1.841667 16.206642 1.841667  Q 15.145005 1.841667 14.105003 1.169999  Q 13.888337 1.3 14.018335 1.625  Q 14.885003 2.51333 16.206642 2.51333  Q 17.91831 2.491663 18.503305 1.625  Z  M 6.955001 0.563333  Q 6.890001 0.975 7.323337 1.516667  L 11.786669 1.516667  Q 12.241667 0.975 12.155002 0.563333  L 6.955001 0.563333  Z  M 0.606666 1.625  Q 1.213332 2.491663 2.925 2.51333  Q 4.246661 2.51333 5.113328 1.625  Q 5.243333 1.3 5.026661 1.169999  Q 3.98666 1.841667 2.925 1.841667  Q 1.863334 1.841667 1.083332 1.169999  Q 0.584999 1.148332 0.606666 1.625  Z  M 6.023335 2.079997  Q 4.289993 3.12 2.925 3.12  Q 1.56 3.12 0.790833 2.654166  Q 0.021667 2.18833 0 1.234999  Q 0.021667 0.715 0.671667 0.498333  Q 1.104998 0.368333 1.321667 0.563333  Q 1.906667 1.234999 2.925 1.234999  Q 3.661668 1.234999 4.766661 0.498333  Q 5.265001 0 6.543335 0  L 12.588335 0  Q 13.845004 0 14.365005 0.498333  Q 15.47 1.234999 16.206642 1.234999  Q 17.203308 1.234999 17.788309 0.563333  Q 18.026644 0.368333 18.459972 0.498333  Q 19.10997 0.715 19.131636 1.234999  Q 19.10997 2.18833 18.340805 2.654166  Q 17.571644 3.12 16.206642 3.12  Q 14.841667 3.12 13.08667 2.079997  L 6.023335 2.079997  Z "
+     id="path2798" />
+</svg>

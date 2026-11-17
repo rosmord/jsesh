@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3424"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   width="14.8pt"
+   height="10.8pt"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/SThomasDetail/FullFont/D"
+   sodipodi:docname="D10.svg"
+   version="1.0">
+  <metadata
+     id="metadata3429">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22D10</dc:title>
+        <dc:date>17/04/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>variante optimisée du signe de Jsesh
+valeur phon : wDA</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3427" />
+  <sodipodi:namedview
+     inkscape:window-height="708"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="40.496576"
+     inkscape:cx="9.2207176"
+     inkscape:cy="6.8023706"
+     inkscape:window-x="25"
+     inkscape:window-y="0"
+     inkscape:current-layer="svg3424" />
+  <g
+     id="g3442">
+    <path
+       sodipodi:nodetypes="ccscsccccc"
+       id="path1335"
+       d="M 6.3081981,0.042745824 C 4.4141011,0.042745824 2.6538451,0.34327882 1.0274291,0.94434584 C 0.84192097,1.0442348 0.77770699,1.2297428 0.83478597,1.5008698 C 0.89186507,1.7719968 1.0702391,1.9146958 1.3699061,1.9289658 C 2.8731891,1.3966748 4.5347201,1.1305288 6.3545011,1.1305288 C 8.9741861,1.1305288 11.921817,1.6820718 15.19739,2.7851578 L 18.47232,2.7851578 L 18.47232,1.8647518 L 15.19739,1.8647518 C 11.963854,0.65008084 9.0007901,0.042745824 6.3081981,0.042745824 z "
+       style="fill:#000000;stroke:none" />
+    <path
+       sodipodi:nodetypes="cccccscccccsscsccccccccccccccsccccccccccsssssssscssccsccccc"
+       id="path3440"
+       d="M 7.2753354,4.7675654 C 9.1304144,5.0815024 10.664366,5.4739234 11.977187,5.9448294 C 10.450317,6.4585434 8.9391774,6.8224254 7.3837644,7.0364724 C 7.9035389,6.3454569 7.9888254,5.4810584 7.2753354,4.7675654 z M 4.8396524,4.8957384 C 4.8500604,4.8957384 4.8758462,4.8869357 4.8708084,4.8959934 C 4.3357892,5.8579372 4.4653906,6.5607781 5.2132844,7.1434964 C 3.9289974,7.0578784 2.7874094,6.8937744 1.7885214,6.6511854 C 2.9588174,5.4808874 3.9758614,4.8957384 4.8396524,4.8957384 z M 6.2728904,4.7432544 C 6.8699394,4.7432544 7.1959034,5.1095094 7.3907864,5.9020194 C 7.3278456,6.6321261 7.04227,6.9049906 6.3477334,7.1249014 C 6.3013488,7.1395881 6.2514014,7.1376091 6.2053924,7.1313634 C 5.6366064,7.0541516 5.2857278,6.7709266 5.0064264,6.0627052 C 5.0775767,5.1992783 5.3130736,4.8141811 6.0908774,4.7547554 C 6.1537787,4.7499496 6.2141644,4.7432544 6.2728904,4.7432544 z M 4.0788314,7.8712554 L 4.6995704,7.9568744 L 4.6995704,12.965591 L 4.6781644,12.965591 L 4.0360214,10.140164 C 3.9075934,9.6835304 3.7149504,9.4124044 3.4580914,9.3267854 L 3.4580914,9.2625704 C 3.7149504,9.1769524 3.9004584,8.9343634 4.0146184,8.5348034 L 4.0788314,7.8712554 z M 6.3115324,3.7841314 C 4.4234604,3.7841314 3.0228134,4.2475064 2.1095924,5.1742554 C 1.6101474,5.6023524 0.89665535,6.2659004 -0.030884727,7.1649014 L 0.097544271,7.5501834 C 0.50944727,7.4511194 0.92801935,7.4015864 1.3532584,7.4015864 C 2.0918354,7.4015864 2.6505274,7.5510084 3.4293334,7.8498504 L 3.3865224,8.4063754 C 3.3151714,8.7488494 2.9796634,8.8343024 2.6799964,8.9627344 L 2.6799964,9.6052144 C 2.9796634,9.7336434 3.2794414,9.8333664 3.3793334,10.204379 L 4.0856884,13.352513 L 5.2134514,13.352513 L 5.2134514,7.9568744 L 5.2132844,7.9568744 C 9.2231084,11.353095 12.826244,13.151096 16.022695,13.350876 C 16.935964,13.308066 17.528162,13.094021 17.799291,12.708739 C 18.070417,12.323454 18.127495,11.938166 17.970531,11.552878 C 17.81356,11.167591 17.546003,10.921438 17.167848,10.814415 C 17.066559,10.785749 16.968851,10.771415 16.874727,10.771415 C 16.61746,10.771415 16.386963,10.878502 16.183237,11.092678 C 15.904973,11.385209 15.858597,11.688443 16.044102,12.002381 C 16.169679,12.214892 16.318138,12.321147 16.489485,12.321147 C 16.57126,12.321147 16.658251,12.296943 16.750456,12.248536 C 17.035856,12.098702 17.100069,11.845412 16.943107,11.488664 C 16.970285,11.484586 16.995849,11.482548 17.019792,11.482548 C 17.247268,11.482548 17.328728,11.666528 17.264171,12.034487 C 17.192823,12.441178 16.778997,12.665928 16.022695,12.708739 C 13.040293,12.266372 9.7867652,10.675284 6.2621154,7.9354704 C 7.9602284,7.7927714 9.3979174,7.5466174 10.575183,7.1970094 C 11.752439,6.8473964 13.026023,6.5941064 14.395937,6.4371384 L 18.441435,6.6939954 L 18.441435,5.4953284 L 14.395937,5.4953284 C 11.10113,4.3545304 8.4063284,3.7841314 6.3115324,3.7841314 z "
+       style="fill:#000000;stroke:none" />
+  </g>
+</svg>

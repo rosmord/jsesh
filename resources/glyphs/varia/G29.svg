@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17.405048"
+   height="17.977417"
+   id="svg1333"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22G29B.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\transmis à Serge Rosmorduc\envoi14_SR">
+  <metadata
+     id="metadata1340">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22G29B</dc:title>
+        <dc:date>9/01/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier>US22</dc:identifier>
+        <dc:description>ephippiorhynchus senegalensis : jabiru :
+ba : soul(in bird form)</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1338" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="8.7025242"
+     inkscape:cy="8.9887085"
+     inkscape:window-x="132"
+     inkscape:window-y="174"
+     inkscape:current-layer="svg1333" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 2.782594 6.662123  Q 1.997631 6.601741 1.896994 7.910013  Q 1.333431 8.855994 0.830249 7.769122  Q 0.97114 6.179069 2.742339 5.474615  Q 2.702085 4.40787 4.292138 2.556162  Q 3.788957 2.193871 3.024121 2.505844  Q 2.259285 2.817816 1.232795 3.663161  Q -0.659168 5.293469 0.347195 3.643034  Q 1.715849 1.710817 3.487048 1.127127  Q 4.453156 -0.060382 5.358883 0  Q 5.741301 0.060382 6.103591 0.322036  Q 6.546391 0.644072 6.687282 1.106999  Q 6.707409 1.730944 6.445755 2.254253  Q 6.143846 2.858071 5.560155 3.039216  Q 4.070738 4.065707 4.151248 5.253215  Q 4.433029 5.897287 5.902319 6.058305  Q 7.371609 6.219323 9.726499 7.286068  Q 12.081388 8.352813 13.681505 9.70134  Q 15.281622 11.049866 17.193712 11.251139  Q 17.616385 11.613429 17.193712 12.639919  Q 15.704294 12.961955 14.818695 12.941828  Q 13.933096 12.9217 13.641251 12.730492  Q 13.349405 12.539283 12.182024 12.458774  Q 11.014643 12.378264 10.612098 13.102846  Q 10.048534 16.101809 9.968025 16.88677  Q 11.819734 17.470461 11.799606 17.953516  Q 1.735976 18.034025 1.52464 17.85288  Q 1.313304 17.671734 1.564894 17.319508  Q 1.816485 16.967279 2.681957 16.967279  Q 2.983866 16.967279 3.758766 17.057854  Q 4.533665 17.148426 4.976465 17.128298  Q 5.841937 16.725754 6.314928 15.437609  Q 6.787919 14.149464 7.049573 13.545646  Q 7.089828 11.794575 5.540028 10.325284  Q 3.990229 8.855994 2.782594 6.662123  Z  M 6.224355 1.529672  Q 6.244483 1.147254 5.962701 0.825218  Q 5.680919 0.503182 5.207929 0.533372  Q 4.734938 0.563563 4.382711 0.945981  Q 4.030484 1.328399 3.748702 1.791326  Q 4.13112 2.093235 4.765129 2.24419  Q 5.399137 2.395144 5.801682 2.173744  Q 6.204228 1.952344 6.224355 1.529672  Z  M 16.449003 11.774447  L 14.396023 11.553047  Q 9.525226 11.331647 7.754027 10.295094  Q 5.982828 9.258539 5.409201 8.614468  Q 4.835574 7.970395 5.087165 7.557786  Q 5.338756 7.145177 6.224355 6.90365  Q 6.506137 7.064668 6.506137 7.225687  Q 6.506137 7.386704 6.053273 7.698677  Q 5.60041 8.01065 6.375309 8.70504  Q 7.150209 9.39943 8.881153 10.124012  Q 10.612098 10.848593 13.530551 10.828465  Q 13.933096 10.627193 12.473869 9.600703  Q 11.014643 8.574213 9.072362 7.628232  Q 7.130082 6.68225 4.372647 6.259578  Q 3.587684 6.219323 3.728575 6.964032  Q 4.493411 8.453449 7.311227 11.512793  Q 7.915045 12.116611 9.142808 12.056229  Q 11.739224 11.714066 13.188387 11.995847  Q 14.637549 12.277629 15.533213 12.368201  Q 16.428877 12.458774 16.449003 11.774447  Z  M 8.377972 12.901573  Q 8.237082 13.283992 7.552754 14.713027  Q 6.868427 16.142063 6.707409 17.027662  Q 7.854663 17.067917 8.267272 17.067917  Q 8.679881 17.067917 8.941535 16.725754  Q 9.525226 14.290355 9.525226 13.787173  Q 9.525226 12.599665 8.377972 12.901573  Z  M 5.318628 1.610181  Q 5.117356 1.91209 4.79532 1.710817  Q 4.513538 1.529672 4.714811 1.227763  Q 4.916083 0.945981 5.197865 1.147254  Q 5.479647 1.328399 5.318628 1.610181  Z "
+     id="path1335" />
+</svg>

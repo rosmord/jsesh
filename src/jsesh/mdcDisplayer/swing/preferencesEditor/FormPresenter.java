@@ -35,12 +35,14 @@ public abstract class FormPresenter {
 	public abstract JComponent getPanel();
 
 	/**
+	 * Update the preference data, using the entered data.
 	 * @param facade 
 	 * 
 	 */
 	public abstract void updatePreferences(PreferencesFacade facade);
 
 	/**
+	 * Sets the displayed data, taken from facade.
 	 * @param facade
 	 */
 	public abstract void loadPreferences(PreferencesFacade facade);

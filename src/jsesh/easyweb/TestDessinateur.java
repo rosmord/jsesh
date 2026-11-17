@@ -1,16 +1,15 @@
 /*
- * Created on 15 déc. 2003
+ * Created on 15 dï¿½c. 2003
  *
  * This code is distributed under the LGPL.
  *  
  */
 package jsesh.easyweb;
 
-import java.io.File;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.imageio.ImageIO;
 /**
@@ -29,14 +28,14 @@ public class TestDessinateur {
 		d.setSignHeight(100);
 		d.setText(text);
 
-		// On crée l'image.
+		// On crï¿½e l'image.
 		BufferedImage image =
 			new BufferedImage(
 				d.getWidth(),
 				d.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
 		System.out.println(
-			"On crée une image de " + d.getWidth() + " sur " + d.getHeight());
+			"On crï¿½e une image de " + d.getWidth() + " sur " + d.getHeight());
 		Graphics2D g= image.createGraphics();
 		g.setBackground(Color.WHITE);
 		g.clearRect(0,0,d.getWidth(),d.getHeight());

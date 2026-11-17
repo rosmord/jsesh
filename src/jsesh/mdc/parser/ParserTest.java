@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java_cup.runtime.Symbol;
 import jsesh.mdc.interfaces.MDCBuilder;
 import jsesh.mdc.lex.MDCLex;
-import jsesh.tmp.simpleDemo.PrintMDCBuilder;
+import jsesh.simpleDemo.PrintMDCBuilder;
 
 /**
  * ParserTest.java

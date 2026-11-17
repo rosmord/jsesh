@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="18.500599"
+   height="5.04"
+   id="svg1782"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22F48A.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi24_SR">
+  <metadata
+     id="metadata1789">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22F48A</dc:title>
+        <dc:date>18/03/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>variante optimisée du signe F58 de Jsesh</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1787" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="38.917659"
+     inkscape:cx="9.2502995"
+     inkscape:cy="2.52"
+     inkscape:window-x="44"
+     inkscape:window-y="58"
+     inkscape:current-layer="svg1782" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 0 3.594564  Q 0 2.168151 0.969962 2.149132  L 16.831694 2.149132  Q 17.497355 2.149132 17.535391 1.464453  Q 17.535391 0.741736 16.812674 0.741736  L 0.247245 0.741736  Q -0.17117 0.323321 0.247245 0  L 17.059921 0  Q 18.277128 0.019019 18.277128 1.445434  Q 18.277128 2.890868 17.059921 2.890868  L 1.17917 2.890868  Q 0.703698 2.890868 0.722717 3.594564  Q 0.703698 4.298264 1.160151 4.298264  L 18.277128 4.298264  Q 18.714563 4.659621 18.296144 5.04  L 0.950943 5.04  Q 0 5.04 0 3.594564  Z "
+     id="path1784" />
+</svg>

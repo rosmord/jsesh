@@ -1,13 +1,12 @@
 package jsesh.hieroglyphs;
 
-import java.util.HashMap;
-import java.util.Set;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Set;
 
 import jsesh.bzr.simple.ShapeChar;
 import jsesh.externalFonts.model.SVGSignSource;
@@ -65,8 +64,12 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 			return;
 		// get the corresponding names.
 		for (int i = 0; i < contents.length; i++) {
-			String code = SVGSignSource.getCodeForFileName(contents[i].getName());
+			String code = GardinerCode.getCodeForFileName(contents[i].getName());
 			if (code != null) {
+				codeMap.put(code, contents[i]);
+			} else {
+				code= contents[i].getName();
+				code= code.substring(0,code.indexOf('.'));
 				codeMap.put(code, contents[i]);
 			}
 		}
@@ -116,7 +119,7 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 		OutputStream out;
 		try {
 			out = new FileOutputStream(f);
-			shapeChar.exportToSVG(out, "US-ASCII");
+			shapeChar.exportToSVG(out, "UTF-8");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

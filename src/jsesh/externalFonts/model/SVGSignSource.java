@@ -1,27 +1,28 @@
 package jsesh.externalFonts.model;
 
-import java.util.ArrayList;
-import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.URL;
-
 import java.awt.BasicStroke;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import jsesh.bzr.simple.ShapeChar;
-import jsesh.hieroglyphs.HieroglyphsManager;
+import jsesh.hieroglyphs.GardinerCode;
+import jsesh.hieroglyphs.HorizontalGravity;
+import jsesh.hieroglyphs.LigatureZone;
+import jsesh.hieroglyphs.VerticalGravity;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -33,7 +34,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * <p>
  * The SVG parsing system used is rather basic and certainly not fullproof.
  * Currently, I would rather not include the 4megs of Batik into my software,
- * but frankly, SVG is quite complex - and chosed the way of "there's more than
+ * but frankly, SVG is quite complex and chosed the way of "there's more than
  * one way to write it".
  * 
  * <p>
@@ -43,11 +44,15 @@ import org.xml.sax.helpers.DefaultHandler;
  * BTW, I'm really glad the JDK team created the Area class. It's so powerful
  * that I feel I'm cheating when I'm using it :-)
  * 
+ * <p>
+ * <b>Ligature zones </b> TODO : write doc.
  * <ul>
- * <li> TODO implement a larger part of SVG (static graphics, ignoring spurious
+ * <li> TODO implement a larger part type filter textof SVG (static graphics, ignoring spurious
  * stuff like animation).
  * <li> TODO take viewBox into account (not a priority)
+ * <li>
  * </ul>
+ * 
  * 
  * @author rosmord
  * 
@@ -121,13 +126,13 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			SVGReader handler = new SVGReader();
 			parser.parse(url.openStream(), handler);
 			shape = new ShapeChar();
-			shape.setShape(handler.getGeneralPath());
 			if (handler.getZones() != null) {
 				for (int i = 0; i < handler.getZones().length; i++) {
 					shape.setZone(i, handler.getZones()[i]);
 				}
 			}
-			shape.fixShape();
+			shape.setShape(handler.getGeneralPath());
+			//shape.fixShape();
 			// A1 sign is supposed to be 1800px high.
 			// however, in old versions, it was 18px high
 			// Hence this conditional scaling.
@@ -335,13 +340,19 @@ public class SVGSignSource implements SimpleSignSourceModel {
 
 	class SVGReader extends DefaultHandler {
 
+		public static final String INKSCAPE_NAMESPACES = "http://www.inkscape.org/namespaces/inkscape";
+
 		/**
 		 * For ligature zones. Defined as anchor tags in the source, with title
 		 * either "zone1" or "zone2".
+		 * 
+		 * zoneNames may also be simply the Ids of rectangles. in this case, the
+		 * label may contain additionnal information (like gravity anchor
+		 * point). TODO : add a "gravity" system.
 		 */
 		private String zoneName = null;
 
-		private Rectangle2D[] zones;
+		private LigatureZone[] zones;
 
 		private Area area;
 
@@ -379,7 +390,18 @@ public class SVGSignSource implements SimpleSignSourceModel {
 				readAnchor(attributes);
 			} else if ("rect".equals(localName)) {
 				// In anchors, rectangles are used to define ligature zones.
-				if (zoneName != null)
+				// Out of them, as well, if their label is zone...
+				if (attributes.getValue("id") != null
+						&& attributes.getValue("id").startsWith("zone")) { // "new"
+					// system:
+					// zone
+					// defined
+					// with
+					// Ids..
+					zoneName = attributes.getValue("", "id");
+					defineZone(attributes);
+					zoneName = null;
+				} else if (zoneName != null) // zone defined with links
 					defineZone(attributes);
 			} else if ("path".equals(localName)) {
 				// Now, the usual case, paths
@@ -433,6 +455,24 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		}
 
 		/**
+		 * Define a ligature zone for this sign. Zones have a name (currently
+		 * zone1 and zone2). They will also have a gravity, which will explain
+		 * how group will be fitted in them.
+		 * 
+		 * The label field can contain gravity information (ok, it would be
+		 * cleaner to use a proper XML attribute with some kind of extended DTD,
+		 * but then, we want the user to be able to set this easily).
+		 * 
+		 * Zone1 and Zone2 have some kind of "default" gravity (which is
+		 * center). Form of the label field: gravity:... example: "gravity:st".
+		 * 
+		 * possible values s,e,t,b,st,sb,et,eb
+		 * 
+		 * s and e are horizontal positions start and end. b and t are vertical
+		 * positions top and bottom.
+		 * 
+		 * (this is taken from RES).
+		 * 
 		 * @param attributes
 		 */
 		private void defineZone(Attributes attributes) {
@@ -441,7 +481,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 				zoneId = 1;
 			}
 			if (zones == null)
-				zones = new Rectangle2D.Double[2];
+				zones = new LigatureZone[2];
 			double values[] = new double[4];
 			String attrNames[] = { "x", "y", "width", "height" };
 			for (int i = 0; i < 4; i++) {
@@ -453,9 +493,45 @@ public class SVGSignSource implements SimpleSignSourceModel {
 				}
 			}
 
-			zones[zoneId] = new Rectangle2D.Double(values[0], values[1],
-					values[2], values[3]);
+			zones[zoneId] = new LigatureZone(new Rectangle2D.Double(values[0],
+					values[1], values[2], values[3]));
 
+			// Deal with gravity (and possibly other additional features).
+			String label = attributes.getValue("", "label");
+			if (label == null)
+				label = attributes.getValue(INKSCAPE_NAMESPACES, "label");
+			if (label != null) {
+				String[] additionnalData = label.split("; *");
+				for (int i = 0; i < additionnalData.length; i++) {
+					String args[] = additionnalData[i].split(":");
+					if (args != null && args.length == 2) {
+						if (args[0].equals("gravity")) {
+							for (int k = 0; k < args[1].length(); k++) {
+								switch (args[1].charAt(k)) {
+								case 't':
+									zones[zoneId]
+											.setVerticalGravity(VerticalGravity.TOP);
+									break;
+								case 'b':
+									zones[zoneId]
+											.setVerticalGravity(VerticalGravity.BOTTOM);
+									break;
+								case 's':
+									zones[zoneId]
+											.setHorizontalGravity(HorizontalGravity.START);
+									break;
+								case 'e':
+									zones[zoneId]
+											.setHorizontalGravity(HorizontalGravity.END);
+									break;
+								}
+
+							}
+						}
+
+					}
+				}
+			}
 		}
 
 		/**
@@ -583,7 +659,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					break;
 				case 's':
 				case 'S': // idem 'c', but the first control point is the
-				// symetric of the previous one.
+					// symetric of the previous one.
 				{
 					args = new float[] { Float.parseFloat(l[i + 1]),
 							Float.parseFloat(l[i + 2]),
@@ -774,10 +850,12 @@ public class SVGSignSource implements SimpleSignSourceModel {
 				return new InputSource(new StringReader(
 						"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
 			} else {
-				// Temporary solution for a problem with libraries. 
-				// Normally,resolveEntity is declared in jdk 1.5 as throwing IOException.
+				// Temporary solution for a problem with libraries.
+				// Normally,resolveEntity is declared in jdk 1.5 as throwing
+				// IOException.
 				// This was not the case in 1.4 (and it was probably an error).
-				// Hence, we catch the exception so that the code compiles in both 1.4 and 1.5.
+				// Hence, we catch the exception so that the code compiles in
+				// both 1.4 and 1.5.
 				try {
 					return super.resolveEntity(publicId, systemId);
 				} catch (Exception e) {
@@ -795,7 +873,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		/**
 		 * @return Returns the zones.
 		 */
-		public Rectangle2D[] getZones() {
+		public LigatureZone[] getZones() {
 			return zones;
 		}
 
@@ -831,59 +909,14 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		return code;
 	}
 
-	/**
-	 * Returns the Manuel de codage code corresponding to a given file, or null
-	 * if the file name does not fit.
-	 * 
-	 * @param file
-	 * @return a code or null.
-	 */
-	public static String getCodeForFileName(String fname) {
-		fname = fname.toUpperCase();
-		int stopIndex = fname.indexOf('.');
-		String code = fname.substring(0, stopIndex);
-
-		// Special codes "nTrw" and "nn" don't have a Gardiner code associated
-		// to it.
-		if ("ntrw".equals(code.toLowerCase())) {
-			code = "nTrw";
-		} else if ("nn".equals(code.toLowerCase())) {
-			code = "nn";
-		} else if (code.startsWith("US")) {
-			StringBuffer buff = new StringBuffer();
-			buff.append("US");
-			int i = 2;
-			while (i < code.length() && Character.isDigit(code.charAt(i)))
-				i++;
-			buff.append(code.substring(2, i));
-			buff.append(canonizeCode(code.substring(i)));
-			code = buff.toString();
-		} else
-			code = canonizeCode(code);
-
-		if (!HieroglyphsManager.isCorrectBasicMdcCode(code))
-			code = null;
-		return code;
-	}
-
 	private String getCodeForURL(URL url) {
 		String path = url.getPath();
 		int id = path.lastIndexOf('/');
-		return getCodeForFileName(path.substring(id + 1));
-	}
-
-	/**
-	 * Given a Gardiner code in uppercase, return the correct code.
-	 */
-	private static String canonizeCode(String code) {
-		// Now, the only problem is with Aa and Ff
-		if (code.length() >= 2) {
-			if (code.charAt(1) == 'A' || code.charAt(1) == 'F') {
-				// StringBuffer would probably be an overkill for this line.
-				code = "" + code.charAt(0)
-						+ Character.toLowerCase(code.charAt(1))
-						+ code.substring(2);
-			}
+		String code= GardinerCode.getCodeForFileName(path.substring(id + 1));
+		if (code== null)
+		{
+			code= path.substring(id+1);
+			code= code.substring(0,code.indexOf('.'));
 		}
 		return code;
 	}

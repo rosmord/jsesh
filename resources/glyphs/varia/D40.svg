@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="18.000000px"
+   height="18.000000px"
+   id="svg1290"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Courants"
+   sodipodi:docname="D40.svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="15.14387"
+     inkscape:cx="8.9999999"
+     inkscape:cy="9.0000019"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1280"
+     inkscape:window-height="949"
+     inkscape:window-x="0"
+     inkscape:window-y="7" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/" />
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:nodetypes="ccccccccccccccccccccccccccc"
+       id="path1391"
+       d="M 2.0943488,10.321215 C 1.7869708,10.377875 1.3777729,10.564995 1.4312321,10.942777 C 1.4312321,11.846504 1.4312321,12.750569 1.4312321,13.654295 C 0.82891742,13.622589 0.21005253,13.594811 0.026264591,13.585621 C 0.026264591,13.926647 0.30181028,14.392647 1.1788454,14.392647 C 1.1884523,15.161221 1.3229942,16.102410 1.4670999,16.582768 C 1.4679583,16.582116 1.4688657,16.581668 1.4697243,16.581019 L 1.5825766,17.840328 C 1.5825766,18.147449 2.7404063,17.962803 2.7404063,17.962803 L 2.6874795,16.698246 C 7.6243870,16.736666 17.045389,16.986500 17.512686,16.986500 C 17.754299,16.986500 17.915543,16.727383 17.915543,16.367125 L 18.039329,10.939715 L 15.068427,10.909097 L 14.826976,15.142371 C 11.989616,15.150542 6.4311894,15.762040 4.4646845,15.372450 C 4.3686136,15.257161 3.4407183,13.904889 2.8506342,13.758399 C 2.8042283,13.746878 2.6656718,13.733968 2.4928311,13.720344 C 2.3965615,12.902362 2.2994995,12.084398 2.2028269,11.266462 C 2.3879121,11.038884 2.7981760,11.100823 2.9070603,10.785309 C 3.0186251,10.637485 2.9428753,10.390148 2.7408437,10.384639 C 2.5873101,10.323425 2.1484702,10.315905 2.0943488,10.321215 z M 15.656309,11.528035 C 16.778113,11.582712 17.294269,11.598556 17.420392,11.589710 L 17.296605,16.448046 C 16.498027,16.122698 16.005839,15.793001 15.445477,15.350579 L 15.656309,11.528035 z "
+       style="color:#000000;fill:#000000;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:0.60000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:red;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="zone1"
+       width="10.565331"
+       height="12.744431"
+       x="3.7638993"
+       y="1.0294369"
+       inkscape:label="gravity:b"
+       label="gravity:b" />
+  </g>
+</svg>

@@ -5,19 +5,20 @@
  */
 package jsesh.mdcDisplayer.draw;
 
-import java.io.StringReader;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.StringReader;
 
 import jsesh.mdc.MDCParserModelGenerator;
+import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.utils.MDCSyntaxError;
 import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
-import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 import jsesh.swingUtils.GraphicsUtils;
 
@@ -35,9 +36,10 @@ public class MDCDrawingFacade {
 
 	private DrawingSpecifications drawingSpecifications = null;
 
-	int maxWidth, maxHeight;
+	private int maxWidth= 2000;
+	private int maxHeight= 2000;
 
-	private int cadratHeight;
+	private int cadratHeight= 20;
 
 	/**
 	 * Generate a picture for the manuel de codage text passed as argument.
@@ -52,9 +54,6 @@ public class MDCDrawingFacade {
 		MDCParserModelGenerator gen = new MDCParserModelGenerator();
 		gen.setPhilologyAsSigns(isPhilologySign());
 		TopItemList t = gen.parse(new StringReader(mdcCodes));
-		maxWidth = 2000;
-		maxHeight = 2000;
-		cadratHeight = 20;
 		return createImage(t);
 	}
 
@@ -94,6 +93,62 @@ public class MDCDrawingFacade {
 
 	}
 
+	/**
+	 * Draws the data on an existing graphic.
+	 * 
+	 * @param mdcText
+	 * @param g0
+	 * @param x
+	 * @param y
+	 * @return the bounding box of the drawn text.
+	 * @throws MDCSyntaxError 
+	 */
+	public Rectangle2D draw(String mdcText, Graphics2D g, double x, double y) throws MDCSyntaxError {
+		MDCParserModelGenerator gen = new MDCParserModelGenerator();
+		gen.setPhilologyAsSigns(isPhilologySign());
+		TopItemList t = gen.parse(new StringReader(mdcText));
+		return draw(t,g,x,y);
+	}
+	
+	
+	/**
+	 * Draws the data on an existing graphic.
+	 *
+	 * @param t
+	 * @param g
+	 * @param x
+	 * @param y
+	 * @return the bounding box of the drawn text.
+	 */
+	
+	public Rectangle2D draw(TopItemList t, Graphics2D g, double x, double y) {
+		
+		Graphics2D g1= (Graphics2D) g.create();
+		drawingSpecifications = getDrawingSpecifications();
+
+		ViewBuilder viewBuilder = new SimpleViewBuilder();
+		MDCView v = viewBuilder.buildView(t, drawingSpecifications);
+		double scale = getScale();
+
+		int width = (int) Math.ceil(v.getWidth() * scale) + 2;
+		int height = (int) Math.ceil(v.getHeight() * scale) + 2;
+
+		if (width > maxWidth)
+			width = maxWidth;
+		if (height > maxHeight)
+			height = maxHeight;
+
+		g1.setBackground(Color.WHITE);
+		g1.translate(x, y);
+		g1.scale(scale, scale);
+		g1.setColor(Color.BLACK);
+		ViewDrawer drawer = new ViewDrawer();
+		drawer.draw(g1, v, drawingSpecifications);
+		g1.dispose();
+		return new Rectangle2D.Double(x,y,width,height);
+	}
+	
+	
 	public boolean isPhilologySign() {
 		return philologySign;
 	}
@@ -144,8 +199,8 @@ public class MDCDrawingFacade {
 	 * @param cadratHeight
 	 */
 	public void setCadratHeight(int cadratHeight) {
-		if (drawingSpecifications != null) {
+		//if (drawingSpecifications != null) {
 			this.cadratHeight = cadratHeight;
-		}
+		//}
 	}
 }

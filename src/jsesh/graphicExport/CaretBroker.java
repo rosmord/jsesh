@@ -5,7 +5,7 @@
  */
 package jsesh.graphicExport;
 
-import jsesh.mdcDisplayer.draw.MDCCaret;
+import jsesh.mdcDisplayer.secondaryData.MDCCaret;
 
 /**
  * Interface for classes that can provide a caret.

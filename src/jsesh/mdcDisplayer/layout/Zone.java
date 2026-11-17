@@ -1,14 +1,13 @@
 /*
- * Created on 21 févr. 2005 by rosmord
+ * Created on 21 fï¿½vr. 2005 by rosmord
  *
  * This file is distributed according to the GNU LESSER PUBLIC LICENCE
  */
 package jsesh.mdcDisplayer.layout;
 
-import java.util.ArrayList;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import jsesh.mdcDisplayer.mdcView.MDCView;
 

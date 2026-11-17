@@ -4,19 +4,13 @@
  */
 package jsesh.mdcDisplayer.clipboard;
 
-import java.util.ArrayList;
-
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.charset.Charset;
-
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-
-import javax.print.DocFlavor.CHAR_ARRAY;
 
 import jsesh.graphicExport.RTFExportPreferences;
 import jsesh.graphicExport.RTFExporter;
@@ -26,7 +20,6 @@ import jsesh.mdc.output.ModelWriter;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
-import jsesh.utils.PlatformDetection;
 
 /**
  * 

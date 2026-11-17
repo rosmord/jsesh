@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecifications;
 
 /**
@@ -26,6 +26,7 @@ public abstract class TopItemSimpleDrawer {
 	private double cadratHeight;
 	private ViewBuilder viewBuilder;
 	private DrawingSpecifications drawingSpecifications;
+	private boolean shadeAfter;
 	
 	
 	/**
@@ -35,6 +36,7 @@ public abstract class TopItemSimpleDrawer {
 		this.viewBuilder= viewBuilder;
 		this.drawingSpecifications= drawingSpecifications;
 		this.cadratHeight = cadratHeight;
+		this.shadeAfter= true;
 	}
 
 	/**
@@ -53,7 +55,7 @@ public abstract class TopItemSimpleDrawer {
 			return;
 
 		ViewDrawer drawer = new ViewDrawer();
-
+		drawer.setShadeAfter(shadeAfter);
 		// Compute the size
 		scaledWidth = (float) (currentView.getWidth() * scale);
 		scaledHeight = (float) (currentView.getHeight() * scale);
@@ -128,4 +130,21 @@ public abstract class TopItemSimpleDrawer {
 		return scaledWidth;
 	}
 
+	/**
+	 * @return the shadeAfter
+	 */
+	public boolean isShadeAfter() {
+		return shadeAfter;
+	}
+
+	/**
+	 * Select if shading should be drawn before or <em>after</em> the signs.
+	 * If your output can't handle transparency, set to false (defaults to true). 
+	 * @param shadeAfter the shadeAfter to set
+	 */
+	public void setShadeAfter(boolean shadeAfter) {
+		this.shadeAfter = shadeAfter;
+	}
+
+	
 }

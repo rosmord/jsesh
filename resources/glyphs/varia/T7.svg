@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="18.52709"
+   height="5.28"
+   id="svg2501"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22T7.svg"
+   sodipodi:docbase="C:\Program Files\Inkscape\envoi31\Jseshopt">
+  <metadata
+     id="metadata2508">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:title>US22T7</dc:title>
+        <dc:date>30/09/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title></dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>variante optimisée du signe Jsesh T7</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2506" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="46.094664"
+     inkscape:cx="9.263545"
+     inkscape:cy="2.6400001"
+     inkscape:window-x="41"
+     inkscape:window-y="38"
+     inkscape:current-layer="svg2501" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 18.513988 4.214935  Q 18.604635 5.098713 18.083431 5.28  Q 17.53957 4.940087 13.993107 3.489779  Q 10.446694 2.039485 8.565835 1.903518  Q 7.863343 1.926179 7.115525 3.535102  Q 6.367725 5.144034 4.282917 5.166696  Q 1.608927 5.166696 1.178369 2.198111  Q 1.019742 1.472962 0.70249 1.348326  Q 0.385236 1.223691 0 1.178369  L 0 0  L 3.807036 0  Q 6.798272 0.158627 10.56 1.212361  Q 14.321696 2.266094 16.077938 3.025237  Q 17.834166 3.784375 18.513988 4.214935  Z  M 6.730299 1.676909  Q 5.71056 1.155708 4.305579 1.155708  Q 3.172532 1.133047 2.356738 1.20103  Q 2.402061 3.535102 3.353818 4.010986  Q 4.305579 4.486867 5.212017 4.033648  Q 6.118455 3.580424 6.730299 1.676909  Z "
+     id="path2503" />
+</svg>
