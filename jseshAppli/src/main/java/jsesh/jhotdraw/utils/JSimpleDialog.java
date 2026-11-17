@@ -46,6 +46,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import jsesh.resources.JSeshMessages;
 import jsesh.utils.swing.OrientationUtils;
@@ -67,11 +68,21 @@ public class JSimpleDialog {
     private final JButton okButton;
     private final JButton cancelButton;
     private final JDialog dialog;
+    private final JButton applyButton;
+    private final JPanel buttonPanel = new JPanel(new MigLayout("insets 0", "", ""));
+    private Runnable applyAction = null;
 
     public JSimpleDialog(Component parent, Component form, String title) {
         dialog = JDialogHelper.createDialog(parent, title, true);
         okButton = new JButton(JSeshMessages.getString("generic.ok.text"));
         cancelButton = new JButton(JSeshMessages.getString("generic.cancel.text"));
+        applyButton = new JButton(JSeshMessages.getString("generic.apply.text"));
+        applyButton.addActionListener(e -> {
+            commitFocusedField();
+            if (applyAction != null) {
+                applyAction.run();
+            }
+        });
 
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -92,12 +103,29 @@ public class JSimpleDialog {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
         content.add(scrollPane, "wrap");
-        content.add(okButton, "split 2, tag ok, growx 0");
-        content.add(cancelButton, "tag cancel, growx 0");
+        buttonPanel.add(okButton, "tag ok, growx 0");
+        buttonPanel.add(cancelButton, "tag cancel, growx 0");
+        content.add(buttonPanel, "tag ok, growx 0");
         dialog.pack();
         fitToScreen(parent, scrollPane);
         dialog.setResizable(true);
         dialog.getRootPane().setDefaultButton(okButton);
+        OrientationUtils.fixComponentOrientation(dialog);
+    }
+
+    /// Adds an "Apply" button, which runs an action without closing the
+    /// dialog (typically, to preview the effect of the current values).
+    /// It's up to the caller to undo the action if the dialog is cancelled.
+    ///
+    /// @param action what to do when the button is clicked.
+    public void setApplyAction(Runnable action) {
+        this.applyAction = action;
+        buttonPanel.removeAll();
+        buttonPanel.add(okButton, "tag ok, growx 0");
+        buttonPanel.add(cancelButton, "tag cancel, growx 0");
+        buttonPanel.add(applyButton, "tag apply, growx 0");
+        buttonPanel.revalidate();
+        dialog.pack();
         OrientationUtils.fixComponentOrientation(dialog);
     }
 
@@ -133,8 +161,7 @@ public class JSimpleDialog {
         dialog.dispose();
     }
 
-    void ok() {
-        okSelected = true;
+    private void commitFocusedField() {
         if (dialog.getFocusOwner() instanceof JFormattedTextField) {
             try {
                 ((JFormattedTextField) dialog.getFocusOwner()).commitEdit();
@@ -142,6 +169,11 @@ public class JSimpleDialog {
                 // Do nothing (parse exception should be ignored here).
             }
         }
+    }
+
+    void ok() {
+        okSelected = true;
+        commitFocusedField();
         dialog.setVisible(false);
     }
 

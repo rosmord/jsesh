@@ -137,8 +137,21 @@ public class DrawingSpecificationsPresenter {
 	}
 
 	public int showDialog(Component parent) {
+		return showDialog(parent, null);
+	}
+
+	/// Shows the dialog.
+	///
+	/// @param parent the parent component.
+	/// @param applyAction if not null, an "Apply" button is shown, which runs this action
+	///     without closing the dialog. The caller must undo its effect if the result is not OK.
+	/// @return [javax.swing.JOptionPane#OK_OPTION] or [javax.swing.JOptionPane#CANCEL_OPTION]
+	public int showDialog(Component parent, Runnable applyAction) {
 		JSimpleDialog dialog = new JSimpleDialog(parent, form.getPanel(),
 				JSeshMessages.getString("drawingPrefs.title"));
+		if (applyAction != null) {
+			dialog.setApplyAction(applyAction);
+		}
 		int result = dialog.show();
 		dialog.dispose();
 		return result;

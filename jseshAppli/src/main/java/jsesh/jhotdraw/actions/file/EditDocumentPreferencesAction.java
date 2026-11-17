@@ -33,11 +33,15 @@ public class EditDocumentPreferencesAction extends AbstractCoreViewAction {
 		viewCore().ifPresent(
 				v -> {
 					DrawingSpecificationsPresenter presenter = new DrawingSpecificationsPresenter();
-					presenter
-							.loadPreferences(v.getJSeshStyle());
-					if (presenter.showDialog(v.getViewComponent()) == JOptionPane.OK_OPTION) {
-						JSeshStyle newStyle = presenter.updatePreferences(v.getJSeshStyle());
-						v.setJSeshStyle(newStyle);
+					// The style when the dialog was opened: Cancel goes back to it.
+					JSeshStyle original = v.getJSeshStyle();
+					presenter.loadPreferences(original);
+					int result = presenter.showDialog(v.getViewComponent(),
+							() -> v.setJSeshStyle(presenter.updatePreferences(original)));
+					if (result == JOptionPane.OK_OPTION) {
+						v.setJSeshStyle(presenter.updatePreferences(original));
+					} else if (v.getJSeshStyle() != original) {
+						v.setJSeshStyle(original);
 					}
 				});
 	}
