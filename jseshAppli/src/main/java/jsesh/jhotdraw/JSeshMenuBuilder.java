@@ -58,6 +58,8 @@ import jsesh.ui.editor.actions.text.EditorSignShadeAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
+import jsesh.jhotdraw.actions.edit.NumberSignsAction;
+import jsesh.jhotdraw.actions.edit.RemoveSignIdsAction;
 import jsesh.jhotdraw.actions.edit.FindInFolderAction;
 import jsesh.jhotdraw.actions.edit.InsertNextLineNumberAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
@@ -305,6 +307,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                         documentFormat = buildFormatMenu(app, jSeshView);
                         fileMenu.add(documentFormat);
                 }
+                addToMenu(fileMenu, app, jSeshView, NumberSignsAction.ID);
+                addToMenu(fileMenu, app, jSeshView, RemoveSignIdsAction.ID);
                 fileMenu.addSeparator();
                 addToMenu(fileMenu, app, jSeshView, ImportNewSignAction.ID);
                 addToMenu(fileMenu, app, jSeshView, AddEmbeddedSignAction.ID);

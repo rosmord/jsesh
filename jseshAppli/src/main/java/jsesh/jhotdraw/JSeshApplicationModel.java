@@ -72,6 +72,8 @@ import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.application.JSeshAboutAction;
 import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
 import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
+import jsesh.jhotdraw.actions.edit.NumberSignsAction;
+import jsesh.jhotdraw.actions.edit.RemoveSignIdsAction;
 import jsesh.jhotdraw.actions.edit.FindAction;
 import jsesh.jhotdraw.actions.edit.FindInFolderAction;
 import jsesh.jhotdraw.actions.edit.FindNextAction;
@@ -330,6 +332,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
                     new QuickPDFSelectExportFolderAction(a));
 
             map.put(AddToGlossaryAction.ID, new AddToGlossaryAction(a, jseshView, jseshApplicationCore.getMdcIconFactory()));
+            map.put(NumberSignsAction.ID, new NumberSignsAction(a, jseshView));
+            map.put(RemoveSignIdsAction.ID, new RemoveSignIdsAction(a, jseshView));
             map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
             map.put(InsertNextLineNumberAction.ID, new InsertNextLineNumberAction(a, v));
 

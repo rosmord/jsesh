@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 
+import jsesh.document.SignIdManager;
 import jsesh.io.mdc.MdCModelWriter;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
@@ -34,6 +35,8 @@ public class AddToGlossaryAction extends AbstractCoreViewAction {
 				.ifPresent(v -> {
 					MdCModelWriter mdCModelWriter = new MdCModelWriter();
 					HieroglyphicText list = v.getEditor().getSelection();
+					// A glossary entry is a model, not a quotation: it has no sign ids.
+					SignIdManager.strip(list.asList());
 					String mdc = mdCModelWriter.toMdC(list);
 					JGlossaryEditorFrame editor = appCore().glossaryEditor();
 					editor.setVisible(true);

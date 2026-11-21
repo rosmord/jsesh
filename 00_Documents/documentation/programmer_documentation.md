@@ -483,6 +483,13 @@ Runnable example:
 [`MDCEditorDemo.java`](../../jseshTests/src/main/java/jsesh/demo/swingdemos/MDCEditorDemo.java).
 For a single-line input field, see `JMDCField`.
 
+**Sign ids.** A bare `HieroglyphicTextModel` never touches the `\sid` modifiers of its signs
+(`SignIdManager.Policy.UNMANAGED`). An `MDCDocument` starts in `STRIP` mode, and becomes
+`NUMBERED` when it is loaded from a file whose header has `JSesh_max_sign_id` or whose text has
+`\sid`, or when `HieroglyphicTextModel.numberSigns()` is called: the model then gives unique ids
+to inserted signs and keeps them through in-place edits (see the glossary, *sign id*). To use
+your own numbering, leave the model `UNMANAGED`.
+
 ---
 
 ## 11. Use case: query the sign database

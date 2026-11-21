@@ -28,6 +28,8 @@ public class MDCDocument {
 
 	public MDCDocument() {
 		hieroglyphicTextModel.setPhilologyIsSign(true);
+		// A document has no sign ids until the user asks for them. 
+		hieroglyphicTextModel.getSignIds().setPolicy(SignIdManager.Policy.STRIP);
 	}
 
 	public MDCDocument(HieroglyphicTextModel hieroglyphicTextModel) {

@@ -31,6 +31,7 @@ public class JSeshInfoReader {
 		}
 		document.setDocumentPreferences(DocumentHeaderCodec.fromHeader(propertyMap));
 		document.setEmbeddedSigns(EmbeddedSignsHeaderCodec.fromHeader(propertyMap));
+		SignIdsHeaderCodec.fromHeader(propertyMap, document.getHieroglyphicTextModel().getSignIds());
 	}
 
 	

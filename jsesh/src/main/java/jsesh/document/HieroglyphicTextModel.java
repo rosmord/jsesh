@@ -35,6 +35,7 @@ package jsesh.document;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,6 +54,7 @@ import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.Dialect;
 import jsesh.model.MDCPosition;
+import jsesh.model.ItemSequence;
 import jsesh.model.TextScope;
 import jsesh.model.ModelElementObserver;
 import jsesh.model.TopItem;
@@ -96,6 +98,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	private boolean philologyIsSign;
 	private UndoManager undoManager;
 	private ObservableEventSupport<TextEvent> eventSupport = new ObservableEventSupport<>();
+	private final SignIdManager signIds = new SignIdManager();
 
 	/**
 	 * Internal observer for model components.
@@ -106,6 +109,48 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 		undoManager = new UndoManager();
 		setHieroglyphicText(new HieroglyphicText());
 		philologyIsSign = true;
+	}
+
+	/// The manager of the sign ids (`\sid`) of this text. Its policy is
+	/// [SignIdManager.Policy#UNMANAGED] unless the model belongs to an
+	/// [MDCDocument].
+	///
+	/// @return the manager.
+	public SignIdManager getSignIds() {
+		return signIds;
+	}
+
+	/// Gives a sign id to all the signs of the text which have none, and keeps
+	/// the ids already there (a repeated id is replaced). The new policy is
+	/// [SignIdManager.Policy#NUMBERED]: from now on, the editor gives and
+	/// keeps the ids.
+	///
+	/// The text change can be undone; the policy is not changed back.
+	public void numberSigns() {
+		signIds.setPolicy(SignIdManager.Policy.NUMBERED);
+		replaceWholeTextByCopy();
+	}
+
+	/// Removes all the sign ids. The new policy is [SignIdManager.Policy#STRIP].
+	///
+	/// The text change can be undone; the policy is not changed back.
+	public void removeSignIds() {
+		signIds.setPolicy(SignIdManager.Policy.STRIP);
+		replaceWholeTextByCopy();
+	}
+
+	private void replaceWholeTextByCopy() {
+		MDCPosition first = buildFirstPosition();
+		MDCPosition last = getLastPosition();
+		replaceElement(first, last, getTopItemsBetween(first, last));
+	}
+
+	/// To be called when the whole text has been replaced by a text which was
+	/// just read from a document, if this was done without
+	/// [#readHieroglyphicText(Reader, Dialect)].
+	/// See [SignIdManager#adopt(HieroglyphicText)].
+	public void adoptSignIds() {
+		signIds.adopt(text);
 	}
 
 	/// Returns the edited text, for READ-ONLY PURPOSES ONLY.
@@ -182,6 +227,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 		}
 		HieroglyphicText l = createGenerator(dialect).parse(in);
 		setHieroglyphicText(l);
+		signIds.adopt(l);
 	}
 
 	public void setMDCCode(String text) throws MDCSyntaxError {
@@ -272,6 +318,8 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 
 	public void replaceElementBefore(MDCPosition position,
 									 List<TopItem> newElements) {
+		prepareReplacement(TextScope.ROOT, position.getPreviousPosition(1).getIndex(), position.getIndex(),
+				newElements);
 		MDCCommand command = new CommandFactory().buildReplaceCommand(text,
 				newElements, position.getPreviousPosition(1), position,
 				isFirstCommand());
@@ -285,6 +333,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 * @param elements a list of TopItems
 	 */
 	public void insertElementsAt(MDCPosition position, List<TopItem> elements) {
+		signIds.prepareInsertion(elements);
 		MDCCommand command = new CommandFactory().buildInsertCommand(text,
 				elements, position, isFirstCommand());
 		undoManager.doCommand(command);
@@ -299,6 +348,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 */
 	public void replaceElement(MDCPosition pos1, MDCPosition pos2,
 							   List<TopItem> newElements) {
+		prepareReplacement(TextScope.ROOT, pos1.getIndex(), pos2.getIndex(), newElements);
 		MDCCommand command = new CommandFactory().buildReplaceCommand(
 				getHieroglyphicText(), newElements, pos1, pos2, isClean());
 		undoManager.doCommand(command);
@@ -322,6 +372,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	/// @param position where to insert.
 	/// @param elements the typed elements.
 	public void insertTypedElementsAt(MDCPosition position, List<TopItem> elements) {
+		signIds.prepareInsertion(elements);
 		MDCCommand command = new CommandFactory().buildTypingCommand(text,
 				elements, position, isFirstCommand());
 		undoManager.doCommand(command);
@@ -365,6 +416,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	/// @throws IllegalArgumentException if the scope can't hold one of the items
 	///         (a line break in a cartouche, for instance).
 	public void insertElementsAt(TextScope scope, int index, List<TopItem> elements) {
+		signIds.prepareInsertion(elements);
 		undoManager.doCommand(new CommandFactory().buildInsertCommand(text, scope, elements, index,
 				isFirstCommand()));
 	}
@@ -376,6 +428,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	/// @param elements the typed elements.
 	/// @throws IllegalArgumentException if the scope can't hold one of the items.
 	public void insertTypedElementsAt(TextScope scope, int index, List<TopItem> elements) {
+		signIds.prepareInsertion(elements);
 		undoManager.doCommand(new CommandFactory().buildTypingCommand(text, scope, elements, index,
 				isFirstCommand()));
 	}
@@ -388,6 +441,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	/// @param newElements the new items.
 	/// @throws IllegalArgumentException if the scope can't hold one of the items.
 	public void replaceElement(TextScope scope, int gap1, int gap2, List<TopItem> newElements) {
+		prepareReplacement(scope, gap1, gap2, newElements);
 		undoManager.doCommand(new CommandFactory().buildReplaceCommand(text, scope, newElements, gap1, gap2,
 				isClean()));
 	}
@@ -399,6 +453,22 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	/// @param gap2 the other limit (the order is not important).
 	public void removeElements(TextScope scope, int gap1, int gap2) {
 		undoManager.doCommand(new CommandFactory().buildRemoveCommand(text, scope, gap1, gap2, isClean()));
+	}
+
+	/// Gives their ids to the items which are about to replace the items between
+	/// two gaps of a scope. The replaced items are only read.
+	private void prepareReplacement(TextScope scope, int gap1, int gap2, List<TopItem> newElements) {
+		if (signIds.getPolicy() == SignIdManager.Policy.UNMANAGED) {
+			return;
+		}
+		int start = Math.min(gap1, gap2);
+		int end = Math.max(gap1, gap2);
+		ItemSequence sequence = scope.resolve(text);
+		List<TopItem> removed = new ArrayList<>(end - start);
+		for (int i = start; i < end; i++) {
+			removed.add(sequence.getItemAt(i));
+		}
+		signIds.prepareReplacement(removed, newElements);
 	}
 
 	public MDCPosition getLastPosition() {

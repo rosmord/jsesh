@@ -29,7 +29,7 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
 - [Text and model](#text-and-model): quadrat, hbox, inner group, ligature, insert,
   overwrite, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
   column), running annotation, retrograde writing, quadrat direction, zone, layout settings, unit, document header, scope, position, range,
-  mark, caret granularity, alphabetic text, superscript
+  mark, caret granularity, alphabetic text, superscript, sign id
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
 - [Signs and fonts](#signs-and-fonts): embedded sign, Gardiner code, phonetic code, shape
   repository, hieroglyph database, glossary, hieroglyph resources, possibility list
@@ -313,6 +313,21 @@ text itself is the root scope; the content of a cartouche or of a `SubCadrat` ar
 scopes, designated by a path. `ItemSequence` is the interface; `EditingScope` (in
 `jsesh.document`) presents a scope of a `HieroglyphicTextModel` as if it was a whole text.
 Here *scope* has nothing to do with zones, though a `ZoneContent` is a scope as well.
+
+### Sign id (`\sid`)
+
+A unique number carried by a real hieroglyph (not a space, a red point, a small text or a
+philology mark) as the integer modifier `\sid` (`A1\sid2424`), so that a part of a text can be
+quoted from outside as a list of ids. Not to be confused with the generic `\id` modifier,
+which JSesh doesn't use any more. Ids are given **on request** (Text > *Number Signs*), by
+`jsesh.document.SignIdManager`, according to its `Policy`: `UNMANAGED` (a bare
+`HieroglyphicTextModel`: nothing is touched), `STRIP` (the document has no ids: those which
+are inserted are removed) or `NUMBERED`. In a numbered document, an *insertion* (paste,
+glossary, palette, typing) gives new ids; a *replacement* (group, explode, ligature, sign
+modifiers, editing a line as MdC) keeps the ids which were in the replaced items, once each.
+The highest id ever given, which never decreases, is stored in the header
+(`++JSesh_max_sign_id N +s`, `SignIdsHeaderCodec`); the key's presence means "numbered".
+`ModifiersList.equalsIgnoreId` ignores `\sid` (and `\id`).
 
 ### Superscript
 

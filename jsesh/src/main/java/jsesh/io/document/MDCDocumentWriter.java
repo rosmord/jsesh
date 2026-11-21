@@ -157,11 +157,12 @@ public class MDCDocumentWriter {
 	public void prepareForSaving(MDCDocument document) {
 		String correctExtension;
 		// Ensure there is an encoding !
-		// A page and embedded signs can only be saved in the header of the
+		// A page, embedded signs and sign ids can only be saved in the header of the
 		// JSESH1 dialect.
 		if (!document.isPhilologyIsSign()
 				&& !document.getDocumentPreferences().hasPage()
-				&& document.getEmbeddedSigns().getMaxId() == 0) {
+				&& document.getEmbeddedSigns().getMaxId() == 0
+				&& !document.getHieroglyphicTextModel().getSignIds().isNumbered()) {
 			document.setEncoding("iso-8859-1");
 			correctExtension = "hie";
 		} else {
@@ -183,6 +184,10 @@ public class MDCDocumentWriter {
 			Map<String, String> map = DocumentHeaderCodec.toHeader(document.getDocumentPreferences());
 			for (String key : map.keySet()) {
 				writeEntry(f, key, map.get(key));
+			}
+			Map<String, String> ids = SignIdsHeaderCodec.toHeader(document.getHieroglyphicTextModel().getSignIds());
+			for (String key : ids.keySet()) {
+				writeEntry(f, key, ids.get(key));
 			}
 			Map<String, String> signs = EmbeddedSignsHeaderCodec.toHeader(document.getEmbeddedSigns());
 			for (String key : signs.keySet()) {

@@ -128,6 +128,7 @@ public class MDCDocumentReader {
                 }
             }
             document.setHieroglyphicText(list);
+            document.getHieroglyphicTextModel().adoptSignIds();
         }
         return document;
     }

@@ -130,13 +130,13 @@ public class ModifiersList
                 HashMap<String, Integer> m2 = new HashMap<>();
                 for (int i = 0; i < this.getNumberOfChildren(); i++) {
                     Modifier m = getModifierAt(i);
-                    if (!m.getName().equals("id")) {
+                    if (!isIgnoredForComparison(m)) {
                         m1.put(m.getName(), m.getValue());
                     }
                 }
                 for (int i = 0; i < otherList.getNumberOfChildren(); i++) {
                     Modifier m = otherList.getModifierAt(i);
-                    if (!m.getName().equals("id")) {
+                    if (!isIgnoredForComparison(m)) {
                         m2.put(m.getName(), m.getValue());
                     }
                 }
@@ -144,6 +144,12 @@ public class ModifiersList
             }
         }
         return false;
+    }
+
+    /// The modifiers which are only identifiers: `\id`, and `\sid`, the sign
+    /// id (see `jsesh.document.SignIdManager`).
+    private static boolean isIgnoredForComparison(Modifier m) {
+        return m.getName().equals("id") || m.getName().equals("sid");
     }
 
     /**

@@ -98,6 +98,12 @@ public class compareIgnoreIdTest {
     }
 
     @Test
+    public void testSignIdsAreIgnored() {
+        doCompare("p\\sid2-t\\sid3", "p-t\\sid9", true);
+        doCompare("p\\sid2-t\\sid3", "t\\sid2-p\\sid3", false);
+    }
+
+    @Test
     public void testSimpleDiff() {
         doCompare("m", "n", false);
     }

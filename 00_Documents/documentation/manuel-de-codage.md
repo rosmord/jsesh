@@ -137,6 +137,7 @@ Modifiers come right after the sign code, each one starting with `\`.
 | `\i` | draws the sign in gray | `A1\i` |
 | `\shadingN` | shades part of the sign; `N` is a list of digits, as in [§7.2](#72-shading) | `A1\shading12` |
 | `\?` | marks a doubtful reading; stored, but not drawn | `A1\?` |
+| `\sidN` | sign id, a unique number given by the editor on request, used to quote a part of a text (see the glossary, *sign id*); stored, not drawn | `A1\sid2424` |
 | `\name`, `\nameN` | any other name is stored and written back; if the name is in the colour map of the style, the sign is drawn in that colour | `A1\col50` |
 
 If a modifier is repeated, the last one wins (`A1\50\200` has scale 200). `\name` and `\name3` are different modifiers. `\R` and `\r` need a value: without one they have no effect.

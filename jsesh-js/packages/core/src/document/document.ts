@@ -23,7 +23,13 @@ export interface MdcDocument {
   text: HieroglyphicText;
   /// The signs stored in the document (`sign1`...), if it has ever had any.
   embeddedSigns?: EmbeddedSigns;
+  /// The highest sign id (`\\sid`) ever given, if the document is numbered: the file header has
+  /// `JSesh_max_sign_id` (see `SignIdManager` in the Java code). The port doesn't give ids itself; it
+  /// keeps the `\\sid` modifiers and this value, so that a round trip doesn't lose them.
+  maxSignId?: number;
 }
+
+const MAX_SIGN_ID = "JSesh_max_sign_id";
 
 export interface ReadDocumentOptions {
   /// If true, a syntax error is thrown. Otherwise (the default, as in JSesh)
@@ -55,12 +61,19 @@ export function readMdcDocument(source: string, options: ReadDocumentOptions = {
     }
   }
   const embeddedSigns = embeddedSignsFromMap(properties);
-  return embeddedSigns.maxId > 0 ? { preferences, text, embeddedSigns } : { preferences, text };
+  const result: MdcDocument = embeddedSigns.maxId > 0 ? { preferences, text, embeddedSigns } : { preferences, text };
+  const maxSignId = properties[MAX_SIGN_ID];
+  if (maxSignId !== undefined) {
+    const n = Number.parseInt(maxSignId.trim(), 10);
+    result.maxSignId = Number.isNaN(n) ? 0 : n;
+  }
+  return result;
 }
 
 /// Writes a JSesh document, with its header.
 export function writeMdcDocument(document: MdcDocument): string {
   const properties = documentPreferencesToMap(document.preferences);
+  if (document.maxSignId !== undefined) properties[MAX_SIGN_ID] = String(document.maxSignId);
   if (document.embeddedSigns !== undefined) {
     // Written after the preferences, sorted, as Java does.
     const signs = embeddedSignsToMap(document.embeddedSigns);
