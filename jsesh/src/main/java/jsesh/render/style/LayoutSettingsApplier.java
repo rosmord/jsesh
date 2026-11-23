@@ -68,6 +68,7 @@ public final class LayoutSettingsApplier {
                         case CARTOUCHE_LINE_WIDTH -> g.cartoucheLineWidth(p);
                         case TEXT_BASELINE -> g.alphabeticTextBaseline(p);
                         case UNDERLINE_GAP -> g.underlineGap(p);
+                        case SMALL_TEXT_SIZE -> g.smallTextSize(p);
                         default -> throw new IllegalStateException("Not a length: " + e.getKey());
                     });
                 }
@@ -106,6 +107,7 @@ public final class LayoutSettingsApplier {
                 case CARTOUCHE_LINE_WIDTH -> percent(g.cartoucheLineWidth(), unit);
                 case TEXT_BASELINE -> percent(g.alphabeticTextBaseline(), unit);
                 case UNDERLINE_GAP -> percent(g.underlineGap(), unit);
+                case SMALL_TEXT_SIZE -> percent(g.smallTextSize(), unit);
             };
             result = result.with(setting, value);
         }

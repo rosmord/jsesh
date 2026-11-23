@@ -96,6 +96,9 @@ import java.awt.BasicStroke;
  *                            the lengths of the document preferences and of
  *                            zones ({@code %zone[...]}) are percents of it (see
  *                            {@link jsesh.model.LayoutSetting}).
+ * @param smallTextSize       the font size (in points) of "small texts" (the
+ *                            texts between double quotes in MdC), before any
+ *                            scaling by the {@code \N} modifier.
  */
 public record GeometrySpecification(
 		double fineLineWidth, // 0.5,
@@ -128,8 +131,12 @@ public record GeometrySpecification(
 		double wrapWidth, // 0.0 (no wrapping)
 		double columnHeight, // 0.0 (natural height)
 		double columnQuadratSkip, // 6.0
-		double unit // 18.0
+		double unit, // 18.0
+		double smallTextSize // 7.2
 ) {
+
+	/// The default size of small texts, as a fraction of the unit.
+	public static final double DEFAULT_SMALL_TEXT_RATIO = 0.4;
 
 	public static final GeometrySpecification DEFAULT = new GeometrySpecification(
 			0.5,
@@ -162,7 +169,8 @@ public record GeometrySpecification(
 			0.0,
 			0.0,
 			6.0,
-			18.0);
+			18.0,
+			18.0 * DEFAULT_SMALL_TEXT_RATIO);
 
 	/// The unit of the lengths of zones and of the document preferences: one
 	/// percent of [#unit()].
@@ -288,6 +296,7 @@ public record GeometrySpecification(
 		private double columnHeight; // 0.0;
 		private double columnQuadratSkip; // 6.0;
 		private double unit; // 18.0;
+		private double smallTextSize; // 7.2;
 
 		public Builder(GeometrySpecification specs) {
 			this.fineLineWidth = specs.fineLineWidth;
@@ -321,6 +330,7 @@ public record GeometrySpecification(
 			this.columnHeight = specs.columnHeight;
 			this.columnQuadratSkip = specs.columnQuadratSkip;
 			this.unit = specs.unit;
+			this.smallTextSize = specs.smallTextSize;
 		}
 
 		public Builder fineLineWidth(double fineLineWidth) {
@@ -493,6 +503,13 @@ public record GeometrySpecification(
 			return this;
 		}
 
+		/// @param smallTextSize the font size of small texts, in points.
+		/// @return this builder, for chaining.
+		public Builder smallTextSize(double smallTextSize) {
+			this.smallTextSize = smallTextSize;
+			return this;
+		}
+
 		public GeometrySpecification build() {
 			return new GeometrySpecification(
 					fineLineWidth,
@@ -525,7 +542,8 @@ public record GeometrySpecification(
 					wrapWidth,
 					columnHeight,
 					columnQuadratSkip,
-					unit);
+					unit,
+					smallTextSize);
 		}
 
 		/**
@@ -565,6 +583,7 @@ public record GeometrySpecification(
 			columnHeight *= scale;
 			columnQuadratSkip *= scale;
 			unit *= scale;
+			smallTextSize *= scale;
 			return this;
         }
 	}

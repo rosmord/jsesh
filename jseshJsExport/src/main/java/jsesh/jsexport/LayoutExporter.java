@@ -190,7 +190,7 @@ final class LayoutExporter {
 
     private void recordSmallText(String text) {
         if (measured.add("small\u0000" + text)) {
-            Dimension2D d = style.fonts().superScriptDimensions(TECH, text);
+            Dimension2D d = style.smallTextDimensions(TECH, text);
             Map<String, Object> m = new LinkedHashMap<>();
             m.put("kind", "small");
             m.put("text", text);

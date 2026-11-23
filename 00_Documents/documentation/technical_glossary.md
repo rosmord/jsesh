@@ -430,6 +430,7 @@ layout of a text, with the **same names and values** in zone options
 | `columnquadratgap` | % | 33.33 | space between the quadrats of a column |
 | `cartouchelinewidth` | % | 5.56 | line of cartouches and zone frames |
 | `textbaseline` | % | 22.22 | baseline of alphabetic text above the quadrats' bottom |
+| `smalltextsize` | % | 40 | font size of small texts (`"..."`), before the scale modifier: `"abc"\200` is twice as big. As for any sign, a quadrat is limited to `quadratheight`, so a small text which gets higher than that is scaled down again |
 | `fitsigns` | `yes`/`no` | yes | [lone sign fitting](#lone-sign-fitting) |
 | `honourmaxquadratwidth` | `yes`/`no` | yes | in lines, scale quadrats down to `quadratwidth` (see [quadrat scaling](#quadrat-scaling)) |
 | `uniformquadratscaling` | `yes`/`no` | no | scale a too large quadrat as a whole, with a single scale (see [quadrat scaling](#quadrat-scaling)) |

@@ -31,6 +31,7 @@ export interface TextLayoutSettings {
   readonly cartouchelinewidth?: number;
   readonly textbaseline?: number;
   readonly underlinegap?: number;
+  readonly smalltextsize?: number;
   readonly fitsigns?: boolean;
   readonly honourmaxquadratwidth?: boolean;
   readonly uniformquadratscaling?: boolean;
@@ -62,6 +63,7 @@ export const LAYOUT_SETTINGS: readonly { name: LayoutSettingName; kind: LayoutSe
   { name: "cartouchelinewidth", kind: "LENGTH", documentDefault: percentOfDefaultUnit(1) },
   { name: "textbaseline", kind: "LENGTH", documentDefault: percentOfDefaultUnit(4) },
   { name: "underlinegap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(2) },
+  { name: "smalltextsize", kind: "LENGTH", documentDefault: percentOfDefaultUnit(7.2) },
   { name: "fitsigns", kind: "FLAG", documentDefault: true },
   { name: "honourmaxquadratwidth", kind: "FLAG", documentDefault: true },
   { name: "uniformquadratscaling", kind: "FLAG", documentDefault: false },

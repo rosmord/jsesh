@@ -1,14 +1,12 @@
 package jsesh.render.style;
 
 import java.awt.Font;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.model.constants.ScriptCode;
 import jsesh.model.tools.YODChoice;
 import jsesh.model.transliteration.TransliterationEncoding;
 import jsesh.render.context.JSeshTechRenderContext;
-import jsesh.utils.datatypes.DoubleDimensions;
 import jsesh.utils.resources.ResourcesManager;
 
 /**
@@ -37,7 +35,9 @@ import jsesh.utils.resources.ResourcesManager;
  * @param boldFont             the font to use for bold text (+b in MdC)
  * @param italicFont           the font to use for italic text (+i in MdC)
  * @param superScriptFont      the font to use for so-called "small text", i.e.
- *                             texts like "sic" or note references.
+ *                             texts like "sic" or note references. Only its
+ *                             family and style matter: its size comes from
+ *                             {@link GeometrySpecification#smallTextSize()}.
  * @param transliterationFont the font to use for transliteration.
  * 
  * @see ScriptCode
@@ -115,25 +115,6 @@ public record FontSpecification(
 			default ->
 				plainFont;
 		};
-	}
-
-	/**
-	 * Computes actual dimensions for a given superScript text.
-	 * 
-	 * NOTE: this method might move to a helper class if we want to avoid adding a
-	 * dependency
-	 * between this class and AWT (but it's aready there because of Font), or if we
-	 * want to avoid putting logic
-	 * in a record.
-	 * 
-	 * @param JSeshRenderContext the rendering context to use.
-	 * @param text               the text to measure
-	 * @return the dimensions of the text in superScript font.
-	 */
-	public Dimension2D superScriptDimensions(JSeshTechRenderContext techRenderContext, String text) {
-		Rectangle2D r = superScriptFont.getStringBounds(text,
-				techRenderContext.fontRenderContext());
-		return new DoubleDimensions(r.getWidth(), r.getHeight());
 	}
 
 	/**

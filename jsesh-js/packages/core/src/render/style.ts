@@ -63,6 +63,8 @@ export interface GeometrySpecification {
   alphabeticTextBaseline: number;
   /// The space between a quadrat and its underline ("underline for red"), independent of `smallSkip`.
   underlineGap: number;
+  /// The font size of small texts (`"..."`), in points, before any scaling by the `\N` modifier.
+  smallTextSize: number;
   /// The total width (margins included) to which lines of horizontal text are
   /// soft-wrapped, in layout units. 0 (or less) means no wrapping: lines only
   /// end at explicit line breaks.
@@ -180,6 +182,7 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   standardSignHeight: 18,
   alphabeticTextBaseline: 4,
   underlineGap: 2,
+  smallTextSize: 7.2,
   wrapWidth: 0,
   columnHeight: 0,
   columnQuadratSkip: 6,
@@ -289,7 +292,8 @@ export interface FontSpecification {
   plainFont: FontDescription;
   boldFont: FontDescription;
   italicFont: FontDescription;
-  /// Font for small texts (`"sic"` signs, superscripts, unknown codes).
+  /// Font for small texts (`"sic"` signs, superscripts, unknown codes). Only its family and style
+  /// matter: its size is `GeometrySpecification.smallTextSize` (see `smallTextFont`).
   superScriptFont: FontDescription;
   transliterationFont: FontDescription;
 }
@@ -308,6 +312,12 @@ export const DEFAULT_FONTS: Readonly<FontSpecification> = Object.freeze<FontSpec
 });
 
 /// The font for a script; scripts without a font of their own use the plain font.
+/// The font of small texts: `superScriptFont`, at the size of `geometry.smallTextSize`
+/// (`JSeshStyle.smallTextFont`).
+export function smallTextFont(style: JSeshStyle): FontDescription {
+  return { ...style.fonts.superScriptFont, size: style.geometry.smallTextSize };
+}
+
 export function fontForScript(fonts: FontSpecification, script: ScriptCode): FontDescription {
   switch (script) {
     case "BOLD":
@@ -397,6 +407,7 @@ export function layoutSettingsChanges(settings: TextLayoutSettings, unit: number
     [settings.cartouchelinewidth, "cartoucheLineWidth"],
     [settings.textbaseline, "alphabeticTextBaseline"],
     [settings.underlinegap, "underlineGap"],
+    [settings.smalltextsize, "smallTextSize"],
   ];
   for (const [value, field] of lengths) {
     const points = length(value);

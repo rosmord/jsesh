@@ -164,7 +164,7 @@ public final class GroupEditor extends JPanel {
         if (h.getType() == SymbolCodes.SMALLTEXT) {
             // Doesn't need to be very accurate.
             JSeshTechRenderContext techRenderContext = JSeshTechRenderContext.buildForComponent(this);
-            Dimension2D dims = specs.fonts().superScriptDimensions(techRenderContext, h.getSmallText());
+            Dimension2D dims = specs.smallTextDimensions(techRenderContext, h.getSmallText());
             double height = h.getRelativeSize() / 100.0 * dims.getHeight();
             double width = h.getRelativeSize() / 100.0 * dims.getWidth();
             area = new Area(new Rectangle2D.Double(subv.getPosition().x, subv.getPosition().y, width, height));

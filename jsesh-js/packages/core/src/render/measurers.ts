@@ -66,10 +66,10 @@ export class CanvasTextMeasurer implements TextMeasurer {
     };
   }
 
-  smallTextDimensions(fonts: FontSpecification, text: string): SmallTextDimensions {
-    const m = this.metrics(fonts.superScriptFont, text);
-    const ascent = m.fontBoundingBoxAscent ?? fonts.superScriptFont.size * 0.8;
-    const descent = m.fontBoundingBoxDescent ?? fonts.superScriptFont.size * 0.2;
+  smallTextDimensions(font: FontDescription, text: string): SmallTextDimensions {
+    const m = this.metrics(font, text);
+    const ascent = m.fontBoundingBoxAscent ?? font.size * 0.8;
+    const descent = m.fontBoundingBoxDescent ?? font.size * 0.2;
     return { width: m.width, height: ascent + descent, ascent };
   }
 }
@@ -93,8 +93,7 @@ export class ApproximateTextMeasurer implements TextMeasurer {
     return { advance: this.width(font, text), ascent: font.size * 0.9, descent: font.size * 0.22 };
   }
 
-  smallTextDimensions(fonts: FontSpecification, text: string): SmallTextDimensions {
-    const font = fonts.superScriptFont;
+  smallTextDimensions(font: FontDescription, text: string): SmallTextDimensions {
     return { width: this.width(font, text), height: font.size * 1.15, ascent: font.size * 0.9 };
   }
 }

@@ -73,6 +73,7 @@ import {
   percentUnit,
   philologyWidth,
   quadratDirection,
+  smallTextFont,
   withStyle,
   type JSeshStyle,
 } from "./style.js";
@@ -660,7 +661,7 @@ class LayoutAux extends ModelElementAdapter {
     const drawer = this.l.drawer;
     switch (h.type) {
       case SymbolCodes.SMALLTEXT: {
-        const r = this.l.textMeasurer.smallTextDimensions(style.fonts, h.getSmallText());
+        const r = this.l.textMeasurer.smallTextDimensions(smallTextFont(style), h.getSmallText());
         v.height = r.height;
         v.width = r.width;
         break;
@@ -715,7 +716,7 @@ class LayoutAux extends ModelElementAdapter {
           v.height = s.height * this.l.computeScale();
           v.width = s.width * this.l.computeScale();
         } else {
-          const r = this.l.textMeasurer.smallTextDimensions(style.fonts, code);
+          const r = this.l.textMeasurer.smallTextDimensions(smallTextFont(style), code);
           v.height = r.height;
           v.width = r.width;
         }
@@ -915,7 +916,7 @@ class LayoutAux extends ModelElementAdapter {
 
   override visitSuperscript(s: Superscript): void {
     const style = this.l.s;
-    const dims = this.l.textMeasurer.smallTextDimensions(style.fonts, s.text);
+    const dims = this.l.textMeasurer.smallTextDimensions(smallTextFont(style), s.text);
     this.l.v.width = dims.width;
     this.l.v.height = Math.max(style.geometry.maxCadratHeight, dims.height + style.geometry.smallSkip * 2);
   }

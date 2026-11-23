@@ -12,7 +12,7 @@ import { fileURLToPath } from "node:url";
 import { GlyphIndexProvider, type GlyphIndexData } from "../../glyphs/src/provider.js";
 import type { ScriptCode } from "../src/model/constants.js";
 import { Hieroglyph } from "../src/model/model.js";
-import type { FontSpecification } from "../src/render/style.js";
+import type { FontDescription, FontSpecification } from "../src/render/style.js";
 import type { CharacterMetrics, RunMeasure, TextMeasurer } from "../src/render/text.js";
 import type { MDCView } from "../src/render/view.js";
 
@@ -81,7 +81,7 @@ export class ReplayMeasurer implements TextMeasurer {
     return this.get(this.chars, JSON.stringify([script, text]));
   }
 
-  smallTextDimensions(_f: FontSpecification, text: string): { width: number; height: number } {
+  smallTextDimensions(_f: FontDescription, text: string): { width: number; height: number } {
     return this.get(this.small, text);
   }
 

@@ -1,6 +1,12 @@
 package jsesh.render.style;
 
+import java.awt.Font;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 import java.util.function.Function;
+
+import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.utils.datatypes.DoubleDimensions;
 
 /**
  * Specifications not related to layout.
@@ -25,6 +31,25 @@ public record JSeshStyle(
 
     public Builder copy() {
         return new Builder(this);
+    }
+
+    /// The font of small texts (`"..."` in MdC): the family and style of
+    /// [FontSpecification#superScriptFont()], at the size of
+    /// [GeometrySpecification#smallTextSize()].
+    ///
+    /// @return the font to draw small texts with, before any scaling.
+    public Font smallTextFont() {
+        return fonts.superScriptFont().deriveFont((float) geometry.smallTextSize());
+    }
+
+    /// The dimensions of a small text, before any scaling.
+    ///
+    /// @param techRenderContext the rendering context to use.
+    /// @param text the text to measure.
+    /// @return the dimensions of the text in the small text font.
+    public Dimension2D smallTextDimensions(JSeshTechRenderContext techRenderContext, String text) {
+        Rectangle2D r = smallTextFont().getStringBounds(text, techRenderContext.fontRenderContext());
+        return new DoubleDimensions(r.getWidth(), r.getHeight());
     }
 
     /**

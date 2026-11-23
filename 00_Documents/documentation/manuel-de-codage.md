@@ -442,6 +442,7 @@ A zone holds anything a text holds, including line breaks and other zones. Zones
 | `separator` | length | thickness of the rules between lines or columns; no rule if unset |
 | `quadratwidth` | length | maximum width of quadrats |
 | `quadratheight` | length | maximum height of quadrats |
+| `smalltextsize` | length | font size of small texts (`"..."`) |
 | `fitsigns` | `yes` or `no` | enlarge a low broad sign alone on a line of a quadrat (as a lone `n` in a column) to the quadrat width |
 | `frame` | no value | draws a frame around the zone |
 | `fill` | `yes` or `no` | the zone stretches to fill the free space of its line in its parent (see below) |

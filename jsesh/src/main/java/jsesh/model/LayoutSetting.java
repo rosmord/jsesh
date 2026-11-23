@@ -69,6 +69,9 @@ public enum LayoutSetting {
     /// The space between a quadrat and its underline, when red quadrats are
     /// underlined (see `PaintingSpecifications.underlineRed()`).
     UNDERLINE_GAP("underlinegap", Kind.LENGTH, Kind.percentOfDefaultUnit(2)),
+    /// The font size of small texts (the texts between double quotes in MdC),
+    /// before any scaling by the `\N` modifier.
+    SMALL_TEXT_SIZE("smalltextsize", Kind.LENGTH, Kind.percentOfDefaultUnit(7.2)),
     /// Is a low broad sign alone on a line of a quadrat (as a lone `n` in a
     /// column) enlarged to the quadrat width ("scale to column width")?
     FIT_SIGNS("fitsigns", Kind.FLAG, Boolean.TRUE),

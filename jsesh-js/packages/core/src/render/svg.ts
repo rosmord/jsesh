@@ -36,7 +36,7 @@ import { drawCartouche } from "./cartouches.js";
 import { HieroglyphDrawer, type SignShape } from "./glyphs.js";
 import { parsePath, pathBounds, rotation, transformPath } from "./path.js";
 import { zoneStyle } from "./layout.js";
-import { cssFont, fontForScript, isPaginated, percentUnit, philologyWidth, type FontDescription, type JSeshStyle } from "./style.js";
+import { cssFont, fontForScript, isPaginated, percentUnit, philologyWidth, smallTextFont, type FontDescription, type JSeshStyle } from "./style.js";
 import { escapeXml, filledPath, num, PathBuilder, strokedPath } from "./svg-writer.js";
 import { drawSpecialSymbol } from "./symbols.js";
 import { displayString, type TextMeasurer } from "./text.js";
@@ -352,8 +352,13 @@ class ElementDrawer extends ModelElementAdapter {
     switch (h.type) {
       case SymbolCodes.SMALLTEXT: {
         const smallText = h.getSmallText();
-        const r = this.d.textMeasurer.smallTextDimensions(style.fonts, smallText);
-        this.out += text(smallText, 0, r.height, style.fonts.superScriptFont, this.color);
+        const font = smallTextFont(style);
+        const r = this.d.textMeasurer.smallTextDimensions(font, smallText);
+        // As for the signs, the view's scale (the \N modifier) is applied by the drawing.
+        this.out += group(
+          scale(this.view.xScale, this.view.yScale),
+          text(smallText, 0, r.height, font, this.color),
+        );
         break;
       }
       case SymbolCodes.REDPOINT:
@@ -403,8 +408,9 @@ class ElementDrawer extends ModelElementAdapter {
       }
     } else {
       // Unknown sign: its code, in red.
-      const r = this.d.textMeasurer.smallTextDimensions(style.fonts, code);
-      result = text(code, 0, r.height, style.fonts.superScriptFont, style.painting.redColor);
+      const font = smallTextFont(style);
+      const r = this.d.textMeasurer.smallTextDimensions(font, code);
+      result = group(scale(v.xScale, v.yScale), text(code, 0, r.height, font, style.painting.redColor));
     }
     if (reversed && result !== "") {
       // The right side is at the view's width.
@@ -537,9 +543,10 @@ class ElementDrawer extends ModelElementAdapter {
   override visitSuperscript(s: Superscript): void {
     if (!this.postfix) return;
     const style = this.d.s;
-    const dims = this.d.textMeasurer.smallTextDimensions(style.fonts, s.text);
+    const font = smallTextFont(style);
+    const dims = this.d.textMeasurer.smallTextDimensions(font, s.text);
     const ascent = dims.ascent ?? dims.height * 0.8;
-    this.out += text(s.text, 0, ascent, style.fonts.superScriptFont, this.color);
+    this.out += text(s.text, 0, ascent, font, this.color);
     const d = new PathBuilder().line(dims.width / 2, dims.height + style.geometry.smallSkip, dims.width / 2, this.view.internalHeight);
     this.out += strokedPath(d, this.color, style.geometry.fineLineWidth);
   }

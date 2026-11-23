@@ -9,7 +9,7 @@
 
 import type { ScriptCode } from "../model/constants.js";
 import { AlphabeticCharacter } from "../model/model.js";
-import type { FontSpecification } from "./style.js";
+import type { FontDescription, FontSpecification } from "./style.js";
 import type { MDCView } from "./view.js";
 
 /// The measure of a run of text: the visual offset of each piece from the
@@ -44,7 +44,7 @@ export interface TextMeasurer {
   characterMetrics(fonts: FontSpecification, script: ScriptCode, text: string): CharacterMetrics;
   /// The size of a text in the superscript font (logical bounds), and, if
   /// known, its ascent.
-  smallTextDimensions(fonts: FontSpecification, text: string): SmallTextDimensions;
+  smallTextDimensions(font: FontDescription, text: string): SmallTextDimensions;
 }
 
 /// Is a run of text written from right to left? As in Java

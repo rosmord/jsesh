@@ -787,7 +787,7 @@ public class Layout {
 				case SymbolCodes.SMALLTEXT: {
 					// Temporary hack as proof of concept.
 					String smallText = h.getSmallText();
-					Dimension2D r = jseshStyle.fonts().superScriptDimensions(techRenderContext, smallText);
+					Dimension2D r = jseshStyle.smallTextDimensions(techRenderContext, smallText);
 					currentView.setHeight(r.getHeight());
 					currentView.setWidth(r.getWidth());
 				}
@@ -856,7 +856,7 @@ public class Layout {
 						currentView.setHeight((s.getHeight() * computeScale()));
 						currentView.setWidth((s.getWidth() * computeScale()));
 					} else {
-						Dimension2D r = jseshStyle.fonts().superScriptDimensions(techRenderContext, code);
+						Dimension2D r = jseshStyle.smallTextDimensions(techRenderContext, code);
 						currentView.setHeight(r.getHeight());
 						currentView.setWidth(r.getWidth());
 					}
@@ -1035,7 +1035,7 @@ public class Layout {
 		public void visitSuperScript(Superscript s) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			// Dimension2D dims = jseshStyle.getSuperScriptDimensions(s.getText());
-			Dimension2D dims = jseshStyle.fonts().superScriptDimensions(techRenderContext, s.getText());
+			Dimension2D dims = jseshStyle.smallTextDimensions(techRenderContext, s.getText());
 			currentView.setWidth(dims.getWidth());
 			currentView.setHeight(Math.max(jseshStyle.geometry().maxCadratHeight(),
 					dims.getHeight() + jseshStyle.geometry().smallSkip() * 2));

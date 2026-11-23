@@ -232,12 +232,16 @@ public class DefaultElementDrawer extends ElementDrawer {
 
         switch (h.getType()) {
             case SymbolCodes.SMALLTEXT: {
-                g.setFont(jseshStyle.fonts().superScriptFont());
+                // The view's scale (the \N modifier) is not applied to g: glyph drawers
+                // do it themselves, so we have to do it here.
+                Graphics2D textG = (Graphics2D) g.create();
+                textG.scale(currentView.getXScale(), currentView.getYScale());
+                textG.setFont(jseshStyle.smallTextFont());
 
                 String smallText = h.getSmallText();
-                Dimension2D r = jseshStyle.fonts()
-                        .superScriptDimensions(getTechRenderContext(), smallText);
-                g.drawString(smallText, 0, (float) r.getHeight());
+                Dimension2D r = jseshStyle.smallTextDimensions(getTechRenderContext(), smallText);
+                textG.drawString(smallText, 0, (float) r.getHeight());
+                textG.dispose();
             }
                 break;
             // Note : the only "special" codes are red points and probably
@@ -347,11 +351,11 @@ public class DefaultElementDrawer extends ElementDrawer {
                     1 / baseSignScale);
         } else {
             // Sign not found : draw its code.
-            tmpG.setFont(jseshStyle.fonts().superScriptFont());
+            tmpG.scale(currentView.getXScale(), currentView.getYScale());
+            tmpG.setFont(jseshStyle.smallTextFont());
             Color color = tmpG.getColor();
             tmpG.setColor(jseshStyle.painting().redColor());
-            Dimension2D r = jseshStyle.fonts()
-                    .superScriptDimensions(getTechRenderContext(),h.getCode());
+            Dimension2D r = jseshStyle.smallTextDimensions(getTechRenderContext(),h.getCode());
             tmpG.drawString(h.getCode(), 0, (float) r.getHeight());
             tmpG.setColor(color);
         }
@@ -682,8 +686,8 @@ public class DefaultElementDrawer extends ElementDrawer {
         }
         JSeshStyle jseshStyle = getJSeshStyle();
         String text = s.getText();
-        Dimension2D dims = jseshStyle.fonts().superScriptDimensions(getTechRenderContext(), text);
-        g.setFont(jseshStyle.fonts().superScriptFont());
+        Dimension2D dims = jseshStyle.smallTextDimensions(getTechRenderContext(), text);
+        g.setFont(jseshStyle.smallTextFont());
         g.drawString(text, 0, g.getFontMetrics().getAscent());
         g.setStroke(jseshStyle.geometry().fineStroke());
         g
