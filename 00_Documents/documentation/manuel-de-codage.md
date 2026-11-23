@@ -295,6 +295,15 @@ The default is `1` at the start and `2` at the end. Digit `3` needs a type lette
 
 The type written at the end has no effect: only the start token gives the type. A trailing modifier (`<s-A1-s>\R90`) is accepted and ignored.
 
+**`[fill]`.** An option list right after the closing `>` can make the cartouche fill its tab cell, see [§10.4](#104-cartouches-which-fill):
+
+```
+<-ra-ms-sw->[fill]
+<s1-Hr-s2>[fill]
+```
+
+A bare `fill` is read as `fill=yes`; `fill=no` is the default, and is not written.
+
 ## 7. Colour and shading
 
 ### 7.1. Colour and shading toggles
@@ -487,6 +496,24 @@ The line is horizontal in text written in lines, vertical in columns. Both are t
 - it keeps its natural length (none) in lines whose alignment is ignored (main text when the editor wraps lines to its window), as the fill zones do.
 
 The old forms `^-..-..-^` and `?-..-..-?` are read as these annotations, see [§15.8](#158-running-variant-and-running-lacuna).
+
+### 10.4. Cartouches which fill
+
+`<-ra-ms-sw->[fill]` makes a cartouche (or serekh, Hwt-sign...) as wide as its **tab cell**. It is meant for lists, such as the Abydos king list, where the cartouches of a column all have the width of the widest:
+
+```
+@zone[](
+    %tab-<-ra-ms-s-sw-w->[fill]-%tab-anx-DA-s-!
+    %tab-<-p:t-H-stX-i-i-N36:n->[fill]-%tab-di-anx
+)
+```
+
+Both cartouches end up as wide as the larger one, and the signs of the shorter are spread to fit: the first stays at the start, the last goes to the end, and a lone sign is centred. Only the length along the lines changes: in lines, the height of the cartouche and the size of its signs stay as they are; in columns (`%zone[layout=columns]`), the cartouches get the height of the tallest, and keep their width.
+
+- Unlike a [running annotation](#103-running-annotations), a filling cartouche **pushes the tab stop** with its natural width: it is the widest of them which gives the width of the column.
+- Without a tab cell, it takes the free space of its line, as `%haplography[size=fill]` does (the last cell of a line goes to the end of the zone, if it has a `width`). When there is no free space, it keeps its natural width. Several filling items of a line share the free length equally.
+- The cartouche must be the only thing in its quadrat: `<-ra->*A1` is never stretched. In lines whose alignment is ignored (main text when the editor wraps lines to its window), it keeps its natural width.
+- The option exists in the modern and in the old form of the cartouche (`<-...->`, `<1-...-0>`...), not in the other places where `[...]` already means something (philology brackets `[[`, `[{`...).
 
 ## 11. Forms accepted without effect
 

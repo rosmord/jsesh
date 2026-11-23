@@ -19,7 +19,7 @@ import {
   HorizontalListElement,
   ModelElementAdapter,
   type BasicItemList,
-  type Cadrat,
+  Cadrat,
   type ComplexLigature,
   type HBox,
   type HieroglyphicText,
@@ -276,14 +276,31 @@ class Layout {
     }
   }
 
-  /// Lays out again a zone which fills its line, at the length given by its parent (port of
-  /// `Layout.fillZone`): the content of the zone is built again, as if the zone had this length
-  /// as `width` (or `height`, in a parent in columns). It is called by the layout of the parent,
-  /// once all its lines are placed; the state of the layout is then the one in which the zone was
-  /// built. If `length` is not larger than its natural length, the zone gets back its natural size.
+  /// The cartouche which fills its tab cell or line (`<-ra->[fill]`), if the model is a quadrat
+  /// made of it alone. The view of such a quadrat is a filling view (see `FillLayout`).
+  static fillingCartouche(model: ModelElement): Cartouche | undefined {
+    if (!(model instanceof Cadrat)) return undefined;
+    const cartouche = model.loneCartouche();
+    return cartouche !== undefined && cartouche.fill ? cartouche : undefined;
+  }
+
+  /// Lays out again a view which fills its line, at the length given by its parent (port of
+  /// `Layout.fillZone`). It is either a zone, or a quadrat made of a cartouche which fills.
+  ///
+  /// The content of a zone is built again, as if the zone had this length as `width` (or
+  /// `height`, in a parent in columns). A cartouche is stretched along the lines, and its content is
+  /// justified. It is called by the layout of the parent, once all its lines are
+  /// placed; the state of the layout is then the one in which the view was built. If `length` is
+  /// not larger than its natural length, the view gets back its natural size.
   fillZone(zoneView: MDCView, length: number): void {
+    if (this.subViewBuilder === undefined) return;
+    const cartouche = Layout.fillingCartouche(zoneView.model);
+    if (cartouche !== undefined) {
+      this.fillCartouche(zoneView, length);
+      return;
+    }
     const zone = zoneView.model;
-    if (this.subViewBuilder === undefined || !(zone instanceof Zone)) return;
+    if (!(zone instanceof Zone)) return;
     const natural = zoneView.naturalLength;
     const stretched = length > natural + FILL_EPSILON;
     const savedView = this.currentView;
@@ -299,6 +316,38 @@ class Layout {
       this.centerSigns = savedCenterSigns;
     }
     zoneView.naturalLength = natural;
+  }
+
+  /// Lays out again the quadrat of a filling cartouche at a given length (port of
+  /// `Layout.fillCartouche`). The quadrat is first built again at its natural size, then stretched
+  /// along the lines only (see `stretchCartouche`): laying it out at a larger length would make the
+  /// quadrat layout scale it down.
+  private fillCartouche(quadratView: MDCView, length: number): void {
+    const natural = quadratView.naturalLength;
+    const savedView = this.currentView;
+    const savedCenterSigns = this.centerSigns;
+    this.centerSigns = this.style.options.smallSignCentered;
+    try {
+      const cadrat = quadratView.model as Cadrat;
+      quadratView.replaceSubView(0, this.subViewBuilder!(cadrat.getHBox(0)));
+      // The quadrat layout scales the view: it must start from scale 1.
+      quadratView.reset();
+      this.layout(quadratView);
+    } finally {
+      this.currentView = savedView;
+      this.centerSigns = savedCenterSigns;
+    }
+    quadratView.naturalLength = natural;
+    if (length > natural + FILL_EPSILON) {
+      stretchCartouche(quadratView, length, this.currentTextOrientation === "HORIZONTAL");
+    }
+  }
+
+  /// Gives its natural length to a quadrat made of a cartouche which fills.
+  markFillingCartouche(view: MDCView, cadrat: Cadrat): void {
+    if (Layout.fillingCartouche(cadrat) !== undefined) {
+      view.naturalLength = this.currentTextOrientation === "HORIZONTAL" ? view.width : view.height;
+    }
   }
 
   /// Called once the view is laid out.
@@ -522,6 +571,10 @@ class LayoutAux extends ModelElementAdapter {
 
   override visitCadrat(c: Cadrat): void {
     new QuadratLayout(this.l.s, this.l.drawer, this.l.kerner(), this.l.centered, this.l.orientation).layout(this.l.v, c);
+    // A quadrat made of a cartouche which fills is a filling view, but, unlike a running
+    // annotation, it has a real natural length: it pushes the tab stops, and is then stretched to
+    // the width of the widest.
+    this.l.markFillingCartouche(this.l.v, c);
   }
 
   /// A cartouche: its content, and space for the frame. A cartouche has only
@@ -1800,6 +1853,38 @@ const FILL_EPSILON = 1e-2;
 ///    layout, and were not stretched this time.
 ///
 /// Along the lines of the parent: x for lines, y for columns.
+/// Stretches a quadrat made of a cartouche, laid out at its natural size, to a given length along
+/// the lines (its width in lines, its height in columns). The other dimension, and the scale of the
+/// signs, are not changed. Port of `Layout.stretchCartouche`.
+///
+/// The extra length goes through the quadrat, its box and the cartouche, each in the coordinates
+/// of its parent (each may be scaled), and the content of the cartouche is spread over it: the
+/// first item stays at the start, the last one goes to the end, and the others are evenly spaced.
+/// A lone item is centred.
+function stretchCartouche(quadratView: MDCView, length: number, horizontal: boolean): void {
+  const lengthOf = (v: MDCView): number => (horizontal ? v.width : v.height);
+  let extra = length - lengthOf(quadratView);
+  if (extra <= 0) return;
+  // quadrat, box, cartouche, and the content of the cartouche.
+  let view = quadratView;
+  for (let depth = 0; depth < 4; depth++) {
+    if (horizontal) view.width = view.width + extra;
+    else view.height = view.height + extra;
+    // In the coordinates of the subviews.
+    extra /= horizontal ? view.xScale : view.yScale;
+    if (depth < 3) {
+      if (view.numberOfSubviews === 0) return;
+      view = view.firstSubView;
+    }
+  }
+  const items = view.subviews.filter((s) => lengthOf(s) > 0);
+  items.forEach((item, i) => {
+    const shift = items.length === 1 ? extra / 2 : (extra * i) / (items.length - 1);
+    if (horizontal) item.position = { x: item.position.x + shift, y: item.position.y };
+    else item.position = { x: item.position.x, y: item.position.y + shift };
+  });
+}
+
 class FillLayout {
   /// The zones placed at their natural length by [prepare], with the length at which their
   /// content is laid out.
@@ -1818,10 +1903,21 @@ class FillLayout {
     return view.isFilling && view.model instanceof RunningAnnotation;
   }
 
-  /// Gives a filling view a new length: a zone is laid out again, an annotation is simply made
-  /// longer.
+  /// Is the view a cartouche which fills (`<-ra->[fill]`)? It is a quadrat, laid out again when it
+  /// is stretched, like a zone.
+  private static isFillingCartouche(view: MDCView): boolean {
+    return view.isFilling && Layout.fillingCartouche(view.model) !== undefined;
+  }
+
+  /// Is the view stretched to fill its tab cell?
+  private static fillsCell(view: MDCView): boolean {
+    return FillLayout.isFillingAnnotation(view) || FillLayout.isFillingCartouche(view);
+  }
+
+  /// Gives a filling view a new length: a zone or a cartouche is laid out again, an annotation is
+  /// simply made longer.
   private resize(view: MDCView, length: number): void {
-    if (view.model instanceof Zone) this.filler(view, length);
+    if (view.model instanceof Zone || FillLayout.isFillingCartouche(view)) this.filler(view, length);
     else this.setLength(view, length);
   }
 
@@ -1855,7 +1951,7 @@ class FillLayout {
   fillCell(units: MDCView[][], start: number, length: number): boolean {
     if (!this.stretches) return false;
     const views = units.flat();
-    const filling = views.filter((v) => FillLayout.isFillingAnnotation(v));
+    const filling = views.filter((v) => FillLayout.fillsCell(v));
     if (filling.length === 0) return false;
     let first = Infinity;
     for (const view of views) first = Math.min(first, this.coordinate(view));
@@ -1867,9 +1963,15 @@ class FillLayout {
     for (const view of views) {
       if (growth !== 0) this.move(view, growth);
       if (filling.includes(view)) {
+        const laidOut = this.laidOutLengths.get(view);
         this.laidOutLengths.delete(view);
         const target = view.naturalLength + (share > FILL_EPSILON ? share : 0);
-        this.setLength(view, target);
+        if (FillLayout.isFillingCartouche(view)) {
+          // Its content has to be laid out again, unless nothing has changed.
+          if (laidOut !== undefined || target > view.naturalLength) this.resize(view, target);
+        } else {
+          this.setLength(view, target);
+        }
         growth += target - view.naturalLength;
       }
     }

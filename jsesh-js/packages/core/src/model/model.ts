@@ -461,6 +461,16 @@ export class Cadrat extends BasicItem {
     return this.numberOfChildren;
   }
 
+  /// The cartouche, if this quadrat is made of nothing else (like the top-level `<-ra->`). Only
+  /// such a cartouche can be stretched to fill its tab cell (see `Cartouche.fill`).
+  loneCartouche(): Cartouche | undefined {
+    if (this.numberOfHBoxes !== 1) return undefined;
+    const box = this.getHBox(0);
+    if (box.numberOfChildren !== 1) return undefined;
+    const element = box.getElementAt(0);
+    return element instanceof Cartouche ? element : undefined;
+  }
+
   addHBox(b: HBox): void {
     this.addChild(b);
   }
@@ -1273,6 +1283,8 @@ export class Cartouche extends InnerGroup {
     public startPart: CartouchePart,
     public endPart: CartouchePart,
     content: BasicItemList = new BasicItemList(),
+    /// Stretched to fill its tab cell (or the free space of its line): `<-ra->[fill]`.
+    public fill: boolean = false,
   ) {
     super();
     this.addChild(content);
@@ -1291,7 +1303,7 @@ export class Cartouche extends InnerGroup {
   }
 
   deepCopy(): Cartouche {
-    return new Cartouche(this.type, this.startPart, this.endPart, this.basicItemList.deepCopy());
+    return new Cartouche(this.type, this.startPart, this.endPart, this.basicItemList.deepCopy(), this.fill);
   }
 }
 

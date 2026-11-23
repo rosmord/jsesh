@@ -680,11 +680,13 @@ public class MDCParser {
 
     /**
      * <pre>
-     * cartouche ::= BEGINCARTOUCHE basicitems optSeparator ENDCARTOUCHE modifiers
-     *             | BEGINOLDCARTOUCHE basicitems optSeparator ENDCARTOUCHE
+     * cartouche ::= BEGINCARTOUCHE basicitems optSeparator ENDCARTOUCHE optOptionList modifiers
+     *             | BEGINOLDCARTOUCHE basicitems optSeparator ENDCARTOUCHE optOptionList
      * </pre>
      * 
-     * The modifiers after a cartouche are parsed, but not kept.
+     * The modifiers after a cartouche are parsed, but not kept. The option
+     * list (e.g. {@code [fill]}) is kept. Note that the plain {@code <-...->}
+     * is lexed as an "old" cartouche.
      */
     private AstCartouche parseCartouche() throws MDCSyntaxError {
         if (at(BEGIN_CARTOUCHE)) {
@@ -692,13 +694,15 @@ public class MDCParser {
             advance();
             AstBasicItemList content = parseBasicItems();
             Cartouche end = (Cartouche) expect(END_CARTOUCHE, "end of cartouche");
+            AstOptionList options = parseOptOptionList();
             parseModifiers();
             return new AstCartouche(CartoucheType.forCode(start.type()),
-                    CartouchePart.forDigit(start.part()), CartouchePart.forDigit(end.part()), content);
+                    CartouchePart.forDigit(start.part()), CartouchePart.forDigit(end.part()), content, options);
         } else {
             OldCartoucheStart start = (OldCartoucheStart) expect(BEGIN_OLD_CARTOUCHE, "cartouche");
             AstBasicItemList content = parseBasicItems();
             expect(END_CARTOUCHE, "end of cartouche");
+            AstOptionList options = parseOptOptionList();
             CartouchePart leftPart;
             CartouchePart rightPart;
             switch (Character.toLowerCase(start.part())) {
@@ -719,7 +723,7 @@ public class MDCParser {
                     leftPart = CartouchePart.FIRST;
                     rightPart = CartouchePart.SECOND;
             }
-            return new AstCartouche(CartoucheType.forCode(start.code()), leftPart, rightPart, content);
+            return new AstCartouche(CartoucheType.forCode(start.code()), leftPart, rightPart, content, options);
         }
     }
 

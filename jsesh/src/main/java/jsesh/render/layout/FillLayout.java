@@ -89,10 +89,21 @@ final class FillLayout {
         return view.isFilling() && view.getModel() instanceof RunningAnnotation;
     }
 
-    /// Gives a filling view a new length: a zone is laid out again, an
-    /// annotation is simply made longer.
+    /// Is the view a cartouche which fills (`<-ra->[fill]`)? It is a quadrat,
+    /// laid out again when it is stretched, like a zone.
+    private static boolean isFillingCartouche(MDCView view) {
+        return view.isFilling() && Layout.fillingCartouche(view.getModel()) != null;
+    }
+
+    /// Is the view stretched to fill its tab cell?
+    private static boolean fillsCell(MDCView view) {
+        return isFillingAnnotation(view) || isFillingCartouche(view);
+    }
+
+    /// Gives a filling view a new length: a zone or a cartouche is laid out
+    /// again, an annotation is simply made longer.
     private void resize(MDCView view, double length) {
-        if (view.getModel() instanceof Zone) {
+        if (view.getModel() instanceof Zone || isFillingCartouche(view)) {
             filler.fill(view, length);
         } else {
             setLength(view, length);
@@ -135,7 +146,7 @@ final class FillLayout {
             return false;
         }
         List<MDCView> views = units.stream().flatMap(List::stream).toList();
-        List<MDCView> filling = views.stream().filter(FillLayout::isFillingAnnotation).toList();
+        List<MDCView> filling = views.stream().filter(FillLayout::fillsCell).toList();
         if (filling.isEmpty()) {
             return false;
         }
@@ -158,9 +169,16 @@ final class FillLayout {
                 move(view, growth);
             }
             if (filling.contains(view)) {
-                laidOutLengths.remove(view);
+                Double laidOut = laidOutLengths.remove(view);
                 double target = view.getNaturalLength() + (share > EPSILON ? share : 0);
-                setLength(view, target);
+                if (isFillingCartouche(view)) {
+                    // Its content has to be laid out again, unless nothing has changed.
+                    if (laidOut != null || target > view.getNaturalLength()) {
+                        resize(view, target);
+                    }
+                } else {
+                    setLength(view, target);
+                }
                 growth += target - view.getNaturalLength();
             }
         }

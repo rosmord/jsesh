@@ -231,6 +231,15 @@ public class MDCParserAstSyntaxTest {
         assertEquals(AstDocument.of(AstCadrat.of(AstHBox.of(expected))), parse("<1--0>"));
     }
 
+    @Test
+    public void testCartouche_options() throws MDCSyntaxError {
+        AstCartouche expected = new AstCartouche(CartoucheType.CARTOUCHE, CartouchePart.FIRST, CartouchePart.SECOND,
+                AstBasicItemList.of(AstCadrat.of(AstHBox.of(AstHieroglyph.of("A1")))),
+                AstOptionList.of(AstOption.flag("fill")));
+        assertEquals(AstDocument.of(AstCadrat.of(AstHBox.of(expected))), parse("<A1>[fill]"));
+        assertEquals(AstDocument.of(AstCadrat.of(AstHBox.of(expected))), parse("<1-A1-2>[fill]"));
+    }
+
     // --- Ligatures and complex ligatures ---------------------------------
 
     @Test

@@ -284,6 +284,9 @@ public class MdCModelWriter {
 			write(start);
 			c.getBasicItemList().accept(this);
 			write(end);
+			if (c.isFill()) {
+				write("[fill]");
+			}
 		}
 
 		/*

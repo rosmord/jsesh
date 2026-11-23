@@ -361,6 +361,116 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         return true;
     }
 
+    // ---- cartouches which fill ----
+
+    /// Whether the cartouches of the selection (or the cartouche around the
+    /// cursor) fill their tab cell.
+    public enum CartoucheFillState {
+        /// There is no cartouche which can fill.
+        NONE,
+        /// None of the cartouches fills.
+        OFF,
+        /// All of the cartouches fill.
+        ON,
+        /// Some of them fill, some don't.
+        MIXED
+    }
+
+    /// The items concerned by the "fill" setting of cartouches: the
+    /// selected items of the current scope; if nothing is selected, the quadrat
+    /// made of the cartouche the cursor is in, or else the item just before the
+    /// cursor.
+    ///
+    /// @param scope the scope of the items.
+    /// @param from the position before the first item.
+    /// @param to the position after the last item.
+    private record FillTargets(TextScope scope, MDCPosition from, MDCPosition to) {
+    }
+
+    /// Where to look for the cartouches whose "fill" setting is changed.
+    ///
+    /// Only quadrats made of a cartouche alone are concerned (see
+    /// [Cadrat#loneCartouche()]). The items are at the top level of a text or
+    /// of a zone, as the cartouche around the cursor is the content of the
+    /// nested scope of a cartouche.
+    private FillTargets fillTargets() {
+        MDCPosition min = caret.getLocalMinPosition();
+        MDCPosition max = caret.getLocalMaxPosition();
+        TextScope current = caret.getScope();
+        if (!caret.hasSelection() && !current.isRoot()) {
+            // The scope is the content of a cartouche: [..., quadrat, hbox, cartouche, list].
+            int[] path = current.getPath();
+            if (path.length >= 4) {
+                TextScope parent = TextScope.of(Arrays.copyOf(path, path.length - 4));
+                int index = path[path.length - 4];
+                return new FillTargets(parent, new MDCPosition(index), new MDCPosition(index + 1));
+            }
+        }
+        if (!caret.hasSelection() && min.getIndex() > 0) {
+            // Just after a cartouche.
+            return new FillTargets(current, min.getPreviousPosition(1), min);
+        }
+        return new FillTargets(current, min, max);
+    }
+
+    /// The quadrats made of a cartouche, among some items.
+    private static List<Cartouche> lonelyCartouches(List<? extends TopItem> items) {
+        List<Cartouche> result = new ArrayList<>();
+        for (TopItem item : items) {
+            if (item instanceof Cadrat cadrat) {
+                cadrat.loneCartouche().ifPresent(result::add);
+            }
+        }
+        return result;
+    }
+
+    /// Do the cartouches of the selection (or the cartouche around the cursor)
+    /// fill their tab cell?
+    ///
+    /// @return the state; [CartoucheFillState#NONE] if there is no cartouche
+    ///         which can fill there.
+    public CartoucheFillState getCartoucheFillAtCaret() {
+        FillTargets targets = fillTargets();
+        EditingScope scope = new EditingScope(hieroglyphicTextModel, targets.scope());
+        List<Cartouche> cartouches = lonelyCartouches(scope.getTopItemsBetween(targets.from(), targets.to()));
+        long filling = cartouches.stream().filter(Cartouche::isFill).count();
+        if (cartouches.isEmpty()) {
+            return CartoucheFillState.NONE;
+        } else if (filling == 0) {
+            return CartoucheFillState.OFF;
+        } else {
+            return filling == cartouches.size() ? CartoucheFillState.ON : CartoucheFillState.MIXED;
+        }
+    }
+
+    /// Makes the cartouches of the selection (or the cartouche around the
+    /// cursor) fill their tab cell, or not (`<-ra->[fill]`). The change can be
+    /// undone in one step, and the cursor and selection stay where they were.
+    ///
+    /// @param fill the new setting.
+    /// @return false if there is no cartouche which can fill there.
+    public boolean setCartoucheFillAtCaret(boolean fill) {
+        FillTargets targets = fillTargets();
+        EditingScope scope = new EditingScope(hieroglyphicTextModel, targets.scope());
+        // These are copies.
+        List<TopItem> items = scope.getTopItemsBetween(targets.from(), targets.to());
+        List<Cartouche> cartouches = lonelyCartouches(items);
+        if (cartouches.isEmpty()) {
+            return false;
+        }
+        cartouches.forEach(c -> c.setFill(fill));
+        MDCPosition insert = caret.getInsertExactPosition();
+        MDCPosition mark = caret.hasSelection() ? caret.getMark().getPosition() : null;
+        scope.replaceElement(targets.from(), targets.to(), items);
+        // The structure is unchanged: the cursor and the mark are still valid.
+        if (mark != null) {
+            caret.setMarkPosition(mark);
+        }
+        caret.setInsertPosition(insert);
+        clearSeparator();
+        return true;
+    }
+
     // ---- line alignment ----
 
     /// The alignment of the lines touched by the selection (or of the line of

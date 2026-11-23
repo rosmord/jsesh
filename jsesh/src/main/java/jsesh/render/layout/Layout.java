@@ -250,18 +250,43 @@ public class Layout {
 		return Math.max(0.0, outerLength - 2 * padding) / p.scaleFactor();
 	}
 
-	/// Lays out again a zone which fills its line, at the length given by its
-	/// parent (see [ZoneFiller]): the content of the zone is built again, as
-	/// if the zone had this length as `width` (or `height`, in a parent in
-	/// columns). It is called by the layout of the parent, once all its lines
-	/// are placed. The state of the layout is then the one of the parent,
-	/// which is the state in which the zone was built.
+	/// The cartouche which fills its tab cell or line (`<-ra->[fill]`), if the
+	/// model is a quadrat made of it alone.
 	///
-	/// @param zoneView the view of the zone.
+	/// The view of such a quadrat is a filling view (see [FillLayout]).
+	///
+	/// @param model any model element.
+	/// @return the filling cartouche, or null.
+	static Cartouche fillingCartouche(ModelElement model) {
+		if (model instanceof Cadrat cadrat) {
+			return cadrat.loneCartouche().filter(Cartouche::isFill).orElse(null);
+		}
+		return null;
+	}
+
+	/// Lays out again a view which fills its line, at the length given by its
+	/// parent (see [ZoneFiller]). It is either a zone, or a quadrat made of a
+	/// cartouche which fills (see [#fillingCartouche(ModelElement)]).
+	///
+	/// The content of a zone is built again, as if the zone had this length as
+	/// `width` (or `height`, in a parent in columns). A cartouche is stretched
+	/// along the lines, and its content is justified. It is called by the
+	/// layout of the parent, once all its lines are placed. The state of the layout
+	/// is then the one of the parent, which is the state in which the view was
+	/// built.
+	///
+	/// @param zoneView the view of the zone or of the quadrat.
 	/// @param length its new length, frame included; if it is not larger than
-	///        its natural length, the zone gets back its natural size.
+	///        its natural length, the view gets back its natural size.
 	private void fillZone(MDCView zoneView, double length) {
-		if (subViewBuilder == null || !(zoneView.getModel() instanceof Zone zone)) {
+		if (subViewBuilder == null) {
+			return;
+		}
+		if (fillingCartouche(zoneView.getModel()) != null) {
+			fillCartouche(zoneView, length);
+			return;
+		}
+		if (!(zoneView.getModel() instanceof Zone zone)) {
 			return;
 		}
 		double natural = zoneView.getNaturalLength();
@@ -281,6 +306,94 @@ public class Layout {
 			centerSigns = savedCenterSigns;
 		}
 		zoneView.setNaturalLength(natural);
+	}
+
+	/// Lays out again the quadrat of a filling cartouche at a given length.
+	///
+	/// The quadrat is first built again at its natural size (it may have been
+	/// stretched by a previous layout). It is then stretched **along the lines
+	/// only** (see [#stretchCartouche(MDCView, double, boolean)]): laying it out
+	/// at a larger length would make the quadrat layout scale it down.
+	private void fillCartouche(MDCView quadratView, double length) {
+		double natural = quadratView.getNaturalLength();
+		MDCView savedView = currentView;
+		boolean savedCenterSigns = centerSigns;
+		centerSigns = renderContext.jseshStyle().options().smallSignCentered();
+		try {
+			Cadrat cadrat = (Cadrat) quadratView.getModel();
+			quadratView.replaceSubView(0, subViewBuilder.apply(cadrat.getHBox(0)));
+			// The quadrat layout scales the view: it must start from scale 1.
+			quadratView.reset();
+			layout(quadratView);
+		} finally {
+			currentView = savedView;
+			centerSigns = savedCenterSigns;
+		}
+		quadratView.setNaturalLength(natural);
+		if (length > natural + FillLayout.EPSILON) {
+			stretchCartouche(quadratView, length, currentTextOrientation.isHorizontal());
+		}
+	}
+
+	/// Stretches a quadrat made of a cartouche, laid out at its natural size,
+	/// to a given length along the lines (its width in lines, its height in
+	/// columns). The other dimension, and the scale of the signs, are not
+	/// changed.
+	///
+	/// The extra length goes through the quadrat, its box and the cartouche,
+	/// each in the coordinates of its parent (each may be scaled), and the
+	/// content of the cartouche is spread over it: the first item stays at the
+	/// start, the last one goes to the end, and the others are evenly spaced. A
+	/// lone item is centred.
+	///
+	/// @param quadratView the view of the quadrat.
+	/// @param length its new length, in the coordinates of its parent.
+	/// @param horizontal true for lines, false for columns.
+	static void stretchCartouche(MDCView quadratView, double length, boolean horizontal) {
+		double extra = length - lengthOf(quadratView, horizontal);
+		if (extra <= 0) {
+			return;
+		}
+		// quadrat, box, cartouche, and the content of the cartouche.
+		MDCView view = quadratView;
+		for (int depth = 0; depth < 4; depth++) {
+			setLengthOf(view, lengthOf(view, horizontal) + extra, horizontal);
+			// In the coordinates of the subviews.
+			extra /= horizontal ? view.getXScale() : view.getYScale();
+			if (depth < 3) {
+				if (view.getNumberOfSubviews() == 0) {
+					return;
+				}
+				view = view.getFirstSubView();
+			}
+		}
+		// view is now the content of the cartouche.
+		List<MDCView> items = new ArrayList<>();
+		for (MDCView sub : view.getSubViews()) {
+			if (lengthOf(sub, horizontal) > 0) {
+				items.add(sub);
+			}
+		}
+		for (int i = 0; i < items.size(); i++) {
+			double shift = items.size() == 1 ? extra / 2 : extra * i / (items.size() - 1);
+			if (horizontal) {
+				items.get(i).getPosition().x += shift;
+			} else {
+				items.get(i).getPosition().y += shift;
+			}
+		}
+	}
+
+	private static double lengthOf(MDCView view, boolean horizontal) {
+		return horizontal ? view.getWidth() : view.getHeight();
+	}
+
+	private static void setLengthOf(MDCView view, double length, boolean horizontal) {
+		if (horizontal) {
+			view.setWidth(length);
+		} else {
+			view.setHeight(length);
+		}
 	}
 
 	/// The space between the frame of a zone and its content, frame included.
@@ -504,6 +617,13 @@ public class Layout {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			new QuadratLayout(jseshStyle, hieroglyphsDrawer, kerner(), centerSigns, currentTextOrientation).layout(currentView,
 					c);
+			// A quadrat made of a cartouche which fills is a filling view, but,
+			// unlike a running annotation, it has a real natural length: it pushes the
+			// tab stops, and is then stretched to the width of the widest.
+			if (fillingCartouche(c) != null) {
+				currentView.setNaturalLength(
+						currentTextOrientation.isHorizontal() ? currentView.getWidth() : currentView.getHeight());
+			}
 		}
 
 		/// Lay out a cartouche. Lay out its internal parts, and also provide space for

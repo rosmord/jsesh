@@ -539,17 +539,19 @@ export class MdcParser {
   }
 
   /// ```
-  /// cartouche ::= BEGINCARTOUCHE basicitems optSeparator ENDCARTOUCHE modifiers
-  ///             | BEGINOLDCARTOUCHE basicitems optSeparator ENDCARTOUCHE
+  /// cartouche ::= BEGINCARTOUCHE basicitems optSeparator ENDCARTOUCHE optOptionList modifiers
+  ///             | BEGINOLDCARTOUCHE basicitems optSeparator ENDCARTOUCHE optOptionList
   /// ```
   ///
-  /// The modifiers after a cartouche are parsed, but not kept.
+  /// The modifiers after a cartouche are parsed, but not kept. The option list (e.g. `[fill]`) is
+  /// kept. The plain `<-...->` is lexed as an "old" cartouche.
   private parseCartouche(): AstCartouche {
     if (this.at(S.BEGIN_CARTOUCHE)) {
       const start = this.token.value as CartoucheValue;
       this.advance();
       const content = this.parseBasicItems();
       const end = this.expect<CartoucheValue>(S.END_CARTOUCHE, "end of cartouche");
+      const options = this.parseOptOptionList();
       this.parseModifiers();
       return {
         nodeType: "Cartouche",
@@ -557,11 +559,13 @@ export class MdcParser {
         startPart: cartouchePart(start.part),
         endPart: cartouchePart(end.part),
         content,
+        options,
       };
     }
     const start = this.expect<OldCartoucheStartValue>(S.BEGIN_OLD_CARTOUCHE, "cartouche");
     const content = this.parseBasicItems();
     this.expect(S.END_CARTOUCHE, "end of cartouche");
+    const options = this.parseOptOptionList();
     let startPart: CartouchePart;
     let endPart: CartouchePart;
     switch (start.part.toLowerCase()) {
@@ -581,7 +585,7 @@ export class MdcParser {
         startPart = "FIRST";
         endPart = "SECOND";
     }
-    return { nodeType: "Cartouche", type: cartoucheType(start.code), startPart, endPart, content };
+    return { nodeType: "Cartouche", type: cartoucheType(start.code), startPart, endPart, content, options };
   }
 
   /// ```

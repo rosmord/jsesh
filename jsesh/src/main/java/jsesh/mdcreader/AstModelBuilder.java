@@ -226,7 +226,17 @@ class AstModelBuilder implements AstVisitor {
     @Override
     public void visitCartouche(AstCartouche node) {
         BasicItemList content = build(node.content(), BasicItemList.class);
-        push(new Cartouche(node.type(), node.startPart(), node.endPart(), content));
+        push(new Cartouche(node.type(), node.startPart(), node.endPart(), content, isFlagSet(node.options(), "fill")));
+    }
+
+    /// A boolean option: a bare `name` means yes, and `name=yes`/`name=no` are
+    /// accepted too (as for the zone `fill`).
+    private static boolean isFlagSet(AstOptionList options, String name) {
+        if (!options.hasOption(name)) {
+            return false;
+        }
+        String text = options.getString(name, null);
+        return text == null || LayoutSetting.parseFlag(text).orElse(false);
     }
 
     @Override

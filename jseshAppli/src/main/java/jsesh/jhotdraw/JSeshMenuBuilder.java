@@ -47,6 +47,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import jsesh.ui.editor.ActionsID;
 import jsesh.ui.editor.actions.sign.EditorSignRotationAction;
@@ -87,6 +89,7 @@ import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.EmbeddedSignsAction;
 import jsesh.jhotdraw.actions.file.ExportEmbeddedSignsAction;
 import jsesh.jhotdraw.actions.text.EditZoneAction;
+import jsesh.jhotdraw.actions.text.ToggleCartoucheFillAction;
 import jsesh.jhotdraw.actions.text.InsertRunningAnnotationAction;
 import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
 import jsesh.jhotdraw.actions.view.ToggleKerningMarksAction;
@@ -522,6 +525,26 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                                 cartoucheMenu.add(variantsMenu);
                         }
                 }
+                // Stretching the cartouches to the width of their tab cell.
+                cartoucheMenu.addSeparator();
+                ToggleCartoucheFillAction fillAction = (ToggleCartoucheFillAction) actionMap
+                                .get(ToggleCartoucheFillAction.ID);
+                cartoucheMenu.add(new JCheckBoxMenuItem(fillAction));
+                // Its state depends on the cursor.
+                cartoucheMenu.addMenuListener(new MenuListener() {
+                        @Override
+                        public void menuSelected(MenuEvent e) {
+                                fillAction.refresh();
+                        }
+
+                        @Override
+                        public void menuDeselected(MenuEvent e) {
+                        }
+
+                        @Override
+                        public void menuCanceled(MenuEvent e) {
+                        }
+                });
                 return cartoucheMenu;
         }
 

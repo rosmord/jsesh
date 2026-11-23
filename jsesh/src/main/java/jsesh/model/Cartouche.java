@@ -43,6 +43,12 @@ public class Cartouche extends InnerGroup {
     private CartoucheType type;
 
     /**
+     * Whether the cartouche should be stretched to fill its tab cell (or the
+     * free space of its line). {@code <-ra->[fill]} in MdC.
+     */
+    private boolean fill;
+
+    /**
      * <p>
      * Creates a cartouche.
      * </p>
@@ -61,6 +67,13 @@ public class Cartouche extends InnerGroup {
      * </p>
      */
     public Cartouche(CartoucheType type, CartouchePart startPart, CartouchePart endPart, BasicItemList content) {
+        this(type, startPart, endPart, content, false);
+    }
+
+    /// Creates a cartouche which may be stretched (see [#isFill()]).
+    public Cartouche(CartoucheType type, CartouchePart startPart, CartouchePart endPart, BasicItemList content,
+            boolean fill) {
+        this.fill = fill;
         this.type = type;
         this.startPart = startPart;
         this.endPart = endPart;
@@ -115,6 +128,19 @@ public class Cartouche extends InnerGroup {
         type = _type;
     }
 
+    /// Whether this cartouche is stretched to the width of its tab cell (or to
+    /// the free space of its line), its content being justified.
+    ///
+    /// The natural width of the cartouche still counts when tab stops are
+    /// computed: all the cartouches of a tab column end up as wide as the widest.
+    public boolean isFill() {
+        return fill;
+    }
+
+    public void setFill(boolean fill) {
+        this.fill = fill;
+    }
+
     /*
 	 * @see jsesh.model.ModelElement#Accept(jsesh.model.ModelElementVisitor)
      */
@@ -155,6 +181,9 @@ public class Cartouche extends InnerGroup {
                 result = Integer.compare(startPart.digit(), c.startPart.digit());
                 if (result == 0) {
                     result = Integer.compare(endPart.digit(), c.endPart.digit());
+                    if (result == 0) {
+                        result = Boolean.compare(fill, c.fill);
+                    }
 // As cartouches are no more top-level items, they don't have state anymore
 //					if (result == 0) {
 //						result = getState().compareTo(c.getState());
@@ -170,7 +199,7 @@ public class Cartouche extends InnerGroup {
      */
     public Cartouche deepCopy() {
         BasicItemList l = (BasicItemList) getBasicItemList().deepCopy();
-        Cartouche c = new Cartouche(type, startPart, endPart, l);
+        Cartouche c = new Cartouche(type, startPart, endPart, l, fill);
         // As cartouches are no more top-level items, they don't have state anymore
         //copyStateTo(c);
         return c;
@@ -194,6 +223,7 @@ public class Cartouche extends InnerGroup {
                 this.type == c.type
                 && this.startPart == c.startPart
                 && this.endPart == c.endPart
+                && this.fill == c.fill
                 );
     }
 

@@ -158,6 +158,7 @@ class ModelWriter implements ModelElementVisitor<void> {
     this.write(start);
     c.basicItemList.accept(this);
     this.write(end);
+    if (c.fill) this.write("[fill]");
   }
 
   visitHBox(b: HBox): void {

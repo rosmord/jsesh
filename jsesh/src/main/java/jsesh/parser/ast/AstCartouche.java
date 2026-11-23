@@ -16,10 +16,18 @@ import jsesh.sharedvocabulary.CartoucheType;
  * @param type the kind of cartouche.
  * @param startPart how the first extremity of the cartouche should be drawn.
  * @param endPart how the last extremity of the cartouche should be drawn.
+ * @param options the raw options given between brackets after the cartouche,
+ * e.g. {@code <-ra->[fill]} (possibly none).
  * @author rosmord
  */
-public record AstCartouche(CartoucheType type, CartouchePart startPart, CartouchePart endPart, AstBasicItemList content)
+public record AstCartouche(CartoucheType type, CartouchePart startPart, CartouchePart endPart, AstBasicItemList content,
+        AstOptionList options)
         implements AstInnerGroup {
+
+    /// A cartouche without options.
+    public AstCartouche(CartoucheType type, CartouchePart startPart, CartouchePart endPart, AstBasicItemList content) {
+        this(type, startPart, endPart, content, AstOptionList.of());
+    }
 
     /**
      * A plain, fully-drawn cartouche ({@code <...>}: both extremities drawn,

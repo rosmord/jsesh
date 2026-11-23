@@ -105,6 +105,8 @@ export interface AstCartouche {
   startPart: CartouchePart;
   endPart: CartouchePart;
   content: AstBasicItemList;
+  /// The raw options given between brackets after the cartouche, e.g. `[fill]` (empty if none).
+  options: AstOptionList;
 }
 
 export interface AstInsert {

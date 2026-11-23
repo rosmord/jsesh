@@ -366,6 +366,20 @@ tabs (`FillLayout.fillCell`, called by `TabLayout`), without pushing the tab sto
 legacy `^-..-..-^` and `?-..-..-?` (each dot is half a quadrat). Not a *fill zone*: that one is
 ignored in tabbed lines. Rules in [manuel-de-codage.md](manuel-de-codage.md) §10.3.
 
+### Fill cartouche
+
+A `Cartouche` with `fill` (`<-ra-ms->[fill]`, `Cartouche.isFill()`): it takes the width of its
+**tab cell**, or the free space of its line. A *filling view* like the running annotation with
+`size=fill` and the [fill zone](#fill-zone), but with a **real natural length**, so that it
+pushes the tab stops: all the filling cartouches of a column get the width of the widest.
+Only if it is alone in its quadrat (`Cadrat.loneCartouche()`): the view the line sees is the
+view of that quadrat (`Layout.fillingCartouche`). Stretching is **along the lines only**: the
+quadrat is built again at its natural size (`Layout.fillCartouche`), then made longer by
+`Layout.stretchCartouche`, which adds the extra length to the quadrat, its box and the
+cartouche, and spreads the content; the height in lines (the width in columns) and the scale
+of the signs don't change. Rules in [manuel-de-codage.md](manuel-de-codage.md) §10.4. Editor:
+Cartouches > *Fill the tab cell* (`JMDCEditorWorkflow.setCartoucheFillAtCaret`).
+
 ### Top item
 
 `TopItem`: an item of the text itself, between two `-`: a quadrat, a cartouche, a line or

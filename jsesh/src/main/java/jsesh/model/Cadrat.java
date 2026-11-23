@@ -72,6 +72,23 @@ public class Cadrat
 	public int getNumberOfHBoxes() {
 		return getNumberOfChildren();
 	}
+
+	/// The cartouche, if this quadrat is made of nothing else (like the
+	/// top-level `<-ra->`).
+	///
+	/// Only such a cartouche can be stretched to fill its tab cell (see
+	/// [Cartouche#isFill()]).
+	///
+	/// @return the cartouche, or empty if the quadrat has other contents.
+	public Optional<Cartouche> loneCartouche() {
+		if (getNumberOfHBoxes() == 1) {
+			HBox box = getHBox(0);
+			if (box.getNumberOfChildren() == 1 && box.getHorizontalListElementAt(0) instanceof Cartouche c) {
+				return Optional.of(c);
+			}
+		}
+		return Optional.empty();
+	}
 	/**
 	 * Returns the shading.
 	 * if shading is 0, the cadrat is not shaded;

@@ -106,6 +106,7 @@ import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.EmbeddedSignsAction;
 import jsesh.jhotdraw.actions.file.ExportEmbeddedSignsAction;
 import jsesh.jhotdraw.actions.text.EditZoneAction;
+import jsesh.jhotdraw.actions.text.ToggleCartoucheFillAction;
 import jsesh.jhotdraw.actions.text.InsertRunningAnnotationAction;
 import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
@@ -351,6 +352,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
                     InsertRunningAnnotationAction.haplography(a, v));
             map.put(InsertRunningAnnotationAction.LACUNA_ID, InsertRunningAnnotationAction.lacuna(a, v));
             map.put(EditZoneAction.ID, new EditZoneAction(a, v));
+            map.put(ToggleCartoucheFillAction.ID, new ToggleCartoucheFillAction(a, v));
 
             map.remove(DuplicateAction.ID);
 

@@ -251,6 +251,7 @@ class AstModelBuilder {
           CARTOUCHE_PARTS[g.startPart],
           CARTOUCHE_PARTS[g.endPart],
           this.buildBasicItemList(g.content),
+          flagOf(g.options, "fill"),
         );
       case "Ligature":
         return new Ligature(g.hieroglyphs.map((h) => this.buildHieroglyph(h)));
@@ -295,6 +296,13 @@ class AstModelBuilder {
     for (const m of list.modifiers) result.includeModifier(new Modifier(m.name, m.value));
     return result;
   }
+}
+
+/// A boolean option: a bare `name` means yes, and `name=yes`/`name=no` are accepted too.
+function flagOf(options: AstOptionList, name: string): boolean {
+  if (!hasOption(options, name)) return false;
+  const text = optionString(options, name, null);
+  return text === null || (parseFlag(text) ?? false);
 }
 
 /// The alignment given by the `align` option of a line or page break.
