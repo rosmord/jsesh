@@ -32,8 +32,9 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 	/// Icons already built, by sign code, for the current bitmap height.
 	/// Cleared when the height or the sign shapes change.
 	///
-	/// It's a bounded LRU cache: with the "all signs" list and large icons, keeping
-	/// every bitmap would cost too much memory.
+	/// The icons are vector ones and small, but computing their layout for each
+	/// repaint is wasted work. The cache is a bounded LRU one, so that the
+	/// "all signs" list doesn't keep thousands of them.
 	private final Map<String, Icon> iconCache = new LinkedHashMap<>(64, 0.75f, true) {
 		@Override
 		protected boolean removeEldestEntry(Map.Entry<String, Icon> eldest) {

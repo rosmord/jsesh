@@ -59,7 +59,7 @@ export const LAYOUT_SETTINGS: readonly { name: LayoutSettingName; kind: LayoutSe
   { name: "columngap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(8) },
   { name: "quadratgap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(2) },
   { name: "innerquadratgap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(2) },
-  { name: "columnquadratgap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(6) },
+  { name: "columnquadratgap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(2) },
   { name: "cartouchelinewidth", kind: "LENGTH", documentDefault: percentOfDefaultUnit(1) },
   { name: "textbaseline", kind: "LENGTH", documentDefault: percentOfDefaultUnit(4) },
   { name: "underlinegap", kind: "LENGTH", documentDefault: percentOfDefaultUnit(2) },

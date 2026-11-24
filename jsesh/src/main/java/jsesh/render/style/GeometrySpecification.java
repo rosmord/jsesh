@@ -130,7 +130,7 @@ public record GeometrySpecification(
 		double underlineGap, // 2.0
 		double wrapWidth, // 0.0 (no wrapping)
 		double columnHeight, // 0.0 (natural height)
-		double columnQuadratSkip, // 6.0
+		double columnQuadratSkip, // 2.0
 		double unit, // 18.0
 		double smallTextSize // 7.2
 ) {
@@ -168,7 +168,7 @@ public record GeometrySpecification(
 			2.0,
 			0.0,
 			0.0,
-			6.0,
+			2.0,
 			18.0,
 			18.0 * DEFAULT_SMALL_TEXT_RATIO);
 
@@ -294,7 +294,7 @@ public record GeometrySpecification(
 		private double underlineGap; // 2.0;
 		private double wrapWidth; // 0.0;
 		private double columnHeight; // 0.0;
-		private double columnQuadratSkip; // 6.0;
+		private double columnQuadratSkip; // 2.0;
 		private double unit; // 18.0;
 		private double smallTextSize; // 7.2;
 

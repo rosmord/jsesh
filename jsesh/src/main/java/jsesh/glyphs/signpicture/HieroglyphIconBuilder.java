@@ -41,7 +41,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
@@ -110,9 +109,7 @@ public class HieroglyphIconBuilder {
 	 */
 	public BufferedImage buildSignBitmap(CanonicalCode code,
 			IconRenderOptions options) {
-		CanonicalCode actualCode = hasCode(code) ? code : ManuelDeCodage.getInstance().getA1Code();
-		ShapeChar shape = shapeRepository.get(actualCode);
-		return buildSignBitmap(shape, options);
+		return buildSignBitmap(getShapeOrA1(code), options);
 	}
 
 	/**
@@ -146,19 +143,26 @@ public class HieroglyphIconBuilder {
 		}
 	}
 
-	/**
-	 * Creates an icon for a particular hieroglyph.
-	 * 
-	 * @param code
-	 * @return an icon for the glyph.
-	 */
+	/// Creates an icon for a particular hieroglyph.
+	///
+	/// The icon is a vector one: the sign is drawn when the icon is painted, so it
+	/// stays sharp on high resolution screens. If the sign is unknown, A1 is used.
+	///
+	/// @param code    the sign code.
+	/// @param options rendering options.
+	/// @return an icon for the glyph.
 	public Icon createHieroglyphIcon(CanonicalCode code, IconRenderOptions options) {
-		BufferedImage img = buildSignBitmap(code, options);
-		return new ImageIcon(img);
+		ShapeChar shape = getShapeOrA1(code);
+		return new HieroglyphIcon(shape, computeLayout(shape, options), options.transparent());
 	}
 
 	private boolean hasCode(CanonicalCode code) {
 		return shapeRepository.get(code) != null;
+	}
+
+	private ShapeChar getShapeOrA1(CanonicalCode code) {
+		CanonicalCode actualCode = hasCode(code) ? code : ManuelDeCodage.getInstance().getA1Code();
+		return shapeRepository.get(actualCode);
 	}
 
 	private BufferedImage buildSignBitmap(ShapeChar glyph, IconRenderOptions options) {
@@ -171,10 +175,17 @@ public class HieroglyphIconBuilder {
 			colorModel = BufferedImage.TYPE_INT_ARGB;
 			backGroundColor = new Color(0, 0, 0, 0);
 		}
+		SignPictureLayout layout = computeLayout(glyph, options);
+		BufferedImage img = buildCompatibleBitmap(colorModel, layout.width(), layout.height(), options.transparent());
+		drawToBitmap(img, glyph, backGroundColor, layout);
+		return img;
+	}
 
-		// will be the actual dimensions of the bitmap in the end.
-		int bitmapWidth = options.dimension().width();
-		int bitmapHeight = options.dimension().height();
+	/// Computes the size of the picture and the placement of the sign in it.
+	private SignPictureLayout computeLayout(ShapeChar glyph, IconRenderOptions options) {
+		// will be the actual dimensions of the picture in the end.
+		int width = options.dimension().width();
+		int height = options.dimension().height();
 
 		// the projected inner dimensions of the drawing itself (excluding padding).
 		PictureDimension innerDimensions = options.innerDimension();
@@ -189,7 +200,7 @@ public class HieroglyphIconBuilder {
 		// Compute the sign size using this scale.
 		double projectedWidth = startingScale * glyphBBox.getWidth();
 		double projectedHeight = startingScale * glyphBBox.getHeight();
-		// Now, see if it fits in the current bitmap. If not, proceed depending on the
+		// Now, see if it fits in the current picture. If not, proceed depending on the
 		// fit option.
 		if (projectedWidth > innerDimensions.width() || projectedHeight > innerDimensions.height()) {
 			if (options.fit()) {
@@ -198,45 +209,34 @@ public class HieroglyphIconBuilder {
 				scale = Math.min(innerDimensions.width() / glyphBBox.getWidth(),
 						innerDimensions.height() / glyphBBox.getHeight());
 			} else {
-				// Keep the scale, modify the bitmap dimensions to fit the sign.
+				// Keep the scale, modify the picture dimensions to fit the sign.
 				scale = startingScale;
-				bitmapWidth = options.padding() + (int) (1 + projectedWidth);
-				bitmapHeight = options.padding() + (int) (1 + projectedHeight);
+				width = options.padding() + (int) (1 + projectedWidth);
+				height = options.padding() + (int) (1 + projectedHeight);
 			}
 		} else {
 			scale = startingScale;
 		}
-
-		BufferedImage img = buildCompatibleBitmap(colorModel, bitmapWidth, bitmapHeight, options.transparent());
-		drawToBitmap(img, glyph, backGroundColor, bitmapWidth, bitmapHeight, scale);
-		return img;
+		double xOrigin = (width - scale * glyphBBox.getWidth()) / 2.0;
+		double yOrigin = (height - scale * glyphBBox.getHeight()) / 2.0;
+		return new SignPictureLayout(width, height, scale, xOrigin, yOrigin);
 	}
 
-	/**
-	 * Draws a centered glyph in a bitmap.
-	 * Basic utility method, called when everything is computed.
-	 * 
-	 * @param img             the picture to draw on.
-	 * @param glyph           the glyph to draw.
-	 * @param backGroundColor the background color to use for the bitmap.
-	 * @param bitmapWidth     the width of the bitmap to produce.
-	 * @param bitmapHeight    the height of the bitmap to produce.
-	 * @param scale           the scale to apply to the sign.
-	 * @return
-	 */
-	private BufferedImage drawToBitmap(BufferedImage img, ShapeChar glyph, Color backGroundColor, int bitmapWidth,
-			int bitmapHeight, double scale) {
-		double xOrigin = (bitmapWidth - scale * glyph.getBbox().getWidth()) / 2.0;
-		double yOrigin = (bitmapHeight - scale * glyph.getBbox().getHeight()) / 2.0;
-
+	/// Draws a centered glyph in a bitmap.
+	/// Basic utility method, called when everything is computed.
+	///
+	/// @param img             the picture to draw on.
+	/// @param glyph           the glyph to draw.
+	/// @param backGroundColor the background color to use for the bitmap.
+	/// @param layout          the size of the picture and the placement of the sign.
+	private void drawToBitmap(BufferedImage img, ShapeChar glyph, Color backGroundColor, SignPictureLayout layout) {
 		Graphics2D g = img.createGraphics();
 		GraphicsUtils.antialias(g);
 		g.setBackground(backGroundColor);
 		g.setColor(Color.BLACK);
 		g.clearRect(0, 0, img.getWidth(), img.getHeight());
-		glyph.draw(g, xOrigin, yOrigin, scale, scale, 0);
+		glyph.draw(g, layout.xOrigin(), layout.yOrigin(), layout.scale(), layout.scale(), 0);
 		g.dispose();
-		return img;
 	}
 
 	/**

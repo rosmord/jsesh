@@ -101,11 +101,20 @@ public class PalettePresenter {
     /// Step used when the size is changed with the mouse wheel.
     private static final int SIGN_HEIGHT_STEP = 4;
 
-    /// Current height of the signs in the list, in pixels.
+    /// Current height of the signs in the list, in pixels, at 100 %.
     private int signHeight = DEFAULT_SIGN_HEIGHT;
+
+    /// Scale of the user interface (1.5 for 150 %). The displayed signs are
+    /// [#signHeight] × `displayScale` pixels high.
+    private double displayScale = 1.0;
 
     /// Renderer of the sign list (its bitmap height follows [#signHeight]).
     private SignListCellRenderer signListRenderer;
+
+    /// Renderer of the "contains" combo box (fixed sign height, at 100 %).
+    private SignListCellRenderer containsRenderer;
+    /// Height of the signs in the "contains" combo box, at 100 %.
+    private static final int CONTAINS_SIGN_HEIGHT = 20;
 
     private class InsertSignAction extends AbstractAction {
 
@@ -151,6 +160,7 @@ public class PalettePresenter {
     private final ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> shapeRepositoryListener =
             e -> SwingUtilities.invokeLater(() -> {
                 signListRenderer.clearIconCache();
+                containsRenderer.clearIconCache();
                 updateAccordingToSelectedCategory();
             });
 
@@ -212,13 +222,7 @@ public class PalettePresenter {
         slider.setMaximum(MAX_SIGN_HEIGHT);
         slider.addChangeListener(e -> setSignHeight(slider.getValue()));
 
-        // Legend: a small and a large A1.
-        HieroglyphIconBuilder legendBuilder = new HieroglyphIconBuilder(hieroglyphicFontManager, simplePalette);
-        CanonicalCode a1 = ManuelDeCodage.getInstance().getCanonicalCode("A1");
-        simplePalette.getSmallSignSizeLabel().setIcon(legendBuilder.createHieroglyphIcon(a1,
-                IconRenderOptions.DEFAULT.copy().transparent(true).dimension(12, 12).padding(0).build()));
-        simplePalette.getLargeSignSizeLabel().setIcon(legendBuilder.createHieroglyphIcon(a1,
-                IconRenderOptions.DEFAULT.copy().transparent(true).dimension(20, 20).padding(0).build()));
+        updateLegendIcons();
 
         JList<String> signTable = simplePalette.getSignTable();
         // A wheel listener on the list would hide the wheel events from the scroll pane,
@@ -244,11 +248,46 @@ public class PalettePresenter {
         applySignHeight(clampSignHeight(stored));
     }
 
+    /// Legend of the size slider: a small and a large A1, following [#displayScale].
+    private void updateLegendIcons() {
+        HieroglyphIconBuilder legendBuilder = new HieroglyphIconBuilder(hieroglyphicFontManager, simplePalette);
+        CanonicalCode a1 = ManuelDeCodage.getInstance().getCanonicalCode("A1");
+        int small = scaled(12);
+        int large = scaled(20);
+        simplePalette.getSmallSignSizeLabel().setIcon(legendBuilder.createHieroglyphIcon(a1,
+                IconRenderOptions.DEFAULT.copy().transparent(true).dimension(small, small).padding(0).build()));
+        simplePalette.getLargeSignSizeLabel().setIcon(legendBuilder.createHieroglyphIcon(a1,
+                IconRenderOptions.DEFAULT.copy().transparent(true).dimension(large, large).padding(0).build()));
+    }
+
+    /// A size at 100 %, multiplied by [#displayScale].
+    private int scaled(int size) {
+        return (int) Math.round(size * displayScale);
+    }
+
     private static int clampSignHeight(int height) {
         return Math.max(MIN_SIGN_HEIGHT, Math.min(MAX_SIGN_HEIGHT, height));
     }
 
-    /// Returns the current height of the signs in the list, in pixels.
+    /// Sets the scale of the user interface, which multiplies the sign height.
+    ///
+    /// The sign height chosen by the user (slider, preferences) is given at 100 %;
+    /// an application which scales its interface (e.g. with FlatLaf's
+    /// `flatlaf.uiScale`) passes its factor here so that the palette follows.
+    ///
+    /// @param displayScale the scale factor (1 for no scaling); values ≤ 0 are ignored.
+    public void setDisplayScale(double displayScale) {
+        if (displayScale > 0 && displayScale != this.displayScale) {
+            this.displayScale = displayScale;
+            applySignHeight(signHeight);
+            updateLegendIcons();
+            containsRenderer.setBitmapHeight(scaled(CONTAINS_SIGN_HEIGHT));
+            simplePalette.getContainsCB().revalidate();
+        }
+    }
+
+    /// Returns the current height of the signs in the list, in pixels, at 100 %
+    /// (see [#setDisplayScale(double)]).
     public int getSignHeight() {
         return signHeight;
     }
@@ -271,11 +310,12 @@ public class PalettePresenter {
 
     private void applySignHeight(int height) {
         signHeight = height;
-        signListRenderer.setBitmapHeight(height);
+        int displayedHeight = scaled(height);
+        signListRenderer.setBitmapHeight(displayedHeight);
         JList<String> signTable = simplePalette.getSignTable();
         String selected = signTable.getSelectedValue();
-        signTable.setFixedCellHeight((int) (height * 1.2));
-        signTable.setFixedCellWidth((int) (2.5 * height));
+        signTable.setFixedCellHeight((int) (displayedHeight * 1.2));
+        signTable.setFixedCellWidth((int) (2.5 * displayedHeight));
         javax.swing.JSlider slider = simplePalette.getSignSizeSlider();
         if (slider.getValue() != height) {
             slider.setValue(height);
@@ -363,11 +403,11 @@ public class PalettePresenter {
 
         signTable.setInputMap(JComponent.WHEN_FOCUSED, newInputMap);
 
-        SignListCellRenderer smallListRenderer = new SignListCellRenderer(
+        containsRenderer = new SignListCellRenderer(
                 simplePalette, hieroglyphicFontManager);
-        smallListRenderer.setDisplaySignsCodes(true);
-        smallListRenderer.setBitmapHeight(20);
-        simplePalette.getContainsCB().setRenderer(smallListRenderer);
+        containsRenderer.setDisplaySignsCodes(true);
+        containsRenderer.setBitmapHeight(scaled(CONTAINS_SIGN_HEIGHT));
+        simplePalette.getContainsCB().setRenderer(containsRenderer);
         simplePalette.getContainsCB().setPrototypeDisplayValue(new DataListItem<String>("A1"));
 
         ActionMap newActionMap = new ActionMap();

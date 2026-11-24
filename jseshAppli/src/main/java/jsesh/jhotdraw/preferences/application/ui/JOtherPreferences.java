@@ -71,8 +71,8 @@ public class JOtherPreferences {
     };
 
     private JPanel panel;
-    private JFormattedTextField iconHeight;
     private JComboBox<LocaleItem> localeSelector;
+    private JComboBox<Float> uiScaleSelector;
     private JComboBox<ArrowKeyPolicies> arrowKeyPolicy;
     private JComboBox<String> arrowKeys;
 
@@ -85,8 +85,18 @@ public class JOtherPreferences {
 
     private void init() {
         panel = new JPanel();
-        iconHeight= new JFormattedTextField();
-        iconHeight.setValue(30);
+        uiScaleSelector = new JComboBox<>();
+        for (float scale : ApplicationUIPreferences.AVAILABLE_UI_SCALES) {
+            uiScaleSelector.addItem(scale);
+        }
+        uiScaleSelector.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value,
+                    int index, boolean isSelected, boolean cellHasFocus) {
+                return super.getListCellRendererComponent(list, uiScaleLabel((Float) value),
+                        index, isSelected, cellHasFocus);
+            }
+        });
         localeSelector = new JComboBox<>();
         for (Locale locale : AVAILABLE_LOCALES) {
             localeSelector.addItem(new LocaleItem(locale));
@@ -111,10 +121,9 @@ public class JOtherPreferences {
     private void layout() {
         panel.setLayout(new MigLayout());
         PanelBuilder helper = new PanelBuilder(panel);
-        helper.addLabel("otherPrefs.iconHeight.label");
-        panel.add(iconHeight, "span, grow, wrap");
-        JLabel comment= new JLabel(JSeshMessages.getString("otherPrefs.iconHeight.comment"));
-        panel.add(comment, "span, grow, wrap");
+        helper.addLabel("otherPrefs.uiScale.label");
+        panel.add(uiScaleSelector, "span, grow, wrap");
+        panel.add(new JLabel(JSeshMessages.getString("otherPrefs.uiScale.comment")), "span, grow, wrap");
         helper.addLabel("otherPrefs.locale.label");
         panel.add(localeSelector, "span, grow, wrap");
         JLabel localeComment= new JLabel(JSeshMessages.getString("otherPrefs.locale.comment"));
@@ -133,7 +142,7 @@ public class JOtherPreferences {
 
     public void loadPreferences() {
         ApplicationUIPreferences prefs = ApplicationUIPreferences.getFromPreferences();
-        iconHeight.setValue(prefs.getIconHeight());
+        uiScaleSelector.setSelectedItem(closestAvailableScale(prefs.getUiScale()));
         localeSelector.setSelectedItem(new LocaleItem(prefs.getLocale()));
         arrowKeyPolicy.setSelectedItem(ArrowKeyPreferences.getPolicy());
         arrowKeys.setSelectedIndex(ArrowKeyPreferences.getDefaultDirection().isLeftToRight() ? 0 : 1);
@@ -141,13 +150,37 @@ public class JOtherPreferences {
 
     void savePreferences() {
         ApplicationUIPreferences prefs = new ApplicationUIPreferences();
-        prefs.setIconHeight((Integer)iconHeight.getValue());
+        Float scale = (Float) uiScaleSelector.getSelectedItem();
+        prefs.setUiScale(scale == null ? 0f : scale);
         LocaleItem selected = (LocaleItem) localeSelector.getSelectedItem();
         prefs.setLocale(selected == null ? null : selected.getLocale());
         prefs.savetoPreferences();
         ArrowKeyPreferences.setPolicy((ArrowKeyPolicies) arrowKeyPolicy.getSelectedItem());
         ArrowKeyPreferences.setDefaultDirection(arrowKeys.getSelectedIndex() == 0
                 ? TextDirection.LEFT_TO_RIGHT : TextDirection.RIGHT_TO_LEFT);
+    }
+
+    /// Label of a scale in the selector: "Automatic", or a percentage.
+    private static String uiScaleLabel(Float scale) {
+        if (scale == null) {
+            return "";
+        }
+        if (scale <= 0) {
+            return JSeshMessages.getString("otherPrefs.uiScale.automatic");
+        }
+        return Math.round(scale * 100) + " %";
+    }
+
+    /// The proposed scale nearest to `scale` (a value from the preferences may
+    /// not be one of them).
+    private static Float closestAvailableScale(float scale) {
+        float best = 0f;
+        for (float candidate : ApplicationUIPreferences.AVAILABLE_UI_SCALES) {
+            if (Math.abs(candidate - scale) < Math.abs(best - scale)) {
+                best = candidate;
+            }
+        }
+        return best;
     }
 
     /**

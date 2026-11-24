@@ -61,7 +61,7 @@ describe("layout settings in the header", () => {
     expect(map["JSesh_unit"]).toBe("18");
     expect(map["JSesh_layout"]).toBe("columns");
     expect(map["JSesh_linegap"]).toBe("50");
-    expect(map["JSesh_columnquadratgap"]).toBe("33.333333");
+    expect(map["JSesh_columnquadratgap"]).toBe("11.111111");
     expect(map["JSesh_fitsigns"]).toBe("yes");
     expect(map["JSesh_line_skip"]).toBe("9.0");
     expect(map["JSesh_page_orientation"]).toBe("VERTICAL");

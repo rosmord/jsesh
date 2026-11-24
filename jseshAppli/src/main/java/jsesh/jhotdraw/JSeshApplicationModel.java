@@ -201,8 +201,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
 
     private boolean canOpenNewView = true;
 
-    public JSeshApplicationModel(HieroglyphResources hieroglyphResources, UserFontDirectoryManager userFontDirectoryManager, GlossaryManager glossaryManager) {
-        this.jseshApplicationCore = new JSeshApplicationCore(hieroglyphResources, userFontDirectoryManager, glossaryManager);
+    public JSeshApplicationModel(HieroglyphResources hieroglyphResources, UserFontDirectoryManager userFontDirectoryManager, GlossaryManager glossaryManager, MDCIconFactory mdcIconFactory) {
+        this.jseshApplicationCore = new JSeshApplicationCore(hieroglyphResources, userFontDirectoryManager, glossaryManager, mdcIconFactory);
         this.jseshApplicationCore.setFrontEnd(this);
     }
 

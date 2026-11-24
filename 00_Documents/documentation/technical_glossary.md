@@ -32,11 +32,11 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   mark, caret granularity, alphabetic text, superscript, sign id
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
 - [Signs and fonts](#signs-and-fonts): embedded sign, Gardiner code, phonetic code, shape
-  repository, hieroglyph database, glossary, hieroglyph resources, possibility list
+  repository, sign icon, hieroglyph database, glossary, hieroglyph resources, possibility list
 - [Rendering](#rendering): style, render context, layout unit, view, layout, lone sign
   fitting, text geometry, device
 - [Editor and user interface](#editor-and-user-interface): document, text model, workflow,
-  action id, labels
+  action id, labels, interface scale, nominal size, palette sign height
 - [Project and build](#project-and-build): modules, JS port, fixtures, genuine singletons
 
 ---
@@ -552,6 +552,16 @@ are composable (`CompositeHieroglyphShapeRepository`: first font that has the si
 or read a directory (`DirectoryHieroglyphShapeRepository`: the file name is the code), or
 the built-in fonts (`PredefinedFonts`).
 
+### Sign icon
+
+The picture of a *single* sign, shown in the palette, the hieroglyphic menus and the sign
+information tool. Built by `HieroglyphIconBuilder.createHieroglyphIcon`, which returns a
+**vector** icon (`HieroglyphIcon`): the sign is drawn when the icon is painted, so it stays
+sharp at any screen scale. Its size and the placement of the sign are computed once
+(`SignPictureLayout`), and shared with `buildSignBitmap`, the bitmap version. Not to be
+confused with the icons of menus and toolbars, which show *MdC text* (cartouche, shading...):
+those come from `MDCIconFactory` and are `ImageIcon`s holding a multi-resolution image.
+
 ---
 
 ## Rendering
@@ -639,10 +649,35 @@ Three levels, see §4 of [programmer_documentation.md](programmer_documentation.
 `HieroglyphicText` (the text), `MDCDocument` (text plus file metadata), and
 `HieroglyphicTextModel` (a live, observable, undoable wrapper used by the editor).
 
+### Interface scale
+
+The factor by which the whole Swing interface is enlarged (1.5 for 150 %); one single user
+setting, in the "Interface" tab of the preferences (`ApplicationUIPreferences.UI_SCALE`,
+0 = automatic). `Main` turns it into FlatLaf's `flatlaf.uiScale` system property *before any
+component exists*, so it only takes effect at the next startup. It is *not* the screen's
+HiDPI scale (which the system and Java handle on their own), and it does not touch the
+fonts of the documents. Code which draws by itself, or sizes things in pixels, multiplies
+by it (`UIScale.scale(...)` in `jseshAppli`; `PalettePresenter.setDisplayScale` in the
+library, which does not depend on FlatLaf).
+
 ### Labels
 
 All user-visible strings live in the `jseshLabels` module, one `labels_xx.properties` per
 language. Add text there, not inline.
+
+### Nominal size
+
+A size given "at 100 %", in pixels, before the [interface scale](#interface-scale) is
+applied: the icon height of the preferences, the palette sign height. What is displayed is
+nominal size × interface scale. Stored preferences are always nominal.
+
+### Palette sign height
+
+The height of the signs in the hieroglyphic palette's list, a nominal size
+(`PalettePresenter.setSignHeight`, 24 to 120, 50 by default). Set with the slider under the
+list or Cmd/Ctrl + mouse wheel on it, and stored in the preferences (`paletteSignHeight`)
+by the presenter itself, so every application embedding the palette gets it. The
+"contains" combo box and the slider's legend have their own fixed (nominal) sizes.
 
 ### Workflow
 

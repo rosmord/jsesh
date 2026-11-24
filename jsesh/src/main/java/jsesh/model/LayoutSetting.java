@@ -60,7 +60,7 @@ public enum LayoutSetting {
     /// [jsesh.io.document.DocumentHeaderCodec]).
     INNER_QUADRAT_GAP("innerquadratgap", Kind.LENGTH, Kind.percentOfDefaultUnit(2)),
     /// The space between two quadrats of a column.
-    COLUMN_QUADRAT_GAP("columnquadratgap", Kind.LENGTH, Kind.percentOfDefaultUnit(6)),
+    COLUMN_QUADRAT_GAP("columnquadratgap", Kind.LENGTH, Kind.percentOfDefaultUnit(2)),
     /// The thickness of the line of cartouches (and of the frame of zones).
     CARTOUCHE_LINE_WIDTH("cartouchelinewidth", Kind.LENGTH, Kind.percentOfDefaultUnit(1)),
     /// The height of the baseline of alphabetic text above the bottom of the

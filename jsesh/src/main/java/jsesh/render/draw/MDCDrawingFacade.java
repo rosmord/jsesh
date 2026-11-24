@@ -101,8 +101,19 @@ public class MDCDrawingFacade {
 	 * @throws MDCSyntaxError
 	 */
 	public BufferedImage createImage(String mdcCodes) throws MDCSyntaxError {
+		return createImage(mdcCodes, 1.0);
+	}
+
+	/// Generates a picture for some MdC text, with more pixels than its nominal size.
+	///
+	/// @param mdcCodes   the text to draw.
+	/// @param pixelScale the number of actual pixels per nominal pixel; see
+	///                   [#createImage(HieroglyphicText, double)].
+	/// @return an image of the text.
+	/// @throws MDCSyntaxError if the text can't be parsed.
+	public BufferedImage createImage(String mdcCodes, double pixelScale) throws MDCSyntaxError {
 		HieroglyphicText t = buildHieroglyphicText(mdcCodes);
-		return createImage(t);
+		return createImage(t, pixelScale);
 	}
 
 	/**
@@ -112,6 +123,19 @@ public class MDCDrawingFacade {
 	 * @return a new bufferedImage.
 	 */
 	public BufferedImage createImage(HieroglyphicText t) {
+		return createImage(t, 1.0);
+	}
+
+	/// Generates a picture for a text, with more pixels than its nominal size.
+	///
+	/// Used for high resolution screens: with a `pixelScale` of 2, the picture has the
+	/// same layout as with [#createImage(HieroglyphicText)], but twice as many pixels
+	/// in each direction.
+	///
+	/// @param t          the text to draw.
+	/// @param pixelScale the number of actual pixels per nominal pixel (1 for a normal screen).
+	/// @return a new bufferedImage, of size (nominal size × `pixelScale`).
+	public BufferedImage createImage(HieroglyphicText t, double pixelScale) {
 		// First, create a dummy picture to compute the target image size.
 
 		BufferedImage dummy = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
@@ -131,11 +155,14 @@ public class MDCDrawingFacade {
 			height = maxHeight;
 
 		// Now, build the actual image.
-		result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		int pixelWidth = Math.max(1, (int) Math.ceil(width * pixelScale));
+		int pixelHeight = Math.max(1, (int) Math.ceil(height * pixelScale));
+		result = new BufferedImage(pixelWidth, pixelHeight, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) result.getGraphics();
 		g.setBackground(Color.WHITE);
-		g.clearRect(0, 0, width, height);
+		g.clearRect(0, 0, pixelWidth, pixelHeight);
 		GraphicsUtils.antialias(g);
+		g.scale(pixelScale, pixelScale);
 		viewAndBounds.draw(g, jSeshRenderContext, techRenderContext);
 		g.dispose();
 		g0.dispose();

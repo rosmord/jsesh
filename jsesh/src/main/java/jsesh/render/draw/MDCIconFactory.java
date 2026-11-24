@@ -1,5 +1,9 @@
 package jsesh.render.draw;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.image.BaseMultiResolutionImage;
 import java.awt.image.BufferedImage;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
@@ -63,13 +67,16 @@ public class MDCIconFactory {
             imageIcon = iconMap.get(mdcText).get();
         }
         if (imageIcon == null) {
-            BufferedImage bufferedImage = null;
+            double screenScale = getScreenScale();
             try {
-                bufferedImage = mdcDrawingFacade.createImage(mdcText);
+                BufferedImage base = mdcDrawingFacade.createImage(mdcText);
+                BufferedImage hiDpi = screenScale > 1
+                        ? mdcDrawingFacade.createImage(mdcText, screenScale)
+                        : null;
+                imageIcon = new ImageIcon(combine(base, hiDpi));
             } catch (MDCSyntaxError e) {
                 throw new RuntimeException("Error when parsing " + mdcText, e);
             }
-            imageIcon = new ImageIcon(bufferedImage);
             iconMap.put(mdcText, new SoftReference<>(imageIcon));
         }
         return imageIcon;
@@ -99,17 +106,43 @@ public class MDCIconFactory {
             imageIcon = iconMap.get(code).get();
         }
         if (imageIcon == null) {
-            BufferedImage bufferedImage;
-
             HieroglyphicText text = new HieroglyphicText();
             text.addTopItem(new Hieroglyph(code).buildTopItem());
-            bufferedImage = mdcDrawingFacade.createImage(text);
-
-            imageIcon = new ImageIcon(bufferedImage);
+            double screenScale = getScreenScale();
+            BufferedImage base = mdcDrawingFacade.createImage(text);
+            BufferedImage hiDpi = screenScale > 1
+                    ? mdcDrawingFacade.createImage(text, screenScale)
+                    : null;
+            imageIcon = new ImageIcon(combine(base, hiDpi));
             iconMap.put(code, new SoftReference<>(imageIcon));
         }
 
         return imageIcon;
+    }
+
+    /// Wraps the nominal picture and its high resolution version (if any) in one image.
+    ///
+    /// Swing picks the variant which matches the screen when it paints the icon,
+    /// so the icon is sharp on Retina or scaled Windows screens; its size, for
+    /// layout, is the nominal one.
+    private static Image combine(BufferedImage base, BufferedImage hiDpi) {
+        if (hiDpi == null) {
+            return base;
+        }
+        return new BaseMultiResolutionImage(base, hiDpi);
+    }
+
+    /// The largest pixel scale of the connected screens (2 for a Retina screen,
+    /// 1.5 for Windows at 150 %...), or 1 if there is no screen.
+    private static double getScreenScale() {
+        if (GraphicsEnvironment.isHeadless()) {
+            return 1;
+        }
+        double scale = 1;
+        for (GraphicsDevice device : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
+            scale = Math.max(scale, device.getDefaultConfiguration().getDefaultTransform().getScaleX());
+        }
+        return scale;
     }
 
     /**
