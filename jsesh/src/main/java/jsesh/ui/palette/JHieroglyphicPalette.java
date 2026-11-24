@@ -28,11 +28,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import org.qenherkhopeshef.swingUtils.lists.ListItem;
 
 import jsesh.glyphs.signdata.HieroglyphFamily;
+import jsesh.resources.JSeshMessages;
 import jsesh.utils.swing.OrientationUtils;
 import net.miginfocom.swing.MigLayout;
 
@@ -66,6 +69,9 @@ public class JHieroglyphicPalette extends JPanel {
     private JList<String> signTable;
     private JComboBox<String> tagChooserCB;
     private JTextField translitterationFilterField;
+    private JSlider signSizeSlider;
+    private JLabel smallSignSizeLabel;
+    private JLabel largeSignSizeLabel;
 
     /** Creates new form JSimplePalette */
     public JHieroglyphicPalette() {
@@ -99,6 +105,9 @@ public class JHieroglyphicPalette extends JPanel {
         jSeparator1 = new JSeparator();
         backButton = new JButton();
         containsCB = new JComboBox<>();
+        signSizeSlider = new JSlider();
+        smallSignSizeLabel = new JLabel();
+        largeSignSizeLabel = new JLabel();
 
         showContainingButtons.setIcon(new ImageIcon(getClass().getResource("/jsesh/ui/palette/partof.png"))); // NOI18N
         showContainingButtons.setToolTipText("Display signs which contain the selected sign");
@@ -117,7 +126,11 @@ public class JHieroglyphicPalette extends JPanel {
 
         jLabel1.setText("Search");
 
-        glyphCodeLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // Or take standard and change size.
+        // Derived from the look and feel's font, so that it follows the interface scale.
+        java.awt.Font labelFont = UIManager.getFont("Label.font");
+        if (labelFont != null) {
+            glyphCodeLabel.setFont(labelFont.deriveFont(labelFont.getSize2D() * 1.4f));
+        }
         glyphCodeLabel.setText("        ");
 
         glyphPictureLabel.setBackground(java.awt.Color.WHITE);
@@ -167,10 +180,17 @@ public class JHieroglyphicPalette extends JPanel {
         add(jPanel1, "aligny top");
         add(jScrollPane1, "grow, h 108!, wrap");
 
-        add(showVariantsButton, "span 2, split 4");
+        // The range and value of the slider are set by the presenter.
+        signSizeSlider.setFocusable(false);
+        signSizeSlider.setToolTipText(JSeshMessages.getString("palette.signSize.tooltip"));
+
+        add(showVariantsButton, "span 2, split 7");
         add(inUserPaletteCheckBox);
         add(backButton);
-        add(showContainingButtons, "gapleft push");
+        add(smallSignSizeLabel, "gapleft push, gapright 0");
+        add(signSizeSlider, "w 60:100:140, gapleft 0, gapright 0");
+        add(largeSignSizeLabel, "gapleft 0");
+        add(showContainingButtons, "gapleft unrel");
         
         OrientationUtils.fixComponentOrientation(this);
     }
@@ -229,5 +249,20 @@ public class JHieroglyphicPalette extends JPanel {
 
     public JComboBox<ListItem<String>> getContainsCB() {
         return containsCB;
+    }
+
+    /// The slider which sets the height of the signs in the list.
+    public JSlider getSignSizeSlider() {
+        return signSizeSlider;
+    }
+
+    /// Legend of the size slider, on the "small" side.
+    public JLabel getSmallSignSizeLabel() {
+        return smallSignSizeLabel;
+    }
+
+    /// Legend of the size slider, on the "large" side.
+    public JLabel getLargeSignSizeLabel() {
+        return largeSignSizeLabel;
     }
 }

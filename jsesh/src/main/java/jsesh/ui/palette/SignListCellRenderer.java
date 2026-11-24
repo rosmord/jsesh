@@ -1,8 +1,11 @@
 package jsesh.ui.palette;
 
 import java.awt.Component;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.Icon;
 import javax.swing.JList;
 
 import org.qenherkhopeshef.swingUtils.lists.DataListItem;
@@ -23,6 +26,20 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 	private Component parent = null;
 	private boolean displaySignsCodes = false;
 	private HieroglyphShapeRepository hieroglyphicFontManager;
+	/// Maximal number of icons kept in [#iconCache].
+	private static final int ICON_CACHE_SIZE = 600;
+
+	/// Icons already built, by sign code, for the current bitmap height.
+	/// Cleared when the height or the sign shapes change.
+	///
+	/// It's a bounded LRU cache: with the "all signs" list and large icons, keeping
+	/// every bitmap would cost too much memory.
+	private final Map<String, Icon> iconCache = new LinkedHashMap<>(64, 0.75f, true) {
+		@Override
+		protected boolean removeEldestEntry(Map.Entry<String, Icon> eldest) {
+			return size() > ICON_CACHE_SIZE;
+		}
+	};
 
 	public SignListCellRenderer(Component parent, HieroglyphShapeRepository hieroglyphicFontManager) {
 		this.parent = parent;
@@ -60,13 +77,22 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 		} else {
 			setText("");
 		}
+		setIcon(iconCache.computeIfAbsent(code, this::buildIcon));
+	}
+
+	private Icon buildIcon(String code) {
 		HieroglyphIconBuilder hieroglyphIconBuilder = new HieroglyphIconBuilder(hieroglyphicFontManager,
 				parent);
 		IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
 				.fit(true)
 				.dimension(getIconSize()).padding(border).build();
-		CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);				
-		setIcon(hieroglyphIconBuilder.createHieroglyphIcon(canonicalCode, renderOptions));
+		CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
+		return hieroglyphIconBuilder.createHieroglyphIcon(canonicalCode, renderOptions);
+	}
+
+	/// Forgets the icons already built (call it when the sign shapes change).
+	public void clearIconCache() {
+		iconCache.clear();
 	}
 
 	// TODO : unify the computation of icon size aspect ratio.
@@ -81,7 +107,10 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 	}
 
 	public void setBitmapHeight(int bitmapHeight) {
-		this.bitmapHeight = bitmapHeight;
+		if (this.bitmapHeight != bitmapHeight) {
+			this.bitmapHeight = bitmapHeight;
+			iconCache.clear();
+		}
 	}
 
 	public void setDisplaySignsCodes(boolean displaySignsCodes) {

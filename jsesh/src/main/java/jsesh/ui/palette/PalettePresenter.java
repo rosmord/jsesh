@@ -1,10 +1,12 @@
 package jsesh.ui.palette;
 
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -56,6 +58,7 @@ import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.HieroglyphFamily;
 import jsesh.glyphs.signdata.SignDescriptionConstants;
 import jsesh.glyphs.signpicture.HieroglyphIconBuilder;
+import jsesh.glyphs.signpicture.IconRenderOptions;
 import jsesh.signcodes.CanonicalCode;
 import jsesh.signcodes.GardinerCode;
 import jsesh.signcodes.ManuelDeCodage;
@@ -87,10 +90,22 @@ public class PalettePresenter {
     private static final String LOW_BROAD_SIGNS = "Low Broad Signs";
     private static final String LOW_NARROW_SIGNS = "Low Narrow Signs";
 
-    /**
-     * Height of glyphs in the displayed list.
-     */
-    private final int LIST_CELL_HEIGHT = 50;
+    /// Preference key for the height of the signs in the list.
+    private static final String SIGN_HEIGHT_PREF = "paletteSignHeight";
+    /// Smallest height of the signs in the list, in pixels.
+    public static final int MIN_SIGN_HEIGHT = 24;
+    /// Largest height of the signs in the list, in pixels.
+    public static final int MAX_SIGN_HEIGHT = 120;
+    /// Default height of the signs in the list, in pixels.
+    public static final int DEFAULT_SIGN_HEIGHT = 50;
+    /// Step used when the size is changed with the mouse wheel.
+    private static final int SIGN_HEIGHT_STEP = 4;
+
+    /// Current height of the signs in the list, in pixels.
+    private int signHeight = DEFAULT_SIGN_HEIGHT;
+
+    /// Renderer of the sign list (its bitmap height follows [#signHeight]).
+    private SignListCellRenderer signListRenderer;
 
     private class InsertSignAction extends AbstractAction {
 
@@ -134,7 +149,10 @@ public class PalettePresenter {
     private final HieroglyphShapeRepository hieroglyphicFontManager;
 
     private final ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> shapeRepositoryListener =
-            e -> SwingUtilities.invokeLater(this::updateAccordingToSelectedCategory);
+            e -> SwingUtilities.invokeLater(() -> {
+                signListRenderer.clearIconCache();
+                updateAccordingToSelectedCategory();
+            });
 
     /**
      * Signs already got from the palette, for faster retrieval.
@@ -184,6 +202,89 @@ public class PalettePresenter {
 
     public void dispose() {
         hieroglyphicFontManager.removeListener(shapeRepositoryListener);
+    }
+
+    /// Sets up the size slider, its legend, and Cmd/Ctrl + wheel on the sign list,
+    /// and applies the size stored in the preferences.
+    private void prepareSignSizeControls() {
+        javax.swing.JSlider slider = simplePalette.getSignSizeSlider();
+        slider.setMinimum(MIN_SIGN_HEIGHT);
+        slider.setMaximum(MAX_SIGN_HEIGHT);
+        slider.addChangeListener(e -> setSignHeight(slider.getValue()));
+
+        // Legend: a small and a large A1.
+        HieroglyphIconBuilder legendBuilder = new HieroglyphIconBuilder(hieroglyphicFontManager, simplePalette);
+        CanonicalCode a1 = ManuelDeCodage.getInstance().getCanonicalCode("A1");
+        simplePalette.getSmallSignSizeLabel().setIcon(legendBuilder.createHieroglyphIcon(a1,
+                IconRenderOptions.DEFAULT.copy().transparent(true).dimension(12, 12).padding(0).build()));
+        simplePalette.getLargeSignSizeLabel().setIcon(legendBuilder.createHieroglyphIcon(a1,
+                IconRenderOptions.DEFAULT.copy().transparent(true).dimension(20, 20).padding(0).build()));
+
+        JList<String> signTable = simplePalette.getSignTable();
+        // A wheel listener on the list would hide the wheel events from the scroll pane,
+        // so plain wheel events are passed on to it.
+        signTable.addMouseWheelListener(e -> {
+            int shortcutMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
+            if ((e.getModifiersEx() & shortcutMask) != 0) {
+                int steps = e.getWheelRotation();
+                if (steps != 0) {
+                    // Wheel "up" (negative rotation) enlarges the signs.
+                    setSignHeight(signHeight - steps * SIGN_HEIGHT_STEP);
+                }
+                e.consume();
+            } else {
+                JScrollPane scrollPane = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, signTable);
+                if (scrollPane != null) {
+                    scrollPane.dispatchEvent(SwingUtilities.convertMouseEvent(signTable, e, scrollPane));
+                }
+            }
+        });
+
+        int stored = JSeshPreferencesRoot.getPreferences().getInt(SIGN_HEIGHT_PREF, DEFAULT_SIGN_HEIGHT);
+        applySignHeight(clampSignHeight(stored));
+    }
+
+    private static int clampSignHeight(int height) {
+        return Math.max(MIN_SIGN_HEIGHT, Math.min(MAX_SIGN_HEIGHT, height));
+    }
+
+    /// Returns the current height of the signs in the list, in pixels.
+    public int getSignHeight() {
+        return signHeight;
+    }
+
+    /// Sets the height of the signs in the list, and stores it in the preferences.
+    ///
+    /// The value is clamped between [#MIN_SIGN_HEIGHT] and [#MAX_SIGN_HEIGHT].
+    ///
+    /// @param height the new height, in pixels.
+    public void setSignHeight(int height) {
+        int newHeight = clampSignHeight(height);
+        if (newHeight == signHeight) {
+            return;
+        }
+        applySignHeight(newHeight);
+        // No sync() here: it would hit the disk at each step of the slider.
+        // The preferences are flushed when the JVM exits.
+        JSeshPreferencesRoot.getPreferences().putInt(SIGN_HEIGHT_PREF, newHeight);
+    }
+
+    private void applySignHeight(int height) {
+        signHeight = height;
+        signListRenderer.setBitmapHeight(height);
+        JList<String> signTable = simplePalette.getSignTable();
+        String selected = signTable.getSelectedValue();
+        signTable.setFixedCellHeight((int) (height * 1.2));
+        signTable.setFixedCellWidth((int) (2.5 * height));
+        javax.swing.JSlider slider = simplePalette.getSignSizeSlider();
+        if (slider.getValue() != height) {
+            slider.setValue(height);
+        }
+        signTable.revalidate();
+        signTable.repaint();
+        if (selected != null) {
+            SwingUtilities.invokeLater(() -> signTable.ensureIndexIsVisible(signTable.getSelectedIndex()));
+        }
     }
 
     // Link the graphic component to its logic.
@@ -242,15 +343,12 @@ public class PalettePresenter {
             filterFromContainsCB();
         });
         // Sign table
-        SignListCellRenderer renderer = new SignListCellRenderer(simplePalette, this.hieroglyphicFontManager);
-        renderer.setBitmapHeight(LIST_CELL_HEIGHT);
+        signListRenderer = new SignListCellRenderer(simplePalette, this.hieroglyphicFontManager);
 
         JList<String> signTable = simplePalette.getSignTable();
         // Aspect and drawing related stuff.
-        signTable.setCellRenderer(renderer);
-        // signTable.setPrototypeCellValue("A248B");
-        signTable.setFixedCellHeight((int) (LIST_CELL_HEIGHT * 1.2));
-        signTable.setFixedCellWidth((int) (2.5 * LIST_CELL_HEIGHT));
+        signTable.setCellRenderer(signListRenderer);
+        prepareSignSizeControls();
 
         signTable.getSelectionModel().addListSelectionListener(
                 new PaletteRowSelectionListener());
