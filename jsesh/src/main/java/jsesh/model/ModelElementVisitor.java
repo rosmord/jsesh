@@ -34,5 +34,7 @@ public interface ModelElementVisitor {
 	void visitZoneContent(ZoneContent content);
 	void visitComplexLigature(ComplexLigature ligature);
 	void visitInsert(Insert insert);
+
+	void visitStack(Stack stack);
 	void visitKerning(Kerning kerning);
 }

@@ -17,6 +17,7 @@ Licenses for the various libraries used by JSesh can be found in resources/licen
 - JSesh source code itself is licenced under the [CECILL-C](https://cecill.info/licences/Licence_CeCILL-C_V1-en.txt) license, which is roughly equivalent to the LGPL.
 - some files are explicitly licenced under more permissive licenses (CC0 and CC-BY-SA). See the headers of those files for details.
 - the file `jsesh/src/main/resources/jsesh/glyphs/resources/signs_description.xml` is licensed under [CC-BY](https://creativecommons.org/licenses/by/4.0/).
+- the file `./jsesh/src/main/resources/jsesh/model/unicode/namemdc.csv` is licenced under the LGPL, and is kindly provided by Mark-Jan Nederhof (from [his HieroPy package](https://github.com/nederhof/hieropy))
 
 - JSesh fonts drawn by Serge J.-P. Thomas are distributed with the following license:
 

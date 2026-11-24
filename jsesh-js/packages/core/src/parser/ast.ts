@@ -122,6 +122,15 @@ export interface AstInsert {
   secondItems: AstBasicItemList;
 }
 
+/// Two groups drawn one over the other, `%stack(g1,g2)`: the group version of `a##b`.
+export interface AstStack {
+  nodeType: "Stack";
+  /** The first argument: any group (including another stack). */
+  firstItems: AstBasicItemList;
+  /** The second argument, in text order. */
+  secondItems: AstBasicItemList;
+}
+
 export type KerningAxis = "HORIZONTAL" | "VERTICAL";
 
 /// A kerning operator, `%hkern` or `%vkern`, written where a group could be:
@@ -142,6 +151,7 @@ export type AstInnerGroup =
   | AstPhilology
   | AstAbsoluteGroup
   | AstInsert
+  | AstStack
   | AstKerning;
 
 export interface AstComplexLigature {

@@ -20,6 +20,7 @@ import org.qenherkhopeshef.utils.PlatformDetection;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.util.UIScale;
 
 import jsesh.Version;
 import jsesh.defaults.HieroglyphResources;
@@ -52,6 +53,9 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
     // Logging
     private static final Logger LOGGER = Logger.getLogger(JSeshStartup.class.getName());
 
+    /// Height of the icons of the actions (toolbar...), at 100 % interface scale.
+    public static final int ACTION_ICON_HEIGHT = 30;
+
     public final static String NAME = "JSesh";
     public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
 
@@ -59,12 +63,8 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
 
     @Override
     protected void initLookAndFeel() {
-        /*
-         * This should run before any graphical item is created.
-         * System.setProperty("sun.java2d.uiScale.enabled", "true");
-         * System.setProperty("sun.java2d.uiScale", "1x");
-         * System.setProperty("flatlaf.uiScale", "1x");
-         */
+        // The interface scale (flatlaf.uiScale) is set earlier, in Main,
+        // by ApplicationUIPreferences.applyStoredUiScale().
 
         // CSS options for option panel - maybe not needed and a mere patch 
         // done long time ago.
@@ -88,6 +88,15 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
             FlatLightLaf.setup();
         }
         // FlatDarculaLaf.setup(); // used to test if L&F is set
+
+        // MigLayout sizes without unit are "logical pixels": make them follow an
+        // explicit interface scale, as FlatLaf does for fonts and margins.
+        // In automatic mode, MigLayout keeps its own computation.
+        if (ApplicationUIPreferences.getFromPreferences().getUiScale() > 0) {
+            float scale = UIScale.getUserScaleFactor();
+            PlatformDefaults.setHorizontalScaleFactor(scale);
+            PlatformDefaults.setVerticalScaleFactor(scale);
+        }
     }
 
     /**
@@ -96,8 +105,6 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
     @Override
     public JSeshApplicationStartingData initApplicationData() {
         // Prepare icon factory...
-        ApplicationUIPreferences applicationPreferences = ApplicationUIPreferences.getFromPreferences();
-
         UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();
 
         GlossaryManager glossaryManager = new GlossaryManager();
@@ -117,7 +124,8 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         ResourcesManager.getInstance();
 
         MDCIconFactory mdcIconFactory = new MDCIconFactory(hieroglyphResources.hieroglyphShapeRepository());
-        mdcIconFactory.setCadratHeight(applicationPreferences.getIconHeight());
+        // The icon height is given at 100 %: follow the interface scale.
+        mdcIconFactory.setCadratHeight(UIScale.scale(ACTION_ICON_HEIGHT));
 
         JSeshApplicationStartingData data = new JSeshApplicationStartingData(hieroglyphResources,
                 userFontDirectoryManager, mdcIconFactory, glossaryManager);
@@ -147,7 +155,7 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         // fonts (do it elsewhere).
 
         JSeshApplicationModel applicationModel = new JSeshApplicationModel(data.hieroglyphResources(),
-                data.userFontDirectoryManager(), data.glossaryManager());
+                data.userFontDirectoryManager(), data.glossaryManager(), data.mdcIconFactory());
         applicationModel.setCopyright(COPYRIGHT);
         applicationModel.setName(NAME);
         applicationModel.setVersion(Version.getVersion());

@@ -81,6 +81,7 @@ import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.operations.ModelOperation;
 import jsesh.render.context.JSeshRenderContext;
+import com.formdev.flatlaf.util.UIScale;
 import jsesh.render.draw.MDCIconFactory;
 import jsesh.render.style.JSeshStyle;
 import jsesh.sharedvocabulary.LineAlignment;
@@ -177,7 +178,7 @@ public final class JSeshViewCore {
                         embeddedSignShapes));
         this.hieroglyphResources = hieroglyphResources;
         this.iconFactory = iconFactory;
-        viewComponent = new JSeshViewComponent<ZoomInfo>(hieroglyphResources, style);
+        viewComponent = new JSeshViewComponent<ZoomInfo>(hieroglyphResources, style, iconFactory);
         messageDefaultColor = viewComponent.getMessageField().getForeground();
         setCurrentDocument(new MDCDocument());
 
@@ -492,6 +493,9 @@ public final class JSeshViewCore {
         List<HieroglyphFamily> families = hieroglyphResources.database().getFamilies();
         HieroglyphIconBuilder pictureBuilder = new HieroglyphIconBuilder(hieroglyphResources.hieroglyphShapeRepository(), viewComponent);
 
+        // The icon size is given at 100 %: follow the interface scale.
+        double iconScale = UIScale.getUserScaleFactor();
+
         JPopupMenu hieroglyphs = new JPopupMenu();
 
         hieroglyphs.setLayout(new GridLayout(14, 2));
@@ -499,7 +503,7 @@ public final class JSeshViewCore {
             HieroglyphFamily family = (HieroglyphFamily) families.get(i);
 
             HieroglyphicMenu fmenu = new HieroglyphicMenu(family.getCode()
-                    + ". " + family.getDescription(), family.getCode(), 6, pictureBuilder);
+                    + ". " + family.getDescription(), family.getCode(), 6, pictureBuilder, iconScale);
 
             fmenu.setHieroglyphicMenuListener(mediator);
             if (i < 25) {
@@ -514,11 +518,11 @@ public final class JSeshViewCore {
 
         HieroglyphicMenu[] others = new HieroglyphicMenu[] {
                 new HieroglyphicMenu("Tall Narrow Signs",
-                        HieroglyphicMenu.TALL_NARROW, 6, pictureBuilder),
+                        HieroglyphicMenu.TALL_NARROW, 6, pictureBuilder, iconScale),
                 new HieroglyphicMenu("Low Broad Signs",
-                        HieroglyphicMenu.LOW_BROAD, 6, pictureBuilder),
+                        HieroglyphicMenu.LOW_BROAD, 6, pictureBuilder, iconScale),
                 new HieroglyphicMenu("Low Narrow Signs",
-                        HieroglyphicMenu.LOW_NARROW, 6, pictureBuilder) };
+                        HieroglyphicMenu.LOW_NARROW, 6, pictureBuilder, iconScale) };
         for (HieroglyphicMenu m : others) {
             hieroglyphs.add(m);
             m.setHieroglyphicMenuListener(mediator);

@@ -185,7 +185,7 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   smallTextSize: 7.2,
   wrapWidth: 0,
   columnHeight: 0,
-  columnQuadratSkip: 6,
+  columnQuadratSkip: 2,
   unit: 18,
   page: NO_PAGE,
 });

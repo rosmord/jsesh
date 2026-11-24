@@ -91,6 +91,7 @@ public interface ActionsID {
     String LIGATURE_GROUP_WITH_GLYPH = "text.ligatureGroupWithGlyph";
     String LIGATURE_GLYPH_WITH_GROUP = "text.ligatureGlyphWithGroup";
     String GROUP_AS_INSERTION = "text.groupAsInsertion";
+    String GROUP_AS_STACK = "text.groupAsStack";
     String INSERT_ZONE = "text.insertZone";
     String UNWRAP_ZONE = "text.unwrapZone";
     String SELECT_CURRENT_ZONE = "text.selectCurrentZone";

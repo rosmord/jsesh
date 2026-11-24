@@ -106,6 +106,7 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.TAB, literal("%tab"))
                 .rule(MdcTokenType.QUADRAT, literal("%quadrat"))
                 .rule(MdcTokenType.INSERT, literal("%insert"))
+                .rule(MdcTokenType.STACK, literal("%stack"))
                 .rule(MdcTokenType.HKERN, literal("%hkern"))
                 .rule(MdcTokenType.VKERN, literal("%vkern"))
                 .rule(MdcTokenType.HAPLOGRAPHY, literal("%haplography"))

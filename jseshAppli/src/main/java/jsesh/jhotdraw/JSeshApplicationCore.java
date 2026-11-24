@@ -33,6 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
+import com.formdev.flatlaf.util.UIScale;
 import java.awt.Font;
 import java.io.File;
 import java.util.Optional;
@@ -215,7 +216,7 @@ public class JSeshApplicationCore {
 
 
     public JSeshApplicationCore(HieroglyphResources hieroglyphResources, UserFontDirectoryManager userFontDirectoryManager,
-         GlossaryManager glossaryManager) {
+         GlossaryManager glossaryManager, MDCIconFactory mdcIconFactory) {
         this.jseshComponentsStyle = new JSeshStyleReference(
             JSeshStyle.DEFAULT.copy()
                 .geometry(g -> g.scaleToHeight(40.0))
@@ -227,7 +228,7 @@ public class JSeshApplicationCore {
         this.hieroglyphShapeRepository = hieroglyphResources.hieroglyphShapeRepository();
         this.possibilityRepository = hieroglyphResources.possibilityRepository();
         this.searchUIResources = new SearchUIResources(jseshComponentsStyle, hieroglyphResources);
-        this.mdcIconFactory = new MDCIconFactory(hieroglyphShapeRepository);
+        this.mdcIconFactory = mdcIconFactory;
         this.newDocumentStyle = JSeshStyle.DEFAULT;
         loadPreferences();
         // derived fields.
@@ -609,6 +610,8 @@ public class JSeshApplicationCore {
         if (palettePresenter == null) {
             palettePresenter = new PalettePresenter(hieroglyphShapeRepository, hieroglyphDatabase);
             palettePresenter.setHieroglyphPaletteListener(code -> frontEnd().insertCodeInActiveDocument(code));
+            // The sizes chosen by the user are at 100 %: follow the interface scale.
+            palettePresenter.setDisplayScale(UIScale.getUserScaleFactor());
         }
         return palettePresenter;
     }
@@ -625,7 +628,7 @@ public class JSeshApplicationCore {
             // TODO : consider using it directly everywhere (possibly replacing field access by aux. methods)
             HieroglyphResources hieroglyphResources = new HieroglyphResources(hieroglyphShapeRepository, hieroglyphDatabase, possibilityRepository);
             glossaryEditorFrame = new JGlossaryEditorFrame(
-                new JGlossaryEditor(glossaryManager, jseshComponentsStyle, hieroglyphResources));
+                new JGlossaryEditor(glossaryManager, jseshComponentsStyle, hieroglyphResources, mdcIconFactory));
         }
         return glossaryEditorFrame;
     }

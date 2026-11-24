@@ -27,16 +27,16 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   width, wrap to component width, pagination, line alignment, logical line, justification,
   wrap in zone
 - [Text and model](#text-and-model): quadrat, hbox, inner group, ligature, insert,
-  overwrite, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
+  overwrite (overlay), stack, Unicode export, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
   column), running annotation, retrograde writing, quadrat direction, zone, layout settings, unit, document header, scope, position, range,
   mark, caret granularity, alphabetic text, superscript, sign id
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
 - [Signs and fonts](#signs-and-fonts): embedded sign, Gardiner code, phonetic code, shape
-  repository, hieroglyph database, glossary, hieroglyph resources, possibility list
+  repository, sign icon, hieroglyph database, glossary, hieroglyph resources, possibility list
 - [Rendering](#rendering): style, render context, layout unit, view, layout, lone sign
   fitting, text geometry, device
 - [Editor and user interface](#editor-and-user-interface): document, text model, workflow,
-  action id, labels
+  action id, labels, interface scale, nominal size, palette sign height
 - [Project and build](#project-and-build): modules, JS port, fixtures, genuine singletons
 
 ---
@@ -223,7 +223,7 @@ list of `HBox`es (`a:b` is two rows, `a*b` is one row of two elements).
 ### Inner group
 
 `InnerGroup`: base class of the things which can stand in a row: `Hieroglyph`,
-`Ligature`, `Cartouche`, `SubCadrat`, `Philology`, `Overwrite`, `Insert`, `AbsoluteGroup`,
+`Ligature`, `Cartouche`, `SubCadrat`, `Philology`, `Overwrite`, `Insert`, `Stack`, `AbsoluteGroup`,
 `Kerning`. Not to be confused with a `TopItem` (which stands in the text itself).
 
 ### Insert
@@ -231,6 +231,8 @@ list of `HBox`es (`a:b` is two rows, `a*b` is one row of two elements).
 `Insert` (`%insert[dir=bs](D36,(n:t))`): a group placed in the free space of a sign,
 computed from the actual shapes. Its two children are `SubCadrat`s in reading order; the
 `target` option says which one is the main element. Compare with [ligature](#ligature).
+In Unicode, the container always comes first, whatever the reading order: see
+[Unicode export](#unicode-export).
 
 ### Kerning
 
@@ -261,7 +263,37 @@ For placing a group using the real shapes, use an [insert](#insert).
 
 ### Overwrite
 
-`Overwrite` (`a##b`): one sign drawn over another.
+`Overwrite` (`a##b`): one sign drawn over another (the second one is on top). This is
+what Unicode calls an **overlay** (`OVERLAY MIDDLE`, U+13436): signs stacked at their
+centres. [`%stack(g1,g2)`](#stack) is the generic version, for groups. Unlike an [insert](#insert),
+an overlay places no sign into the free space of the other. See
+[Unicode export](#unicode-export) for the order of the signs.
+
+### Stack
+
+`Stack` (`%stack(D36:n,t*w)`): two groups drawn one over the other, centered (the second one
+is on top). It is to groups what [`a##b`](#overwrite) is to signs. Its two children are
+`SubCadrat`s, so stacks can be nested. In the editor: *Text* menu, *Stack groups*, which groups
+the two selected items (or the two items before the cursor). Written to Unicode as an
+overlay, like `Overwrite`.
+
+### Unicode export
+
+`jsesh.model.unicode.MdCToUnicodeConverter`. With format controls (Unicode 17, block
+U+13430-U+1345F), it writes:
+
+- quadrats and groups with `VJ` (`:`), `HJ` (`*`), and `BEGIN/END SEGMENT` where precedence
+  requires it (insertions bind tighter than overlay, then `HJ`, then `VJ`);
+- an **insertion** as *container, control, inserted sign*, in any reading order. `dir=s` and
+  `dir=e` have no Unicode control: the signs are written in reading order, with no control;
+- an **overlay** in *graphical order* (the sign drawn last comes last, as in the MdC). The signs are
+  **not** sorted by `kEH_Cat`, as UAX #57 revision 7 says they should: the published data doesn't follow that
+  rule consistently;
+- mirroring (`MIRROR HORIZONTALLY`) and rotation (a *variation sequence*, only if Unicode defines it for the
+  sign), in this order; shading as *damage modifiers* (U+13447-U+13455).
+
+If a sign has no Unicode equivalent, no control is written around it. Cartouches are not encoded
+yet, and the JS port has no Unicode export.
 
 ### Philology
 
@@ -566,6 +598,16 @@ are composable (`CompositeHieroglyphShapeRepository`: first font that has the si
 or read a directory (`DirectoryHieroglyphShapeRepository`: the file name is the code), or
 the built-in fonts (`PredefinedFonts`).
 
+### Sign icon
+
+The picture of a *single* sign, shown in the palette, the hieroglyphic menus and the sign
+information tool. Built by `HieroglyphIconBuilder.createHieroglyphIcon`, which returns a
+**vector** icon (`HieroglyphIcon`): the sign is drawn when the icon is painted, so it stays
+sharp at any screen scale. Its size and the placement of the sign are computed once
+(`SignPictureLayout`), and shared with `buildSignBitmap`, the bitmap version. Not to be
+confused with the icons of menus and toolbars, which show *MdC text* (cartouche, shading...):
+those come from `MDCIconFactory` and are `ImageIcon`s holding a multi-resolution image.
+
 ---
 
 ## Rendering
@@ -653,10 +695,35 @@ Three levels, see §4 of [programmer_documentation.md](programmer_documentation.
 `HieroglyphicText` (the text), `MDCDocument` (text plus file metadata), and
 `HieroglyphicTextModel` (a live, observable, undoable wrapper used by the editor).
 
+### Interface scale
+
+The factor by which the whole Swing interface is enlarged (1.5 for 150 %); one single user
+setting, in the "Interface" tab of the preferences (`ApplicationUIPreferences.UI_SCALE`,
+0 = automatic). `Main` turns it into FlatLaf's `flatlaf.uiScale` system property *before any
+component exists*, so it only takes effect at the next startup. It is *not* the screen's
+HiDPI scale (which the system and Java handle on their own), and it does not touch the
+fonts of the documents. Code which draws by itself, or sizes things in pixels, multiplies
+by it (`UIScale.scale(...)` in `jseshAppli`; `PalettePresenter.setDisplayScale` in the
+library, which does not depend on FlatLaf).
+
 ### Labels
 
 All user-visible strings live in the `jseshLabels` module, one `labels_xx.properties` per
 language. Add text there, not inline.
+
+### Nominal size
+
+A size given "at 100 %", in pixels, before the [interface scale](#interface-scale) is
+applied: the icon height of the preferences, the palette sign height. What is displayed is
+nominal size × interface scale. Stored preferences are always nominal.
+
+### Palette sign height
+
+The height of the signs in the hieroglyphic palette's list, a nominal size
+(`PalettePresenter.setSignHeight`, 24 to 120, 50 by default). Set with the slider under the
+list or Cmd/Ctrl + mouse wheel on it, and stored in the preferences (`paletteSignHeight`)
+by the presenter itself, so every application embedding the palette gets it. The
+"contains" combo box and the slider's legend have their own fixed (nominal) sizes.
 
 ### Workflow
 

@@ -13,15 +13,13 @@ import jsesh.utils.preferences.JSeshPreferencesRoot;
 /**
  * Application preferences linked to the UI.
  * <p>
- * Currently, icon height and user interface locale.
+ * Currently, user interface locale and scale.
  * <p>
  * TODO: unify with other preferences ??? propose a better mechanism ??
  *
  * @author rosmord
  */
 public class ApplicationUIPreferences {
-
-    public static final String ICON_HEIGHT = "ICON_HEIGHT";
 
     /**
      * Preference key for the user interface locale.
@@ -31,7 +29,14 @@ public class ApplicationUIPreferences {
      */
     public static final String LOCALE = "LOCALE";
 
-    private int iconHeight = 30;
+    /// Preference key for the scale of the whole user interface.
+    ///
+    /// The value is a factor (1.5 for 150 %); 0 means "automatic" (let the
+    /// system and the look and feel decide).
+    public static final String UI_SCALE = "UI_SCALE";
+
+    /// Scale factors proposed to the user. 0 stands for "automatic".
+    public static final float[] AVAILABLE_UI_SCALES = {0f, 1f, 1.25f, 1.5f, 1.75f, 2f, 2.25f, 2.5f, 2.75f, 3f};
 
     /**
      * The chosen user interface locale, or {@code null} to use the system
@@ -39,13 +44,8 @@ public class ApplicationUIPreferences {
      */
     private Locale locale = null;
 
-    public int getIconHeight() {
-        return iconHeight;
-    }
-
-    public void setIconHeight(int iconHeight) {
-        this.iconHeight = iconHeight;
-    }
+    /// Scale of the user interface; 0 means "automatic".
+    private float uiScale = 0f;
 
     /**
      * Returns the chosen user interface locale.
@@ -67,16 +67,32 @@ public class ApplicationUIPreferences {
         this.locale = locale;
     }
 
+    /// Returns the scale of the user interface.
+    ///
+    /// @return the scale factor (1.5 for 150 %), or 0 for "automatic".
+    public float getUiScale() {
+        return uiScale;
+    }
+
+    /// Sets the scale of the user interface.
+    ///
+    /// @param uiScale the scale factor (1.5 for 150 %), or 0 for "automatic".
+    public void setUiScale(float uiScale) {
+        this.uiScale = uiScale;
+    }
+
     public void savetoPreferences() {
         Preferences preferences = JSeshPreferencesRoot.getPreferences();
-        preferences.putInt(ICON_HEIGHT, iconHeight);
+        preferences.putFloat(UI_SCALE, uiScale);
         preferences.put(LOCALE, locale == null ? "" : locale.toLanguageTag());
     }
 
     public static ApplicationUIPreferences getFromPreferences() {
         Preferences preferences = JSeshPreferencesRoot.getPreferences();
         ApplicationUIPreferences applicationPreferences = new ApplicationUIPreferences();
-        applicationPreferences.setIconHeight(preferences.getInt(ICON_HEIGHT, 30));
+        float storedScale = preferences.getFloat(UI_SCALE, 0f);
+        // Ignore absurd values (hand-edited preferences...).
+        applicationPreferences.setUiScale(storedScale >= 0.5f && storedScale <= 4f ? storedScale : 0f);
         String languageTag = preferences.get(LOCALE, "");
         applicationPreferences.setLocale(
                 languageTag.isEmpty() ? null : Locale.forLanguageTag(languageTag));
@@ -95,6 +111,20 @@ public class ApplicationUIPreferences {
         Locale locale = getFromPreferences().getLocale();
         if (locale != null) {
             Locale.setDefault(locale);
+        }
+    }
+
+    /// Applies the interface scale stored in the preferences.
+    ///
+    /// Sets the `flatlaf.uiScale` system property, which FlatLaf reads when it is
+    /// installed: fonts, margins, borders and the look and feel's icons follow it.
+    /// It must be called before any Swing component is created (including the
+    /// splash screen). An explicit `-Dflatlaf.uiScale=...` on the command line wins.
+    /// As for the locale, a change only takes effect on the next startup.
+    public static void applyStoredUiScale() {
+        float scale = getFromPreferences().getUiScale();
+        if (scale > 0 && System.getProperty("flatlaf.uiScale") == null) {
+            System.setProperty("flatlaf.uiScale", Float.toString(scale));
         }
     }
 }

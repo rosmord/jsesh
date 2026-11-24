@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 import jsesh.signcodes.ManuelDeCodage;
@@ -21,29 +22,73 @@ import jsesh.signcodes.ManuelDeCodage;
 public enum MdcUnicodeTable {
     INSTANCE;
 
-    private HashMap<String, String> codeMap = new HashMap<>();
+    private final HashMap<String, String> codeMap = new HashMap<>();
+
+    /// Number of entries which come from `namemdc.csv` only.
+    private int supplementaryCount = 0;
 
     private MdcUnicodeTable() {
-        try {
-            InputStream in = this.getClass().getResourceAsStream(
-                    "mdc2unicode.txt");
-            BufferedReader r = new BufferedReader(new InputStreamReader(in));
+        loadMainTable();
+        loadSupplementaryTable();
+    }
+
+    /// Loads `mdc2unicode.txt`, our curated table. It has priority over the
+    /// supplementary table.
+    private void loadMainTable() {
+        try (InputStream in = this.getClass().getResourceAsStream("mdc2unicode.txt");
+                BufferedReader r = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             String l;
             while ((l = r.readLine()) != null) {
                 l = l.trim();
-                if (l.startsWith("#")) {
+                if (l.isEmpty() || l.startsWith("#")) {
                     continue;
                 }
                 String[] fields = l.split("\t");
-                String mdcCode = fields[0];
                 int unicode = Integer.parseInt(fields[2].substring(2), 16);
-                char[] c = Character.toChars(unicode);
-                String s = "" + c[0] + c[1];
-                codeMap.put(mdcCode, s);
+                codeMap.put(fields[0], Character.toString(unicode));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /// Loads `namemdc.csv` (a mapping JSesh code → Unicode string, contributed
+    /// by Mark-Jan Nederhof). It covers many more signs than `mdc2unicode.txt`,
+    /// including Unicode 16 signs. Entries are added only for codes which the
+    /// main table doesn't know about, so the curated choices are never
+    /// overridden.
+    ///
+    /// Entries containing Unicode format controls (U+13430-U+1345F) describe
+    /// groups, that is, layout. They are ignored for now: layout will be
+    /// handled separately. Variation selectors are kept, as they are part of
+    /// the sign's identity.
+    private void loadSupplementaryTable() {
+        try (InputStream in = this.getClass().getResourceAsStream("namemdc.csv");
+                BufferedReader r = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+            String l;
+            while ((l = r.readLine()) != null) {
+                l = l.trim();
+                int comma = l.indexOf(',');
+                if (comma <= 0 || comma == l.length() - 1) {
+                    continue;
+                }
+                String unicode = l.substring(comma + 1);
+                if (unicode.codePoints().anyMatch(c -> c >= 0x13430 && c <= 0x1345F)) {
+                    continue;
+                }
+                String code = ManuelDeCodage.getInstance().getCanonicalCode(l.substring(0, comma)).code();
+                if (codeMap.putIfAbsent(code, unicode) == null) {
+                    supplementaryCount++;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /// Number of signs known only thanks to the supplementary table.
+    int getSupplementaryCount() {
+        return supplementaryCount;
     }
 
     /**

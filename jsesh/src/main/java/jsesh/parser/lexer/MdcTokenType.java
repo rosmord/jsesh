@@ -41,6 +41,8 @@ enum MdcTokenType {
     QUADRAT,
     /// `"%insert"` 
     INSERT,
+    /// `"%stack"`
+    STACK,
     /// `"%hkern"`
     HKERN,
     /// `"%vkern"`

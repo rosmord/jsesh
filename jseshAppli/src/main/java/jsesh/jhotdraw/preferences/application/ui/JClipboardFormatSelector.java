@@ -77,7 +77,7 @@ public class JClipboardFormatSelector {
         unicodeTextButton = new JRadioButton(
                 JSeshMessages.getString("clipboardFormat.plaintext.unicode"));
         unicode12TextButton = new JRadioButton(
-                JSeshMessages.getString("clipboardFormat.plaintext.unicode12"));
+                JSeshMessages.getString("clipboardFormat.plaintext.unicode17"));
         ButtonGroup textFormats = new ButtonGroup();
         textFormats.add(mdcTextButton);
         textFormats.add(unicodeTextButton);

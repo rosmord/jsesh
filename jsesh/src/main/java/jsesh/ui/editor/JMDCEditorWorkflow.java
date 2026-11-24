@@ -96,6 +96,7 @@ import jsesh.model.ModelElement;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.ShadingCode;
+import jsesh.model.Stack;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.TopItem;
@@ -1987,6 +1988,42 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         }
         List<InsertionChoice> choices = buildInsertionChoices(ranker, first, second, true, 0, 0);
         boolean result = scope.replaceElement(p1, p2, choices.get(0).insert().buildTopItem());
+        clearMark();
+        return result;
+    }
+
+    /// Groups two items into a stack (`%stack`): one drawn over the other.
+    ///
+    /// The two items are the selection, if any (it must contain exactly two
+    /// items), or else the two items before the cursor. The first one is drawn
+    /// first, the second one over it.
+    ///
+    /// @return true if a stack was built.
+    public boolean groupAsStack() {
+        possibilitiesHandler.clear();
+        clearSeparator();
+        EditingScope scope = scope();
+        MDCPosition p1, p2;
+        if (caret.hasSelection()) {
+            p1 = caret.getLocalMinPosition();
+            p2 = caret.getLocalMaxPosition();
+        } else {
+            p2 = caret.getLocalInsertPosition();
+            if (p2.getLastIndex() < 2) {
+                return false;
+            }
+            p1 = p2.getPreviousPosition(2);
+        }
+        List<TopItem> items = scope.getTopItemsBetween(p1, p2);
+        if (items.size() != 2) {
+            return false;
+        }
+        SubCadrat first = toSubCadrat(items.get(0));
+        SubCadrat second = toSubCadrat(items.get(1));
+        if (first == null || second == null) {
+            return false;
+        }
+        boolean result = scope.replaceElement(p1, p2, new Stack(first, second).buildTopItem());
         clearMark();
         return result;
     }

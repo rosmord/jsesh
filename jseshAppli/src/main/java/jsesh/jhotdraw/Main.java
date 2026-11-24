@@ -50,6 +50,8 @@ public class Main {
             throws InvocationTargetException, ClassNotFoundException, InterruptedException {
         // Apply the user-chosen locale before anything loads resource bundles.
         ApplicationUIPreferences.applyStoredLocale();
+        // Same for the interface scale, before any Swing component exists.
+        ApplicationUIPreferences.applyStoredUiScale();
         JSeshStartup startup = new JSeshStartup();
         startup.main(args);
     }

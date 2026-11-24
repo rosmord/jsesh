@@ -77,7 +77,7 @@ public class MDCClipboardPreferences {
 	private boolean emfWanted = false;
 	/** If true, the plain text flavor contains Unicode hieroglyphs instead of MdC code. */
 	private boolean unicodeText = false;
-	/** If true (and unicodeText is true), Unicode 12 format controls are used. */
+	/** If true (and unicodeText is true), Unicode 17 format controls are used. */
 	private boolean unicodeFormatControls = false;
 
 	public MDCClipboardPreferences() {
@@ -154,7 +154,7 @@ public class MDCClipboardPreferences {
 		return result;
 	}
 
-	/// Does the Unicode text use the Unicode 12 format controls? Only meaningful if [#isUnicodeText()].
+	/// Does the Unicode text use the Unicode 17 format controls? Only meaningful if [#isUnicodeText()].
 	public boolean isUnicodeFormatControls() {
 		return unicodeFormatControls;
 	}

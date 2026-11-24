@@ -44,6 +44,7 @@ import jsesh.model.ModelElementAdapter;
 import jsesh.model.Modifier;
 import jsesh.model.ModifiersList;
 import jsesh.model.Overwrite;
+import jsesh.model.Stack;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
@@ -1122,6 +1123,34 @@ public class Layout {
 			hmax = Math.max(currentView.getSubView(0).getHeight(), currentView.getSubView(1).getHeight());
 			currentView.setWidth(wmax);
 			currentView.setHeight(hmax);
+			currentView.centerSubViewHorizontally();
+			currentView.centerSubViewsVertically();
+		}
+
+		/// Layout of a stack: the two groups are drawn one over the other, centered
+		/// (like [#visitOverwrite(Overwrite)] does for two signs).
+		///
+		/// Each group is first calibrated on its own, as a quadrat would be: if it is
+		/// larger than the maximal quadrat height (maximal width in columns), it is
+		/// scaled down, and the other group is left alone. Without it, the enclosing
+		/// quadrat would scale the whole stack down, shrinking the group which already fits.
+		@Override
+		public void visitStack(Stack stack) {
+			GeometrySpecification geometry = renderContext.jseshStyle().geometry();
+			for (int i = 0; i < 2; i++) {
+				MDCView subView = currentView.getSubView(i);
+				double scale;
+				if (currentTextOrientation.isHorizontal()) {
+					scale = geometry.maxCadratHeight() / subView.getHeight();
+				} else {
+					scale = geometry.maxCadratWidth() / subView.getWidth();
+				}
+				if (scale < 1) {
+					subView.reScale(scale);
+				}
+			}
+			currentView.setWidth(currentView.getMaximalWidthOfSubView());
+			currentView.setHeight(currentView.getMaximalHeightOfSubView());
 			currentView.centerSubViewHorizontally();
 			currentView.centerSubViewsVertically();
 		}

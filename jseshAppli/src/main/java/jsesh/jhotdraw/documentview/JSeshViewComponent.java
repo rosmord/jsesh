@@ -53,6 +53,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import jsesh.render.draw.MDCIconFactory;
 import jsesh.render.style.JSeshStyle;
 import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.defaults.HieroglyphResources;
@@ -138,9 +139,9 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
     /// The label of [#lineAlignmentComboBox] ("Line:" or "Column:").
     private final JLabel lineAlignmentLabel = new JLabel();
 
-    public JSeshViewComponent(HieroglyphResources fontKit, JSeshStyle style) {
+    public JSeshViewComponent(HieroglyphResources fontKit, JSeshStyle style, MDCIconFactory iconFactory) {
         // simple components.
-        editor = new JMDCEditor(new HieroglyphicTextModel(), new JSeshStyleReference(style), fontKit);
+        editor = new JMDCEditor(new HieroglyphicTextModel(), new JSeshStyleReference(style), fontKit, iconFactory);
         codeField = new JTextField(5);
         separatorField = new JTextField(1);
         mdcField = new JTextField();

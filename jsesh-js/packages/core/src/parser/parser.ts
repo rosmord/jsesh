@@ -23,6 +23,7 @@ import type {
   AstHorizontalListElement,
   AstInnerGroup,
   AstInsert,
+  AstStack,
   AstKerning,
   AstModifier,
   AstModifierList,
@@ -200,6 +201,7 @@ export class MdcParser {
       this.at(S.BEGIN_OLD_CARTOUCHE) ||
       this.at(S.QUADRAT) ||
       this.at(S.INSERT) ||
+      this.at(S.STACK) ||
       this.at(S.HKERN) ||
       this.at(S.VKERN)
     );
@@ -446,13 +448,14 @@ export class MdcParser {
 
   /// ```
   /// innerGroup ::= ligature | hieroglyph | overwrite | philology
-  ///              | subgroup | absoluteGroup | insert | kerning
+  ///              | subgroup | absoluteGroup | insert | stack | kerning
   /// ```
   private parseInnerGroup(): AstInnerGroup {
     if (this.atHieroglyphStart()) return this.continueInnerGroup(this.parseHieroglyph());
     if (this.at(S.BEGIN_PHIL)) return this.parsePhilology();
     if (this.at(S.LPAREN)) return this.parseSubgroup();
     if (this.at(S.INSERT)) return this.parseInsert();
+    if (this.at(S.STACK)) return this.parseStack();
     if (this.at(S.HKERN) || this.at(S.VKERN)) return this.parseKerning();
     throw this.error("unexpected or unknown item.");
   }
@@ -480,6 +483,17 @@ export class MdcParser {
       firstItems,
       secondItems,
     };
+  }
+
+  /// `stack ::= STACK '(' basicitems ',' basicitems ')'`
+  private parseStack(): AstStack {
+    this.expect(S.STACK, "stack");
+    this.expect(S.LPAREN, "'('");
+    const firstItems = this.parseBasicItems();
+    this.expect(S.COMMA, "','");
+    const secondItems = this.parseBasicItems();
+    this.expect(S.RPAREN, "')'");
+    return { nodeType: "Stack", firstItems, secondItems };
   }
 
   /// `kerning ::= (HKERN | VKERN) optionList?`

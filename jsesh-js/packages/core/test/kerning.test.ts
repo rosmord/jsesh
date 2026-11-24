@@ -117,13 +117,15 @@ describe.skipIf(!glyphDataAvailable)("kerning layout", () => {
 
   /// In columns, quadrats are separated by `lineSkip`; `%vkern` brings them to about `smallSkip`.
   it("kerns with %vkern in columns", async () => {
-    const plain = await signBounds("t-A1", "VERTICAL", "LEFT_TO_RIGHT");
-    const kerned = await signBounds("t-%vkern-A1", "VERTICAL", "LEFT_TO_RIGHT");
+    const plain = await signBounds("Hm-kA", "VERTICAL", "LEFT_TO_RIGHT");
+    const kerned = await signBounds("Hm-%vkern-kA", "VERTICAL", "LEFT_TO_RIGHT");
     const plainGap = plain[1]!.minY - plain[0]!.maxY;
     const kernedGap = kerned[1]!.minY - kerned[0]!.maxY;
     expect(kernedGap).toBeLessThan(plainGap - 1);
-    // The signs don't touch, and t is not moved.
-    expect(kernedGap).toBeGreaterThan(0);
+    // Hm is not moved. The boxes overlap here (by about 10): kA has raised arms, and Hm goes between
+    // them. The glyph data is the standard JSesh font, while the `jsesh` Java tests only have
+    // Gnutrace (smaller signs). Java checks that the outlines don't touch, with the standard font, in
+    // `jseshTests` (`StandardFontKerningTest`).
     expect(kerned[0]!.minY).toBeCloseTo(plain[0]!.minY, 3);
   });
 

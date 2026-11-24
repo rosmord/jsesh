@@ -99,7 +99,7 @@ public class DocumentHeaderCodecTest {
         assertEquals(22.0, g.maxCadratWidth());
         assertEquals(18.0, g.standardSignHeight());
         assertEquals(6.0, g.lineSkip());
-        assertEquals(6.0, g.columnQuadratSkip());
+        assertEquals(2.0, g.columnQuadratSkip());
         assertEquals(8.0, g.columnSkip());
         assertEquals(2.0, g.smallSkip());
         assertEquals(1.0, g.cartoucheLineWidth());
@@ -131,7 +131,7 @@ public class DocumentHeaderCodecTest {
         assertEquals("columns", header.get("JSesh_layout"));
         assertEquals("no", header.get("JSesh_fitsigns"));
         assertEquals("50", header.get("JSesh_linegap"));
-        assertEquals("33.333333", header.get("JSesh_columnquadratgap"));
+        assertEquals("11.111111", header.get("JSesh_columnquadratgap"));
         assertEquals("gray", header.get("JSesh_shading"));
         assertFalse(header.containsKey("JSesh_page_width"));
     }

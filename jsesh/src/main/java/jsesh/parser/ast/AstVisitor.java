@@ -70,5 +70,7 @@ public interface AstVisitor {
 
     void visitInsert(AstInsert astInsert);
 
+    void visitStack(AstStack astStack);
+
     void visitKerning(AstKerning astKerning);
 }
