@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Shape;
 import java.awt.font.FontRenderContext;
+import java.awt.geom.FlatteningPathIterator;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,6 +142,64 @@ public class KerningLayoutTest {
             double shift = kerner.shift(List.of(root.getSubView(0)), root.getSubView(2), axis, skip);
             assertEquals(0, shift, 0.5, mdc + " " + direction);
         }
+    }
+
+    /// Where the signs meet diagonally (the bottom of t above the toe of D58), the space left is
+    /// about `smallSkip` in any direction, and not `smallSkip` both across and along the axis.
+    @Test
+    public void diagonalContactsKeepAboutSmallSkip() throws MDCSyntaxError {
+        String mdc = ".:t:.\\25-%hkern-b";
+        for (TextDirection direction : TextDirection.values()) {
+            JSeshRenderContext context = renderContext(TextOrientation.HORIZONTAL, direction);
+            MDCView root = layout(mdc, context);
+            HieroglyphDrawer drawer = new HieroglyphDrawer(context.hieroglyphShapeRepository());
+            List<Shape> outlines = new ViewOutlineExtractor(drawer, drawer.scaleFromFontToStyle(context.jseshStyle()),
+                    direction).outlines(root);
+            assertEquals(2, outlines.size(), "only t and b have outlines");
+            double skip = context.jseshStyle().geometry().smallSkip();
+            double distance = distance(outlines.get(0), outlines.get(1));
+            assertTrue(distance > skip * 0.85 && distance < skip * 1.2,
+                    "distance " + distance + ", skip " + skip + ", " + direction);
+        }
+    }
+
+    /// The smallest distance between two outlines, from points taken along them.
+    private static double distance(Shape a, Shape b) {
+        List<Point2D> pa = points(a), pb = points(b);
+        double result = Double.POSITIVE_INFINITY;
+        for (Point2D p : pa) {
+            for (Point2D q : pb) {
+                result = Math.min(result, p.distance(q));
+            }
+        }
+        return result;
+    }
+
+    private static List<Point2D> points(Shape shape) {
+        double step = 0.05;
+        List<Point2D> result = new ArrayList<>();
+        PathIterator it = new FlatteningPathIterator(shape.getPathIterator(null), step / 4);
+        double[] seg = new double[6];
+        double startX = 0, startY = 0, x = 0, y = 0;
+        while (!it.isDone()) {
+            int type = it.currentSegment(seg);
+            double nx = type == PathIterator.SEG_CLOSE ? startX : seg[0];
+            double ny = type == PathIterator.SEG_CLOSE ? startY : seg[1];
+            if (type == PathIterator.SEG_MOVETO) {
+                startX = nx;
+                startY = ny;
+            } else {
+                int n = (int) Math.ceil(Math.hypot(nx - x, ny - y) / step);
+                for (int i = 1; i <= n; i++) {
+                    result.add(new Point2D.Double(x + (nx - x) * i / n, y + (ny - y) * i / n));
+                }
+            }
+            result.add(new Point2D.Double(nx, ny));
+            x = nx;
+            y = ny;
+            it.next();
+        }
+        return result;
     }
 
     @Test
