@@ -955,6 +955,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
         HieroglyphicText top = getWorkflow().getSelectionAsHieroglyphicText();
         MdCToUnicodeConverter converter = new MdCToUnicodeConverter();
         converter.setIncludeFormatControlChars(useFormatChars);
+        converter.setTextDirection(getTextDirection());
         String toCopy = converter.convertToPlainUnicode(top);
         PortableToolKit.createToolkit().getSystemClipboard()
                 .setContents(new StringSelection(toCopy), null);

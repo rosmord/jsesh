@@ -27,7 +27,7 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   width, wrap to component width, pagination, line alignment, logical line, justification,
   wrap in zone
 - [Text and model](#text-and-model): quadrat, hbox, inner group, ligature, insert,
-  overwrite, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
+  overwrite (overlay), Unicode export, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
   column), running annotation, retrograde writing, quadrat direction, zone, layout settings, unit, document header, scope, position, range,
   mark, caret granularity, alphabetic text, superscript, sign id
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
@@ -231,6 +231,8 @@ list of `HBox`es (`a:b` is two rows, `a*b` is one row of two elements).
 `Insert` (`%insert[dir=bs](D36,(n:t))`): a group placed in the free space of a sign,
 computed from the actual shapes. Its two children are `SubCadrat`s in reading order; the
 `target` option says which one is the main element. Compare with [ligature](#ligature).
+In Unicode, the container always comes first, whatever the reading order: see
+[Unicode export](#unicode-export).
 
 ### Kerning
 
@@ -261,7 +263,29 @@ For placing a group using the real shapes, use an [insert](#insert).
 
 ### Overwrite
 
-`Overwrite` (`a##b`): one sign drawn over another.
+`Overwrite` (`a##b`): one sign drawn over another (the second one is on top). This is
+what Unicode calls an **overlay** (`OVERLAY MIDDLE`, U+13436): signs stacked at their
+centres. The future `%overlay(A,B)` will be the generic version. Unlike an [insert](#insert),
+an overlay places no sign into the free space of the other. See
+[Unicode export](#unicode-export) for the order of the signs.
+
+### Unicode export
+
+`jsesh.model.unicode.MdCToUnicodeConverter`. With format controls (Unicode 17, block
+U+13430-U+1345F), it writes:
+
+- quadrats and groups with `VJ` (`:`), `HJ` (`*`), and `BEGIN/END SEGMENT` where precedence
+  requires it (insertions bind tighter than overlay, then `HJ`, then `VJ`);
+- an **insertion** as *container, control, inserted sign*, in any reading order. `dir=s` and
+  `dir=e` have no Unicode control: the signs are written in reading order, with no control;
+- an **overlay** in *graphical order* (the sign drawn last comes last, as in the MdC). The signs are
+  **not** sorted by `kEH_Cat`, as UAX #57 revision 7 says they should: the published data doesn't follow that
+  rule consistently;
+- mirroring (`MIRROR HORIZONTALLY`) and rotation (a *variation sequence*, only if Unicode defines it for the
+  sign), in this order; shading as *damage modifiers* (U+13447-U+13455).
+
+If a sign has no Unicode equivalent, no control is written around it. Cartouches are not encoded
+yet, and the JS port has no Unicode export.
 
 ### Philology
 

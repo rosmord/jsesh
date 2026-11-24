@@ -32,6 +32,12 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-11-24
+
+- **Unicode export updated to Unicode 17** (`MdCToUnicodeConverter` with format controls): `%insert` (container, control, inserted sign, whatever the reading order), `##` as overlay (`OVERLAY MIDDLE`), mirror, rotation (variation sequences), sign and quadrat shading (damage modifiers), minimal segments by control precedence. New: `UnicodeHieroglyphControls`, `UnikemetData`, `UnicodeFormatRenderer`; data extracted from the UCD by `00_Documents/tools/extract_unikemet.py`.
+- **Overlay order.** UAX #57 rev. 7 says overlaid signs follow `kEH_Cat`, but Unikemet 17's own `kEH_AltSeq` breaks the rule 10 times out of 30, and so does `namemdc.csv` (219 of 312). The converter keeps the graphical order (last sign on top, as in MdC `##`) and no longer uses `kEH_Cat` at all. To be reconsidered when `%overlay` is added.
+- Not done: cartouches/enclosures (U+1343C-1343F), blanks and lost signs, `kEH_AltSeq` equivalences, the Unicode 16 signs made of controls in `namemdc.csv` (still ignored by `MdcUnicodeTable`).
+
 ## 2026-11-10
 
 - replaced the single option for scaling in quadrat by two options.
