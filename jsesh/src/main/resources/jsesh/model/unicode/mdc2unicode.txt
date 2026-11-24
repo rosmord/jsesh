@@ -127,7 +127,8 @@ C20	C020	0x13071
 C33	C021	0x13072	
 C49B	C022	0x13073	
 C165	C023	0x13074	
-A45B	C024	0x13075	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#A45B	C024	0x13075	
 D1	D001	0x13076	
 D2	D002	0x13077	
 D3	D003	0x13078	
@@ -211,7 +212,8 @@ D63	D063	0x130C5
 D271	D064	0x130C6	
 D132	D065	0x130C7	
 D66	D066	0x130C8	
-N33	D067	0x130C9	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#N33	D067	0x130C9	
 US1D67AEXTU	D067a	0x130CA	N33:N33	
 US1D67BEXTU	D067b	0x130CB	N33*N33:N33	
 US1D67CEXTU	D067c	0x130CC	N33*N33:N33*N33	
@@ -260,7 +262,8 @@ E31	E031	0x130F6
 E32	E032	0x130F7	
 E33	E033	0x130F8	
 E34	E034	0x130F9	
-E34	E034a	0x130FA	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#E34	E034a	0x130FA	
 E35	E036	0x130FB	
 E45	E037	0x130FC	
 E92	E038	0x130FD	
@@ -371,9 +374,11 @@ G33	G033	0x13165
 G34	G034	0x13166	
 G35	G035	0x13167	
 G36	G036	0x13168	
-G36	G036a	0x13169	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#G36	G036a	0x13169	
 G37	G037	0x1316A	
-G37	G037a	0x1316B	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#G37	G037a	0x1316B	
 G38	G038	0x1316C	
 G39	G039	0x1316D	
 G40	G040	0x1316E	
@@ -543,7 +548,8 @@ N32	N032	0x13211
 N33	N033	0x13212	
 N33A	N033a	0x13213	
 N34	N034	0x13214	
-N34	N034a	0x13215	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#N34	N034a	0x13215	
 N35	N035	0x13216	
 N35A	N035a	0x13217	
 N36	N036	0x13218	
@@ -956,7 +962,8 @@ US1V40AEXTU	V040a	0x133AE	V20h-V20h
 W1	W001	0x133AF	
 W2	W002	0x133B0	
 W3	W003	0x133B1	
-W3	W003a	0x133B2	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#W3	W003a	0x133B2	
 W4	W004	0x133B3	
 W5	W005	0x133B4	
 W6	W006	0x133B5	
@@ -990,13 +997,15 @@ X2	X002	0x133D0
 X3	X003	0x133D1	
 X4	X004	0x133D2	
 X4A	X004a	0x133D3	
-N18	X004b	0x133D4	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#N18	X004b	0x133D4	
 X5	X005	0x133D5	
 X6	X006	0x133D6	
 US1X6AEXTU	X006a	0x133D7	
 X7	X007	0x133D8	
 X8	X008	0x133D9	
-M44	X008a	0x133DA	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#M44	X008a	0x133DA	
 Y1	Y001	0x133DB	
 Y1v	Y001a	0x133DC	
 Y2	Y002	0x133DD	
@@ -1009,7 +1018,8 @@ Y8	Y008	0x133E3
 Z1	Z001	0x133E4	
 Z2	Z002	0x133E5	
 US1Z2AEXTU	Z002a	0x133E6	1*1*1	
-N33A	Z002b	0x133E7	
+#DUPLICATE KEY, shadowed the entry above/below (namemdc.csv agrees with the other one)
+#N33A	Z002b	0x133E7	
 Z2A	Z002c	0x133E8	
 Z2B	Z002d	0x133E9	
 Z3	Z003	0x133EA	
