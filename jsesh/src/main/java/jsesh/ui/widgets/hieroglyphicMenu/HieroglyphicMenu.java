@@ -94,12 +94,24 @@ public class HieroglyphicMenu extends JMenu {
 
 	private final IconRenderOptions iconRenderOptions;
 
+	/// Default size of the (square) icons of the menu, in pixels.
+	public static final int DEFAULT_ICON_SIZE = 40;
+
 	public HieroglyphicMenu(String title, String family, int ncols, HieroglyphIconBuilder pictureBuilder) {
+		this(title, family, ncols, pictureBuilder, 1.0);
+	}
+
+	/// @param iconScale scale applied to the size of the icons (for instance
+	///        the scale factor of the user interface).
+	public HieroglyphicMenu(String title, String family, int ncols, HieroglyphIconBuilder pictureBuilder,
+			double iconScale) {
 		super(title);
 		this.ncols = ncols;
 		this.family = family;
+		int size = (int) Math.round(DEFAULT_ICON_SIZE * iconScale);
+		int padding = Math.max(2, (int) Math.round(2 * iconScale));
 		iconRenderOptions = IconRenderOptions.DEFAULT
-				.copy().dimension(40, 40).padding(2).build();
+				.copy().dimension(size, size).padding(padding).build();
 
 		// The popup system doesn't work on the mac if the menu is application
 		// level.

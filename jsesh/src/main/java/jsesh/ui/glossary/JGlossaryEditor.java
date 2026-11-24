@@ -95,6 +95,17 @@ public class JGlossaryEditor extends JPanel {
 
 	public JGlossaryEditor(GlossaryManager glossaryManager, JSeshStyleReference styleRef,
 			HieroglyphResources hieroglyphResources) {
+		this(glossaryManager, styleRef, hieroglyphResources,
+				new MDCIconFactory(hieroglyphResources.hieroglyphShapeRepository()));
+	}
+
+	/// Constructor with an icon factory provided by the caller (e.g. one set
+	/// to the icon height of a scaled interface).
+	///
+	/// @param mdcIconFactory the factory for the icons of the MdC column; it
+	///        should draw with the shapes of `hieroglyphResources`.
+	public JGlossaryEditor(GlossaryManager glossaryManager, JSeshStyleReference styleRef,
+			HieroglyphResources hieroglyphResources, MDCIconFactory mdcIconFactory) {
 		model = new GlossaryTableModel(glossaryManager);
 		codeField = new JTextField(10);
 		mdcField = new JMDCField(WIDTH, styleRef, hieroglyphResources);
@@ -103,7 +114,7 @@ public class JGlossaryEditor extends JPanel {
 		table.setTableHeader(null);
 		this.shapeRepository = hieroglyphResources.hieroglyphShapeRepository();
 
-		mdcIconFactory = new MDCIconFactory(hieroglyphResources.hieroglyphShapeRepository());
+		this.mdcIconFactory = mdcIconFactory;
 
 		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		fixTable();

@@ -628,7 +628,7 @@ public class JSeshApplicationCore {
             // TODO : consider using it directly everywhere (possibly replacing field access by aux. methods)
             HieroglyphResources hieroglyphResources = new HieroglyphResources(hieroglyphShapeRepository, hieroglyphDatabase, possibilityRepository);
             glossaryEditorFrame = new JGlossaryEditorFrame(
-                new JGlossaryEditor(glossaryManager, jseshComponentsStyle, hieroglyphResources));
+                new JGlossaryEditor(glossaryManager, jseshComponentsStyle, hieroglyphResources, mdcIconFactory));
         }
         return glossaryEditorFrame;
     }

@@ -54,7 +54,7 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
     private static final Logger LOGGER = Logger.getLogger(JSeshStartup.class.getName());
 
     /// Height of the icons of the actions (toolbar...), at 100 % interface scale.
-    private static final int ACTION_ICON_HEIGHT = 30;
+    public static final int ACTION_ICON_HEIGHT = 30;
 
     public final static String NAME = "JSesh";
     public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";

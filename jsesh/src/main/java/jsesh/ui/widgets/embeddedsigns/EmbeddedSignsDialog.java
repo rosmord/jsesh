@@ -77,11 +77,20 @@ public final class EmbeddedSignsDialog {
     /// @param directory the directory file dialogs start from, or `null`.
     public EmbeddedSignsDialog(Component parent, EmbeddedSignList signs, HieroglyphShapeRepository shapes,
             HieroglyphicText text, Consumer<String> inserter, File directory) {
+        this(parent, signs, shapes, text, inserter, directory, new MDCIconFactory(shapes));
+    }
+
+    /// Same, with the icon factory provided by the caller (e.g. set to the
+    /// icon height of a scaled interface). It must draw with `shapes`.
+    ///
+    /// @param icons the factory for the icons of the signs.
+    public EmbeddedSignsDialog(Component parent, EmbeddedSignList signs, HieroglyphShapeRepository shapes,
+            HieroglyphicText text, Consumer<String> inserter, File directory, MDCIconFactory icons) {
         this.parent = parent;
         this.signs = signs;
         this.text = text;
         this.inserter = inserter;
-        this.icons = new MDCIconFactory(shapes);
+        this.icons = icons;
         this.directory = directory;
     }
 
