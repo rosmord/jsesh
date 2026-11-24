@@ -27,8 +27,9 @@ import jsesh.render.view.MDCView;
 /// The cross axis is cut into [#BANDS] bands. In each band, the *profile* of the
 /// first group is its furthest extent along the axis, and the profile of the second
 /// group is its nearest one. Both are exact for the flattened outlines. The first
-/// profile is spread over the bands closer than `skip`, so that the remaining space
-/// is close to an actual distance between the shapes.
+/// profile is spread over the bands closer than `skip`, along a disc, so that the
+/// remaining space is close to an actual (Euclidean) distance between the shapes:
+/// where the signs meet diagonally, they end up about `skip` apart, not more.
 ///
 /// Views are given with their positions in the layout coordinates of a common
 /// parent. In right-to-left text, layout coordinates are the mirror of drawing
@@ -198,14 +199,24 @@ public final class Kerner {
             }
         }
 
-        /// The largest extent, spread over the bands closer than `distance`.
+        /// The largest extent, spread over the bands closer than `distance`, so that keeping
+        /// `distance` from the result along the axis keeps about `distance` from the outlines
+        /// in any direction.
+        ///
+        /// The spreading is a disc: an extent `dy` away across the axis only needs
+        /// `sqrt(distance² - dy²)` along it. It counts in the result as that much less than
+        /// `distance`. `dy` is measured between the nearest edges of the bands, so the result
+        /// errs on the side of more room.
         double[] dilatedMax(double distance) {
-            int k = (int) Math.ceil(distance / bandSize - 1e-9);
+            int k = (int) Math.ceil(distance / bandSize - 1e-9) + 1;
             double[] result = new double[BANDS];
             for (int b = 0; b < BANDS; b++) {
                 double m = Double.NEGATIVE_INFINITY;
                 for (int j = Math.max(0, b - k); j <= Math.min(BANDS - 1, b + k); j++) {
-                    m = Math.max(m, max[j]);
+                    double dy = Math.max(0, Math.abs(j - b) - 1) * bandSize;
+                    if (max[j] != Double.NEGATIVE_INFINITY && dy < distance) {
+                        m = Math.max(m, max[j] + Math.sqrt(distance * distance - dy * dy) - distance);
+                    }
                 }
                 result[b] = m;
             }

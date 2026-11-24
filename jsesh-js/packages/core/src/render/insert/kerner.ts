@@ -11,8 +11,8 @@
 /// The computation uses the actual outlines of the signs (see [ViewOutlineExtractor]). The cross axis is
 /// cut into [BANDS] bands. In each band, the *profile* of the first group is its furthest extent
 /// along the axis, and the profile of the second group is its nearest one. Both are exact for the
-/// flattened outlines. The first profile is spread over the bands closer than `skip`, so that the
-/// remaining space is close to an actual distance between the shapes.
+/// flattened outlines. The first profile is spread over the bands closer than `skip`, along a disc,
+/// so that the remaining space is close to an actual (Euclidean) distance between the shapes.
 ///
 /// Views are given with their positions in the layout coordinates of a common parent. In
 /// right-to-left text, layout coordinates are the mirror of drawing coordinates; outlines are
@@ -148,13 +148,20 @@ class Profile {
     }
   }
 
-  /// The largest extent, spread over the bands closer than `distance`.
+  /// The largest extent, spread over the bands closer than `distance`, along a disc: an extent
+  /// `dy` away across the axis only needs `sqrt(distance² - dy²)` along it. `dy` is measured between
+  /// the nearest edges of the bands. Same computation as Java's `Kerner.Profile.dilatedMax`.
   dilatedMax(distance: number): Float64Array {
-    const k = Math.ceil(distance / this.bandSize - 1e-9);
+    const k = Math.ceil(distance / this.bandSize - 1e-9) + 1;
     const result = new Float64Array(BANDS);
     for (let b = 0; b < BANDS; b++) {
       let m = -Infinity;
-      for (let j = Math.max(0, b - k); j <= Math.min(BANDS - 1, b + k); j++) m = Math.max(m, this.max[j]!);
+      for (let j = Math.max(0, b - k); j <= Math.min(BANDS - 1, b + k); j++) {
+        const dy = Math.max(0, Math.abs(j - b) - 1) * this.bandSize;
+        if (this.max[j]! !== -Infinity && dy < distance) {
+          m = Math.max(m, this.max[j]! + Math.sqrt(distance * distance - dy * dy) - distance);
+        }
+      }
       result[b] = m;
     }
     return result;
