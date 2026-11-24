@@ -35,6 +35,7 @@ import {
   type Hieroglyph,
   type HRule,
   type Insert,
+  type Stack,
   type Kerning,
   type Ligature,
   type MdcComment,
@@ -193,6 +194,14 @@ class ModelWriter implements ModelElementVisitor<void> {
 
   visitModifiersList(l: ModifiersList): void {
     for (const m of l.modifiers) this.visitModifier(m);
+  }
+
+  visitStack(stack: Stack): void {
+    this.write("%stack(");
+    stack.first.basicItemList.accept(this);
+    this.write(",");
+    stack.second.basicItemList.accept(this);
+    this.write(")");
   }
 
   visitInsert(insert: Insert): void {

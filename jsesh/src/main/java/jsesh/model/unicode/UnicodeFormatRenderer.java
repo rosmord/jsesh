@@ -11,12 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import jsesh.model.BasicItemList;
 import jsesh.model.Cadrat;
 import jsesh.model.HBox;
 import jsesh.model.Hieroglyph;
 import jsesh.model.Insert;
 import jsesh.model.ModelElement;
 import jsesh.model.Overwrite;
+import jsesh.model.Stack;
 import jsesh.model.ShadingCode;
 import jsesh.model.SubCadrat;
 import jsesh.model.constants.LexicalSymbolsUtils;
@@ -91,6 +93,8 @@ final class UnicodeFormatRenderer {
             return renderInsert(i);
         } else if (e instanceof Overwrite o) {
             return renderOverlay(List.of(renderHieroglyph(o.getFirst()), renderHieroglyph(o.getSecond())));
+        } else if (e instanceof Stack st) {
+            return renderStack(st);
         } else if (e instanceof SubCadrat || e.getNumberOfChildren() > 0) {
             // SubCadrat, BasicItemList, ligatures... Their layout has no Unicode counterpart:
             // the children are written one after the other.
@@ -195,6 +199,57 @@ final class UnicodeFormatRenderer {
             text.append(x.text());
         }
         return new Expr(text.toString(), OVERLAY, true, sorted.get(0).firstSign());
+    }
+
+    /// Writes a `%stack`.
+    ///
+    /// When each group holds at most one sign (and perhaps spaces, which mean nothing once
+    /// overlaid), the stack is a plain sign overlay. Otherwise, the groups are overlaid as segments.
+    private Expr renderStack(Stack stack) {
+        Hieroglyph first = singleSign(stack.getFirst());
+        Hieroglyph second = singleSign(stack.getSecond());
+        if (first != null && second != null) {
+            return renderOverlay(List.of(renderHieroglyph(first), renderHieroglyph(second)));
+        }
+        return renderOverlay(List.of(renderElement(stack.getFirst()), renderElement(stack.getSecond())));
+    }
+
+    /// The only sign of a group made of at most one sign and spaces.
+    ///
+    /// @return the sign, or null if the group has several signs, no sign at all, or anything
+    ///         other than signs and spaces.
+    private static Hieroglyph singleSign(ModelElement group) {
+        Hieroglyph sign = null;
+        for (Hieroglyph h : signsAndSpaces(group)) {
+            if (h == null) {
+                return null;
+            }
+            if (h.getType() == SymbolCodes.HALFSPACE || h.getType() == SymbolCodes.FULLSPACE) {
+                continue;
+            }
+            if (sign != null) {
+                return null;
+            }
+            sign = h;
+        }
+        return sign;
+    }
+
+    /// The leaves of a group, going through the plain containers ([BasicItemList], [Cadrat], [HBox]).
+    /// Anything else (insertion, stack, cartouche...) is returned as null.
+    private static List<Hieroglyph> signsAndSpaces(ModelElement group) {
+        List<Hieroglyph> result = new ArrayList<>();
+        for (int i = 0; i < group.getNumberOfChildren(); i++) {
+            ModelElement child = group.getChildAt(i);
+            if (child instanceof Hieroglyph h) {
+                result.add(h);
+            } else if (child instanceof BasicItemList || child instanceof Cadrat || child instanceof HBox) {
+                result.addAll(signsAndSpaces(child));
+            } else {
+                result.add(null);
+            }
+        }
+        return result;
     }
 
     private Expr renderHieroglyph(Hieroglyph h) {

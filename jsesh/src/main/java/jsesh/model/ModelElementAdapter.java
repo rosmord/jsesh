@@ -75,6 +75,10 @@ public class ModelElementAdapter implements ModelElementVisitor {
 		visitDefault(insert);
 	}
 
+	public void visitStack(Stack stack) {
+		visitDefault(stack);
+	}
+
 	public void visitKerning(Kerning kerning) {
 		visitDefault(kerning);
 	}

@@ -60,6 +60,7 @@ export interface ModelElementVisitor<R = void> {
   visitAbsoluteGroup(e: AbsoluteGroup): R;
   visitOverwrite(e: Overwrite): R;
   visitInsert(e: Insert): R;
+  visitStack(e: Stack): R;
   visitKerning(e: Kerning): R;
   visitComplexLigature(e: ComplexLigature): R;
   visitSubCadrat(e: SubCadrat): R;
@@ -111,6 +112,9 @@ export class ModelElementAdapter implements ModelElementVisitor<void> {
     this.visitDefault(e);
   }
   visitInsert(e: Insert): void {
+    this.visitDefault(e);
+  }
+  visitStack(e: Stack): void {
     this.visitDefault(e);
   }
   visitKerning(e: Kerning): void {
@@ -1027,6 +1031,36 @@ export class Overwrite extends InnerGroup {
 
   deepCopy(): Overwrite {
     return new Overwrite(this.first.deepCopy(), this.second.deepCopy());
+  }
+}
+
+/// `%stack(g1,g2)`: two groups drawn one over the other (`jsesh.model.Stack`), the group version
+/// of [Overwrite]. Both children are [SubCadrat]s, centered in the resulting box.
+export class Stack extends InnerGroup {
+  constructor(first: SubCadrat, second: SubCadrat) {
+    super();
+    this.addChild(first);
+    this.addChild(second);
+  }
+
+  accept<R>(v: ModelElementVisitor<R>): R {
+    return v.visitStack(this);
+  }
+
+  get first(): SubCadrat {
+    return this.getChildAt(0) as SubCadrat;
+  }
+
+  get second(): SubCadrat {
+    return this.getChildAt(1) as SubCadrat;
+  }
+
+  override containsOnlyOneSign(): boolean {
+    return false;
+  }
+
+  deepCopy(): Stack {
+    return new Stack(this.first.deepCopy(), this.second.deepCopy());
   }
 }
 

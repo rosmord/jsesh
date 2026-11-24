@@ -183,6 +183,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 addToMenu(textMenu, app, view, ActionsID.GROUP_HORIZONTAL);
                 addToMenu(textMenu, app, view, ActionsID.GROUP_VERTICAL);
                 addToMenu(textMenu, app, view, ActionsID.GROUP_AS_INSERTION);
+                addToMenu(textMenu, app, view, ActionsID.GROUP_AS_STACK);
                 textMenu.add(buildLegacyLigatureMenu(app, view));
                 addToMenu(textMenu, app, view, ActionsID.EXPLODE_GROUP);
                 addToMenu(textMenu, app, view, CenterGroupAction.ID);

@@ -44,6 +44,7 @@ import {
   HRule,
   InnerGroup,
   Insert,
+  Stack,
   Kerning,
   Ligature,
   LineBreak,
@@ -272,6 +273,11 @@ class AstModelBuilder {
           g.target,
           optionInt(g.options, "dw", 0),
           optionInt(g.options, "dh", 0),
+        );
+      case "Stack":
+        return new Stack(
+          new SubCadrat(this.buildBasicItemList(g.firstItems)),
+          new SubCadrat(this.buildBasicItemList(g.secondItems)),
         );
       case "Kerning":
         // The AST's axis names are the model's.

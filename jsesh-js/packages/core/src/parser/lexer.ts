@@ -32,6 +32,7 @@ enum TokenType {
   ZONE,
   QUADRAT,
   INSERT,
+  STACK,
   HKERN,
   VKERN,
   HAPLOGRAPHY,
@@ -199,6 +200,7 @@ const INITIAL_RULES: Rule[] = [
   { type: TokenType.TAB, match: lit("%tab") },
   { type: TokenType.QUADRAT, match: lit("%quadrat") },
   { type: TokenType.INSERT, match: lit("%insert") },
+  { type: TokenType.STACK, match: lit("%stack") },
   { type: TokenType.HKERN, match: lit("%hkern") },
   { type: TokenType.VKERN, match: lit("%vkern") },
   { type: TokenType.HAPLOGRAPHY, match: lit("%haplography") },
@@ -398,6 +400,8 @@ export class MdcLexer {
         return emit(MdcSymbolCode.QUADRAT);
       case TokenType.INSERT:
         return emit(MdcSymbolCode.INSERT);
+      case TokenType.STACK:
+        return emit(MdcSymbolCode.STACK);
       case TokenType.HKERN:
         return emit(MdcSymbolCode.HKERN);
       case TokenType.VKERN:

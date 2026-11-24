@@ -1122,6 +1122,20 @@ public class JMDCEditor extends JPanel implements Scrollable {
         }
     }
 
+    /// Groups two items into a stack (`%stack`): one drawn over the other.
+    ///
+    /// Beeps if there is nothing to group.
+    ///
+    /// @see JMDCEditorWorkflow#groupAsStack()
+    public void groupAsStack() {
+        if (!isEditable()) {
+            return;
+        }
+        if (!workflow.groupAsStack()) {
+            getToolkit().beep();
+        }
+    }
+
     /// Opens the list of the ways of inserting, with the compass beside it.
     ///
     /// The choices must have been prepared in the workflow.

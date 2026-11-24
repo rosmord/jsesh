@@ -24,6 +24,7 @@ import jsesh.model.ModifiersList;
 import jsesh.model.Insert;
 import jsesh.model.Kerning;
 import jsesh.model.Overwrite;
+import jsesh.model.Stack;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
@@ -330,6 +331,13 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 * @see jsesh.model.ModelElementVisitor#visitInsert(jsesh.model.Insert)
 	 */
 	public void visitInsert(Insert insert) {
+		// This method intentionnaly left blank.
+	}
+
+	/**
+	 * @see jsesh.model.ModelElementVisitor#visitStack(jsesh.model.Stack)
+	 */
+	public void visitStack(Stack stack) {
 		// This method intentionnaly left blank.
 	}
 

@@ -30,6 +30,7 @@ import static jsesh.parser.lexer.symbols.MdcSymbolCode.HIEROGLYPH;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.IDENTIFIER;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.HKERN;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.INSERT;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.STACK;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.INTEGER;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.LACUNA;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.LIG_AFTER;
@@ -79,6 +80,7 @@ import jsesh.parser.ast.AstModifierList;
 import jsesh.parser.ast.AstOption;
 import jsesh.parser.ast.AstOptionList;
 import jsesh.parser.ast.AstOverwrite;
+import jsesh.parser.ast.AstStack;
 import jsesh.parser.ast.AstPageBreak;
 import jsesh.parser.ast.AstPhilology;
 import jsesh.parser.ast.AstStartHieroglyphicText;
@@ -252,7 +254,7 @@ public class MDCParser {
     private boolean atCadratStart() {
         return atHieroglyphStart() || at(BEGIN_PHIL) || at(LPAREN)
                 || at(BEGIN_CARTOUCHE) || at(BEGIN_OLD_CARTOUCHE) || at(QUADRAT)
-                || at(INSERT) || at(HKERN) || at(VKERN);
+                || at(INSERT) || at(STACK) || at(HKERN) || at(VKERN);
     }
 
     // ------------------------------------------------------------------
@@ -549,7 +551,7 @@ public class MDCParser {
     ///
     /// ```yacc
     /// innerGroup ::= ligature | hieroglyph | overwrite | philology
-    /// | subgroup | absoluteGroup | insert | kerning
+    /// | subgroup | absoluteGroup | insert | stack | kerning
     /// ```
     private AstInnerGroup parseInnerGroup() throws MDCSyntaxError {
         if (atHieroglyphStart()) {
@@ -560,6 +562,8 @@ public class MDCParser {
             return parseSubgroup();
         } else if (at(INSERT)) {
             return parseInsert();
+        } else if (at(STACK)) {
+            return parseStack();
         } else if (at(HKERN) || at(VKERN)) {
             return parseKerning();
         } else {
@@ -598,6 +602,21 @@ public class MDCParser {
         AstBasicItemList secondItems = parseBasicItems();
         expect(RPAREN, "')'");
         return new AstInsert(direction, target, options.without("dir").without("target"), firstItems, secondItems);
+    }
+
+    /// A stack: two groups drawn one over the other.
+    /// ```yacc
+    /// stack ::= STACK '(' basicitems ',' basicitems ')'
+    /// ```
+    /// Like `a##b` for signs, but both elements can be any group (including other stacks).
+    private AstStack parseStack() throws MDCSyntaxError {
+        expect(STACK, "stack");
+        expect(LPAREN, "'('");
+        AstBasicItemList firstItems = parseBasicItems();
+        expect(COMMA, "','");
+        AstBasicItemList secondItems = parseBasicItems();
+        expect(RPAREN, "')'");
+        return new AstStack(firstItems, secondItems);
     }
 
     /// A kerning operator.

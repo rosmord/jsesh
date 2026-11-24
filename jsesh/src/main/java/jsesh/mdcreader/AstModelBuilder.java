@@ -27,6 +27,7 @@ import jsesh.model.MdcComment;
 import jsesh.model.Modifier;
 import jsesh.model.ModifiersList;
 import jsesh.model.Overwrite;
+import jsesh.model.Stack;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.RunningAnnotation;
@@ -67,6 +68,7 @@ import jsesh.parser.ast.AstOption;
 import jsesh.parser.ast.AstOptionList;
 import jsesh.parser.ast.AstOptionValue;
 import jsesh.parser.ast.AstOverwrite;
+import jsesh.parser.ast.AstStack;
 import jsesh.parser.ast.AstPageBreak;
 import jsesh.parser.ast.AstPhilology;
 import jsesh.parser.ast.AstRunningAnnotation;
@@ -253,6 +255,13 @@ class AstModelBuilder implements AstVisitor {
         AstOptionList options = astInsert.options();
         push(new Insert(astInsert.direction(), first, second, astInsert.target(),
                 options.getInt("dw", 0), options.getInt("dh", 0)));
+    }
+
+    @Override
+    public void visitStack(AstStack astStack) {
+        SubCadrat first = new SubCadrat(build(astStack.firstItems(), BasicItemList.class));
+        SubCadrat second = new SubCadrat(build(astStack.secondItems(), BasicItemList.class));
+        push(new Stack(first, second));
     }
 
     @Override

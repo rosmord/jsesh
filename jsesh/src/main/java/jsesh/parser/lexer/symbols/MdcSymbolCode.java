@@ -21,6 +21,7 @@ public enum MdcSymbolCode {
     TAB,
     QUADRAT,
     INSERT,
+    STACK,
     HKERN,
     VKERN,
     /// `%haplography`, or the legacy `^-..-^` (the value is then its size, an [Integer]).

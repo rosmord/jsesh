@@ -123,6 +123,20 @@ public class MdCToUnicodeConverterTest {
     }
 
     @Test
+    public void stackOfSingleSignsIsASignOverlay() throws Exception {
+        assertEquals(seq("S29", OVERLAY_MIDDLE, "F46"), convert("%stack(S29,F46)", true));
+        // spaces mean nothing in an overlay
+        assertEquals(seq("S29", OVERLAY_MIDDLE, "F46"), convert("%stack(..S29,F46.)", true));
+    }
+
+    @Test
+    public void stackOfGroupsUsesSegments() throws Exception {
+        assertEquals(
+                seq(BEGIN_SEGMENT, "X1", VERTICAL_JOINER, "N35", END_SEGMENT, OVERLAY_MIDDLE, "F46"),
+                convert("%stack(X1:N35,F46)", true));
+    }
+
+    @Test
     public void unknownSignsGetNoControl() throws Exception {
         assertEquals(seq("A1") + "ZZZ999", convert("%insert[dir=bs](A1,ZZZ999)", true));
     }

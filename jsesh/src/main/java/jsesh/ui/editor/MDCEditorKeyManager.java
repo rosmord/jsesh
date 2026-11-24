@@ -262,6 +262,7 @@ class MDCEditorKeyManager {
 
             addAction(ActionsID.CHOOSE_POSSIBILITY, new ChoosePossibilityAction(editor));
             addAction(ActionsID.GROUP_AS_INSERTION, new GroupAsInsertionAction(editor));
+            addDelegateAction(ActionsID.GROUP_AS_STACK, editor, "groupAsStack", editorEnabler);
             addDelegateAction(ActionsID.INSERT_ZONE, editor, "addZone", editorEnabler);
             addDelegateAction(ActionsID.UNWRAP_ZONE, editor, "unwrapZone", editorEnabler);
             addDelegateAction(ActionsID.SELECT_CURRENT_ZONE, editor, "selectCurrentZone", editorEnabler);

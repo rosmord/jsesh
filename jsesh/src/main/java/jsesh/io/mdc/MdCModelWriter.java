@@ -45,6 +45,7 @@ import jsesh.model.OptionsMap;
 import jsesh.model.Insert;
 import jsesh.model.Kerning;
 import jsesh.model.Overwrite;
+import jsesh.model.Stack;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.ShadingCode;
@@ -710,6 +711,14 @@ public class MdCModelWriter {
 			insert.getFirst().getBasicItemList().accept(this);
 			write(",");
 			insert.getSecond().getBasicItemList().accept(this);
+			write(")");
+		}
+
+		public void visitStack(Stack stack) {
+			write("%stack(");
+			stack.getFirst().getBasicItemList().accept(this);
+			write(",");
+			stack.getSecond().getBasicItemList().accept(this);
 			write(")");
 		}
 

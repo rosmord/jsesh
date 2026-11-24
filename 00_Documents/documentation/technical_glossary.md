@@ -27,7 +27,7 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   width, wrap to component width, pagination, line alignment, logical line, justification,
   wrap in zone
 - [Text and model](#text-and-model): quadrat, hbox, inner group, ligature, insert,
-  overwrite (overlay), Unicode export, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
+  overwrite (overlay), stack, Unicode export, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
   column), running annotation, retrograde writing, quadrat direction, zone, layout settings, unit, document header, scope, position, range,
   mark, caret granularity, alphabetic text, superscript, sign id
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
@@ -223,7 +223,7 @@ list of `HBox`es (`a:b` is two rows, `a*b` is one row of two elements).
 ### Inner group
 
 `InnerGroup`: base class of the things which can stand in a row: `Hieroglyph`,
-`Ligature`, `Cartouche`, `SubCadrat`, `Philology`, `Overwrite`, `Insert`, `AbsoluteGroup`,
+`Ligature`, `Cartouche`, `SubCadrat`, `Philology`, `Overwrite`, `Insert`, `Stack`, `AbsoluteGroup`,
 `Kerning`. Not to be confused with a `TopItem` (which stands in the text itself).
 
 ### Insert
@@ -265,9 +265,17 @@ For placing a group using the real shapes, use an [insert](#insert).
 
 `Overwrite` (`a##b`): one sign drawn over another (the second one is on top). This is
 what Unicode calls an **overlay** (`OVERLAY MIDDLE`, U+13436): signs stacked at their
-centres. The future `%overlay(A,B)` will be the generic version. Unlike an [insert](#insert),
+centres. [`%stack(g1,g2)`](#stack) is the generic version, for groups. Unlike an [insert](#insert),
 an overlay places no sign into the free space of the other. See
 [Unicode export](#unicode-export) for the order of the signs.
+
+### Stack
+
+`Stack` (`%stack(D36:n,t*w)`): two groups drawn one over the other, centered (the second one
+is on top). It is to groups what [`a##b`](#overwrite) is to signs. Its two children are
+`SubCadrat`s, so stacks can be nested. In the editor: *Text* menu, *Stack groups*, which groups
+the two selected items (or the two items before the cursor). Written to Unicode as an
+overlay, like `Overwrite`.
 
 ### Unicode export
 

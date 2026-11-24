@@ -156,6 +156,11 @@ public class AstVisitorAdapter implements AstVisitor {
     }
 
     @Override
+    public void visitStack(AstStack astStack) {
+        visitDefault(astStack);
+    }
+
+    @Override
     public void visitKerning(AstKerning astKerning) {
         visitDefault(astKerning);
     }

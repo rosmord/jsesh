@@ -27,6 +27,7 @@ import {
   HRule,
   RunningAnnotation,
   type Insert,
+  type Stack,
   type Kerning,
   type Ligature,
   LineBreak,
@@ -890,6 +891,26 @@ class LayoutAux extends ModelElementAdapter {
 
   override visitOverwrite(_o: Overwrite): void {
     const v = this.l.v;
+    v.width = Math.max(v.getSubView(0).width, v.getSubView(1).width);
+    v.height = Math.max(v.getSubView(0).height, v.getSubView(1).height);
+    v.centerSubViewHorizontally();
+    v.centerSubViewsVertically();
+  }
+
+  /// Layout of a stack: the two groups are centered one over the other, as for an overwrite.
+  ///
+  /// Each group is first calibrated on its own, as a quadrat would be: if it is larger than the
+  /// maximal quadrat height (maximal width in columns), it is scaled down, and the other group is
+  /// left alone. Otherwise the enclosing quadrat would shrink the whole stack.
+  override visitStack(_s: Stack): void {
+    const v = this.l.v;
+    const g = this.l.s.geometry;
+    for (let i = 0; i < 2; i++) {
+      const subView = v.getSubView(i);
+      const scale =
+        this.l.orientation === "HORIZONTAL" ? g.maxCadratHeight / subView.height : g.maxCadratWidth / subView.width;
+      if (scale < 1) subView.reScale(scale);
+    }
     v.width = Math.max(v.getSubView(0).width, v.getSubView(1).width);
     v.height = Math.max(v.getSubView(0).height, v.getSubView(1).height);
     v.centerSubViewHorizontally();

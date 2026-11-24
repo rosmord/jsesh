@@ -119,6 +119,7 @@ public final class MdcLexer {
             case TAB -> emit(MdcSymbolCode.TAB, null, text, start);
             case QUADRAT -> emit(MdcSymbolCode.QUADRAT, null, text, start);
             case INSERT -> emit(MdcSymbolCode.INSERT, null, text, start);
+            case STACK -> emit(MdcSymbolCode.STACK, null, text, start);
             case HKERN -> emit(MdcSymbolCode.HKERN, null, text, start);
             case VKERN -> emit(MdcSymbolCode.VKERN, null, text, start);
             case HAPLOGRAPHY -> emit(MdcSymbolCode.HAPLOGRAPHY, null, text, start);

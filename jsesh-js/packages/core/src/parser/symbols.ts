@@ -14,6 +14,7 @@ export enum MdcSymbolCode {
   ZONE = "ZONE",
   QUADRAT = "QUADRAT",
   INSERT = "INSERT",
+  STACK = "STACK",
   HKERN = "HKERN",
   VKERN = "VKERN",
   /// `%haplography`, or the legacy `^-..-^` (the value is then its size, a number).

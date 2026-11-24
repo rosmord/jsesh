@@ -127,6 +127,11 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 		visitInnerGroup(insert);
 	}
 
+	@Override
+	public void visitStack(Stack stack) {
+		visitInnerGroup(stack);
+	}
+
 	public void visitKerning(Kerning kerning) {
 		visitInnerGroup(kerning);
 	}
