@@ -177,7 +177,7 @@ public final class JSeshViewCore {
                         embeddedSignShapes));
         this.hieroglyphResources = hieroglyphResources;
         this.iconFactory = iconFactory;
-        viewComponent = new JSeshViewComponent<ZoomInfo>(hieroglyphResources, style);
+        viewComponent = new JSeshViewComponent<ZoomInfo>(hieroglyphResources, style, iconFactory);
         messageDefaultColor = viewComponent.getMessageField().getForeground();
         setCurrentDocument(new MDCDocument());
 

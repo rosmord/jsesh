@@ -284,6 +284,23 @@ public class JMDCEditor extends JPanel implements Scrollable {
      */
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
            HieroglyphResources hieroglyphToolkit) {
+        this(data, styleReference, hieroglyphToolkit,
+                new MDCIconFactory(hieroglyphToolkit.hieroglyphShapeRepository()));
+    }
+
+    /// Full constructor, with an icon factory provided by the caller.
+    ///
+    /// The icons of the editor actions (cartouche, shade, philology...) are
+    /// built with `iconFactory`. An application which scales its interface
+    /// can thus share one factory, set to the right icon height, with all its
+    /// components.
+    ///
+    /// @param data the original text to edit.
+    /// @param styleReference a reference to the style.
+    /// @param hieroglyphToolkit source for hieroglyphs and sign possibilities.
+    /// @param iconFactory the factory (and cache) for the icons of the actions.
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
+           HieroglyphResources hieroglyphToolkit, MDCIconFactory iconFactory) {
         LOGGER.info(() -> "Creating new JMDCEditor");
         workflow = new JMDCEditorWorkflow(data, hieroglyphToolkit.possibilityRepository());
         this.hieroglyphShapeRepository = hieroglyphToolkit.hieroglyphShapeRepository();
@@ -291,7 +308,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
         this.setBackground(Color.WHITE);
         this.setScale(2.0);
 
-        mdcIconFactory = new MDCIconFactory(hieroglyphShapeRepository);
+        mdcIconFactory = iconFactory;
         mdcModelEditionListener = new JMDCModelEditionListener();
         workflow.addMDCModelListener(mdcModelEditionListener);
         setFocusable(true);        
