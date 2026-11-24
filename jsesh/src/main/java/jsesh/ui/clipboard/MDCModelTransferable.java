@@ -111,7 +111,7 @@ public class MDCModelTransferable implements Transferable {
     }
 
     /**
-     * Choose whether the Unicode plain text uses the Unicode 12 format
+     * Choose whether the Unicode plain text uses the Unicode 17 format
      * controls. Only used if Unicode text was requested.
      *
      * @return this transferable.
