@@ -489,7 +489,10 @@ class ElementDrawer extends ModelElementAdapter {
 
   /// Dynamic tabs are invisible, unless tabs are shown. The mark is a blue line across the line
   /// (or column) at the tab stop, with a small flag towards the text which follows, and the stop
-  /// index just above the line (or on the left of the column), where the signs don't hide it.
+  /// index just above the line (or before the column), where the signs don't hide it.
+  ///
+  /// In right-to-left text, the tab's view is at the end of the mirrored cell: the flag of a
+  /// line, and the line across a column, go leftwards, and the index of a column is on its right.
   override visitTab(tab: Tab): void {
     if (!this.postfix || !this.d.showTabs) return;
     const style = this.d.s;
@@ -498,18 +501,20 @@ class ElementDrawer extends ModelElementAdapter {
     const quadrat = g.maxCadratHeight;
     const length = horizontal ? quadrat : g.maxCadratWidth;
     const flag = quadrat / 8;
-    const rtl = horizontal && (this.view.direction ?? style.options.textDirection) === "RIGHT_TO_LEFT";
+    const rtl = (this.view.direction ?? style.options.textDirection) === "RIGHT_TO_LEFT";
     const dir = rtl ? -1 : 1;
     const d = new PathBuilder();
     if (horizontal) d.line(0, 0, 0, length).line(0, 0, flag * dir, 0);
-    else d.line(0, 0, length, 0).line(0, 0, 0, flag);
+    else d.line(0, 0, length * dir, 0).line(0, 0, 0, flag);
     const color = TAB_COLOR;
     this.out += strokedPath(d, color, g.fineLineWidth);
     const size = quadrat / 4;
     const font = `font:${escapeXml(cssFont({ family: "sans-serif", size }))}`;
     const label = escapeXml(String(TabLine.stopIndexOf(tab)));
     // The index is outside the line (or column), so that the signs don't hide it.
-    const [x, y, anchor] = horizontal ? [0, -size * 0.2, dir > 0 ? "start" : "end"] : [-flag / 4, size * 0.8, "end"];
+    const [x, y, anchor] = horizontal
+      ? [0, -size * 0.2, dir > 0 ? "start" : "end"]
+      : [(-flag / 4) * dir, size * 0.8, dir > 0 ? "end" : "start"];
     this.out += `<text x="${num(x)}" y="${num(y)}" fill="${color}" text-anchor="${anchor}" style="${font}">${label}</text>`;
   }
 

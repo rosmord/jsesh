@@ -472,7 +472,11 @@ public class DefaultElementDrawer extends ElementDrawer {
     /// Dynamic tabs are invisible, unless tabs are shown. The mark is a blue
     /// line across the line (or column) at the tab stop, with a small flag
     /// towards the text which follows, and the stop index just above the line
-    /// (or on the left of the column), where the signs don't hide it.
+    /// (or before the column), where the signs don't hide it.
+    ///
+    /// In right-to-left text, the tab's view is at the end of the mirrored
+    /// cell: the flag of a line, and the line across a column, go leftwards,
+    /// and the index of a column is on its right.
     @Override
     public void visitTab(Tab tab) {
         if (!postfix || !isShowTabs()) {
@@ -486,7 +490,7 @@ public class DefaultElementDrawer extends ElementDrawer {
         g.setStroke(jseshStyle.geometry().fineStroke());
         Path2D.Double mark = new Path2D.Double();
         double flag = quadrat / 8.0;
-        double dir = (horizontal && currentTextDirection == TextDirection.RIGHT_TO_LEFT) ? -1.0 : 1.0;
+        double dir = currentTextDirection == TextDirection.RIGHT_TO_LEFT ? -1.0 : 1.0;
         if (horizontal) {
             mark.moveTo(0, 0);
             mark.lineTo(0, length);
@@ -494,7 +498,7 @@ public class DefaultElementDrawer extends ElementDrawer {
             mark.lineTo(flag * dir, 0);
         } else {
             mark.moveTo(0, 0);
-            mark.lineTo(length, 0);
+            mark.lineTo(length * dir, 0);
             mark.moveTo(0, 0);
             mark.lineTo(0, flag);
         }
@@ -510,7 +514,8 @@ public class DefaultElementDrawer extends ElementDrawer {
             double x = dir > 0 ? 0 : -labelWidth;
             g.drawString(label, (float) x, (float) -descent);
         } else {
-            g.drawString(label, (float) (-labelWidth - flag / 4.0), (float) ascent);
+            double x = dir > 0 ? -labelWidth - flag / 4.0 : flag / 4.0;
+            g.drawString(label, (float) x, (float) ascent);
         }
         g.setFont(previousFont);
     }
