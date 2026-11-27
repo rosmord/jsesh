@@ -1,0 +1,67 @@
+++JSesh_Info 2.0 +s
+++JSesh_alphabetic_text_baseline 4.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_cartouchelinewidth 5.555556 +s
+++JSesh_centresmallsigns no +s
+++JSesh_column_skip 8.0 +s
+++JSesh_columngap 44.444444 +s
+++JSesh_columnquadratgap 11.111111 +s
+++JSesh_dir lr +s
+++JSesh_fit_lone_signs true +s
+++JSesh_fitsigns yes +s
+++JSesh_honourmaxquadratwidth yes +s
+++JSesh_innerquadratgap 11.111111 +s
+++JSesh_layout lines +s
+++JSesh_limit_quadrat_width_in_lines true +s
+++JSesh_line_skip 6.0 +s
+++JSesh_linegap 33.333333 +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_page_orientation HORIZONTAL +s
+++JSesh_quadratgap 11.111111 +s
+++JSesh_quadratheight 100 +s
+++JSesh_quadratwidth 122.222222 +s
+++JSesh_redsigns colour +s
+++JSesh_retrograde no +s
+++JSesh_shading gray +s
+++JSesh_signheight 100 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_small_sign_centered false +s
+++JSesh_small_skip 2.0 +s
+++JSesh_smallbodylimit 12 +s
+++JSesh_smalltextsize 40 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_textbaseline 22.222222 +s
+++JSesh_underlinegap 11.111111 +s
+++JSesh_uniformquadratscaling no +s
+++JSesh_unit 18 +s
+++JSesh_use_lines_for_shading false +s
++lSynoptic Edition+s-!
++lA simple example to expand for a synoptic edition of a text+s-!
++lAs it is quite difficult to propose a really generic template, we use two verses from Amenemhat (Helck, p. 92-92)+s-!
++bEND+s-!
++bTitle of the text+s-!
++idocument author+s-!
++lsource and bibliography+s-!
++loptional licence if you send it to the JSesh library:+s-!
++bLicence : Creative commons CC-BY+s-!
+!
++iexamples taken from W. Helck, Der Text der Lehre Amenemhets I. für seinen Sohn, p. 91-92+s-!
++ito use this template, we would suggest to use View/Show Zone limits and View/Show tabs+s-!
+!
++lXVb+s-!
+%zone(+lMill. +s-%tab-v/-%lacuna[size=fill]-v/-!
++lS. II+s-.-%tab-i-nw:V31A:A1-mn:n-i-W-qmA-P1-A24-n:n:t*y-%tab-tyw-A24-A1:Z2-n:t*y-%tab-m-ib*Z1:V31A-o:.-!
++lDM 1204+s-.-%tab-nw:V31A:A1-mn:n-i-qmA-P1-A24-A1:n:V31A-n:t*y-%tab-%haplography[size=fill]-%tab-m-ib*Z1-A1-o:.-!
++lMi 20bis+s-.-%tab-nw:V31A:A1-mn:n-i-qmA-P1-A24-t:A-n:n:t*y-%tab-%haplography[size=fill]-%tab-v/-%lacuna[size=fill]-v/-!
++lDM1093+s-.-%tab-nw:V31A-mn:n-i-qmA-P1-A24-//-n:t*y-%tab-%haplography[size=fill]-%tab-m-ib*Z1:V31A-o:.)-!
+!
++lXVc+s-.-!
+%zone(+lMill.+s-.-%tab-v/-%lacuna[size=fill]-v/-|10-%tab-wAH-H-Y1-HD-t-HDt-D35-nTr-pr-r:t-Sna-N33:Z2-o:.-//-!
++lS. II+s-.-%tab-t:W-tyw-nw-W-A53-Y1:Z2-Hr-Z1-%tab-wAH-H-Y1-n-|6-HD-t-HDt-I12:Z2-pr-r:t*Z5-%tab-N33:Z2-nTr-G7-!
++lDM 1204+s-.-%tab-t-W-A53-Y1:Z2-%tab-wAH-H-Y1-|6-HD-t-HDt-I12-nTr-v/-%lacuna[size=fill]-v/-!
++lMi 20 bis+s-.-%tab-v/-%lacuna[size=fill]-v/-.-!
++lDM 1093+s-.-%tab-t-W-Y1-A53-|2-Hr-Z1-%tab-wAH-H-//-HD-t-S5#124-v/-%lacuna[size=fill]-v/-N33:Z2-nTr-G7-o:.-!
++lMi 77.+s-.-%tab-|1-%tab[n=3]-//-nTr-G7)-!
+!
