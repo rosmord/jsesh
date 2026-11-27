@@ -287,14 +287,14 @@ public class LineLayout extends TopItemLayout {
                     pageIndex * (double) page.pageStride() + page.pageHeight()));
         }
         // Ensure the margin is there ?
-        documentArea
-                .add(new Point2D.Double(
-                                documentArea.getMaxX()
-                                + jseshStyle.geometry()
-                                .leftMargin(), documentArea
-                                .getMinY()
-                                + jseshStyle.geometry()
-                                .topMargin()));
+        documentArea.add(new Point2D.Double(
+                jseshStyle.geometry().documentRight(documentArea.getMaxX(), currentTextDirection),
+                documentArea.getMinY() + jseshStyle.geometry().topMargin()));
+    }
+
+    /// Where the lines start (see [GeometrySpecification#startMargin(TextDirection)]).
+    private double startMargin() {
+        return jseshStyle.geometry().startMargin(currentTextDirection);
     }
 
     /// Is the text cut into pages?
@@ -351,7 +351,7 @@ public class LineLayout extends TopItemLayout {
         if (jseshStyle.geometry().isWrapping()) {
             return;
         }
-        double margin = jseshStyle.geometry().leftMargin();
+        double margin = startMargin();
         double width = 0;
         boolean hasRule = false;
         for (PlacedLine l : alignedLines) {
@@ -392,7 +392,7 @@ public class LineLayout extends TopItemLayout {
         if (!tabsEnabled()) {
             return;
         }
-        double margin = jseshStyle.geometry().leftMargin();
+        double margin = startMargin();
         boolean ignoreAlignment = jseshStyle.options().ignoreLineAlignment();
         List<TabLayout.TabbedLine> lines = new ArrayList<>();
         double untabbedWidth = 0;
@@ -434,7 +434,7 @@ public class LineLayout extends TopItemLayout {
             return;
         }
         if (fill.stretches()) {
-            double margin = jseshStyle.geometry().leftMargin();
+            double margin = startMargin();
             double width = 0;
             if (jseshStyle.geometry().isWrapping()) {
                 width = maxLineWidth();
@@ -470,6 +470,7 @@ public class LineLayout extends TopItemLayout {
         if (!alignments.stream().anyMatch(a -> a != LineAlignment.START)) {
             return;
         }
+        double margin = startMargin();
         double width;
         if (jseshStyle.geometry().isWrapping()) {
             width = maxLineWidth();
@@ -480,11 +481,10 @@ public class LineLayout extends TopItemLayout {
             for (PlacedLine l : alignedLines) {
                 Rectangle2D bounds = l.line().visibleBounds(0, 0);
                 if (bounds != null) {
-                    width = Math.max(width, bounds.getMaxX() - jseshStyle.geometry().leftMargin());
+                    width = Math.max(width, bounds.getMaxX() - margin);
                 }
             }
         }
-        double margin = jseshStyle.geometry().leftMargin();
         for (int i = 0; i < alignedLines.size(); i++) {
             PlacedLine l = alignedLines.get(i);
             if (alignments.get(i) != LineAlignment.START && !tabbedLines.contains(l.line())) {
@@ -616,7 +616,7 @@ public class LineLayout extends TopItemLayout {
         GeometrySpecification pageLayout = jseshStyle.geometry();
 
         // Compute the margins we want.
-        double marginx = pageLayout.leftMargin();
+        double marginx = startMargin();
         double marginy = 0.0;
 
         if (addTopMargin) {

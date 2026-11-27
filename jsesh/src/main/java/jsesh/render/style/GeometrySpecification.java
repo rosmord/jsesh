@@ -4,6 +4,8 @@ import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.awt.BasicStroke;
 
+import jsesh.model.constants.TextDirection;
+
 /**
  * Specification for rendering strokes.
  * 
@@ -202,6 +204,36 @@ public record GeometrySpecification(
 	 */
 	public Stroke cartoucheStroke() {
 		return new BasicStroke((float) cartoucheLineWidth);
+	}
+
+	/// The distance between the edge of the document and the start of the lines
+	/// (or the first column), in the coordinates of the layout.
+	///
+	/// The layout places the text from left to right, and right-to-left text is
+	/// mirrored when drawn. So, on a page, right-to-left text starts at the
+	/// page's right margin.
+	///
+	/// @param direction the direction of the text.
+	/// @return the page's right margin for right-to-left text on a page, else
+	/// [#leftMargin()].
+	public double startMargin(TextDirection direction) {
+		return hasPage() && !direction.isLeftToRight() ? page.marginRight() : leftMargin;
+	}
+
+	/// The right side of the document, once the text has been laid out.
+	///
+	/// Right-to-left text on a page is mirrored across the page width (unless
+	/// the text goes beyond the page, in which case it must stay visible).
+	/// Otherwise, a margin is added after the text.
+	///
+	/// @param textRight the right side of the text, in layout coordinates.
+	/// @param direction the direction of the text.
+	/// @return the width of the document.
+	public double documentRight(double textRight, TextDirection direction) {
+		if (hasPage() && !direction.isLeftToRight()) {
+			return Math.max(textRight, page.pageWidth());
+		}
+		return textRight + leftMargin;
 	}
 
 	/// Is soft wrapping of lines active?
@@ -418,12 +450,19 @@ public record GeometrySpecification(
 			return this;
 		}
 
-		/// Keeps the page's width and margins, but doesn't cut the text into pages
-		/// (see [PageSpecification#withoutHeight()]).
+		/// Removes the page, but keeps wrapping the lines at its usable width. Does
+		/// nothing without a page.
+		///
+		/// Useful to draw a part of a text (a selection copied as a picture), which
+		/// should be neither as tall nor as wide as a page. The wrap width depends on
+		/// the left margin: set the margins first.
 		///
 		/// @return this builder, for chaining.
 		public Builder withoutPagination() {
-			this.page = page.withoutHeight();
+			if (page.isDefined()) {
+				this.wrapWidth = page.usableWidth() + 2 * leftMargin;
+				this.page = PageSpecification.NONE;
+			}
 			return this;
 		}
 

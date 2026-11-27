@@ -13,9 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.Normalizer;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Consumer;
 
 import javax.swing.BorderFactory;
@@ -128,11 +126,11 @@ public class TextLibraryFrame extends JFrame {
     }
 
     private void applyFilter() {
-        String query = normalize(searchField.getText());
+        String query = SearchText.normalize(searchField.getText());
         listModel.clear();
         for (JSeshTextLibrary.Entry entry : allEntries) {
-            if (query.isEmpty() || normalize(entry.title()).contains(query)
-                    || normalize(entry.path()).contains(query)) {
+            if (query.isEmpty() || SearchText.normalize(entry.title()).contains(query)
+                    || SearchText.normalize(entry.path()).contains(query)) {
                 listModel.addElement(entry);
             }
         }
@@ -156,11 +154,5 @@ public class TextLibraryFrame extends JFrame {
         if (entry != null) {
             opener.accept(entry);
         }
-    }
-
-    /// Case- and accent-insensitive form of a string, for searches.
-    private static String normalize(String s) {
-        String decomposed = Normalizer.normalize(s, Normalizer.Form.NFD);
-        return decomposed.replaceAll("\\p{M}", "").toLowerCase(Locale.ROOT);
     }
 }

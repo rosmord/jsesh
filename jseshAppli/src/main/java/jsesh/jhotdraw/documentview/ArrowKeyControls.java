@@ -27,7 +27,7 @@ import jsesh.ui.editor.arrows.ArrowKeyMode;
 import jsesh.ui.editor.arrows.LogicalArrowKeyPolicy;
 
 /// The toolbar part which lets the user choose how the arrow keys read the text
-/// (direction, lines or columns).
+/// (lines or columns, left-to-right or right-to-left), in a single combo box.
 ///
 /// It is only visible when the editor uses a switchable
 /// [LogicalArrowKeyPolicy]; it follows the editor's policy (property
@@ -39,11 +39,18 @@ final class ArrowKeyControls extends JPanel {
 
     private final JMDCEditor editor;
 
-    private final JComboBox<TextDirection> directionComboBox = new JComboBox<>(TextDirection.values());
+    /// The four reading modes offered to the user: lines then columns, each
+    /// left-to-right then right-to-left.
+    private static final ArrowKeyMode[] MODES = {
+        new ArrowKeyMode(TextDirection.LEFT_TO_RIGHT, TextOrientation.HORIZONTAL),
+        new ArrowKeyMode(TextDirection.RIGHT_TO_LEFT, TextOrientation.HORIZONTAL),
+        new ArrowKeyMode(TextDirection.LEFT_TO_RIGHT, TextOrientation.VERTICAL),
+        new ArrowKeyMode(TextDirection.RIGHT_TO_LEFT, TextOrientation.VERTICAL)
+    };
 
-    private final JComboBox<TextOrientation> orientationComboBox = new JComboBox<>(TextOrientation.values());
+    private final JComboBox<ArrowKeyMode> modeComboBox = new JComboBox<>(MODES);
 
-    /// True while the combo boxes are updated from the editor.
+    /// True while the combo box is updated from the editor.
     private boolean updating;
 
     ArrowKeyControls(JMDCEditor editor) {
@@ -54,17 +61,14 @@ final class ArrowKeyControls extends JPanel {
         add(Box.createRigidArea(new Dimension(16, 0)));
         add(new JLabel(bundle.getLabel("arrowMode.direction.label")));
         add(Box.createRigidArea(new Dimension(4, 0)));
-        configure(directionComboBox, "arrowMode.direction.toolTipText",
-                d -> "arrowMode.direction." + (d.isLeftToRight() ? "ltr" : "rtl"));
-        add(directionComboBox);
-        add(Box.createRigidArea(new Dimension(4, 0)));
-        configure(orientationComboBox, "arrowMode.orientation.toolTipText",
-                o -> "arrowMode.orientation." + (o.isHorizontal() ? "horizontal" : "vertical"));
-        add(orientationComboBox);
+        configure(modeComboBox, "arrowMode.mode.toolTipText",
+                m -> "arrowMode.mode."
+                + (m.orientation().isHorizontal() ? "horizontal" : "vertical")
+                + (m.direction().isLeftToRight() ? ".ltr" : ".rtl"));
+        add(modeComboBox);
         setMaximumSize(getPreferredSize());
 
-        directionComboBox.addActionListener(e -> changeMode());
-        orientationComboBox.addActionListener(e -> changeMode());
+        modeComboBox.addActionListener(e -> changeMode());
         editor.addPropertyChangeListener(JMDCEditor.ARROW_KEY_POLICY_PROPERTY, e -> updateFromEditor());
         updateFromEditor();
     }
@@ -89,8 +93,7 @@ final class ArrowKeyControls extends JPanel {
         if (editor.getArrowKeyPolicy() instanceof LogicalArrowKeyPolicy policy && policy.switchable()) {
             updating = true;
             try {
-                directionComboBox.setSelectedItem(policy.mode().direction());
-                orientationComboBox.setSelectedItem(policy.mode().orientation());
+                modeComboBox.setSelectedItem(policy.mode());
             } finally {
                 updating = false;
             }
@@ -104,9 +107,7 @@ final class ArrowKeyControls extends JPanel {
         if (updating || !(editor.getArrowKeyPolicy() instanceof LogicalArrowKeyPolicy policy)) {
             return;
         }
-        editor.setArrowKeyPolicy(policy.withMode(new ArrowKeyMode(
-                (TextDirection) directionComboBox.getSelectedItem(),
-                (TextOrientation) orientationComboBox.getSelectedItem())));
+        editor.setArrowKeyPolicy(policy.withMode((ArrowKeyMode) modeComboBox.getSelectedItem()));
         editor.requestFocusInWindow();
     }
 }

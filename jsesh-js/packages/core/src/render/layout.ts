@@ -77,6 +77,8 @@ import {
   smallTextFont,
   withStyle,
   type JSeshStyle,
+  documentRight,
+  startMargin,
 } from "./style.js";
 import { hasKerning, kerningOf, KerningPacker } from "./kerning-packer.js";
 import { displayString, TextRun, type TextMeasurer } from "./text.js";
@@ -2316,7 +2318,15 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
       // The view covers all the pages.
       this.documentArea.add(new Rect(0, 0, g.page.pageWidth, this.pageIndex * pageStride(g.page) + g.page.pageHeight));
     }
-    this.documentArea.addPoint(this.documentArea.maxX + g.leftMargin, this.documentArea.minY + g.topMargin);
+    this.documentArea.addPoint(
+      documentRight(g, this.documentArea.maxX, this.currentTextDirection),
+      this.documentArea.minY + g.topMargin,
+    );
+  }
+
+  /// Where the lines start (see [startMargin]).
+  private get startMargin(): number {
+    return startMargin(this.style.geometry, this.currentTextDirection);
   }
 
   /// Ends the current logical line: gives its alignment to its lines. When a justified logical
@@ -2345,14 +2355,14 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     for (const l of this.alignedLines) {
       hasRule ||= l.line.getViews().some((v) => v.model instanceof HRule);
       const bounds = l.line.visibleBounds(0, 0);
-      if (bounds) width = Math.max(width, bounds.maxX - g.leftMargin);
+      if (bounds) width = Math.max(width, bounds.maxX - this.startMargin);
     }
     if (!hasRule) return;
     for (const l of this.alignedLines) {
       let changed = false;
       for (const v of l.line.getViews()) {
         if (!(v.model instanceof HRule)) continue;
-        const fitted = width - (v.position.x - g.leftMargin);
+        const fitted = width - (v.position.x - this.startMargin);
         if (fitted > v.width) {
           v.width = fitted;
           changed = true;
@@ -2370,7 +2380,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   private layoutTabs(): void {
     if (!this.tabsEnabled) return;
     const g = this.style.geometry;
-    const margin = g.leftMargin;
+    const margin = this.startMargin;
     const ignoreAlignment = this.style.options.ignoreLineAlignment;
     const lines: TabbedLine[] = [];
     let untabbedWidth = 0;
@@ -2402,7 +2412,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     if (fill === undefined) return;
     if (fill.stretches) {
       const g = this.style.geometry;
-      const margin = g.leftMargin;
+      const margin = this.startMargin;
       let width = 0;
       if (isWrapping(g)) {
         width = this.maxLineWidth();
@@ -2437,13 +2447,13 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
       // The right side of the visible content of the longest line (lines are placed at the margin).
       for (const l of this.alignedLines) {
         const bounds = l.line.visibleBounds(0, 0);
-        if (bounds) width = Math.max(width, bounds.maxX - g.leftMargin);
+        if (bounds) width = Math.max(width, bounds.maxX - this.startMargin);
       }
     }
     this.alignedLines.forEach((l, i) => {
       const alignment = this.alignments[i]!;
       if (alignment === "START" || this.tabbedLines.has(l.line)) return;
-      l.line.alignTo(alignment, g.leftMargin, width);
+      l.line.alignTo(alignment, this.startMargin, width);
       const bounds = l.line.visibleBounds(l.top, l.height);
       if (bounds) this.documentArea.add(bounds);
     });
@@ -2523,7 +2533,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     // Large signs (cartouches) can make the zone's top negative: the zone is
     // moved so that its real top is at least a margin below the previous line.
     const g = this.style.geometry;
-    const marginx = g.leftMargin;
+    const marginx = this.startMargin;
     const marginy = this.addTopMargin ? g.topMargin : 0;
     const minx = this.zone.minX;
     const miny = this.zone.minY;
@@ -2699,7 +2709,10 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     this.layoutTabs();
     this.fillZones();
     this.alignColumns();
-    this.documentArea.addPoint(this.documentArea.maxX + this.style.geometry.leftMargin, this.documentArea.minY);
+    this.documentArea.addPoint(
+      documentRight(this.style.geometry, this.documentArea.maxX, this.currentTextDirection),
+      this.documentArea.minY,
+    );
   }
 
   separatorPositions(): number[] {
@@ -2716,7 +2729,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     this.style = withStyle(this.style, { options: { textOrientation: "VERTICAL" } });
     this.documentView.direction = this.currentTextDirection;
     this.zone = this.createNewZone();
-    this.zoneStart = { x: this.style.geometry.leftMargin, y: 0 };
+    this.zoneStart = { x: startMargin(this.style.geometry, this.currentTextDirection), y: 0 };
   }
 
   private createNewZone(): LineAccumulator {

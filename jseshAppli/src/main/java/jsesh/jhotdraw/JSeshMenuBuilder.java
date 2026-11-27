@@ -75,6 +75,7 @@ import jsesh.jhotdraw.actions.file.ExportAsPDFAction;
 import jsesh.jhotdraw.actions.file.ExportAsRTFAction;
 import jsesh.jhotdraw.actions.file.ExportTextLibraryAction;
 import jsesh.jhotdraw.actions.file.TextLibraryAction;
+import jsesh.jhotdraw.actions.file.NewFromTemplateAction;
 import jsesh.jhotdraw.actions.file.ImportNewSignAction;
 import jsesh.jhotdraw.actions.file.ImportPDFAction;
 import jsesh.jhotdraw.actions.file.ImportRTFAction;
@@ -262,6 +263,16 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 Action action = a.getActionMap(v).get(actionID);
                 if (action != null) {
                         menu.add(action);
+                }
+        }
+
+        /// "New", followed by "New from Template".
+        @Override
+        public void addNewFileItems(JMenu fileMenu, Application app, View view) {
+                super.addNewFileItems(fileMenu, app, view);
+                Action newFromTemplate = app.getActionMap(view).get(NewFromTemplateAction.ID);
+                if (newFromTemplate != null) {
+                        fileMenu.add(newFromTemplate);
                 }
         }
 

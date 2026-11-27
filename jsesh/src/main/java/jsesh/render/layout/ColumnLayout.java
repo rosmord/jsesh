@@ -155,8 +155,8 @@ public class ColumnLayout extends TopItemLayout {
 		fillZones();
 		alignColumns();
 		// add a margin
-		documentArea.add(new Point2D.Double(documentArea.getMaxX()
-				+ jseshStyle.geometry().leftMargin(),
+		documentArea.add(new Point2D.Double(
+				jseshStyle.geometry().documentRight(documentArea.getMaxX(), currentTextDirection),
 				documentArea.getMinY()));
 	}
 
@@ -195,7 +195,7 @@ public class ColumnLayout extends TopItemLayout {
 		documentView.setDirection(currentTextDirection);
 		zone = createNewZone();
 		zoneStart = new Point2D.Double(jseshStyle.geometry()
-				.leftMargin(), 0);
+				.startMargin(currentTextDirection), 0);
 	}
 
 	private void resetKerning() {

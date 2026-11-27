@@ -35,8 +35,8 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   repository, sign icon, hieroglyph database, glossary, hieroglyph resources, possibility list
 - [Rendering](#rendering): style, render context, layout unit, view, layout, lone sign
   fitting, text geometry, device
-- [Editor and user interface](#editor-and-user-interface): document, text model, workflow,
-  action id, labels, interface scale, nominal size, palette sign height
+- [Editor and user interface](#editor-and-user-interface): document, text model, template,
+  workflow, action id, labels, interface scale, nominal size, palette sign height
 - [Project and build](#project-and-build): modules, JS port, fixtures, genuine singletons
 
 ---
@@ -114,9 +114,15 @@ such attribute (use `jseshStyle.geometry.wrapWidth`).
 
 Cutting the text into pages: a line which does not fit in the page height goes to the top
 of the next page. It needs a page *with a height* (`PageSpecification.isPaginated()`);
-a page without height only wraps lines. `PageSpecification.withoutHeight()` is used to draw
-a fragment (a selection copied as a picture) which should not be as tall as a page. In the
-view, pages are stacked, `pageStride()` apart (page height plus `PAGE_GAP`).
+a page without height only wraps lines. To draw a fragment (a selection copied as a
+picture), which should be neither as tall nor as wide as a page,
+`GeometrySpecification.Builder.withoutPagination()` replaces the page by a
+[wrap width](#wrap-width). In the view, pages are stacked, `pageStride()` apart (page height
+plus `PAGE_GAP`).
+
+On a page, right-to-left text starts at the right margin
+(`GeometrySpecification.startMargin()`): the document view is as wide as the page, and
+mirrored across this width.
 
 ### Line alignment
 
@@ -694,6 +700,16 @@ elsewhere (`JSeshMenuBuilder`, in `jseshAppli`).
 Three levels, see §4 of [programmer_documentation.md](programmer_documentation.md):
 `HieroglyphicText` (the text), `MDCDocument` (text plus file metadata), and
 `HieroglyphicTextModel` (a live, observable, undoable wrapper used by the editor).
+
+### Template, template header
+
+A *template* is a `.gly` file giving a ready-made layout, from which *File > New from
+Template…* creates a new document. They are bundled in the `jsesh-templates` module
+(`JSeshTemplateLibrary`). Between the [document header](#document-header) and the content,
+a template has a *template header*: lines of text giving its name (first line) and its
+description, ended by a line whose text is `END`. The template header is not part of the
+new document. Not to be confused with the texts of the text library (`jsesh-texts`), which
+are opened to be read.
 
 ### Interface scale
 

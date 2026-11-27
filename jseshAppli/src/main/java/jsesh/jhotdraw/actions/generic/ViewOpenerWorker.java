@@ -49,10 +49,11 @@ public class ViewOpenerWorker extends Worker<Object> {
 
     @Override
     protected void done(Object value) {
-        // A text from the library is not tied to a file: no URI (so "Save" asks for a name),
-        // and it doesn't belong to the recent files.
-        boolean fromLibrary = TextLibraryURI.SCHEME.equals(uri.getScheme());
-        view.setURI(fromLibrary ? null : uri);
+        // A text from the library or from a template is not tied to a file: no URI
+        // (so "Save" asks for a name), and it doesn't belong to the recent files.
+        boolean bundled = TextLibraryURI.SCHEME.equals(uri.getScheme())
+                || TemplateURI.SCHEME.equals(uri.getScheme());
+        view.setURI(bundled ? null : uri);
         view.setEnabled(true);
         Frame w = (Frame) SwingUtilities.getWindowAncestor(view
                 .getComponent());
@@ -61,7 +62,7 @@ public class ViewOpenerWorker extends Worker<Object> {
             w.toFront();
         }
         view.getComponent().requestFocus();
-        if (!fromLibrary) {
+        if (!bundled) {
             app.addRecentURI(uri);
         }
         app.setEnabled(true);

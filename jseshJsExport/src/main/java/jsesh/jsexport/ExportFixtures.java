@@ -89,6 +89,11 @@ public final class ExportFixtures {
         LAYOUT_VARIANTS.put("paginated", base.copy().geometry(g -> g
                 .page(new jsesh.render.style.PageSpecification(200.0, 120.0, 10.0, 30.0, 8.0, 8.0))
                 .leftMargin(10.0).topMargin(8.0)).build());
+        // Right-to-left text on a page starts at the right margin, in lines and in columns.
+        LAYOUT_VARIANTS.put("paginatedRtl", LAYOUT_VARIANTS.get("paginated").copy()
+                .options(o -> o.textDirection(TextDirection.RIGHT_TO_LEFT)).build());
+        LAYOUT_VARIANTS.put("paginatedColumnsRtl", LAYOUT_VARIANTS.get("paginatedRtl").copy()
+                .options(o -> o.textOrientation(TextOrientation.VERTICAL)).build());
     }
 
     public static void main(String[] args) throws IOException {
