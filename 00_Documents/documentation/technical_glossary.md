@@ -35,8 +35,8 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   repository, sign icon, hieroglyph database, glossary, hieroglyph resources, possibility list
 - [Rendering](#rendering): style, render context, layout unit, view, layout, lone sign
   fitting, text geometry, device
-- [Editor and user interface](#editor-and-user-interface): document, text model, workflow,
-  action id, labels, interface scale, nominal size, palette sign height
+- [Editor and user interface](#editor-and-user-interface): document, text model, template,
+  workflow, action id, labels, interface scale, nominal size, palette sign height
 - [Project and build](#project-and-build): modules, JS port, fixtures, genuine singletons
 
 ---
@@ -680,6 +680,16 @@ elsewhere (`JSeshMenuBuilder`, in `jseshAppli`).
 Three levels, see §4 of [programmer_documentation.md](programmer_documentation.md):
 `HieroglyphicText` (the text), `MDCDocument` (text plus file metadata), and
 `HieroglyphicTextModel` (a live, observable, undoable wrapper used by the editor).
+
+### Template, template header
+
+A *template* is a `.gly` file giving a ready-made layout, from which *File > New from
+Template…* creates a new document. They are bundled in the `jsesh-templates` module
+(`JSeshTemplateLibrary`). Between the [document header](#document-header) and the content,
+a template has a *template header*: lines of text giving its name (first line) and its
+description, ended by a line whose text is `END`. The template header is not part of the
+new document. Not to be confused with the texts of the text library (`jsesh-texts`), which
+are opened to be read.
 
 ### Interface scale
 

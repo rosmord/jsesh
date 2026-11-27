@@ -15,6 +15,7 @@ include("signInfoAppli")
 include("jseshLabels")
 include("jseshTests")
 include("jsesh-texts")
+include("jsesh-templates")
 include("mdwlexer")
 include("jseshJsExport")
 

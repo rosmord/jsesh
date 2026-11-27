@@ -74,7 +74,9 @@ import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
 import jsesh.jhotdraw.JSeshApplicationCore;
 import jsesh.jhotdraw.JSeshApplicationModel;
+import jsesh.jhotdraw.actions.generic.TemplateURI;
 import jsesh.jhotdraw.actions.generic.TextLibraryURI;
+import jsesh.jseshtemplates.JSeshTemplateLibrary;
 import jsesh.jseshtexts.JSeshTextLibrary;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.parser.MDCSyntaxError;
@@ -290,6 +292,8 @@ public class JSeshView extends AbstractView {
                 readFromClipboard(uri);
             } else if (TextLibraryURI.SCHEME.equals(uri.getScheme())) {
                 readFromLibrary(uri);
+            } else if (TemplateURI.SCHEME.equals(uri.getScheme())) {
+                readFromTemplate(uri);
             } else {
                 readFromFile(uri);
             }
@@ -323,14 +327,34 @@ public class JSeshView extends AbstractView {
         }
     }
 
-    /// Read a text of the JSesh text library (see [TextLibraryURI]).
-    ///
-    /// The document is clean, and is not associated with any real file: saving it
-    /// will ask for a file name. Not called on the EDT.
+    /// Read a text of the JSesh text library (see [TextLibraryURI]). Not called
+    /// on the EDT.
     private void readFromLibrary(URI uri) {
         try {
             String path = TextLibraryURI.toLibraryPath(uri);
-            byte[] bytes = JSeshTextLibrary.getInstance().readBytes(path);
+            readBundledDocument(path, JSeshTextLibrary.getInstance().readBytes(path));
+        } catch (IllegalArgumentException e) {
+            throw new UserMessage(e);
+        }
+    }
+
+    /// Create a new document from a template (see [TemplateURI]). Not called on
+    /// the EDT.
+    private void readFromTemplate(URI uri) {
+        try {
+            String path = TemplateURI.toTemplatePath(uri);
+            readBundledDocument(path, JSeshTemplateLibrary.getInstance().readDocument(path));
+        } catch (IllegalArgumentException e) {
+            throw new UserMessage(e);
+        }
+    }
+
+    /// Read a document which is bundled with the software.
+    ///
+    /// The document is clean, and is not associated with any real file: saving it
+    /// will ask for a file name.
+    private void readBundledDocument(String path, byte[] bytes) {
+        try {
             // The name is used to guess the dialect and encoding.
             final MDCDocument document = new MDCDocumentReader()
                     .readStream(new ByteArrayInputStream(bytes), new File(path));
@@ -342,7 +366,7 @@ public class JSeshView extends AbstractView {
         } catch (MDCSyntaxError e) {
             displayErrorInEdt(JSeshMessages.getString("syntaxError.title"),
                     "error at line " + e.getLine() + " near token: " + e.getToken());
-        } catch (IOException | IllegalArgumentException e) {
+        } catch (IOException e) {
             throw new UserMessage(e);
         }
     }

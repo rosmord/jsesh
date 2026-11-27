@@ -93,6 +93,7 @@ The [00_Documents](00_Documents) folder contains :
 * jseshGlyphs: the main hieroglyphic font;
 * jseshLabels: the labels for menus, buttons, etc. in Jsesh all in one place to ease translation of the software;
 * jseshSearch: the search module;
+* jsesh-templates: the document templates proposed by *File > New from Template…*;
 * jseshTests: various small softwares used to check JSesh runs correctly. Only interesting if you develop JSesh;
 * qenherkhopeshefUtils: sundry utilities to help writing JSesh and Swing softwares. Some are outdated (the guiFramework has been replaced by jHotdraw);
 * signInfoAppli: the editor for sign information.

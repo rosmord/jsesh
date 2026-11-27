@@ -13,6 +13,7 @@ dependencies {
     implementation(project(":qenherkhopeshefUtils"))
     implementation(project(":jseshLabels"))
     implementation(project(":jsesh-texts"))
+    implementation(project(":jsesh-templates"))
     
     implementation(libs.miglayout) {
         artifact {
