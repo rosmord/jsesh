@@ -176,7 +176,8 @@ public class PageDecorationTest {
     @Test
     public void nothingIsDrawnWithoutPageHeight() {
         JSeshStyle style = JSeshStyle.DEFAULT.copy()
-                .geometry(g -> g.page(PAGE.withoutHeight())
+                .geometry(g -> g.page(new PageSpecification(PAGE.pageWidth(), 0, PAGE.marginLeft(), PAGE.marginRight(),
+                        PAGE.marginTop(), PAGE.marginBottom()))
                         .pageDecoration(new PageDecoration(PageTextPosition.TOP_LEFT, PageTextPosition.NONE, "")))
                 .build();
         BufferedImage image = new BufferedImage(200, 120, BufferedImage.TYPE_INT_RGB);

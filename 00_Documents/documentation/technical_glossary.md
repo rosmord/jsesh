@@ -114,9 +114,15 @@ such attribute (use `jseshStyle.geometry.wrapWidth`).
 
 Cutting the text into pages: a line which does not fit in the page height goes to the top
 of the next page. It needs a page *with a height* (`PageSpecification.isPaginated()`);
-a page without height only wraps lines. `PageSpecification.withoutHeight()` is used to draw
-a fragment (a selection copied as a picture) which should not be as tall as a page. In the
-view, pages are stacked, `pageStride()` apart (page height plus `PAGE_GAP`).
+a page without height only wraps lines. To draw a fragment (a selection copied as a
+picture), which should be neither as tall nor as wide as a page,
+`GeometrySpecification.Builder.withoutPagination()` replaces the page by a
+[wrap width](#wrap-width). In the view, pages are stacked, `pageStride()` apart (page height
+plus `PAGE_GAP`).
+
+On a page, right-to-left text starts at the right margin
+(`GeometrySpecification.startMargin()`): the document view is as wide as the page, and
+mirrored across this width.
 
 ### Line alignment
 

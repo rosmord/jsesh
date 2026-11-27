@@ -65,6 +65,9 @@ const VARIANTS: Record<string, JSeshStyle> = {
     },
   }),
 };
+// Right-to-left text on a page, in lines and in columns.
+VARIANTS.paginatedRtl = withStyle(VARIANTS.paginated!, { options: { textDirection: "RIGHT_TO_LEFT" } });
+VARIANTS.paginatedColumnsRtl = withStyle(VARIANTS.paginatedRtl, { options: { textOrientation: "VERTICAL" } });
 
 const cases: LayoutCase[] = available ? readFixture("layout-cases.json") : [];
 const corpus: string[] = available ? readFixture("corpus/index.json") : [];

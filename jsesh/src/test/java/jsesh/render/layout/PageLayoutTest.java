@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -28,6 +29,8 @@ import jsesh.render.style.DocumentPreferencesStyleConverter;
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.PageSpecification;
 import jsesh.render.view.MDCView;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 import jsesh.render.view.ViewBuilder;
 
 /// A page (width and margins) makes the lines wrap at its usable width.
@@ -142,6 +145,47 @@ public class PageLayoutTest {
         }
     }
 
+    /// The horizontal extent of the items of a view, as drawn.
+    private static double[] drawnExtent(MDCView view) {
+        List<Rectangle2D> bounds = IntStream.range(0, view.getNumberOfSubviews())
+                .mapToObj(view::getSubViewBounds)
+                .filter(r -> r.getWidth() > 0)
+                .toList();
+        return new double[] { bounds.stream().mapToDouble(Rectangle2D::getMinX).min().orElseThrow(),
+                bounds.stream().mapToDouble(Rectangle2D::getMaxX).max().orElseThrow() };
+    }
+
+    /// Right-to-left text starts at the right margin of the page, in lines and in
+    /// columns, whether the page has a height or not.
+    @Test
+    public void rightToLeftTextStartsAtTheRightMargin() throws MDCSyntaxError {
+        for (double height : new double[] { 0, 400 }) {
+            PageSpecification page = new PageSpecification(300, height, 20, 40, 10, 10);
+            for (TextOrientation orientation : TextOrientation.values()) {
+                JSeshStyle style = withPage(page).copy()
+                        .options(o -> o.textDirection(TextDirection.RIGHT_TO_LEFT).textOrientation(orientation))
+                        .build();
+                for (String mdc : new String[] { "A1-A1", "A1-!\nA1-A1" }) {
+                    MDCView view = layout(mdc, style);
+                    String what = orientation + " " + height + " " + mdc;
+                    assertEquals(page.pageWidth(), view.getWidth(), 1e-3, what);
+                    assertEquals(page.pageWidth() - page.marginRight(), drawnExtent(view)[1], 1e-3, what);
+                }
+            }
+        }
+    }
+
+    /// Wrapped right-to-left lines stay between the margins.
+    @Test
+    public void wrappedRightToLeftLinesStayBetweenTheMargins() throws MDCSyntaxError {
+        PageSpecification page = new PageSpecification(300, 400, 20, 40, 10, 10);
+        JSeshStyle style = withPage(page).copy()
+                .options(o -> o.textDirection(TextDirection.RIGHT_TO_LEFT)).build();
+        double[] extent = drawnExtent(layout(LONG, style));
+        assertTrue(extent[0] >= page.marginLeft() - 1e-3, "left: " + extent[0]);
+        assertEquals(page.pageWidth() - page.marginRight(), extent[1], 1e-3);
+    }
+
     /// A picture of a part of the text must not be as large as a page.
     @Test
     public void aSelectionPictureIsNotAsTallAsAPage() throws MDCSyntaxError {
@@ -152,5 +196,10 @@ public class PageLayoutTest {
                 new JSeshTechRenderContext(FRC, 1.0));
         assertTrue(view.getHeight() < SMALL_PAGE.pageHeight() / 2, "height: " + view.getHeight());
         assertTrue(view.getWidth() < SMALL_PAGE.pageWidth() / 2, "width: " + view.getWidth());
+        MDCView rtl = new ViewBuilder().buildView(new MDCParserModelGenerator().parse("A1"),
+                new JSeshRenderContext(style.copy().options(o -> o.textDirection(TextDirection.RIGHT_TO_LEFT)).build(),
+                        PredefinedFonts.buildAllEmbeddedFonts()).marginLessContext(),
+                new JSeshTechRenderContext(FRC, 1.0));
+        assertEquals(view.getWidth(), rtl.getWidth(), 1e-3);
     }
 }

@@ -138,6 +138,21 @@ export function isPageDefined(page: PageSpecification | undefined): boolean {
   return page !== undefined && page.pageWidth > 0 && usableWidth(page) > 0;
 }
 
+/// The distance between the edge of the document and the start of the lines (or the first
+/// column), in layout coordinates: on a page, right-to-left text (mirrored when drawn) starts at
+/// the right margin (`GeometrySpecification.startMargin`).
+export function startMargin(geometry: GeometrySpecification, direction: TextDirection): number {
+  return isPageDefined(geometry.page) && direction === "RIGHT_TO_LEFT" ? geometry.page.marginRight : geometry.leftMargin;
+}
+
+/// The right side of the document, given the right side of its text: right-to-left text on a page
+/// is mirrored across the page width, unless it goes beyond the page
+/// (`GeometrySpecification.documentRight`).
+export function documentRight(geometry: GeometrySpecification, textRight: number, direction: TextDirection): number {
+  if (isPageDefined(geometry.page) && direction === "RIGHT_TO_LEFT") return Math.max(textRight, geometry.page.pageWidth);
+  return textRight + geometry.leftMargin;
+}
+
 /// Is soft wrapping of lines active (`GeometrySpecification.isWrapping`)?
 export function isWrapping(geometry: GeometrySpecification): boolean {
   return isPageDefined(geometry.page) || geometry.wrapWidth > 0;
